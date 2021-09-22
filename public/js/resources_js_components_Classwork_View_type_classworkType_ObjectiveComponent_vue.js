@@ -280,7 +280,7 @@ var viewSubmission = function viewSubmission() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworkDetails', 'totalPoints', 'totalQuestion', 'statusDetails'],
+  props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
   components: {
     viewSubmission: viewSubmission
   },
@@ -296,7 +296,7 @@ var viewSubmission = function viewSubmission() {
       DateToday: null
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -321,6 +321,7 @@ var viewSubmission = function viewSubmission() {
       axios.get('/api/student/check-status/' + this.classworkDetails.id).then(function (res) {
         _this.status = res.data.status;
         _this.statusDetails = res.data;
+        _this.isLoaded = false;
       });
     },
     UpdateStatus: function UpdateStatus(id) {
@@ -431,7 +432,7 @@ var viewSubmission = function viewSubmission() {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              // this.checkStatus();
+              //this.checkStatus();
               _this5.isLoaded = false;
 
             case 1:

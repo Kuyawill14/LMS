@@ -35,8 +35,7 @@
                 class="mb-0 pb-0"
                 :items="ClassList"
                 item-text="class_name"
-                item-value="class_id"
-                >
+                item-value="class_id">
                 </v-select>
             </v-col>
             <v-col v-show="Class == $route.params.id || Class == item.class_id" cols="12" v-for="(item,i) in ListData" :key="i">

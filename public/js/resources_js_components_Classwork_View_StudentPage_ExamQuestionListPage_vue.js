@@ -15,10 +15,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _confirmDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./confirmDialog */ "./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue");
 /* harmony import */ var _warningDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./warningDialog */ "./resources/js/components/Classwork_View/StudentPage/warningDialog.vue");
-/* harmony import */ var _QuizTimer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./QuizTimer */ "./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue");
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
-/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _TimesUpDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TimesUpDialog */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue");
+/* harmony import */ var _QuizTimer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./QuizTimer */ "./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -314,6 +315,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -321,9 +331,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    quizTimer: _QuizTimer__WEBPACK_IMPORTED_MODULE_3__.default,
+    quizTimer: _QuizTimer__WEBPACK_IMPORTED_MODULE_4__.default,
     confirmDialog: _confirmDialog__WEBPACK_IMPORTED_MODULE_1__.default,
-    dialogWarning: _warningDialog__WEBPACK_IMPORTED_MODULE_2__.default
+    dialogWarning: _warningDialog__WEBPACK_IMPORTED_MODULE_2__.default,
+    timesUpDialog: _TimesUpDialog__WEBPACK_IMPORTED_MODULE_3__.default
   },
   data: function data() {
     return {
@@ -340,6 +351,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       FinalAnswers: [],
       Questype: "",
       questionIndex: 0,
+      questionIsLoaded: false,
       duration: '',
       Alphabet: "",
       options: {
@@ -367,10 +379,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Submitted_Answers: null,
       submission_id: null,
       isSavingAnswer: false,
-      bus: "testing"
+      bus: "testing",
+      TimesUpDialog: false
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(["getAll_questions"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions"]),
   methods: {
     CountTime: function CountTime() {
       var _this = this;
@@ -655,6 +668,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
 
         _this6.isLoading = false;
+        _this6.questionIsLoaded = true;
       });
     },
     preventNav: function preventNav(event) {
@@ -735,8 +749,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this8.classworkDetails = res.data.Details;
 
         _this8.fetchQuestions();
-      });
-      this.CountTime();
+      }); //this.CountTime();
     },
     triggerWarning: function triggerWarning() {
       ////console.log("test 123");
@@ -893,6 +906,66 @@ __webpack_require__.r(__webpack_exports__);
   },
   beforeMount: function beforeMount() {
     this.startTimer();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      count: 5
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    setInterval(function () {
+      _this.count--;
+
+      if (_this.count == 0) {}
+    }, 1000);
   }
 });
 
@@ -23273,6 +23346,45 @@ component.options.__file = "resources/js/components/Classwork_View/StudentPage/Q
 
 /***/ }),
 
+/***/ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=template&id=ea0677ca& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&");
+/* harmony import */ var _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.render,
+  _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue":
 /*!******************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue ***!
@@ -23383,6 +23495,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TimesUpDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/StudentPage/confirmDialog.vue?vue&type=script&lang=js& ***!
@@ -23458,6 +23586,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_template_id_48ea8a62___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_template_id_48ea8a62___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuizTimer.vue?vue&type=template&id=48ea8a62& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue?vue&type=template&id=48ea8a62&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca& ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TimesUpDialog.vue?vue&type=template&id=ea0677ca& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&");
 
 
 /***/ }),
@@ -23562,6 +23707,32 @@ var render = function() {
                 on: {
                   toggleCloaseDialog: function($event) {
                     _vm.warningDialog = !_vm.warningDialog
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "500" },
+          model: {
+            value: _vm.TimesUpDialog,
+            callback: function($$v) {
+              _vm.TimesUpDialog = $$v
+            },
+            expression: "TimesUpDialog"
+          }
+        },
+        [
+          _vm.TimesUpDialog
+            ? _c("timesUpDialog", {
+                on: {
+                  toggleCloaseDialog: function($event) {
+                    _vm.TimesUpDialog = !_vm.TimesUpDialog
                   }
                 }
               })
@@ -23991,7 +24162,8 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
-                                            !_vm.isLoading
+                                            !_vm.isLoading &&
+                                            _vm.questionIsLoaded
                                               ? _c("quizTimer", {
                                                   attrs: {
                                                     bus: _vm.bus,
@@ -24025,6 +24197,19 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "btn",
+                {
+                  staticClass: "primary",
+                  on: {
+                    click: function($event) {
+                      _vm.TimesUpDialog = !_vm.TimesUpDialog
+                    }
+                  }
+                },
+                [_vm._v("Click ME")]
               )
             ],
             1
@@ -25442,6 +25627,101 @@ var render = function() {
           }
         ])
       })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&":
+/*!****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca& ***!
+  \****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    { staticClass: "pa-3" },
+    [
+      _c(
+        "div",
+        { staticClass: "mb-3 pa-2" },
+        [
+          _c(
+            "v-row",
+            { attrs: { align: "center", justify: "center" } },
+            [
+              _c(
+                "v-col",
+                { staticClass: "text-center mb-0 pb-0", attrs: { cols: "12" } },
+                [
+                  _c(
+                    "v-avatar",
+                    { attrs: { tile: "", size: "120" } },
+                    [
+                      _c("v-img", {
+                        attrs: {
+                          src:
+                            "https://media.baamboozle.com/uploads/images/48952/1623726160_37310.gif"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
+                [
+                  _c("div", { staticClass: "primary--text display-2" }, [
+                    _vm._v(_vm._s(_vm.count))
+                  ])
+                ]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        [
+          _c(
+            "v-row",
+            [
+              _c("v-col", { staticClass: "text-center" }, [
+                _c("p", { staticClass: "body-1" }, [
+                  _vm._v(
+                    "\n                 Your time is finish the examination will now submitted!\n              "
+                  )
+                ])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )

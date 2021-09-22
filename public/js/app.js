@@ -3911,6 +3911,193 @@ var mutations = {
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/classworkStatusCheck.js":
+/*!************************************************************!*\
+  !*** ./resources/js/store/modules/classworkStatusCheck.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  statusDetails: [],
+  currentType: null
+};
+var getters = {
+  statusDetails: function statusDetails(state) {
+    return state.statusDetails;
+  }
+};
+var actions = {
+  checkClassworkStatus: function checkClassworkStatus(_ref, data) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, res, _res, _res2, _res3, _res4, _res5;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+
+              if (!(data.type == 'Objective Type')) {
+                _context.next = 24;
+                break;
+              }
+
+              if (!(state.currentType != data.type)) {
+                _context.next = 10;
+                break;
+              }
+
+              state.currentType = data.type;
+              _context.next = 6;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/check-status/".concat(data.id));
+
+            case 6:
+              res = _context.sent;
+              commit('FETCH_CLASSWORK_STATUS', res.data);
+              _context.next = 22;
+              break;
+
+            case 10:
+              if (!(state.statusDetails.length == 0)) {
+                _context.next = 17;
+                break;
+              }
+
+              _context.next = 13;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/check-status/".concat(data.id));
+
+            case 13:
+              _res = _context.sent;
+              commit('FETCH_CLASSWORK_STATUS', _res.data);
+              _context.next = 22;
+              break;
+
+            case 17:
+              if (!(state.statusDetails.cl_id != data.id)) {
+                _context.next = 22;
+                break;
+              }
+
+              _context.next = 20;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/check-status/".concat(data.id));
+
+            case 20:
+              _res2 = _context.sent;
+              commit('FETCH_CLASSWORK_STATUS', _res2.data);
+
+            case 22:
+              _context.next = 45;
+              break;
+
+            case 24:
+              if (!(data.type == 'Subjective Type')) {
+                _context.next = 45;
+                break;
+              }
+
+              if (!(state.currentType != data.type)) {
+                _context.next = 33;
+                break;
+              }
+
+              state.currentType = data.type;
+              _context.next = 29;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
+
+            case 29:
+              _res3 = _context.sent;
+              commit('FETCH_CLASSWORK_STATUS', _res3.data);
+              _context.next = 45;
+              break;
+
+            case 33:
+              if (!(state.statusDetails.length == 0)) {
+                _context.next = 40;
+                break;
+              }
+
+              _context.next = 36;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
+
+            case 36:
+              _res4 = _context.sent;
+              commit('FETCH_CLASSWORK_STATUS', _res4.data);
+              _context.next = 45;
+              break;
+
+            case 40:
+              if (!(state.statusDetails.classwork_id != data.id)) {
+                _context.next = 45;
+                break;
+              }
+
+              _context.next = 43;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
+
+            case 43:
+              _res5 = _context.sent;
+              commit('FETCH_CLASSWORK_STATUS', _res5.data);
+
+            case 45:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+  /*   async GetClassworkDetails({ commit }, {course_id, classwor_id}) {
+        const res = await axios.get(
+            `'/api/classwork/showDetails/${course_id}/${classwor_id}`
+        );
+          axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
+        .then(res=>{
+           this.classworkDetailsData = res.data;
+            this.totalPoints = res.data.totalpoints;
+            this.totalQuestion = res.data.ItemsCount;
+            this.checkStatus(res.data.Details.type);
+            this.iChange = false;
+            this.isloading = false;
+        })
+        .catch(e=>{
+            this.iChange = false;
+            this.isloading = false;
+        })
+        
+        
+     }, */
+
+};
+var mutations = {
+  FETCH_CLASSWORK_STATUS: function FETCH_CLASSWORK_STATUS(state, statusDetails) {
+    return state.statusDetails = statusDetails;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/course.js":
 /*!**********************************************!*\
   !*** ./resources/js/store/modules/course.js ***!
@@ -5683,9 +5870,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_allTeachers__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./modules/allTeachers */ "./resources/js/store/modules/allTeachers.js");
 /* harmony import */ var _modules_teacherSummary__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./modules/teacherSummary */ "./resources/js/store/modules/teacherSummary.js");
 /* harmony import */ var _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./modules/verifyEmail */ "./resources/js/store/modules/verifyEmail.js");
+/* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
+
 
 
 
@@ -5727,7 +5916,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     stduentFinalGrades: _modules_student_final_grades__WEBPACK_IMPORTED_MODULE_18__.default,
     allTeachers: _modules_allTeachers__WEBPACK_IMPORTED_MODULE_19__.default,
     teacherSummary: _modules_teacherSummary__WEBPACK_IMPORTED_MODULE_20__.default,
-    verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default
+    verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default,
+    classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default
   }
 }));
 

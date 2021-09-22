@@ -15,6 +15,13 @@
      v-if="warningDialog"></dialogWarning>
 </v-dialog>
 
+<v-dialog v-model="TimesUpDialog" persistent max-width="500">
+    <timesUpDialog
+    v-on:toggleCloaseDialog="TimesUpDialog = !TimesUpDialog"
+    
+     v-if="TimesUpDialog"></timesUpDialog>
+</v-dialog>
+
 <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
@@ -77,7 +84,7 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading"></quizTimer>
+                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && questionIsLoaded"></quizTimer>
                         </div>
                     </div>
                 </v-col>
@@ -85,6 +92,7 @@
             </v-card>
           </v-col>
       </v-row>
+      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn>
 </v-container>
 
   <div v-if="!isLoading" class="mt-2 ma-2"  >
@@ -290,14 +298,17 @@
 <script>
 import confirmDialog from './confirmDialog';
 import dialogWarning from './warningDialog';
+import timesUpDialog from './TimesUpDialog';
 import quizTimer from './QuizTimer';
+
 import moment from 'moment-timezone';
  import {mapGetters, mapActions } from "vuex";
 export default {
     components:{
         quizTimer,
         confirmDialog,
-        dialogWarning
+        dialogWarning,
+        timesUpDialog
     },
     data(){
         return{
@@ -314,6 +325,7 @@ export default {
             FinalAnswers: [],
             Questype: "",
             questionIndex: 0,
+            questionIsLoaded: false,
             duration:'',
             Alphabet: "",
             options:{
@@ -346,6 +358,7 @@ export default {
             submission_id: null,
             isSavingAnswer: false,
             bus: "testing",
+            TimesUpDialog: false,
         }
     },
     computed: 
@@ -463,6 +476,8 @@ export default {
             this.warningDialog = false;
              axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
             .then(()=>{
+
+
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
@@ -597,8 +612,8 @@ export default {
                          }
                     }
                 }
-                  this.isLoading = false;
-                
+                this.isLoading = false;
+                this.questionIsLoaded = true;
             });
 
         },
@@ -684,7 +699,7 @@ export default {
                 this.classworkDetails = res.data.Details;
                 this.fetchQuestions();
             })
-            this.CountTime();
+            //this.CountTime();
         },
         triggerWarning(){
             ////console.log("test 123");

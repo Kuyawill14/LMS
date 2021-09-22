@@ -395,9 +395,17 @@ class StudentController extends Controller
             else{
                 $CheckStatus->Submitted_Answers = null;
             }
+            return $CheckStatus;
         }
-       
+     /*    else{
+            return response()->json([
+                "status" => null,
+                
+            ]);
+        } */
         return $CheckStatus;
+       
+     
 
     }
 

@@ -273,14 +273,12 @@
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
                                     </div> 
-                                    {{path}}
+             
                                     <div v-if="!isOpening && OpenFileType == 'link'">
                                         <iframe title="Link" 
                                         :src="path" 
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                         style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
-
-                                     
                                     </div> 
                                      <div v-if="!isOpening && OpenFileType == 'media'" >
                                         <v-img

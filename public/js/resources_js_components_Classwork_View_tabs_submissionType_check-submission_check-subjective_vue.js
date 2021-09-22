@@ -343,8 +343,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1790,11 +1788,7 @@ var render = function() {
                                       })
                                     ])
                                   : _vm._e(),
-                                _vm._v(
-                                  " \n                                " +
-                                    _vm._s(_vm.path) +
-                                    "\n                                "
-                                ),
+                                _vm._v(" "),
                                 !_vm.isOpening && _vm.OpenFileType == "link"
                                   ? _c("div", [
                                       _c("iframe", {

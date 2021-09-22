@@ -92,6 +92,7 @@
 const studentStartPage = () => import('./type/studentStartPage')
 const teacherStartPage = () => import('./type/teacherStartPage')
 import moment from 'moment/src/moment';
+ import {mapGetters, mapActions } from "vuex";
 export default {
     props:['role','UserDetails'],
   components:{
@@ -104,7 +105,7 @@ export default {
             classworkDetails:{},
             totalPoints:null,
             totalQuestion:null,
-            statusDetails: [],
+            //statusDetails: [],
             iChange: false,
             Isloaded: false,
         }
@@ -116,7 +117,11 @@ export default {
           this.getClassworkDetails()
       }
   },
+  computed: {
+      ...mapGetters(["statusDetails"]),
+  },
     methods:{
+         ...mapActions(['checkClassworkStatus']),
        async getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
@@ -133,8 +138,10 @@ export default {
             })
         },
         async checkStatus(type){
+            
+
             if(this.role == 'Student'){
-                if(type == 'Objective Type'){
+               /*  if(type == 'Objective Type'){
                      axios.get('/api/student/check-status/'+this.$route.query.clwk)
                     .then(res=>{
                         this.statusDetails = res.data;
@@ -147,7 +154,11 @@ export default {
                         this.statusDetails = res.data;
                                          
                     })
-                }
+                } */
+                let data = {};
+                data.id = this.$route.query.clwk;
+                data.type = type;
+                this.checkClassworkStatus(data);
           
             }
             

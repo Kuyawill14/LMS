@@ -42,26 +42,32 @@
             <v-col cols="12" >
                   <v-list >
                     <v-list-item-group >
-                        <v-list-item @click="CheckData = item ,dialog = !dialog, isStarting = true" v-show="Class == $route.params.id || Class == item.class_id" v-for="(item,i) in ListData" :key="i">
-                        <v-list-item-avatar color="secondary">
-                            <v-img alt="Profile"
-                                :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
-                            </v-img>
-                        </v-list-item-avatar>
-                      
-                        <v-list-item-content>
-                            <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
-                            <v-list-item-subtitle v-if="item.graded == 1"><v-icon small color="success">mdi-check</v-icon> Graded</v-list-item-subtitle>
-                        </v-list-item-content>
-                         <v-list-item-action>
-                              <v-text-field 
-                         class="ma-0 pa-0"
-                         :loading="isSavingScore" 
-                                 @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
-                                dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
-                        </v-text-field>
-                        </v-list-item-action>
-                        </v-list-item>
+                        <template v-for="(item,i) in ListData" >
+                            <v-list-item v-show="Class == $route.params.id || Class == item.class_id" :key="item.id">
+                                <v-list-item-avatar @click="CheckData = item ,dialog = !dialog, isStarting = true"  color="secondary">
+                                    <v-img alt="Profile"
+                                        :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
+                                    </v-img>
+                                </v-list-item-avatar>
+                            
+                                <v-list-item-content @click="CheckData = item ,dialog = !dialog, isStarting = true" >
+                                    <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
+                                    <v-list-item-subtitle v-if="item.graded == 1"><v-icon small color="success">mdi-check</v-icon> Graded</v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action v-if="item.status == 'Submitted'">
+                                    <v-text-field 
+                                        class="ma-0 pa-0"
+                                        :loading="isSavingScore" 
+                                        @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
+                                        dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
+                                </v-text-field>
+                                </v-list-item-action>
+                                </v-list-item>
+                                  <v-divider
+                                    v-if="i < ListData.length "
+                                    :key="i">
+                                </v-divider>
+                            </template>
                     </v-list-item-group>
                     </v-list>
                <!--  <v-row>

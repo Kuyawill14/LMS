@@ -167,7 +167,7 @@
                             </v-list-item>
                         </v-list>
                     </v-col>
-         
+                
                     <v-col v-if="classworkDetails.availability == 0" cols="12" class="pl-10 pr-5 pb-10 text-right">
                          <v-btn
                             v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
@@ -248,7 +248,7 @@ const viewSubmission = () => import('./submissionView/viewSubmission')
 import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
 export default {
-    props:['classworkDetails','totalPoints','totalQuestion','statusDetails'],
+    props:['classworkDetails','totalPoints','totalQuestion',],
     components:{
         viewSubmission
     },
@@ -266,7 +266,7 @@ export default {
         
     },
     computed:{
-        ...mapGetters(['get_CurrentUser']),
+        ...mapGetters(['get_CurrentUser','statusDetails']),
     },
     methods:{
          format_date(value) {
@@ -295,7 +295,7 @@ export default {
             .then(res=>{
                 this.status = res.data.status;
                 this.statusDetails = res.data;
-                
+                this.isLoaded = false;
             })
         },
         async UpdateStatus(id){
@@ -351,10 +351,11 @@ export default {
         },
     },
    async created(){
-       // this.checkStatus();
+       //this.checkStatus();
        this.isLoaded = false;
     },
     mounted(){
+  
         const newDate = new Date();
         this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     }

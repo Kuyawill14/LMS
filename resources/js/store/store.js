@@ -22,6 +22,8 @@ import stduentFinalGrades from './modules/student_final_grades'
 import allTeachers from './modules/allTeachers'
 import teacherSummary from './modules/teacherSummary'
 import verifyEmail from './modules/verifyEmail'
+import classworkStatusCheck from './modules/classworkStatusCheck'
+
 export default new Vuex.Store({
     modules: {
         auth,
@@ -43,7 +45,8 @@ export default new Vuex.Store({
         stduentFinalGrades,
         allTeachers,
         teacherSummary,
-        verifyEmail
+        verifyEmail,
+        classworkStatusCheck
 
 
     },
