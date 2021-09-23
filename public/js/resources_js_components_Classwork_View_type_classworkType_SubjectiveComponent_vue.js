@@ -1573,8 +1573,10 @@ var render = function() {
                           _vm._v(" "),
                           _vm.StatusDetails.status == "Submitted" &&
                           !_vm.StatusDetails.graded &&
-                          _vm.format_date1(_vm.DateToday) <=
-                            _vm.format_date1(_vm.classworkDetails.to_date)
+                          (_vm.classworkDetails.availability == 1
+                            ? _vm.format_date1(_vm.DateToday) <=
+                              _vm.format_date1(_vm.classworkDetails.to_date)
+                            : true)
                             ? _c(
                                 "v-btn",
                                 {
