@@ -39,7 +39,12 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newDepartment  = new tbl_department;
+        $newDepartment->name = $request->name;
+        $newDepartment->description = $request->description;
+        $newDepartment->save();
+        return $newDepartment;
+       
     }
 
     /**
@@ -73,7 +78,22 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $Department = tbl_department::find($id);
+        if($Department){
+            $Department->name = $request->name;
+            $Department->description = $request->description;
+            $Department->save();
+            return response()->json([
+                "message" => "Department successfully updated!",
+                "success" => true
+            ]);
+        }
+
+        return response()->json([
+            "message" => "data not found!",
+            "success" => false
+        ]);
+
     }
 
     /**
@@ -84,6 +104,20 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Department  = tbl_department::find($id);
+        if($Department){
+            $Department->delete();
+            return response()->json([
+                "message" => "Department successfully removed!",
+                "success" => true
+            ]);
+        }
+
+        return response()->json([
+            "message" => "data not found!",
+            "success" => false
+        ]);
+
+        
     }
 }

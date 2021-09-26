@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\tbl_semester;
 use App\Models\tbl_schoolyear;
+use App\Models\tbl_department;
+
 class SchoolyearSemesterController extends Controller
 {
     /**
@@ -25,10 +27,15 @@ class SchoolyearSemesterController extends Controller
         $semesters = tbl_semester::select('id', 'semester')
         ->orderBy('id', 'desc')
         ->get();
-    
+
+        $departments = tbl_department::select('id', 'name')
+        ->orderBy('id', 'desc')
+        ->get();
+
         $result = [
             'school_year' => $schoolyears,
-            'semester' => $semesters
+            'semester' => $semesters,
+            'departments'=> $departments
         ];
         return $result;
     }

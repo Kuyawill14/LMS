@@ -667,6 +667,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* import mainNavbar from './navigation/main-navbar';
 import courseNavbar from './navigation/course-navbar';
@@ -808,7 +811,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
+
+/* import bottomNavigation from "./layout/bottom-navigation/main-bottom-navigation";
+import courseNavigation from "./layout/bottom-navigation/course-bottom-navigation"; */
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -823,7 +830,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   components: {
     topHeader: _layout_header__WEBPACK_IMPORTED_MODULE_0__.default,
-    sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default
+    sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default //bottomNavigation,
+    //courseNavigation
+
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_UserRole", "get_CurrentUser"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setUserRole'])), {}, {

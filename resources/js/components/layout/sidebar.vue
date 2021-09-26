@@ -2,7 +2,7 @@
 <div>
     <!--  ######### header ################ -->
        <v-app-bar   :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
-        <v-app-bar-nav-icon @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon  @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title class="ml-0 white--text" >
             <span class="pointer" >ISUE ORANGE</span>
@@ -85,6 +85,9 @@
   <!--   <v-navigation-drawer style="z-index:100" width="550" absolute right temporary v-model="Notifdrawer"  app>
         <seeAllNotification></seeAllNotification>
     </v-navigation-drawer> -->
+
+
+     
 </div>
 </template>
 

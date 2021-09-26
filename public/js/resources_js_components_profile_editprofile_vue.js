@@ -256,6 +256,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -285,7 +307,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }, function (v) {
         return v && v.length <= 8 || 'Max 8 characters';
       }],
-      isloading: true
+      isloading: true,
+      departmentsList: []
     };
   },
   methods: {
@@ -332,13 +355,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    fetchDeparmentList: function fetchDeparmentList() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                axios.get('/api/admin/department/all').then(function (res) {
+                  _this2.departmentsList = res.data;
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   beforeMount: function beforeMount() {
-    var _this2 = this;
+    var _this3 = this;
 
+    this.fetchDeparmentList();
     setTimeout(function () {
-      _this2.isloading = !_this2.isloading;
+      _this3.isloading = !_this3.isloading;
     }, 1000);
   }
 });
@@ -558,59 +602,65 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                    [
-                      _c(
-                        "v-row",
+                  _vm.UserDetails.role == "Student"
+                    ? _c(
+                        "v-col",
+                        { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
                         [
                           _c(
-                            "v-col",
-                            {
-                              class: _vm.$vuetify.breakpoint.xs
-                                ? "mb-0 pb-0"
-                                : "mt-2",
-                              attrs: { cols: "12", md: "2" }
-                            },
+                            "v-row",
                             [
-                              _vm._v(
-                                "\n                       Student ID\n                   "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "pb-0 mb-0",
-                              attrs: { cols: "12", md: "2" }
-                            },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  dense: "",
-                                  rules: _vm.StudentIdRules,
-                                  outlined: ""
+                              _c(
+                                "v-col",
+                                {
+                                  class: _vm.$vuetify.breakpoint.xs
+                                    ? "mb-0 pb-0"
+                                    : "mt-2",
+                                  attrs: { cols: "12", md: "2" }
                                 },
-                                on: { keypress: _vm.isNumber },
-                                model: {
-                                  value: _vm.UserDetails.student_id,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.UserDetails, "student_id", $$v)
-                                  },
-                                  expression: "UserDetails.student_id"
-                                }
-                              })
+                                [
+                                  _vm._v(
+                                    "\n                       Student ID\n                   "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "pb-0 mb-0",
+                                  attrs: { cols: "12", md: "2" }
+                                },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      dense: "",
+                                      rules: _vm.StudentIdRules,
+                                      outlined: ""
+                                    },
+                                    on: { keypress: _vm.isNumber },
+                                    model: {
+                                      value: _vm.UserDetails.student_id,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          _vm.UserDetails,
+                                          "student_id",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "UserDetails.student_id"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
                             ],
                             1
                           )
                         ],
                         1
                       )
-                    ],
-                    1
-                  ),
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "v-col",
@@ -782,6 +832,63 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                       Department\n                   "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "pb-0 mb-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-select", {
+                                staticClass: "mr-2",
+                                attrs: {
+                                  items: _vm.departmentsList,
+                                  "item-text": "name",
+                                  "item-value": "id",
+                                  label: "Department",
+                                  dense: "",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.UserDetails.department,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "department", $$v)
+                                  },
+                                  expression: "UserDetails.department"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
                     { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
                     [
                       _c(
@@ -939,7 +1046,6 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: {
                                   "max-length": "11",
-                                  rules: _vm.phoneNumberRules,
                                   dense: "",
                                   outlined: "",
                                   disabled: _vm.editPhone,

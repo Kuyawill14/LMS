@@ -16,6 +16,7 @@ class CreateTblDepartmentsTable extends Migration
         Schema::create('tbl_departments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('description');
             $table->timestamps();
         });
     }

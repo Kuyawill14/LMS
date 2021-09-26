@@ -33,7 +33,7 @@
                     </v-col>
                 </v-row>
             </v-col>
-              <v-col cols="12" class="mb-0 pb-0">
+              <v-col v-if="UserDetails.role == 'Student'" cols="12" class="mb-0 pb-0">
                 <v-row>
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         Student ID
@@ -49,6 +49,8 @@
                     </v-col>
                 </v-row>
             </v-col>
+
+          
             <v-col cols="12" class="mb-0 pb-0">
                 <v-row>
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
@@ -99,6 +101,26 @@
                 </v-row>
             </v-col>
 
+               <v-col  cols="12" class="mb-0 pb-0">
+                <v-row>
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                        Department
+                    </v-col>
+                    <v-col cols="12" md="6"  class="pb-0 mb-0">
+                         <v-select
+                            class="mr-2"
+                            :items="departmentsList"
+                            item-text="name"
+                            item-value="id"
+                            label="Department"
+                            dense
+                            v-model="UserDetails.department"
+                            outlined
+                            ></v-select>
+                    </v-col>
+                </v-row>
+            </v-col>
+
             <v-col cols="12" class="mt-0 pt-0 ">
                 <v-row>
                     <v-col cols="12" md="2">
@@ -142,7 +164,7 @@
                         <v-text-field
                         @keypress="isNumber"
                         max-length="11"
-                           :rules="phoneNumberRules"
+                        
                         dense
                             outlined
                             :disabled="editPhone"
@@ -262,6 +284,7 @@ export default {
                  v => (v && v.length <= 8) || 'Max 8 characters',
             ],
             isloading: true,
+            departmentsList: [],
         }
     },
     methods:{
@@ -295,9 +318,16 @@ export default {
                 //console.log(response.data);
                 this.isSaving = !this.isSaving;
             }); */
-        }
+        },
+        async fetchDeparmentList() {
+                axios.get('/api/admin/department/all')
+                .then((res) => {
+                    this.departmentsList = res.data;
+                })
+        },
     },
     beforeMount(){
+        this.fetchDeparmentList();
          setTimeout(() => {
                 this.isloading = !this.isloading;
         }, 1000);

@@ -22,17 +22,17 @@
 
         </v-col>
 
-        <!-- <v-col cols="12" class="pa-0 ">
+          <v-col cols="12" class="pa-0 ">
                  <v-select
                 class="mr-2"
-                 :items="departmentsList"
+                :items="departmentsList"
                 item-text="name"
                 item-value="id"
                 label="Department"
-                  v-model="getcourseInfo.department"
+                v-model="getcourseInfo.department"
                 outlined
                 ></v-select>
-        </v-col> -->
+        </v-col>
 
 
         <v-col cols="12" class="pa-0 ">
@@ -46,6 +46,8 @@
             <v-select class="mr-2" :items="semester" item-text="semester" item-value="id" label="Semester"
                 v-model="getcourseInfo.semester_id" outlined></v-select>
         </v-col>
+
+      
 
 
         <v-col cols="12" class="pa-0 " v-if="getcourseInfo.course_guide == null">
@@ -155,7 +157,7 @@
                 courseDetails: [],
                 school_year: [],
                 semester: [],
-                departmentsList: [],
+                departmentsList:[],
                 isInvalidFileType: false,
                 isInvalidFileSize: false,
                 isFileSize: null,
@@ -224,6 +226,8 @@
                     .then((res) => {
                         this.school_year = res.data.school_year;
                         this.semester = res.data.semester;
+                        this.departmentsList = res.data.departments
+                      
                     })
             },
             updateCourseDetails() {
@@ -270,17 +274,17 @@
 
 
             },
-            fetchDeparmentList() {
+          /*   fetchDeparmentList() {
                 axios.get('/api/admin/department/all')
                     .then((res) => {
                         this.departmentsList = res.data;
                     })
-            },
+            }, */
 
         },
         mounted() {
             this.fetchAllSchoolyear_semester();
-            this.fetchDeparmentList();
+
         }
     }
 

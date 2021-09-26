@@ -11,8 +11,91 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -91,18 +174,138 @@ __webpack_require__.r(__webpack_exports__);
         value: 'name',
         align: 'start'
       }, {
+        text: 'Description',
+        value: 'description',
+        align: 'start'
+      }, {
         text: 'Actions',
         sortable: false
-      }]
+      }],
+      type: null,
+      valid: true,
+      dialog: false,
+      Deldialog: false,
+      Rules: [function (v) {
+        return !!v || "Field is required";
+      }],
+      form: new Form({
+        name: "",
+        description: ""
+      }),
+      IsDeleting: false,
+      deleteIndex: null,
+      deleteId: null,
+      isUpdateId: null,
+      isUpdateIndex: null,
+      isAdding: false
     };
   },
   methods: {
     fetchDeparmentList: function fetchDeparmentList() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/admin/department/all').then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/department/all').then(function (res) {
         _this.departmentsList = res.data;
       });
+    },
+    addDepartment: function addDepartment() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/department/add', _this2.form).then(function (res) {
+                  if (res.status == 201) {
+                    _this2.departmentsList.push(res.data);
+
+                    _this2.dialog = false;
+                    _this2.isAdding = false;
+
+                    _this2.$refs.form.reset();
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    validate: function validate() {
+      this.isAdding = true;
+
+      if (this.$refs.form.validate()) {
+        if (this.type == 'add') {
+          this.addDepartment();
+        } else if (this.type == 'edit') {
+          this.UpdateDepartmentDetails();
+        }
+      } else {
+        this.isAdding = false;
+      }
+    },
+    deleteDepartment: function deleteDepartment() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/department/delete/' + _this3.deleteId).then(function (res) {
+                  if (res.data.success == true) {
+                    _this3.departmentsList.splice(_this3.deleteIndex, 1);
+
+                    _this3.Deldialog = false;
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    OpendepartmentDialog: function OpendepartmentDialog(data, index) {
+      this.form.name = data.name;
+      this.form.description = data.description;
+      this.isUpdateId = data.id;
+      this.isUpdateIndex = index;
+      this.type = 'edit';
+      this.dialog = true;
+    },
+    UpdateDepartmentDetails: function UpdateDepartmentDetails() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/department/update/' + _this4.isUpdateId, _this4.form).then(function (res) {
+                  if (res.data.success == true) {
+                    _this4.departmentsList[_this4.isUpdateIndex].name = _this4.form.name;
+                    _this4.departmentsList[_this4.isUpdateIndex].description = _this4.form.description;
+                    _this4.isAdding = false;
+                    _this4.dialog = false;
+
+                    _this4.$refs.form.reset();
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     }
   },
   mounted: function mounted() {
@@ -294,7 +497,7 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              ;(_vm.syModal = true), (_vm.modalType = "add")
+                              ;(_vm.dialog = true), (_vm.type = "add")
                             }
                           }
                         },
@@ -332,12 +535,15 @@ var render = function() {
                           return [
                             _c(
                               "tbody",
-                              _vm._l(items, function(item) {
+                              _vm._l(items, function(item, index) {
                                 return _c("tr", { key: item.id }, [
                                   _c("td", [_vm._v(_vm._s(item.name))]),
                                   _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(item.description))]),
+                                  _vm._v(" "),
                                   _c(
                                     "td",
+                                    { staticStyle: { width: "8%" } },
                                     [
                                       _c(
                                         "v-tooltip",
@@ -364,11 +570,10 @@ var render = function() {
                                                               click: function(
                                                                 $event
                                                               ) {
-                                                                ;(_vm.syModal = true),
-                                                                  _vm.editSchoolyear(
-                                                                    item.id,
-                                                                    item.schoolyear
-                                                                  )
+                                                                return _vm.OpendepartmentDialog(
+                                                                  item,
+                                                                  index
+                                                                )
                                                               }
                                                             }
                                                           },
@@ -379,19 +584,11 @@ var render = function() {
                                                         on
                                                       ),
                                                       [
-                                                        _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: {
-                                                              color: "primary"
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "mdi-pencil-box-multiple-outline"
-                                                            )
-                                                          ]
-                                                        )
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "mdi-pencil-box-multiple-outline"
+                                                          )
+                                                        ])
                                                       ],
                                                       1
                                                     )
@@ -434,11 +631,10 @@ var render = function() {
                                                               click: function(
                                                                 $event
                                                               ) {
-                                                                ;(_vm.deleteModal = true),
-                                                                  (_vm.id =
-                                                                    item.id),
-                                                                  (_vm.type =
-                                                                    "school_year")
+                                                                ;(_vm.Deldialog = true),
+                                                                  (_vm.deleteIndex = index),
+                                                                  (_vm.deleteId =
+                                                                    item.id)
                                                               }
                                                             }
                                                           },
@@ -449,15 +645,9 @@ var render = function() {
                                                         on
                                                       ),
                                                       [
-                                                        _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: {
-                                                              color: "primary"
-                                                            }
-                                                          },
-                                                          [_vm._v("mdi-delete")]
-                                                        )
+                                                        _c("v-icon", [
+                                                          _vm._v("mdi-delete")
+                                                        ])
                                                       ],
                                                       1
                                                     )
@@ -486,6 +676,253 @@ var render = function() {
                       }
                     ])
                   })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", width: "500" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", {}, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(
+                      this.type == "add"
+                        ? "Add Department"
+                        : "Update Department"
+                    ) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-container",
+                { staticClass: "mb-0 pb-0" },
+                [
+                  _c(
+                    "v-form",
+                    {
+                      ref: "form",
+                      staticClass: "text-center ",
+                      attrs: { "lazy-validation": "" },
+                      model: {
+                        value: _vm.valid,
+                        callback: function($$v) {
+                          _vm.valid = $$v
+                        },
+                        expression: "valid"
+                      }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        { staticClass: "pa-5" },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "name" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-textarea", {
+                                staticClass: "mb-0 pb-0",
+                                attrs: {
+                                  type: "text",
+                                  rows: "1",
+                                  name: "name",
+                                  rules: _vm.Rules,
+                                  label: "Department Name",
+                                  "auto-grow": "",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.name,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "name", $$v)
+                                  },
+                                  expression: "form.name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "middleName" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-textarea", {
+                                staticClass: "mb-0 pb-0",
+                                attrs: {
+                                  type: "text",
+                                  name: "description",
+                                  rules: _vm.Rules,
+                                  label: "Description",
+                                  "auto-grow": "",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.description,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "description", $$v)
+                                  },
+                                  expression: "form.description"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                          _vm.$refs.form.reset()
+                        }
+                      }
+                    },
+                    [_vm._v("Cancel")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        loading: _vm.isAdding,
+                        text: "",
+                        color: "primary"
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.validate()
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(this.type == "add" ? "Add" : "Update")
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "290" },
+          model: {
+            value: _vm.Deldialog,
+            callback: function($$v) {
+              _vm.Deldialog = $$v
+            },
+            expression: "Deldialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v(
+                  "\n                Are you sure you want to delete this?\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.Deldialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    No\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        loading: _vm.IsDeleting,
+                        color: "primary",
+                        text: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteDepartment()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Yes\n                ")]
+                  )
                 ],
                 1
               )

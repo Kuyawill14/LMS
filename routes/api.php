@@ -164,8 +164,6 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::put('/markAsSubmitting/{id}', [StudentController::class, 'markAsSubmitting']);
 
     Route::get('/fetch-score/{id}', [StudentController::class, 'FetchScoreDetails']);
-    
-   
 
     Route::delete('/{id}', [StudentController::class, 'Unenroll']);
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
@@ -375,6 +373,11 @@ Route::middleware('auth:sanctum')->prefix('/admin/schoolyears')->group(function(
 //department
 Route::middleware('auth:sanctum')->prefix('/admin/department')->group(function() {
     Route::get('/all', [DepartmentController::class, 'index']);
+    Route::post('/add', [DepartmentController::class, 'store']);
+    Route::put('/update/{id}', [DepartmentController::class, 'update']);
+    Route::delete('/delete/{id}', [DepartmentController::class, 'destroy']);
+   
+    
 });
 
 

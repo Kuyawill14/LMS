@@ -253,6 +253,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
         _this2.school_year = res.data.school_year;
         _this2.semester = res.data.semester;
+        _this2.departmentsList = res.data.departments;
       });
     },
     updateCourseDetails: function updateCourseDetails() {
@@ -303,7 +304,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }),
   created: function created() {
     this.fetchAllSchoolyear_semester();
-    this.fetchDeparmentList();
   }
 });
 
@@ -564,6 +564,31 @@ var render = function() {
                     _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
                   },
                   expression: "getcourseInfo.v_classroom_link"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "pa-0 ", attrs: { cols: "12" } },
+            [
+              _c("v-select", {
+                staticClass: "mr-2",
+                attrs: {
+                  items: _vm.departmentsList,
+                  "item-text": "name",
+                  "item-value": "id",
+                  label: "Department",
+                  outlined: ""
+                },
+                model: {
+                  value: _vm.getcourseInfo.department,
+                  callback: function($$v) {
+                    _vm.$set(_vm.getcourseInfo, "department", $$v)
+                  },
+                  expression: "getcourseInfo.department"
                 }
               })
             ],

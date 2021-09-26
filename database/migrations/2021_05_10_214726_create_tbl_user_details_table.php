@@ -20,6 +20,7 @@ class CreateTblUserDetailsTable extends Migration
             $table->string('middleName');
             $table->string('lastName');
             $table->integer('student_id')->nullable();
+            $table->integer('department')->nullable();
             $table->string('address')->nullable();
             $table->string('cp_no')->nullable();
             $table->mediumText('profile_pic')->nullable();

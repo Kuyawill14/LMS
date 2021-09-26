@@ -227,6 +227,7 @@ class SubjectCourseController extends Controller
             $existingCourse->v_classroom_link = $courseItem["v_classroom_link"];
             $existingCourse->school_year_id =$courseItem["school_year_id"];
             $existingCourse->semester_id = $courseItem["semester_id"];
+            $existingCourse->department = $courseItem["department"];
             $existingCourse->save();
             return $existingCourse;
         }
