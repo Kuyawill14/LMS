@@ -42,17 +42,17 @@
             <v-col cols="12" >
                   <v-list >
                     <v-list-item-group >
-                        <template v-for="(item,i) in ListData" >
+                        <template v-for="(item,i) in studentSubmissionList" >
                             <v-list-item v-show="Class == $route.params.id || Class == item.class_id" :key="item.id">
                                 <v-list-item-avatar @click="CheckData = item ,dialog = !dialog, isStarting = true"  color="secondary">
                                     <v-img alt="Profile"
                                         :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
                                     </v-img>
                                 </v-list-item-avatar>
-                            
+
                                 <v-list-item-content @click="CheckData = item ,dialog = !dialog, isStarting = true" >
                                     <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
-                                    <v-list-item-subtitle v-if="item.graded == 1"><v-icon small color="success">mdi-check</v-icon> Graded</v-list-item-subtitle>
+                                    <v-list-item-subtitle class="success--text" ><v-icon v-if="item.graded == 1" small color="success">mdi-check</v-icon> {{item.graded == 1 ? 'Graded' : item.status == 'Submitted' ? 'Submitted' : ''}}</v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action v-if="item.status == 'Submitted'">
                                     <v-text-field 
@@ -148,7 +148,7 @@
 
             <v-col cols="12">
                 <v-row>
-                    <v-col v-show="item.status == 'Submitted'" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
                           <v-card
                           v-if="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))" style="cursor:pointer" 
                         class="mx-auto"
@@ -169,6 +169,7 @@
                                        
                                         <small style="max-height:12px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
                                     </v-list-item-title>
+                                   
                                 </v-list-item-content>
                         </v-list-item>
                       </v-card>
@@ -194,7 +195,7 @@ export default {
             isloading:true,
              selectedTasks: [],
              CheckData: null,
-             search: '',
+             search: "",
              Class: this.$route.params.id,
               dialog: false,
              headers: [
@@ -220,10 +221,12 @@ export default {
      computed: {
         studentSubmissionList() {
             if (this.search) {
+                let data = this.search;
                 return this.ListData.filter((item) => {
-                    return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
-                        .includes(v) || item.lastName.toLowerCase()
-                        .includes(v))
+                    console.log(item.firstName);
+
+                    return item.firstName.toLowerCase().includes(this.search.toLowerCase()) || item.lastName.toLowerCase().includes(this.search.toLowerCase());
+                   // return data.toLowerCase().split(' ').every(v => item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v))
                 })
             } else {
                 return this.ListData;
@@ -273,7 +276,7 @@ export default {
        
     },
     mounted(){
-        
+        console.log(this.ListData);
     }
 }
 </script>

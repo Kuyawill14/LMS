@@ -204,6 +204,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var checksubjective = function checksubjective() {
@@ -220,7 +221,7 @@ var checksubjective = function checksubjective() {
       isloading: true,
       selectedTasks: [],
       CheckData: null,
-      search: '',
+      search: "",
       Class: this.$route.params.id,
       dialog: false,
       headers: [{
@@ -257,10 +258,10 @@ var checksubjective = function checksubjective() {
       var _this = this;
 
       if (this.search) {
+        var data = this.search;
         return this.ListData.filter(function (item) {
-          return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v);
-          });
+          console.log(item.firstName);
+          return item.firstName.toLowerCase().includes(_this.search.toLowerCase()) || item.lastName.toLowerCase().includes(_this.search.toLowerCase()); // return data.toLowerCase().split(' ').every(v => item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v))
         });
       } else {
         return this.ListData;
@@ -324,7 +325,9 @@ var checksubjective = function checksubjective() {
       }))();
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    console.log(this.ListData);
+  }
 });
 
 /***/ }),
@@ -1267,7 +1270,10 @@ var render = function() {
                           _c(
                             "v-list-item-group",
                             [
-                              _vm._l(_vm.ListData, function(item, i) {
+                              _vm._l(_vm.studentSubmissionList, function(
+                                item,
+                                i
+                              ) {
                                 return [
                                   _c(
                                     "v-list-item",
@@ -1344,11 +1350,12 @@ var render = function() {
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          item.graded == 1
-                                            ? _c(
-                                                "v-list-item-subtitle",
-                                                [
-                                                  _c(
+                                          _c(
+                                            "v-list-item-subtitle",
+                                            { staticClass: "success--text" },
+                                            [
+                                              item.graded == 1
+                                                ? _c(
                                                     "v-icon",
                                                     {
                                                       attrs: {
@@ -1357,12 +1364,22 @@ var render = function() {
                                                       }
                                                     },
                                                     [_vm._v("mdi-check")]
-                                                  ),
-                                                  _vm._v(" Graded")
-                                                ],
-                                                1
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(
+                                                " " +
+                                                  _vm._s(
+                                                    item.graded == 1
+                                                      ? "Graded"
+                                                      : item.status ==
+                                                        "Submitted"
+                                                      ? "Submitted"
+                                                      : ""
+                                                  )
                                               )
-                                            : _vm._e()
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       ),
@@ -1559,8 +1576,12 @@ var render = function() {
                                 {
                                   name: "show",
                                   rawName: "v-show",
-                                  value: item.status == "Submitted",
-                                  expression: "item.status == 'Submitted'"
+                                  value:
+                                    item.status == "Submitted" &&
+                                    (_vm.Class == _vm.$route.params.id ||
+                                      _vm.Class == item.class_id),
+                                  expression:
+                                    "item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)"
                                 }
                               ],
                               key: i,

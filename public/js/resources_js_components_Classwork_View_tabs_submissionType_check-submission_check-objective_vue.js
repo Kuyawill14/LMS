@@ -1686,7 +1686,11 @@ var render = function() {
                               ]),
                               _c("span", [
                                 _vm._v(
-                                  _vm._s(_vm.ViewDetails.timeSpent + " minutes")
+                                  _vm._s(
+                                    _vm.ViewDetails.timeSpent != null
+                                      ? _vm.ViewDetails.timeSpent + " minutes"
+                                      : ""
+                                  )
                                 )
                               ])
                             ]

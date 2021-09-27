@@ -51,6 +51,18 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+
+                 <v-list-item link :to="{name: 'managestudents'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-human-greeting</v-icon>
+                    </v-list-item-action>
+                     
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Program Chair
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
              </v-list-group>
 
             <v-list-item link :to="{name: 'monitorTeachers'}" exact>

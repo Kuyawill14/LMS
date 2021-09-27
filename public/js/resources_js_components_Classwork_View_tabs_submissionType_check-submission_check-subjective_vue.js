@@ -558,6 +558,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee3);
       }))();
+    },
+    checkRubrics: function checkRubrics() {
+      var _this6 = this;
+
+      if (this.classworkDetails.rubrics.length != 0) {
+        if (this.CheckData.rubrics_score == false) {
+          this.CheckData.rubrics_score = [];
+          this.classworkDetails.rubrics.forEach(function (item) {
+            _this6.CheckData.rubrics_score.push({
+              points: null
+            });
+          });
+        }
+      }
     }
   },
   created: function created() {
@@ -598,6 +612,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     }
 
+    this.checkRubrics();
     this.$emit('isMounted');
   }
 });
@@ -932,25 +947,35 @@ var render = function() {
                                                 ]
                                               ),
                                               _vm._v(" "),
-                                              _c("v-list-item-subtitle", [
-                                                _vm._v(
-                                                  " " +
-                                                    _vm._s(
-                                                      _vm.CheckData.status ==
-                                                        "Submitted"
-                                                        ? "Submitted: " +
-                                                            _vm.format_date(
-                                                              _vm.CheckData
-                                                                .updated_at
-                                                            )
-                                                        : _vm.CheckData
-                                                            .status ==
-                                                          "Submitting"
-                                                        ? "Submitting..."
-                                                        : ""
-                                                    )
-                                                )
-                                              ])
+                                              _c(
+                                                "v-list-item-subtitle",
+                                                {
+                                                  class:
+                                                    _vm.CheckData.status ==
+                                                    "Submitted"
+                                                      ? "success--text"
+                                                      : ""
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        _vm.CheckData.status ==
+                                                          "Submitted"
+                                                          ? "Submitted: " +
+                                                              _vm.format_date(
+                                                                _vm.CheckData
+                                                                  .updated_at
+                                                              )
+                                                          : _vm.CheckData
+                                                              .status ==
+                                                            "Submitting"
+                                                          ? "Submitting..."
+                                                          : ""
+                                                      )
+                                                  )
+                                                ]
+                                              )
                                             ],
                                             1
                                           ),

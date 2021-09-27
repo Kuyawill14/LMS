@@ -67,7 +67,7 @@
                                     </v-list>
                                      <v-col  cols="12" class="ma-0 pa-0 pb-4">
                                      
-                                         <span class="font-weight-bold">Time Spent: </span><span>{{ViewDetails.timeSpent+' minutes'}}</span>
+                                         <span class="font-weight-bold">Time Spent: </span><span>{{ViewDetails.timeSpent != null ? ViewDetails.timeSpent+' minutes': ''}}</span>
                                     </v-col>
                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
                                     <v-btn rounded v-if="ViewDetails.status == 'Submitted'"

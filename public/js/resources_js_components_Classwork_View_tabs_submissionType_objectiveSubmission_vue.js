@@ -180,6 +180,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -234,12 +269,11 @@ var checkobjective = function checkobjective() {
   },
   computed: {
     studentSubmissionList: function studentSubmissionList() {
-      var _this = this;
-
       if (this.search) {
-        return this.ListData.filter(function (item) {
-          return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v);
+        var data = this.search;
+        return this.ListData.filter(function (element) {
+          return data.toLowerCase().split(' ').every(function (v) {
+            return element.firstName.toLowerCase().includes(v) || element.lastName.toLowerCase().includes(v);
           });
         });
       } else {
@@ -483,195 +517,182 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm._l(_vm.ListData, function(item, i) {
-                    return _c(
-                      "v-col",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value:
-                              _vm.Class == _vm.$route.params.id ||
-                              _vm.Class == item.class_id,
-                            expression:
-                              "Class == $route.params.id || Class == item.class_id"
-                          }
-                        ],
-                        key: i,
-                        attrs: { cols: "12" }
-                      },
-                      [
-                        _c("v-hover", {
-                          scopedSlots: _vm._u(
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "v-list",
+                        [
+                          _c(
+                            "v-list-item-group",
                             [
-                              {
-                                key: "default",
-                                fn: function(ref) {
-                                  var hover = ref.hover
-                                  return [
-                                    _c(
-                                      "v-row",
-                                      {
-                                        class: hover ? "grey lighten-4" : "",
-                                        staticStyle: { cursor: "pointer" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.ViewSubmision(item, i)
-                                          }
+                              _vm._l(_vm.studentSubmissionList, function(
+                                item,
+                                i
+                              ) {
+                                return [
+                                  _c(
+                                    "v-list-item",
+                                    {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value:
+                                            _vm.Class == _vm.$route.params.id ||
+                                            _vm.Class == item.class_id,
+                                          expression:
+                                            "Class == $route.params.id || Class == item.class_id"
                                         }
-                                      },
-                                      [
-                                        _c(
-                                          "v-col",
-                                          {
-                                            staticClass: "pa-5",
-                                            attrs: { cols: "9" }
-                                          },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  " d-flex justify-start"
-                                              },
-                                              [
-                                                _c(
-                                                  "v-avatar",
-                                                  {
-                                                    attrs: {
-                                                      color: "brown",
-                                                      size: "40"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("v-img", {
-                                                      attrs: {
-                                                        alt: "Profile",
-                                                        src:
-                                                          item.profile_pic ==
-                                                            null ||
-                                                          item.profile_pic == ""
-                                                            ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                              item.firstName +
-                                                              " " +
-                                                              item.lastName
-                                                            : item.profile_pic
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "div",
-                                                  { staticClass: "mt-2 ml-2" },
-                                                  [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "font-weight-medium"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\r\n                                " +
-                                                            _vm._s(
-                                                              item.firstName +
-                                                                " " +
-                                                                item.lastName
-                                                            ) +
-                                                            "\r\n                                "
-                                                        ),
-                                                        _c("br")
-                                                      ]
-                                                    )
-                                                  ]
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ]
-                                        ),
-                                        _vm._v(" "),
-                                        item.status == "Submitted"
-                                          ? _c(
-                                              "v-col",
-                                              {
-                                                staticClass: "text-left",
-                                                attrs: { cols: "3" }
-                                              },
-                                              [
-                                                _c("v-text-field", {
-                                                  staticClass: "mb-0 pb-0",
-                                                  style: _vm.$vuetify.breakpoint
-                                                    .xs
-                                                    ? "width:100%"
-                                                    : "width:80%",
-                                                  attrs: {
-                                                    "append-icon":
-                                                      item.graded &&
-                                                      item.status == "Submitted"
-                                                        ? "mdi-check"
-                                                        : "",
-                                                    loading: _vm.isSavingScore,
-                                                    dense: "",
-                                                    outlined: "",
-                                                    type: "number",
-                                                    suffix:
-                                                      "/" +
-                                                      _vm.classworkDetails
-                                                        .points,
-                                                    max:
-                                                      _vm.classworkDetails
-                                                        .points,
-                                                    maxlength: _vm.classworkDetails.points.toString()
-                                                      .length,
-                                                    min: "0"
-                                                  },
-                                                  on: {
-                                                    keyup: function($event) {
-                                                      return _vm.SaveScore(
-                                                        item.id,
-                                                        item.points
-                                                      )
-                                                    }
-                                                  },
-                                                  model: {
-                                                    value: item.points,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        item,
-                                                        "points",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression: "item.points"
-                                                  }
-                                                })
-                                              ],
-                                              1
-                                            )
-                                          : _vm._e()
                                       ],
-                                      1
-                                    )
-                                  ]
-                                }
-                              }
+                                      key: item.id
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-avatar",
+                                        {
+                                          attrs: { color: "secondary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.ViewSubmision(item, i)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("v-img", {
+                                            attrs: {
+                                              alt: "Profile",
+                                              src:
+                                                item.profile_pic == null ||
+                                                item.profile_pic == ""
+                                                  ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                    item.firstName +
+                                                    " " +
+                                                    item.lastName
+                                                  : item.profile_pic
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-content",
+                                        {
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.ViewSubmision(item, i)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-list-item-title",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  item.firstName +
+                                                    " " +
+                                                    item.lastName
+                                                )
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          item.status == "Submitted"
+                                            ? _c(
+                                                "v-list-item-subtitle",
+                                                {
+                                                  staticClass: "success--text"
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: {
+                                                        small: "",
+                                                        color: "success"
+                                                      }
+                                                    },
+                                                    [_vm._v("mdi-check")]
+                                                  ),
+                                                  _vm._v(" Submitted")
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      item.status == "Submitted"
+                                        ? _c(
+                                            "v-list-item-action",
+                                            [
+                                              _c("v-text-field", {
+                                                staticClass: "ma-0 pa-0",
+                                                attrs: {
+                                                  loading: _vm.isSavingScore,
+                                                  dense: "",
+                                                  outlined: "",
+                                                  type: "number",
+                                                  suffix:
+                                                    "/" +
+                                                    _vm.classworkDetails.points,
+                                                  max:
+                                                    _vm.classworkDetails.points,
+                                                  maxlength: _vm.classworkDetails.points.toString()
+                                                    .length,
+                                                  min: "0"
+                                                },
+                                                on: {
+                                                  keyup: function($event) {
+                                                    return _vm.SaveScore(
+                                                      item.id,
+                                                      item.points
+                                                    )
+                                                  }
+                                                },
+                                                model: {
+                                                  value: item.points,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      item,
+                                                      "points",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "item.points"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  i < _vm.ListData.length
+                                    ? _c("v-divider", { key: i })
+                                    : _vm._e()
+                                ]
+                              })
                             ],
-                            null,
-                            true
+                            2
                           )
-                        }),
-                        _vm._v(" "),
-                        _c("v-divider")
-                      ],
-                      1
-                    )
-                  })
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
                 ],
-                2
+                1
               )
             ],
             1
@@ -797,14 +818,10 @@ var render = function() {
                                       name: "show",
                                       rawName: "v-show",
                                       value:
-                                        _vm.selectedStatus == "All" ||
-                                        _vm.selectedStatus == item.status ||
-                                        (_vm.selectedStatus ==
-                                          "No Submission" &&
-                                          (item.status == null ||
-                                            item.status == "")),
+                                        _vm.Class == _vm.$route.params.id ||
+                                        _vm.Class == item.class_id,
                                       expression:
-                                        "selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))"
+                                        "Class == $route.params.id || Class == item.class_id"
                                     }
                                   ],
                                   key: i,
@@ -821,6 +838,21 @@ var render = function() {
                                   _c(
                                     "v-card",
                                     {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value:
+                                            _vm.selectedStatus == "All" ||
+                                            _vm.selectedStatus == item.status ||
+                                            (_vm.selectedStatus ==
+                                              "No Submission" &&
+                                              (item.status == null ||
+                                                item.status == "")),
+                                          expression:
+                                            "selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))"
+                                        }
+                                      ],
                                       staticClass: "mx-auto",
                                       attrs: { outlined: "" }
                                     },

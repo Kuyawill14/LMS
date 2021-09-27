@@ -40,7 +40,7 @@
                                                 
                                                     <v-list-item-content>
                                                         <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                        <v-list-item-subtitle > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                        <v-list-item-subtitle :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                     </v-list-item-content>
                                                     <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
                                                         <v-text-field :loading="isSavingScore" 
@@ -475,9 +475,21 @@ import {mapGetters} from "vuex";
               })
                this.isCommenting = false;
           },
+          checkRubrics(){
+
+              if(this.classworkDetails.rubrics.length != 0){
+                    if(this.CheckData.rubrics_score == false){
+                        this.CheckData.rubrics_score = [];
+                        this.classworkDetails.rubrics.forEach(item => {
+                              this.CheckData.rubrics_score.push({points : null})
+                        });
+                    }
+              }
+          }
     },
     created(){
         if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
+            
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
@@ -514,6 +526,7 @@ import {mapGetters} from "vuex";
             //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
             //this.pdf_path = path;
         }
+        this.checkRubrics();
          this.$emit('isMounted');
     }
   
