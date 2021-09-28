@@ -10,7 +10,8 @@
                         <span class="text-right pannel-btn">
 
 
-                            <v-btn icon float-right @click="editModuleBtn(itemModule.id,itemModule,itemModule.isPublished)">
+                            <v-btn icon float-right
+                                @click="editModuleBtn(itemModule.id,itemModule,itemModule.isPublished)">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
                             <v-btn icon right
@@ -67,7 +68,7 @@
                                         </template>
                                         <v-list>
                                             <v-list-item link
-                                                @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type)">
+                                                @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type,itemModule.isPublished)">
                                                 <v-list-item-title>Edit</v-list-item-title>
 
                                             </v-list-item>
@@ -126,7 +127,7 @@
         </v-expansion-panels>
 
         <!-- New lecture -->
-        <v-dialog v-model="itemDialog" persistent max-width="600px">
+        <v-dialog v-model="itemDialog" max-width="600px">
             <moduleFormEdit v-on:closeModal="itemDialog = false; itemType = ''" :propModule="propModule" :type="'edit'"
                 v-if="itemType == 'edit_module'" />
             <fileForm v-on:CloseLecture="itemDialog = false ; itemType = ''" :moduleId="mainModule_id"
@@ -272,10 +273,10 @@
 
                 }
             },
-            editModuleBtn(module_id, itemModule,isPublished) {
+            editModuleBtn(module_id, itemModule, isPublished) {
 
                 if (isPublished == 1) {
-                    this.toastInfo("Unable to delete this module. Please unpublished the module to proceed");
+                    this.toastInfo("Unable to edit this module. Please unpublished the module to proceed");
                 } else {
 
                     this.itemDialog = !this.itemDialog;
@@ -298,14 +299,18 @@
                 this.mainModule_id = module_id;
                 this.itemType = 'add_link';
             },
-            editItemBtn(itemModule, sub_module_id, type) {
+            editItemBtn(itemModule, sub_module_id, type,isPublished) {
+                if (isPublished == 1) {
+                    this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
+                } else {
+                    this.pass_submodule = itemModule;
+                    this.itemDialog = !this.itemDialog;
 
-                this.pass_submodule = itemModule;
-                this.itemDialog = !this.itemDialog;
+                    this.sub_module_id = sub_module_id;
 
-                this.sub_module_id = sub_module_id;
+                    this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+                }
 
-                this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
 
 
 
