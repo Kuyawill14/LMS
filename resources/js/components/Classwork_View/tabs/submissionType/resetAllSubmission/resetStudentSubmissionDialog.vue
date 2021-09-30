@@ -134,6 +134,7 @@
                  <v-list-item-content>
                      <v-list-item-subtitle>
                            <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
+                           <v-list-item-subtitle v-if="item.status == 'Submitted'"> <v-icon small color="success">mdi-check</v-icon> Submitted</v-list-item-subtitle>
                      </v-list-item-subtitle>
                  </v-list-item-content>
                  <v-list-item-action>

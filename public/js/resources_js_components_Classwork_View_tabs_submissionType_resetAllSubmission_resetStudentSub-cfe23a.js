@@ -177,6 +177,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ListData', 'ClassList'],
   data: function data() {
@@ -546,7 +547,24 @@ var render = function() {
                                   _vm._s(item.firstName + " " + item.lastName)
                                 )
                               ]
-                            )
+                            ),
+                            _vm._v(" "),
+                            item.status == "Submitted"
+                              ? _c(
+                                  "v-list-item-subtitle",
+                                  [
+                                    _c(
+                                      "v-icon",
+                                      {
+                                        attrs: { small: "", color: "success" }
+                                      },
+                                      [_vm._v("mdi-check")]
+                                    ),
+                                    _vm._v(" Submitted")
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
                           ],
                           1
                         )
