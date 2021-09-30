@@ -340,7 +340,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     if (this.type_action == 'edit_file') {
       this.submodule['required_time'] = this.submodule['required_time'] / 60;
       this.subModuleForm = this.submodule;
@@ -356,7 +356,11 @@ __webpack_require__.r(__webpack_exports__);
         this.oldFileInput = true;
       }
     } else {
-      this.subModuleForm = {};
+      this.subModuleForm = {
+        sub_module_name: '',
+        description: '',
+        required_time: ''
+      };
     }
   }
 });
@@ -452,7 +456,12 @@ __webpack_require__.r(__webpack_exports__);
       loading: '',
       addLink: false,
       showClasswork: false,
-      linkForm: {},
+      linkForm: {
+        sub_module_name: '',
+        description: '',
+        required_time: '',
+        link: ''
+      },
       file: null
     };
   },
@@ -473,26 +482,30 @@ __webpack_require__.r(__webpack_exports__);
     addLecture: function addLecture() {
       var _this = this;
 
-      this.isAdding = true;
-      this.linkForm.type = 'Link';
-      this.linkForm.main_module_id = this.moduleId;
-      this.linkForm.submodule_id = this.type_action == 'edit_link' ? this.sub_module_id : '';
-      this.$store.dispatch('createSubModule', this.linkForm).then(function (res) {
-        _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
+      if (this.linkForm.sub_module_name == '' || this.linkForm.description == '' || this.linkForm.required_time == '' || this.linkForm.link == '') {
+        this.toastError('Please Complete all the fields');
+      } else {
+        this.isAdding = true;
+        this.linkForm.type = 'Link';
+        this.linkForm.main_module_id = this.moduleId;
+        this.linkForm.submodule_id = this.type_action == 'edit_link' ? this.sub_module_id : '';
+        this.$store.dispatch('createSubModule', this.linkForm).then(function (res) {
+          _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
 
-        _this.linkForm.sub_module_name = '';
-        _this.linkForm.link = '';
-        _this.linkForm.type = '';
+          _this.linkForm.sub_module_name = '';
+          _this.linkForm.link = '';
+          _this.linkForm.type = '';
 
-        _this.$emit('CloseLecture');
+          _this.$emit('CloseLecture');
 
-        _this.toastSuccess();
+          _this.toastSuccess();
 
-        setTimeout(function () {
-          _this.sending = false;
-          _this.isAdding = false;
-        }, 1000);
-      });
+          setTimeout(function () {
+            _this.sending = false;
+            _this.isAdding = false;
+          }, 1000);
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -955,6 +968,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -1068,7 +1082,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     editModuleBtn: function editModuleBtn(module_id, itemModule, isPublished) {
       if (isPublished == 1) {
-        this.toastInfo("Unable to delete this module. Please unpublished the module to proceed");
+        this.toastInfo("Unable to edit this module. Please unpublished the module to proceed");
       } else {
         this.itemDialog = !this.itemDialog;
         this.propModule = itemModule; //console.log(this.propModule);
@@ -1087,11 +1101,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.mainModule_id = module_id;
       this.itemType = 'add_link';
     },
-    editItemBtn: function editItemBtn(itemModule, sub_module_id, type) {
-      this.pass_submodule = itemModule;
-      this.itemDialog = !this.itemDialog;
-      this.sub_module_id = sub_module_id;
-      this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+    editItemBtn: function editItemBtn(itemModule, sub_module_id, type, isPublished) {
+      if (isPublished == 1) {
+        this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
+      } else {
+        this.pass_submodule = itemModule;
+        this.itemDialog = !this.itemDialog;
+        this.sub_module_id = sub_module_id;
+        this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+      }
     },
     classworkBtn: function classworkBtn() {
       $('#itemTypeModal').modal('hide');
@@ -7017,7 +7035,8 @@ var render = function() {
                                                     return _vm.editItemBtn(
                                                       itemSubModule,
                                                       itemSubModule.id,
-                                                      itemSubModule.type
+                                                      itemSubModule.type,
+                                                      itemModule.isPublished
                                                     )
                                                   }
                                                 }
@@ -7214,7 +7233,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "600px" },
+          attrs: { "max-width": "600px" },
           model: {
             value: _vm.itemDialog,
             callback: function($$v) {

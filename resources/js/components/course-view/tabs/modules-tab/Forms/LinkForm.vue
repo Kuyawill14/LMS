@@ -15,7 +15,7 @@
                             </v-text-field>
                         </v-col>
                         <v-col cols="12  py-0 my-0">
-                        
+
                             <v-text-field label="Link" type="url" outlined required v-model="linkForm.link">
                             </v-text-field>
                             <div style="margin-top: -25px;position: relative;z-index: 90999;">
@@ -79,7 +79,12 @@
                 loading: '',
                 addLink: false,
                 showClasswork: false,
-                linkForm: {},
+                linkForm: {
+                    sub_module_name: '',
+                    description: '',
+                    required_time: '',
+                        link: ''
+                },
                 file: null,
             }
         },
@@ -98,24 +103,33 @@
                 });
             },
             addLecture() {
-                this.isAdding = true;
-                this.linkForm.type = 'Link';
-                this.linkForm.main_module_id = this.moduleId;
-                this.linkForm.submodule_id  =this.type_action == 'edit_link' ? this.sub_module_id : '';
-                this.$store.dispatch('createSubModule', this.linkForm)
-                    .then((res) => {
-                        this.$store.dispatch('fetchMainModule', this.$route.params.id)
-                        this.linkForm.sub_module_name = '';
-                        this.linkForm.link = '';
-                        this.linkForm.type = '';
-                        this.$emit('CloseLecture');
-                        this.toastSuccess();
-                        setTimeout(() => {
-                            this.sending = false;
-                            this.isAdding = false;
-                        }, 1000);
 
-                    })
+                if (this.linkForm.sub_module_name == '' || this.linkForm.description == '' || this
+                    .linkForm.required_time == '' || this.linkForm.link == '') {
+                    this.toastError('Please Complete all the fields');
+
+
+                } else {
+                    this.isAdding = true;
+                    this.linkForm.type = 'Link';
+                    this.linkForm.main_module_id = this.moduleId;
+                    this.linkForm.submodule_id = this.type_action == 'edit_link' ? this.sub_module_id : '';
+                    this.$store.dispatch('createSubModule', this.linkForm)
+                        .then((res) => {
+                            this.$store.dispatch('fetchMainModule', this.$route.params.id)
+                            this.linkForm.sub_module_name = '';
+                            this.linkForm.link = '';
+                            this.linkForm.type = '';
+                            this.$emit('CloseLecture');
+                            this.toastSuccess();
+                            setTimeout(() => {
+                                this.sending = false;
+                                this.isAdding = false;
+                            }, 1000);
+
+                        })
+                }
+
 
             },
 
@@ -124,9 +138,9 @@
 
         mounted() {
             if (this.type_action == 'edit_link') {
-                   this.linkForm = this.submodule;
+                this.linkForm = this.submodule;
                 this.linkForm['required_time'] = this.submodule['required_time'] / 60;
-             
+
             }
 
         }
