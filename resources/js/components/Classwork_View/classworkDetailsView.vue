@@ -130,7 +130,7 @@ export default {
                 this.totalQuestion = res.data.ItemsCount;
                 this.checkStatus(res.data.Details.type);
                 this.iChange = false;
-                this.isloading = false;
+                //this.isloading = false;
             })
             .catch(e=>{
                 this.iChange = false;
@@ -141,24 +141,15 @@ export default {
             
 
             if(this.role == 'Student'){
-               /*  if(type == 'Objective Type'){
-                     axios.get('/api/student/check-status/'+this.$route.query.clwk)
-                    .then(res=>{
-                        this.statusDetails = res.data;
-                     
-                    })
-                }
-                else if(type == 'Subjective Type'){
-                    axios.get('/api/submission/check-sbj/'+this.$route.query.clwk)
-                    .then(res=>{
-                        this.statusDetails = res.data;
-                                         
-                    })
-                } */
+             
                 let data = {};
                 data.id = this.$route.query.clwk;
                 data.type = type;
-                this.checkClassworkStatus(data);
+               
+                this.$store.dispatch('checkClassworkStatus', data)
+                .then(()=>{
+                    this.isloading = false;
+                })
           
             }
             

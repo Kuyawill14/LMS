@@ -168,8 +168,7 @@ var teacherStartPage = function teacherStartPage() {
 
                   _this.checkStatus(res.data.Details.type);
 
-                  _this.iChange = false;
-                  _this.isloading = false;
+                  _this.iChange = false; //this.isloading = false;
                 })["catch"](function (e) {
                   _this.iChange = false;
                   _this.isloading = false;
@@ -193,25 +192,13 @@ var teacherStartPage = function teacherStartPage() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (_this2.role == 'Student') {
-                  /*  if(type == 'Objective Type'){
-                        axios.get('/api/student/check-status/'+this.$route.query.clwk)
-                       .then(res=>{
-                           this.statusDetails = res.data;
-                        
-                       })
-                   }
-                   else if(type == 'Subjective Type'){
-                       axios.get('/api/submission/check-sbj/'+this.$route.query.clwk)
-                       .then(res=>{
-                           this.statusDetails = res.data;
-                                            
-                       })
-                   } */
                   data = {};
                   data.id = _this2.$route.query.clwk;
                   data.type = type;
 
-                  _this2.checkClassworkStatus(data);
+                  _this2.$store.dispatch('checkClassworkStatus', data).then(function () {
+                    _this2.isloading = false;
+                  });
                 }
 
               case 1:
