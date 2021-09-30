@@ -322,7 +322,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 
@@ -516,6 +515,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     TimesUpSubmit: function TimesUpSubmit() {
       var _this5 = this;
 
+      this.TimesUpDialog = !this.TimesUpDialog;
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
@@ -529,14 +529,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         setTimeout(function () {
           _this5.isLoading = !_this5.isLoading;
           _this5.isSubmitting = !_this5.isSubmitting;
-        }, 2000);
 
-        _this5.$router.push({
-          name: 'result-page',
-          params: {
-            id: _this5.$route.query.clwk
-          }
-        });
+          _this5.$router.push({
+            name: 'result-page',
+            params: {
+              id: _this5.$route.query.clwk
+            }
+          });
+        }, 5000);
       });
     },
     fetchQuestions: function fetchQuestions() {
@@ -24197,19 +24197,6 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "btn",
-                {
-                  staticClass: "primary",
-                  on: {
-                    click: function($event) {
-                      _vm.TimesUpDialog = !_vm.TimesUpDialog
-                    }
-                  }
-                },
-                [_vm._v("Click ME")]
               )
             ],
             1
@@ -24513,6 +24500,8 @@ var render = function() {
                                                             _c(
                                                               "v-col",
                                                               {
+                                                                staticClass:
+                                                                  "ml-0 pl-0 pt-0 mt-0",
                                                                 attrs: {
                                                                   cols: "12",
                                                                   md: "12"

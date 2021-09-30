@@ -203,8 +203,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 var checksubjective = function checksubjective() {
@@ -269,6 +267,34 @@ var checksubjective = function checksubjective() {
     }
   },
   methods: {
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'mdi-image';
+      } else if (ext == 'pdf') {
+        return 'mdi-file-pdf';
+      } else if (ext == 'txt') {
+        return 'mdi-note-text-outline';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'mdi-file-word';
+      } else if (ext == 'link') {
+        return 'mdi-file-link';
+      }
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'info';
+      } else if (ext == 'pdf') {
+        return 'red';
+      } else if (ext == 'txt') {
+        return 'primary';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'blue';
+      } else if (ext == 'link') {
+        return 'green';
+      } else {
+        return 'primary';
+      }
+    },
     format_date: function format_date(value) {
       if (value) {
         //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
@@ -1655,51 +1681,11 @@ var render = function() {
                                                         color:
                                                           item.Submitted_Answers !=
                                                           null
-                                                            ? item
-                                                                .Submitted_Answers[0]
-                                                                .fileExte ==
-                                                              "pdf"
-                                                              ? "red"
-                                                              : item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "docx" ||
+                                                            ? _vm.CheckFileIconColor(
                                                                 item
                                                                   .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "doc"
-                                                              ? "blue"
-                                                              : item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                "link"
-                                                              ? "green"
-                                                              : item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "jpg" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "jpeg" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "gif" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "svg" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "png" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "bmp"
-                                                              ? "info"
-                                                              : ""
+                                                                  .fileExte
+                                                              )
                                                             : "primary",
                                                         "x-large": ""
                                                       }
@@ -1710,56 +1696,11 @@ var render = function() {
                                                           _vm._s(
                                                             item.Submitted_Answers !=
                                                               null
-                                                              ? item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                "pdf"
-                                                                ? "mdi-file-pdf"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                  "txt"
-                                                                ? "mdi-note-text-outline"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "docx" ||
+                                                              ? _vm.CheckFileIcon(
                                                                   item
                                                                     .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "doc"
-                                                                ? "mdi-file-word"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                  "link"
-                                                                ? "mdi-file-link"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "jpg" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "jpeg" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "gif" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "svg" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "png" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "bmp"
-                                                                ? "mdi-image"
-                                                                : ""
+                                                                    .fileExte
+                                                                )
                                                               : ""
                                                           ) +
                                                           "\r\n                                         "

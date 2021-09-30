@@ -143,10 +143,8 @@
                                    <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
-                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'">
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                              <v-icon  :color="CheckFileIconColor(item.fileExte)">
+                                                {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.link)">
@@ -203,11 +201,8 @@
                                       <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
-                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'">
-
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline':  item.fileExte == 'docx' ||  item.fileExte == 'doc' ? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                              <v-icon  :color="CheckFileIconColor(item.fileExte)">
+                                                {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
 
                                              
@@ -533,8 +528,8 @@
                                         <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
                                             <v-list-item-avatar >
                                                     <v-icon large
-                                                    :color="item.extension == 'docx' ? 'blue' : 'red'">
-                                                    {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                                    :color="CheckFileIconColor(item.extension)">
+                                                    {{CheckFileIcon(item.extension)}}
                                                     </v-icon>
                                             </v-list-item-avatar>
                                             <v-list-item-content >
@@ -603,7 +598,9 @@ export default {
                 (value) => !!value || "Required.",
               ],
             DateToday: new Date(),
-            CheckeFileExtention: null
+            CheckeFileExtention: null,
+            fileType:['pdf', 'txt', 'docx', 'doc', 'jpg', 'jpeg' ,'gif','svg','png', 'bmp', 'link'],
+            extensionIcon:['mdi-file-pdf', 'mdi-note-text-outline', 'mdi-file-word', 'mdi-file-link',  'mdi-image']
         }
     },
      computed: {
@@ -624,6 +621,45 @@ export default {
         }
     },
     methods:{
+      CheckFileIcon(ext){
+        if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+          return 'mdi-image';
+        }
+        else if(ext == 'pdf'){
+          return 'mdi-file-pdf';
+        }
+        else if(ext == 'txt' ){
+          return 'mdi-note-text-outline';
+        }
+        else if(ext == 'docx' || ext == 'doc'){
+          return 'mdi-file-word';
+        }
+        else if(ext == 'link' ){
+          return 'mdi-file-link';
+        }
+      },
+       CheckFileIconColor(ext){
+        if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+          return 'info';
+        }
+        else if(ext == 'pdf'){
+          return 'red';
+        }
+        else if(ext == 'txt' ){
+          return 'primary';
+        }
+        else if(ext == 'docx' || ext == 'doc'){
+          return 'blue';
+        }
+        else if(ext == 'link' ){
+          return 'green';
+        }
+        else{
+           return 'primary';
+        }
+
+     
+      },
       format_date1(value) {
             if (value) {
                 //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')

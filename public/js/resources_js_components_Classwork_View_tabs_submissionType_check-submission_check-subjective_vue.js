@@ -341,8 +341,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -369,6 +367,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
   methods: {
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'mdi-image';
+      } else if (ext == 'pdf') {
+        return 'mdi-file-pdf';
+      } else if (ext == 'txt') {
+        return 'mdi-note-text-outline';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'mdi-file-word';
+      } else if (ext == 'link') {
+        return 'mdi-file-link';
+      }
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'info';
+      } else if (ext == 'pdf') {
+        return 'red';
+      } else if (ext == 'txt') {
+        return 'primary';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'blue';
+      } else if (ext == 'link') {
+        return 'green';
+      } else {
+        return 'primary';
+      }
+    },
     format_date: function format_date(value) {
       if (value) {
         //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
@@ -1121,63 +1147,18 @@ var render = function() {
                                                               {
                                                                 attrs: {
                                                                   large: "",
-                                                                  color:
-                                                                    item.fileExte ==
-                                                                    "pdf"
-                                                                      ? "red"
-                                                                      : item.fileExte ==
-                                                                          "docx" ||
-                                                                        item.fileExte ==
-                                                                          "doc"
-                                                                      ? "blue"
-                                                                      : item.fileExte ==
-                                                                          "jpg" ||
-                                                                        item.fileExte ==
-                                                                          "jpeg" ||
-                                                                        item.fileExte ==
-                                                                          "gif" ||
-                                                                        item.fileExte ==
-                                                                          "svg" ||
-                                                                        item.fileExte ==
-                                                                          "png" ||
-                                                                        item.fileExte ==
-                                                                          "bmp"
-                                                                      ? "info"
-                                                                      : "primary"
+                                                                  color: _vm.CheckFileIconColor(
+                                                                    item.fileExte
+                                                                  )
                                                                 }
                                                               },
                                                               [
                                                                 _vm._v(
                                                                   "\n                                                                                    " +
                                                                     _vm._s(
-                                                                      item.fileExte ==
-                                                                        "pdf"
-                                                                        ? "mdi-file-pdf"
-                                                                        : item.fileExte ==
-                                                                          "txt"
-                                                                        ? "mdi-note-text-outline"
-                                                                        : item.fileExte ==
-                                                                            "docx" ||
-                                                                          item.fileExte ==
-                                                                            "doc"
-                                                                        ? "mdi-file-word"
-                                                                        : item.fileExte ==
-                                                                          "link"
-                                                                        ? "mdi-file-link"
-                                                                        : item.fileExte ==
-                                                                            "jpg" ||
-                                                                          item.fileExte ==
-                                                                            "jpeg" ||
-                                                                          item.fileExte ==
-                                                                            "gif" ||
-                                                                          item.fileExte ==
-                                                                            "svg" ||
-                                                                          item.fileExte ==
-                                                                            "png" ||
-                                                                          item.fileExte ==
-                                                                            "bmp"
-                                                                        ? "mdi-image"
-                                                                        : ""
+                                                                      _vm.CheckFileIcon(
+                                                                        item.fileExte
+                                                                      )
                                                                     ) +
                                                                     "\n                                                                                "
                                                                 )

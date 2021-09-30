@@ -92,7 +92,7 @@
             </v-card>
           </v-col>
       </v-row>
-      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn>
+ <!--      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn> -->
 </v-container>
 
   <div v-if="!isLoading" class="mt-2 ma-2"  >
@@ -145,7 +145,7 @@
                                         
                                         <v-container v-if="item.type == 'Multiple Choice'">
                                             <v-row>
-                                                <v-col cols="12" md="12">
+                                                <v-col class="ml-0 pl-0 pt-0 mt-0" cols="12" md="12">
                                                 <v-container >
                                                     <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
                                                     <v-radio-group  :max="1" :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
@@ -159,7 +159,6 @@
                                                         ></v-radio>
                                                         </v-radio-group>
                                                         <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                   
                                                             <span style="user-select: none" v-html="Ans.Choice" class="post-content"></span>
                                                         </div>
                                                         </v-container>
@@ -469,6 +468,7 @@ export default {
             })              
         },
         TimesUpSubmit(){
+            this.TimesUpDialog = !this.TimesUpDialog;
             this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
@@ -476,13 +476,12 @@ export default {
             this.warningDialog = false;
              axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
             .then(()=>{
-
-
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
-                }, 2000);
-                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                }, 5000);
+                
             })
         },
         fetchQuestions(){

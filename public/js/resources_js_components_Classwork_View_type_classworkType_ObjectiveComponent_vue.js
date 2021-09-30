@@ -298,6 +298,34 @@ var viewSubmission = function viewSubmission() {
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
   methods: {
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'mdi-image';
+      } else if (ext == 'pdf') {
+        return 'mdi-file-pdf';
+      } else if (ext == 'txt') {
+        return 'mdi-note-text-outline';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'mdi-file-word';
+      } else if (ext == 'link') {
+        return 'mdi-file-link';
+      }
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'info';
+      } else if (ext == 'pdf') {
+        return 'red';
+      } else if (ext == 'txt') {
+        return 'primary';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'blue';
+      } else if (ext == 'link') {
+        return 'green';
+      } else {
+        return 'primary';
+      }
+    },
     format_date: function format_date(value) {
       if (value) {
         //return moment(String(value)).format('dddd, h:mm a')
@@ -1245,19 +1273,18 @@ var render = function() {
                                               {
                                                 attrs: {
                                                   large: "",
-                                                  color:
-                                                    item.extension == "docx"
-                                                      ? "blue"
-                                                      : "red"
+                                                  color: _vm.CheckFileIconColor(
+                                                    item.extension
+                                                  )
                                                 }
                                               },
                                               [
                                                 _vm._v(
                                                   "\r\n                                        " +
                                                     _vm._s(
-                                                      item.extension == "docx"
-                                                        ? "mdi-file-word"
-                                                        : "mdi-file-pdf"
+                                                      _vm.CheckFileIcon(
+                                                        item.extension
+                                                      )
                                                     ) +
                                                     "\r\n                                        "
                                                 )

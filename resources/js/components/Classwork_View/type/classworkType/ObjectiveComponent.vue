@@ -155,8 +155,8 @@
                             <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
                                 <v-list-item-avatar >
                                         <v-icon large
-                                        :color="item.extension == 'docx' ? 'blue' : 'red'">
-                                        {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                        :color="CheckFileIconColor(item.extension)">
+                                        {{CheckFileIcon(item.extension)}}
                                         </v-icon>
                                 </v-list-item-avatar>
                                 <v-list-item-content >
@@ -269,6 +269,44 @@ export default {
         ...mapGetters(['get_CurrentUser','statusDetails']),
     },
     methods:{
+         CheckFileIcon(ext){
+            if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'mdi-image';
+            }
+            else if(ext == 'pdf'){
+            return 'mdi-file-pdf';
+            }
+            else if(ext == 'txt' ){
+            return 'mdi-note-text-outline';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'mdi-file-word';
+            }
+            else if(ext == 'link' ){
+            return 'mdi-file-link';
+            }
+        },
+       CheckFileIconColor(ext){
+            if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'info';
+            }
+            else if(ext == 'pdf'){
+            return 'red';
+            }
+            else if(ext == 'txt' ){
+            return 'primary';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'blue';
+            }
+            else if(ext == 'link' ){
+            return 'green';
+            }
+            else{
+            return 'primary';
+            }
+
+        },
          format_date(value) {
             if (value) {
                 //return moment(String(value)).format('dddd, h:mm a')

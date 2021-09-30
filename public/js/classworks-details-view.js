@@ -2681,6 +2681,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2725,6 +2748,34 @@ var rubrics = function rubrics() {
     }
   },
   methods: {
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'mdi-image';
+      } else if (ext == 'pdf') {
+        return 'mdi-file-pdf';
+      } else if (ext == 'txt') {
+        return 'mdi-note-text-outline';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'mdi-file-word';
+      } else if (ext == 'link') {
+        return 'mdi-file-link';
+      }
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'info';
+      } else if (ext == 'pdf') {
+        return 'red';
+      } else if (ext == 'txt') {
+        return 'primary';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'blue';
+      } else if (ext == 'link') {
+        return 'green';
+      } else {
+        return 'primary';
+      }
+    },
     UpdateClasswork: function UpdateClasswork(rubrics) {
       var _this = this;
 
@@ -57625,62 +57676,18 @@ var render = function() {
                                                     {
                                                       attrs: {
                                                         large: "",
-                                                        color:
-                                                          item.extension ==
-                                                          "pdf"
-                                                            ? "red"
-                                                            : item.extension ==
-                                                              "docx"
-                                                            ? "blue"
-                                                            : item.extension ==
-                                                              "link"
-                                                            ? "green"
-                                                            : item.extension ==
-                                                                "jpg" ||
-                                                              item.extension ==
-                                                                "jpeg" ||
-                                                              item.extension ==
-                                                                "gif" ||
-                                                              item.extension ==
-                                                                "svg" ||
-                                                              item.extension ==
-                                                                "png" ||
-                                                              item.extension ==
-                                                                "bmp"
-                                                            ? "info"
-                                                            : "primary"
+                                                        color: _vm.CheckFileIconColor(
+                                                          item.extension
+                                                        )
                                                       }
                                                     },
                                                     [
                                                       _vm._v(
                                                         "\n                                                     " +
                                                           _vm._s(
-                                                            item.extension ==
-                                                              "pdf"
-                                                              ? "mdi-file-pdf"
-                                                              : item.extension ==
-                                                                "txt"
-                                                              ? "mdi-file-pdf"
-                                                              : item.extension ==
-                                                                "docx"
-                                                              ? "mdi-file-word"
-                                                              : item.extension ==
-                                                                "link"
-                                                              ? "mdi-file-link"
-                                                              : item.extension ==
-                                                                  "jpg" ||
-                                                                item.extension ==
-                                                                  "jpeg" ||
-                                                                item.extension ==
-                                                                  "gif" ||
-                                                                item.extension ==
-                                                                  "svg" ||
-                                                                item.extension ==
-                                                                  "png" ||
-                                                                item.extension ==
-                                                                  "bmp"
-                                                              ? "mdi-image"
-                                                              : ""
+                                                            _vm.CheckFileIcon(
+                                                              item.extension
+                                                            )
                                                           ) +
                                                           "\n                                                "
                                                       )
@@ -57769,9 +57776,9 @@ var render = function() {
                                                 "v-list-item-action",
                                                 [
                                                   _c(
-                                                    "v-tooltip",
+                                                    "v-menu",
                                                     {
-                                                      attrs: { top: "" },
+                                                      attrs: { "offset-y": "" },
                                                       scopedSlots: _vm._u(
                                                         [
                                                           {
@@ -57788,20 +57795,7 @@ var render = function() {
                                                                       {
                                                                         attrs: {
                                                                           icon:
-                                                                            "",
-                                                                          loading:
-                                                                            _vm.removeIndex ==
-                                                                              i &&
-                                                                            _vm.isRemoving
-                                                                        },
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            ;(_vm.removeDialog = true),
-                                                                              (_vm.removeIndex = i),
-                                                                              (_vm.isRemoving = true)
-                                                                          }
+                                                                            ""
                                                                         }
                                                                       },
                                                                       "v-btn",
@@ -57815,7 +57809,7 @@ var render = function() {
                                                                       "v-icon",
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                                mdi-close\n                                                            "
+                                                                          "mdi-dots-vertical"
                                                                         )
                                                                       ]
                                                                     )
@@ -57832,10 +57826,67 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(" "),
-                                                      _c("span", [
-                                                        _vm._v("Remove file")
-                                                      ])
-                                                    ]
+                                                      _c(
+                                                        "v-list",
+                                                        { attrs: { nav: "" } },
+                                                        [
+                                                          _c(
+                                                            "v-list-item",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  ;(_vm.removeDialog = true),
+                                                                    (_vm.removeIndex = i),
+                                                                    (_vm.isRemoving = true)
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "\n                                                                        mdi-close\n                                                                    "
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(
+                                                                    "\n                                                                    Delete\n                                                           "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list-item",
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "\n                                                                        mdi-pencil-outline\n                                                                    "
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(
+                                                                    "\n                                                                    Edit\n                                                              "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
                                                   )
                                                 ],
                                                 1
