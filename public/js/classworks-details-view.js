@@ -2856,6 +2856,10 @@ var rubrics = function rubrics() {
     DownLoadFile: function DownLoadFile(file) {
       window.open(file, '_blank');
     },
+    EditDocument: function EditDocument(link) {
+      var path = "https://docs.google.com/gview?url=" + link + "&embedded=true";
+      window.open(path, '_blank');
+    },
     addFile: function addFile() {
       var _this2 = this;
 
@@ -57868,6 +57872,17 @@ var render = function() {
                                                           _vm._v(" "),
                                                           _c(
                                                             "v-list-item",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.EditDocument(
+                                                                    item.attachment
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
                                                             [
                                                               _c(
                                                                 "v-list-item-title",

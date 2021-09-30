@@ -396,10 +396,10 @@ export default {
     },
    async created(){
        //this.checkStatus();
-       this.isLoaded = false;
+       //this.isLoaded = false;
     },
     mounted(){
-  
+        this.isLoaded = false;
         const newDate = new Date();
         this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     }

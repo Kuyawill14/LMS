@@ -190,7 +190,7 @@
                                                            <!--      </v-btn> -->
                                                             </v-list-item-title>
                                                         </v-list-item>
-                                                         <v-list-item>
+                                                         <v-list-item  @click="EditDocument(item.attachment)">
                                                             <v-list-item-title>
                                                                <!--  <v-btn text 
                                                                     :loading="removeIndex == i && isRemoving"
@@ -386,6 +386,11 @@
             },
             DownLoadFile(file) {
                 window.open(file, '_blank');
+            },
+            EditDocument(link){
+                let path = "https://docs.google.com/gview?url="+link+"&embedded=true"
+          
+                 window.open(path, '_blank');
             },
             addFile() {
                 console.log(this.Details.attachment.length);
