@@ -963,29 +963,26 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var rubrics, type;
+        var type;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                rubrics = [];
-
-                if (_this7.classworkDetails.rubrics.length != 0) {
-                  _this7.classworkDetails.rubrics.forEach(function (item) {
-                    rubrics.push({
-                      id: item.id,
-                      points: null
-                    });
-                  });
-                } else {
-                  rubrics = null;
-                }
-
+                /*  let rubrics = [];
+                  if(this.classworkDetails.rubrics.length != 0){
+                       this.classworkDetails.rubrics.forEach(item => {
+                         rubrics.push({
+                           id: item.id,
+                           points: null,
+                         })
+                     });
+                  }
+                  else{
+                    rubrics = null;
+                  } */
                 _this7.IsSaving = true;
                 type = 'submit';
-                axios.put('/api/student/submit-classwork/' + _this7.tempId, {
-                  data: rubrics
-                }).then(function (res) {
+                axios.put('/api/student/submit-classwork/' + _this7.tempId).then(function (res) {
                   if (res.status == 200) {
                     _this7.checkStatus(type);
 
@@ -994,7 +991,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                   }
                 });
 
-              case 5:
+              case 3:
               case "end":
                 return _context2.stop();
             }

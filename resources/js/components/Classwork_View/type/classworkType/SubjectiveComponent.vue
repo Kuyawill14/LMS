@@ -895,7 +895,7 @@ export default {
               })
           },
           async SubmitClasswork(){
-          let rubrics = [];
+         /*  let rubrics = [];
            if(this.classworkDetails.rubrics.length != 0){
                 this.classworkDetails.rubrics.forEach(item => {
                   rubrics.push({
@@ -906,11 +906,11 @@ export default {
            }
            else{
              rubrics = null;
-           }
+           } */
            
             this.IsSaving = true;
             let type = 'submit';
-            axios.put('/api/student/submit-classwork/'+this.tempId ,{data : rubrics}).then(res=>{
+            axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
               if(res.status == 200){
                 this.checkStatus(type);
                 this.IsSaving = false;

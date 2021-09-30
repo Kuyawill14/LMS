@@ -139,6 +139,10 @@
 
                                     </v-col>
                                 </v-row>
+                                <div class="pt-5 pb-1">
+                                       <v-divider></v-divider>
+                                </div>
+                             
                                  <v-list v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'">
                                     <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
                                         <v-list-item-avatar tile>
@@ -517,7 +521,7 @@ import {mapGetters} from "vuex";
                     if(this.CheckData.rubrics_score == false){
                         this.CheckData.rubrics_score = [];
                         this.classworkDetails.rubrics.forEach(item => {
-                              this.CheckData.rubrics_score.push({points : null})
+                              this.CheckData.rubrics_score.push({ id: item.id , points : null})
                         });
                     }
               }
@@ -563,7 +567,7 @@ import {mapGetters} from "vuex";
             //this.pdf_path = path;
         }
         this.checkRubrics();
-         this.$emit('isMounted');
+        this.$emit('isMounted');
     }
   
   }

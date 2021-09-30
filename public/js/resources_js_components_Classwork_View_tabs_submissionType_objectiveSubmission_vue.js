@@ -889,10 +889,16 @@ var render = function() {
                                       name: "show",
                                       rawName: "v-show",
                                       value:
-                                        _vm.Class == _vm.$route.params.id ||
-                                        _vm.Class == item.class_id,
+                                        (_vm.Class == _vm.$route.params.id ||
+                                          _vm.Class == item.class_id) &&
+                                        (_vm.selectedStatus == "All" ||
+                                          _vm.selectedStatus == item.status ||
+                                          (_vm.selectedStatus ==
+                                            "No Submission" &&
+                                            (item.status == null ||
+                                              item.status == ""))),
                                       expression:
-                                        "Class == $route.params.id || Class == item.class_id"
+                                        "(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"
                                     }
                                   ],
                                   key: i,
@@ -909,21 +915,6 @@ var render = function() {
                                   _c(
                                     "v-card",
                                     {
-                                      directives: [
-                                        {
-                                          name: "show",
-                                          rawName: "v-show",
-                                          value:
-                                            _vm.selectedStatus == "All" ||
-                                            _vm.selectedStatus == item.status ||
-                                            (_vm.selectedStatus ==
-                                              "No Submission" &&
-                                              (item.status == null ||
-                                                item.status == "")),
-                                          expression:
-                                            "selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))"
-                                        }
-                                      ],
                                       staticClass: "mx-auto",
                                       attrs: { outlined: "" }
                                     },

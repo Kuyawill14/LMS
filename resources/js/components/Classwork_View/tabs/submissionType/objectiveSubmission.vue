@@ -157,10 +157,10 @@
 
             <v-col cols="12" class="mt-0 pt-0">
                 <v-row>
-                    <v-col v-show="Class == $route.params.id || Class == item.class_id"  class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"  class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                         <v-card 
                         outlined
-                        v-show="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))"
+                        
                         class="mx-auto">
                         <v-alert class="ma-0 pa-0"  :outlined="item.status == 'Taking'" :color="item.status == 'Taking' ? 'blue': ''">
                             <v-list-item link @click="ViewSubmision(item, i)" >

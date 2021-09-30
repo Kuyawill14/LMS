@@ -192,7 +192,7 @@
                                 </v-row>
                                 
 
-                            <v-row no-gutters class="pt-2">
+                            <v-row no-gutters class="pt-2" v-if="item.publish_in.length != 0" >
                                 <v-col class="ml-0 pl-0" cols="12"  >
                                     <div  class=" font-weight-bold ">Publish to class:</div>
                                 </v-col>

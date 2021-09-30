@@ -341,6 +341,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -593,6 +597,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.CheckData.rubrics_score = [];
           this.classworkDetails.rubrics.forEach(function (item) {
             _this6.CheckData.rubrics_score.push({
+              id: item.id,
               points: null
             });
           });
@@ -1308,6 +1313,13 @@ var render = function() {
                                 1
                               )
                             ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "pt-5 pb-1" },
+                            [_c("v-divider")],
                             1
                           ),
                           _vm._v(" "),

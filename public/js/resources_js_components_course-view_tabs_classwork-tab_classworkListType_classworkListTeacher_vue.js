@@ -23363,156 +23363,167 @@ var render = function() {
                                                 1
                                               ),
                                               _vm._v(" "),
-                                              _c(
-                                                "v-row",
-                                                {
-                                                  staticClass: "pt-2",
-                                                  attrs: { "no-gutters": "" }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-col",
+                                              item.publish_in.length != 0
+                                                ? _c(
+                                                    "v-row",
                                                     {
-                                                      staticClass: "ml-0 pl-0",
-                                                      attrs: { cols: "12" }
+                                                      staticClass: "pt-2",
+                                                      attrs: {
+                                                        "no-gutters": ""
+                                                      }
                                                     },
                                                     [
                                                       _c(
-                                                        "div",
+                                                        "v-col",
                                                         {
                                                           staticClass:
-                                                            " font-weight-bold "
+                                                            "ml-0 pl-0",
+                                                          attrs: { cols: "12" }
                                                         },
                                                         [
-                                                          _vm._v(
-                                                            "Publish to class:"
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                " font-weight-bold "
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Publish to class:"
+                                                              )
+                                                            ]
                                                           )
                                                         ]
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass: "ml-0 pl-0",
-                                                      attrs: { cols: "12" }
-                                                    },
-                                                    [
+                                                      ),
+                                                      _vm._v(" "),
                                                       _c(
-                                                        "v-list",
+                                                        "v-col",
                                                         {
                                                           staticClass:
-                                                            "pt-0 pb-0"
+                                                            "ml-0 pl-0",
+                                                          attrs: { cols: "12" }
                                                         },
-                                                        _vm._l(
-                                                          item.publish_in,
-                                                          function(item, i) {
-                                                            return _c(
-                                                              "v-list-item",
-                                                              { key: i },
-                                                              [
-                                                                _c(
-                                                                  "v-list-item-avatar",
+                                                        [
+                                                          _c(
+                                                            "v-list",
+                                                            {
+                                                              staticClass:
+                                                                "pt-0 pb-0"
+                                                            },
+                                                            _vm._l(
+                                                              item.publish_in,
+                                                              function(
+                                                                item,
+                                                                i
+                                                              ) {
+                                                                return _c(
+                                                                  "v-list-item",
+                                                                  { key: i },
                                                                   [
                                                                     _c(
-                                                                      "v-icon",
+                                                                      "v-list-item-avatar",
                                                                       [
-                                                                        _vm._v(
-                                                                          "mdi-account-multiple"
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  ],
-                                                                  1
-                                                                ),
-                                                                _vm._v(" "),
-                                                                _c(
-                                                                  "v-list-item-content",
-                                                                  {
-                                                                    staticClass:
-                                                                      "pl-0"
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "v-list-item-title",
-                                                                      {
-                                                                        staticClass:
-                                                                          "font-weight-medium"
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "\r\n                                                " +
-                                                                            _vm._s(
-                                                                              item.class_name
-                                                                            ) +
-                                                                            " "
-                                                                        ),
                                                                         _c(
-                                                                          "span",
-                                                                          {
-                                                                            staticClass:
-                                                                              "primary--text text-caption"
-                                                                          },
+                                                                          "v-icon",
                                                                           [
                                                                             _vm._v(
-                                                                              "(Submitted:" +
-                                                                                _vm._s(
-                                                                                  " " +
-                                                                                    item.submission
-                                                                                ) +
-                                                                                ")"
+                                                                              "mdi-account-multiple"
                                                                             )
                                                                           ]
                                                                         )
-                                                                      ]
+                                                                      ],
+                                                                      1
                                                                     ),
                                                                     _vm._v(" "),
                                                                     _c(
-                                                                      "v-list-item-subtitle",
+                                                                      "v-list-item-content",
+                                                                      {
+                                                                        staticClass:
+                                                                          "pl-0"
+                                                                      },
                                                                       [
                                                                         _c(
-                                                                          "span",
+                                                                          "v-list-item-title",
                                                                           {
                                                                             staticClass:
                                                                               "font-weight-medium"
                                                                           },
                                                                           [
                                                                             _vm._v(
-                                                                              "Due:"
+                                                                              "\r\n                                                " +
+                                                                                _vm._s(
+                                                                                  item.class_name
+                                                                                ) +
+                                                                                " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "primary--text text-caption"
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "(Submitted:" +
+                                                                                    _vm._s(
+                                                                                      " " +
+                                                                                        item.submission
+                                                                                    ) +
+                                                                                    ")"
+                                                                                )
+                                                                              ]
                                                                             )
                                                                           ]
                                                                         ),
                                                                         _vm._v(
-                                                                          "\r\n                                                " +
-                                                                            _vm._s(
-                                                                              item.availability ==
-                                                                                1
-                                                                                ? _vm.format_date(
-                                                                                    item.to_date
-                                                                                  )
-                                                                                : "Always available"
-                                                                            ) +
-                                                                            "\r\n                                            "
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "v-list-item-subtitle",
+                                                                          [
+                                                                            _c(
+                                                                              "span",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "font-weight-medium"
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Due:"
+                                                                                )
+                                                                              ]
+                                                                            ),
+                                                                            _vm._v(
+                                                                              "\r\n                                                " +
+                                                                                _vm._s(
+                                                                                  item.availability ==
+                                                                                    1
+                                                                                    ? _vm.format_date(
+                                                                                        item.to_date
+                                                                                      )
+                                                                                    : "Always available"
+                                                                                ) +
+                                                                                "\r\n                                            "
+                                                                            )
+                                                                          ]
                                                                         )
-                                                                      ]
+                                                                      ],
+                                                                      1
                                                                     )
                                                                   ],
                                                                   1
                                                                 )
-                                                              ],
-                                                              1
-                                                            )
-                                                          }
-                                                        ),
+                                                              }
+                                                            ),
+                                                            1
+                                                          )
+                                                        ],
                                                         1
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              ),
+                                                : _vm._e(),
                                               _vm._v(" "),
                                               _c(
                                                 "v-btn",
