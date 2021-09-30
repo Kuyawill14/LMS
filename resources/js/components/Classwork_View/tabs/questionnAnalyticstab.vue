@@ -21,7 +21,7 @@
 
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
       <v-row>
-          <v-col cols="4" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;">
+          <v-col cols="5" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;">
               <h3>Questions</h3>
                 <v-list>
                       <v-list-item @click="setChartForAllQuestionCorrect()" link :class="isSelected == 'correct' ? 'grey lighten-2 rounded' : 'rounded'"  >
@@ -50,11 +50,15 @@
                                 <p class="mb-0 pb-0 pl-1"><span v-html="item.question" class="post-content"></span></p>
                             </div>
                         </v-list-item-content>
-                       
+
+                      <v-list-item-action>
+                           <span class="font-weigth-bold">{{item.correct_count}} / {{item.correct_count+item.wrong_count}}</span>
+                        </v-list-item-action>
+                        
                     </v-list-item>
                 </v-list>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="7">
               
 
 

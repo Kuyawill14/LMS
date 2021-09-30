@@ -18,7 +18,7 @@
 <v-dialog v-model="TimesUpDialog" persistent max-width="500">
     <timesUpDialog
     v-on:toggleCloaseDialog="TimesUpDialog = !TimesUpDialog"
-    
+    v-on:SubmitAnswer="$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})"
      v-if="TimesUpDialog"></timesUpDialog>
 </v-dialog>
 
@@ -451,21 +451,30 @@ export default {
             this.questionIndex--;
             
         },
-         SubmitAnswer(time){
-            this.isExamStart = false;
-            this.isLoading = !this.isLoading;
-            this.isSubmitting = !this.isSubmitting;
-            this.dialog = !this.dialog;
-            this.isStart = !this.isStart;
-            this.warningDialog = false;
-            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: time})
-            .then(()=>{
-                 setTimeout(() => {
+         SubmitAnswer(data){
+             if(data.istime == false){
+                  this.isExamStart = false;
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
-                }, 2000);
-                this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-            })              
+                    this.dialog = !this.dialog;
+                    this.isStart = !this.isStart;
+                    this.warningDialog = false;
+                    axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: data.time})
+                    .then((res)=>{
+                        //if(res.status == 200){
+                        /*   this.isLoading = !this.isLoading;
+                            this.isSubmitting = !this.isSubmitting;
+                            this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
+                        //}
+                        //setTimeout(() => {
+                            this.isLoading = !this.isLoading;
+                            this.isSubmitting = !this.isSubmitting;
+                            this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
+                        //}, 2000);
+                        console.log('submit');
+                    })       
+             }
+                  
         },
         TimesUpSubmit(){
             this.TimesUpDialog = !this.TimesUpDialog;
@@ -475,22 +484,30 @@ export default {
             this.isStart = !this.isStart;
             this.warningDialog = false;
              axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
-            .then(()=>{
+            .then((res)=>{
+                //if(res.status == 200){
+                 /*    this.isLoading = !this.isLoading;
+                    this.isSubmitting = !this.isSubmitting;
+                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
+                //}
+                console.log('timesUp');
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
-                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                }, 5000);
+                    
+                }, 2000);
+                this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
+                
+                  //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                 
             })
         },
         fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(()=>{
                 this.Qlength = this.getAll_questions.Question.length;
-              
-               
-                //let AnswersList = JSON.parse(localStorage.getItem(name));
+            
                 let AnswersList = this.Submitted_Answers;
+        
                 if(AnswersList == null || AnswersList.length == 0){
                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
                         if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
@@ -541,9 +558,64 @@ export default {
                         type: "multiple",
                         data: this.FinalAnswers
                     })
-                }else{
+                }
+                else if(this.Qlength != AnswersList.length){
+                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
+                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
+                            this.FinalAnswers.push({
+                                Answer: '',
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type:this.getAll_questions.Question[index].type,
+                                timeConsume: null
+                            });
+                        }
+                        else if(this.getAll_questions.Question[index].type == 'Essay'){
+                             this.FinalAnswers.push({
+                                Answer: '',
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type:this.getAll_questions.Question[index].type,
+                                check: false,
+                                timeConsume: null
+                            });
+                        }
+                         else if(this.getAll_questions.Question[index].type == 'Matching type'){
+                            let Ans = new Array();
+                            let Choices_id = new Array();
+                             this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
+                                Choices_id.push({
+                                   choice_id: item.id
+                                })
+                            });
+                            
+                            this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
+                                Ans.push({
+                                    Ans_letter: '',
+                                    Ans_id: null,
+                                    subquestion_id: item.id,
+                                    Answers: ''
+                                })
+                            });
 
-                    let Submitted_length = AnswersList.length;
+                            this.FinalAnswers.push({
+                                Answer: Ans,
+                                Choices_id: Choices_id,
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type: this.getAll_questions.Question[index].type,
+                                timeConsume: null
+                            });
+                        }                      
+                    }
+                        axios.put('/api/question/store-answer/'+ this.submission_id , {
+                        type: "multiple",
+                        data: this.FinalAnswers
+                    })
+                }
+                else if(this.Qlength == AnswersList.length){
+
+
+                    //if(this.Qlength == AnswersList.length)
+
+                   /*  let Submitted_length = AnswersList.length;
                     let Question_length = this.getAll_questions.Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
@@ -568,7 +640,7 @@ export default {
 
                         }
     
-                    }
+                    } */
 
                      for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {

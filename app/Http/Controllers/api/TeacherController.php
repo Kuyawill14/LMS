@@ -153,6 +153,35 @@ class TeacherController extends Controller
         ]);
     }
 
+       /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function ResetStudentSubmission(Request $request)
+    {   
+
+ 
+
+        for ($i= 0; $i < count($request[0]); $i++) { 
+
+            $ResetSubmission = tbl_Submission::find($request[0]['id']);
+            if($ResetSubmission){
+                $ResetSubmission->status = null;
+                $ResetSubmission->points = null;
+                $ResetSubmission->Submitted_Answers = null;
+                $ResetSubmission->created_at = null;
+                $ResetSubmission->updated_at = null;
+                $ResetSubmission->save();
+            }
+         
+        }
+    
+        return "Submission reset Success";
+    }
+
+
 
 
     

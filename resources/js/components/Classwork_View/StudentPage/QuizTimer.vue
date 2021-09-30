@@ -44,11 +44,14 @@ export default {
         isLoaded: false,
         endAt:  (new Date).getTime()+10000,
         timeSpent: null,
+        isTimesUps: false
     }),
     watch: {
       'StopTimer': function(arMsg) {
          if(arMsg == true){
-             this.getTimeSpent();
+             if( this.isTimesUps != true){
+                this.getTimeSpent();
+             }
          }
       }
    },
@@ -60,6 +63,7 @@ export default {
             this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
         },
         EndTimer(){
+            this.isTimesUps = true;
             clearInterval(this.NewTimer);
             localStorage.removeItem(name);
             this.$emit('TimesUp');
@@ -67,7 +71,10 @@ export default {
         getTimeSpent(){
             const timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
             this.timeSpent = Math.floor((timeConsumed / 1000)/60);
-            this.$emit('TimerStop', this.timeSpent);
+            let data = {};
+            data.time = this.timeSpent;
+            data.istime = this.isTimesUps;
+            this.$emit('TimerStop', data);
         }
     },
     beforeMount(){

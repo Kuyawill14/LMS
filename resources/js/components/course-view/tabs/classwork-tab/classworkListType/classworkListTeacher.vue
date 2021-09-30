@@ -190,7 +190,36 @@
                                            </div>
                                     </v-col>
                                 </v-row>
-                                <v-btn class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                
+
+                            <v-row no-gutters class="pt-2">
+                                <v-col class="ml-0 pl-0" cols="12"  >
+                                    <div  class=" font-weight-bold ">Publish to class:</div>
+                                </v-col>
+
+                                <v-col class="ml-0 pl-0" cols="12"  >
+
+                                <v-list class="pt-0 pb-0">
+                                    <v-list-item v-for="(item, i) in item.publish_in" :key="i">
+                                        <v-list-item-avatar >
+                                            <v-icon>mdi-account-multiple</v-icon>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content class="pl-0">
+                                            <v-list-item-title class="font-weight-medium">
+                                                {{item.class_name}} <span class="primary--text text-caption">(Submitted:{{' '+item.submission}})</span>
+                                            </v-list-item-title>
+                                            <v-list-item-subtitle>
+                                                <span class="font-weight-medium">Due:</span>
+                                                {{item.availability == 1 ? format_date(item.to_date) : 'Always available'}}
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-list>
+                                </v-col>
+                                    
+                            </v-row>
+
+                            <v-btn class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
                                 rounded color="primary" small text>View Submission</v-btn>
                             </v-expansion-panel-content>
                             </v-expansion-panel>

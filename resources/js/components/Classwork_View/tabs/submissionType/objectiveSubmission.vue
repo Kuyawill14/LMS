@@ -119,6 +119,15 @@
                             <small>Submitted</small>
                         </div>
                     </v-col>
+                     <v-col class="text-right" cols="10" sm="10"  md="11">
+                         <div class="pt-7">
+                             <v-btn @click="resetdialog = !resetdialog" small text rounded>
+                                 <v-icon left>mdi-restart</v-icon>
+                                 Reset Submission
+                             </v-btn>
+                         </div>
+                    </v-col>
+
                 </v-row>
                 <v-divider></v-divider>
             </v-col>
@@ -199,17 +208,33 @@
             </v-container>
          <checkobjective v-if="isLoadingData" v-show="isMounted" v-on:isMounted="isMounted = true" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
     </v-col> -->
+    <v-row>
+         <v-dialog v-model="resetdialog" persistent max-width="550">
+            <resetStudentSubmissionDialog
+            scrollable
+            v-on:toggleDialog="resetdialog = !resetdialog"
+            v-on:SuccessReset="resetdialog = !resetdialog"
+            :ListData="ListData"
+            :ClassList="ClassList"
+            v-if="resetdialog"></resetStudentSubmissionDialog>
+        </v-dialog>
+    </v-row>
+
+    
 </v-row>
 </div>
 </template>
 <script>
 const resetConfirmation = () => import('../dialogs/resetConfirmation')
 const checkobjective = () => import('./check-submission/check-objective')
+const resetStudentSubmissionDialog = () => import('./resetAllSubmission/resetStudentSubmissionDialog')
+
 export default {
     props:["ListData","classworkDetails","Submitted", "Graded","ClassList"],
     components:{
         checkobjective,
-        resetConfirmation
+        resetConfirmation,
+        resetStudentSubmissionDialog
     },
     data(){
         return{
@@ -241,6 +266,7 @@ export default {
             search: "",
             isViewing: false,
             isStarting: false,
+            resetdialog: false
             
         }
     },

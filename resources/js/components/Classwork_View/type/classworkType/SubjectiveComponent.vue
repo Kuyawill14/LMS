@@ -658,7 +658,6 @@ export default {
            return 'primary';
         }
 
-     
       },
       format_date1(value) {
             if (value) {

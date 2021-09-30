@@ -273,6 +273,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -340,7 +346,16 @@ var viewSubmission = function viewSubmission() {
     },
     start: function start() {
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
-        this.UpdateStatus(this.classworkDetails.id);
+        //this.UpdateStatus( this.classworkDetails.id);
+        this.$router.push({
+          name: 'quizstart',
+          params: {
+            id: this.$route.params.id
+          },
+          query: {
+            clwk: this.classworkDetails.id
+          }
+        });
       }
     },
     checkStatus: function checkStatus() {
@@ -1387,6 +1402,46 @@ var render = function() {
                                         },
                                         [
                                           _vm._v("Take Quiz"),
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { right: "", dark: "" } },
+                                            [
+                                              _vm._v(
+                                                "mdi-book-arrow-right-outline"
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.statusDetails.status == "Taking"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            color: "primary",
+                                            dark: _vm.totalQuestion != 0,
+                                            disabled: _vm.totalQuestion == 0
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$router.push({
+                                                name: "quizstart",
+                                                params: {
+                                                  id: _vm.$route.params.id
+                                                },
+                                                query: {
+                                                  clwk: _vm.classworkDetails.id
+                                                }
+                                              })
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v("Continue"),
                                           _c(
                                             "v-icon",
                                             { attrs: { right: "", dark: "" } },

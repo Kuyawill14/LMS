@@ -61,10 +61,24 @@ class ClassworkController extends Controller
             $ClassworksListSubjective = array();
             $classworkList = array();
             foreach($classwork as $item){
-                $submissionCount = tbl_Submission::where('tbl_submissions.classwork_id', $item->id)
+              /*   $submissionCount = tbl_Submission::where('tbl_submissions.classwork_id', $item->id)
                 ->where('tbl_submissions.status', 'Submitted')->count();
-                $item->submittion_count =  $submissionCount;
+                $item->submittion_count =  $submissionCount; */
 
+                $publishIn = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $item->id)
+                ->select('tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
+                ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
+                ->get();
+                $item->publish_in = $publishIn;
+                $totalSubmission = 0;
+                foreach($publishIn as $pub){
+                    $submissionCount = tbl_Submission::where('tbl_submissions.class_classwork_id', $pub->id)
+                    ->where('tbl_submissions.status', 'Submitted')->count();
+                    $pub->submission =  $submissionCount;
+                    $totalSubmission += $submissionCount;
+                }
+                $item->submittion_count =  $totalSubmission;
+                $item->publish_in = $publishIn;
                 if($item->type == 'Objective Type'){
                     $ClassworksListObjective[] = $item;
                 }

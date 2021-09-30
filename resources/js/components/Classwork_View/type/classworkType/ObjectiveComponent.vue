@@ -177,12 +177,18 @@
                             :disabled="totalQuestion == 0"
                             @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
+                           <v-btn
+                            v-if="statusDetails.status == 'Taking'"
+                            rounded
+                            color="primary"
+                            :dark="totalQuestion != 0"
+                            :disabled="totalQuestion == 0"
+                           @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                        </v-btn>
 
                         <v-btn
-                        v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
-                        @click="isViewingSubmission = !isViewingSubmission"
-                         
-                            rounded
+                            v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                            @click="isViewingSubmission = !isViewingSubmission" rounded
                             color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                         </v-btn>
                 </v-col>
@@ -324,8 +330,8 @@ export default {
         start(){
           
           if(this.totalQuestion != 0 && (this.status == null || this.status == '')){
-              this.UpdateStatus( this.classworkDetails.id);
-            
+              //this.UpdateStatus( this.classworkDetails.id);
+             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
           }
         },
         checkStatus(){

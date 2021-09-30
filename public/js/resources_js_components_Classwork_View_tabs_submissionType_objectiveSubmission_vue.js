@@ -215,6 +215,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -223,11 +245,16 @@ var checkobjective = function checkobjective() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_check-submission_check-objective_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./check-submission/check-objective */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue"));
 };
 
+var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_resetAllSubmission_resetStudentSub-cfe23a").then(__webpack_require__.bind(__webpack_require__, /*! ./resetAllSubmission/resetStudentSubmissionDialog */ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["ListData", "classworkDetails", "Submitted", "Graded", "ClassList"],
   components: {
     checkobjective: checkobjective,
-    resetConfirmation: resetConfirmation
+    resetConfirmation: resetConfirmation,
+    resetStudentSubmissionDialog: resetStudentSubmissionDialog
   },
   data: function data() {
     return {
@@ -264,7 +291,8 @@ var checkobjective = function checkobjective() {
       isSavingScore: false,
       search: "",
       isViewing: false,
-      isStarting: false
+      isStarting: false,
+      resetdialog: false
     };
   },
   computed: {
@@ -736,6 +764,49 @@ var render = function() {
                                     ]
                                   )
                                 ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-right",
+                                  attrs: { cols: "10", sm: "10", md: "11" }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "pt-7" },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            small: "",
+                                            text: "",
+                                            rounded: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.resetdialog = !_vm.resetdialog
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("mdi-restart")]
+                                          ),
+                                          _vm._v(
+                                            "\r\n                                 Reset Submission\r\n                             "
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -1027,7 +1098,47 @@ var render = function() {
                 ],
                 1
               )
-            : _vm._e()
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "550" },
+                  model: {
+                    value: _vm.resetdialog,
+                    callback: function($$v) {
+                      _vm.resetdialog = $$v
+                    },
+                    expression: "resetdialog"
+                  }
+                },
+                [
+                  _vm.resetdialog
+                    ? _c("resetStudentSubmissionDialog", {
+                        attrs: {
+                          scrollable: "",
+                          ListData: _vm.ListData,
+                          ClassList: _vm.ClassList
+                        },
+                        on: {
+                          toggleDialog: function($event) {
+                            _vm.resetdialog = !_vm.resetdialog
+                          },
+                          SuccessReset: function($event) {
+                            _vm.resetdialog = !_vm.resetdialog
+                          }
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )

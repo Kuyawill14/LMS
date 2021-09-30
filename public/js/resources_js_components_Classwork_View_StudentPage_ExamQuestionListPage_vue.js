@@ -484,33 +484,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.CountTime();
       this.questionIndex--;
     },
-    SubmitAnswer: function SubmitAnswer(time) {
+    SubmitAnswer: function SubmitAnswer(data) {
       var _this4 = this;
 
-      this.isExamStart = false;
-      this.isLoading = !this.isLoading;
-      this.isSubmitting = !this.isSubmitting;
-      this.dialog = !this.dialog;
-      this.isStart = !this.isStart;
-      this.warningDialog = false;
-      axios.post('/api/question/check/' + this.$route.query.clwk, {
-        item: this.FinalAnswers,
-        AnsLength: this.questionIndex,
-        timerCount: this.TimerCount,
-        timeSpent: time
-      }).then(function () {
-        setTimeout(function () {
+      if (data.istime == false) {
+        this.isExamStart = false;
+        this.isLoading = !this.isLoading;
+        this.isSubmitting = !this.isSubmitting;
+        this.dialog = !this.dialog;
+        this.isStart = !this.isStart;
+        this.warningDialog = false;
+        axios.post('/api/question/check/' + this.$route.query.clwk, {
+          item: this.FinalAnswers,
+          AnsLength: this.questionIndex,
+          timerCount: this.TimerCount,
+          timeSpent: data.time
+        }).then(function (res) {
+          //if(res.status == 200){
+
+          /*   this.isLoading = !this.isLoading;
+              this.isSubmitting = !this.isSubmitting;
+              this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
+          //}
+          //setTimeout(() => {
           _this4.isLoading = !_this4.isLoading;
           _this4.isSubmitting = !_this4.isSubmitting;
-        }, 2000);
 
-        _this4.$router.push({
-          name: 'result-page',
-          params: {
-            id: _this4.$route.query.clwk
-          }
+          _this4.$router.push({
+            name: 'result-page',
+            params: {
+              id: _this4.$route.query.clwk
+            }
+          }); //}, 2000);
+
+
+          console.log('submit');
         });
-      });
+      }
     },
     TimesUpSubmit: function TimesUpSubmit() {
       var _this5 = this;
@@ -525,26 +535,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         item: this.FinalAnswers,
         AnsLength: this.questionIndex,
         timerCount: this.TimerCount
-      }).then(function () {
+      }).then(function (res) {
+        //if(res.status == 200){
+
+        /*    this.isLoading = !this.isLoading;
+           this.isSubmitting = !this.isSubmitting;
+           this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
+        //}
+        console.log('timesUp');
         setTimeout(function () {
           _this5.isLoading = !_this5.isLoading;
           _this5.isSubmitting = !_this5.isSubmitting;
+        }, 2000);
 
-          _this5.$router.push({
-            name: 'result-page',
-            params: {
-              id: _this5.$route.query.clwk
-            }
-          });
-        }, 5000);
+        _this5.$router.push({
+          name: 'result-page',
+          params: {
+            id: _this5.$route.query.clwk
+          }
+        }); //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+
       });
     },
     fetchQuestions: function fetchQuestions() {
       var _this6 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
-        _this6.Qlength = _this6.getAll_questions.Question.length; //let AnswersList = JSON.parse(localStorage.getItem(name));
-
+        _this6.Qlength = _this6.getAll_questions.Question.length;
         var AnswersList = _this6.Submitted_Answers;
 
         if (AnswersList == null || AnswersList.length == 0) {
@@ -599,46 +616,101 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             type: "multiple",
             data: _this6.FinalAnswers
           });
-        } else {
-          var Submitted_length = AnswersList.length;
-          var Question_length = _this6.getAll_questions.Question.length;
-          var diff = Question_length - Submitted_length;
+        } else if (_this6.Qlength != AnswersList.length) {
+          for (var _index = 0; _index < _this6.getAll_questions.Question.length; _index++) {
+            if (_this6.getAll_questions.Question[_index].type == 'Identification' || _this6.getAll_questions.Question[_index].type == 'Multiple Choice' || _this6.getAll_questions.Question[_index].type == 'True or False') {
+              _this6.FinalAnswers.push({
+                Answer: '',
+                Question_id: _this6.getAll_questions.Question[_index].id,
+                type: _this6.getAll_questions.Question[_index].type,
+                timeConsume: null
+              });
+            } else if (_this6.getAll_questions.Question[_index].type == 'Essay') {
+              _this6.FinalAnswers.push({
+                Answer: '',
+                Question_id: _this6.getAll_questions.Question[_index].id,
+                type: _this6.getAll_questions.Question[_index].type,
+                check: false,
+                timeConsume: null
+              });
+            } else if (_this6.getAll_questions.Question[_index].type == 'Matching type') {
+              (function () {
+                var Ans = new Array();
+                var Choices_id = new Array();
 
-          for (var i = 0; i < diff; i++) {
-            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False') {
-              _this6.details.Submitted_Answers.push({
-                Answer: null,
-                Question_id: _this6.QuestionAndAnswer.Question[i].id,
-                timeConsume: null,
-                type: _this6.QuestionAndAnswer.Question[i].type
-              });
-            } else if (_this6.getAll_questions.Question[x].type == 'Essay') {
-              _this6.details.Submitted_Answers.push({
-                Answer: null,
-                Question_id: _this6.QuestionAndAnswer.Question[i].id,
-                timeConsume: null,
-                type: _this6.QuestionAndAnswer.Question[i].type,
-                check: false
-              });
-            } else if (_this6.QuestionAndAnswer.Question[i].type == 'Matching type') {}
+                _this6.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
+                  Choices_id.push({
+                    choice_id: item.id
+                  });
+                });
+
+                _this6.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
+                  Ans.push({
+                    Ans_letter: '',
+                    Ans_id: null,
+                    subquestion_id: item.id,
+                    Answers: ''
+                  });
+                });
+
+                _this6.FinalAnswers.push({
+                  Answer: Ans,
+                  Choices_id: Choices_id,
+                  Question_id: _this6.getAll_questions.Question[_index].id,
+                  type: _this6.getAll_questions.Question[_index].type,
+                  timeConsume: null
+                });
+              })();
+            }
           }
 
-          for (var _x = 0; _x < _this6.getAll_questions.Question.length; _x++) {
+          axios.put('/api/question/store-answer/' + _this6.submission_id, {
+            type: "multiple",
+            data: _this6.FinalAnswers
+          });
+        } else if (_this6.Qlength == AnswersList.length) {
+          //if(this.Qlength == AnswersList.length)
+
+          /*  let Submitted_length = AnswersList.length;
+           let Question_length = this.getAll_questions.Question.length;
+           let diff = Question_length  - Submitted_length;
+           for (let i = 0; i < diff; i++) {
+               if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                   this.details.Submitted_Answers.push({
+                       Answer: null,
+                       Question_id: this.QuestionAndAnswer.Question[i].id,
+                       timeConsume: null,
+                       type: this.QuestionAndAnswer.Question[i].type
+                   })
+               }
+               else if(this.getAll_questions.Question[x].type == 'Essay'){
+                   this.details.Submitted_Answers.push({
+                       Answer: null,
+                       Question_id: this.QuestionAndAnswer.Question[i].id,
+                       timeConsume: null,
+                       type: this.QuestionAndAnswer.Question[i].type,
+                       check: false,
+                   })
+               }
+               else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
+                 }
+                 } */
+          for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
-              if (_this6.getAll_questions.Question[_x].id == AnswersList[j].Question_id) {
-                if (_this6.getAll_questions.Question[_x].type == 'Identification' || _this6.getAll_questions.Question[_x].type == 'Multiple Choice' || _this6.getAll_questions.Question[_x].type == 'True or False' || _this6.getAll_questions.Question[_x].type == 'Essay') {
+              if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                if (_this6.getAll_questions.Question[x].type == 'Identification' || _this6.getAll_questions.Question[x].type == 'Multiple Choice' || _this6.getAll_questions.Question[x].type == 'True or False' || _this6.getAll_questions.Question[x].type == 'Essay') {
                   _this6.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (_this6.getAll_questions.Question[_x].type == 'Matching type') {
+                } else if (_this6.getAll_questions.Question[x].type == 'Matching type') {
                   (function () {
                     var Ans = new Array();
                     var Choices_id = new Array();
 
-                    _this6.getAll_questions.Answer[_x].SubAnswer.forEach(function (item) {
+                    _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                       Choices_id.push({
                         choice_id: item.id
                       });
@@ -730,10 +802,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
 
       for (var i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-        for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
-          if (this.Alphabet[_x2].toUpperCase() == Answer.toUpperCase()) {
-            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
-            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].id;
+        for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+          if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
+            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
           }
         }
       }
@@ -876,13 +948,16 @@ __webpack_require__.r(__webpack_exports__);
       SecondProgress: 1000,
       isLoaded: false,
       endAt: new Date().getTime() + 10000,
-      timeSpent: null
+      timeSpent: null,
+      isTimesUps: false
     };
   },
   watch: {
     'StopTimer': function StopTimer(arMsg) {
       if (arMsg == true) {
-        this.getTimeSpent();
+        if (this.isTimesUps != true) {
+          this.getTimeSpent();
+        }
       }
     }
   },
@@ -894,6 +969,7 @@ __webpack_require__.r(__webpack_exports__);
                   this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
     },
     EndTimer: function EndTimer() {
+      this.isTimesUps = true;
       clearInterval(this.NewTimer);
       localStorage.removeItem(name);
       this.$emit('TimesUp');
@@ -901,71 +977,14 @@ __webpack_require__.r(__webpack_exports__);
     getTimeSpent: function getTimeSpent() {
       var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
       this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
-      this.$emit('TimerStop', this.timeSpent);
+      var data = {};
+      data.time = this.timeSpent;
+      data.istime = this.isTimesUps;
+      this.$emit('TimerStop', data);
     }
   },
   beforeMount: function beforeMount() {
     this.startTimer();
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return {
-      count: 5
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    setInterval(function () {
-      _this.count--;
-
-      if (_this.count == 0) {}
-    }, 1000);
   }
 });
 
@@ -23358,17 +23377,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=template&id=ea0677ca& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&");
-/* harmony import */ var _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-
-
+var script = {}
 
 
 /* normalize component */
 ;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__.default)(
+  script,
   _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.render,
   _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
@@ -23492,22 +23509,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuizTimer.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TimesUpDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -23733,6 +23734,12 @@ var render = function() {
                 on: {
                   toggleCloaseDialog: function($event) {
                     _vm.TimesUpDialog = !_vm.TimesUpDialog
+                  },
+                  SubmitAnswer: function($event) {
+                    return _vm.$router.push({
+                      name: "result-page",
+                      params: { id: this.$route.query.clwk }
+                    })
                   }
                 }
               })
@@ -25674,16 +25681,6 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
-                [
-                  _c("div", { staticClass: "primary--text display-2" }, [
-                    _vm._v(_vm._s(_vm.count))
-                  ])
-                ]
               )
             ],
             1

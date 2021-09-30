@@ -780,7 +780,6 @@ const router = new Router({
             path: "/submitted-result/:id",
             component: resultPage,
             name: "result-page",
-            props: true
         },
 
         //login

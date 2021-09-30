@@ -338,8 +338,9 @@ var previewClassworkModal = function previewClassworkModal() {
     CheckClassworkCount: function CheckClassworkCount() {
       var _this = this;
 
-      this.classworks.ClassworksList.forEach(function (element) {
-        _this.ClassworkLength += element.length;
+      var data = this.classworks.ClassworksList;
+      data.forEach(function (item) {
+        _this.ClassworkLength += item.length;
       });
     }
   },
