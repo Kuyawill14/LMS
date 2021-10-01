@@ -168,7 +168,8 @@ var teacherStartPage = function teacherStartPage() {
 
                   _this.checkStatus(res.data.Details.type);
 
-                  _this.iChange = false; //this.isloading = false;
+                  _this.iChange = false;
+                  _this.isloading = false;
                 })["catch"](function (e) {
                   _this.iChange = false;
                   _this.isloading = false;

@@ -32,11 +32,24 @@ class UserProfileController extends Controller
         //return \Config::get('app.do_url');
         $userId = auth('sanctum')->id();
         
+      
+
         $userDetails = User::where('users.id' ,$userId)
         ->select('users.role','users.email','users.email_verified_at as verified',
         'tbl_user_details.*')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
+        
+
+       /*  $name = $userDetails->firstName.' '.$userDetails->lastName;
+        $photo_url = vsprintf('https://www.gravatar.com/avatar/%s.jpg?s=200&d=%s', [
+            md5(strtolower($userDetails->email)),
+            $name ? urlencode("https://ui-avatars.com/api/$name") : 'mp',
+        ]);
+
+        $userDetails->photo_url =  $photo_url; */
+
+
         
         if($userDetails->email == 'admin@gmail.com'){
             $userDetails->verified = true;

@@ -130,7 +130,7 @@ export default {
                 this.totalQuestion = res.data.ItemsCount;
                 this.checkStatus(res.data.Details.type);
                 this.iChange = false;
-                //this.isloading = false;
+                this.isloading = false;
             })
             .catch(e=>{
                 this.iChange = false;
@@ -139,9 +139,7 @@ export default {
         },
         async checkStatus(type){
             
-
             if(this.role == 'Student'){
-             
                 let data = {};
                 data.id = this.$route.query.clwk;
                 data.type = type;
@@ -150,14 +148,12 @@ export default {
                 .then(()=>{
                     this.isloading = false;
                 })
-          
             }
-            
         }
     },
     async beforeRouteEnter(to, from, next) {
         next(vm => {
-            
+
             vm.getClassworkDetails();
             
         });
