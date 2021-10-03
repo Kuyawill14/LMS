@@ -354,7 +354,7 @@
             },
 
             triggerWarning() {
-                if (this.isSelectedModule) {
+                if (this.isSelectedModule &&  this.role != 'Teacher' ) {
                     this.warningDialog = true;
                     this.confirmWarning = false;
                     clearInterval(this.ctrTime);
@@ -417,23 +417,30 @@
 
             $(window).blur(function () {
 
-                let blurTimer = setTimeout(() => {
+                // let blurTimer = setTimeout(() => {
+                    
                     let activeElement = document.activeElement;
                     let iframeElement = document.querySelector('iframe');
-                    if (activeElement === iframeElement) {
+                      
 
+                    
+                    
+                    if (activeElement === iframeElement) {
+                        console.log(document.activeElement.tagName);
                         //execute your code here
 
                         //we only want to listen for the first time we click into the iframe
-                        window.removeEventListener('blur', this.onBlur);
-                        iframeElement.blur();
-                        clearInterval('blurTimer');
+                      setInterval(() => {
+                         document.activeElement.blur();
+
+                      }, 1000);
+                        // clearInterval(blurTimer);
 
                     } else {
-
+                        console.log(document.activeElement.tagName);
                         self.triggerWarning()
                     }
-                }, 0);
+                // }, 0);
 
 
 

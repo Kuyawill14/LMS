@@ -339,7 +339,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
       }
     },
     triggerWarning: function triggerWarning() {
-      if (this.isSelectedModule) {
+      if (this.isSelectedModule && this.role != 'Teacher') {
         this.warningDialog = true;
         this.confirmWarning = false;
         clearInterval(this.ctrTime);
@@ -405,22 +405,22 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
     });
     window.addEventListener("onbeforeunload", this.preventNav);
     $(window).blur(function () {
-      var _this7 = this;
+      // let blurTimer = setTimeout(() => {
+      var activeElement = document.activeElement;
+      var iframeElement = document.querySelector('iframe');
 
-      var blurTimer = setTimeout(function () {
-        var activeElement = document.activeElement;
-        var iframeElement = document.querySelector('iframe');
+      if (activeElement === iframeElement) {
+        console.log(document.activeElement.tagName); //execute your code here
+        //we only want to listen for the first time we click into the iframe
 
-        if (activeElement === iframeElement) {
-          //execute your code here
-          //we only want to listen for the first time we click into the iframe
-          window.removeEventListener('blur', _this7.onBlur);
-          iframeElement.blur();
-          clearInterval('blurTimer');
-        } else {
-          self.triggerWarning();
-        }
-      }, 0);
+        setInterval(function () {
+          document.activeElement.blur();
+        }, 1000); // clearInterval(blurTimer);
+      } else {
+        console.log(document.activeElement.tagName);
+        self.triggerWarning();
+      } // }, 0);
+
     });
   },
   beforeDestroy: function beforeDestroy() {
