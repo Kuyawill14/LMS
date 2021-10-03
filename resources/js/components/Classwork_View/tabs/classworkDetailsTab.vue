@@ -13,7 +13,14 @@
 </v-container> -->
 
         <v-overlay :value="isLeaving">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
+      <!--       <v-progress-circular indeterminate size="64"></v-progress-circular>
+             <v-container v-if="isloading" style="height: 670px;z-index:2"> -->
+                <vue-element-loading :active="isLeaving" 
+                text="Loading"
+                duration="0.7"
+                :textStyle="{fontSize: '20px'}"
+                spinner="line-scale" color="#EF6C00"  size="60" />
+<!--         </v-container> -->
         </v-overlay>
 
 
@@ -335,12 +342,9 @@
 
                 await axios.post('/api/classwork/update', fd)
                     .then(res => {
-                           //this.rubricsDialog= rubrics ? true : false;
-                       
-                            this.isUpdating = false,
-                            this.toastSuccess("Classwork successfully updated")
-                         
-                  
+                        //this.rubricsDialog= rubrics ? true : false;
+                        this.isUpdating = false,
+                        this.toastSuccess("Classwork successfully updated")
                     })
                     .catch(e => {
 

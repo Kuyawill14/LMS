@@ -18,7 +18,7 @@
                 </v-col>
            </v-row> -->
 
-      <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+     <!--  <v-container class="fill-height" v-if="isloading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
                 <v-col class="text-subtitle-1 text-center" cols="12">
                     Loading
@@ -27,7 +27,15 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
+        </v-container> -->
+        <v-container v-if="isloading" style="height: 670px;z-index:2">
+                <vue-element-loading :active="isloading" 
+                text="Loading"
+                duration="0.7"
+                :textStyle="{fontSize: '20px'}"
+                spinner="line-scale" color="#EF6C00"  size="60" />
         </v-container>
+         
        <!--  <v-row v-if="!isloading && classworkDetails.success == false" align="center" justify="center"> -->
            <!--  <v-col align="center" justify="center">
                 <h1>Classwork Not Found</h1>

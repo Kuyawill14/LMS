@@ -171,6 +171,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -762,7 +767,9 @@ var render = function() {
                                       "white--text align-end grey lighten-2",
                                     attrs: {
                                       src: "../images/" + item.course_picture,
-                                      height: "200px",
+                                      height: _vm.$vuetify.breakpoint.lgAndUp
+                                        ? 200
+                                        : 140,
                                       gradient:
                                         "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
                                       "aspect-ratio": "1"
@@ -850,53 +857,81 @@ var render = function() {
                                   "v-card-subtitle",
                                   [
                                     _c(
-                                      "router-link",
-                                      {
-                                        staticStyle: {
-                                          "text-decoration": "none"
-                                        },
-                                        attrs: {
-                                          to: {
-                                            name: "coursePage",
-                                            params: { id: item.course_id },
-                                            query: { class: item.class_id }
-                                          }
-                                        }
-                                      },
+                                      "div",
                                       [
                                         _c(
-                                          "p",
+                                          "router-link",
                                           {
-                                            staticStyle: { "font-size": "16px" }
+                                            staticStyle: {
+                                              "text-decoration": "none"
+                                            },
+                                            attrs: {
+                                              to: {
+                                                name: "coursePage",
+                                                params: { id: item.course_id },
+                                                query: { class: item.class_id }
+                                              }
+                                            }
                                           },
                                           [
-                                            _vm._v(
-                                              _vm._s(item.course_code) +
-                                                "\n                                       "
-                                            ),
-                                            _c("br"),
-                                            _vm._v(
-                                              " " +
-                                                _vm._s(item.course_name) +
-                                                "\n                                   "
+                                            _c(
+                                              "p",
+                                              {
+                                                staticClass: "mb-0 pb-0 mb-2",
+                                                style: _vm.$vuetify.breakpoint
+                                                  .lgAndUp
+                                                  ? "font-size: 16px"
+                                                  : "font-size: 14px"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(item.course_code) +
+                                                    "\n                                           "
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(item.course_name) +
+                                                    "\n                                       "
+                                                )
+                                              ]
                                             )
                                           ]
                                         )
-                                      ]
+                                      ],
+                                      1
                                     ),
                                     _vm._v(" "),
-                                    _c("hr"),
-                                    _vm._v(
-                                      "\n                               " +
-                                        _vm._s(item.class_name) +
-                                        " "
-                                    ),
-                                    _c("br"),
-                                    _vm._v(
-                                      "\n                               Class code:" +
-                                        _vm._s(item.class_code) +
-                                        "\n                           "
-                                    )
+                                    _c("v-divider"),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "mt-2" }, [
+                                      _c(
+                                        "span",
+                                        {
+                                          style: _vm.$vuetify.breakpoint.lgAndUp
+                                            ? "font-size: 16px"
+                                            : "font-size: 14px"
+                                        },
+                                        [_vm._v(_vm._s(item.class_name))]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          style: _vm.$vuetify.breakpoint.lgAndUp
+                                            ? "font-size: 16px"
+                                            : "font-size: 14px"
+                                        },
+                                        [
+                                          _vm._v(
+                                            " Class code:" +
+                                              _vm._s(item.class_code)
+                                          )
+                                        ]
+                                      )
+                                    ])
                                   ],
                                   1
                                 )

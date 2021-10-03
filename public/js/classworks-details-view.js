@@ -117,6 +117,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -2692,6 +2700,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2992,6 +3007,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3458,6 +3479,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -3600,6 +3623,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3928,6 +3956,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20452,7 +20486,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51917,39 +51951,19 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticStyle: { height: "670px", "z-index": "2" } },
             [
-              _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_vm._v("\n                  Loading\n              ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+              _c("vue-element-loading", {
+                attrs: {
+                  active: _vm.isloading,
+                  text: "Loading",
+                  duration: "0.7",
+                  textStyle: { fontSize: "20px" },
+                  spinner: "line-scale",
+                  color: "#EF6C00",
+                  size: "60"
+                }
+              })
             ],
             1
           )
@@ -57225,8 +57239,16 @@ var render = function() {
         "v-overlay",
         { attrs: { value: _vm.isLeaving } },
         [
-          _c("v-progress-circular", {
-            attrs: { indeterminate: "", size: "64" }
+          _c("vue-element-loading", {
+            attrs: {
+              active: _vm.isLeaving,
+              text: "Loading",
+              duration: "0.7",
+              textStyle: { fontSize: "20px" },
+              spinner: "line-scale",
+              color: "#EF6C00",
+              size: "60"
+            }
           })
         ],
         1
@@ -58207,7 +58229,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -58217,8 +58239,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -58631,7 +58661,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -58641,8 +58671,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -59099,7 +59137,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -59109,8 +59147,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -59471,7 +59517,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "400px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -59481,8 +59527,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1

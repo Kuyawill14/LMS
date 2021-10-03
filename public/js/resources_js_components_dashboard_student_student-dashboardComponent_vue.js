@@ -93,8 +93,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 var myCalendar = function myCalendar() {
@@ -113,13 +111,18 @@ var studentGradeChart = function studentGradeChart() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student_ProgressChart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ProgressChart */ "./resources/js/components/dashboard/student/ProgressChart.vue"));
 };
 
+var myTask = function myTask() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student_myTask_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./myTask */ "./resources/js/components/dashboard/student/myTask.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
     myCalendar: myCalendar,
     myNotification: myNotification,
     studentClasses: studentClasses,
-    studentGradeChart: studentGradeChart
+    studentGradeChart: studentGradeChart,
+    myTask: myTask
   },
   data: function data() {
     return {
@@ -338,10 +341,9 @@ var render = function() {
                           "div",
                           {
                             staticClass: "text-center",
-                            staticStyle: {
-                              "font-size": "3rem",
-                              color: "#FF5400"
-                            }
+                            style: _vm.$vuetify.breakpoint.lgAndUp
+                              ? "font-size: 3rem;color:#FF5400"
+                              : "font-size: 2rem;color:#FF5400"
                           },
                           [
                             _vm._v(
@@ -352,11 +354,19 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                            Course Enrolled\n                        "
-                          )
-                        ])
+                        _c(
+                          "div",
+                          {
+                            class: _vm.$vuetify.breakpoint.lgAndUp
+                              ? "text-center"
+                              : "text-center text-caption"
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Course Enrolled\n                        "
+                            )
+                          ]
+                        )
                       ])
                     ],
                     1
@@ -371,10 +381,9 @@ var render = function() {
                           "div",
                           {
                             staticClass: "text-center",
-                            staticStyle: {
-                              "font-size": "3rem",
-                              color: "#FF5400"
-                            }
+                            style: _vm.$vuetify.breakpoint.lgAndUp
+                              ? "font-size: 3rem;color:#FF5400"
+                              : "font-size: 2rem;color:#FF5400"
                           },
                           [
                             _vm._v(
@@ -385,11 +394,19 @@ var render = function() {
                           ]
                         ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "text-center" }, [
-                          _vm._v(
-                            "\n                            Unfinished Classworks\n                        "
-                          )
-                        ])
+                        _c(
+                          "div",
+                          {
+                            class: _vm.$vuetify.breakpoint.lgAndUp
+                              ? "text-center"
+                              : "text-center text-caption"
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Unfinished Classworks\n                        "
+                            )
+                          ]
+                        )
                       ])
                     ],
                     1
@@ -400,19 +417,23 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
+                { staticClass: "mb-0" },
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12" } },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pt-0 mt-0 mb-0 pb-0"
+                        : "t-0 mt-0 mb-0 pb-0",
+                      attrs: { cols: "12" }
+                    },
                     [
                       _c("studentGradeChart", {
                         attrs: { allClass: _vm.allClass }
                       })
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c("v-col")
+                  )
                 ],
                 1
               ),
@@ -420,7 +441,19 @@ var render = function() {
               _c(
                 "v-row",
                 { staticClass: "mt-0" },
-                [_c("v-col", [_c("studentClasses")], 1)],
+                [
+                  _c(
+                    "v-col",
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pt-0 mt-0"
+                        : "pt-0 mt-0",
+                      attrs: { cols: "12" }
+                    },
+                    [_c("studentClasses")],
+                    1
+                  )
+                ],
                 1
               )
             ],
@@ -436,7 +469,9 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { staticClass: "pt-0" },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp ? "pt-0 mt-0" : ""
+                    },
                     [
                       _c(
                         "v-card",
@@ -457,7 +492,14 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                [_c("v-col", [_c("v-card", [_c("myNotification")], 1)], 1)],
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12" } },
+                    [_c("v-card", [_c("myNotification")], 1)],
+                    1
+                  )
+                ],
                 1
               )
             ],

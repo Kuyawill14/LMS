@@ -1,28 +1,26 @@
 <template>
     <div>
-
+        <vue-element-loading :active="isGetting" 
+        text="Loading"
+        duration="0.7"
+        :textStyle="{fontSize: '15px'}"
+        spinner="line-scale" color="#EF6C00"  size="30" />
 
         <div v-if="coursesLength != 0 && isGetting == false">
             <v-row class="mt-0">
                 <v-col>
-                    <h2>My Classes</h2>
-                </v-col>
-
-            </v-row>
-
-            <v-row class="mt-0">
-                <v-col>
-                    <v-card class="mx-auto">
-                        <v-slide-group v-model="model" class="px-2" active-class="success" show-arrows
+                    <v-card class="mx-auto pa-2">
+                        <h3>My Classes</h3>
+                        <v-slide-group v-model="model" class="px-1" active-class="success" show-arrows
                             mobile-breakpoint="1000" center-active>
                             <v-slide-item v-for="(item, i) in allClass" :key="'class' + i" v-slot:default="{ active }">
                                 <router-link
                                     :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
                                     style="text-decoration: none">
                                     <v-card :color="active ? undefined : 'grey lighten-1'" class="my-4 mx-3"
-                                        height="200" width="250">
+                                        :height="$vuetify.breakpoint.lgAndUp ? 170 : 130" :width="$vuetify.breakpoint.lgAndUp  ? 250 : 230">
                                         <v-card class="mx-auto">
-                                            <v-img :src="'../images/'+item.course_picture" height="200px"
+                                            <v-img :src="'../images/'+item.course_picture" :height="$vuetify.breakpoint.lgAndUp ? 170 : 130"
                                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                                                 class="white--text align-end">
                                                 <div class="px-2">

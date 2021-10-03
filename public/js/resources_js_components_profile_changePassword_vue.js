@@ -357,33 +357,29 @@ var render = function() {
                             "v-col",
                             { attrs: { cols: "12", md: "5" } },
                             [
-                              _c(
-                                "v-text-field",
-                                {
-                                  attrs: {
-                                    "append-icon": _vm.showNew
-                                      ? "mdi-eye"
-                                      : "mdi-eye-off",
-                                    dense: "",
-                                    rules: [_vm.rules.required, _vm.rules.min],
-                                    outlined: "",
-                                    type: _vm.showNew ? "text" : "password"
-                                  },
-                                  on: {
-                                    "click:append": function($event) {
-                                      _vm.showNew = !_vm.showNew
-                                    }
-                                  },
-                                  model: {
-                                    value: _vm.form.new_password,
-                                    callback: function($$v) {
-                                      _vm.$set(_vm.form, "new_password", $$v)
-                                    },
-                                    expression: "form.new_password"
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon": _vm.showNew
+                                    ? "mdi-eye"
+                                    : "mdi-eye-off",
+                                  dense: "",
+                                  rules: [_vm.rules.required, _vm.rules.min],
+                                  outlined: "",
+                                  type: _vm.showNew ? "text" : "password"
+                                },
+                                on: {
+                                  "click:append": function($event) {
+                                    _vm.showNew = !_vm.showNew
                                   }
                                 },
-                                [_vm._v("\n                                >")]
-                              )
+                                model: {
+                                  value: _vm.form.new_password,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "new_password", $$v)
+                                  },
+                                  expression: "form.new_password"
+                                }
+                              })
                             ],
                             1
                           )
@@ -423,39 +419,29 @@ var render = function() {
                             "v-col",
                             { attrs: { cols: "12", md: "5" } },
                             [
-                              _c(
-                                "v-text-field",
-                                {
-                                  attrs: {
-                                    "append-icon": _vm.ShowNewRetype
-                                      ? "mdi-eye"
-                                      : "mdi-eye-off",
-                                    dense: "",
-                                    outlined: "",
-                                    rules: [_vm.rules.required, _vm.rules.min],
-                                    type: _vm.ShowNewRetype
-                                      ? "text"
-                                      : "password"
-                                  },
-                                  on: {
-                                    "click:append": function($event) {
-                                      _vm.ShowNewRetype = !_vm.ShowNewRetype
-                                    }
-                                  },
-                                  model: {
-                                    value: _vm.form.confirm_password,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.form,
-                                        "confirm_password",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "form.confirm_password"
+                              _c("v-text-field", {
+                                attrs: {
+                                  "append-icon": _vm.ShowNewRetype
+                                    ? "mdi-eye"
+                                    : "mdi-eye-off",
+                                  dense: "",
+                                  outlined: "",
+                                  rules: [_vm.rules.required, _vm.rules.min],
+                                  type: _vm.ShowNewRetype ? "text" : "password"
+                                },
+                                on: {
+                                  "click:append": function($event) {
+                                    _vm.ShowNewRetype = !_vm.ShowNewRetype
                                   }
                                 },
-                                [_vm._v("\n                                >")]
-                              )
+                                model: {
+                                  value: _vm.form.confirm_password,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "confirm_password", $$v)
+                                  },
+                                  expression: "form.confirm_password"
+                                }
+                              })
                             ],
                             1
                           )

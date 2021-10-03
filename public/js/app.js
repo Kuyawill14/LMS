@@ -3079,7 +3079,7 @@ var actions = {
               commit = _ref2.commit;
 
               if (!(state.CurrentUser.length == 0)) {
-                _context2.next = 10;
+                _context2.next = 9;
                 break;
               }
 
@@ -3088,13 +3088,13 @@ var actions = {
 
             case 4:
               res = _context2.sent;
-              console.log(res.data.photo_url);
+              //console.log(res.data.photo_url);
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
               state.IsVerified = res.data.verified;
               return _context2.abrupt("return", res.status);
 
-            case 10:
+            case 9:
             case "end":
               return _context2.stop();
           }

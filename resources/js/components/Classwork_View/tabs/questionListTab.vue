@@ -17,17 +17,19 @@
             v-if="dialog"></deleteDialog>
         </v-dialog>
 
-    <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+    <v-container class="fill-height" v-if="isloading" style="height: 570px;">
        <v-row  align-content="center" justify="center">
             <v-col cols="12" class="text-center">
-                <v-progress-circular
-                :size="40"
-                color="primary"
-                indeterminate
-                ></v-progress-circular>
+                <vue-element-loading :active="isloading" 
+                text="Loading"
+                duration="0.7"
+                :textStyle="{fontSize: '20px'}"
+                spinner="line-scale" color="#EF6C00"  size="60" />
             </v-col>
         </v-row>
     </v-container>
+
+  
 
 
   <v-row  justify="center" v-if="Qlength == 0 && !isFetching">

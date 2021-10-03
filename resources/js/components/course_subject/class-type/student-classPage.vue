@@ -91,7 +91,7 @@
  -->
                              <v-img
                                :src="'../images/'+item.course_picture"
-                                 height="200px"
+                                 :height="$vuetify.breakpoint.lgAndUp ? 200 : 140"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end grey lighten-2"
                                 aspect-ratio="1"
                             
@@ -117,17 +117,22 @@
                                     <span class="text-caption "> Completed </span>
                                 </v-card-subtitle>
                             </v-img>
-                            <v-card-subtitle>
-                                <router-link
-                                    :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
-                                    style="text-decoration: none">
-                                    <p style="font-size: 16px;">{{item.course_code }}
-                                        <br> {{ item.course_name}}
-                                    </p>
-                                </router-link>
-                                <hr>
-                                {{ item.class_name}} <br>
-                                Class code:{{ item.class_code}}
+                            <v-card-subtitle >
+                                <div>
+                                    <router-link
+                                        :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
+                                        style="text-decoration: none">
+                                        <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{item.course_code }}
+                                            <br> {{ item.course_name}}
+                                        </p>
+                                    </router-link>
+                                </div>
+                                <v-divider></v-divider>
+                                <div class="mt-2" >
+                                     <span  :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{ item.class_name}}</span> <br>
+                                 <span :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'"> Class code:{{ item.class_code}}</span>
+                                </div>
+                               
                             </v-card-subtitle>
 
 

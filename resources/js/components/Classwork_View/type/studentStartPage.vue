@@ -85,7 +85,7 @@ export default {
 /*     beforeMount(){
       window.history.forward(1)
     }, */
-    mounted(){
+    beforeMount(){
       const newDate = new Date();
       this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       this.$emit('isMounted');

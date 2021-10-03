@@ -322,6 +322,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -447,7 +458,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       setTimeout(function () {
         return _this2.isSavingAnswer = false;
-      }, 500);
+      }, 700);
     },
     updateAnswer: function updateAnswer() {
       var _this3 = this;
@@ -23748,56 +23759,18 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.isLoading
-        ? _c(
-            "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "600px" } },
-            [
-              _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [
-                      _vm._v(
-                        "\r\n            " +
-                          _vm._s(
-                            _vm.isSubmitting
-                              ? "Submitting Questions"
-                              : "Loading Questions"
-                          ) +
-                          "\r\n        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
+      _c("vue-element-loading", {
+        attrs: {
+          active: _vm.isLoading,
+          text: _vm.isSubmitting ? "Loading Questions" : "Loading Questions",
+          duration: "0.7",
+          textStyle: { fontSize: "18px" },
+          spinner: "line-scale",
+          color: "#EF6C00",
+          size: "50",
+          "is-full-screen": ""
+        }
+      }),
       _vm._v(" "),
       !_vm.isLoading
         ? _c(
@@ -23829,69 +23802,84 @@ var render = function() {
                             ? _c(
                                 "v-row",
                                 [
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "8" } },
-                                    [
-                                      _c(
-                                        "v-list",
+                                  _vm.$vuetify.breakpoint.lgAndUp
+                                    ? _c(
+                                        "v-col",
+                                        { attrs: { cols: "8" } },
                                         [
                                           _c(
-                                            "v-list-item",
+                                            "v-list",
                                             [
                                               _c(
-                                                "v-list-item-avatar",
+                                                "v-list-item",
                                                 [
                                                   _c(
-                                                    "v-avatar",
-                                                    {
-                                                      attrs: { color: "blue" }
-                                                    },
+                                                    "v-list-item-avatar",
                                                     [
                                                       _c(
-                                                        "v-icon",
-                                                        { attrs: { dark: "" } },
+                                                        "v-avatar",
+                                                        {
+                                                          attrs: {
+                                                            color: "blue"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\r\n                                mdi-book-open-variant\r\n                                "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list-item-content",
+                                                    [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-bold"
+                                                        },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                mdi-book-open-variant\r\n                                "
+                                                            _vm._s(
+                                                              _vm
+                                                                .classworkDetails
+                                                                .title
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item-subtitle",
+                                                        [
+                                                          _vm._v(
+                                                            "Total Points: " +
+                                                              _vm._s(
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .points
+                                                              )
                                                           )
                                                         ]
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item-content",
-                                                [
-                                                  _c(
-                                                    "v-list-item-title",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-bold"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.classworkDetails
-                                                            .title
-                                                        )
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("v-list-item-subtitle", [
-                                                    _vm._v(
-                                                      "Total Points: " +
-                                                        _vm._s(
-                                                          _vm.classworkDetails
-                                                            .points
-                                                        )
-                                                    )
-                                                  ])
                                                 ],
                                                 1
                                               )
@@ -23901,15 +23889,19 @@ var render = function() {
                                         ],
                                         1
                                       )
-                                    ],
-                                    1
-                                  ),
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "d-flex justify-end",
-                                      attrs: { cols: "4" }
+                                      class: _vm.$vuetify.breakpoint.lgAndUp
+                                        ? "d-flex justify-end"
+                                        : "d-flex justify-center",
+                                      attrs: {
+                                        cols: _vm.$vuetify.breakpoint.lgAndUp
+                                          ? 4
+                                          : 12
+                                      }
                                     },
                                     [
                                       _c("div", [
@@ -24247,18 +24239,27 @@ var render = function() {
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "text-right pa-5",
+                                      class: _vm.$vuetify.breakpoint.lgAndUp
+                                        ? "text-right"
+                                        : "text-center",
                                       attrs: { cols: "12", md: "12", lg: "12" }
                                     },
                                     [
                                       _c(
                                         "div",
-                                        { staticClass: "mb-4" },
+                                        {
+                                          class: _vm.$vuetify.breakpoint.lgAndUp
+                                            ? "mb-3 mt-1"
+                                            : "d-flex mb-3 mt-1"
+                                        },
                                         [
                                           _c(
                                             "v-btn",
                                             {
-                                              staticClass: "mr-2",
+                                              class: !_vm.$vuetify.breakpoint
+                                                .lgAndUp
+                                                ? "pl-5"
+                                                : "",
                                               attrs: {
                                                 rounded: "",
                                                 color: "primary",
@@ -24274,24 +24275,24 @@ var render = function() {
                                                 [_vm._v("mdi-arrow-left")]
                                               ),
                                               _vm._v(
-                                                "\r\n                                        " +
-                                                  _vm._s(
-                                                    _vm.$vuetify.breakpoint
-                                                      .xs ||
-                                                      _vm.$vuetify.breakpoint.sm
-                                                      ? ""
-                                                      : "previous"
-                                                  ) +
-                                                  "\r\n                                        "
+                                                "\r\n                                        Previous\r\n                                        "
                                               )
                                             ],
                                             1
                                           ),
                                           _vm._v(" "),
+                                          !_vm.$vuetify.breakpoint.lgAndUp
+                                            ? _c("v-spacer")
+                                            : _vm._e(),
+                                          _vm._v(" "),
                                           _vm.questionIndex != _vm.Qlength - 1
                                             ? _c(
                                                 "v-btn",
                                                 {
+                                                  class: !_vm.$vuetify
+                                                    .breakpoint.lgAndUp
+                                                    ? "pr-5"
+                                                    : "",
                                                   attrs: {
                                                     loading: _vm.isSavingAnswer,
                                                     rounded: "",
@@ -24301,16 +24302,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\r\n                                        " +
-                                                      _vm._s(
-                                                        _vm.$vuetify.breakpoint
-                                                          .xs ||
-                                                          _vm.$vuetify
-                                                            .breakpoint.sm
-                                                          ? ""
-                                                          : "Next"
-                                                      ) +
-                                                      "\r\n                                        "
+                                                    "\r\n                                        Next\r\n                                        "
                                                   ),
                                                   _c(
                                                     "v-icon",
@@ -24326,6 +24318,10 @@ var render = function() {
                                             ? _c(
                                                 "v-btn",
                                                 {
+                                                  class: !_vm.$vuetify
+                                                    .breakpoint.lgAndUp
+                                                    ? "pr-5"
+                                                    : "",
                                                   attrs: {
                                                     loading: _vm.isSavingAnswer,
                                                     rounded: "",

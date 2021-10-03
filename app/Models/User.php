@@ -44,27 +44,27 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'photo_url',
-    ];
+    // /**
+    //  * The accessors to append to the model's array form.
+    //  *
+    //  * @var array
+    //  */
+    // protected $appends = [
+    //     'photo_url',
+    // ];
 
-    /**
-     * Get the profile photo URL attribute.
-     *
-     * @return string
-     */
-    public function getPhotoUrlAttribute()
-    {
-        return vsprintf('https://www.gravatar.com/avatar/%s.jpg?s=200&d=%s', [
-            md5(strtolower($this->email)),
-            $this->name ? urlencode("https://ui-avatars.com/api/$this->name") : 'mp',
-        ]);
-    }
+    // /**
+    //  * Get the profile photo URL attribute.
+    //  *
+    //  * @return string
+    //  */
+    // public function getPhotoUrlAttribute()
+    // {
+    //     return vsprintf('https://www.gravatar.com/avatar/%s.jpg?s=200&d=%s', [
+    //         md5(strtolower($this->email)),
+    //         $this->name ? urlencode("https://ui-avatars.com/api/$this->name") : 'mp',
+    //     ]);
+    // }
 
     public function sendEmailVerificationNotification() {
         $now = now()->addSeconds(2);

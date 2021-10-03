@@ -33,7 +33,7 @@ const actions = {
             const res = await axios.get(
                 `/api/profile/details`
             );
-            console.log(res.data.photo_url);
+            //console.log(res.data.photo_url);
             state.CurrentUser = res.data;
             state.UserRole = res.data.role;
             state.IsVerified = res.data.verified;

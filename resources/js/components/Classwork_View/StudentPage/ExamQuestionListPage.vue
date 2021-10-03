@@ -22,7 +22,7 @@
      v-if="TimesUpDialog"></timesUpDialog>
 </v-dialog>
 
-<v-container class="fill-height" v-if="isLoading" style="height: 600px;">
+<!-- <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
             {{isSubmitting? 'Submitting Questions':'Loading Questions'}}
@@ -31,14 +31,22 @@
             <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
         </v-col>
     </v-row>
-</v-container>
+</v-container> -->
+    
+    <vue-element-loading :active="isLoading" 
+    :text="isSubmitting ? 'Loading Questions' : 'Loading Questions'"
+    duration="0.7"
+    :textStyle="{fontSize: '18px'}"
+    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
+   
+
 
 <v-container  fluid :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 ' : 'pa-2'" v-if="!isLoading" >
       <v-row justify="center" >
           <v-col cols="12" >
                <v-card elevation="2" outlined class="pa-2">
                <v-row v-if="!isLoading">
-                <v-col cols="8" >
+                <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="8"  >
                     <v-list>
                         <v-list-item>
                         <v-list-item-avatar>
@@ -55,7 +63,7 @@
                         </v-list-item>
                     </v-list>
                 </v-col>
-                <v-col cols="4" class="d-flex justify-end">
+                <v-col :cols="$vuetify.breakpoint.lgAndUp ? 4 : 12" :class="$vuetify.breakpoint.lgAndUp ? 'd-flex justify-end' : 'd-flex justify-center'">
                     <div>
                         <h4 class="ml-10">Time Remaining</h4>
                         <div class="d-flex">
@@ -101,23 +109,26 @@
                 <v-card class="pa-5" elevation="2" outlined >
                     <v-row>
                         <v-row>
-                            <v-col cols="12" md="12" lg="12"  class="text-right pa-5" >
-                                <div class="mb-4">
-                                    <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
+                            <v-col cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.lgAndUp ? 'text-right' : 'text-center'" >
+                                <div :class="$vuetify.breakpoint.lgAndUp  ? 'mb-3 mt-1' : 'd-flex mb-3 mt-1'">
+                                    <v-btn :class="!$vuetify.breakpoint.lgAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
                                         <v-icon left>mdi-arrow-left</v-icon>
-                                        {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'previous'}}
+                                        Previous
                                         </v-btn>
-
+                                       
+                                        <v-spacer v-if="!$vuetify.breakpoint.lgAndUp"></v-spacer>
                                         <v-btn v-if="questionIndex != Qlength-1" 
+                                        :class="!$vuetify.breakpoint.lgAndUp ? 'pr-5' : ''"
                                         :loading="isSavingAnswer"
                                         rounded color="primary" @click="next">
-                                        {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'Next'}}
+                                        Next
                                         <v-icon right>mdi-arrow-right</v-icon>
                                         </v-btn>
 
                                         <v-btn 
                                         :loading="isSavingAnswer"
+                                        :class="!$vuetify.breakpoint.lgAndUp ? 'pr-5' : ''"
                                          v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
                                         Submit
                                         <v-icon right>mdi-lock</v-icon>
@@ -426,7 +437,7 @@ export default {
                 if(this.questionIndex != this.Qlength-1){
                     this.questionIndex++;
                 }
-                setTimeout(() => (this.isSavingAnswer = false), 500);
+                setTimeout(() => (this.isSavingAnswer = false), 700);
             
         },
         async updateAnswer(){
