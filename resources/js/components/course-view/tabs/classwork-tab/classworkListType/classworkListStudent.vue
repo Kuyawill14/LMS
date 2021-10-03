@@ -298,8 +298,9 @@
 
             },
              CheckClassworkCount(){
-                this.classworks.ClassworksList.forEach(element => {
-                    this.ClassworkLength += element.length;
+                let data = this.classworks.ClassworksList;
+                data.forEach(item => {
+                    this.ClassworkLength += item.length;
                 });
             }
         },

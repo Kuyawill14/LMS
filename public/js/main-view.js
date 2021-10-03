@@ -812,6 +812,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 /* import bottomNavigation from "./layout/bottom-navigation/main-bottom-navigation";
@@ -878,7 +881,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".md-app[data-v-1000632d] {\n  height: 100vh;\n}\n.md-drawer[data-v-1000632d] {\n  width: 230px;\n  max-width: calc(100vw - 125px);\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".md-app[data-v-1000632d] {\n  height: 100vh;\n}\n\n/* .md-drawer {\n    width: 230px;\n    max-width: calc(100vw - 125px);\n} */", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9665,14 +9668,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app-bar",
-    {
-      attrs: {
-        "clipped-left": _vm.$vuetify.breakpoint.lgAndUp,
-        app: "",
-        color: "primary",
-        dark: ""
-      }
-    },
+    { attrs: { app: "", color: "primary", dark: "" } },
     [
       _c("v-app-bar-nav-icon", {
         on: {
@@ -9706,12 +9702,7 @@ var render = function() {
           _c(
             "v-menu",
             {
-              attrs: {
-                bottom: "",
-                "min-width": "200px",
-                rounded: "",
-                "offset-y": ""
-              },
+              attrs: { bottom: "", "min-width": "200px", rounded: "" },
               scopedSlots: _vm._u([
                 {
                   key: "activator",
@@ -10596,6 +10587,7 @@ var render = function() {
         "v-app-bar",
         {
           attrs: {
+            "elevate-on-scroll": "",
             "clipped-left": _vm.$vuetify.breakpoint.lgAndUp,
             app: "",
             color: "primary",
@@ -10972,7 +10964,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-app",
-    { attrs: { id: "inspire" } },
     [
       _c("sidebar", {
         attrs: {
@@ -10987,7 +10978,7 @@ var render = function() {
         [
           _c(
             "v-container",
-            { attrs: { fluid: "" } },
+            { attrs: { fluid: "", width: "100%" } },
             [
               _c("router-view", {
                 attrs: {

@@ -203,8 +203,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 var checksubjective = function checksubjective() {
@@ -248,7 +246,7 @@ var checksubjective = function checksubjective() {
       }],
       isSavingScore: false,
       score: null,
-      StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
+      StatusType: ['All', 'Submitted', 'Graded'],
       selectedStatus: 'All',
       isStarting: false
     };
@@ -269,6 +267,34 @@ var checksubjective = function checksubjective() {
     }
   },
   methods: {
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'mdi-image';
+      } else if (ext == 'pdf') {
+        return 'mdi-file-pdf';
+      } else if (ext == 'txt') {
+        return 'mdi-note-text-outline';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'mdi-file-word';
+      } else if (ext == 'link') {
+        return 'mdi-file-link';
+      }
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'info';
+      } else if (ext == 'pdf') {
+        return 'red';
+      } else if (ext == 'txt') {
+        return 'primary';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'blue';
+      } else if (ext == 'link') {
+        return 'green';
+      } else {
+        return 'primary';
+      }
+    },
     format_date: function format_date(value) {
       if (value) {
         //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
@@ -288,13 +314,17 @@ var checksubjective = function checksubjective() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var rubrics_score;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                rubrics_score = [];
+
                 if (_this2.score <= _this2.classworkDetails.points) {
                   axios.put('/api/submission/update-score/' + id, {
-                    score: _this2.score
+                    score: _this2.score,
+                    data: rubrics_score
                   }).then(function (res) {
                     if (res.status == 200) {
                       _this2.toastSuccess("Score Updated");
@@ -316,7 +346,7 @@ var checksubjective = function checksubjective() {
                   _this2.toastError('Score is higher than the set points!');
                 }
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -324,9 +354,6 @@ var checksubjective = function checksubjective() {
         }, _callee);
       }))();
     }
-  },
-  mounted: function mounted() {
-    console.log(this.ListData);
   }
 });
 
@@ -1387,6 +1414,7 @@ var render = function() {
                                       item.status == "Submitted"
                                         ? _c(
                                             "v-list-item-action",
+                                            { staticClass: "mt-7" },
                                             [
                                               _c("v-text-field", {
                                                 staticClass: "ma-0 pa-0",
@@ -1579,9 +1607,14 @@ var render = function() {
                                   value:
                                     item.status == "Submitted" &&
                                     (_vm.Class == _vm.$route.params.id ||
-                                      _vm.Class == item.class_id),
+                                      _vm.Class == item.class_id) &&
+                                    (_vm.selectedStatus == "All" ||
+                                      (_vm.selectedStatus == "Submitted" &&
+                                        item.graded == 0) ||
+                                      (_vm.selectedStatus == "Graded" &&
+                                        item.graded == 1)),
                                   expression:
-                                    "item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)"
+                                    "(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1))"
                                 }
                               ],
                               key: i,
@@ -1589,208 +1622,114 @@ var render = function() {
                               attrs: { link: "", cols: "6", md: "3", lg: "3" }
                             },
                             [
-                              _vm.selectedStatus == "All" ||
-                              _vm.selectedStatus == item.status ||
-                              (_vm.selectedStatus == "Graded" &&
-                                item.graded == 1) ||
-                              (_vm.selectedStatus == "No Submission" &&
-                                (item.status == null || item.status == ""))
-                                ? _c(
-                                    "v-card",
+                              _c(
+                                "v-card",
+                                {
+                                  staticClass: "mx-auto",
+                                  staticStyle: { cursor: "pointer" },
+                                  attrs: { outlined: "" }
+                                },
+                                [
+                                  _c(
+                                    "v-list-item",
                                     {
-                                      staticClass: "mx-auto",
-                                      staticStyle: { cursor: "pointer" },
-                                      attrs: { outlined: "" }
+                                      attrs: { link: "" },
+                                      on: {
+                                        click: function($event) {
+                                          ;(_vm.CheckData = item),
+                                            (_vm.dialog = !_vm.dialog),
+                                            (_vm.isStarting = true)
+                                        }
+                                      }
                                     },
                                     [
                                       _c(
-                                        "v-list-item",
-                                        {
-                                          attrs: { link: "" },
-                                          on: {
-                                            click: function($event) {
-                                              ;(_vm.CheckData = item),
-                                                (_vm.dialog = !_vm.dialog),
-                                                (_vm.isStarting = true)
-                                            }
-                                          }
-                                        },
+                                        "v-list-item-content",
                                         [
                                           _c(
-                                            "v-list-item-content",
+                                            "v-list-item-title",
+                                            {
+                                              staticClass:
+                                                "d-flex flex-column align-self-center"
+                                            },
                                             [
                                               _c(
-                                                "v-list-item-title",
+                                                "div",
                                                 {
-                                                  staticClass:
-                                                    "d-flex flex-column align-self-center"
+                                                  staticClass: "mb-2",
+                                                  staticStyle: {
+                                                    "max-height": "30px",
+                                                    overflow: "hidden"
+                                                  }
                                                 },
                                                 [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass: "mb-2",
-                                                      staticStyle: {
-                                                        "max-height": "30px",
-                                                        overflow: "hidden"
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          item.firstName +
-                                                            " " +
-                                                            item.lastName
-                                                        )
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("v-divider"),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        color:
-                                                          item.Submitted_Answers !=
-                                                          null
-                                                            ? item
-                                                                .Submitted_Answers[0]
-                                                                .fileExte ==
-                                                              "pdf"
-                                                              ? "red"
-                                                              : item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "docx" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "doc"
-                                                              ? "blue"
-                                                              : item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                "link"
-                                                              ? "green"
-                                                              : item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "jpg" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "jpeg" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "gif" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "svg" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "png" ||
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                  "bmp"
-                                                              ? "info"
-                                                              : ""
-                                                            : "primary",
-                                                        "x-large": ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                           " +
-                                                          _vm._s(
-                                                            item.Submitted_Answers !=
-                                                              null
-                                                              ? item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte ==
-                                                                "pdf"
-                                                                ? "mdi-file-pdf"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                  "txt"
-                                                                ? "mdi-note-text-outline"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "docx" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "doc"
-                                                                ? "mdi-file-word"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                  "link"
-                                                                ? "mdi-file-link"
-                                                                : item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "jpg" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "jpeg" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "gif" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "svg" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "png" ||
-                                                                  item
-                                                                    .Submitted_Answers[0]
-                                                                    .fileExte ==
-                                                                    "bmp"
-                                                                ? "mdi-image"
-                                                                : ""
-                                                              : ""
-                                                          ) +
-                                                          "\r\n                                         "
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "small",
-                                                    {
-                                                      staticStyle: {
-                                                        "max-height": "12px",
-                                                        overflow: "hidden"
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      item.firstName +
                                                         " " +
-                                                          _vm._s(
-                                                            item.Submitted_Answers !=
-                                                              null
-                                                              ? item
-                                                                  .Submitted_Answers[0]
-                                                                  .name
-                                                              : ""
-                                                          )
-                                                      )
-                                                    ]
+                                                        item.lastName
+                                                    )
                                                   )
-                                                ],
-                                                1
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("v-divider"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    color:
+                                                      item.Submitted_Answers !=
+                                                      null
+                                                        ? _vm.CheckFileIconColor(
+                                                            item
+                                                              .Submitted_Answers[0]
+                                                              .fileExte
+                                                          )
+                                                        : "primary",
+                                                    "x-large": ""
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                           " +
+                                                      _vm._s(
+                                                        item.Submitted_Answers !=
+                                                          null
+                                                          ? _vm.CheckFileIcon(
+                                                              item
+                                                                .Submitted_Answers[0]
+                                                                .fileExte
+                                                            )
+                                                          : ""
+                                                      ) +
+                                                      "\r\n                                         "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "small",
+                                                {
+                                                  staticStyle: {
+                                                    "max-height": "12px",
+                                                    overflow: "hidden"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        item.Submitted_Answers !=
+                                                          null
+                                                          ? item
+                                                              .Submitted_Answers[0]
+                                                              .name
+                                                          : ""
+                                                      )
+                                                  )
+                                                ]
                                               )
                                             ],
                                             1
@@ -1801,7 +1740,9 @@ var render = function() {
                                     ],
                                     1
                                   )
-                                : _vm._e()
+                                ],
+                                1
+                              )
                             ],
                             1
                           )

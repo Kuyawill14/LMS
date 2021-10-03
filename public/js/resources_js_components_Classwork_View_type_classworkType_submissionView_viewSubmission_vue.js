@@ -176,6 +176,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -474,36 +479,23 @@ var render = function() {
       _vm.isLoading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "400px" } },
+            { staticClass: "fill-height", staticStyle: { height: "500px" } },
             [
               _c(
                 "v-row",
                 { attrs: { "align-content": "center", justify: "center" } },
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_vm._v("\n              Loading\n          ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
+                  _c("vue-element-loading", {
+                    attrs: {
+                      active: _vm.isLoading,
+                      text: "Loading",
+                      duration: "0.7",
+                      textStyle: { fontSize: "18px" },
+                      spinner: "line-scale",
+                      color: "#EF6C00",
+                      size: "50"
+                    }
+                  })
                 ],
                 1
               )

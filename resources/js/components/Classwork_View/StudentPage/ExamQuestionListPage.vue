@@ -18,11 +18,11 @@
 <v-dialog v-model="TimesUpDialog" persistent max-width="500">
     <timesUpDialog
     v-on:toggleCloaseDialog="TimesUpDialog = !TimesUpDialog"
-    
+    v-on:SubmitAnswer="$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})"
      v-if="TimesUpDialog"></timesUpDialog>
 </v-dialog>
 
-<v-container class="fill-height" v-if="isLoading" style="height: 600px;">
+<!-- <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
             {{isSubmitting? 'Submitting Questions':'Loading Questions'}}
@@ -31,14 +31,22 @@
             <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
         </v-col>
     </v-row>
-</v-container>
+</v-container> -->
+    
+    <vue-element-loading :active="isLoading" 
+    :text="isSubmitting ? 'Loading Questions' : 'Loading Questions'"
+    duration="0.7"
+    :textStyle="{fontSize: '18px'}"
+    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
+   
+
 
 <v-container  fluid :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 ' : 'pa-2'" v-if="!isLoading" >
       <v-row justify="center" >
           <v-col cols="12" >
                <v-card elevation="2" outlined class="pa-2">
                <v-row v-if="!isLoading">
-                <v-col cols="8" >
+                <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="8"  >
                     <v-list>
                         <v-list-item>
                         <v-list-item-avatar>
@@ -55,9 +63,9 @@
                         </v-list-item>
                     </v-list>
                 </v-col>
-                <v-col cols="4" class="d-flex justify-end">
-                    <div>
-                        <h4 class="ml-10">Time Remaining</h4>
+                <v-col :cols="$vuetify.breakpoint.lgAndUp ? 4 : 12" :class="$vuetify.breakpoint.lgAndUp ? 'd-flex justify-end' : 'd-flex justify-center'">
+                    <div >
+                        <h4 @click="Answersheet = true"  class="ml-10">Time Remaining</h4>
                         <div class="d-flex">
                              <div class="text-center">
                                 <v-menu offset-y>
@@ -84,7 +92,7 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && questionIsLoaded"></quizTimer>
+                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded"></quizTimer>
                         </div>
                     </div>
                 </v-col>
@@ -92,7 +100,7 @@
             </v-card>
           </v-col>
       </v-row>
-      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn>
+ <!--      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn> -->
 </v-container>
 
   <div v-if="!isLoading" class="mt-2 ma-2"  >
@@ -101,23 +109,26 @@
                 <v-card class="pa-5" elevation="2" outlined >
                     <v-row>
                         <v-row>
-                            <v-col cols="12" md="12" lg="12"  class="text-right pa-5" >
-                                <div class="mb-4">
-                                    <v-btn rounded color="primary" class="mr-2" outlined="" @click="prev" 
+                            <v-col cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.lgAndUp ? 'text-right' : 'text-center'" >
+                                <div :class="$vuetify.breakpoint.lgAndUp  ? 'mb-3 mt-1' : 'd-flex mb-3 mt-1'">
+                                    <v-btn :class="!$vuetify.breakpoint.lgAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
                                         <v-icon left>mdi-arrow-left</v-icon>
-                                        {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'previous'}}
+                                        Previous
                                         </v-btn>
-
+                                       
+                                        <v-spacer v-if="!$vuetify.breakpoint.lgAndUp"></v-spacer>
                                         <v-btn v-if="questionIndex != Qlength-1" 
+                                        :class="!$vuetify.breakpoint.lgAndUp ? 'pr-5' : ''"
                                         :loading="isSavingAnswer"
                                         rounded color="primary" @click="next">
-                                        {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'Next'}}
+                                        Next
                                         <v-icon right>mdi-arrow-right</v-icon>
                                         </v-btn>
 
                                         <v-btn 
                                         :loading="isSavingAnswer"
+                                        :class="!$vuetify.breakpoint.lgAndUp ? 'pr-5' : ''"
                                          v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
                                         Submit
                                         <v-icon right>mdi-lock</v-icon>
@@ -145,7 +156,7 @@
                                         
                                         <v-container v-if="item.type == 'Multiple Choice'">
                                             <v-row>
-                                                <v-col cols="12" md="12">
+                                                <v-col class="ml-0 pl-0 pt-0 mt-0" cols="12" md="12">
                                                 <v-container >
                                                     <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
                                                     <v-radio-group  :max="1" :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
@@ -159,7 +170,6 @@
                                                         ></v-radio>
                                                         </v-radio-group>
                                                         <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                   
                                                             <span style="user-select: none" v-html="Ans.Choice" class="post-content"></span>
                                                         </div>
                                                         </v-container>
@@ -312,6 +322,7 @@ export default {
     },
     data(){
         return{
+            Answersheet: false,
             StopTimer: false,
             dialog:false,
             warningDialog: false,
@@ -359,6 +370,7 @@ export default {
             isSavingAnswer: false,
             bus: "testing",
             TimesUpDialog: false,
+            windowHeight: window.innerHeight - 100,
         }
     },
     computed: 
@@ -427,7 +439,7 @@ export default {
                 if(this.questionIndex != this.Qlength-1){
                     this.questionIndex++;
                 }
-                setTimeout(() => (this.isSavingAnswer = false), 500);
+                setTimeout(() => (this.isSavingAnswer = false), 700);
             
         },
         async updateAnswer(){
@@ -452,46 +464,47 @@ export default {
             this.questionIndex--;
             
         },
-         SubmitAnswer(time){
-            this.isExamStart = false;
-            this.isLoading = !this.isLoading;
-            this.isSubmitting = !this.isSubmitting;
-            this.dialog = !this.dialog;
-            this.isStart = !this.isStart;
-            this.warningDialog = false;
-            axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: time})
-            .then(()=>{
-                 setTimeout(() => {
+         SubmitAnswer(data){
+             if(data.istime == false){
+                  this.isExamStart = false;
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
-                }, 2000);
-                this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-            })              
+                    this.dialog = !this.dialog;
+                    this.isStart = !this.isStart;
+                    this.warningDialog = false;
+                    axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: data.time})
+                    .then((res)=>{
+                        this.isLoading = !this.isLoading;
+                        this.isSubmitting = !this.isSubmitting;
+                        this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
+                    })       
+             }
+                  
         },
-        TimesUpSubmit(){
+        TimesUpSubmit(data){
+            this.TimesUpDialog = !this.TimesUpDialog;
             this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.isStart = !this.isStart;
             this.warningDialog = false;
-             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
-            .then(()=>{
-
-
+             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount, timeSpent: data.time})
+            .then((res)=>{
+                console.log('timesUp');
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
+                    
                 }, 2000);
-                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
             })
         },
         fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(()=>{
                 this.Qlength = this.getAll_questions.Question.length;
-              
-               
-                //let AnswersList = JSON.parse(localStorage.getItem(name));
+            
                 let AnswersList = this.Submitted_Answers;
+        
                 if(AnswersList == null || AnswersList.length == 0){
                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
                         if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
@@ -542,34 +555,59 @@ export default {
                         type: "multiple",
                         data: this.FinalAnswers
                     })
-                }else{
-
-                    let Submitted_length = AnswersList.length;
-                    let Question_length = this.getAll_questions.Question.length;
-                    let diff = Question_length  - Submitted_length;
-                    for (let i = 0; i < diff; i++) {
-                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
-                            this.details.Submitted_Answers.push({
-                                Answer: null,
-                                Question_id: this.QuestionAndAnswer.Question[i].id,
-                                timeConsume: null,
-                                type: this.QuestionAndAnswer.Question[i].type
-                            })
+                }
+                else if(this.Qlength != AnswersList.length){
+                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
+                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
+                            this.FinalAnswers.push({
+                                Answer: '',
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type:this.getAll_questions.Question[index].type,
+                                timeConsume: null
+                            });
                         }
-                        else if(this.getAll_questions.Question[x].type == 'Essay'){
-                            this.details.Submitted_Answers.push({
-                                Answer: null,
-                                Question_id: this.QuestionAndAnswer.Question[i].id,
-                                timeConsume: null,
-                                type: this.QuestionAndAnswer.Question[i].type,
+                        else if(this.getAll_questions.Question[index].type == 'Essay'){
+                             this.FinalAnswers.push({
+                                Answer: '',
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type:this.getAll_questions.Question[index].type,
                                 check: false,
-                            })
+                                timeConsume: null
+                            });
                         }
-                        else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
+                         else if(this.getAll_questions.Question[index].type == 'Matching type'){
+                            let Ans = new Array();
+                            let Choices_id = new Array();
+                             this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
+                                Choices_id.push({
+                                   choice_id: item.id
+                                })
+                            });
+                            
+                            this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
+                                Ans.push({
+                                    Ans_letter: '',
+                                    Ans_id: null,
+                                    subquestion_id: item.id,
+                                    Answers: ''
+                                })
+                            });
 
-                        }
-    
+                            this.FinalAnswers.push({
+                                Answer: Ans,
+                                Choices_id: Choices_id,
+                                Question_id: this.getAll_questions.Question[index].id,
+                                type: this.getAll_questions.Question[index].type,
+                                timeConsume: null
+                            });
+                        }                      
                     }
+                        axios.put('/api/question/store-answer/'+ this.submission_id , {
+                        type: "multiple",
+                        data: this.FinalAnswers
+                    })
+                }
+                else if(this.Qlength == AnswersList.length){
 
                      for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
@@ -619,8 +657,6 @@ export default {
         },
          preventNav(event) {
             if (!this.isStart) return;
-            //event.preventDefault();
-            // Chrome requires returnValue to be set.
             event.returnValue = "";
         },
          CheckStatus(){
@@ -725,10 +761,6 @@ export default {
         $(window).blur(function(){
             self.triggerWarning()
         });
-        //window.addEventListener("beforeunload", this.preventNav)
-           /*  this.$once("hook:beforeDestroy", () => {
-            window.removeEventListener("beforeunload", this.preventNav);
-        }) */
     },
      beforeRouteLeave(to, from, next) {
         if (this.isExamStart) {

@@ -105,10 +105,8 @@
                                                                     <v-list nav outlined>
                                                                         <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
                                                                             <v-list-item-icon class="pr-0 mr-0 mr-1">
-                                                                                    <v-icon large :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue':
-                                                                        item.fileExte == 'jpg' || item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'" >
-                                                                                        {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx' || item.fileExte == 'doc' ? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                                                                     item.fileExte == 'jpg' || item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte== 'svg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                                                                    <v-icon large :color="CheckFileIconColor(item.fileExte)" >
+                                                                                        {{CheckFileIcon(item.fileExte)}}
                                                                                     </v-icon>
                                                                             </v-list-item-icon>
                                                                             <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
@@ -141,6 +139,10 @@
 
                                     </v-col>
                                 </v-row>
+                                <div class="pt-5 pb-1">
+                                       <v-divider></v-divider>
+                                </div>
+                             
                                  <v-list v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'">
                                     <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
                                         <v-list-item-avatar tile>
@@ -342,6 +344,44 @@ import {mapGetters} from "vuex";
         ...mapGetters(['get_CurrentUser']),
     },
     methods:{
+          CheckFileIcon(ext){
+                if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+                return 'mdi-image';
+                }
+                else if(ext == 'pdf'){
+                return 'mdi-file-pdf';
+                }
+                else if(ext == 'txt' ){
+                return 'mdi-note-text-outline';
+                }
+                else if(ext == 'docx' || ext == 'doc'){
+                return 'mdi-file-word';
+                }
+                else if(ext == 'link' ){
+                return 'mdi-file-link';
+                }
+        },
+        CheckFileIconColor(ext){
+        if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'info';
+            }
+            else if(ext == 'pdf'){
+            return 'red';
+            }
+            else if(ext == 'txt' ){
+            return 'primary';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'blue';
+            }
+            else if(ext == 'link' ){
+            return 'green';
+            }
+            else{
+            return 'primary';
+            }
+
+        },
          format_date(value) {
             if (value) {
                 //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
@@ -481,7 +521,7 @@ import {mapGetters} from "vuex";
                     if(this.CheckData.rubrics_score == false){
                         this.CheckData.rubrics_score = [];
                         this.classworkDetails.rubrics.forEach(item => {
-                              this.CheckData.rubrics_score.push({points : null})
+                              this.CheckData.rubrics_score.push({ id: item.id , points : null})
                         });
                     }
               }
@@ -527,7 +567,7 @@ import {mapGetters} from "vuex";
             //this.pdf_path = path;
         }
         this.checkRubrics();
-         this.$emit('isMounted');
+        this.$emit('isMounted');
     }
   
   }

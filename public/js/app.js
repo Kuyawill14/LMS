@@ -2892,8 +2892,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
   }, {
     path: "/submitted-result/:id",
     component: resultPage,
-    name: "result-page",
-    props: true
+    name: "result-page"
   }, //login
   {
     path: "/login",
@@ -3089,6 +3088,7 @@ var actions = {
 
             case 4:
               res = _context2.sent;
+              //console.log(res.data.photo_url);
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
               state.IsVerified = res.data.verified;

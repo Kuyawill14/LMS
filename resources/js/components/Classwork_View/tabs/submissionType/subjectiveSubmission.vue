@@ -54,7 +54,7 @@
                                     <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
                                     <v-list-item-subtitle class="success--text" ><v-icon v-if="item.graded == 1" small color="success">mdi-check</v-icon> {{item.graded == 1 ? 'Graded' : item.status == 'Submitted' ? 'Submitted' : ''}}</v-list-item-subtitle>
                                 </v-list-item-content>
-                                <v-list-item-action v-if="item.status == 'Submitted'">
+                                <v-list-item-action v-if="item.status == 'Submitted'" class="mt-7">
                                     <v-text-field 
                                         class="ma-0 pa-0"
                                         :loading="isSavingScore" 
@@ -148,9 +148,9 @@
 
             <v-col cols="12">
                 <v-row>
-                    <v-col v-show="item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1))" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
                           <v-card
-                          v-if="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))" style="cursor:pointer" 
+                          style="cursor:pointer" 
                         class="mx-auto"
                       
                         outlined>
@@ -160,11 +160,9 @@
                                         <div class="mb-2" style="max-height:30px;overflow:hidden">{{item.firstName +' '+item.lastName}}</div>
                                         <v-divider></v-divider>
                                         <v-icon 
-                                        :color=" item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'red' : item.Submitted_Answers[0].fileExte == 'docx' || item.Submitted_Answers[0].fileExte == 'doc'? 'blue': item.Submitted_Answers[0].fileExte == 'link' ? 'green':
-                                          item.Submitted_Answers[0].fileExte == 'jpg' || item.Submitted_Answers[0].fileExte == 'jpeg' || item.Submitted_Answers[0].fileExte == 'gif' ||  item.Submitted_Answers[0].fileExte== 'svg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'info': '') : 'primary'"
+                                        :color=" item.Submitted_Answers != null ? CheckFileIconColor(item.Submitted_Answers[0].fileExte): 'primary'"
                                          x-large>
-                                           {{item.Submitted_Answers != null ? (item.Submitted_Answers[0].fileExte == 'pdf' ? 'mdi-file-pdf': item.Submitted_Answers[0].fileExte == 'txt' ? 'mdi-note-text-outline': item.Submitted_Answers[0].fileExte == 'docx' ||  item.Submitted_Answers[0].fileExte == 'doc'? 'mdi-file-word': item.Submitted_Answers[0].fileExte == 'link'? 'mdi-file-link': 
-                                          item.Submitted_Answers[0].fileExte == 'jpg' || item.Submitted_Answers[0].fileExte == 'jpeg' || item.Submitted_Answers[0].fileExte == 'gif' ||  item.Submitted_Answers[0].fileExte== 'svg' ||  item.Submitted_Answers[0].fileExte == 'png' ||  item.Submitted_Answers[0].fileExte == 'bmp' ? 'mdi-image' :'') : ''}}
+                                           {{item.Submitted_Answers != null ? CheckFileIcon(item.Submitted_Answers[0].fileExte) : ''}}
                                          </v-icon>
                                        
                                         <small style="max-height:12px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : ''}}</small>
@@ -213,7 +211,7 @@ export default {
             ],
            isSavingScore: false,
             score: null,
-            StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
+            StatusType: ['All', 'Submitted', 'Graded'],
             selectedStatus:'All',
             isStarting: false,
         }
@@ -234,6 +232,44 @@ export default {
         }
     },
     methods:{
+         CheckFileIcon(ext){
+            if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'mdi-image';
+            }
+            else if(ext == 'pdf'){
+            return 'mdi-file-pdf';
+            }
+            else if(ext == 'txt' ){
+            return 'mdi-note-text-outline';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'mdi-file-word';
+            }
+            else if(ext == 'link' ){
+            return 'mdi-file-link';
+            }
+      },
+       CheckFileIconColor(ext){
+        if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'info';
+            }
+            else if(ext == 'pdf'){
+            return 'red';
+            }
+            else if(ext == 'txt' ){
+            return 'primary';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'blue';
+            }
+            else if(ext == 'link' ){
+            return 'green';
+            }
+            else{
+            return 'primary';
+            }
+
+        },
         format_date(value) {
             if (value) {
                 //return moment(String(value)).format('MM/d/YYYY, hh:mm A')
@@ -250,8 +286,9 @@ export default {
             }, 1000);
         },
         async UpdateScore(id){
+            let rubrics_score = [];
             if(this.score <= this.classworkDetails.points){
-                axios.put('/api/submission/update-score/'+id,{score: this.score})
+                axios.put('/api/submission/update-score/'+id,{score: this.score, data: rubrics_score})
                 .then(res=>{
                     if(res.status == 200){
                         this.toastSuccess("Score Updated");
@@ -275,8 +312,6 @@ export default {
        
        
     },
-    mounted(){
-        console.log(this.ListData);
-    }
+   
 }
 </script>

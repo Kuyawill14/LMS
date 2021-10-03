@@ -323,6 +323,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -338,6 +348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      Answersheet: false,
       StopTimer: false,
       dialog: false,
       warningDialog: false,
@@ -380,7 +391,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       submission_id: null,
       isSavingAnswer: false,
       bus: "testing",
-      TimesUpDialog: false
+      TimesUpDialog: false,
+      windowHeight: window.innerHeight - 100
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions"]),
@@ -448,7 +460,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       setTimeout(function () {
         return _this2.isSavingAnswer = false;
-      }, 500);
+      }, 700);
     },
     updateAnswer: function updateAnswer() {
       var _this3 = this;
@@ -485,47 +497,50 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.CountTime();
       this.questionIndex--;
     },
-    SubmitAnswer: function SubmitAnswer(time) {
+    SubmitAnswer: function SubmitAnswer(data) {
       var _this4 = this;
 
+      if (data.istime == false) {
+        this.isExamStart = false;
+        this.isLoading = !this.isLoading;
+        this.isSubmitting = !this.isSubmitting;
+        this.dialog = !this.dialog;
+        this.isStart = !this.isStart;
+        this.warningDialog = false;
+        axios.post('/api/question/check/' + this.$route.query.clwk, {
+          item: this.FinalAnswers,
+          AnsLength: this.questionIndex,
+          timerCount: this.TimerCount,
+          timeSpent: data.time
+        }).then(function (res) {
+          _this4.isLoading = !_this4.isLoading;
+          _this4.isSubmitting = !_this4.isSubmitting;
+
+          _this4.$router.push({
+            name: 'result-page',
+            params: {
+              id: _this4.$route.query.clwk
+            }
+          });
+        });
+      }
+    },
+    TimesUpSubmit: function TimesUpSubmit(data) {
+      var _this5 = this;
+
+      this.TimesUpDialog = !this.TimesUpDialog;
       this.isExamStart = false;
       this.isLoading = !this.isLoading;
       this.isSubmitting = !this.isSubmitting;
-      this.dialog = !this.dialog;
       this.isStart = !this.isStart;
       this.warningDialog = false;
       axios.post('/api/question/check/' + this.$route.query.clwk, {
         item: this.FinalAnswers,
         AnsLength: this.questionIndex,
         timerCount: this.TimerCount,
-        timeSpent: time
-      }).then(function () {
-        setTimeout(function () {
-          _this4.isLoading = !_this4.isLoading;
-          _this4.isSubmitting = !_this4.isSubmitting;
-        }, 2000);
-
-        _this4.$router.push({
-          name: 'result-page',
-          params: {
-            id: _this4.$route.query.clwk
-          }
-        });
-      });
-    },
-    TimesUpSubmit: function TimesUpSubmit() {
-      var _this5 = this;
-
-      this.isExamStart = false;
-      this.isLoading = !this.isLoading;
-      this.isSubmitting = !this.isSubmitting;
-      this.isStart = !this.isStart;
-      this.warningDialog = false;
-      axios.post('/api/question/check/' + this.$route.query.clwk, {
-        item: this.FinalAnswers,
-        AnsLength: this.questionIndex,
-        timerCount: this.TimerCount
-      }).then(function () {
+        timeSpent: data.time
+      }).then(function (res) {
+        console.log('timesUp');
         setTimeout(function () {
           _this5.isLoading = !_this5.isLoading;
           _this5.isSubmitting = !_this5.isSubmitting;
@@ -543,8 +558,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this6 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
-        _this6.Qlength = _this6.getAll_questions.Question.length; //let AnswersList = JSON.parse(localStorage.getItem(name));
-
+        _this6.Qlength = _this6.getAll_questions.Question.length;
         var AnswersList = _this6.Submitted_Answers;
 
         if (AnswersList == null || AnswersList.length == 0) {
@@ -599,46 +613,75 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             type: "multiple",
             data: _this6.FinalAnswers
           });
-        } else {
-          var Submitted_length = AnswersList.length;
-          var Question_length = _this6.getAll_questions.Question.length;
-          var diff = Question_length - Submitted_length;
+        } else if (_this6.Qlength != AnswersList.length) {
+          for (var _index = 0; _index < _this6.getAll_questions.Question.length; _index++) {
+            if (_this6.getAll_questions.Question[_index].type == 'Identification' || _this6.getAll_questions.Question[_index].type == 'Multiple Choice' || _this6.getAll_questions.Question[_index].type == 'True or False') {
+              _this6.FinalAnswers.push({
+                Answer: '',
+                Question_id: _this6.getAll_questions.Question[_index].id,
+                type: _this6.getAll_questions.Question[_index].type,
+                timeConsume: null
+              });
+            } else if (_this6.getAll_questions.Question[_index].type == 'Essay') {
+              _this6.FinalAnswers.push({
+                Answer: '',
+                Question_id: _this6.getAll_questions.Question[_index].id,
+                type: _this6.getAll_questions.Question[_index].type,
+                check: false,
+                timeConsume: null
+              });
+            } else if (_this6.getAll_questions.Question[_index].type == 'Matching type') {
+              (function () {
+                var Ans = new Array();
+                var Choices_id = new Array();
 
-          for (var i = 0; i < diff; i++) {
-            if (_this6.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this6.QuestionAndAnswer.Question[i].type == 'Identification' || _this6.QuestionAndAnswer.Question[i].type == 'True or False') {
-              _this6.details.Submitted_Answers.push({
-                Answer: null,
-                Question_id: _this6.QuestionAndAnswer.Question[i].id,
-                timeConsume: null,
-                type: _this6.QuestionAndAnswer.Question[i].type
-              });
-            } else if (_this6.getAll_questions.Question[x].type == 'Essay') {
-              _this6.details.Submitted_Answers.push({
-                Answer: null,
-                Question_id: _this6.QuestionAndAnswer.Question[i].id,
-                timeConsume: null,
-                type: _this6.QuestionAndAnswer.Question[i].type,
-                check: false
-              });
-            } else if (_this6.QuestionAndAnswer.Question[i].type == 'Matching type') {}
+                _this6.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
+                  Choices_id.push({
+                    choice_id: item.id
+                  });
+                });
+
+                _this6.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
+                  Ans.push({
+                    Ans_letter: '',
+                    Ans_id: null,
+                    subquestion_id: item.id,
+                    Answers: ''
+                  });
+                });
+
+                _this6.FinalAnswers.push({
+                  Answer: Ans,
+                  Choices_id: Choices_id,
+                  Question_id: _this6.getAll_questions.Question[_index].id,
+                  type: _this6.getAll_questions.Question[_index].type,
+                  timeConsume: null
+                });
+              })();
+            }
           }
 
-          for (var _x = 0; _x < _this6.getAll_questions.Question.length; _x++) {
+          axios.put('/api/question/store-answer/' + _this6.submission_id, {
+            type: "multiple",
+            data: _this6.FinalAnswers
+          });
+        } else if (_this6.Qlength == AnswersList.length) {
+          for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
-              if (_this6.getAll_questions.Question[_x].id == AnswersList[j].Question_id) {
-                if (_this6.getAll_questions.Question[_x].type == 'Identification' || _this6.getAll_questions.Question[_x].type == 'Multiple Choice' || _this6.getAll_questions.Question[_x].type == 'True or False' || _this6.getAll_questions.Question[_x].type == 'Essay') {
+              if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                if (_this6.getAll_questions.Question[x].type == 'Identification' || _this6.getAll_questions.Question[x].type == 'Multiple Choice' || _this6.getAll_questions.Question[x].type == 'True or False' || _this6.getAll_questions.Question[x].type == 'Essay') {
                   _this6.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (_this6.getAll_questions.Question[_x].type == 'Matching type') {
+                } else if (_this6.getAll_questions.Question[x].type == 'Matching type') {
                   (function () {
                     var Ans = new Array();
                     var Choices_id = new Array();
 
-                    _this6.getAll_questions.Answer[_x].SubAnswer.forEach(function (item) {
+                    _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                       Choices_id.push({
                         choice_id: item.id
                       });
@@ -672,9 +715,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     preventNav: function preventNav(event) {
-      if (!this.isStart) return; //event.preventDefault();
-      // Chrome requires returnValue to be set.
-
+      if (!this.isStart) return;
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
@@ -730,10 +771,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
 
       for (var i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-        for (var _x2 = 0; _x2 < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; _x2++) {
-          if (this.Alphabet[_x2].toUpperCase() == Answer.toUpperCase()) {
-            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].Choice;
-            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[_x2].id;
+        for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+          if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
+            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
+            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
           }
         }
       }
@@ -782,11 +823,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
-    }); //window.addEventListener("beforeunload", this.preventNav)
-
-    /*  this.$once("hook:beforeDestroy", () => {
-     window.removeEventListener("beforeunload", this.preventNav);
-    }) */
+    });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     if (this.isExamStart) {
@@ -876,13 +913,16 @@ __webpack_require__.r(__webpack_exports__);
       SecondProgress: 1000,
       isLoaded: false,
       endAt: new Date().getTime() + 10000,
-      timeSpent: null
+      timeSpent: null,
+      isTimesUps: false
     };
   },
   watch: {
     'StopTimer': function StopTimer(arMsg) {
       if (arMsg == true) {
-        this.getTimeSpent();
+        if (this.isTimesUps != true) {
+          this.getTimeSpent();
+        }
       }
     }
   },
@@ -894,78 +934,26 @@ __webpack_require__.r(__webpack_exports__);
                   this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
     },
     EndTimer: function EndTimer() {
+      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
+      var data = {};
+      data.time = this.timeSpent;
+      this.isTimesUps = true;
       clearInterval(this.NewTimer);
       localStorage.removeItem(name);
-      this.$emit('TimesUp');
+      this.$emit('TimesUp', data);
     },
     getTimeSpent: function getTimeSpent() {
       var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
       this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
-      this.$emit('TimerStop', this.timeSpent);
+      var data = {};
+      data.time = this.timeSpent;
+      data.istime = this.isTimesUps;
+      this.$emit('TimerStop', data);
     }
   },
   beforeMount: function beforeMount() {
     this.startTimer();
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return {
-      count: 5
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    setInterval(function () {
-      _this.count--;
-
-      if (_this.count == 0) {}
-    }, 1000);
   }
 });
 
@@ -23358,17 +23346,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=template&id=ea0677ca& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&");
-/* harmony import */ var _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-
-
+var script = {}
 
 
 /* normalize component */
 ;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__.default)(
+  script,
   _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.render,
   _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
@@ -23492,22 +23478,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuizTimer.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TimesUpDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -23733,6 +23703,12 @@ var render = function() {
                 on: {
                   toggleCloaseDialog: function($event) {
                     _vm.TimesUpDialog = !_vm.TimesUpDialog
+                  },
+                  SubmitAnswer: function($event) {
+                    return _vm.$router.push({
+                      name: "result-page",
+                      params: { id: this.$route.query.clwk }
+                    })
                   }
                 }
               })
@@ -23741,56 +23717,18 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.isLoading
-        ? _c(
-            "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "600px" } },
-            [
-              _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [
-                      _vm._v(
-                        "\r\n            " +
-                          _vm._s(
-                            _vm.isSubmitting
-                              ? "Submitting Questions"
-                              : "Loading Questions"
-                          ) +
-                          "\r\n        "
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
+      _c("vue-element-loading", {
+        attrs: {
+          active: _vm.isLoading,
+          text: _vm.isSubmitting ? "Loading Questions" : "Loading Questions",
+          duration: "0.7",
+          textStyle: { fontSize: "18px" },
+          spinner: "line-scale",
+          color: "#EF6C00",
+          size: "50",
+          "is-full-screen": ""
+        }
+      }),
       _vm._v(" "),
       !_vm.isLoading
         ? _c(
@@ -23822,69 +23760,84 @@ var render = function() {
                             ? _c(
                                 "v-row",
                                 [
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "8" } },
-                                    [
-                                      _c(
-                                        "v-list",
+                                  _vm.$vuetify.breakpoint.lgAndUp
+                                    ? _c(
+                                        "v-col",
+                                        { attrs: { cols: "8" } },
                                         [
                                           _c(
-                                            "v-list-item",
+                                            "v-list",
                                             [
                                               _c(
-                                                "v-list-item-avatar",
+                                                "v-list-item",
                                                 [
                                                   _c(
-                                                    "v-avatar",
-                                                    {
-                                                      attrs: { color: "blue" }
-                                                    },
+                                                    "v-list-item-avatar",
                                                     [
                                                       _c(
-                                                        "v-icon",
-                                                        { attrs: { dark: "" } },
+                                                        "v-avatar",
+                                                        {
+                                                          attrs: {
+                                                            color: "blue"
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "\r\n                                mdi-book-open-variant\r\n                                "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list-item-content",
+                                                    [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-bold"
+                                                        },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                mdi-book-open-variant\r\n                                "
+                                                            _vm._s(
+                                                              _vm
+                                                                .classworkDetails
+                                                                .title
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item-subtitle",
+                                                        [
+                                                          _vm._v(
+                                                            "Total Points: " +
+                                                              _vm._s(
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .points
+                                                              )
                                                           )
                                                         ]
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item-content",
-                                                [
-                                                  _c(
-                                                    "v-list-item-title",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-bold"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.classworkDetails
-                                                            .title
-                                                        )
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("v-list-item-subtitle", [
-                                                    _vm._v(
-                                                      "Total Points: " +
-                                                        _vm._s(
-                                                          _vm.classworkDetails
-                                                            .points
-                                                        )
-                                                    )
-                                                  ])
                                                 ],
                                                 1
                                               )
@@ -23894,21 +23847,34 @@ var render = function() {
                                         ],
                                         1
                                       )
-                                    ],
-                                    1
-                                  ),
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "d-flex justify-end",
-                                      attrs: { cols: "4" }
+                                      class: _vm.$vuetify.breakpoint.lgAndUp
+                                        ? "d-flex justify-end"
+                                        : "d-flex justify-center",
+                                      attrs: {
+                                        cols: _vm.$vuetify.breakpoint.lgAndUp
+                                          ? 4
+                                          : 12
+                                      }
                                     },
                                     [
                                       _c("div", [
-                                        _c("h4", { staticClass: "ml-10" }, [
-                                          _vm._v("Time Remaining")
-                                        ]),
+                                        _c(
+                                          "h4",
+                                          {
+                                            staticClass: "ml-10",
+                                            on: {
+                                              click: function($event) {
+                                                _vm.Answersheet = true
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Time Remaining")]
+                                        ),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -24173,9 +24139,7 @@ var render = function() {
                                                   },
                                                   on: {
                                                     TimerStop: _vm.SubmitAnswer,
-                                                    TimesUp: function($event) {
-                                                      return _vm.TimesUpSubmit()
-                                                    }
+                                                    TimesUp: _vm.TimesUpSubmit
                                                   }
                                                 })
                                               : _vm._e()
@@ -24197,19 +24161,6 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "btn",
-                {
-                  staticClass: "primary",
-                  on: {
-                    click: function($event) {
-                      _vm.TimesUpDialog = !_vm.TimesUpDialog
-                    }
-                  }
-                },
-                [_vm._v("Click ME")]
               )
             ],
             1
@@ -24253,18 +24204,27 @@ var render = function() {
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "text-right pa-5",
+                                      class: _vm.$vuetify.breakpoint.lgAndUp
+                                        ? "text-right"
+                                        : "text-center",
                                       attrs: { cols: "12", md: "12", lg: "12" }
                                     },
                                     [
                                       _c(
                                         "div",
-                                        { staticClass: "mb-4" },
+                                        {
+                                          class: _vm.$vuetify.breakpoint.lgAndUp
+                                            ? "mb-3 mt-1"
+                                            : "d-flex mb-3 mt-1"
+                                        },
                                         [
                                           _c(
                                             "v-btn",
                                             {
-                                              staticClass: "mr-2",
+                                              class: !_vm.$vuetify.breakpoint
+                                                .lgAndUp
+                                                ? "pl-5"
+                                                : "",
                                               attrs: {
                                                 rounded: "",
                                                 color: "primary",
@@ -24280,24 +24240,24 @@ var render = function() {
                                                 [_vm._v("mdi-arrow-left")]
                                               ),
                                               _vm._v(
-                                                "\r\n                                        " +
-                                                  _vm._s(
-                                                    _vm.$vuetify.breakpoint
-                                                      .xs ||
-                                                      _vm.$vuetify.breakpoint.sm
-                                                      ? ""
-                                                      : "previous"
-                                                  ) +
-                                                  "\r\n                                        "
+                                                "\r\n                                        Previous\r\n                                        "
                                               )
                                             ],
                                             1
                                           ),
                                           _vm._v(" "),
+                                          !_vm.$vuetify.breakpoint.lgAndUp
+                                            ? _c("v-spacer")
+                                            : _vm._e(),
+                                          _vm._v(" "),
                                           _vm.questionIndex != _vm.Qlength - 1
                                             ? _c(
                                                 "v-btn",
                                                 {
+                                                  class: !_vm.$vuetify
+                                                    .breakpoint.lgAndUp
+                                                    ? "pr-5"
+                                                    : "",
                                                   attrs: {
                                                     loading: _vm.isSavingAnswer,
                                                     rounded: "",
@@ -24307,16 +24267,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\r\n                                        " +
-                                                      _vm._s(
-                                                        _vm.$vuetify.breakpoint
-                                                          .xs ||
-                                                          _vm.$vuetify
-                                                            .breakpoint.sm
-                                                          ? ""
-                                                          : "Next"
-                                                      ) +
-                                                      "\r\n                                        "
+                                                    "\r\n                                        Next\r\n                                        "
                                                   ),
                                                   _c(
                                                     "v-icon",
@@ -24332,6 +24283,10 @@ var render = function() {
                                             ? _c(
                                                 "v-btn",
                                                 {
+                                                  class: !_vm.$vuetify
+                                                    .breakpoint.lgAndUp
+                                                    ? "pr-5"
+                                                    : "",
                                                   attrs: {
                                                     loading: _vm.isSavingAnswer,
                                                     rounded: "",
@@ -24513,6 +24468,8 @@ var render = function() {
                                                             _c(
                                                               "v-col",
                                                               {
+                                                                staticClass:
+                                                                  "ml-0 pl-0 pt-0 mt-0",
                                                                 attrs: {
                                                                   cols: "12",
                                                                   md: "12"
@@ -25685,16 +25642,6 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
-                [
-                  _c("div", { staticClass: "primary--text display-2" }, [
-                    _vm._v(_vm._s(_vm.count))
-                  ])
-                ]
               )
             ],
             1

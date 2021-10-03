@@ -18,7 +18,7 @@
                 </v-col>
            </v-row> -->
 
-      <v-container class="fill-height" v-if="isloading" style="height: 500px;">
+     <!--  <v-container class="fill-height" v-if="isloading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
                 <v-col class="text-subtitle-1 text-center" cols="12">
                     Loading
@@ -27,7 +27,15 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
+        </v-container> -->
+        <v-container v-if="isloading" style="height: 670px;z-index:2">
+                <vue-element-loading :active="isloading" 
+                text="Loading"
+                duration="0.7"
+                :textStyle="{fontSize: '20px'}"
+                spinner="line-scale" color="#EF6C00"  size="60" />
         </v-container>
+         
        <!--  <v-row v-if="!isloading && classworkDetails.success == false" align="center" justify="center"> -->
            <!--  <v-col align="center" justify="center">
                 <h1>Classwork Not Found</h1>
@@ -70,7 +78,7 @@
                   :classworkDetails="classworkDetails.Details"
                 ></teacherStartPage>
             </v-col>
-            <v-col v-if="role == 'Student'" cols="12" class="ma-0 pa-0 ">
+            <v-col v-if="role == 'Student'" cols="12" >
                  <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails.Details"
                 :totalPoints="totalPoints"
@@ -139,34 +147,21 @@ export default {
         },
         async checkStatus(type){
             
-
             if(this.role == 'Student'){
-               /*  if(type == 'Objective Type'){
-                     axios.get('/api/student/check-status/'+this.$route.query.clwk)
-                    .then(res=>{
-                        this.statusDetails = res.data;
-                     
-                    })
-                }
-                else if(type == 'Subjective Type'){
-                    axios.get('/api/submission/check-sbj/'+this.$route.query.clwk)
-                    .then(res=>{
-                        this.statusDetails = res.data;
-                                         
-                    })
-                } */
                 let data = {};
                 data.id = this.$route.query.clwk;
                 data.type = type;
-                this.checkClassworkStatus(data);
-          
+               
+                this.$store.dispatch('checkClassworkStatus', data)
+                .then(()=>{
+                    this.isloading = false;
+                })
             }
-            
         }
     },
     async beforeRouteEnter(to, from, next) {
         next(vm => {
-            
+
             vm.getClassworkDetails();
             
         });

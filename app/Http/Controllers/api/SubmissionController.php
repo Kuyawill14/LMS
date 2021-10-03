@@ -181,11 +181,14 @@ class SubmissionController extends Controller
      */
     public function updateSbjSubmissionScore(Request $request,$id)
     {
+
         $UpdateScore = tbl_Submission::find($id);
         if($UpdateScore){
             $UpdateScore->graded = 1;
             $UpdateScore->points = $request->score;
-            $UpdateScore->rubrics_score = serialize($request->data);
+            if(count($request->data) > 0){
+                $UpdateScore->rubrics_score = serialize($request->data) ;
+            }
             $UpdateScore->save();
             $userId = $UpdateScore->user_id;
             $classwork_id = $UpdateScore->classwork_id;

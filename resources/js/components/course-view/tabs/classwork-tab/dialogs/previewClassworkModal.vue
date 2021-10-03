@@ -13,7 +13,7 @@
                  <v-row style="height:2vh"></v-row>
                  <v-row   class="fill-height" align-content="center"
                  justify="center" v-if="isloading" style="height:30vh">
-                     <v-col cols="6">
+                    <!--  <v-col cols="6">
                         <v-progress-linear
                             w
                             color="primary"
@@ -21,7 +21,12 @@
                             rounded
                             height="4"
                         ></v-progress-linear>
-                     </v-col>
+                     </v-col> -->
+
+                      <vue-element-loading :active="isloading" 
+                        duration="0.7"
+                        :textStyle="{fontSize: '14px'}"
+                        spinner="line-scale" color="#EF6C00"  size="50"  />
                      
                  </v-row>
                 <v-row v-if="!isloading">

@@ -115,7 +115,7 @@ var responseLatePageWarning = function responseLatePageWarning() {
   /*     beforeMount(){
         window.history.forward(1)
       }, */
-  mounted: function mounted() {
+  beforeMount: function beforeMount() {
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     this.$emit('isMounted');

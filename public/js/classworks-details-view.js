@@ -117,6 +117,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -193,25 +201,13 @@ var teacherStartPage = function teacherStartPage() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (_this2.role == 'Student') {
-                  /*  if(type == 'Objective Type'){
-                        axios.get('/api/student/check-status/'+this.$route.query.clwk)
-                       .then(res=>{
-                           this.statusDetails = res.data;
-                        
-                       })
-                   }
-                   else if(type == 'Subjective Type'){
-                       axios.get('/api/submission/check-sbj/'+this.$route.query.clwk)
-                       .then(res=>{
-                           this.statusDetails = res.data;
-                                            
-                       })
-                   } */
                   data = {};
                   data.id = _this2.$route.query.clwk;
                   data.type = type;
 
-                  _this2.checkClassworkStatus(data);
+                  _this2.$store.dispatch('checkClassworkStatus', data).then(function () {
+                    _this2.isloading = false;
+                  });
                 }
 
               case 1:
@@ -2681,6 +2677,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2725,6 +2751,34 @@ var rubrics = function rubrics() {
     }
   },
   methods: {
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'mdi-image';
+      } else if (ext == 'pdf') {
+        return 'mdi-file-pdf';
+      } else if (ext == 'txt') {
+        return 'mdi-note-text-outline';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'mdi-file-word';
+      } else if (ext == 'link') {
+        return 'mdi-file-link';
+      }
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
+        return 'info';
+      } else if (ext == 'pdf') {
+        return 'red';
+      } else if (ext == 'txt') {
+        return 'primary';
+      } else if (ext == 'docx' || ext == 'doc') {
+        return 'blue';
+      } else if (ext == 'link') {
+        return 'green';
+      } else {
+        return 'primary';
+      }
+    },
     UpdateClasswork: function UpdateClasswork(rubrics) {
       var _this = this;
 
@@ -2804,6 +2858,10 @@ var rubrics = function rubrics() {
     },
     DownLoadFile: function DownLoadFile(file) {
       window.open(file, '_blank');
+    },
+    EditDocument: function EditDocument(link) {
+      var path = "https://docs.google.com/gview?url=" + link + "&embedded=true";
+      window.open(path, '_blank');
     },
     addFile: function addFile() {
       var _this2 = this;
@@ -2949,6 +3007,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3415,6 +3479,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -3557,6 +3623,15 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3881,6 +3956,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20405,7 +20486,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51868,39 +51949,19 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticStyle: { height: "670px", "z-index": "2" } },
             [
-              _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_vm._v("\n                  Loading\n              ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+              _c("vue-element-loading", {
+                attrs: {
+                  active: _vm.isloading,
+                  text: "Loading",
+                  duration: "0.7",
+                  textStyle: { fontSize: "20px" },
+                  spinner: "line-scale",
+                  color: "#EF6C00",
+                  size: "60"
+                }
+              })
             ],
             1
           )
@@ -52007,7 +52068,7 @@ var render = function() {
               _vm.role == "Student"
                 ? _c(
                     "v-col",
-                    { staticClass: "ma-0 pa-0 ", attrs: { cols: "12" } },
+                    { attrs: { cols: "12" } },
                     [
                       _vm.role == "Student"
                         ? _c("studentStartPage", {
@@ -57176,8 +57237,16 @@ var render = function() {
         "v-overlay",
         { attrs: { value: _vm.isLeaving } },
         [
-          _c("v-progress-circular", {
-            attrs: { indeterminate: "", size: "64" }
+          _c("vue-element-loading", {
+            attrs: {
+              active: _vm.isLeaving,
+              text: "Loading",
+              duration: "0.7",
+              textStyle: { fontSize: "20px" },
+              spinner: "line-scale",
+              color: "#EF6C00",
+              size: "60"
+            }
           })
         ],
         1
@@ -57623,62 +57692,18 @@ var render = function() {
                                                     {
                                                       attrs: {
                                                         large: "",
-                                                        color:
-                                                          item.extension ==
-                                                          "pdf"
-                                                            ? "red"
-                                                            : item.extension ==
-                                                              "docx"
-                                                            ? "blue"
-                                                            : item.extension ==
-                                                              "link"
-                                                            ? "green"
-                                                            : item.extension ==
-                                                                "jpg" ||
-                                                              item.extension ==
-                                                                "jpeg" ||
-                                                              item.extension ==
-                                                                "gif" ||
-                                                              item.extension ==
-                                                                "svg" ||
-                                                              item.extension ==
-                                                                "png" ||
-                                                              item.extension ==
-                                                                "bmp"
-                                                            ? "info"
-                                                            : "primary"
+                                                        color: _vm.CheckFileIconColor(
+                                                          item.extension
+                                                        )
                                                       }
                                                     },
                                                     [
                                                       _vm._v(
                                                         "\n                                                     " +
                                                           _vm._s(
-                                                            item.extension ==
-                                                              "pdf"
-                                                              ? "mdi-file-pdf"
-                                                              : item.extension ==
-                                                                "txt"
-                                                              ? "mdi-file-pdf"
-                                                              : item.extension ==
-                                                                "docx"
-                                                              ? "mdi-file-word"
-                                                              : item.extension ==
-                                                                "link"
-                                                              ? "mdi-file-link"
-                                                              : item.extension ==
-                                                                  "jpg" ||
-                                                                item.extension ==
-                                                                  "jpeg" ||
-                                                                item.extension ==
-                                                                  "gif" ||
-                                                                item.extension ==
-                                                                  "svg" ||
-                                                                item.extension ==
-                                                                  "png" ||
-                                                                item.extension ==
-                                                                  "bmp"
-                                                              ? "mdi-image"
-                                                              : ""
+                                                            _vm.CheckFileIcon(
+                                                              item.extension
+                                                            )
                                                           ) +
                                                           "\n                                                "
                                                       )
@@ -57767,9 +57792,9 @@ var render = function() {
                                                 "v-list-item-action",
                                                 [
                                                   _c(
-                                                    "v-tooltip",
+                                                    "v-menu",
                                                     {
-                                                      attrs: { top: "" },
+                                                      attrs: { "offset-y": "" },
                                                       scopedSlots: _vm._u(
                                                         [
                                                           {
@@ -57786,20 +57811,7 @@ var render = function() {
                                                                       {
                                                                         attrs: {
                                                                           icon:
-                                                                            "",
-                                                                          loading:
-                                                                            _vm.removeIndex ==
-                                                                              i &&
-                                                                            _vm.isRemoving
-                                                                        },
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            ;(_vm.removeDialog = true),
-                                                                              (_vm.removeIndex = i),
-                                                                              (_vm.isRemoving = true)
-                                                                          }
+                                                                            ""
                                                                         }
                                                                       },
                                                                       "v-btn",
@@ -57813,7 +57825,7 @@ var render = function() {
                                                                       "v-icon",
                                                                       [
                                                                         _vm._v(
-                                                                          "\n                                                                mdi-close\n                                                            "
+                                                                          "mdi-dots-vertical"
                                                                         )
                                                                       ]
                                                                     )
@@ -57830,10 +57842,78 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(" "),
-                                                      _c("span", [
-                                                        _vm._v("Remove file")
-                                                      ])
-                                                    ]
+                                                      _c(
+                                                        "v-list",
+                                                        { attrs: { nav: "" } },
+                                                        [
+                                                          _c(
+                                                            "v-list-item",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  ;(_vm.removeDialog = true),
+                                                                    (_vm.removeIndex = i),
+                                                                    (_vm.isRemoving = true)
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "\n                                                                        mdi-close\n                                                                    "
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(
+                                                                    "\n                                                                    Delete\n                                                           "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list-item",
+                                                            {
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.EditDocument(
+                                                                    item.attachment
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-list-item-title",
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "\n                                                                        mdi-pencil-outline\n                                                                    "
+                                                                    )
+                                                                  ]),
+                                                                  _vm._v(
+                                                                    "\n                                                                    Edit\n                                                              "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
                                                   )
                                                 ],
                                                 1
@@ -58147,7 +58227,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -58157,8 +58237,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -58571,7 +58659,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -58581,8 +58669,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -59039,7 +59135,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "500px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -59049,8 +59145,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -59082,7 +59186,7 @@ var render = function() {
                         "overflow-y": "scroll",
                         "overflow-x": "hidden"
                       },
-                      attrs: { cols: "4" }
+                      attrs: { cols: "5" }
                     },
                     [
                       _c("h3", [_vm._v("Questions")]),
@@ -59228,7 +59332,24 @@ var render = function() {
                                       )
                                     ])
                                   ]
-                                )
+                                ),
+                                _vm._v(" "),
+                                _c("v-list-item-action", [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weigth-bold" },
+                                    [
+                                      _vm._v(
+                                        _vm._s(item.correct_count) +
+                                          " / " +
+                                          _vm._s(
+                                            item.correct_count +
+                                              item.wrong_count
+                                          )
+                                      )
+                                    ]
+                                  )
+                                ])
                               ],
                               1
                             )
@@ -59242,7 +59363,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { attrs: { cols: "8" } },
+                    { attrs: { cols: "7" } },
                     [
                       _vm.isSettingData
                         ? _c(
@@ -59394,7 +59515,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "400px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -59404,8 +59525,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1

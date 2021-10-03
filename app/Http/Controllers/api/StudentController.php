@@ -343,7 +343,6 @@ class StudentController extends Controller
         $SubmitSubj = tbl_Submission::find($id);
         if($SubmitSubj){
             $SubmitSubj->status = "Submitted";
-            $SubmitSubj->rubrics_score = $request->data != null ? serialize($request->data) : null;
             $SubmitSubj->save();
         }
         return $SubmitSubj;
@@ -424,9 +423,15 @@ class StudentController extends Controller
         ->where('tbl_submissions.classwork_id',$id)
         ->select('tbl_submissions.id','tbl_submissions.status','tbl_submissions.Submitted_Answers','tbl_submissions.created_at')
         ->first();
-
+        
+        $dateToday = date('Y-m-d H:i:s');
         if($CheckStatus){
             $tempAnswer = $CheckStatus->Submitted_Answers != null ? unserialize($CheckStatus->Submitted_Answers) : null;
+            if($CheckStatus->created_at == null || $CheckStatus->created_at == ''){
+                $CheckStatus->created_at  = $dateToday;
+                $CheckStatus->save();
+            }
+            
             return response()->json([
                 'submission_id'=> $CheckStatus->id, 
                 'status' => $CheckStatus->status,

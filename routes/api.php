@@ -180,6 +180,7 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::post('/alert-student', [TeacherController::class, 'AlertStudent']);
     Route::get('/student-classGrades/{id}', [TeacherController::class, 'getStudentGradesInClass']);
     Route::post('/move-student', [TeacherController::class, 'MoveStudent']);
+    Route::post('/resetStudentSubmissions', [TeacherController::class, 'ResetStudentSubmission']);
     
 });
 

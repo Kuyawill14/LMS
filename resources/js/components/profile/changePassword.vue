@@ -36,7 +36,7 @@
                                 <v-text-field :append-icon="showNew ?'mdi-eye':'mdi-eye-off'" dense
                                     :rules="[rules.required, rules.min]" v-model="form.new_password" outlined
                                     :type="showNew ? 'text' : 'password'" @click:append="showNew = !showNew">
-                                    ></v-text-field>
+                                    </v-text-field>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -51,7 +51,7 @@
                                     :rules="[rules.required, rules.min]" v-model="form.confirm_password"
                                     :type="ShowNewRetype ? 'text' : 'password'"
                                     @click:append="ShowNewRetype = !ShowNewRetype">
-                                    ></v-text-field>
+                                    </v-text-field>
                             </v-col>
                         </v-row>
                     </v-col>

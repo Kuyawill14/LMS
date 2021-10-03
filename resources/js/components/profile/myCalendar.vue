@@ -1,18 +1,15 @@
 <template>
   <v-row class="fill-height">
 
-      <v-col cols="12" v-if="isloading">
-            <v-container class="fill-height" v-if="isloading" style="height:30vh">
-            <v-row  align-content="center" justify="center">
-                <v-col class="text-subtitle-1 text-center" cols="12">
-                    Loading
-                </v-col>
-                <v-col cols="6">
-                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-                </v-col>
-            </v-row>
-            </v-container>
-        </v-col>
+     <v-col cols="12"  style="height:550px" v-if="isloading">
+          <v-container class="fill-height" v-if="isloading" >
+              <vue-element-loading :active="isloading" 
+              text="Loading"
+              duration="0.7"
+              :textStyle="{fontSize: '20px'}"
+              spinner="line-scale" color="#EF6C00"  size="60" />
+          </v-container>
+      </v-col>
 
     <v-col v-if="!isloading">
       <v-col cols="12" class="mb-0 pb-0">

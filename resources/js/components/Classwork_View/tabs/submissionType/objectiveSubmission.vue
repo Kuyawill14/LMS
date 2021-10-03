@@ -119,6 +119,15 @@
                             <small>Submitted</small>
                         </div>
                     </v-col>
+                     <v-col class="text-right" cols="10" sm="10"  md="11">
+                         <div class="pt-7">
+                             <v-btn @click="resetdialog = !resetdialog" small text rounded>
+                                 <v-icon left>mdi-restart</v-icon>
+                                 Reset Submission
+                             </v-btn>
+                         </div>
+                    </v-col>
+
                 </v-row>
                 <v-divider></v-divider>
             </v-col>
@@ -148,10 +157,10 @@
 
             <v-col cols="12" class="mt-0 pt-0">
                 <v-row>
-                    <v-col v-show="Class == $route.params.id || Class == item.class_id"  class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"  class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                         <v-card 
                         outlined
-                        v-show="selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))"
+                        
                         class="mx-auto">
                         <v-alert class="ma-0 pa-0"  :outlined="item.status == 'Taking'" :color="item.status == 'Taking' ? 'blue': ''">
                             <v-list-item link @click="ViewSubmision(item, i)" >
@@ -199,17 +208,33 @@
             </v-container>
          <checkobjective v-if="isLoadingData" v-show="isMounted" v-on:isMounted="isMounted = true" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
     </v-col> -->
+    <v-row>
+         <v-dialog v-model="resetdialog" persistent max-width="550">
+            <resetStudentSubmissionDialog
+            scrollable
+            v-on:toggleDialog="resetdialog = !resetdialog"
+            v-on:SuccessReset="resetdialog = !resetdialog"
+            :ListData="ListData"
+            :ClassList="ClassList"
+            v-if="resetdialog"></resetStudentSubmissionDialog>
+        </v-dialog>
+    </v-row>
+
+    
 </v-row>
 </div>
 </template>
 <script>
 const resetConfirmation = () => import('../dialogs/resetConfirmation')
 const checkobjective = () => import('./check-submission/check-objective')
+const resetStudentSubmissionDialog = () => import('./resetAllSubmission/resetStudentSubmissionDialog')
+
 export default {
     props:["ListData","classworkDetails","Submitted", "Graded","ClassList"],
     components:{
         checkobjective,
-        resetConfirmation
+        resetConfirmation,
+        resetStudentSubmissionDialog
     },
     data(){
         return{
@@ -241,6 +266,7 @@ export default {
             search: "",
             isViewing: false,
             isStarting: false,
+            resetdialog: false
             
         }
     },

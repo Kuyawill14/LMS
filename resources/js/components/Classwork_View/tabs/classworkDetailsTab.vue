@@ -13,7 +13,14 @@
 </v-container> -->
 
         <v-overlay :value="isLeaving">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
+      <!--       <v-progress-circular indeterminate size="64"></v-progress-circular>
+             <v-container v-if="isloading" style="height: 670px;z-index:2"> -->
+                <vue-element-loading :active="isLeaving" 
+                text="Loading"
+                duration="0.7"
+                :textStyle="{fontSize: '20px'}"
+                spinner="line-scale" color="#EF6C00"  size="60" />
+<!--         </v-container> -->
         </v-overlay>
 
 
@@ -141,10 +148,8 @@
                                     <v-list  class="ma-0 pa-0">
                                         <v-list-item v-for="(item, i) in Details.attachment" :key="i" class="ma-0 pa-0">
                                             <v-list-item-avatar>
-                                                <v-icon large :color="item.extension == 'pdf' ? 'red' : item.extension == 'docx'? 'blue': item.extension == 'link' ? 'green':
-                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': 'primary'">
-                                                     {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'txt' ? 'mdi-file-pdf' : item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
-                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'mdi-image' :''}}
+                                                <v-icon large :color="CheckFileIconColor(item.extension)">
+                                                     {{CheckFileIcon(item.extension)}}
                                                 </v-icon>
                                             </v-list-item-avatar>
                                             <v-list-item-content>
@@ -167,20 +172,45 @@
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-action>
-                                                <v-tooltip top>
+                                                
+                                                <v-menu offset-y>
                                                     <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn icon 
-                                                       
-                                                        v-bind="attrs" v-on="on"
-                                                         :loading="removeIndex == i && isRemoving"
-                                                            @click="removeDialog = true, removeIndex = i,isRemoving = true">
-                                                            <v-icon>
-                                                                mdi-close
-                                                            </v-icon>
+                                                        <v-btn
+                                                        icon
+                                                
+                                                        v-bind="attrs"
+                                                        v-on="on"
+                                                        >
+                                                        <v-icon>mdi-dots-vertical</v-icon>
                                                         </v-btn>
                                                     </template>
-                                                    <span>Remove file</span>
-                                                </v-tooltip>
+                                                    <v-list nav>
+                                                        <v-list-item @click="removeDialog = true, removeIndex = i,isRemoving = true">
+                                                            <v-list-item-title>
+                                                               <!--  <v-btn text 
+                                                                    :loading="removeIndex == i && isRemoving"
+                                                                    @click="removeDialog = true, removeIndex = i,isRemoving = true"> -->
+                                                                    <v-icon>
+                                                                        mdi-close
+                                                                    </v-icon>
+                                                                    Delete
+                                                           <!--      </v-btn> -->
+                                                            </v-list-item-title>
+                                                        </v-list-item>
+                                                         <v-list-item  @click="EditDocument(item.attachment)">
+                                                            <v-list-item-title>
+                                                               <!--  <v-btn text 
+                                                                    :loading="removeIndex == i && isRemoving"
+                                                                    @click="removeDialog = true, removeIndex = i,isRemoving = true"> -->
+                                                                    <v-icon>
+                                                                        mdi-pencil-outline
+                                                                    </v-icon>
+                                                                    Edit
+                                                              <!--   </v-btn> -->
+                                                            </v-list-item-title>
+                                                        </v-list-item>
+                                                    </v-list>
+                                                    </v-menu>
                                             </v-list-item-action>
                                         </v-list-item>
                                     </v-list>
@@ -252,7 +282,44 @@
             }
         },
         methods: {
+               CheckFileIcon(ext){
+                    if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+                    return 'mdi-image';
+                    }
+                    else if(ext == 'pdf'){
+                    return 'mdi-file-pdf';
+                    }
+                    else if(ext == 'txt' ){
+                    return 'mdi-note-text-outline';
+                    }
+                    else if(ext == 'docx' || ext == 'doc'){
+                    return 'mdi-file-word';
+                    }
+                    else if(ext == 'link' ){
+                    return 'mdi-file-link';
+                    }
+            },
+            CheckFileIconColor(ext){
+                if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+                    return 'info';
+                    }
+                    else if(ext == 'pdf'){
+                    return 'red';
+                    }
+                    else if(ext == 'txt' ){
+                    return 'primary';
+                    }
+                    else if(ext == 'docx' || ext == 'doc'){
+                    return 'blue';
+                    }
+                    else if(ext == 'link' ){
+                    return 'green';
+                    }
+                    else{
+                    return 'primary';
+                    }
 
+                },
             async UpdateClasswork(rubrics) {
                 this.isUpdatingSnackBar = true;
                 this.isUpdating = true;
@@ -275,12 +342,9 @@
 
                 await axios.post('/api/classwork/update', fd)
                     .then(res => {
-                           //this.rubricsDialog= rubrics ? true : false;
-                       
-                            this.isUpdating = false,
-                            this.toastSuccess("Classwork successfully updated")
-                         
-                  
+                        //this.rubricsDialog= rubrics ? true : false;
+                        this.isUpdating = false,
+                        this.toastSuccess("Classwork successfully updated")
                     })
                     .catch(e => {
 
@@ -326,6 +390,11 @@
             },
             DownLoadFile(file) {
                 window.open(file, '_blank');
+            },
+            EditDocument(link){
+                let path = "https://docs.google.com/gview?url="+link+"&embedded=true"
+          
+                 window.open(path, '_blank');
             },
             addFile() {
                 console.log(this.Details.attachment.length);

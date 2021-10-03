@@ -1,20 +1,23 @@
 <template>
-    <v-app id="inspire">
+    <v-app >
 
 
         <!-- <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader> -->
 
         
-        <sidebar :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
+        <sidebar  :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
 
-        <v-main>
+        <v-main >
 
-            <v-container fluid>
-                
+            <v-container fluid width="100%">
+               
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
+                
+              
             </v-container>
     
         </v-main>
+
   <!--     <courseNavigation></courseNavigation> -->
     <!--  <bottomNavigation v-if="($vuetify.breakpoint.sm || $vuetify.breakpoint.xs || $vuetify.breakpoint.md) && get_UserRole == 'Student'"></bottomNavigation> -->
   
@@ -28,10 +31,10 @@
     }
 
     // Demo purposes only
-    .md-drawer {
+    /* .md-drawer {
         width: 230px;
         max-width: calc(100vw - 125px);
-    }
+    } */
 
 </style>
 
@@ -52,9 +55,6 @@
             menuVisible: false,
             role: '',
             ipAdd: null,
-      
-            
-   
         }),
         components: {
             topHeader,
@@ -71,6 +71,8 @@
                     localStorage.setItem(btoa('user_role'), btoa(res.data.role));
                     //this.$store.dispatch('setUserRole', res.data.role)
                     this.UserDetails = res.data;
+                
+                  
                 }).catch((error) => {
                 
                 });

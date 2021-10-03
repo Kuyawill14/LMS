@@ -8,14 +8,19 @@
           
           
          <!--  </div> -->
-        <v-container class="fill-height" v-if="isLoading" style="height: 400px;">
+        <v-container class="fill-height" v-if="isLoading" style="height: 500px;">
             <v-row  align-content="center" justify="center">
-                <v-col class="text-subtitle-1 text-center" cols="12">
+             <!--    <v-col class="text-subtitle-1 text-center" cols="12">
                     Loading
                 </v-col>
                 <v-col cols="6">
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-                </v-col>
+                </v-col> -->
+                <vue-element-loading :active="isLoading" 
+                    text="Loading"
+                    duration="0.7"
+                    :textStyle="{fontSize: '18px'}"
+                    spinner="line-scale" color="#EF6C00"  size="50"  />
             </v-row>
         </v-container>
 

@@ -130,9 +130,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -273,53 +270,24 @@ var render = function() {
           _vm.isloading
             ? _c(
                 "v-col",
-                { attrs: { cols: "12" } },
+                { staticStyle: { height: "550px" }, attrs: { cols: "12" } },
                 [
                   _vm.isloading
                     ? _c(
                         "v-container",
                         { staticClass: "fill-height" },
                         [
-                          _c(
-                            "v-row",
-                            {
-                              attrs: {
-                                "align-content": "center",
-                                justify: "center"
-                              }
-                            },
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "text-subtitle-1 text-center",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _vm._v(
-                                    "\r\n                    Loading\r\n                "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                { attrs: { cols: "6" } },
-                                [
-                                  _c("v-progress-linear", {
-                                    attrs: {
-                                      color: "primary",
-                                      indeterminate: "",
-                                      rounded: "",
-                                      height: "6"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
+                          _c("vue-element-loading", {
+                            attrs: {
+                              active: _vm.isloading,
+                              text: "Loading",
+                              duration: "0.7",
+                              textStyle: { fontSize: "20px" },
+                              spinner: "line-scale",
+                              color: "#EF6C00",
+                              size: "60"
+                            }
+                          })
                         ],
                         1
                       )

@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-row >
-      <v-col v-if="classworkDetails.availability == 0" cols="12" >
+      <v-col  v-if="classworkDetails.availability == 0" cols="12" >
         <v-row align="center" justify="center">
           <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
                 <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"
@@ -85,7 +85,7 @@ export default {
 /*     beforeMount(){
       window.history.forward(1)
     }, */
-    mounted(){
+    beforeMount(){
       const newDate = new Date();
       this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       this.$emit('isMounted');

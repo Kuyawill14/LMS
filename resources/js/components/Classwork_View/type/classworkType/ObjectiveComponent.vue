@@ -1,14 +1,36 @@
 <template>
 
-<div class="pt-3 pt-3 pl-1 pr-1">
+<div >
 
 
      
-    <v-row justify="center" no-gutters class="pa-2">
-        <v-col cols="12" md="5" lg="4" class="mb-0 pb-0">
-            <v-card class="pa-3" elevation="1" outlined>
+    <v-row  justify="center" align-content="center" no-gutters :class="$vuetify.breakpoint.lgAndUp ? 'pa-3' : 'pa-1'">
+        <v-col cols="12" :class="selected == 1 ? 'mb-2' : ''" v-if="!$vuetify.breakpoint.lgAndUp">
+            <v-card class="pa-1" elevation="1"  outlined>
+                <v-row>
+                    <v-col cols="12" >
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn rounded
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    icon 
+                                    text 
+                                    class=""
+                                    @click="$router.push({name: 'classwork'})" >
+                                <v-icon dark>mdi-arrow-left-thick</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Back to classworks</span>
+                        </v-tooltip>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-col>
+        <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 1"  cols="12" md="12" lg="4" xl="4" class="mb-0 pb-0 ">
+            <v-card  class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
                 <v-row  >
-                    <v-col cols="12" class="mb-0 pb-0">
+                    <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="12" class="mb-0 pb-0">
                         <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn rounded
@@ -105,140 +127,172 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col v-if="!isViewingSubmission" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 '" cols="12" md="10" lg="8" xl="8">
+            <div v-if="$vuetify.breakpoint.lgAndUp || selected == 0">
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
-            <v-card class="pa-3" elevation="1" outlined>
-                <v-row >
-                    
-                    <v-col cols="12">
-                        <div class="text-right pt-1">
-                            <v-chip v-if="statusDetails.status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
-                        </div>
-                        <v-row style="height:4vh"></v-row>
-                        <v-divider v-if="statusDetails.status == 'Submitted'"></v-divider>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
-                            <v-btn
-                            class="mx-2" fab dark
-                            :color="statusDetails.status == 'Submitted' ? 'success': 'primary'">
-                                <v-icon x-large>
-                                {{statusDetails.status == 'Submitted' ? 'mdi-check': 'mdi-book-open-variant'}}
-                                </v-icon>
-                            </v-btn>
-                            <div
-                            class="float-right mt-3"
-                            fab>
-                                <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} mins</div>
-                                <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
+                <v-card class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
+                    <v-row >
+                        
+                        <v-col cols="12">
+                            <div class="text-right pt-1">
+                                <v-chip v-if="statusDetails.status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{statusDetails.score+'/'+statusDetails.totalPoints}}</v-chip>
                             </div>
-                        </v-container>
-                    </v-col>
-
-                <v-col cols="12" class="pl-7 pr-5">
-                    <div class="text-sm-body-2 text-md-h5 text-lg-h6 text-xl-h6">{{classworkDetails.title}}</div>
-                    
-                        <div class="pt-2 d-flex flex-row ">
-                            <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
-                            <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{classworkDetails.points}} Points</div>
-                        </div>
-                    <v-divider></v-divider>
-                </v-col>
-
-                    <v-col cols="12" class="pl-10 pr-5 pb-5">
-               <!--      <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div> -->
-                     <span class="text-sm-body-2 " style="max-width:98%" v-html="classworkDetails.instruction"></span>
-                    </v-col>
-                     <v-col  cols="12" class=" pb-5 pl-5 pr-5">
-                        <div class="overline" v-if="classworkDetails.attachment != null">Attachments</div>
-                        <v-list  class="ma-0 pa-0">
-                            <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
-                                <v-list-item-avatar >
-                                        <v-icon large
-                                        :color="item.extension == 'docx' ? 'blue' : 'red'">
-                                        {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
-                                        </v-icon>
-                                </v-list-item-avatar>
-                                <v-list-item-content >
-                                    <v-hover v-slot="{ hover }">
-                                        <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
-                                    </v-hover> 
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list>
-                    </v-col>
-                
-                    <v-col v-if="classworkDetails.availability == 0" cols="12" class="pl-10 pr-5 pb-10 text-right">
-                         <v-btn
-                            v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
-                            rounded
-                            color="primary"
-                            :dark="totalQuestion != 0"
-                            :disabled="totalQuestion == 0"
-                            @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                        </v-btn>
-
-                        <v-btn
-                        v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
-                        @click="isViewingSubmission = !isViewingSubmission"
-                         
-                            rounded
-                            color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                        </v-btn>
-                </v-col>
-                   
-                 <v-col v-else-if="classworkDetails.availability == 1" cols="12" class="pl-10 pr-5 pb-10 text-right"> 
-                     
-                     <v-row>
-                           <v-col cols="12" v-if="DateToday >= format_date1(classworkDetails.from_date)">
-                                <v-btn
-                                    v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
-                                    rounded
-                                    color="primary"
-                                    :dark="totalQuestion != 0"
-                                    :disabled="totalQuestion == 0"
-                                    @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
-
-                                <v-btn
-                                    v-if="statusDetails.status == 'Taking'"
-                                    rounded
-                                    color="primary"
-                                    dark
-                                    @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">
-                                    Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
-
-                                <v-btn
-                                v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
-                                @click="isViewingSubmission = !isViewingSubmission"
-                                    rounded
-                                    color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
+                            <v-row style="height:4vh"></v-row>
+                            <v-divider v-if="statusDetails.status == 'Submitted'"></v-divider>
                         </v-col>
-                         <v-col v-else cols="12">
+                        <v-col cols="12">
+                            <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                                 <v-btn
+                                class="mx-2" fab dark
+                                :color="statusDetails.status == 'Submitted' ? 'success': 'primary'">
+                                    <v-icon x-large>
+                                    {{statusDetails.status == 'Submitted' ? 'mdi-check': 'mdi-book-open-variant'}}
+                                    </v-icon>
+                                </v-btn>
+                                <div
+                                class="float-right mt-3"
+                                fab>
+                                    <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} mins</div>
+                                    <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
+                                </div>
+                            </v-container>
+                        </v-col>
+
+                    <v-col cols="12" class="pl-7 pr-5">
+                        <div class="text-sm-body-2 text-md-h5 text-lg-h6 text-xl-h6">{{classworkDetails.title}}</div>
+                        
+                            <div class="pt-2 d-flex flex-row ">
+                                <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
+                                <div class="captions"><v-icon>mdi-circle-medium</v-icon>{{classworkDetails.points}} Points</div>
+                            </div>
+                        <v-divider></v-divider>
+                    </v-col>
+
+                        <v-col cols="12" class="pl-10 pr-5 pb-5">
+                <!--      <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div> -->
+                        <span class="text-sm-body-2 " style="max-width:98%" v-html="classworkDetails.instruction"></span>
+                        </v-col>
+                        <v-col  cols="12" class=" pb-5 pl-5 pr-5">
+                            <div class="overline" v-if="classworkDetails.attachment != null">Attachments</div>
+                            <v-list  class="ma-0 pa-0">
+                                <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
+                                    <v-list-item-avatar >
+                                            <v-icon large
+                                            :color="CheckFileIconColor(item.extension)">
+                                            {{CheckFileIcon(item.extension)}}
+                                            </v-icon>
+                                    </v-list-item-avatar>
+                                    <v-list-item-content >
+                                        <v-hover v-slot="{ hover }">
+                                            <v-list-item-title :class="hover ? 'blue--text' : ''" style="cursor:pointer" @click="DownLoadFile(item.attachment)">{{item.name}}</v-list-item-title>
+                                        </v-hover> 
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-col>
+                    
+                        <v-col v-if="classworkDetails.availability == 0" cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'">
+                            <v-btn
+                                :block="!$vuetify.breakpoint.lgAndUp"
+                                v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
                                 rounded
                                 color="primary"
-                                disabled>
-                                Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                :dark="totalQuestion != 0"
+                                :disabled="totalQuestion == 0"
+                                @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
-                         </v-col>
-                     </v-row>
-                </v-col>
-                </v-row>   
-                <v-row style="height:1vh"></v-row> 
-            </v-card> 
+                            <v-btn
+                                :block="!$vuetify.breakpoint.lgAndUp"
+                                v-if="statusDetails.status == 'Taking'"
+                                rounded
+                                color="primary"
+                                :dark="totalQuestion != 0"
+                                :disabled="totalQuestion == 0"
+                            @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            </v-btn>
+
+                            <v-btn
+                                :block="!$vuetify.breakpoint.lgAndUp"
+                                v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                                @click="isViewingSubmission = !isViewingSubmission" rounded
+                                color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                            </v-btn>
+                    </v-col>
+                    
+                    <v-col v-else-if="classworkDetails.availability == 1" cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'"> 
+                        
+                        <v-row>
+                            <v-col cols="12" v-if="DateToday >= format_date1(classworkDetails.from_date)">
+                                    <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
+                                        v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
+                                        rounded
+                                        color="primary"
+                                        :dark="totalQuestion != 0"
+                                        :disabled="totalQuestion == 0"
+                                        @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    </v-btn>
+
+                                    <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
+                                        v-if="statusDetails.status == 'Taking'"
+                                        rounded
+                                        color="primary"
+                                        dark
+                                        @click="$router.push({name: 'quizstart',params: {id: $route.params.id},query: {clwk: classworkDetails.id}})">
+                                        Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    </v-btn>
+
+                                    <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
+                                    v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
+                                    @click="isViewingSubmission = !isViewingSubmission"
+                                        rounded
+                                        color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    </v-btn>
+                            </v-col>
+                            <v-col v-else cols="12">
+                                    <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
+                                    rounded
+                                    color="primary"
+                                    disabled>
+                                    Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                    </v-row>   
+                    <v-row style="height:1vh"></v-row> 
+                </v-card> 
+             </div>
         </v-col>
         
-        <v-col v-else :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+        <v-col v-else :class="!$vuetify.breakpoint.lgAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
             <v-card class="pa-3" elevation="1" outlined>
                 <viewSubmission v-on:closeViewing="isViewingSubmission = !isViewingSubmission" :classworkDetails="classworkDetails" :details="statusDetails"></viewSubmission>
             </v-card> 
         </v-col>
     </v-row>
+ 
+   
+        <v-bottom-navigation  app grow 
+         v-if="!$vuetify.breakpoint.lgAndUp"
+        :value="selected"
+        color="primary" >
+        <v-btn class="mb-12" @click="selected = 0">
+            <span>Details</span>
+            <v-icon>mdi-book-information-variant</v-icon>
+        </v-btn>
 
+        <v-btn @click="selected = 1">
+            <span>Comment</span>
+            <v-icon>mdi-comment</v-icon>
+        </v-btn>
+        </v-bottom-navigation> 
+  
+  
 </div>
 
 </template>
@@ -259,16 +313,60 @@ export default {
             isCommenting: false,
             comment: null,
             isLoaded: true,
+            selected: 0,
             //statusDetails: [],
             isViewingSubmission: false,
             DateToday: null,
+            ScrollPosistion: 0,
         }
         
     },
+ 
     computed:{
         ...mapGetters(['get_CurrentUser','statusDetails']),
     },
     methods:{
+        handleScroll(event) {
+            this.ScrollPosistion = window.scrollY;
+        },
+         CheckFileIcon(ext){
+            if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'mdi-image';
+            }
+            else if(ext == 'pdf'){
+            return 'mdi-file-pdf';
+            }
+            else if(ext == 'txt' ){
+            return 'mdi-note-text-outline';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'mdi-file-word';
+            }
+            else if(ext == 'link' ){
+            return 'mdi-file-link';
+            }
+        },
+       CheckFileIconColor(ext){
+            if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+            return 'info';
+            }
+            else if(ext == 'pdf'){
+            return 'red';
+            }
+            else if(ext == 'txt' ){
+            return 'primary';
+            }
+            else if(ext == 'docx' || ext == 'doc'){
+            return 'blue';
+            }
+            else if(ext == 'link' ){
+            return 'green';
+            }
+            else{
+            return 'primary';
+            }
+
+        },
          format_date(value) {
             if (value) {
                 //return moment(String(value)).format('dddd, h:mm a')
@@ -286,8 +384,8 @@ export default {
         start(){
           
           if(this.totalQuestion != 0 && (this.status == null || this.status == '')){
-              this.UpdateStatus( this.classworkDetails.id);
-            
+              //this.UpdateStatus( this.classworkDetails.id);
+             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
           }
         },
         checkStatus(){
@@ -352,13 +450,17 @@ export default {
     },
    async created(){
        //this.checkStatus();
-       this.isLoaded = false;
+       //this.isLoaded = false;
     },
     mounted(){
-  
+        this.isLoaded = false;
         const newDate = new Date();
         this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-    }
+        window.addEventListener('scroll', this.handleScroll);
+    },
+     destroyed () {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
    /*   beforeRouteEnter(to, from, next) {
         next(vm => {
             //vm.isExamStart = true

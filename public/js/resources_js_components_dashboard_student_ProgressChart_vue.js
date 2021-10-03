@@ -82,6 +82,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['allClass'],
@@ -95,6 +103,16 @@ __webpack_require__.r(__webpack_exports__);
       progress: []
     };
   },
+  watch: {
+    '$vuetify.breakpoint.lgAndUp': function $vuetifyBreakpointLgAndUp(newId, oldId) {
+      this.isLoaded = false;
+      this.ReSetClassName();
+    },
+    '$vuetify.breakpoint.sm': function $vuetifyBreakpointSm(newId, oldId) {
+      this.isLoaded = false;
+      this.ReSetClassName();
+    }
+  },
   methods: {
     SetClassName: function SetClassName() {
       for (var i = 0; i < this.allClass.length; i++) {
@@ -104,6 +122,19 @@ __webpack_require__.r(__webpack_exports__);
 
       this.progress[this.progress.length + 1] = 100;
       this.isLoaded = true;
+    },
+    ReSetClassName: function ReSetClassName() {
+      var _this = this;
+
+      for (var i = 0; i < this.allClass.length; i++) {
+        this.classList[i] = this.allClass[i].class_name;
+        this.progress[i] = this.allClass[i].progress;
+      }
+
+      this.progress[this.progress.length + 1] = 100;
+      setTimeout(function () {
+        return _this.isLoaded = true;
+      }, 300);
     }
   },
   mounted: function mounted() {
@@ -38153,6 +38184,18 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("vue-element-loading", {
+        attrs: {
+          active: !_vm.isLoaded,
+          text: "Loading",
+          duration: "0.7",
+          textStyle: { fontSize: "15px" },
+          spinner: "line-scale",
+          color: "#EF6C00",
+          size: "30"
+        }
+      }),
+      _vm._v(" "),
       _c(
         "v-card",
         { staticClass: "pa-2" },
@@ -38161,6 +38204,7 @@ var render = function() {
           _vm._v(" "),
           _vm.isLoaded
             ? _c("bar-chart", {
+                style: _vm.$vuetify.breakpoint.lgAndUp ? "" : "height:280px",
                 attrs: { classList: _vm.classList, progress: _vm.progress }
               })
             : _vm._e()

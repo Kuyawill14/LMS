@@ -1,5 +1,5 @@
 <template>
-<div class="pt-3 pl-1 pr-1">
+<div >
   <v-dialog v-model="AttachLink" persistent max-width="400">
          <!--    <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -81,11 +81,33 @@
       </v-dialog>
 
 
-    <v-row justify="center" no-gutters class="pa-2">
-         <v-col  cols="12" md="5" lg="4" class="mb-0 pb-0">
-             <v-card class="pa-7" outlined  elevation="1">
+    <v-row ref="ContainerSize" justify="center" no-gutters :class="$vuetify.breakpoint.lgAndUp ? 'pa-3' : 'pa-1'">
+        <v-col cols="12" md="10"  class="mb-2 mt-0 pt-0" v-if="!$vuetify.breakpoint.lgAndUp">
+            <v-card class="pa-1" elevation="1" outlined>
+                <v-row>
+                    <v-col cols="12" >
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn rounded
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    icon 
+                                    text 
+                                    class=""
+                                    @click="$router.push({name: 'classwork'})" >
+                                <v-icon dark>mdi-arrow-left-thick</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Back to classworks</span>
+                        </v-tooltip>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-col>
+         <v-col v-if="$vuetify.breakpoint.lgAndUp ? true : selected == 1 || selected == 2"  cols="12" md="10" lg="4" xl="4" class="mb-0 pb-0">
+             <v-card v-if="$vuetify.breakpoint.lgAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0">
                <v-row  >
-                 <v-col cols="12" class="ma-0 pa-0">
+                 <v-col v-if="$vuetify.breakpoint.lgAndUp"  cols="12" class="ma-0 pa-0">
                    <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                           <v-btn rounded
@@ -143,10 +165,8 @@
                                    <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
-                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'">
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline': item.fileExte == 'docx'? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                              <v-icon  :color="CheckFileIconColor(item.fileExte)">
+                                                {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
                                            </v-list-item-avatar>
                                             <v-list-item-content @click="OpenFile(item.link)">
@@ -203,11 +223,8 @@
                                       <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
-                                              <v-icon  :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx' || item.fileExte == 'doc'? 'blue': item.fileExte == 'link' ? 'green':
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' ||  item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': 'primary'">
-
-                                                {{item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'txt' ? 'mdi-note-text-outline':  item.fileExte == 'docx' ||  item.fileExte == 'doc' ? 'mdi-file-word': item.fileExte == 'link'? 'mdi-file-link': 
-                                          item.fileExte == 'jpg' ||  item.fileExte == 'jpeg' || item.fileExte == 'gif' ||  item.fileExte == 'svg' || item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-image' :''}}
+                                              <v-icon  :color="CheckFileIconColor(item.fileExte)">
+                                                {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
 
                                              
@@ -391,7 +408,7 @@
                    </v-col>
                 </v-row> 
           </v-card>
-          <v-card class="mt-4" elevation="1" outlined>
+          <v-card v-if="$vuetify.breakpoint.lgAndUp || selected == 2" :class="$vuetify.breakpoint.lgAndUp ? 'mt-4' :''" outlined  :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0">
             <div class="pt-3 pl-4 pr-4 pb-2">
                <v-icon left>mdi-comment</v-icon>Private Comments
             </div>
@@ -470,8 +487,8 @@
            
           </v-card>
         </v-col>
-         <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
-          <v-card  elevation="1" outlined class="pa-5">
+         <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 0" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
+          <v-card outlined :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" class="pa-5">
                 <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="12" class="ma-0">
                             <v-row >
@@ -533,8 +550,8 @@
                                         <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
                                             <v-list-item-avatar >
                                                     <v-icon large
-                                                    :color="item.extension == 'docx' ? 'blue' : 'red'">
-                                                    {{item.extension == 'docx' ? 'mdi-file-word' : 'mdi-file-pdf'}}
+                                                    :color="CheckFileIconColor(item.extension)">
+                                                    {{CheckFileIcon(item.extension)}}
                                                     </v-icon>
                                             </v-list-item-avatar>
                                             <v-list-item-content >
@@ -554,6 +571,24 @@
         </v-col>
       
     </v-row>
+
+    <v-bottom-navigation app grow
+        v-if="!$vuetify.breakpoint.lgAndUp"
+        :value="selected"
+        color="primary" >
+        <v-btn @click="selected = 0">
+            <span>Details</span>
+            <v-icon>mdi-book-information-variant</v-icon>
+        </v-btn>
+         <v-btn @click="selected = 1">
+            <span>Submission</span>
+            <v-icon>mdi-playlist-edit</v-icon>
+        </v-btn>
+        <v-btn @click="selected = 2">
+            <span>Comment</span>
+            <v-icon>mdi-comment</v-icon>
+        </v-btn>
+  </v-bottom-navigation>
 </div>          
 </template>
 
@@ -567,7 +602,7 @@ export default {
     props:['classworkDetails'],
     components:{
       attachlinkDiaglog,
-
+  
     },
     data(){
         return{
@@ -603,7 +638,11 @@ export default {
                 (value) => !!value || "Required.",
               ],
             DateToday: new Date(),
-            CheckeFileExtention: null
+            CheckeFileExtention: null,
+            fileType:['pdf', 'txt', 'docx', 'doc', 'jpg', 'jpeg' ,'gif','svg','png', 'bmp', 'link'],
+            extensionIcon:['mdi-file-pdf', 'mdi-note-text-outline', 'mdi-file-word', 'mdi-file-link',  'mdi-image'],
+            selected: 0,
+            ScrollPosistion: 0,
         }
     },
      computed: {
@@ -624,6 +663,47 @@ export default {
         }
     },
     methods:{
+       handleScroll(event) {
+          this.ScrollPosistion = window.scrollY;
+      },
+      CheckFileIcon(ext){
+        if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+          return 'mdi-image';
+        }
+        else if(ext == 'pdf'){
+          return 'mdi-file-pdf';
+        }
+        else if(ext == 'txt' ){
+          return 'mdi-note-text-outline';
+        }
+        else if(ext == 'docx' || ext == 'doc'){
+          return 'mdi-file-word';
+        }
+        else if(ext == 'link' ){
+          return 'mdi-file-link';
+        }
+      },
+       CheckFileIconColor(ext){
+        if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
+          return 'info';
+        }
+        else if(ext == 'pdf'){
+          return 'red';
+        }
+        else if(ext == 'txt' ){
+          return 'primary';
+        }
+        else if(ext == 'docx' || ext == 'doc'){
+          return 'blue';
+        }
+        else if(ext == 'link' ){
+          return 'green';
+        }
+        else{
+           return 'primary';
+        }
+
+      },
       format_date1(value) {
             if (value) {
                 //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
@@ -860,7 +940,7 @@ export default {
               })
           },
           async SubmitClasswork(){
-          let rubrics = [];
+         /*  let rubrics = [];
            if(this.classworkDetails.rubrics.length != 0){
                 this.classworkDetails.rubrics.forEach(item => {
                   rubrics.push({
@@ -871,11 +951,11 @@ export default {
            }
            else{
              rubrics = null;
-           }
+           } */
            
             this.IsSaving = true;
             let type = 'submit';
-            axios.put('/api/student/submit-classwork/'+this.tempId ,{data : rubrics}).then(res=>{
+            axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
               if(res.status == 200){
                 this.checkStatus(type);
                 this.IsSaving = false;
@@ -925,13 +1005,18 @@ export default {
     },
     async created(){
       this.checkStatus();
+     
+
+
     },
-   /*  async beforeRouteEnter(to, from, next) {
-        next(vm => {
-            //vm.isExamStart = true
-            vm.checkStatus();
-        });
-    }, */
+    mounted(){
+       window.addEventListener('scroll', this.handleScroll);
+    },
+  
+     destroyed () {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+ 
     
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
 <div>
     <!--  ######### header ################ -->
-       <v-app-bar   :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
+       <v-app-bar elevate-on-scroll :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon  @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title class="ml-0 white--text" >
