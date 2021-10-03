@@ -308,11 +308,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getStudentList: function getStudentList() {
       var _this2 = this;
 
-      this.loading = true;
-      axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
-        _this2.students = res.data;
-      })["catch"](function (error) {//console.log(error)
-      });
+      this.loading = true; // axios.get('/api/student/all_by_class/' + this.selectedClass)
+      //     .then((res) => {
+      //         this.students = res.data
+      //     }).catch((error) => {
+      //         //console.log(error)
+      //     })
+
       this.$store.dispatch('studentMainProgress', this.selectedClass).then(function () {
         _this2.loading = false;
       });

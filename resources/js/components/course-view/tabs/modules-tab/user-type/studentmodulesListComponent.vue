@@ -1,11 +1,21 @@
 <template>
     <div style="width:100%;">
+
+        <v-dialog v-model="warningDialog" persistent max-width="500">
+            <dialogWarning v-on:toggleCloaseDialog="confirmWarning_fn" v-if="warningDialog" :timer_count="idleTimer"
+                :warning_type="warning_type">
+            </dialogWarning>
+        </v-dialog>
+
         <v-card class="mb-2">
             <v-list-item>
 
                 <v-list-item-content>
                     <v-list-item-title class="course_content_header">
                         Modules Content
+                        <v-spacer></v-spacer>
+                        <v-idle @idle="onidle" :reminders="idleTimer_reminder" :loop="true" :duration="idleTimer"
+                            v-if="isSelectedModule && renderComponent" style="opacity: 0%"/>
                         <v-spacer></v-spacer>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
@@ -20,6 +30,7 @@
                                 {{getStudentModuleProgress.submodules_count}} complete</span>
                         </v-tooltip>
                     </v-list-item-title>
+
                 </v-list-item-content>
 
                 <v-list-item-action v-if="expand">
@@ -44,8 +55,8 @@
                     </span>
                 </v-expansion-panel-header>
                 <v-expansion-panel-content class="pa-0">
-                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link :disabled="click_id == itemSubModule.id"
-                        class="pl-8" @click="click_id=itemSubModule.id,
+                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link
+                        :disabled="click_id == itemSubModule.id" class="pl-8" @click="click_id=itemSubModule.id,
                             subModuleClick(itemModule.isPublished,itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress) 
                          ">
 
@@ -89,6 +100,10 @@
 
 
 <script>
+    import Vidle from 'v-idle'
+    Vue.use(Vidle)
+
+    import dialogWarning from './warningDialog';
     import {
         mapGetters,
         mapActions
@@ -96,11 +111,16 @@
     export default {
         props: ['role', 'expand'],
         components: {
+            dialogWarning,
 
 
         },
         data() {
             return {
+                renderComponent: true,
+                warning_count: 0,
+                idleTimer: 30,
+                idleTimer_reminder: [10, 20],
                 click_id: null,
                 loading: true,
                 temp_id: null,
@@ -116,27 +136,37 @@
                 time: false,
                 updateTime: false,
                 percentage: 0,
-                firstLoad: false
+                firstLoad: false,
+                warningDialog: false,
+                confirmWarning: false,
+                _mainModule_id: '',
+                _subModule_id: '',
+                isSelectedModule: false,
+                warning_type: 0
             }
         },
         computed: {
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])
         },
         methods: {
+
             subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
-               
+
 
                 if (isPublished || this.role == 'Teacher') {
-                
-                        this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
-                        this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
-                        this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
-                            studentSubModuleProgress);
-                      
-                    
+
+                    this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                    this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+                    this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
+                        studentSubModuleProgress);
+
+
+                    this.isSelectedModule = true;
+
 
                 } else {
                     this.toastInfo('Module not available, The instructor still not yet publish this module.')
+                    this.isSelectedModule = false;
                 }
 
 
@@ -254,9 +284,10 @@
             },
 
 
-            setTimeSpent(mainModule_id, subModule_id, arr) {
+            setTimeSpent(mainModule_id, subModule_id) {
                 if (this.role == 'Student') {
-
+                    this._mainModule_id = mainModule_id;
+                    this._subModule_id = subModule_id;
                     clearInterval(this.ctrTime);
                     clearInterval(this.updateTime);
                     this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
@@ -270,7 +301,7 @@
                     }, 1000);
                     this.updateTime = setInterval(() => {
                         this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
-                    }, 30000);
+                    }, 2000);
                 }
             },
             updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
@@ -310,7 +341,44 @@
                 });
             },
 
+            confirmWarning_fn() {
+                this.warningDialog = !this.warningDialog;
+
+
+                if (this.confirmWarning = true) {
+                    console.log('continue the timer');
+                    this.warningDialog = false;
+                    this.setTimeSpent(this._mainModule_id, this._subModule_id);
+                    this.confirmWarning = false;
+                }
+            },
+
+            triggerWarning() {
+                if (this.isSelectedModule) {
+                    this.warningDialog = true;
+                    this.confirmWarning = false;
+                    clearInterval(this.ctrTime);
+                    clearInterval(this.updateTime);
+
+                }
+            },
+            onidle(time) {
+                this.triggerWarning();
+                this.warning_type = 1;
+            },
+
+            forceRerender() {
+                // Remove my-component from the DOM
+                this.renderComponent = false;
+
+                this.$nextTick(() => {
+                    // Add the component back in
+                    this.renderComponent = true;
+                });
+            }
+
         },
+
         async mounted() {
 
             // this.fetchClass();
@@ -330,6 +398,53 @@
         created() {
             this.firstLoad = true;
         },
+
+        beforeMount() {
+            var self = this;
+
+            $(window).bind('touchstart', function () {
+                self.forceRerender();
+            });
+            $(window).bind('touchmove', function () {
+                self.forceRerender();
+            });
+
+
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+            window.addEventListener("onbeforeunload", this.preventNav);
+
+            $(window).blur(function () {
+
+                let blurTimer = setTimeout(() => {
+                    let activeElement = document.activeElement;
+                    let iframeElement = document.querySelector('iframe');
+                    if (activeElement === iframeElement) {
+
+                        //execute your code here
+
+                        //we only want to listen for the first time we click into the iframe
+                        window.removeEventListener('blur', this.onBlur);
+                        iframeElement.blur();
+                        clearInterval('blurTimer');
+
+                    } else {
+
+                        self.triggerWarning()
+                    }
+                }, 0);
+
+
+
+
+
+
+
+
+            });
+        },
+
         beforeDestroy() {
             clearInterval(this.ctrTime);
             clearInterval(this.updateTime);
@@ -359,7 +474,8 @@
 </style>
 
 <style scoped>
-.v-list-item--disabled {
+    .v-list-item--disabled {
         background: #F6F6F6;
-}
+    }
+
 </style>

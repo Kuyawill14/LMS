@@ -468,8 +468,8 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       this.headers = [];
       this.loading = true;
-      var total = 0;
-      this.getStudentList();
+      var total = 0; // this.getStudentList();
+
       this.headers.push({
         text: 'Name',
         value: 'lastName'

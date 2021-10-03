@@ -309,14 +309,14 @@
             },
             getStudentList() {
                 this.loading = true;
-                axios.get('/api/student/all_by_class/' + this.selectedClass)
-                    .then((res) => {
-                        this.students = res.data
+                // axios.get('/api/student/all_by_class/' + this.selectedClass)
+                //     .then((res) => {
+                //         this.students = res.data
 
 
-                    }).catch((error) => {
-                        //console.log(error)
-                    })
+                //     }).catch((error) => {
+                //         //console.log(error)
+                //     })
                 this.$store.dispatch('studentMainProgress', this.selectedClass).then(() => {
                     this.loading = false;
                 });

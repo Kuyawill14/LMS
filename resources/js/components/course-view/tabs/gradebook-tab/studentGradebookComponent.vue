@@ -229,7 +229,7 @@
             },
             getClassworkList() {
                 var total = 0;
-                this.getStudentList();
+                // this.getStudentList();
                 this.headers = [];
 
 
@@ -319,7 +319,7 @@
 
                     this.selectedClass = this.classList[0].class_id;
                     this.getClassworkList();
-                    this.getStudentList();
+                    // this.getStudentList();
                     this.getfinalGrades();
                     //console.log('class Liost: ', this.classList);
                 });

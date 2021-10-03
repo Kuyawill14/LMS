@@ -129,7 +129,7 @@
             </v-dialog>
         </v-row>
 
-        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize" @click="listDialaog = true"
+        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize" @click="listDialaog = !listDialaog"
             style="z-index:999">
             <v-icon>mdi-menu</v-icon>
         </v-btn>
