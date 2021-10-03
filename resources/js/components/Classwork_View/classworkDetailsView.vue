@@ -78,7 +78,7 @@
                   :classworkDetails="classworkDetails.Details"
                 ></teacherStartPage>
             </v-col>
-            <v-col v-if="role == 'Student'" cols="12" class="ma-0 pa-0 ">
+            <v-col v-if="role == 'Student'" cols="12" >
                  <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails.Details"
                 :totalPoints="totalPoints"

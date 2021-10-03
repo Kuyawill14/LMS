@@ -52070,7 +52070,7 @@ var render = function() {
               _vm.role == "Student"
                 ? _c(
                     "v-col",
-                    { staticClass: "ma-0 pa-0 ", attrs: { cols: "12" } },
+                    { attrs: { cols: "12" } },
                     [
                       _vm.role == "Student"
                         ? _c("studentStartPage", {

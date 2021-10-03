@@ -7,9 +7,9 @@
         
         <sidebar  :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
 
-        <v-main>
+        <v-main >
 
-            <v-container fluid>
+            <v-container fluid width="100%">
                
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
                 

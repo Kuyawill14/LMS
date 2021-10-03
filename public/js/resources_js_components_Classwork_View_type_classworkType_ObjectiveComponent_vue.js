@@ -326,6 +326,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -722,7 +723,7 @@ var render = function() {
             ? _c(
                 "v-col",
                 {
-                  class: _vm.selected == 1 ? "mb-4" : "",
+                  class: _vm.selected == 1 ? "mb-2" : "",
                   attrs: { cols: "12" }
                 },
                 [
@@ -821,7 +822,7 @@ var render = function() {
             ? _c(
                 "v-col",
                 {
-                  staticClass: "mb-0 pb-0",
+                  staticClass: "mb-0 pb-0 ",
                   attrs: { cols: "12", md: "12", lg: "4", xl: "4" }
                 },
                 [
@@ -1207,9 +1208,9 @@ var render = function() {
                 "v-col",
                 {
                   class: !_vm.$vuetify.breakpoint.lgAndUp
-                    ? "mt-2 pl-0 pt-2"
-                    : "pt-0 pl-5",
-                  attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
+                    ? "mt-1 pl-0 pt-1"
+                    : "pt-0 ",
+                  attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
                 },
                 [
                   _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 0
@@ -2021,9 +2022,9 @@ var render = function() {
                 "v-col",
                 {
                   class: !_vm.$vuetify.breakpoint.lgAndUp
-                    ? "mt-2 pl-0 pt-2"
+                    ? "mt-1 pl-0 pt-1"
                     : "pt-0 pl-5",
-                  attrs: { cols: "12", md: "7", lg: "8" }
+                  attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
                 },
                 [
                   _c("vue-element-loading", {
@@ -2058,10 +2059,8 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "v-row",
-        [
-          _c(
+      !_vm.$vuetify.breakpoint.lgAndUp
+        ? _c(
             "v-bottom-navigation",
             {
               attrs: {
@@ -2109,9 +2108,7 @@ var render = function() {
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

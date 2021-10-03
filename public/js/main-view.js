@@ -10589,6 +10589,7 @@ var render = function() {
         "v-app-bar",
         {
           attrs: {
+            "elevate-on-scroll": "",
             "clipped-left": _vm.$vuetify.breakpoint.lgAndUp,
             app: "",
             color: "primary",
@@ -10979,7 +10980,7 @@ var render = function() {
         [
           _c(
             "v-container",
-            { attrs: { fluid: "" } },
+            { attrs: { fluid: "", width: "100%" } },
             [
               _c("router-view", {
                 attrs: {

@@ -5,7 +5,7 @@
 
      
     <v-row  justify="center" align-content="center" no-gutters :class="$vuetify.breakpoint.lgAndUp ? 'pa-3' : 'pa-1'">
-        <v-col cols="12" :class="selected == 1 ? 'mb-4' : ''" v-if="!$vuetify.breakpoint.lgAndUp">
+        <v-col cols="12" :class="selected == 1 ? 'mb-2' : ''" v-if="!$vuetify.breakpoint.lgAndUp">
             <v-card class="pa-1" elevation="1"  outlined>
                 <v-row>
                     <v-col cols="12" >
@@ -27,7 +27,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 1"  cols="12" md="12" lg="4" xl="4" class="mb-0 pb-0">
+        <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 1"  cols="12" md="12" lg="4" xl="4" class="mb-0 pb-0 ">
             <v-card  class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
                 <v-row  >
                     <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="12" class="mb-0 pb-0">
@@ -127,7 +127,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="12" lg="8" xl="8">
+        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 '" cols="12" md="10" lg="8" xl="8">
             <div v-if="$vuetify.breakpoint.lgAndUp || selected == 0">
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
                 <v-card class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
@@ -268,7 +268,7 @@
              </div>
         </v-col>
         
-        <v-col v-else :class="!$vuetify.breakpoint.lgAndUp ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+        <v-col v-else :class="!$vuetify.breakpoint.lgAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
             <v-card class="pa-3" elevation="1" outlined>
                 <viewSubmission v-on:closeViewing="isViewingSubmission = !isViewingSubmission" :classworkDetails="classworkDetails" :details="statusDetails"></viewSubmission>
@@ -276,8 +276,9 @@
         </v-col>
     </v-row>
  
-    <v-row>
+   
         <v-bottom-navigation  app grow 
+         v-if="!$vuetify.breakpoint.lgAndUp"
         :value="selected"
         color="primary" >
         <v-btn class="mb-12" @click="selected = 0">
@@ -290,7 +291,7 @@
             <v-icon>mdi-comment</v-icon>
         </v-btn>
         </v-bottom-navigation> 
-    </v-row>
+  
   
 </div>
 
