@@ -1,5 +1,5 @@
 <template>
-<div class="pt-3 pl-1 pr-1">
+<div >
   <v-dialog v-model="AttachLink" persistent max-width="400">
          <!--    <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -81,11 +81,33 @@
       </v-dialog>
 
 
-    <v-row justify="center" no-gutters class="pa-2">
-         <v-col  cols="12" md="5" lg="4" class="mb-0 pb-0">
-             <v-card class="pa-7" outlined  elevation="1">
+    <v-row ref="ContainerSize" justify="center" no-gutters :class="$vuetify.breakpoint.lgAndUp ? 'pa-3' : 'pa-1'">
+        <v-col cols="12" md="10"  class="mb-2 mt-0 pt-0" v-if="!$vuetify.breakpoint.lgAndUp">
+            <v-card class="pa-1" elevation="1" outlined>
+                <v-row>
+                    <v-col cols="12" >
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn rounded
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    icon 
+                                    text 
+                                    class=""
+                                    @click="$router.push({name: 'classwork'})" >
+                                <v-icon dark>mdi-arrow-left-thick</v-icon>
+                                </v-btn>
+                            </template>
+                            <span>Back to classworks</span>
+                        </v-tooltip>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-col>
+         <v-col v-if="$vuetify.breakpoint.lgAndUp ? true : selected == 1 || selected == 2"  cols="12" md="10" lg="4" xl="4" class="mb-0 pb-0">
+             <v-card v-if="$vuetify.breakpoint.lgAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0">
                <v-row  >
-                 <v-col cols="12" class="ma-0 pa-0">
+                 <v-col v-if="$vuetify.breakpoint.lgAndUp"  cols="12" class="ma-0 pa-0">
                    <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                           <v-btn rounded
@@ -386,7 +408,7 @@
                    </v-col>
                 </v-row> 
           </v-card>
-          <v-card class="mt-4" elevation="1" outlined>
+          <v-card v-if="$vuetify.breakpoint.lgAndUp || selected == 2" :class="$vuetify.breakpoint.lgAndUp ? 'mt-4' :''" outlined  :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0">
             <div class="pt-3 pl-4 pr-4 pb-2">
                <v-icon left>mdi-comment</v-icon>Private Comments
             </div>
@@ -465,8 +487,8 @@
            
           </v-card>
         </v-col>
-         <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
-          <v-card  elevation="1" outlined class="pa-5">
+         <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 0" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
+          <v-card outlined :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" class="pa-5">
                 <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="12" class="ma-0">
                             <v-row >
@@ -549,6 +571,24 @@
         </v-col>
       
     </v-row>
+
+    <v-bottom-navigation app grow
+        v-if="!$vuetify.breakpoint.lgAndUp"
+        :value="selected"
+        color="primary" >
+        <v-btn @click="selected = 0">
+            <span>Details</span>
+            <v-icon>mdi-book-information-variant</v-icon>
+        </v-btn>
+         <v-btn @click="selected = 1">
+            <span>Submission</span>
+            <v-icon>mdi-playlist-edit</v-icon>
+        </v-btn>
+        <v-btn @click="selected = 2">
+            <span>Comment</span>
+            <v-icon>mdi-comment</v-icon>
+        </v-btn>
+  </v-bottom-navigation>
 </div>          
 </template>
 
@@ -562,7 +602,7 @@ export default {
     props:['classworkDetails'],
     components:{
       attachlinkDiaglog,
-
+  
     },
     data(){
         return{
@@ -600,7 +640,9 @@ export default {
             DateToday: new Date(),
             CheckeFileExtention: null,
             fileType:['pdf', 'txt', 'docx', 'doc', 'jpg', 'jpeg' ,'gif','svg','png', 'bmp', 'link'],
-            extensionIcon:['mdi-file-pdf', 'mdi-note-text-outline', 'mdi-file-word', 'mdi-file-link',  'mdi-image']
+            extensionIcon:['mdi-file-pdf', 'mdi-note-text-outline', 'mdi-file-word', 'mdi-file-link',  'mdi-image'],
+            selected: 0,
+            ScrollPosistion: 0,
         }
     },
      computed: {
@@ -621,6 +663,9 @@ export default {
         }
     },
     methods:{
+       handleScroll(event) {
+          this.ScrollPosistion = window.scrollY;
+      },
       CheckFileIcon(ext){
         if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
           return 'mdi-image';
@@ -960,13 +1005,18 @@ export default {
     },
     async created(){
       this.checkStatus();
+     
+
+
     },
-   /*  async beforeRouteEnter(to, from, next) {
-        next(vm => {
-            //vm.isExamStart = true
-            vm.checkStatus();
-        });
-    }, */
+    mounted(){
+       window.addEventListener('scroll', this.handleScroll);
+    },
+  
+     destroyed () {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+ 
     
 }
 </script>

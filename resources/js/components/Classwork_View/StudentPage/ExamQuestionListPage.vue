@@ -64,8 +64,8 @@
                     </v-list>
                 </v-col>
                 <v-col :cols="$vuetify.breakpoint.lgAndUp ? 4 : 12" :class="$vuetify.breakpoint.lgAndUp ? 'd-flex justify-end' : 'd-flex justify-center'">
-                    <div>
-                        <h4 class="ml-10">Time Remaining</h4>
+                    <div >
+                        <h4 @click="Answersheet = true"  class="ml-10">Time Remaining</h4>
                         <div class="d-flex">
                              <div class="text-center">
                                 <v-menu offset-y>
@@ -92,7 +92,7 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit()" :duration="duration" v-if="!isLoading && questionIsLoaded"></quizTimer>
+                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded"></quizTimer>
                         </div>
                     </div>
                 </v-col>
@@ -322,6 +322,7 @@ export default {
     },
     data(){
         return{
+            Answersheet: false,
             StopTimer: false,
             dialog:false,
             warningDialog: false,
@@ -369,6 +370,7 @@ export default {
             isSavingAnswer: false,
             bus: "testing",
             TimesUpDialog: false,
+            windowHeight: window.innerHeight - 100,
         }
     },
     computed: 
@@ -472,35 +474,22 @@ export default {
                     this.warningDialog = false;
                     axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: data.time})
                     .then((res)=>{
-                        //if(res.status == 200){
-                        /*   this.isLoading = !this.isLoading;
-                            this.isSubmitting = !this.isSubmitting;
-                            this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
-                        //}
-                        //setTimeout(() => {
-                            this.isLoading = !this.isLoading;
-                            this.isSubmitting = !this.isSubmitting;
-                            this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
-                        //}, 2000);
-                        console.log('submit');
+                        this.isLoading = !this.isLoading;
+                        this.isSubmitting = !this.isSubmitting;
+                        this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
                     })       
              }
                   
         },
-        TimesUpSubmit(){
+        TimesUpSubmit(data){
             this.TimesUpDialog = !this.TimesUpDialog;
             this.isExamStart = false;
             this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.isStart = !this.isStart;
             this.warningDialog = false;
-             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount})
+             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount, timeSpent: data.time})
             .then((res)=>{
-                //if(res.status == 200){
-                 /*    this.isLoading = !this.isLoading;
-                    this.isSubmitting = !this.isSubmitting;
-                    this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
-                //}
                 console.log('timesUp');
                  setTimeout(() => {
                     this.isLoading = !this.isLoading;
@@ -508,9 +497,6 @@ export default {
                     
                 }, 2000);
                 this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
-                
-                  //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                
             })
         },
         fetchQuestions(){
@@ -623,36 +609,6 @@ export default {
                 }
                 else if(this.Qlength == AnswersList.length){
 
-
-                    //if(this.Qlength == AnswersList.length)
-
-                   /*  let Submitted_length = AnswersList.length;
-                    let Question_length = this.getAll_questions.Question.length;
-                    let diff = Question_length  - Submitted_length;
-                    for (let i = 0; i < diff; i++) {
-                        if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
-                            this.details.Submitted_Answers.push({
-                                Answer: null,
-                                Question_id: this.QuestionAndAnswer.Question[i].id,
-                                timeConsume: null,
-                                type: this.QuestionAndAnswer.Question[i].type
-                            })
-                        }
-                        else if(this.getAll_questions.Question[x].type == 'Essay'){
-                            this.details.Submitted_Answers.push({
-                                Answer: null,
-                                Question_id: this.QuestionAndAnswer.Question[i].id,
-                                timeConsume: null,
-                                type: this.QuestionAndAnswer.Question[i].type,
-                                check: false,
-                            })
-                        }
-                        else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
-
-                        }
-    
-                    } */
-
                      for (let x = 0; x < this.getAll_questions.Question.length; x++) {
                          for (let j = 0; j < AnswersList.length; j++) {
                             if(this.getAll_questions.Question[x].id == AnswersList[j].Question_id){
@@ -701,8 +657,6 @@ export default {
         },
          preventNav(event) {
             if (!this.isStart) return;
-            //event.preventDefault();
-            // Chrome requires returnValue to be set.
             event.returnValue = "";
         },
          CheckStatus(){
@@ -807,10 +761,6 @@ export default {
         $(window).blur(function(){
             self.triggerWarning()
         });
-        //window.addEventListener("beforeunload", this.preventNav)
-           /*  this.$once("hook:beforeDestroy", () => {
-            window.removeEventListener("beforeunload", this.preventNav);
-        }) */
     },
      beforeRouteLeave(to, from, next) {
         if (this.isExamStart) {

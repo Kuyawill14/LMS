@@ -63,10 +63,14 @@ export default {
             this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
         },
         EndTimer(){
+            const timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+            this.timeSpent = Math.floor((timeConsumed / 1000)/60);
+            let data = {};
+            data.time = this.timeSpent;
             this.isTimesUps = true;
             clearInterval(this.NewTimer);
             localStorage.removeItem(name);
-            this.$emit('TimesUp');
+            this.$emit('TimesUp', data);
         },
         getTimeSpent(){
             const timeConsumed = this.Startdate - new Date(this.StartTime).getTime();

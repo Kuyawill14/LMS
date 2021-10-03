@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
+    <v-app-bar  app color="primary" dark>
         <v-app-bar-nav-icon @click="$emit('toggleSidebar', $vuetify.breakpoint.lgAndUp)"></v-app-bar-nav-icon>
         <router-link to="/">
          <!-- <v-toolbar-title style="width: 300px;color: #fff" class="ml-0 pl-4 " >
@@ -15,7 +15,7 @@
         <notifications></notifications>
 
         <div class="text-center">
-            <v-menu bottom min-width="200px" rounded offset-y>
+            <v-menu bottom min-width="200px" rounded >
                 <template v-slot:activator="{ on }">
                     <v-btn class="ma-0" icon x-large v-on="on">
                         <v-avatar color="brown" size="35">

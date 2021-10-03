@@ -1,14 +1,14 @@
 <template>
 
-<div class="pt-3 pt-3 pl-1 pr-1">
+<div >
 
 
      
-    <v-row justify="center" no-gutters class="pa-2">
+    <v-row  justify="center" align-content="center" no-gutters :class="$vuetify.breakpoint.lgAndUp ? 'pa-3' : 'pa-1'">
         <v-col cols="12" :class="selected == 1 ? 'mb-4' : ''" v-if="!$vuetify.breakpoint.lgAndUp">
-            <v-card class="pa-3 pb-4" elevation="1" outlined>
+            <v-card class="pa-1" elevation="1"  outlined>
                 <v-row>
-                    <v-col cols="12" class="mb-0 pb-0">
+                    <v-col cols="12" >
                         <v-tooltip top>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn rounded
@@ -27,8 +27,8 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 1"  cols="12" md="5" lg="4" class="mb-0 pb-0">
-            <v-card  class="pa-3" elevation="1" outlined>
+        <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 1"  cols="12" md="12" lg="4" xl="4" class="mb-0 pb-0">
+            <v-card  class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
                 <v-row  >
                     <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="12" class="mb-0 pb-0">
                         <v-tooltip top>
@@ -127,10 +127,10 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="7" lg="8" >
+        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-2 pl-0 pt-2' : 'pt-0 pl-5'" cols="12" md="12" lg="8" xl="8">
             <div v-if="$vuetify.breakpoint.lgAndUp || selected == 0">
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
-                <v-card class="pa-3" elevation="1" outlined>
+                <v-card class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
                     <v-row >
                         
                         <v-col cols="12">
@@ -191,8 +191,9 @@
                             </v-list>
                         </v-col>
                     
-                        <v-col v-if="classworkDetails.availability == 0" cols="12" class="pl-10 pr-5 pb-10 text-right">
+                        <v-col v-if="classworkDetails.availability == 0" cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'">
                             <v-btn
+                                :block="!$vuetify.breakpoint.lgAndUp"
                                 v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
                                 rounded
                                 color="primary"
@@ -201,6 +202,7 @@
                                 @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
                             <v-btn
+                                :block="!$vuetify.breakpoint.lgAndUp"
                                 v-if="statusDetails.status == 'Taking'"
                                 rounded
                                 color="primary"
@@ -210,17 +212,19 @@
                             </v-btn>
 
                             <v-btn
+                                :block="!$vuetify.breakpoint.lgAndUp"
                                 v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
                                 @click="isViewingSubmission = !isViewingSubmission" rounded
                                 color="primary">View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
                     </v-col>
                     
-                    <v-col v-else-if="classworkDetails.availability == 1" cols="12" class="pl-10 pr-5 pb-10 text-right"> 
+                    <v-col v-else-if="classworkDetails.availability == 1" cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'"> 
                         
                         <v-row>
                             <v-col cols="12" v-if="DateToday >= format_date1(classworkDetails.from_date)">
                                     <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
                                         v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
                                         rounded
                                         color="primary"
@@ -230,6 +234,7 @@
                                     </v-btn>
 
                                     <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
                                         v-if="statusDetails.status == 'Taking'"
                                         rounded
                                         color="primary"
@@ -239,6 +244,7 @@
                                     </v-btn>
 
                                     <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
                                     v-if="statusDetails.status == 'Submitted' && statusDetails.reviewAnswer == 1"
                                     @click="isViewingSubmission = !isViewingSubmission"
                                         rounded
@@ -247,6 +253,7 @@
                             </v-col>
                             <v-col v-else cols="12">
                                     <v-btn
+                                    :block="!$vuetify.breakpoint.lgAndUp"
                                     rounded
                                     color="primary"
                                     disabled>
@@ -268,20 +275,23 @@
             </v-card> 
         </v-col>
     </v-row>
-
-     <v-bottom-navigation app grow fixed
-        v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+ 
+    <v-row>
+        <v-bottom-navigation  app grow 
         :value="selected"
         color="primary" >
-        <v-btn @click="selected = 0">
+        <v-btn class="mb-12" @click="selected = 0">
             <span>Details</span>
             <v-icon>mdi-book-information-variant</v-icon>
         </v-btn>
+
         <v-btn @click="selected = 1">
             <span>Comment</span>
             <v-icon>mdi-comment</v-icon>
         </v-btn>
-  </v-bottom-navigation>
+        </v-bottom-navigation> 
+    </v-row>
+  
 </div>
 
 </template>
@@ -306,13 +316,18 @@ export default {
             //statusDetails: [],
             isViewingSubmission: false,
             DateToday: null,
+            ScrollPosistion: 0,
         }
         
     },
+ 
     computed:{
         ...mapGetters(['get_CurrentUser','statusDetails']),
     },
     methods:{
+        handleScroll(event) {
+            this.ScrollPosistion = window.scrollY;
+        },
          CheckFileIcon(ext){
             if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
             return 'mdi-image';
@@ -440,7 +455,11 @@ export default {
         this.isLoaded = false;
         const newDate = new Date();
         this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-    }
+        window.addEventListener('scroll', this.handleScroll);
+    },
+     destroyed () {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
    /*   beforeRouteEnter(to, from, next) {
         next(vm => {
             //vm.isExamStart = true

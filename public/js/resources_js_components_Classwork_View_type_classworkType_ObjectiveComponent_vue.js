@@ -316,6 +316,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -337,11 +347,15 @@ var viewSubmission = function viewSubmission() {
       selected: 0,
       //statusDetails: [],
       isViewingSubmission: false,
-      DateToday: null
+      DateToday: null,
+      ScrollPosistion: 0
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
   methods: {
+    handleScroll: function handleScroll(event) {
+      this.ScrollPosistion = window.scrollY;
+    },
     CheckFileIcon: function CheckFileIcon(ext) {
       if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
         return 'mdi-image';
@@ -524,6 +538,10 @@ var viewSubmission = function viewSubmission() {
     this.isLoaded = false;
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  destroyed: function destroyed() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
   /*   beforeRouteEnter(to, from, next) {
        next(vm => {
@@ -688,11 +706,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pt-3 pt-3 pl-1 pr-1" },
     [
       _c(
         "v-row",
-        { staticClass: "pa-2", attrs: { justify: "center", "no-gutters": "" } },
+        {
+          class: _vm.$vuetify.breakpoint.lgAndUp ? "pa-3" : "pa-1",
+          attrs: {
+            justify: "center",
+            "align-content": "center",
+            "no-gutters": ""
+          }
+        },
         [
           !_vm.$vuetify.breakpoint.lgAndUp
             ? _c(
@@ -705,7 +729,7 @@ var render = function() {
                   _c(
                     "v-card",
                     {
-                      staticClass: "pa-3 pb-4",
+                      staticClass: "pa-1",
                       attrs: { elevation: "1", outlined: "" }
                     },
                     [
@@ -714,7 +738,7 @@ var render = function() {
                         [
                           _c(
                             "v-col",
-                            { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                            { attrs: { cols: "12" } },
                             [
                               _c(
                                 "v-tooltip",
@@ -798,14 +822,17 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "mb-0 pb-0",
-                  attrs: { cols: "12", md: "5", lg: "4" }
+                  attrs: { cols: "12", md: "12", lg: "4", xl: "4" }
                 },
                 [
                   _c(
                     "v-card",
                     {
                       staticClass: "pa-3",
-                      attrs: { elevation: "1", outlined: "" }
+                      attrs: {
+                        elevation: _vm.$vuetify.breakpoint.lgAndUp ? 1 : 0,
+                        outlined: ""
+                      }
                     },
                     [
                       _c(
@@ -1182,7 +1209,7 @@ var render = function() {
                   class: !_vm.$vuetify.breakpoint.lgAndUp
                     ? "mt-2 pl-0 pt-2"
                     : "pt-0 pl-5",
-                  attrs: { cols: "12", md: "7", lg: "8" }
+                  attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
                 },
                 [
                   _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 0
@@ -1200,7 +1227,12 @@ var render = function() {
                             "v-card",
                             {
                               staticClass: "pa-3",
-                              attrs: { elevation: "1", outlined: "" }
+                              attrs: {
+                                elevation: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? 1
+                                  : 0,
+                                outlined: ""
+                              }
                             },
                             [
                               _c(
@@ -1572,8 +1604,9 @@ var render = function() {
                                     ? _c(
                                         "v-col",
                                         {
-                                          staticClass:
-                                            "pl-10 pr-5 pb-10 text-right",
+                                          class: _vm.$vuetify.breakpoint.lgAndUp
+                                            ? "pl-10 pr-5 pb-5 text-right"
+                                            : "pb-5",
                                           attrs: { cols: "12" }
                                         },
                                         [
@@ -1585,6 +1618,8 @@ var render = function() {
                                                 "v-btn",
                                                 {
                                                   attrs: {
+                                                    block: !_vm.$vuetify
+                                                      .breakpoint.lgAndUp,
                                                     rounded: "",
                                                     color: "primary",
                                                     dark:
@@ -1631,6 +1666,8 @@ var render = function() {
                                                 "v-btn",
                                                 {
                                                   attrs: {
+                                                    block: !_vm.$vuetify
+                                                      .breakpoint.lgAndUp,
                                                     rounded: "",
                                                     color: "primary",
                                                     dark:
@@ -1683,6 +1720,8 @@ var render = function() {
                                                 "v-btn",
                                                 {
                                                   attrs: {
+                                                    block: !_vm.$vuetify
+                                                      .breakpoint.lgAndUp,
                                                     rounded: "",
                                                     color: "primary"
                                                   },
@@ -1719,8 +1758,9 @@ var render = function() {
                                     ? _c(
                                         "v-col",
                                         {
-                                          staticClass:
-                                            "pl-10 pr-5 pb-10 text-right",
+                                          class: _vm.$vuetify.breakpoint.lgAndUp
+                                            ? "pl-10 pr-5 pb-5 text-right"
+                                            : "pb-5",
                                           attrs: { cols: "12" }
                                         },
                                         [
@@ -1745,6 +1785,10 @@ var render = function() {
                                                             "v-btn",
                                                             {
                                                               attrs: {
+                                                                block: !_vm
+                                                                  .$vuetify
+                                                                  .breakpoint
+                                                                  .lgAndUp,
                                                                 rounded: "",
                                                                 color:
                                                                   "primary",
@@ -1805,6 +1849,10 @@ var render = function() {
                                                             "v-btn",
                                                             {
                                                               attrs: {
+                                                                block: !_vm
+                                                                  .$vuetify
+                                                                  .breakpoint
+                                                                  .lgAndUp,
                                                                 rounded: "",
                                                                 color:
                                                                   "primary",
@@ -1868,6 +1916,10 @@ var render = function() {
                                                             "v-btn",
                                                             {
                                                               attrs: {
+                                                                block: !_vm
+                                                                  .$vuetify
+                                                                  .breakpoint
+                                                                  .lgAndUp,
                                                                 rounded: "",
                                                                 color: "primary"
                                                               },
@@ -1912,6 +1964,9 @@ var render = function() {
                                                         "v-btn",
                                                         {
                                                           attrs: {
+                                                            block: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .lgAndUp,
                                                             rounded: "",
                                                             color: "primary",
                                                             disabled: ""
@@ -2003,14 +2058,15 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
-        ? _c(
+      _c(
+        "v-row",
+        [
+          _c(
             "v-bottom-navigation",
             {
               attrs: {
                 app: "",
                 grow: "",
-                fixed: "",
                 value: _vm.selected,
                 color: "primary"
               }
@@ -2019,6 +2075,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
+                  staticClass: "mb-12",
                   on: {
                     click: function($event) {
                       _vm.selected = 0
@@ -2052,7 +2109,9 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )

@@ -348,6 +348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      Answersheet: false,
       StopTimer: false,
       dialog: false,
       warningDialog: false,
@@ -390,7 +391,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       submission_id: null,
       isSavingAnswer: false,
       bus: "testing",
-      TimesUpDialog: false
+      TimesUpDialog: false,
+      windowHeight: window.innerHeight - 100
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions"]),
@@ -511,13 +513,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           timerCount: this.TimerCount,
           timeSpent: data.time
         }).then(function (res) {
-          //if(res.status == 200){
-
-          /*   this.isLoading = !this.isLoading;
-              this.isSubmitting = !this.isSubmitting;
-              this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
-          //}
-          //setTimeout(() => {
           _this4.isLoading = !_this4.isLoading;
           _this4.isSubmitting = !_this4.isSubmitting;
 
@@ -526,14 +521,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             params: {
               id: _this4.$route.query.clwk
             }
-          }); //}, 2000);
-
-
-          console.log('submit');
+          });
         });
       }
     },
-    TimesUpSubmit: function TimesUpSubmit() {
+    TimesUpSubmit: function TimesUpSubmit(data) {
       var _this5 = this;
 
       this.TimesUpDialog = !this.TimesUpDialog;
@@ -545,14 +537,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.post('/api/question/check/' + this.$route.query.clwk, {
         item: this.FinalAnswers,
         AnsLength: this.questionIndex,
-        timerCount: this.TimerCount
+        timerCount: this.TimerCount,
+        timeSpent: data.time
       }).then(function (res) {
-        //if(res.status == 200){
-
-        /*    this.isLoading = !this.isLoading;
-           this.isSubmitting = !this.isSubmitting;
-           this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}}) */
-        //}
         console.log('timesUp');
         setTimeout(function () {
           _this5.isLoading = !_this5.isLoading;
@@ -564,8 +551,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           params: {
             id: _this5.$route.query.clwk
           }
-        }); //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-
+        });
       });
     },
     fetchQuestions: function fetchQuestions() {
@@ -680,32 +666,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             data: _this6.FinalAnswers
           });
         } else if (_this6.Qlength == AnswersList.length) {
-          //if(this.Qlength == AnswersList.length)
-
-          /*  let Submitted_length = AnswersList.length;
-           let Question_length = this.getAll_questions.Question.length;
-           let diff = Question_length  - Submitted_length;
-           for (let i = 0; i < diff; i++) {
-               if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
-                   this.details.Submitted_Answers.push({
-                       Answer: null,
-                       Question_id: this.QuestionAndAnswer.Question[i].id,
-                       timeConsume: null,
-                       type: this.QuestionAndAnswer.Question[i].type
-                   })
-               }
-               else if(this.getAll_questions.Question[x].type == 'Essay'){
-                   this.details.Submitted_Answers.push({
-                       Answer: null,
-                       Question_id: this.QuestionAndAnswer.Question[i].id,
-                       timeConsume: null,
-                       type: this.QuestionAndAnswer.Question[i].type,
-                       check: false,
-                   })
-               }
-               else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
-                 }
-                 } */
           for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
             for (var j = 0; j < AnswersList.length; j++) {
               if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
@@ -755,9 +715,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     preventNav: function preventNav(event) {
-      if (!this.isStart) return; //event.preventDefault();
-      // Chrome requires returnValue to be set.
-
+      if (!this.isStart) return;
       event.returnValue = "";
     },
     CheckStatus: function CheckStatus() {
@@ -865,11 +823,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
-    }); //window.addEventListener("beforeunload", this.preventNav)
-
-    /*  this.$once("hook:beforeDestroy", () => {
-     window.removeEventListener("beforeunload", this.preventNav);
-    }) */
+    });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     if (this.isExamStart) {
@@ -980,10 +934,14 @@ __webpack_require__.r(__webpack_exports__);
                   this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
     },
     EndTimer: function EndTimer() {
+      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
+      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
+      var data = {};
+      data.time = this.timeSpent;
       this.isTimesUps = true;
       clearInterval(this.NewTimer);
       localStorage.removeItem(name);
-      this.$emit('TimesUp');
+      this.$emit('TimesUp', data);
     },
     getTimeSpent: function getTimeSpent() {
       var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
@@ -23905,9 +23863,18 @@ var render = function() {
                                     },
                                     [
                                       _c("div", [
-                                        _c("h4", { staticClass: "ml-10" }, [
-                                          _vm._v("Time Remaining")
-                                        ]),
+                                        _c(
+                                          "h4",
+                                          {
+                                            staticClass: "ml-10",
+                                            on: {
+                                              click: function($event) {
+                                                _vm.Answersheet = true
+                                              }
+                                            }
+                                          },
+                                          [_vm._v("Time Remaining")]
+                                        ),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -24172,9 +24139,7 @@ var render = function() {
                                                   },
                                                   on: {
                                                     TimerStop: _vm.SubmitAnswer,
-                                                    TimesUp: function($event) {
-                                                      return _vm.TimesUpSubmit()
-                                                    }
+                                                    TimesUp: _vm.TimesUpSubmit
                                                   }
                                                 })
                                               : _vm._e()
