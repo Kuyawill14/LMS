@@ -68,11 +68,13 @@
                 }
                 var tmp_timer = setInterval(() => {
 
-                    this.timer = this.timer - 1;
+                   
                     if (this.timer == 0) {
                         this.isTimerDone = true;
                         clearInterval(tmp_timer);
                         this.checkTimerFailed();
+                    } else {
+                         this.timer = this.timer - 1;
                     }
 
                 }, 1000);

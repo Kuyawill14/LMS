@@ -13,7 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-Object(function webpackMissingModule() { var e = new Error("Cannot find module 'v-idle'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var v_idle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-idle */ "./node_modules/v-idle/build/vidle.min.js");
+/* harmony import */ var v_idle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_idle__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _warningDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./warningDialog */ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
@@ -130,7 +131,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
-Vue.use(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'v-idle'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -507,13 +508,13 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var tmp_timer = setInterval(function () {
-        _this.timer = _this.timer - 1;
-
         if (_this.timer == 0) {
           _this.isTimerDone = true;
           clearInterval(tmp_timer);
 
           _this.checkTimerFailed();
+        } else {
+          _this.timer = _this.timer - 1;
         }
       }, 1000);
     },
@@ -646,6 +647,17 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_studentmodulesListComponent_vue_vue_type_style_index_1_id_167dc25c_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/v-idle/build/vidle.min.js":
+/*!************************************************!*\
+  !*** ./node_modules/v-idle/build/vidle.min.js ***!
+  \************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _interopDefault(t){return t&&"object"==typeof t&&"default"in t?t.default:t}var Vue=_interopDefault(__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")),Vidle=Vue.extend({render:function(t){return t("div",{class:"v-idle"},this.display)},props:{duration:{type:Number,default:300},events:{type:Array,default:function(){return["mousemove","keypress"]}},loop:{type:Boolean,default:!1},reminders:{type:Array,default:function(){return[]}},wait:{type:Number,default:0}},data:function(){return{display:"",timer:void 0,start:0,counter:void 0,diff:0,minutes:"",seconds:""}},mounted:function(){var e=this;setTimeout(function(){e.start=Date.now(),e.setDisplay(),e.$nextTick(function(){e.setTimer();for(var t=e.events.length-1;0<=t;--t)window.addEventListener(e.events[t],e.clearTimer)})},1e3*this.wait)},methods:{setDisplay:function(){var t,e;this.diff=this.duration-((Date.now()-this.start)/1e3|0),this.diff<0&&!this.loop||(this.shouldRemind(),t=this.diff/60|0,e=this.diff%60|0,this.minutes=""+(t<10?"0"+t:t),this.seconds=""+(e<10?"0"+e:e),this.display=this.minutes+":"+this.seconds)},shouldRemind:function(){0<this.reminders.length&&this.reminders.includes(this.diff)&&this.remind()},countdown:function(){this.setDisplay(),this.diff<=0&&this.loop&&(this.start=Date.now()+1e3)},idle:function(){this.$emit("idle")},remind:function(){this.$emit("remind",this.diff)},setTimer:function(){this.timer=window.setInterval(this.idle,1e3*this.duration),this.counter=window.setInterval(this.countdown,1e3)},clearTimer:function(){clearInterval(this.timer),clearInterval(this.counter),this.setDisplay(),this.start=Date.now(),this.diff=0,this.setTimer()}},beforeDestroy:function(){clearInterval(this.timer),clearInterval(this.counter);for(var t=this.events.length-1;0<=t;--t)window.removeEventListener(this.events[t],this.clearTimer)}}),Vidle$1={install:function(t){t.component("v-idle",Vidle)}};module.exports=Vidle$1;
+
 
 /***/ }),
 
