@@ -244,7 +244,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -296,6 +295,8 @@ var previewClassworkModal = function previewClassworkModal() {
       this.isLoading = true;
 
       if (status == 'Submitted' && score != null) {
+        this.Preview_id = classwork_id;
+
         if (type == 'Objective Type') {
           // this.$router.push({name:'result-page', params:{id: classwork_id}})
           this.$router.push({

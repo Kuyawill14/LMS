@@ -127,7 +127,7 @@
                 </v-row>
             </v-card>
         </v-col>
-        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 '" cols="12" md="10" lg="8" xl="8">
+        <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8">
             <div v-if="$vuetify.breakpoint.lgAndUp || selected == 0">
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
                 <v-card class="pa-3" :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" outlined>
