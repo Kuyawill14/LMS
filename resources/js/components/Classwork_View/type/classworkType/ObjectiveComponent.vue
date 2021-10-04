@@ -172,7 +172,7 @@
                 <!--      <div class="text-body-1" style="max-width:98%"> {{classworkDetails.instruction}}</div> -->
                         <span class="text-sm-body-2 " style="max-width:98%" v-html="classworkDetails.instruction"></span>
                         </v-col>
-                        <v-col  cols="12" class=" pb-5 pl-5 pr-5">
+                        <v-col v-if="classworkDetails.attachment != null" cols="12" class=" pb-5 pl-5 pr-5">
                             <div class="overline" v-if="classworkDetails.attachment != null">Attachments</div>
                             <v-list  class="ma-0 pa-0">
                                 <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">

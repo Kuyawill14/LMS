@@ -131,7 +131,8 @@
                                         </v-list-item-content>
                                         <v-list-item-action>
                                              <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
-                                                <span class="success--text" >{{item.score}} <span class="black--text">/ </span>{{item.points}}</span>
+                                                
+                                                <span class="success--text" >{{ item.type == "Subjective Type" ? item.graded ? item.score : '?' : item.score}} <span class="black--text">/ </span>{{item.points}}</span>
                                                 </v-chip>
                                               <!--   <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
