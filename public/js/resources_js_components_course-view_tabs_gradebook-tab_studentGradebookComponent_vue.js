@@ -242,8 +242,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     getClassworkList: function getClassworkList() {
       var _this2 = this;
 
-      var total = 0;
-      this.getStudentList();
+      var total = 0; // this.getStudentList();
+
       this.headers = [];
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
         _this2.classworkList = res.data; //console.log(res.data);
@@ -321,9 +321,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this5.classList = _this5.allClass;
         _this5.selectedClass = _this5.classList[0].class_id;
 
-        _this5.getClassworkList();
+        _this5.getClassworkList(); // this.getStudentList();
 
-        _this5.getStudentList();
 
         _this5.getfinalGrades(); //console.log('class Liost: ', this.classList);
 

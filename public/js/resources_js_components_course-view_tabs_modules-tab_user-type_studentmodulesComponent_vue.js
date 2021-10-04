@@ -962,7 +962,7 @@ var render = function() {
               },
               on: {
                 click: function($event) {
-                  _vm.listDialaog = true
+                  _vm.listDialaog = !_vm.listDialaog
                 }
               }
             },

@@ -13,7 +13,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var v_idle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-idle */ "./node_modules/v-idle/build/vidle.min.js");
+/* harmony import */ var v_idle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_idle__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _warningDialog__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./warningDialog */ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -116,12 +119,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'expand'],
-  components: {},
+  components: {
+    dialogWarning: _warningDialog__WEBPACK_IMPORTED_MODULE_2__.default
+  },
   data: function data() {
     return {
+      renderComponent: true,
+      warning_count: 0,
+      idleTimer: 30,
+      idleTimer_reminder: [10, 20],
       click_id: null,
       loading: true,
       temp_id: null,
@@ -137,18 +160,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       time: false,
       updateTime: false,
       percentage: 0,
-      firstLoad: false
+      firstLoad: false,
+      warningDialog: false,
+      confirmWarning: false,
+      _mainModule_id: '',
+      _subModule_id: '',
+      isSelectedModule: false,
+      warning_type: 0
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
   methods: {
     subModuleClick: function subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
       if (isPublished || this.role == 'Teacher') {
         this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
         this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
         this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
+        this.isSelectedModule = true;
       } else {
         this.toastInfo('Module not available, The instructor still not yet publish this module.');
+        this.isSelectedModule = false;
       }
     },
     passToMainComponent: function passToMainComponent(sub_module, id) {
@@ -246,10 +277,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return new Date(parseInt(dataTime) * 1000).toISOString().substr(11, 8);
       }
     },
-    setTimeSpent: function setTimeSpent(mainModule_id, subModule_id, arr) {
+    setTimeSpent: function setTimeSpent(mainModule_id, subModule_id) {
       var _this2 = this;
 
       if (this.role == 'Student') {
+        this._mainModule_id = mainModule_id;
+        this._subModule_id = subModule_id;
         clearInterval(this.ctrTime);
         clearInterval(this.updateTime);
         this.timespent = this.getTimeSpent(this.studentSubModuleProgress, subModule_id);
@@ -294,10 +327,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
         _this4.studentSubModuleProgress = res.data;
       });
+    },
+    confirmWarning_fn: function confirmWarning_fn() {
+      this.warningDialog = !this.warningDialog;
+
+      if (this.confirmWarning = true) {
+        console.log('continue the timer');
+        this.warningDialog = false;
+        this.setTimeSpent(this._mainModule_id, this._subModule_id);
+        this.confirmWarning = false;
+      }
+    },
+    triggerWarning: function triggerWarning() {
+      if (this.isSelectedModule && this.role != 'Teacher') {
+        this.warningDialog = true;
+        this.confirmWarning = false;
+        clearInterval(this.ctrTime);
+        clearInterval(this.updateTime);
+      }
+    },
+    onidle: function onidle(time) {
+      this.triggerWarning();
+      this.warning_type = 1;
+    },
+    forceRerender: function forceRerender() {
+      var _this5 = this;
+
+      // Remove my-component from the DOM
+      this.renderComponent = false;
+      this.$nextTick(function () {
+        // Add the component back in
+        _this5.renderComponent = true;
+      });
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this6 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -305,15 +370,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           switch (_context.prev = _context.next) {
             case 0:
               // this.fetchClass();
-              _this5.fetchStudentModuleProgress();
+              _this6.fetchStudentModuleProgress();
 
-              _this5.$store.dispatch('fetchMainModule', _this5.$route.params.id);
+              _this6.$store.dispatch('fetchMainModule', _this6.$route.params.id);
 
-              _this5.$store.dispatch('studentmodule_progress', _this5.$route.params.id);
+              _this6.$store.dispatch('studentmodule_progress', _this6.$route.params.id);
 
-              _this5.loading = false;
+              _this6.loading = false;
               setTimeout(function () {
-                _this5.firstLoad = false;
+                _this6.firstLoad = false;
               }, 5000);
 
             case 5:
@@ -327,9 +392,155 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     this.firstLoad = true;
   },
+  beforeMount: function beforeMount() {
+    var self = this;
+    $(window).bind('touchstart', function () {
+      self.forceRerender();
+    });
+    $(window).bind('touchmove', function () {
+      self.forceRerender();
+    });
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+    window.addEventListener("onbeforeunload", this.preventNav);
+    $(window).blur(function () {
+      // let blurTimer = setTimeout(() => {
+      var activeElement = document.activeElement;
+      var iframeElement = document.querySelector('iframe');
+
+      if (activeElement === iframeElement) {
+        console.log(document.activeElement.tagName); //execute your code here
+        //we only want to listen for the first time we click into the iframe
+
+        setInterval(function () {
+          document.activeElement.blur();
+        }, 1000); // clearInterval(blurTimer);
+      } else {
+        console.log(document.activeElement.tagName);
+        self.triggerWarning();
+      } // }, 0);
+
+    });
+  },
   beforeDestroy: function beforeDestroy() {
     clearInterval(this.ctrTime);
     clearInterval(this.updateTime);
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['timer_count', 'warning_type'],
+  data: function data() {
+    return {
+      timer: 3,
+      failed_timer: 5,
+      isTimerClickedFailed: true,
+      isTimerDone: false,
+      _warning_type: this.warning_type,
+      tmp_timer: null,
+      counter: 1
+    };
+  },
+  methods: {
+    fn_timer_done: function fn_timer_done() {
+      if (this.isTimerDone) {
+        this.$emit('toggleCloaseDialog');
+      }
+    },
+    checkTimerDone: function checkTimerDone(failed_timer) {
+      var _this = this;
+
+      // this.timer = this.warning_type == 0 ? this.timer : 3;
+      if (failed_timer != null) {
+        this.timer = failed_timer;
+      }
+
+      var tmp_timer = setInterval(function () {
+        _this.timer = _this.timer - 1;
+
+        if (_this.timer == 0) {
+          _this.isTimerDone = true;
+          clearInterval(tmp_timer);
+
+          _this.checkTimerFailed();
+        }
+      }, 1000);
+    },
+    checkTimerFailed: function checkTimerFailed() {
+      var _this2 = this;
+
+      var _failed_timer = 30;
+      this.failed_timer = 5;
+      this.isTimerClickedFailed = false;
+      var tmp_timer_failed = setInterval(function () {
+        _this2.failed_timer = _this2.failed_timer - 1;
+
+        if (_this2.failed_timer == 0) {
+          _this2.isTimerClickedFailed = true;
+          _this2.isTimerDone = false;
+
+          _this2.checkTimerDone(_failed_timer * _this2.counter);
+
+          clearInterval(tmp_timer_failed);
+          _this2.counter++;
+        }
+      }, 1000);
+    }
+  },
+  mounted: function mounted() {
+    this.checkTimerDone();
   }
 });
 
@@ -374,7 +585,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-list-item--disabled[data-v-167dc25c] {\r\n        background: #F6F6F6;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-list-item--disabled[data-v-167dc25c] {\n    background: #F6F6F6;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -439,6 +650,17 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
+/***/ "./node_modules/v-idle/build/vidle.min.js":
+/*!************************************************!*\
+  !*** ./node_modules/v-idle/build/vidle.min.js ***!
+  \************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _interopDefault(t){return t&&"object"==typeof t&&"default"in t?t.default:t}var Vue=_interopDefault(__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js")),Vidle=Vue.extend({render:function(t){return t("div",{class:"v-idle"},this.display)},props:{duration:{type:Number,default:300},events:{type:Array,default:function(){return["mousemove","keypress"]}},loop:{type:Boolean,default:!1},reminders:{type:Array,default:function(){return[]}},wait:{type:Number,default:0}},data:function(){return{display:"",timer:void 0,start:0,counter:void 0,diff:0,minutes:"",seconds:""}},mounted:function(){var e=this;setTimeout(function(){e.start=Date.now(),e.setDisplay(),e.$nextTick(function(){e.setTimer();for(var t=e.events.length-1;0<=t;--t)window.addEventListener(e.events[t],e.clearTimer)})},1e3*this.wait)},methods:{setDisplay:function(){var t,e;this.diff=this.duration-((Date.now()-this.start)/1e3|0),this.diff<0&&!this.loop||(this.shouldRemind(),t=this.diff/60|0,e=this.diff%60|0,this.minutes=""+(t<10?"0"+t:t),this.seconds=""+(e<10?"0"+e:e),this.display=this.minutes+":"+this.seconds)},shouldRemind:function(){0<this.reminders.length&&this.reminders.includes(this.diff)&&this.remind()},countdown:function(){this.setDisplay(),this.diff<=0&&this.loop&&(this.start=Date.now()+1e3)},idle:function(){this.$emit("idle")},remind:function(){this.$emit("remind",this.diff)},setTimer:function(){this.timer=window.setInterval(this.idle,1e3*this.duration),this.counter=window.setInterval(this.countdown,1e3)},clearTimer:function(){clearInterval(this.timer),clearInterval(this.counter),this.setDisplay(),this.start=Date.now(),this.diff=0,this.setTimer()}},beforeDestroy:function(){clearInterval(this.timer),clearInterval(this.counter);for(var t=this.events.length-1;0<=t;--t)window.removeEventListener(this.events[t],this.clearTimer)}}),Vidle$1={install:function(t){t.component("v-idle",Vidle)}};module.exports=Vidle$1;
+
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue":
 /*!********************************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue ***!
@@ -481,6 +703,44 @@ component.options.__file = "resources/js/components/course-view/tabs/modules-tab
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue ***!
+  \******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _warningDialog_vue_vue_type_template_id_3b022bba___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./warningDialog.vue?vue&type=template&id=3b022bba& */ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=template&id=3b022bba&");
+/* harmony import */ var _warningDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./warningDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _warningDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _warningDialog_vue_vue_type_template_id_3b022bba___WEBPACK_IMPORTED_MODULE_0__.render,
+  _warningDialog_vue_vue_type_template_id_3b022bba___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************!*\
   !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue?vue&type=script&lang=js& ***!
@@ -493,6 +753,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_studentmodulesListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./studentmodulesListComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_studentmodulesListComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_warningDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./warningDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_warningDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -536,6 +811,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=template&id=3b022bba&":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=template&id=3b022bba& ***!
+  \*************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_warningDialog_vue_vue_type_template_id_3b022bba___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_warningDialog_vue_vue_type_template_id_3b022bba___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_warningDialog_vue_vue_type_template_id_3b022bba___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./warningDialog.vue?vue&type=template&id=3b022bba& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=template&id=3b022bba&");
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue?vue&type=template&id=167dc25c&scoped=true&":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/studentmodulesListComponent.vue?vue&type=template&id=167dc25c&scoped=true& ***!
@@ -556,6 +847,32 @@ var render = function() {
     { staticStyle: { width: "100%" } },
     [
       _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "500" },
+          model: {
+            value: _vm.warningDialog,
+            callback: function($$v) {
+              _vm.warningDialog = $$v
+            },
+            expression: "warningDialog"
+          }
+        },
+        [
+          _vm.warningDialog
+            ? _c("dialogWarning", {
+                attrs: {
+                  timer_count: _vm.idleTimer,
+                  warning_type: _vm.warning_type
+                },
+                on: { toggleCloaseDialog: _vm.confirmWarning_fn }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-card",
         { staticClass: "mb-2" },
         [
@@ -572,6 +889,20 @@ var render = function() {
                       _vm._v(
                         "\n                    Modules Content\n                    "
                       ),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _vm.isSelectedModule && _vm.renderComponent
+                        ? _c("v-idle", {
+                            staticStyle: { opacity: "0%" },
+                            attrs: {
+                              reminders: _vm.idleTimer_reminder,
+                              loop: true,
+                              duration: _vm.idleTimer
+                            },
+                            on: { idle: _vm.onidle }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c("v-spacer"),
                       _vm._v(" "),
                       _c(
@@ -832,6 +1163,152 @@ var render = function() {
             1
           )
         }),
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=template&id=3b022bba&":
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue?vue&type=template&id=3b022bba& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    { staticClass: "pa-3" },
+    [
+      _c(
+        "div",
+        { staticClass: "mb-3 pa-2" },
+        [
+          _c(
+            "v-row",
+            { attrs: { align: "center", justify: "center" } },
+            [
+              _c(
+                "v-col",
+                { staticClass: "text-center mb-0 pb-0", attrs: { cols: "12" } },
+                [
+                  _c(
+                    "v-avatar",
+                    { attrs: { tile: "", size: "120" } },
+                    [
+                      _c("v-img", {
+                        attrs: {
+                          src:
+                            "https://c.tenor.com/jFesPO4xs8kAAAAM/cat-watching-you.gif"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
+                [
+                  _c("div", { staticClass: "primary--text display-1" }, [
+                    _vm._v("Oops...")
+                  ])
+                ]
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-text",
+        [
+          _c(
+            "v-row",
+            [
+              _c(
+                "v-col",
+                { staticClass: "text-center" },
+                [
+                  _c("p", { staticClass: "body-1" }, [
+                    _vm._v(
+                      "\n\n                    " +
+                        _vm._s(
+                          _vm.warning_type == 1
+                            ? "You have been inactive for " +
+                                _vm.timer_count +
+                                " seconds. Your timer will be paused."
+                            : "You have leave the module's page. Your timer will be paused."
+                        ) +
+                        "\n                    \n                "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "ml-3 mr-3 mt-2",
+                      attrs: {
+                        color: "primary",
+                        disabled:
+                          !_vm.isTimerDone || _vm.isTimerClickedFailed == true,
+                        rounded: "",
+                        large: ""
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.fn_timer_done()
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Confirm " +
+                          _vm._s(_vm.timer == 0 ? "" : _vm.timer) +
+                          "\n                "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _c("br"),
+                  _vm._v(" "),
+                  !_vm.isTimerClickedFailed
+                    ? _c("span", [
+                        _vm._v(" Please click "),
+                        _c("b", [_vm._v("Confirm")]),
+                        _vm._v(
+                          " before " + _vm._s(_vm.failed_timer) + " seconds"
+                        )
+                      ])
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
         1
       )
     ],

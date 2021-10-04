@@ -465,7 +465,7 @@
                 this.loading = true;
                 var total = 0;
 
-                this.getStudentList();
+                // this.getStudentList();
 
                 this.headers.push({
                     text: 'Name',
