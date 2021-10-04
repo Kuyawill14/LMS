@@ -42,7 +42,7 @@
         props: ['timer_count', 'warning_type'],
         data() {
             return {
-                timer: 3,
+                timer: 0,
                 failed_timer: 5,
                 isTimerClickedFailed: true,
                 isTimerDone: false,
