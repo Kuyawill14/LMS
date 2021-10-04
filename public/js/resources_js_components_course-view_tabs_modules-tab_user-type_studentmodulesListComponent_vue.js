@@ -502,8 +502,7 @@ __webpack_require__.r(__webpack_exports__);
     checkTimerDone: function checkTimerDone(failed_timer) {
       var _this = this;
 
-      this.timer = this.warning_type == 0 ? this.timer : this.timer_count;
-
+      // this.timer = this.warning_type == 0 ? this.timer : 3;
       if (failed_timer != null) {
         this.timer = failed_timer;
       }
@@ -523,7 +522,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var _failed_timer = 30;
-      this.failed_timer = 10;
+      this.failed_timer = 5;
       this.isTimerClickedFailed = false;
       var tmp_timer_failed = setInterval(function () {
         _this2.failed_timer = _this2.failed_timer - 1;

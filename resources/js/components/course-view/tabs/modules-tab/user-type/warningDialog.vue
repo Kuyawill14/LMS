@@ -62,7 +62,7 @@
             },
 
             checkTimerDone(failed_timer) {
-                this.timer = this.warning_type == 0 ? this.timer : this.timer_count;
+                // this.timer = this.warning_type == 0 ? this.timer : 3;
                 if (failed_timer != null) {
                     this.timer = failed_timer;
                 }
@@ -81,7 +81,7 @@
             checkTimerFailed() {
             
                 var _failed_timer = 30;
-                this.failed_timer = 10;
+                this.failed_timer = 5;
                 this.isTimerClickedFailed = false;
                 var tmp_timer_failed = setInterval(() => {
 

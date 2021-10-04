@@ -421,9 +421,7 @@
                     
                     let activeElement = document.activeElement;
                     let iframeElement = document.querySelector('iframe');
-                      
-
-                    
+                                          
                     
                     if (activeElement === iframeElement) {
                         console.log(document.activeElement.tagName);
