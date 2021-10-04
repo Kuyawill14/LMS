@@ -1209,7 +1209,7 @@ var render = function() {
                 {
                   class: !_vm.$vuetify.breakpoint.lgAndUp
                     ? "mt-1 pl-0 pt-1"
-                    : "pt-0 ",
+                    : "pt-0 pl-5",
                   attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
                 },
                 [
