@@ -552,7 +552,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       TempFile: ""
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])), {}, {
     extension: function extension() {
       return this.tempFile ? this.tempFile.name.split('.').pop() : '';
     },
@@ -568,7 +568,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       return attach.split('.').pop();
     }
   }),
-  methods: {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['checkClassworkStatus'])), {}, {
     handleScroll: function handleScroll(event) {
       this.ScrollPosistion = window.scrollY;
     },
@@ -811,30 +811,31 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     test: function test() {
       var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; //console.log(data);
     },
+
+    /*  async checkStatus(type){
+       axios.get('/api/submission/check-sbj/'+this.classworkData.id)
+       .then(res=>{
+           this.myClasssworkStatus = res.data;
+           this.tempId = res.data.Sub_id;
+           if(type != 'submit'){
+              this.isloading = !this.isloading;
+           }
+       })
+    }, */
     checkStatus: function checkStatus(type) {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                axios.get('/api/submission/check-sbj/' + _this4.classworkData.id).then(function (res) {
-                  _this4.myClasssworkStatus = res.data;
-                  _this4.tempId = res.data.Sub_id;
+      var data = {};
+      data.id = this.$route.query.clwk;
+      data.type = this.classworkDetails.type;
+      this.$store.dispatch('checkClassworkStatus', data).then(function () {
+        _this4.myClasssworkStatus = _this4.statusDetails;
+        _this4.tempId = _this4.statusDetails.Sub_id;
 
-                  if (type != 'submit') {
-                    _this4.isloading = !_this4.isloading;
-                  }
-                });
-
-              case 1:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+        if (type != 'submit') {
+          _this4.isloading = !_this4.isloading;
+        }
+      });
     },
     UpdateSubmission: function UpdateSubmission(index) {
       var _this5 = this;
@@ -879,8 +880,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
-        _this6.checkStatus(type);
-
+        //this.checkStatus(type);
         _this6.myClasssworkStatus.Submitted_Answers.splice(index, 1);
 
         if (_this6.FileList.length != 0) {
@@ -896,11 +896,11 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     SubmitClasswork: function SubmitClasswork() {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var type;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
                 /*  let rubrics = [];
                   if(this.classworkData.rubrics.length != 0){
@@ -920,6 +920,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                   if (res.status == 200) {
                     _this7.checkStatus(type);
 
+                    _this7.myClasssworkStatus.status = 'Submitted';
                     _this7.IsSaving = false;
                     _this7.isResubmit = false;
                   }
@@ -927,20 +928,20 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
               case 3:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2);
+        }, _callee);
       }))();
     },
     addComment: function addComment(details) {
       var _this8 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 data = {};
                 _this8.isCommenting = true;
@@ -966,19 +967,19 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
               case 9:
               case "end":
-                return _context3.stop();
+                return _context2.stop();
             }
           }
-        }, _callee3);
+        }, _callee2);
       }))();
     },
     DeleteComment: function DeleteComment(id, index) {
       var _this9 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
                   if (res.data.success == true) {
@@ -988,45 +989,45 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
               case 1:
               case "end":
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4);
+        }, _callee3);
       }))();
     },
     MarkAsSubmitting: function MarkAsSubmitting(id) {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 axios.put('/api/student/markAsSubmitting/' + id).then(function () {});
 
               case 1:
               case "end":
-                return _context5.stop();
+                return _context4.stop();
             }
           }
-        }, _callee5);
+        }, _callee4);
       }))();
     }
-  },
+  }),
   created: function created() {
     var _this10 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               _this10.checkStatus();
 
             case 1:
             case "end":
-              return _context6.stop();
+              return _context5.stop();
           }
         }
-      }, _callee6);
+      }, _callee5);
     }))();
   },
   mounted: function mounted() {

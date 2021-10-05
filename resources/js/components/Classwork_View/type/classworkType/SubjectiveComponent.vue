@@ -469,7 +469,7 @@ const attachlinkDiaglog = () => import('./attachLinkDialog')
 
 import moment from 'moment-timezone';
 
-import {mapGetters} from "vuex";
+import {mapGetters, mapActions } from "vuex";
 export default {
     props:['classworkDetails'],
     components:{
@@ -521,7 +521,7 @@ export default {
         }
     },
      computed: {
-       ...mapGetters(['get_CurrentUser']),
+       ...mapGetters(['get_CurrentUser','statusDetails']),
         extension() {
             return (this.tempFile) ? this.tempFile.name.split('.').pop() : '';
         },
@@ -538,6 +538,7 @@ export default {
         }
     },
     methods:{
+      ...mapActions(['checkClassworkStatus']),
        handleScroll(event) {
           this.ScrollPosistion = window.scrollY;
       },
@@ -776,7 +777,7 @@ export default {
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
               //console.log(data);
             },
-            async checkStatus(type){
+           /*  async checkStatus(type){
               axios.get('/api/submission/check-sbj/'+this.classworkData.id)
               .then(res=>{
                   this.myClasssworkStatus = res.data;
@@ -785,7 +786,24 @@ export default {
                      this.isloading = !this.isloading;
                   }
               })
-          },
+          }, */
+           checkStatus(type){
+            let data = {};
+            data.id = this.$route.query.clwk;
+            data.type = this.classworkDetails.type;
+            this.$store.dispatch('checkClassworkStatus', data)
+            .then(()=>{
+                this.myClasssworkStatus = this.statusDetails;
+                this.tempId = this.statusDetails.Sub_id;
+                if(type != 'submit'){
+                  this.isloading = !this.isloading;
+                
+                }
+            })
+
+           
+
+        },
           UpdateSubmission(index){
 
               let sub_id = this.tempId == null ? 'empty' : this.tempId;
@@ -825,7 +843,7 @@ export default {
               this.isDeleting = true;
               let type = 'submit';
               axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
-                  this.checkStatus(type);
+                  //this.checkStatus(type);
                   this.myClasssworkStatus.Submitted_Answers.splice(index, 1);
                   if(this.FileList.length != 0){
                     this.FileList.splice(index, 1);
@@ -855,6 +873,7 @@ export default {
             axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
               if(res.status == 200){
                 this.checkStatus(type);
+                this.myClasssworkStatus.status = 'Submitted';
                 this.IsSaving = false;
                 this.isResubmit = false;
               }
