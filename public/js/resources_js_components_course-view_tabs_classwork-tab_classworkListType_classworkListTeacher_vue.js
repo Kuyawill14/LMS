@@ -348,20 +348,19 @@ var newClassworkModal = function newClassworkModal() {
         }, _callee2);
       }))();
     },
-    CheckClassworkCount: function CheckClassworkCount() {
-      var _this3 = this;
 
-      this.classworks.forEach(function (element) {
-        _this3.ClassworkLength += element.length;
-      });
-    },
+    /* CheckClassworkCount(){
+        this.classworks.forEach(element => {
+            this.ClassworkLength += element.length;
+        });
+    }, */
     SliceClasswork: function SliceClasswork() {
       this.classworks[this.classworkIndex].splice(this.ArchiveIndex, 1);
       this.archiveDialog = !this.archiveDialog;
     }
   },
   mounted: function mounted() {
-    this.CheckClassworkCount();
+    //this.CheckClassworkCount();
     var newDate = new Date(); //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
@@ -22687,7 +22686,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.ClassworkLength == 0
+      _vm.classworks.totalClasswork == 0
         ? _c(
             "v-row",
             {
@@ -22736,7 +22735,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.ClassworkLength != 0
+      _vm.classworks.totalClasswork != 0
         ? _c(
             "v-btn",
             {
@@ -22785,7 +22784,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.ClassworkLength != 0
+      _vm.classworks.totalClasswork != 0
         ? _c(
             "v-container",
             { attrs: { fluid: "" } },

@@ -336,19 +336,18 @@ var previewClassworkModal = function previewClassworkModal() {
           });
         }
       }
-    },
-    CheckClassworkCount: function CheckClassworkCount() {
-      var _this = this;
-
-      var data = this.classworks.ClassworksList;
-      data.forEach(function (item) {
-        _this.ClassworkLength += item.length;
-      });
     }
+    /*    CheckClassworkCount(){
+          let data = this.classworks.ClassworksList;
+          data.forEach(item => {
+              this.ClassworkLength += item.length;
+          });
+      } */
+
   },
   mounted: function mounted() {
-    this.CheckClassworkCount();
-    this.setFilterItems();
+    this.setFilterItems(); //this.CheckClassworkCount();
+
     var newDate = new Date(); //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
@@ -22605,7 +22604,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.ClassworkLength == 0
+      _vm.classworks.totalClasswork == 0
         ? _c(
             "v-row",
             {
@@ -22637,7 +22636,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.ClassworkLength != 0
+      _vm.classworks.totalClasswork != 0
         ? _c(
             "v-container",
             { attrs: { fluid: "" } },

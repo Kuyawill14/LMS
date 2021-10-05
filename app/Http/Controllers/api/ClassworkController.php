@@ -104,6 +104,7 @@ class ClassworkController extends Controller
         $GradingCategory = tbl_main_gradeCategory::where('tbl_main_grade_categories.course_id', $id)->get();
         $ClassworksList = array();
         $ClassworkTitle = array();
+        $totalClasswork = 0;
         //return date('Y-m-d H:i:s');
         foreach($GradingCategory as $item){
             $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
@@ -118,6 +119,7 @@ class ClassworkController extends Controller
             ->where('tbl_class_classworks.availability', '!=',2)
             ->orderBy('created_at', 'DESC')
             ->get();
+            $totalClasswork += count($classworkAll);
             $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')
             ->get();
@@ -161,7 +163,7 @@ class ClassworkController extends Controller
             $ClassworkTitle[] = ['title'=>$item->name, 'percent'=>$item->percentage];
             $ClassworksList[] = $classworkAll;
         }
-            return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList];
+            return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList, 'totalClasswork'=> $totalClasswork];
 
         }
         

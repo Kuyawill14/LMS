@@ -2,7 +2,7 @@
 <div>
   
        
-         <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
+         <v-row align="center" justify="center" class="pt-10" v-if="classworks.totalClasswork == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:10rem">
                     mdi-book-open-variant
@@ -16,7 +16,7 @@
 
 
 
-        <v-btn  v-if="ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
+        <v-btn  v-if="classworks.totalClasswork != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
             <v-icon>mdi-plus</v-icon>
         </v-btn>
 
@@ -29,7 +29,7 @@
 
     
     
-    <v-container v-if="ClassworkLength != 0" fluid>
+    <v-container v-if="classworks.totalClasswork != 0" fluid>
         <!-- Modal -->
        
         
@@ -288,18 +288,18 @@
                 this.ArchiveDetails = details;
                 this.archiveDialog = !this.archiveDialog;
             },
-            CheckClassworkCount(){
+            /* CheckClassworkCount(){
                 this.classworks.forEach(element => {
                     this.ClassworkLength += element.length;
                 });
-            },
+            }, */
             SliceClasswork(){
                 this.classworks[this.classworkIndex].splice(this.ArchiveIndex, 1);
                 this.archiveDialog = !this.archiveDialog;
             }
         },
         mounted(){
-            this.CheckClassworkCount();
+            //this.CheckClassworkCount();
             let newDate = new Date();
             //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
             this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
