@@ -508,13 +508,13 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var tmp_timer = setInterval(function () {
-        _this.timer = _this.timer - 1;
-
         if (_this.timer == 0) {
           _this.isTimerDone = true;
           clearInterval(tmp_timer);
 
           _this.checkTimerFailed();
+        } else {
+          _this.timer = _this.timer - 1;
         }
       }, 1000);
     },
