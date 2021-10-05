@@ -28,55 +28,20 @@
         </v-container>
 
         
-
-
-        
-     <!--    <v-row v-if="!isloading">
-            <v-col>
-                <v-card
-                    elevation="1"
-                    outlined
-                    class="pa-5"
-                    >
-                    <v-row>
-                        <v-col cols="12" class="d-flex justify-center mb-0 pb-0">
-                             <div class="display-2">Hi {{UserDetails.firstName}}! </div>
-                        </v-col>
-                         <v-col cols="12" class="d-flex justify-center mt-0 pt-0">
-                             <small>What would you like to learn today?</small>
-                        </v-col>
-                    </v-row>
-                   
-                    
-                </v-card>
-            </v-col>
-        </v-row> -->
         <v-row no-gutters v-if="!isloading" class="">
             <v-col cols="12" md="3" lg="3" xl="2" >
               <v-card
-                elevation="1"
-                outlined
+                :elevation="!$vuetify.breakpoint.lgAndUp ?  0 : 1"
+                :outlined="$vuetify.breakpoint.lgAndUp"
                 class="pt-5"
                 >
                  <v-row >
                      <v-col cols="12" class="mb-0 pb-0 d-flex justify-center">
-                         
                             <v-avatar
-                            
                             size="80"
                             @click="TestUpload()"
                             >
 
-                             <!-- <v-row
-                             v-if="!isUploading"
-                                class="fill-height ma-0"
-                                align="center"
-                                justify="center">
-                            <v-progress-circular
-                                indeterminate
-                                color="red"
-                            ></v-progress-circular>
-                            </v-row> -->
                             <v-hover >
                                  <template v-slot:default="{ hover }">
                                      <div>
@@ -145,10 +110,10 @@
                     </v-row>
 
                     <v-row>
-                        <v-col cols="12" class="pl-5 pr-5 pb-0">
-                            <v-divider></v-divider>
-                        </v-col>
-                     <v-col cols="12" class="pl-3">
+                    <v-col cols="12" class="pl-5 pr-5 pb-0">
+                        <v-divider></v-divider>
+                    </v-col>
+                     <v-col cols="12" class="pl-3"  v-if="$vuetify.breakpoint.lgAndUp" >
                             
                            <!--  <v-btn text rounded class="primary--text"> 
                                 <v-icon left>mdi-account-edit-outline</v-icon>
@@ -189,9 +154,9 @@
    
                  
             </v-col>
-            <v-col cols="12" md="9" lg="9" xl="10">
-                  <v-card
-                  class=" pb-3 pl-5 pr-5"
+            <v-col cols="12" md="9" lg="9" xl="10" :class="!$vuetify.breakpoint.lgAndUp ? 'pt-5' : ''">
+                <v-card
+                  class="pb-3 pl-5 pr-5"
                 elevation="0"  >
                <v-row>
                    <v-col cols="12">
@@ -215,6 +180,28 @@
             </v-card>
             </v-col>
         </v-row>
+
+          <v-bottom-navigation v-if="!$vuetify.breakpoint.lgAndUp" v-model="tab" color="primary" app grow>
+            <v-btn>
+                <span>Profile</span>
+                <v-icon>mdi-account</v-icon>
+            </v-btn>
+
+            <v-btn>
+                <span>Courses</span>
+                <v-icon> mdi-google-classroom</v-icon>
+            </v-btn>
+
+            <v-btn>
+                <span>Calendar</span>
+                <v-icon>mdi-calendar</v-icon>
+            </v-btn>
+
+             <v-btn>
+                <span>Security</span>
+                <v-icon>mdi-lock</v-icon>
+            </v-btn>
+        </v-bottom-navigation>
     </div>
 </template>
 

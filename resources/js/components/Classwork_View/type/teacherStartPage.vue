@@ -99,9 +99,10 @@ export default {
         }
         
     },
-    mounted(){
-        this.$emit('isMounted');
-    },
+    created(){
+          this.$emit('isMounted');
+    }
+  
    
 }
 </script>

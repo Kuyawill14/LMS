@@ -275,6 +275,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -489,7 +495,15 @@ var render = function() {
         { staticClass: "pb-5" },
         [
           _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
-            _c("h3", [_vm._v("EDIT PROFILE")])
+            _c(
+              "div",
+              {
+                class: _vm.$vuetify.breakpoint.lgAndUp
+                  ? "text-h6 font-weight-bold"
+                  : "font-weight-bold"
+              },
+              [_vm._v("EDIT PROFILE")]
+            )
           ]),
           _vm._v(" "),
           _c(
@@ -517,7 +531,7 @@ var render = function() {
                               textStyle: { fontSize: "20px" },
                               spinner: "line-scale",
                               color: "#EF6C00",
-                              size: "60"
+                              size: _vm.$vuetify.breakpoint.lgAndUp ? 60 : 40
                             }
                           })
                         ],
@@ -544,7 +558,10 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { attrs: { cols: "12" } },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp ? "" : "mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
                     [
                       _c(
                         "v-row",
@@ -554,7 +571,9 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "mb-0 pb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "mb-0 pb-0"
+                                : "mt-0 pt-0 mb-0 pb-0",
                               attrs: { cols: "12", md: "10" }
                             },
                             [
@@ -581,7 +600,7 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  class: _vm.$vuetify.breakpoint.xs
+                                  class: !_vm.$vuetify.breakpoint.lgAndUp
                                     ? "mb-0 pb-0"
                                     : "mt-2",
                                   attrs: { cols: "12", md: "2" }
@@ -596,11 +615,16 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: "pb-0 mb-0",
+                                  class: _vm.$vuetify.breakpoint.lgAndUp
+                                    ? "pb-0 mb-0"
+                                    : "pb-0 mb-0 mt-0 pt-0",
                                   attrs: { cols: "12", md: "2" }
                                 },
                                 [
                                   _c("v-text-field", {
+                                    class: _vm.$vuetify.breakpoint.lgAndUp
+                                      ? ""
+                                      : "ma-0 pa-0",
                                     attrs: {
                                       dense: "",
                                       rules: _vm.StudentIdRules,
@@ -632,7 +656,12 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pb-0 mb-0"
+                        : "pb-0 mb-0 mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
                     [
                       _c(
                         "v-row",
@@ -655,11 +684,16 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pb-0 mb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
                               attrs: { cols: "12", md: "6" }
                             },
                             [
                               _c("v-text-field", {
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   dense: "",
                                   rules: _vm.FieldRules,
@@ -686,7 +720,9 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pb-0 mb-0"
+                        : "pb-0 mb-0 mt-0 pt-0",
                       attrs: { cols: "12" }
                     },
                     [
@@ -711,11 +747,16 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pb-0 mb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
                               attrs: { cols: "12", md: "6" }
                             },
                             [
                               _c("v-text-field", {
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   dense: "",
                                   outlined: "",
@@ -742,13 +783,14 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "mt-0 pt-0 mb-0 pb-0",
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pb-0 mb-0"
+                        : "pb-0 mb-0 mt-0 pt-0",
                       attrs: { cols: "12" }
                     },
                     [
                       _c(
                         "v-row",
-                        { staticClass: "mb-0 pb-0" },
                         [
                           _c(
                             "v-col",
@@ -768,12 +810,17 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pb-0 mb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
                               attrs: { cols: "12", md: "6" }
                             },
                             [
                               _c("v-text-field", {
                                 staticClass: "mb-0 pb-0",
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   dense: "",
                                   type: "text",
@@ -823,12 +870,17 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pb-0 mb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
                               attrs: { cols: "12", md: "6" }
                             },
                             [
                               _c("v-select", {
                                 staticClass: "mr-2",
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   items: _vm.departmentsList,
                                   "item-text": "name",
@@ -857,18 +909,35 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp ? "" : "mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
                     [
                       _c(
                         "v-row",
                         [
-                          _c("v-col", { attrs: { cols: "12", md: "2" } }),
+                          _c("v-col", {
+                            class: _vm.$vuetify.breakpoint.lgAndUp
+                              ? ""
+                              : "mt-0 pt-0",
+                            attrs: { cols: "12", md: "2" }
+                          }),
                           _vm._v(" "),
-                          _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                            _c("h4", { staticClass: "mt-2" }, [
-                              _vm._v("2. Contact")
-                            ])
-                          ])
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? ""
+                                : "mt-0 pt-0",
+                              attrs: { cols: "12", md: "10" }
+                            },
+                            [
+                              _c("h4", { staticClass: "mt-2" }, [
+                                _vm._v("2. Contact")
+                              ])
+                            ]
+                          )
                         ],
                         1
                       )
@@ -889,7 +958,7 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              class: _vm.$vuetify.breakpoint.xs
+                              class: !_vm.$vuetify.breakpoint.lgAndUp
                                 ? "mb-0 pb-0 mr-0 pr-0"
                                 : "mt-2 mr-0 pr-0",
                               attrs: { cols: "12", md: "2" }
@@ -904,11 +973,16 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pb-0 mb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "b-0 mb-0 mt-0 pt-0",
                               attrs: { cols: "10", md: "6" }
                             },
                             [
                               _c("v-text-field", {
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   disabled: _vm.editEmail,
                                   rules: _vm.emailRules,
@@ -992,8 +1066,8 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              class: _vm.$vuetify.breakpoint.xs
-                                ? "mb-0 pb-0"
+                              class: !_vm.$vuetify.breakpoint.lgAndUp
+                                ? "mb-0 pb-0 mt-0 pt-0"
                                 : "mt-2",
                               attrs: { cols: "12", md: "2" }
                             },
@@ -1085,18 +1159,35 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "mt-0 pt-0 ", attrs: { cols: "12" } },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp ? "" : "mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
                     [
                       _c(
                         "v-row",
                         [
-                          _c("v-col", { attrs: { cols: "12", md: "2" } }),
+                          _c("v-col", {
+                            class: _vm.$vuetify.breakpoint.lgAndUp
+                              ? ""
+                              : "mt-0 pt-0",
+                            attrs: { cols: "12", md: "2" }
+                          }),
                           _vm._v(" "),
-                          _c("v-col", { attrs: { cols: "12", md: "10" } }, [
-                            _c("h4", { staticClass: "mt-5" }, [
-                              _vm._v("3. Social Link")
-                            ])
-                          ])
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? ""
+                                : "mt-0 pt-0",
+                              attrs: { cols: "12", md: "10" }
+                            },
+                            [
+                              _c("h4", { staticClass: "mt-5" }, [
+                                _vm._v("3. Social Link")
+                              ])
+                            ]
+                          )
                         ],
                         1
                       )
@@ -1132,12 +1223,16 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "pb-0 mb-0",
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
                               attrs: { cols: "12", md: "6" }
                             },
                             [
                               _c("v-text-field", {
-                                staticClass: "blue--text",
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? "blue--text"
+                                  : "ma-0 pa-0 blue--text",
                                 attrs: { dense: "", outlined: "" },
                                 model: {
                                   value: _vm.UserDetails.social_account,
@@ -1163,7 +1258,12 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "mb-0 pb-5", attrs: { cols: "12" } },
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "mb-0 pb-5 "
+                        : "mb-o pb-3 mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
                     [
                       _c(
                         "v-row",
@@ -1171,18 +1271,24 @@ var render = function() {
                           _c("v-col", {
                             class: _vm.$vuetify.breakpoint.xs
                               ? "mb-0 pb-0"
-                              : "mt-2",
+                              : "mt-0",
                             attrs: { cols: "12", md: "2" }
                           }),
                           _vm._v(" "),
                           _c(
                             "v-col",
-                            { attrs: { cols: "12", md: "6" } },
+                            {
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? ""
+                                : "mt-0 pt-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
                             [
                               _c(
                                 "v-btn",
                                 {
                                   attrs: {
+                                    block: !_vm.$vuetify.breakpoint.mdAndUp,
                                     color: "primary",
                                     rounded: "",
                                     loading: _vm.isSaving,

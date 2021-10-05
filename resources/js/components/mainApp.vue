@@ -17,10 +17,6 @@
             </v-container>
     
         </v-main>
-
-  <!--     <courseNavigation></courseNavigation> -->
-    <!--  <bottomNavigation v-if="($vuetify.breakpoint.sm || $vuetify.breakpoint.xs || $vuetify.breakpoint.md) && get_UserRole == 'Student'"></bottomNavigation> -->
-  
     </v-app>
 
 </template>
@@ -42,8 +38,7 @@
 
     import topHeader from "./layout/header";
     import sidebar from "./layout/sidebar";
-    /* import bottomNavigation from "./layout/bottom-navigation/main-bottom-navigation";
-    import courseNavigation from "./layout/bottom-navigation/course-bottom-navigation"; */
+
     import {
         mapGetters,
         mapActions
@@ -59,8 +54,7 @@
         components: {
             topHeader,
             sidebar,
-            //bottomNavigation,
-            //courseNavigation
+
         },
         computed: mapGetters(["get_UserRole", "get_CurrentUser"]),
         methods: {

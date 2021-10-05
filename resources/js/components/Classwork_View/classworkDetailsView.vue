@@ -74,7 +74,7 @@
                  <teacherStartPage v-if="role == 'Teacher'" 
                   :totalPoints="totalPoints"
                   :totalQuestion="totalQuestion"
-                  v-on:isMounted="isloading = false"
+               
                   :classworkDetails="classworkDetails.Details"
                 ></teacherStartPage>
             </v-col>
@@ -82,7 +82,7 @@
                  <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails.Details"
                 :totalPoints="totalPoints"
-                v-on:isMounted="isloading = false"
+           
                 :totalQuestion="totalQuestion"
                 :statusDetails="statusDetails"
           

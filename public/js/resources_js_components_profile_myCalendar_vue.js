@@ -164,6 +164,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -2952,6 +2960,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3101,9 +3110,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3128,7 +3137,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3218,6 +3227,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -8724,7 +8734,6 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-row",
-    { staticClass: "fill-height" },
     [
       _vm.isloading
         ? _c(
@@ -8759,348 +8768,433 @@ var render = function() {
       !_vm.isloading
         ? _c(
             "v-col",
+            { attrs: { cols: "12" } },
             [
-              _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
-                _c("h3", [_vm._v("MY CALENDAR")])
-              ]),
-              _vm._v(" "),
               _c(
-                "v-col",
-                { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                [_c("v-divider")],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-sheet",
-                { attrs: { height: "64" } },
+                "v-row",
                 [
                   _c(
-                    "v-toolbar",
-                    { attrs: { flat: "" } },
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
                     [
                       _c(
-                        "v-btn",
+                        "div",
                         {
-                          staticClass: "mr-4",
-                          attrs: { outlined: "", color: "grey darken-2" },
-                          on: { click: _vm.setToday }
+                          class: _vm.$vuetify.breakpoint.lgAndUp
+                            ? "text-h6 font-weight-bold"
+                            : "font-weight-bold"
                         },
-                        [_vm._v("\n          Today\n        ")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            fab: "",
-                            text: "",
-                            small: "",
-                            color: "grey darken-2"
-                          },
-                          on: { click: _vm.prev }
-                        },
-                        [
-                          _c("v-icon", { attrs: { small: "" } }, [
-                            _vm._v("\n            mdi-chevron-left\n          ")
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: {
-                            fab: "",
-                            text: "",
-                            small: "",
-                            color: "grey darken-2"
-                          },
-                          on: { click: _vm.next }
-                        },
-                        [
-                          _c("v-icon", { attrs: { small: "" } }, [
-                            _vm._v(
-                              "\n            mdi-chevron-right\n          "
-                            )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _vm.$refs.calendar
-                        ? _c("v-toolbar-title", [
-                            _vm._v(
-                              "\n          " +
-                                _vm._s(_vm.$refs.calendar.title) +
-                                "\n        "
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-menu",
-                        {
-                          attrs: { bottom: "", right: "" },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "activator",
-                                fn: function(ref) {
-                                  var on = ref.on
-                                  var attrs = ref.attrs
-                                  return [
-                                    _c(
-                                      "v-btn",
-                                      _vm._g(
-                                        _vm._b(
-                                          {
-                                            attrs: {
-                                              outlined: "",
-                                              color: "grey darken-2"
-                                            }
-                                          },
-                                          "v-btn",
-                                          attrs,
-                                          false
-                                        ),
-                                        on
-                                      ),
-                                      [
-                                        _c("span", [
-                                          _vm._v(
-                                            _vm._s(_vm.typeToLabel[_vm.type])
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("v-icon", { attrs: { right: "" } }, [
-                                          _vm._v(
-                                            "\n                mdi-menu-down\n              "
-                                          )
-                                        ])
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                }
-                              }
-                            ],
-                            null,
-                            false,
-                            440174701
-                          )
-                        },
-                        [
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            [
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "day"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("Day")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "week"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("Week")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "month"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("Month")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.type = "4day"
-                                    }
-                                  }
-                                },
-                                [_c("v-list-item-title", [_vm._v("4 days")])],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
+                        [_vm._v("MY CALENDAR")]
                       )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-sheet",
-                { attrs: { height: "500" } },
-                [
-                  _c("v-calendar", {
-                    ref: "calendar",
-                    attrs: {
-                      color: "primary",
-                      events: _vm.events,
-                      "event-color": _vm.getEventColor,
-                      type: _vm.type
-                    },
-                    on: {
-                      "click:event": _vm.showEvent,
-                      "click:more": _vm.viewDay,
-                      "click:date": _vm.viewDay
-                    },
-                    model: {
-                      value: _vm.focus,
-                      callback: function($$v) {
-                        _vm.focus = $$v
-                      },
-                      expression: "focus"
-                    }
-                  }),
+                    ]
+                  ),
                   _vm._v(" "),
                   _c(
-                    "v-menu",
-                    {
-                      attrs: {
-                        "close-on-content-click": false,
-                        activator: _vm.selectedElement,
-                        "offset-x": "",
-                        "max-width": "350px"
-                      },
-                      model: {
-                        value: _vm.selectedOpen,
-                        callback: function($$v) {
-                          _vm.selectedOpen = $$v
-                        },
-                        expression: "selectedOpen"
-                      }
-                    },
+                    "v-col",
+                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
+                    [_c("v-divider")],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pa-0 mb-0", attrs: { cols: "12" } },
                     [
                       _c(
                         "v-card",
-                        {
-                          attrs: {
-                            color: "grey lighten-4",
-                            "min-width": "350px",
-                            "max-width": "350px",
-                            flat: ""
-                          }
-                        },
+                        { attrs: { elevation: "3" } },
                         [
                           _c(
-                            "v-toolbar",
-                            {
-                              attrs: {
-                                color: _vm.selectedEvent.color,
-                                dark: "",
-                                dense: ""
-                              }
-                            },
+                            "v-sheet",
+                            { attrs: { height: "50" } },
                             [
-                              _c("v-toolbar-title", {
-                                staticStyle: { width: "100%" },
-                                domProps: {
-                                  innerHTML: _vm._s(_vm.selectedEvent.name)
-                                }
-                              }),
-                              _vm._v(" "),
-                              _c("v-spacer"),
-                              _vm._v(" "),
                               _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = false
-                                    }
-                                  }
-                                },
-                                [_c("v-icon", [_vm._v("mdi-close")])],
+                                "v-toolbar",
+                                { attrs: { flat: "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "mr-4",
+                                      attrs: {
+                                        outlined: "",
+                                        color: "grey darken-2"
+                                      },
+                                      on: { click: _vm.setToday }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                  Today\n                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        fab: "",
+                                        text: "",
+                                        small: "",
+                                        color: "grey darken-2"
+                                      },
+                                      on: { click: _vm.prev }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { small: "" } }, [
+                                        _vm._v(
+                                          "\n                    mdi-chevron-left\n                  "
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        fab: "",
+                                        text: "",
+                                        small: "",
+                                        color: "grey darken-2"
+                                      },
+                                      on: { click: _vm.next }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { small: "" } }, [
+                                        _vm._v(
+                                          "\n                    mdi-chevron-right\n                  "
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.$refs.calendar
+                                    ? _c("v-toolbar-title", [
+                                        _vm._v(
+                                          "\n                  " +
+                                            _vm._s(_vm.$refs.calendar.title) +
+                                            "\n                "
+                                        )
+                                      ])
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-menu",
+                                    {
+                                      attrs: { bottom: "", right: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {
+                                                        attrs: {
+                                                          outlined: "",
+                                                          color: "grey darken-2"
+                                                        }
+                                                      },
+                                                      "v-btn",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c("span", [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.typeToLabel[
+                                                            _vm.type
+                                                          ]
+                                                        )
+                                                      )
+                                                    ]),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-icon",
+                                                      { attrs: { right: "" } },
+                                                      [
+                                                        _vm._v(
+                                                          "\n                        mdi-menu-down\n                      "
+                                                        )
+                                                      ]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        false,
+                                        3636159597
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list",
+                                        [
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.type = "day"
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Day")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.type = "week"
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Week")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.type = "month"
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Month")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.type = "4day"
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("4 days")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
                                 1
                               )
                             ],
                             1
                           ),
                           _vm._v(" "),
-                          _c("v-card-text", [
-                            _c("div", [
-                              _c("span", { staticClass: "font-weight-bold" }, [
-                                _vm._v("Due date: ")
-                              ]),
-                              _vm._v(
-                                " " +
-                                  _vm._s(_vm.format_date(_vm.selectedEvent.end))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    attrs: {
-                                      rounded: "",
-                                      text: "",
-                                      color: _vm.selectedEvent.color
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.$router.push({
-                                          path:
-                                            "/classwork/" +
-                                            _vm.selectedEvent.course_id +
-                                            "/classwork-details?clwk=" +
-                                            _vm.selectedEvent.classwork_id
-                                        })
-                                      }
-                                    }
+                          _c(
+                            "v-sheet",
+                            {
+                              staticClass: "pa-1",
+                              attrs: { height: "450", width: "100%" }
+                            },
+                            [
+                              _c("v-calendar", {
+                                ref: "calendar",
+                                attrs: {
+                                  color: "primary",
+                                  events: _vm.events,
+                                  "event-color": _vm.getEventColor,
+                                  type: _vm.type
+                                },
+                                on: {
+                                  "click:event": _vm.showEvent,
+                                  "click:more": _vm.viewDay,
+                                  "click:date": _vm.viewDay
+                                },
+                                model: {
+                                  value: _vm.focus,
+                                  callback: function($$v) {
+                                    _vm.focus = $$v
                                   },
-                                  [
-                                    _vm._v(
-                                      "\n                    View Classwork\n                "
-                                    ),
-                                    _c("v-icon", { attrs: { right: "" } }, [
-                                      _vm._v("mdi-eye")
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ])
+                                  expression: "focus"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-menu",
+                                {
+                                  attrs: {
+                                    "close-on-content-click": false,
+                                    activator: _vm.selectedElement,
+                                    "offset-x": "",
+                                    "max-width": "350px"
+                                  },
+                                  model: {
+                                    value: _vm.selectedOpen,
+                                    callback: function($$v) {
+                                      _vm.selectedOpen = $$v
+                                    },
+                                    expression: "selectedOpen"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-card",
+                                    {
+                                      attrs: {
+                                        color: "grey lighten-4",
+                                        "min-width": "350px",
+                                        "max-width": "350px",
+                                        flat: ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-toolbar",
+                                        {
+                                          attrs: {
+                                            color: _vm.selectedEvent.color,
+                                            dark: "",
+                                            dense: ""
+                                          }
+                                        },
+                                        [
+                                          _c("v-toolbar-title", {
+                                            staticStyle: { width: "100%" },
+                                            domProps: {
+                                              innerHTML: _vm._s(
+                                                _vm.selectedEvent.name
+                                              )
+                                            }
+                                          }),
+                                          _vm._v(" "),
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: { icon: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.selectedOpen = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v("mdi-close")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-card-text", [
+                                        _c("div", [
+                                          _c(
+                                            "span",
+                                            { staticClass: "font-weight-bold" },
+                                            [_vm._v("Due date: ")]
+                                          ),
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(
+                                                _vm.format_date(
+                                                  _vm.selectedEvent.end
+                                                )
+                                              )
+                                          )
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  rounded: "",
+                                                  text: "",
+                                                  color: _vm.selectedEvent.color
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.$router.push({
+                                                      path:
+                                                        "/classwork/" +
+                                                        _vm.selectedEvent
+                                                          .course_id +
+                                                        "/classwork-details?clwk=" +
+                                                        _vm.selectedEvent
+                                                          .classwork_id
+                                                    })
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                            View Classwork\n                        "
+                                                ),
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { right: "" } },
+                                                  [_vm._v("mdi-eye")]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
                         ],
                         1
                       )

@@ -122,7 +122,6 @@
                             </v-list-item-action>
                             </v-list-item>
                         </v-list>
-
                     </v-col>
                 </v-row>
             </v-card>

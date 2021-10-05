@@ -85,6 +85,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -222,7 +225,15 @@ var render = function() {
     { staticClass: "pb-5" },
     [
       _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
-        _c("h3", [_vm._v("CHANGE PASSWORD")])
+        _c(
+          "div",
+          {
+            class: _vm.$vuetify.breakpoint.lgAndUp
+              ? "text-h6 font-weight-bold"
+              : "font-weight-bold"
+          },
+          [_vm._v("CHANGE PASSWORD")]
+        )
       ]),
       _vm._v(" "),
       _c(
@@ -287,37 +298,32 @@ var render = function() {
                             "v-col",
                             { attrs: { cols: "12", md: "5" } },
                             [
-                              _c(
-                                "v-text-field",
-                                {
-                                  attrs: {
-                                    "append-icon": _vm.showCurrent
-                                      ? "mdi-eye"
-                                      : "mdi-eye-off",
-                                    dense: "",
-                                    rules: [_vm.rules.required, _vm.rules.min],
-                                    outlined: "",
-                                    type: _vm.showCurrent ? "text" : "password"
-                                  },
-                                  on: {
-                                    "click:append": function($event) {
-                                      _vm.showCurrent = !_vm.showCurrent
-                                    }
-                                  },
-                                  model: {
-                                    value: _vm.form.current_password,
-                                    callback: function($$v) {
-                                      _vm.$set(
-                                        _vm.form,
-                                        "current_password",
-                                        $$v
-                                      )
-                                    },
-                                    expression: "form.current_password"
+                              _c("v-text-field", {
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
+                                attrs: {
+                                  "append-icon": _vm.showCurrent
+                                    ? "mdi-eye"
+                                    : "mdi-eye-off",
+                                  dense: "",
+                                  rules: [_vm.rules.required, _vm.rules.min],
+                                  outlined: "",
+                                  type: _vm.showCurrent ? "text" : "password"
+                                },
+                                on: {
+                                  "click:append": function($event) {
+                                    _vm.showCurrent = !_vm.showCurrent
                                   }
                                 },
-                                [_vm._v("\n                                >")]
-                              )
+                                model: {
+                                  value: _vm.form.current_password,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "current_password", $$v)
+                                  },
+                                  expression: "form.current_password"
+                                }
+                              })
                             ],
                             1
                           )
@@ -358,6 +364,9 @@ var render = function() {
                             { attrs: { cols: "12", md: "5" } },
                             [
                               _c("v-text-field", {
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   "append-icon": _vm.showNew
                                     ? "mdi-eye"
@@ -420,6 +429,9 @@ var render = function() {
                             { attrs: { cols: "12", md: "5" } },
                             [
                               _c("v-text-field", {
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
                                 attrs: {
                                   "append-icon": _vm.ShowNewRetype
                                     ? "mdi-eye"
@@ -463,7 +475,7 @@ var render = function() {
                         "v-row",
                         [
                           _c("v-col", {
-                            class: _vm.$vuetify.breakpoint.xs
+                            class: !_vm.$vuetify.breakpoint.lgAndUp
                               ? "mb-0 pb-0"
                               : "mt-2",
                             attrs: { cols: "12", md: "3" }
@@ -477,7 +489,8 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: {
-                                    ":disabled": _vm.isChanging,
+                                    block: !_vm.$vuetify.breakpoint.lgAndUp,
+                                    disabled: _vm.isChanging,
                                     rounded: "",
                                     color: "primary",
                                     dark: ""
@@ -493,8 +506,8 @@ var render = function() {
                                     "\n                                " +
                                       _vm._s(
                                         _vm.isChanging
-                                          ? "Saving..."
-                                          : "Save Changes"
+                                          ? "Updating..."
+                                          : "Update Password"
                                       )
                                   )
                                 ]

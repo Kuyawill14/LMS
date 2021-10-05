@@ -27,7 +27,7 @@
                     </v-col>
                 </v-row>
 
-                <v-row class="mb-0">
+                <v-row class="mb-0" :class="!$vuetify.breakpoint.lgAndUp ? 'pt-0 mt-0' :''">
                     <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pt-0 mt-0 mb-0 pb-0' :'t-0 mt-0 mb-0 pb-0'">
                         <studentGradeChart :allClass="allClass"> </studentGradeChart>
                     </v-col>
@@ -43,7 +43,7 @@
 
             </v-col>
 
-            <v-col lg="4">
+            <v-col lg="4"  >
                 <v-row>
                     <v-col :class="$vuetify.breakpoint.lgAndUp ? 'pt-0 mt-0' :''">
                         <v-card>

@@ -180,19 +180,38 @@
                                     </template>
 
                             </v-img>
-                    
-                            <v-card-subtitle>
-                                <router-link :to="{name: 'coursePage', params: {id: item.id}}"
-                                    style="text-decoration: none">
-                                    <p style="font-size: 16px;">{{item.course_code }}
-                                        <br> {{ item.course_name}}
-                                    </p>
-                                </router-link>
-                                <hr>
-                                {{item.student_count+' students'}} <br>
-                                {{item.class_count+' class'}}
-                            </v-card-subtitle>
-
+                            <v-hover v-slot="{ hover }">
+                                <v-card-subtitle class="mt-0 pt-0 pl-0 ml-0">
+                                    <router-link :to="{name: 'coursePage', params: {id: item.id}}"
+                                        style="text-decoration: none">
+                                    <!--  <p style="font-size: 16px;">{{item.course_code }}
+                                            <br> {{ item.course_name}}
+                                        </p> -->
+                                
+                                    <v-list class="ml-0 pl-0">
+                                        <v-list-item :class="hover ? 'blue--text' : 'primary--text'">
+                                            <v-list-item-content  >
+                                                <v-list-item-title class="primary--text">
+                                                   <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
+                                                        <br> 
+                                                        <span style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</span>
+                                                    </p>
+                                                </v-list-item-title>
+                                               <!--  <v-list-item-subtitle >
+                                                    <div class="text-body-1" style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</div>
+                                                </v-list-item-subtitle> -->
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
+                                    </router-link>
+                                    <hr>
+                                    <div class="pl-4">
+                                        {{item.student_count+' students'}} <br>
+                                        {{item.class_count+' class'}}
+                                    </div>
+                                
+                                </v-card-subtitle>
+                            </v-hover>
 
                         </v-card>
 

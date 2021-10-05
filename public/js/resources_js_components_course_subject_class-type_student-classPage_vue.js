@@ -176,6 +176,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -853,88 +872,184 @@ var render = function() {
                                   1
                                 ),
                                 _vm._v(" "),
-                                _c(
-                                  "v-card-subtitle",
-                                  [
-                                    _c(
-                                      "div",
-                                      [
-                                        _c(
-                                          "router-link",
-                                          {
-                                            staticStyle: {
-                                              "text-decoration": "none"
-                                            },
-                                            attrs: {
-                                              to: {
-                                                name: "coursePage",
-                                                params: { id: item.course_id },
-                                                query: { class: item.class_id }
-                                              }
-                                            }
-                                          },
-                                          [
+                                _c("v-hover", {
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "default",
+                                        fn: function(ref) {
+                                          var hover = ref.hover
+                                          return [
                                             _c(
-                                              "p",
+                                              "v-card-subtitle",
                                               {
-                                                staticClass: "mb-0 pb-0 mb-2",
-                                                style: _vm.$vuetify.breakpoint
-                                                  .lgAndUp
-                                                  ? "font-size: 16px"
-                                                  : "font-size: 14px"
+                                                staticClass:
+                                                  "ml-0 pl-0 mt-0 pt-0"
                                               },
                                               [
-                                                _vm._v(
-                                                  _vm._s(item.course_code) +
-                                                    "\n                                           "
+                                                _c(
+                                                  "div",
+                                                  [
+                                                    _c(
+                                                      "router-link",
+                                                      {
+                                                        staticStyle: {
+                                                          "text-decoration":
+                                                            "none"
+                                                        },
+                                                        attrs: {
+                                                          to: {
+                                                            name: "coursePage",
+                                                            params: {
+                                                              id: item.course_id
+                                                            },
+                                                            query: {
+                                                              class:
+                                                                item.class_id
+                                                            }
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list",
+                                                          {
+                                                            staticClass:
+                                                              "ml-0 pl-0"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-list-item",
+                                                              {
+                                                                class: hover
+                                                                  ? "blue--text"
+                                                                  : "primary--text"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-list-item-content",
+                                                                  [
+                                                                    _c(
+                                                                      "v-list-item-title",
+                                                                      [
+                                                                        _c(
+                                                                          "p",
+                                                                          {
+                                                                            staticClass:
+                                                                              "mb-0 pb-0 mb-2",
+                                                                            style: _vm
+                                                                              .$vuetify
+                                                                              .breakpoint
+                                                                              .lgAndUp
+                                                                              ? "font-size: 16px;text-overflow: ellipsis;overflow: hidden; "
+                                                                              : "font-size: 14px;text-overflow: ellipsis;overflow: hidden; "
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                item.course_code
+                                                                              ) +
+                                                                                "\n                                                       "
+                                                                            ),
+                                                                            _c(
+                                                                              "br"
+                                                                            ),
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              {
+                                                                                staticStyle: {
+                                                                                  "text-overflow":
+                                                                                    "ellipsis",
+                                                                                  overflow:
+                                                                                    "hidden"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  _vm._s(
+                                                                                    item.course_name
+                                                                                  )
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
                                                 ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  " " +
-                                                    _vm._s(item.course_name) +
-                                                    "\n                                       "
+                                                _vm._v(" "),
+                                                _c("v-divider"),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "mt-2 pl-4" },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        style: _vm.$vuetify
+                                                          .breakpoint.lgAndUp
+                                                          ? "font-size: 16px"
+                                                          : "font-size: 14px"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(
+                                                            item.class_name
+                                                          )
+                                                        )
+                                                      ]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c("br"),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        style: _vm.$vuetify
+                                                          .breakpoint.lgAndUp
+                                                          ? "font-size: 16px"
+                                                          : "font-size: 14px"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          " Class code: " +
+                                                            _vm._s(
+                                                              item.class_code
+                                                            )
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
                                                 )
-                                              ]
+                                              ],
+                                              1
                                             )
                                           ]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("v-divider"),
-                                    _vm._v(" "),
-                                    _c("div", { staticClass: "mt-2" }, [
-                                      _c(
-                                        "span",
-                                        {
-                                          style: _vm.$vuetify.breakpoint.lgAndUp
-                                            ? "font-size: 16px"
-                                            : "font-size: 14px"
-                                        },
-                                        [_vm._v(_vm._s(item.class_name))]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("br"),
-                                      _vm._v(" "),
-                                      _c(
-                                        "span",
-                                        {
-                                          style: _vm.$vuetify.breakpoint.lgAndUp
-                                            ? "font-size: 16px"
-                                            : "font-size: 14px"
-                                        },
-                                        [
-                                          _vm._v(
-                                            " Class code:" +
-                                              _vm._s(item.class_code)
-                                          )
-                                        ]
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                )
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    true
+                                  )
+                                })
                               ],
                               1
                             )

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-row >
+    <v-row v-if="classworkDetails" >
       <v-col  v-if="classworkDetails.availability == 0" cols="12" >
         <v-row align="center" justify="center">
           <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
@@ -18,7 +18,7 @@
       
       <v-col v-else cols="12" sm="12"   justify="center">
         <v-row align="center" justify="center">
-          <v-col  v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= DateToday && statusDetails.status != 'Submitted'" cols="12" md="7" lg="6" xl="6">
+          <v-col v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= DateToday && statusDetails.status != 'Submitted'" cols="12" md="7" lg="6" xl="6">
                 <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
           </v-col>
             <v-col v-else cols="12" >
@@ -88,7 +88,8 @@ export default {
     beforeMount(){
       const newDate = new Date();
       this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-      this.$emit('isMounted');
+      //this.$emit('isMounted');
+     
  
     },
     

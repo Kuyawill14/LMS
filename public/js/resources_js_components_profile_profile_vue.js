@@ -226,19 +226,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_profile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -541,7 +528,10 @@ var render = function() {
                     "v-card",
                     {
                       staticClass: "pt-5",
-                      attrs: { elevation: "1", outlined: "" }
+                      attrs: {
+                        elevation: !_vm.$vuetify.breakpoint.lgAndUp ? 0 : 1,
+                        outlined: _vm.$vuetify.breakpoint.lgAndUp
+                      }
                     },
                     [
                       _c(
@@ -833,109 +823,130 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { staticClass: "pl-3", attrs: { cols: "12" } },
-                            [
-                              _c(
-                                "v-tabs",
-                                {
-                                  staticClass: "mt-2",
-                                  attrs: { vertical: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.items[1].text = "Profile Details"
-                                    }
-                                  },
-                                  model: {
-                                    value: _vm.tab,
-                                    callback: function($$v) {
-                                      _vm.tab = $$v
-                                    },
-                                    expression: "tab"
-                                  }
-                                },
+                          _vm.$vuetify.breakpoint.lgAndUp
+                            ? _c(
+                                "v-col",
+                                { staticClass: "pl-3", attrs: { cols: "12" } },
                                 [
                                   _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-account\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                Profile\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
+                                    "v-tabs",
                                     {
-                                      staticClass: "d-flex justify-start",
+                                      staticClass: "mt-2",
+                                      attrs: { vertical: "" },
                                       on: {
                                         click: function($event) {
-                                          _vm.items[1].text = "Courses"
+                                          _vm.items[1].text = "Profile Details"
                                         }
+                                      },
+                                      model: {
+                                        value: _vm.tab,
+                                        callback: function($$v) {
+                                          _vm.tab = $$v
+                                        },
+                                        expression: "tab"
                                       }
                                     },
                                     [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-google-classroom\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                Courses\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    {
-                                      staticClass: "d-flex justify-start",
-                                      on: {
-                                        click: function($event) {
-                                          _vm.items[1].text = "My Calendar"
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-calendar\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                My Calendar\n                            "
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-tab",
-                                    {
-                                      staticClass: "d-flex justify-start",
-                                      on: {
-                                        click: function($event) {
-                                          _vm.items[1].text = "Change Password"
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          "\n                                mdi-lock\n                                "
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                Change Password\n                            "
+                                      _c(
+                                        "v-tab",
+                                        { staticClass: "d-flex justify-start" },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [
+                                              _vm._v(
+                                                "\n                                mdi-account\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(
+                                            "\n                                Profile\n                            "
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tab",
+                                        {
+                                          staticClass: "d-flex justify-start",
+                                          on: {
+                                            click: function($event) {
+                                              _vm.items[1].text = "Courses"
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [
+                                              _vm._v(
+                                                "\n                                mdi-google-classroom\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(
+                                            "\n                                Courses\n                            "
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tab",
+                                        {
+                                          staticClass: "d-flex justify-start",
+                                          on: {
+                                            click: function($event) {
+                                              _vm.items[1].text = "My Calendar"
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [
+                                              _vm._v(
+                                                "\n                                mdi-calendar\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(
+                                            "\n                                My Calendar\n                            "
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-tab",
+                                        {
+                                          staticClass: "d-flex justify-start",
+                                          on: {
+                                            click: function($event) {
+                                              _vm.items[1].text =
+                                                "Change Password"
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [
+                                              _vm._v(
+                                                "\n                                mdi-lock\n                                "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(
+                                            "\n                                Change Password\n                            "
+                                          )
+                                        ],
+                                        1
                                       )
                                     ],
                                     1
@@ -943,9 +954,7 @@ var render = function() {
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          )
+                            : _vm._e()
                         ],
                         1
                       )
@@ -958,12 +967,15 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-col",
-                { attrs: { cols: "12", md: "9", lg: "9", xl: "10" } },
+                {
+                  class: !_vm.$vuetify.breakpoint.lgAndUp ? "pt-5" : "",
+                  attrs: { cols: "12", md: "9", lg: "9", xl: "10" }
+                },
                 [
                   _c(
                     "v-card",
                     {
-                      staticClass: " pb-3 pl-5 pr-5",
+                      staticClass: "pb-3 pl-5 pr-5",
                       attrs: { elevation: "0" }
                     },
                     [
@@ -1021,6 +1033,64 @@ var render = function() {
                     ],
                     1
                   )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.$vuetify.breakpoint.lgAndUp
+        ? _c(
+            "v-bottom-navigation",
+            {
+              attrs: { color: "primary", app: "", grow: "" },
+              model: {
+                value: _vm.tab,
+                callback: function($$v) {
+                  _vm.tab = $$v
+                },
+                expression: "tab"
+              }
+            },
+            [
+              _c(
+                "v-btn",
+                [
+                  _c("span", [_vm._v("Profile")]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-account")])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                [
+                  _c("span", [_vm._v("Courses")]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v(" mdi-google-classroom")])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                [
+                  _c("span", [_vm._v("Calendar")]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-calendar")])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                [
+                  _c("span", [_vm._v("Security")]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-lock")])
                 ],
                 1
               )

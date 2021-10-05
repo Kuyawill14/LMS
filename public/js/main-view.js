@@ -665,23 +665,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-
-/* import mainNavbar from './navigation/main-navbar';
-import courseNavbar from './navigation/course-navbar';
- import adminNavbar from './navigation/admin/admin-navbar';
-import notifications from './notification/notification';
-import seeAllNotification from './notification/SeeAllNotification'; */
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
 
 var courseNavbar = function courseNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/course-navbar */ "./resources/js/components/layout/navigation/course-navbar.vue"));
+};
+
+var mainBottomNavigation = function mainBottomNavigation() {
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./bottom-navigation/course-bottom-navigation */ "./resources/js/components/layout/bottom-navigation/course-bottom-navigation.vue"));
 };
 
 var adminNavbar = function adminNavbar() {
@@ -704,7 +697,8 @@ var invites = function invites() {
     courseNavbar: courseNavbar,
     adminNavbar: adminNavbar,
     notifications: notifications,
-    invites: invites
+    invites: invites,
+    mainBottomNavigation: mainBottomNavigation
   },
   data: function data() {
     return {
@@ -811,14 +805,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
 
-
-/* import bottomNavigation from "./layout/bottom-navigation/main-bottom-navigation";
-import courseNavigation from "./layout/bottom-navigation/course-bottom-navigation"; */
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -833,9 +820,7 @@ import courseNavigation from "./layout/bottom-navigation/course-bottom-navigatio
   },
   components: {
     topHeader: _layout_header__WEBPACK_IMPORTED_MODULE_0__.default,
-    sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default //bottomNavigation,
-    //courseNavigation
-
+    sidebar: _layout_sidebar__WEBPACK_IMPORTED_MODULE_1__.default
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_UserRole", "get_CurrentUser"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['setUserRole'])), {}, {
@@ -3647,6 +3632,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3796,9 +3782,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3823,7 +3809,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3913,6 +3899,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 

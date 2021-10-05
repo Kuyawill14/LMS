@@ -117,24 +117,43 @@
                                     <span class="text-caption "> Completed </span>
                                 </v-card-subtitle>
                             </v-img>
-                            <v-card-subtitle >
+                             <v-hover v-slot="{ hover }">
+                            <v-card-subtitle class="ml-0 pl-0 mt-0 pt-0">
                                 <div>
+                                
                                     <router-link
+                                       
                                         :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
                                         style="text-decoration: none">
-                                        <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{item.course_code }}
+                                       <!--  <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{item.course_code }}
                                             <br> {{ item.course_name}}
-                                        </p>
+                                        </p> -->
+
+                                         <v-list class="ml-0 pl-0">
+                                        <v-list-item :class="hover ? 'blue--text' : 'primary--text'">
+                                            <v-list-item-content  >
+                                                <v-list-item-title >
+                                                    <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
+                                                        <br> 
+                                                        <span style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</span>
+                                                    </p>
+                                                </v-list-item-title>
+                                            <!--    <v-list-item-subtitle :class="hover ? 'blue--text' : ''" >
+                                                    <div class="text-body-1" style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</div>
+                                                </v-list-item-subtitle> -->
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
                                     </router-link>
                                 </div>
                                 <v-divider></v-divider>
-                                <div class="mt-2" >
+                                <div class="mt-2 pl-4" >
                                      <span  :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{ item.class_name}}</span> <br>
-                                 <span :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'"> Class code:{{ item.class_code}}</span>
+                                 <span :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'"> Class code: {{ item.class_code}}</span>
                                 </div>
                                
                             </v-card-subtitle>
-
+                        </v-hover>
 
                         </v-card>
 

@@ -109,6 +109,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -498,25 +523,89 @@ var render = function() {
                                                             "v-card-subtitle",
                                                             {
                                                               staticClass:
-                                                                "text-white"
+                                                                "ml-0 pl-0"
                                                             },
                                                             [
-                                                              _vm._v(
-                                                                "\n                                                " +
-                                                                  _vm._s(
-                                                                    item.course_code
-                                                                  ) +
-                                                                  "\n                                                "
-                                                              ),
-                                                              _c("br"),
-                                                              _vm._v(
-                                                                " " +
-                                                                  _vm._s(
-                                                                    item.course_name
-                                                                  ) +
-                                                                  "\n                                            "
+                                                              _c(
+                                                                "v-list",
+                                                                {
+                                                                  attrs: {
+                                                                    color:
+                                                                      "transparent"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-list-item",
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-item-content",
+                                                                        [
+                                                                          _c(
+                                                                            "v-list-item-title",
+                                                                            {
+                                                                              staticClass:
+                                                                                "white--text"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "p",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "mb-0 pb-0 mb-2",
+                                                                                  style: _vm
+                                                                                    .$vuetify
+                                                                                    .breakpoint
+                                                                                    .lgAndUp
+                                                                                    ? "font-size: 16px;text-overflow: ellipsis;overflow: hidden; "
+                                                                                    : "font-size: 14px;text-overflow: ellipsis;overflow: hidden; "
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    _vm._s(
+                                                                                      item.course_code
+                                                                                    ) +
+                                                                                      "\n                                                                "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "br"
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticStyle: {
+                                                                                        "text-overflow":
+                                                                                          "ellipsis",
+                                                                                        overflow:
+                                                                                          "hidden"
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        _vm._s(
+                                                                                          item.course_name
+                                                                                        )
+                                                                                      )
+                                                                                    ]
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
                                                               )
-                                                            ]
+                                                            ],
+                                                            1
                                                           )
                                                         ],
                                                         1

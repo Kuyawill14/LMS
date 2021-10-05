@@ -82,24 +82,15 @@
     <!--  ######### end sidebar ################ -->
     
  <!--  ######### notifSiaebar ################ -->
-  <!--   <v-navigation-drawer style="z-index:100" width="550" absolute right temporary v-model="Notifdrawer"  app>
-        <seeAllNotification></seeAllNotification>
-    </v-navigation-drawer> -->
-
-
-     
+<!--   <mainBottomNavigation v-if="!$vuetify.breakpoint.lgAndUp && navBarType == 'selectedCourse' && role == 'Student'"></mainBottomNavigation> -->  
 </div>
 </template>
 
 
 <script>
-    /* import mainNavbar from './navigation/main-navbar';
-    import courseNavbar from './navigation/course-navbar';
-     import adminNavbar from './navigation/admin/admin-navbar';
-    import notifications from './notification/notification';
-    import seeAllNotification from './notification/SeeAllNotification'; */
     const mainNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/main-navbar")
     const courseNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/course-navbar")
+    const mainBottomNavigation = () => import(/* webpackChunkName: "layout" */"./bottom-navigation/course-bottom-navigation")
     const adminNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/admin/admin-navbar")
     const notifications = () => import(/* webpackChunkName: "layout" */"./notification/notification")
     const invites = () => import(/* webpackChunkName: "layout" */"./notification/invites")
@@ -118,6 +109,7 @@
             adminNavbar,
             notifications,
             invites,
+            mainBottomNavigation
         },
         data() {
             return {

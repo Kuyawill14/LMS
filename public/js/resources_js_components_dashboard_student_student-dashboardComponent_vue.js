@@ -417,7 +417,10 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "mb-0" },
+                {
+                  staticClass: "mb-0",
+                  class: !_vm.$vuetify.breakpoint.lgAndUp ? "pt-0 mt-0" : ""
+                },
                 [
                   _c(
                     "v-col",

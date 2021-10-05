@@ -4,8 +4,7 @@
 
      <v-row>
         <v-col cols="12" class="mb-0 pb-0">
-           <h3>COURSES</h3>
-        
+            <div :class="$vuetify.breakpoint.lgAndUp ? 'text-h6 font-weight-bold': 'font-weight-bold'">COURSES</div> 
         </v-col>
 
         <v-col cols="12">

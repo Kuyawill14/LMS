@@ -129,7 +129,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -262,7 +261,15 @@ var render = function() {
         "v-row",
         [
           _c("v-col", { staticClass: "mb-0 pb-0", attrs: { cols: "12" } }, [
-            _c("h3", [_vm._v("COURSES")])
+            _c(
+              "div",
+              {
+                class: _vm.$vuetify.breakpoint.lgAndUp
+                  ? "text-h6 font-weight-bold"
+                  : "font-weight-bold"
+              },
+              [_vm._v("COURSES")]
+            )
           ]),
           _vm._v(" "),
           _c("v-col", { attrs: { cols: "12" } }, [_c("v-divider")], 1),

@@ -52,9 +52,13 @@
                                         <p style="color:#455056; font-size:12px;line-height:24px; margin:0;">
                                            {{$due}}
                                         </p>
-                                        <p style="color:#455056; font-size:15px;line-height:24px; margin:0;margin-top:5px">
-                                            {{$instruction}}
-                                        </p>
+                                        <div style="color:#455056; font-size:15px;line-height:24px; margin:0;margin-top:5px">
+                                            <span style="font-weight:bold">Instruction:</span>
+                                            {!! $instruction !!}
+                                        </div>
+                                        <span >
+
+                                        </span>
 
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
                                         <a href="{{url($url)}}"

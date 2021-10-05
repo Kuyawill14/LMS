@@ -36,10 +36,35 @@
                                                         {{ parseFloat(item.progress.toFixed(2))}}%
                                                     </span>
                                                 </div>
+                                            
+                                                <v-card-subtitle class="ml-0 pl-0">
+                                                    <v-list color="transparent">
+                                                        <v-list-item>
+                                                            <v-list-item-content>
+                                                                <v-list-item-title class="white--text">
+                                                                     <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
+                                                                    <br> 
+                                                                    <span style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</span>
+                                                                </p>
+                                                                </v-list-item-title>
+                                                            </v-list-item-content>
+                                                        </v-list-item>
 
-                                                <v-card-subtitle class="text-white">
+                                                    </v-list>
+                                                   <!--  
                                                     {{item.course_code }}
-                                                    <br> {{ item.course_name}}
+                                                    <br> {{ item.course_name}} -->
+                                                      
+                                                   <!--   <v-list class="ml-0 pl-0">
+                                                    <v-list-item >
+                                                        <v-list-item-content  >
+                                                            <v-list-item-title >
+                                                             
+                                                            </v-list-item-title>
+                                                      
+                                                        </v-list-item-content>
+                                                    </v-list-item>
+                                                </v-list> -->
                                                 </v-card-subtitle>
 
                                             </v-img>

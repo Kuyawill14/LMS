@@ -133,7 +133,7 @@ __webpack_require__.r(__webpack_exports__);
       tabs: null
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.$emit('isMounted');
   }
 });

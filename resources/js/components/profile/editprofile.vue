@@ -2,7 +2,7 @@
  <v-form ref="form" v-model="valid" lazy-validation>
     <v-row class="pb-5">
         <v-col cols="12" class="mb-0 pb-0">
-           <h3>EDIT PROFILE</h3> 
+           <div :class="$vuetify.breakpoint.lgAndUp ? 'text-h6 font-weight-bold': 'font-weight-bold'">EDIT PROFILE</div> 
         </v-col>
           <v-col cols="12" class="mb-0 pb-0">
             <v-divider></v-divider>
@@ -14,30 +14,31 @@
                 text="Loading"
                 duration="0.7"
                 :textStyle="{fontSize: '20px'}"
-                spinner="line-scale" color="#EF6C00"  size="60" />
+                spinner="line-scale" color="#EF6C00"  :size="$vuetify.breakpoint.lgAndUp ? 60 : 40" />
             </v-container>
         </v-col>
 
         <v-col v-if="!isloading" cols="12" class="ma-0 pa-0">
             <vue-element-loading :active="isSaving" spinner="bar-fade-scale" color="#EF6C00" />
-            <v-col cols="12">
+            <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                 <v-row>
                     <v-col cols="12" md="2" >
                         
                     </v-col>
-                    <v-col cols="12" md="10" class="mb-0 pb-0">
-                            <h4 class="mt-5">1. Personal Details</h4> 
+                    <v-col cols="12" md="10" :class="$vuetify.breakpoint.lgAndUp ? 'mb-0 pb-0' : 'mt-0 pt-0 mb-0 pb-0'">
+                        <h4 class="mt-5">1. Personal Details</h4> 
                     </v-col>
                 </v-row>
             </v-col>
               <v-col v-if="UserDetails.role == 'Student'" cols="12" class="mb-0 pb-0">
                 <v-row>
-                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                    <v-col cols="12" md="2" :class="!$vuetify.breakpoint.lgAndUp ? 'mb-0 pb-0': 'mt-2'">
                         Student ID
                     </v-col>
-                    <v-col cols="12" md="2" class="pb-0 mb-0">
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                                 dense
+                                :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                 :rules="StudentIdRules"
                                 outlined
                                 v-model="UserDetails.student_id"
@@ -48,14 +49,15 @@
             </v-col>
 
           
-            <v-col cols="12" class="mb-0 pb-0">
+            <v-col cols="12"  :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                 <v-row>
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         First Name
                     </v-col>
-                    <v-col cols="12" md="6" class="pb-0 mb-0">
+                    <v-col cols="12" md="6"  :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                                 dense
+                                :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                 :rules="FieldRules"
                                 outlined
                             v-model="UserDetails.firstName"
@@ -64,15 +66,16 @@
                 </v-row>
             </v-col>
 
-            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
+            <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                 <v-row>
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         Middle Name
                     </v-col>
-                    <v-col cols="12" md="6" class="pb-0 mb-0">
+                    <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                         dense
                             outlined
+                            :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             :rules="FieldRules"
                             v-model="UserDetails.middleName"
                             ></v-text-field>
@@ -80,14 +83,15 @@
                 </v-row>
             </v-col>
 
-            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
-                <v-row class="mb-0 pb-0">
+            <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                <v-row >
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         Last Name
                     </v-col>
-                    <v-col cols="12" md="6" class="pb-0 mb-0">
+                    <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                             dense
+                            :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             type="text"
                             outlined
                             :rules="FieldRules"
@@ -103,9 +107,10 @@
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         Department
                     </v-col>
-                    <v-col cols="12" md="6"  class="pb-0 mb-0">
+                    <v-col cols="12" md="6"  :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                          <v-select
                             class="mr-2"
+                             :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             :items="departmentsList"
                             item-text="name"
                             item-value="id"
@@ -118,12 +123,12 @@
                 </v-row>
             </v-col>
 
-            <v-col cols="12" class="mt-0 pt-0 ">
+            <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                 <v-row>
-                    <v-col cols="12" md="2">
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                         
                     </v-col>
-                    <v-col cols="12" md="10">
+                    <v-col cols="12" md="10" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                             <h4 class="mt-2">2. Contact</h4> 
                     </v-col>
                 </v-row>
@@ -131,13 +136,14 @@
 
              <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
                 <v-row>
-                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0 mr-0 pr-0': 'mt-2 mr-0 pr-0'">
+                    <v-col cols="12" md="2" :class="!$vuetify.breakpoint.lgAndUp ? 'mb-0 pb-0 mr-0 pr-0': 'mt-2 mr-0 pr-0'">
                         Email Address.
                     </v-col>
-                    <v-col cols="10" md="6" class="pb-0 mb-0">
+                    <v-col cols="10" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'b-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                             :disabled="editEmail"
                             :rules="emailRules"
+                            :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             dense
                             outlined
                             v-model="UserDetails.email"
@@ -154,7 +160,7 @@
             </v-col>
             <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
                 <v-row>
-                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                    <v-col cols="12" md="2" :class="!$vuetify.breakpoint.lgAndUp  ? 'mb-0 pb-0 mt-0 pt-0': 'mt-2'">
                         Phone No.
                     </v-col>
                     <v-col cols="10" md="6" class="pb-0 mb-0">
@@ -178,12 +184,12 @@
                 </v-row>
             </v-col>
 
-            <v-col cols="12" class="mt-0 pt-0 ">
+            <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                 <v-row>
-                    <v-col cols="12" md="2">
+                    <v-col cols="12" md="2"  :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                         
                     </v-col>
-                    <v-col cols="12" md="10">
+                    <v-col cols="12" md="10"  :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                             <h4 class="mt-5">3. Social Link</h4> 
                     </v-col>
                 </v-row>
@@ -194,10 +200,11 @@
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
                         Facebook
                     </v-col>
-                    <v-col cols="12" md="6" class="pb-0 mb-0">
+                    <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
-                        class="blue--text"
-                        dense
+                          
+                            dense
+                            :class="$vuetify.breakpoint.lgAndUp ? 'blue--text' : 'ma-0 pa-0 blue--text'"
                             outlined
                             v-model="UserDetails.social_account"
                             ></v-text-field>
@@ -220,14 +227,13 @@
             </v-row>
         </v-col> -->
 
-            <v-col cols="12" class="mb-0 pb-5">
+            <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'mb-0 pb-5 ' :'mb-o pb-3 mt-0 pt-0' ">
                 <v-row>
-                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-0'">
                         
                     </v-col>
-                    <v-col cols="12" md="6">
-                        <v-btn color="primary" rounded :loading="isSaving" @click="validate()" dark>{{isSaving ? 'Saving...' : 'Save Changes'}}</v-btn>
-               
+                    <v-col cols="12" md="6"   :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
+                        <v-btn :block="!$vuetify.breakpoint.mdAndUp" color="primary" rounded :loading="isSaving" @click="validate()" dark>{{isSaving ? 'Saving...' : 'Save Changes'}}</v-btn>
                     </v-col>
                 </v-row>
             </v-col>

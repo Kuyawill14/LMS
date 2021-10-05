@@ -1,7 +1,7 @@
 <template>
     <v-row class="pb-5">
         <v-col cols="12" class="mb-0 pb-0">
-            <h3>CHANGE PASSWORD</h3>
+            <div :class="$vuetify.breakpoint.lgAndUp ? 'text-h6 font-weight-bold': 'font-weight-bold'">CHANGE PASSWORD</div> 
         </v-col>
         <v-col cols="12" class="mb-0 pb-0">
             <v-divider></v-divider>
@@ -21,8 +21,9 @@
                                 <v-text-field :append-icon="showCurrent ?'mdi-eye':'mdi-eye-off'" dense
                                     :rules="[rules.required, rules.min]" v-model="form.current_password" outlined
                                     :type="showCurrent ? 'text' : 'password'"
+                                    :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                     @click:append="showCurrent = !showCurrent">
-                                    ></v-text-field>
+                                    </v-text-field>
                             </v-col>
                         </v-row>
                     </v-col>
@@ -35,6 +36,7 @@
                             <v-col cols="12" md="5">
                                 <v-text-field :append-icon="showNew ?'mdi-eye':'mdi-eye-off'" dense
                                     :rules="[rules.required, rules.min]" v-model="form.new_password" outlined
+                                    :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                     :type="showNew ? 'text' : 'password'" @click:append="showNew = !showNew">
                                     </v-text-field>
                             </v-col>
@@ -49,6 +51,7 @@
                             <v-col cols="12" md="5">
                                 <v-text-field :append-icon="ShowNewRetype ?'mdi-eye':'mdi-eye-off'" dense outlined
                                     :rules="[rules.required, rules.min]" v-model="form.confirm_password"
+                                    :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                     :type="ShowNewRetype ? 'text' : 'password'"
                                     @click:append="ShowNewRetype = !ShowNewRetype">
                                     </v-text-field>
@@ -58,12 +61,12 @@
 
                     <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
                         <v-row>
-                            <v-col cols="12" md="3" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                            <v-col cols="12" md="3" :class="!$vuetify.breakpoint.lgAndUp ? 'mb-0 pb-0': 'mt-2'">
 
                             </v-col>
                             <v-col cols="12" md="5">
-                                <v-btn ::disabled="isChanging" rounded @click="validate()" color="primary" dark>
-                                    {{isChanging ? 'Saving...' : 'Save Changes'}}</v-btn>
+                                <v-btn :block="!$vuetify.breakpoint.lgAndUp " :disabled="isChanging" rounded @click="validate()" color="primary" dark>
+                                    {{isChanging ? 'Updating...' : 'Update Password'}}</v-btn>
                             </v-col>
                         </v-row>
                     </v-col>
