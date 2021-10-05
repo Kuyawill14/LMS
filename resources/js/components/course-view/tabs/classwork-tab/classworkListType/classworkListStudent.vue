@@ -287,8 +287,8 @@
 
             },
             setFilterItems(){
-                for (let i = 0; i < this.classworks.ClassworkTitle.length+1; i++) {
-                   
+                let datalength = this.classworks.ClassworkTitle.length+1;
+                for (let i = 0; i < datalength; i++) {
                     if(i == 0){
                         this.FilterItems.push({title : 'All'});
                     }
@@ -306,7 +306,7 @@
             } */
         },
         mounted(){
-            this.setFilterItems();
+           
             //this.CheckClassworkCount();
             let newDate = new Date();
             //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
@@ -314,6 +314,7 @@
             this.$emit('ismounted');
         },
         created(){
+             this.setFilterItems();
              this.$emit('ismounted');
         }
        

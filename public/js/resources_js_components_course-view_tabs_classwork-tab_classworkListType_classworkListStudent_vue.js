@@ -325,7 +325,9 @@ var previewClassworkModal = function previewClassworkModal() {
       }
     },
     setFilterItems: function setFilterItems() {
-      for (var i = 0; i < this.classworks.ClassworkTitle.length + 1; i++) {
+      var datalength = this.classworks.ClassworkTitle.length + 1;
+
+      for (var i = 0; i < datalength; i++) {
         if (i == 0) {
           this.FilterItems.push({
             title: 'All'
@@ -346,14 +348,14 @@ var previewClassworkModal = function previewClassworkModal() {
 
   },
   mounted: function mounted() {
-    this.setFilterItems(); //this.CheckClassworkCount();
-
+    //this.CheckClassworkCount();
     var newDate = new Date(); //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     this.$emit('ismounted');
   },
   created: function created() {
+    this.setFilterItems();
     this.$emit('ismounted');
   }
 });

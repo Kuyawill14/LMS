@@ -1010,6 +1010,14 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           }
         }, _callee4);
       }))();
+    },
+    clickResubmit: function clickResubmit() {
+      if (!this.isResubmit) {
+        this.MarkAsSubmitting(this.myClasssworkStatus.Sub_id);
+        this.isResubmit = !this.isResubmit;
+      } else {
+        this.SubmitClasswork();
+      }
     }
   }),
   created: function created() {
@@ -1676,10 +1684,7 @@ var render = function() {
                                           attrs: { rounded: "", text: "" },
                                           on: {
                                             click: function($event) {
-                                              ;(_vm.isResubmit = !_vm.isResubmit),
-                                                _vm.MarkAsSubmitting(
-                                                  _vm.myClasssworkStatus.Sub_id
-                                                )
+                                              return _vm.clickResubmit()
                                             }
                                           }
                                         },
