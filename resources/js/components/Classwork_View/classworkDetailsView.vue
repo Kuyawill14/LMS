@@ -74,7 +74,6 @@
                  <teacherStartPage v-if="role == 'Teacher'" 
                   :totalPoints="totalPoints"
                   :totalQuestion="totalQuestion"
-               
                   :classworkDetails="classworkDetails.Details"
                 ></teacherStartPage>
             </v-col>
@@ -82,10 +81,7 @@
                  <studentStartPage v-if="role == 'Student'" 
                 :classworkDetails="classworkDetails.Details"
                 :totalPoints="totalPoints"
-           
                 :totalQuestion="totalQuestion"
-                :statusDetails="statusDetails"
-          
                 ></studentStartPage>
             </v-col>
         </v-row>
@@ -125,18 +121,18 @@ export default {
           this.getClassworkDetails()
       }
   },
-  computed: {
+/*   computed: {
       ...mapGetters(["statusDetails"]),
-  },
+  }, */
     methods:{
-         ...mapActions(['checkClassworkStatus']),
+       /*   ...mapActions(['checkClassworkStatus']), */
        async getClassworkDetails(){
             axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
                this.classworkDetails = res.data;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
-                this.checkStatus(res.data.Details.type);
+                //this.checkStatus(res.data.Details.type);
                 this.iChange = false;
                 this.isloading = false;
             })
@@ -145,7 +141,7 @@ export default {
                 this.isloading = false;
             })
         },
-        async checkStatus(type){
+     /*    async checkStatus(type){
             
             if(this.role == 'Student'){
                 let data = {};
@@ -157,7 +153,7 @@ export default {
                     this.isloading = false;
                 })
             }
-        }
+        } */
     },
     async beforeRouteEnter(to, from, next) {
         next(vm => {

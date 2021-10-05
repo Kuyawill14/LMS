@@ -1,6 +1,8 @@
 <template>
 <div>
-    <v-row v-if="classworkDetails" >
+
+    <v-row v-if="loaded" >
+      
       <v-col  v-if="classworkDetails.availability == 0" cols="12" >
         <v-row align="center" justify="center">
           <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
@@ -48,8 +50,9 @@ const subjectiveType = () => import('./classworkType/SubjectiveComponent')
 const responseLatePageWarning = () => import('./classworkType/responseLateComponent')
 
 import moment from 'moment-timezone';
+import {mapGetters, mapActions } from "vuex";
 export default {
-    props:['classworkDetails','totalPoints','totalQuestion','statusDetails'],
+    props:['classworkDetails','totalPoints','totalQuestion'],
     components:{
       objectiveType,
       subjectiveType,
@@ -61,7 +64,11 @@ export default {
         loaded: false,
       }
     },
+     computed: {
+      ...mapGetters(["statusDetails"]),
+    },
     methods:{
+       ...mapActions(['checkClassworkStatus']),
          format_date(value) {
             if (value) {
                 //return moment(String(value)).format('dddd, h:mm a')
@@ -81,10 +88,26 @@ export default {
                    return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
               }
           },
+          checkStatus(){
+            let data = {};
+            data.id = this.$route.query.clwk;
+            data.type = this.classworkDetails.type;
+            this.$store.dispatch('checkClassworkStatus', data)
+            .then(()=>{
+                this.loaded = true;
+            })
+
+        },
+          
     },
 /*     beforeMount(){
       window.history.forward(1)
     }, */
+    mounted(){
+      if(this.classworkDetails){
+        this.checkStatus();
+      }
+    },
     beforeMount(){
       const newDate = new Date();
       this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');

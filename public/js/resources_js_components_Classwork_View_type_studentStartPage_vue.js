@@ -13,6 +13,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
 //
 //
 //
@@ -70,8 +79,9 @@ var responseLatePageWarning = function responseLatePageWarning() {
 };
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworkDetails', 'totalPoints', 'totalQuestion', 'statusDetails'],
+  props: ['classworkDetails', 'totalPoints', 'totalQuestion'],
   components: {
     objectiveType: objectiveType,
     subjectiveType: subjectiveType,
@@ -83,7 +93,8 @@ var responseLatePageWarning = function responseLatePageWarning() {
       loaded: false
     };
   },
-  methods: {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["statusDetails"])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['checkClassworkStatus'])), {}, {
     format_date: function format_date(value) {
       if (value) {
         //return moment(String(value)).format('dddd, h:mm a')
@@ -109,12 +120,27 @@ var responseLatePageWarning = function responseLatePageWarning() {
         //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
         return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
+    },
+    checkStatus: function checkStatus() {
+      var _this = this;
+
+      var data = {};
+      data.id = this.$route.query.clwk;
+      data.type = this.classworkDetails.type;
+      this.$store.dispatch('checkClassworkStatus', data).then(function () {
+        _this.loaded = true;
+      });
     }
-  },
+  }),
 
   /*     beforeMount(){
         window.history.forward(1)
       }, */
+  mounted: function mounted() {
+    if (this.classworkDetails) {
+      this.checkStatus();
+    }
+  },
   beforeMount: function beforeMount() {
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss'); //this.$emit('isMounted');
@@ -933,7 +959,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.classworkDetails
+      _vm.loaded
         ? _c(
             "v-row",
             [
