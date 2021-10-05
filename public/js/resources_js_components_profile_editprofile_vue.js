@@ -280,7 +280,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -531,7 +530,9 @@ var render = function() {
                               textStyle: { fontSize: "20px" },
                               spinner: "line-scale",
                               color: "#EF6C00",
-                              size: _vm.$vuetify.breakpoint.lgAndUp ? 60 : 40
+                              size: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "60"
+                                : "40"
                             }
                           })
                         ],
@@ -885,7 +886,6 @@ var render = function() {
                                   items: _vm.departmentsList,
                                   "item-text": "name",
                                   "item-value": "id",
-                                  label: "Department",
                                   dense: "",
                                   outlined: ""
                                 },

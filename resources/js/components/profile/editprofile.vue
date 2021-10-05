@@ -14,7 +14,7 @@
                 text="Loading"
                 duration="0.7"
                 :textStyle="{fontSize: '20px'}"
-                spinner="line-scale" color="#EF6C00"  :size="$vuetify.breakpoint.lgAndUp ? 60 : 40" />
+                spinner="line-scale" color="#EF6C00"  :size="$vuetify.breakpoint.lgAndUp ? '60' : '40'" />
             </v-container>
         </v-col>
 
@@ -114,7 +114,6 @@
                             :items="departmentsList"
                             item-text="name"
                             item-value="id"
-                            label="Department"
                             dense
                             v-model="UserDetails.department"
                             outlined
