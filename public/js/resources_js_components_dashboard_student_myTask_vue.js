@@ -8580,8 +8580,8 @@ var render = function() {
             "div",
             {
               style: !_vm.$vuetify.breakpoint.mdAndUp
-                ? "height:64vh;z-index:1;overflow-y:scroll"
-                : "height:32.3vh;z-index:1;overflow-y:scroll"
+                ? "height:64vh;overflow-y:scroll"
+                : "height:32.3vh;overflow-y:scroll"
             },
             [
               _c("vue-element-loading", {

@@ -99,7 +99,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet :height="$vuetify.breakpoint.lgAndUp ? '350' : role == 'Student' ? '450' : '350'">
+      <v-sheet :height="$vuetify.breakpoint.lgAndUp ? '350' : role == 'Student' ? '530' : '350'">
         <v-calendar
           ref="calendar"
           v-model="focus"

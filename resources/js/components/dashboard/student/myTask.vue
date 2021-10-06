@@ -5,7 +5,7 @@
     <v-card >
         <h3 class="pl-2 pt-2">Today's Task</h3>
         <v-divider></v-divider>
-        <div :style="!$vuetify.breakpoint.mdAndUp ? 'height:64vh;z-index:1;overflow-y:scroll':'height:32.3vh;z-index:1;overflow-y:scroll'">
+        <div :style="!$vuetify.breakpoint.mdAndUp ? 'height:64vh;overflow-y:scroll':'height:32.3vh;overflow-y:scroll'">
             <vue-element-loading :active="isGetting" 
             text="Loading"
             duration="0.7"

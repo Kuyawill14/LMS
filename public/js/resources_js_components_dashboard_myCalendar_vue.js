@@ -9046,7 +9046,7 @@ var render = function() {
                     height: _vm.$vuetify.breakpoint.lgAndUp
                       ? "350"
                       : _vm.role == "Student"
-                      ? "450"
+                      ? "530"
                       : "350"
                   }
                 },
