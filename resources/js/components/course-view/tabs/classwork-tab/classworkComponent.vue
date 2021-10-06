@@ -47,9 +47,9 @@
 
 
 
-        <div class="ml-0 mr-0">
+        <div class="ml-0 mr-0" v-show="!isGetting && ClassworkLength != 0" >
             <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
-            v-if="ClassworkLength != 0" 
+           
             v-on:isMouted="isGetting = false"
             v-on:reloadClassworks="getGeneralClassworks()"
             :classworks="get_Classworks" :role="role"></classworkList>
@@ -92,7 +92,7 @@
             return {
                 classworks: [],
                 isLeaving: false,
-                isGetting: false,
+                isGetting: true,
                 dialog: false,
                 ClassworkLength: null,
                 items: [
@@ -113,7 +113,7 @@
         methods: {
             ...mapActions(['fetchClassworks']),
             getGeneralClassworks() {
-                this.isGetting = true;
+                //this.isGetting = true;
                 this.$store.dispatch('fetchClassworks', this.$route.params.id)
                 .then(res => {
                     if (res == 200) {
@@ -123,7 +123,7 @@
                 })
             },
         },
-          beforeRouteLeave(to, from, next) {
+        beforeRouteLeave(to, from, next) {
             this.isLeaving = true;
             next();
         },

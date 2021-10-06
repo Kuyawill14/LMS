@@ -308,6 +308,8 @@ Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
     Route::get('/ClassesList', [UserProfileController::class, 'getCourseAndClassesList']);
 
     Route::get('/mycalendar', [UserProfileController::class, 'FetchCalendarSched']);
+    Route::get('/taskToday', [UserProfileController::class, 'FetchTodayTask']);
+    
 });
 
 

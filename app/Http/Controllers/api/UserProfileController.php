@@ -16,6 +16,9 @@ use App\Models\tbl_userclass;
 use App\Models\tbl_student_sub_module_progress;
 use App\Models\tbl_sub_modules;
 use App\Models\tbl_Submission;
+use App\Models\tbl_classwork;
+use App\Models\tbl_classClassworks;
+
 use Illuminate\Support\Str;
 //use Image;
 
@@ -290,6 +293,53 @@ class UserProfileController extends Controller
             }
         }
         return $SubmitSubj;
+    }
+
+    
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function FetchTodayTask()
+    {
+
+        
+        $userId = auth('sanctum')->id();
+        $todayTask = tbl_userclass::whereNull('tbl_class_classworks.deleted_at')
+        ->where('tbl_userclasses.user_id', $userId)
+        ->select('tbl_userclasses.course_id','tbl_classworks.title','tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date'
+        ,'tbl_class_classworks.classwork_id')
+        ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
+        ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
+        ->where('tbl_class_classworks.from_date', '=', date('Y-m-d H:i:s'))
+        ->get();
+
+        foreach($todayTask as $sj){
+            $StatusCheck = tbl_Submission::where('tbl_submissions.classwork_id', $sj->classwork_id)
+            ->where('tbl_submissions.user_id', $userId)
+            ->first();
+            
+            if($StatusCheck){
+                if($StatusCheck->status == "Submitted"){
+                    $sj->status = $StatusCheck->status;
+                }
+                elseif($StatusCheck->status == "Submitting"){
+                    $sj->status = $StatusCheck->status;
+                }elseif($StatusCheck->status == "Taking"){
+                    $sj->status = $StatusCheck->status;
+                }
+            }
+            else{
+                if($sj->status == '' || $sj->status == null){
+                    $sj->status = null;
+                }
+            }
+        }
+    
+        return $todayTask;
+        
     }
 
     

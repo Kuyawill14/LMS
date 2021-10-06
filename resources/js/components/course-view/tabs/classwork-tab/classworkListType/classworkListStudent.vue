@@ -26,7 +26,7 @@
           <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
                  <h2 class="mt-1">My Classworks</h2>
             </v-col>
-            <v-col cols="6" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">
+            <v-col cols="12" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">
                   <v-select
                      :items="FilterItems"
                      item-text="title"
@@ -250,6 +250,11 @@
                 isLoading: false
             }
         },
+       /*  watch: { 
+            classworks: function(newVal, oldVal) { // watch it
+                this.setFilterItems();
+            }
+        }, */
         methods: {
             format_date(value) {
                 if (value) {
@@ -287,6 +292,7 @@
 
             },
             setFilterItems(){
+                
                 let datalength = this.classworks.ClassworkTitle.length+1;
                 for (let i = 0; i < datalength; i++) {
                     if(i == 0){
@@ -306,15 +312,12 @@
             } */
         },
         mounted(){
-           
-            //this.CheckClassworkCount();
+            this.setFilterItems();
             let newDate = new Date();
-            //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
             this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-            this.$emit('ismounted');
+          
         },
         created(){
-             this.setFilterItems();
              this.$emit('ismounted');
         }
        

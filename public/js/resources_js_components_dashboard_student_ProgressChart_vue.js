@@ -90,6 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['allClass'],
@@ -38202,9 +38203,11 @@ var render = function() {
         [
           _c("h3", [_vm._v("My Progress")]),
           _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
           _vm.isLoaded
             ? _c("bar-chart", {
-                style: _vm.$vuetify.breakpoint.lgAndUp ? "" : "height:280px",
+                style: _vm.$vuetify.breakpoint.lgAndUp ? "" : "height:290px",
                 attrs: { classList: _vm.classList, progress: _vm.progress }
               })
             : _vm._e()

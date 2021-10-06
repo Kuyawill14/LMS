@@ -122,7 +122,7 @@ var newClassworkModal = function newClassworkModal() {
     return {
       classworks: [],
       isLeaving: false,
-      isGetting: false,
+      isGetting: true,
       dialog: false,
       ClassworkLength: null,
       items: [{
@@ -139,7 +139,7 @@ var newClassworkModal = function newClassworkModal() {
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['get_Classworks']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassworks'])), {}, {
     getGeneralClassworks: function getGeneralClassworks() {
-      this.isGetting = true;
+      //this.isGetting = true;
       this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function (res) {
         if (res == 200) {//this.isGetting = false;
         }
@@ -300,24 +300,32 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "ml-0 mr-0" },
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.isGetting && _vm.ClassworkLength != 0,
+              expression: "!isGetting && ClassworkLength != 0"
+            }
+          ],
+          staticClass: "ml-0 mr-0"
+        },
         [
-          _vm.ClassworkLength != 0
-            ? _c("classworkList", {
-                attrs: { classworks: _vm.get_Classworks, role: _vm.role },
-                on: {
-                  ToggleRefresh: function($event) {
-                    return _vm.getGeneralClassworks()
-                  },
-                  isMouted: function($event) {
-                    _vm.isGetting = false
-                  },
-                  reloadClassworks: function($event) {
-                    return _vm.getGeneralClassworks()
-                  }
-                }
-              })
-            : _vm._e()
+          _c("classworkList", {
+            attrs: { classworks: _vm.get_Classworks, role: _vm.role },
+            on: {
+              ToggleRefresh: function($event) {
+                return _vm.getGeneralClassworks()
+              },
+              isMouted: function($event) {
+                _vm.isGetting = false
+              },
+              reloadClassworks: function($event) {
+                return _vm.getGeneralClassworks()
+              }
+            }
+          })
         ],
         1
       ),

@@ -134,6 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -385,6 +386,8 @@ var render = function() {
                         { staticClass: "mx-auto pa-2" },
                         [
                           _c("h3", [_vm._v("My Classes")]),
+                          _vm._v(" "),
+                          _c("v-divider"),
                           _vm._v(" "),
                           _c(
                             "v-slide-group",

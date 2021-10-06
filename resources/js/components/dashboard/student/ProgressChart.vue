@@ -10,7 +10,8 @@
 
     <v-card class="pa-2">
        <h3>My Progress</h3>
-      <bar-chart :style="$vuetify.breakpoint.lgAndUp ? '' : 'height:280px'"  v-if="isLoaded" :classList="classList" :progress="progress"></bar-chart>
+        <v-divider></v-divider>
+      <bar-chart :style="$vuetify.breakpoint.lgAndUp ? '' : 'height:290px'"  v-if="isLoaded" :classList="classList" :progress="progress"></bar-chart>
     </v-card>
    
   </div>

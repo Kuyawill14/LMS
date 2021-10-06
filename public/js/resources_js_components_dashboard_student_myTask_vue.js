@@ -11,65 +11,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -138,11 +95,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       menu: false,
       message: false,
       hints: true,
-      notificationList: []
+      notificationList: [],
+      mytask: [],
+      isGetting: true
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_notification", "get_notification_count"]),
-  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['UnreadMessage'])), {}, {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_notification", "get_notification_count"]),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['UnreadMessage'])), {}, {
     connect: function connect() {
       var newVm = this;
       this.fetchNotification();
@@ -168,7 +127,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     format_date: function format_date(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format("MMMM DD, h:mm a");
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("MMMM DD, h:mm a");
       }
     },
     fetchNotificationAll: function fetchNotificationAll() {
@@ -176,11 +135,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/notification/all').then(function (res) {
         _this3.notificationList = res.data.data;
+        _this3.isGetting = false;
       });
+    },
+    fetchTodayTask: function fetchTodayTask() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/api/profile/taskToday').then(function (res) {
+                  _this4.mytask = res.data;
+                  _this4.isGetting = false;
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
   mounted: function mounted() {
-    this.fetchNotificationAll();
+    this.fetchTodayTask(); //this.fetchNotificationAll()
   }
 });
 
@@ -8585,244 +8567,88 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
-    {
-      staticStyle: { "z-index": "1" },
-      style: _vm.$vuetify.breakpoint.xs ? "max-height:65vh" : "max-height:100vh"
-    },
+    "div",
     [
       _c(
-        "v-list",
+        "v-card",
         [
-          _c(
-            "v-list-item",
-            [
-              _c(
-                "v-list-item-content",
-                [
-                  _c("v-list-item-title", { staticClass: "font-weight-bold" }, [
-                    _vm._v("Today's Task")
-                  ])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-list-item-action")
-            ],
-            1
-          ),
+          _c("h3", { staticClass: "pl-2 pt-2" }, [_vm._v("Today's Task")]),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _vm.notificationList.length == 0
-            ? _c(
-                "v-list-item",
+          _c(
+            "div",
+            {
+              style: !_vm.$vuetify.breakpoint.mdAndUp
+                ? "height:64vh;z-index:1;overflow-y:scroll"
+                : "height:32.3vh;z-index:1;overflow-y:scroll"
+            },
+            [
+              _c("vue-element-loading", {
+                attrs: {
+                  active: _vm.isGetting,
+                  text: "Loading",
+                  duration: "0.7",
+                  textStyle: { fontSize: "15px" },
+                  spinner: "line-scale",
+                  color: "#EF6C00",
+                  size: "30"
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "v-list",
                 [
-                  _c(
-                    "v-list-item-content",
-                    [
-                      _c(
-                        "v-row",
+                  _vm.mytask.length == 0 && !_vm.isGetting
+                    ? _c(
+                        "v-list-item",
                         {
-                          staticClass: "mt-3",
-                          attrs: { align: "center", justify: "center" }
+                          style: !_vm.$vuetify.breakpoint.mdAndUp
+                            ? "margin-top:10rem"
+                            : "margin-top:5rem"
                         },
                         [
                           _c(
-                            "v-col",
-                            {
-                              staticClass: "text-center",
-                              attrs: { cols: "12" }
-                            },
+                            "v-list-item-content",
                             [
                               _c(
-                                "v-icon",
-                                { staticStyle: { "font-size": "2rem" } },
-                                [
-                                  _vm._v(
-                                    "\n                                   mdi-bell-off\n                               "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("p", [_vm._v(" Empty Notification  ")])
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._l(_vm.notificationList, function(item, index) {
-            return _c(
-              "v-list-item",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: item.hide_notif == 0 || item.hide_notif == null,
-                    expression:
-                      "item.hide_notif == 0 || item.hide_notif == null"
-                  }
-                ],
-                key: index
-              },
-              [
-                _c(
-                  "v-list-item-avatar",
-                  [
-                    item.notification_type == 3 || item.notification_type == 2
-                      ? _c("v-icon", { attrs: { color: "blue", large: "" } }, [
-                          _vm._v("mdi-account-plus")
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    item.notification_type == 1
-                      ? _c("v-icon", { attrs: { color: "red", large: "" } }, [
-                          _vm._v("mdi-bullhorn-outline")
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    item.notification_type == 4
-                      ? _c("v-icon", { attrs: { color: "green", large: "" } }, [
-                          _vm._v(" mdi-book-open-variant")
-                        ])
-                      : _vm._e()
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c(
-                      "v-list-item-title",
-                      { staticClass: "font-weight-medium" },
-                      [
-                        _c(
-                          "v-badge",
-                          {
-                            attrs: {
-                              content: item.status == 1 ? "" : "new",
-                              value: item.status == 1 ? "" : "new",
-                              color:
-                                item.notification_type == 1
-                                  ? "red"
-                                  : item.notification_type == 3 ||
-                                    item.notification_type == 2
-                                  ? "blue"
-                                  : item.notification_type == 3
-                                  ? "green"
-                                  : ""
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                           " +
-                                _vm._s(item.name) +
-                                "   \n                           "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "body-2" }, [
-                      _vm._v(
-                        "\n                           " +
-                          _vm._s(item.message) +
-                          "\n                            "
-                      ),
-                      item.notification_type == 3 &&
-                      item.notification_accepted == 0
-                        ? _c(
-                            "a",
-                            {
-                              staticClass: "blue--text",
-                              attrs: { href: "", link: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  return _vm.acceptJoin(
-                                    item.notification_attachments,
-                                    item.n_id
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                           Accept invite"
-                              )
-                            ]
-                          )
-                        : _vm._e()
-                    ]),
-                    _vm._v(" "),
-                    _c("small", [
-                      _vm._v(_vm._s(_vm.format_date(item.created_at)))
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          }),
-          _vm._v(" "),
-          _vm.notificationList.length != 0
-            ? _c(
-                "v-list-item",
-                [
-                  _c(
-                    "v-list-item-content",
-                    [
-                      _c(
-                        "v-row",
-                        {
-                          attrs: {
-                            "align-content": "center",
-                            justify: "center"
-                          }
-                        },
-                        [
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "text-center",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "v-btn",
+                                "v-row",
                                 {
-                                  attrs: {
-                                    text: "",
-                                    rounded: "",
-                                    color: "primary"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$router.push({
-                                        name: "notifications"
-                                      })
-                                    }
-                                  }
+                                  staticClass: "mt-3",
+                                  attrs: { align: "center", justify: "center" }
                                 },
                                 [
-                                  _vm._v("See all"),
-                                  _c("v-icon", { attrs: { right: "" } }, [
-                                    _vm._v("mdi-chevron-down")
-                                  ])
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "text-center",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticStyle: { "font-size": "3rem" },
+                                          attrs: { color: "primary" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n                                    mdi-clipboard-remove-outline\r\n                                "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _c(
+                                          "span",
+                                          { staticClass: "font-weight-medium" },
+                                          [_vm._v("Yahoo!")]
+                                        ),
+                                        _vm._v(", You have no task today")
+                                      ])
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
@@ -8832,15 +8658,84 @@ var render = function() {
                         ],
                         1
                       )
-                    ],
-                    1
-                  )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._l(_vm.mytask, function(item, index) {
+                    return [
+                      _c(
+                        "v-list-item",
+                        { key: index },
+                        [
+                          _c(
+                            "v-list-item-avatar",
+                            [
+                              item.status == "Submitted"
+                                ? _c(
+                                    "v-icon",
+                                    { attrs: { color: "success", large: "" } },
+                                    [_vm._v("mdi-clipboard-check-outline")]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              item.status != "Submitted"
+                                ? _c(
+                                    "v-icon",
+                                    { attrs: { color: "red", large: "" } },
+                                    [_vm._v(" mdi-clipboard-edit-outline")]
+                                  )
+                                : _vm._e()
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c(
+                                "v-list-item-title",
+                                { staticClass: "font-weight-bold" },
+                                [
+                                  _vm._v(
+                                    "\r\n                                " +
+                                      _vm._s(item.title) +
+                                      "   \r\n                            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("v-list-item-subtitle", [
+                                _c(
+                                  "span",
+                                  { staticClass: "font-weight-medium" },
+                                  [_vm._v("Due: ")]
+                                ),
+                                _vm._v(" "),
+                                _c("small", [
+                                  _vm._v(
+                                    _vm._s(
+                                      item.availability == 1
+                                        ? _vm.format_date(item.to_date)
+                                        : "No due"
+                                    )
+                                  )
+                                ])
+                              ])
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  })
                 ],
-                1
+                2
               )
-            : _vm._e()
+            ],
+            1
+          )
         ],
-        2
+        1
       )
     ],
     1

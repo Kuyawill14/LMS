@@ -25,6 +25,8 @@
       </v-col>
 
     <v-col v-if="!isloading" class="py-0">
+       <h3 class="pt-2 pl-2">My Calendar</h3>
+        <v-divider></v-divider>
       <v-sheet height="64">
         <v-toolbar
           flat
@@ -97,7 +99,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="350">
+      <v-sheet :height="$vuetify.breakpoint.lgAndUp ? '350' : role == 'Student' ? '450' : '350'">
         <v-calendar
           ref="calendar"
           v-model="focus"

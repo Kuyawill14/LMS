@@ -93,6 +93,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var myCalendar = function myCalendar() {
@@ -127,7 +139,8 @@ var myTask = function myTask() {
   data: function data() {
     return {
       class_count: 0,
-      unfinishCount: 0
+      unfinishCount: 0,
+      selected: 0
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["allClass"]),
@@ -327,7 +340,7 @@ var render = function() {
         [
           _c(
             "v-col",
-            { staticClass: "pt-0", attrs: { lg: "8" } },
+            { staticClass: "pt-0", attrs: { cols: "12", lg: "8" } },
             [
               _c(
                 "v-row",
@@ -415,73 +428,25 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c(
-                "v-row",
-                {
-                  staticClass: "mb-0",
-                  class: !_vm.$vuetify.breakpoint.lgAndUp ? "pt-0 mt-0" : ""
-                },
-                [
-                  _c(
-                    "v-col",
+              _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 0
+                ? _c(
+                    "v-row",
                     {
-                      class: _vm.$vuetify.breakpoint.lgAndUp
-                        ? "pt-0 mt-0 mb-0 pb-0"
-                        : "t-0 mt-0 mb-0 pb-0",
-                      attrs: { cols: "12" }
-                    },
-                    [
-                      _c("studentGradeChart", {
-                        attrs: { allClass: _vm.allClass }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                { staticClass: "mt-0" },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      class: _vm.$vuetify.breakpoint.lgAndUp
-                        ? "pt-0 mt-0"
-                        : "pt-0 mt-0",
-                      attrs: { cols: "12" }
-                    },
-                    [_c("studentClasses")],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { lg: "4" } },
-            [
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    {
-                      class: _vm.$vuetify.breakpoint.lgAndUp ? "pt-0 mt-0" : ""
+                      staticClass: "mb-0",
+                      class: !_vm.$vuetify.breakpoint.lgAndUp ? "pt-0 mt-0" : ""
                     },
                     [
                       _c(
-                        "v-card",
+                        "v-col",
+                        {
+                          class: _vm.$vuetify.breakpoint.lgAndUp
+                            ? "pt-0 mt-0 mb-0 pb-0"
+                            : "t-0 mt-0 mb-0 pb-0",
+                          attrs: { cols: "12" }
+                        },
                         [
-                          _c("myCalendar", {
-                            attrs: { role: _vm.role },
-                            on: { RecieveTotalClasswork: _vm.TotalClasswork }
+                          _c("studentGradeChart", {
+                            attrs: { allClass: _vm.allClass }
                           })
                         ],
                         1
@@ -489,28 +454,165 @@ var render = function() {
                     ],
                     1
                   )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 0
+                ? _c(
+                    "v-row",
+                    { staticClass: "mt-0" },
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          class: _vm.$vuetify.breakpoint.lgAndUp
+                            ? "pt-0 mt-0"
+                            : "pt-0 mt-0",
+                          attrs: { cols: "12" }
+                        },
+                        [_c("studentClasses")],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            {
+              class: _vm.$vuetify.breakpoint.mdAndUp ? "" : "pt-0 mt-0",
+              attrs: { cols: "12", lg: "4" }
+            },
+            [
+              _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 1
+                ? _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          class: _vm.$vuetify.breakpoint.lgAndUp
+                            ? "pt-0 mt-0"
+                            : "pt-3 mt-3",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c("myCalendar", {
+                                attrs: { role: _vm.role },
+                                on: {
+                                  RecieveTotalClasswork: _vm.TotalClasswork
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 2
+                ? _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [_c("v-card", [_c("myTask")], 1)],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.role == "Student" && !_vm.$vuetify.breakpoint.mdAndUp
+        ? _c(
+            "v-bottom-navigation",
+            {
+              attrs: {
+                value: _vm.selected,
+                color: "primary",
+                app: "",
+                grow: ""
+              }
+            },
+            [
+              _c(
+                "v-btn",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.selected = 0
+                    }
+                  }
+                },
+                [
+                  _c("span", { staticStyle: { "font-size": "10px" } }, [
+                    _vm._v("Progress/Classes")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-chart-box-outline")])
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
-                "v-row",
+                "v-btn",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.selected = 1
+                    }
+                  }
+                },
                 [
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [_c("v-card", [_c("myNotification")], 1)],
-                    1
-                  )
+                  _c("span", { staticStyle: { "font-size": "10px" } }, [
+                    _vm._v("My Calendar")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-calendar")])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  on: {
+                    click: function($event) {
+                      _vm.selected = 2
+                    }
+                  }
+                },
+                [
+                  _c("span", { staticStyle: { "font-size": "10px" } }, [
+                    _vm._v("Today's Task")
+                  ]),
+                  _vm._v(" "),
+                  _c("v-icon", [_vm._v("mdi-clipboard-edit-outline")])
                 ],
                 1
               )
             ],
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

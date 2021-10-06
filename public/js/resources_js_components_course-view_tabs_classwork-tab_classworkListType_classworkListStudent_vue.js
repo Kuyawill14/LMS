@@ -267,6 +267,12 @@ var previewClassworkModal = function previewClassworkModal() {
       isLoading: false
     };
   },
+
+  /*  watch: { 
+       classworks: function(newVal, oldVal) { // watch it
+           this.setFilterItems();
+       }
+   }, */
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -348,14 +354,11 @@ var previewClassworkModal = function previewClassworkModal() {
 
   },
   mounted: function mounted() {
-    //this.CheckClassworkCount();
-    var newDate = new Date(); //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
-
+    this.setFilterItems();
+    var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-    this.$emit('ismounted');
   },
   created: function created() {
-    this.setFilterItems();
     this.$emit('ismounted');
   }
 });
@@ -22709,7 +22712,7 @@ var render = function() {
                     "v-col",
                     {
                       staticClass: "text-right mb-0 pb-0",
-                      attrs: { cols: "6", md: "3", xl: "3", lg: "3" }
+                      attrs: { cols: "12", md: "3", xl: "3", lg: "3" }
                     },
                     [
                       _c("v-select", {

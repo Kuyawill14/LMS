@@ -1,110 +1,59 @@
 <template>
-     <v-card style="z-index:1" :style="$vuetify.breakpoint.xs ? 'max-height:65vh':'max-height:100vh'">
-                <v-list>
-                     <v-list-item>
-                        <v-list-item-content>
-                            <v-list-item-title class="font-weight-bold">Today's Task</v-list-item-title>
-                        </v-list-item-content>
-                        <v-list-item-action>
+<div>
+   
+  
+    <v-card >
+        <h3 class="pl-2 pt-2">Today's Task</h3>
+        <v-divider></v-divider>
+        <div :style="!$vuetify.breakpoint.mdAndUp ? 'height:64vh;z-index:1;overflow-y:scroll':'height:32.3vh;z-index:1;overflow-y:scroll'">
+            <vue-element-loading :active="isGetting" 
+            text="Loading"
+            duration="0.7"
+            :textStyle="{fontSize: '15px'}"
+            spinner="line-scale" color="#EF6C00"  size="30" />
+       
+            <v-list >
+                <v-list-item v-if="mytask.length == 0 && !isGetting" :style="!$vuetify.breakpoint.mdAndUp ? 'margin-top:10rem' : 'margin-top:5rem'" >
+                    <v-list-item-content>
+                            <v-row align="center" class="mt-3" justify="center"  >
+                            <v-col cols="12" class="text-center">
+                                <v-icon color="primary" style="font-size:3rem">
+                                    mdi-clipboard-remove-outline
+                                </v-icon>
+                            <p> <span class="font-weight-medium">Yahoo!</span>, You have no task today</p>
+                            </v-col>
+                        </v-row>
+                    </v-list-item-content>
+                </v-list-item>
 
-                            <!-- <v-btn @click="$router.push({name: 'notifications'})" class="white--text caption" color="blue" text depressed rounded>
-                                See all
-                            </v-btn> -->
+               
 
-                        </v-list-item-action>
-                    </v-list-item>
-
-                    <v-divider></v-divider>
-                    <v-list-item v-if="notificationList.length == 0">
-                        <v-list-item-content>
-                             <v-row align="center" class="mt-3" justify="center"  >
-                                <v-col cols="12" class="text-center">
-                                    <v-icon style="font-size:2rem">
-                                        mdi-bell-off
-                                    </v-icon>
-                                <p> Empty Notification  </p>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-content>
-                    </v-list-item>
-
-
-                 
-
-                    <v-list-item  v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in notificationList" :key="index">
-                        
-
-                            
+                  <template v-show="mytask.length != 0 && !isGetting" v-for="(item, index) in mytask">
+                    <v-list-item  :key="index">
                         <v-list-item-avatar >
-                            <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
-                            <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
-                             <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
+                            <v-icon color="success" v-if="item.status == 'Submitted'" large>mdi-clipboard-check-outline</v-icon>
+                                <v-icon color="red" v-if="item.status != 'Submitted'" large> mdi-clipboard-edit-outline</v-icon>
                         </v-list-item-avatar>
-                      
-                
                         <v-list-item-content>
-                            
-                            <v-list-item-title  class="font-weight-medium">
-                                <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
-                                :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : item.notification_type == 3 ? 'green' : ''" >
-                                {{item.name}}   
-                                </v-badge>
-                                </v-list-item-title>
-                           
-                            <div class="body-2">
-                                {{item.message}}
-                                 <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id)" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
-                                Accept invite</a>
-                            </div>
-                            <small>{{format_date(item.created_at)}}</small>
-                                 
-                        </v-list-item-content>
-             
-                      <!--   <v-list-item-action>
-                           
-
-                             <v-tooltip v-if="item.status == null || item.status == 0"  left>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn style="z-index:50" icon v-bind="attrs" v-on="on"
-                                        v-if="item.status == null || item.status == 0" @click="UnreadNotification(item.n_id)">
-                                        <v-icon>mdi-check</v-icon>
-                                    </v-btn>
-                                </template>
-                            
-                                <span>Mark as read</span>
-                            </v-tooltip>
-
-                            <v-tooltip v-if="item.status == 1" left>
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn style="z-index:50" icon v-bind="attrs" v-on="on"
-                                        v-if="item.status == 1" @click="DeleteNotification(item.n_id)">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
-                                </template>
-                                <span>Hide notification</span>
-                            </v-tooltip>
-                           
-                        </v-list-item-action> -->
-                   
-                    </v-list-item>
-
-                     <v-list-item v-if="notificationList.length != 0">
-                        <v-list-item-content>
-                            <v-row align-content="center" justify="center">
-                                <v-col cols="12" class="text-center">
-                                    <!--  <v-btn v-if="ShowLoadMore"  @click="ShowMore" outlined color="primary">Load More  <v-icon right>mdi-chevron-down</v-icon> </v-btn>
-                                     <v-btn v-if="!ShowLoadMore"  @click="ShowLess" outlined color="primary">Show Less  <v-icon right>mdi-chevron-down</v-icon> </v-btn> -->
-                                <v-btn @click="$router.push({name: 'notifications'})"  text rounded color="primary">See all<v-icon right>mdi-chevron-down</v-icon> </v-btn>
-                                </v-col>
-                               
-                            </v-row>
-                            
+                            <v-list-item-title  class="font-weight-bold">
+                                {{item.title}}   
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                                <span class="font-weight-medium">Due: </span>
+                                <small>{{item.availability == 1 ? format_date(item.to_date) : 'No due'}}</small>
+                            </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
-
-                </v-list>
-
-            </v-card>
+                   <!--   <v-divider
+                        v-if="index < mytask.length "
+                        :key="index">
+                        </v-divider> -->
+                  </template>
+            </v-list>
+        </div>
+        </v-card>
+   
+    </div>
 </template>
 
 
@@ -120,7 +69,9 @@
             menu: false,
             message: false,
             hints: true,
-            notificationList:[]
+            notificationList:[],
+            mytask:[],
+            isGetting: true
         }),
         computed: mapGetters(["get_notification", "get_notification_count"]),
         methods: {
@@ -157,15 +108,22 @@
                  axios.get('/api/notification/all')
                     .then(res => {
                         this.notificationList = res.data.data;
-
+                        this.isGetting = false;
+                    })
+            },
+            async fetchTodayTask(){
+                await axios.get('/api/profile/taskToday')
+                    .then(res => {
+                        this.mytask = res.data;
+                        this.isGetting = false;
                     })
             }
             
 
         },
         mounted() {
-            this.fetchNotificationAll()
-       
+            this.fetchTodayTask();
+            //this.fetchNotificationAll()
         }
     }
 
