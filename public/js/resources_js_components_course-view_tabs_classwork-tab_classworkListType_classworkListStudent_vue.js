@@ -22848,18 +22848,6 @@ var render = function() {
                                                     }
                                                   },
                                                   [
-                                                    _c("vue-element-loading", {
-                                                      attrs: {
-                                                        active:
-                                                          _vm.isLoading &&
-                                                          _vm.Preview_id ==
-                                                            item.classwork_id,
-                                                        text: "Loading...",
-                                                        spinner:
-                                                          "bar-fade-scale"
-                                                      }
-                                                    }),
-                                                    _vm._v(" "),
                                                     _c(
                                                       "v-list",
                                                       [

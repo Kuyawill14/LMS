@@ -374,8 +374,9 @@ export default {
         }
     },
     computed: 
-    mapGetters(["getAll_questions"]),
+    mapGetters(["getAll_questions", "get_classwork_show_details"]),
     methods:{
+        ...mapActions(['fetchClassworkShowDetails']),
         CountTime(){
             this.timeCount = setInterval(()=>{
                 this.tempCounter = this.tempCounter +1
@@ -729,25 +730,34 @@ export default {
                 "z"
             ];
             this.Alphabet = alphabet;
-            axios.get('/api/classwork/showDetails/'+this.$route.query.clwk+'/'+this.$route.params.id)
+          /*   axios.get('/api/classwork/showDetails/'+this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
                 this.duration = res.data.Details.duration;
                 this.classworkDetails = res.data.Details;
+                this.fetchQuestions();
+            }) */
+            let data = {classwork_id : this.$route.query.clwk, course_id : this.$route.params.id}
+            this.$store.dispatch('fetchClassworkShowDetails',  data)
+            .then(()=>{
+               this.duration = this.get_classwork_show_details.Details.duration;
+                this.classworkDetails = this.get_classwork_show_details.Details;
                 this.fetchQuestions();
             })
             //this.CountTime();
         },
         triggerWarning(){
             ////console.log("test 123");
-            this.leaveStrike += 1;
-            if(this.leaveStrike == 5){
-                this.isExamStart = false;
-                this.toastError('You are lossing focus to examination page many times!');
-                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
-            }
-            if(!this.preventWarning){
-                this.warningDialog = true;
-            }
+            if(this.isExamStart){
+                this.leaveStrike += 1;
+                if(this.leaveStrike == 5){
+                    this.isExamStart = false;
+                    this.toastError('You are lossing focus to examination page many times!');
+                    this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
+                }
+                if(!this.preventWarning){
+                    this.warningDialog = true;
+                }
+              }
            
             
         },

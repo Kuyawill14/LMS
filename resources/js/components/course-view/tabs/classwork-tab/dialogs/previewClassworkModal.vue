@@ -161,6 +161,7 @@
 
 <script>
 import moment from 'moment/src/moment';
+import {mapGetters,mapActions} from "vuex";
 export default {
     props:['Preview_id'],
     data(){
@@ -173,20 +174,31 @@ export default {
         }
     },
     computed:{
+        ...mapGetters(['get_classwork_show_details']),
         Fileextension() {
              let attach = this.Details.attachment;
             return attach.split('.').pop();
         }
     },
     methods:{
+        ...mapActions(['fetchClassworkShowDetails']),
           getClassworkDetails(){
-            axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
+          /*   axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
             .then(res=>{
                 this.Details = res.data.Details;
                 this.Details.from_date = moment(this.Details.from_date).format('YYYY-MM-DD HH:mm:ss')
                 this.isloading = !this.isloading;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
+            }) */
+            let data = {classwork_id : this.Preview_id, course_id : this.$route.params.id}
+            this.$store.dispatch('fetchClassworkShowDetails',  data)
+            .then(()=>{
+                this.Details = this.get_classwork_show_details.Details;
+                this.Details.from_date = moment(this.Details.from_date).format('YYYY-MM-DD HH:mm:ss')
+                this.totalPoints = this.get_classwork_show_details.totalpoints;
+                this.totalQuestion = this.get_classwork_show_details.ItemsCount;
+                this.isloading = !this.isloading;
             })
         },
           format_date(value) {
@@ -196,7 +208,8 @@ export default {
         },
         DownLoadFile(file){
             window.location = "/storage/"+file;
-        }
+        },
+
     },
     mounted(){
         this.getClassworkDetails();

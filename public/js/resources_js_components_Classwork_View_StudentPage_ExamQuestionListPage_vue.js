@@ -26,6 +26,12 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -395,8 +401,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       windowHeight: window.innerHeight - 100
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions"]),
-  methods: {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)(['fetchClassworkShowDetails'])), {}, {
     CountTime: function CountTime() {
       var _this = this;
 
@@ -785,36 +791,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
       this.Alphabet = alphabet;
-      axios.get('/api/classwork/showDetails/' + this.$route.query.clwk + '/' + this.$route.params.id).then(function (res) {
-        _this8.duration = res.data.Details.duration;
-        _this8.classworkDetails = res.data.Details;
+      /*   axios.get('/api/classwork/showDetails/'+this.$route.query.clwk+'/'+this.$route.params.id)
+        .then(res=>{
+            this.duration = res.data.Details.duration;
+            this.classworkDetails = res.data.Details;
+            this.fetchQuestions();
+        }) */
+
+      var data = {
+        classwork_id: this.$route.query.clwk,
+        course_id: this.$route.params.id
+      };
+      this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
+        _this8.duration = _this8.get_classwork_show_details.Details.duration;
+        _this8.classworkDetails = _this8.get_classwork_show_details.Details;
 
         _this8.fetchQuestions();
       }); //this.CountTime();
     },
     triggerWarning: function triggerWarning() {
       ////console.log("test 123");
-      this.leaveStrike += 1;
+      if (this.isExamStart) {
+        this.leaveStrike += 1;
 
-      if (this.leaveStrike == 5) {
-        this.isExamStart = false;
-        this.toastError('You are lossing focus to examination page many times!');
-        this.$router.push({
-          name: 'clwk',
-          params: {
-            id: this.$route.params.id
-          },
-          query: {
-            clwk: this.$route.query.clwk
-          }
-        });
-      }
+        if (this.leaveStrike == 5) {
+          this.isExamStart = false;
+          this.toastError('You are lossing focus to examination page many times!');
+          this.$router.push({
+            name: 'clwk',
+            params: {
+              id: this.$route.params.id
+            },
+            query: {
+              clwk: this.$route.query.clwk
+            }
+          });
+        }
 
-      if (!this.preventWarning) {
-        this.warningDialog = true;
+        if (!this.preventWarning) {
+          this.warningDialog = true;
+        }
       }
     }
-  },
+  }),
   beforeMount: function beforeMount() {
     document.addEventListener('contextmenu', function (e) {
       e.preventDefault();

@@ -82,7 +82,7 @@
                     <v-hover v-slot="{ hover }">
                         <v-card   @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
                             link :elevation="hover ? 4 : 3" class="pt-2 pb-2">
-                             <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" />
+                           <!--   <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" /> -->
                                 <v-list>
                                     <v-list-item>
                                         <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 

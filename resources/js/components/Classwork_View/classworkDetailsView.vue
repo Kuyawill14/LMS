@@ -121,15 +121,15 @@ export default {
           this.getClassworkDetails()
       }
   },
-/*   computed: {
-      ...mapGetters(["statusDetails"]),
-  }, */
+  computed: {
+      ...mapGetters(["get_classwork_show_details"]),
+  },
     methods:{
-       /*   ...mapActions(['checkClassworkStatus']), */
-       async getClassworkDetails(){
-            axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
+         ...mapActions(['fetchClassworkShowDetails']),
+        getClassworkDetails(){
+          /*   axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
             .then(res=>{
-               this.classworkDetails = res.data;
+               this.classworkDetails = res.data.Details;
                 this.totalPoints = res.data.totalpoints;
                 this.totalQuestion = res.data.ItemsCount;
                 //this.checkStatus(res.data.Details.type);
@@ -137,6 +137,16 @@ export default {
                 this.isloading = false;
             })
             .catch(e=>{
+                this.iChange = false;
+                this.isloading = false;
+            }) */
+             let data = {classwork_id : this.$route.query.clwk, course_id : this.$route.params.id}
+            this.$store.dispatch('fetchClassworkShowDetails',  data)
+            .then(()=>{
+                this.classworkDetails = this.get_classwork_show_details;
+                this.totalPoints = this.get_classwork_show_details.totalpoints;
+                this.totalQuestion = this.get_classwork_show_details.ItemsCount;
+                //this.checkStatus(res.data.Details.type);
                 this.iChange = false;
                 this.isloading = false;
             })

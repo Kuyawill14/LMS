@@ -14,11 +14,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
 //
@@ -148,39 +155,36 @@ var teacherStartPage = function teacherStartPage() {
       this.getClassworkDetails();
     }
   },
-
-  /*   computed: {
-        ...mapGetters(["statusDetails"]),
-    }, */
-  methods: {
-    /*   ...mapActions(['checkClassworkStatus']), */
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_classwork_show_details"])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchClassworkShowDetails'])), {}, {
     getClassworkDetails: function getClassworkDetails() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                axios.get('/api/classwork/showDetails/' + _this.$route.query.clwk + '/' + _this.$route.params.id).then(function (res) {
-                  _this.classworkDetails = res.data;
-                  _this.totalPoints = res.data.totalpoints;
-                  _this.totalQuestion = res.data.ItemsCount; //this.checkStatus(res.data.Details.type);
+      /*   axios.get('/api/classwork/showDetails/'+ this.$route.query.clwk+'/'+this.$route.params.id)
+        .then(res=>{
+           this.classworkDetails = res.data.Details;
+            this.totalPoints = res.data.totalpoints;
+            this.totalQuestion = res.data.ItemsCount;
+            //this.checkStatus(res.data.Details.type);
+            this.iChange = false;
+            this.isloading = false;
+        })
+        .catch(e=>{
+            this.iChange = false;
+            this.isloading = false;
+        }) */
+      var data = {
+        classwork_id: this.$route.query.clwk,
+        course_id: this.$route.params.id
+      };
+      this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
+        _this.classworkDetails = _this.get_classwork_show_details;
+        _this.totalPoints = _this.get_classwork_show_details.totalpoints;
+        _this.totalQuestion = _this.get_classwork_show_details.ItemsCount; //this.checkStatus(res.data.Details.type);
 
-                  _this.iChange = false;
-                  _this.isloading = false;
-                })["catch"](function (e) {
-                  _this.iChange = false;
-                  _this.isloading = false;
-                });
-
-              case 1:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
+        _this.iChange = false;
+        _this.isloading = false;
+      });
     }
     /*    async checkStatus(type){
            
@@ -196,12 +200,12 @@ var teacherStartPage = function teacherStartPage() {
            }
        } */
 
-  },
+  }),
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
               next(function (vm) {
                 vm.getClassworkDetails();
@@ -209,10 +213,10 @@ var teacherStartPage = function teacherStartPage() {
 
             case 1:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2);
+      }, _callee);
     }))();
   }
 });

@@ -4,7 +4,8 @@ const state = {
     courseInfo: [
 
     ],
-    completed: null
+    completed: null,
+    current_course: null
 };
 const getters = {
     getcourseInfo: (state) => state.courseInfo,
@@ -14,13 +15,15 @@ const getters = {
 
 const actions = {
     async fetchScourse({ commit }, id) {
-        let check;
-        const res = await axios.get(
-            `/api/course/ShowCourse/${id}`
-        ).then((res) => {
-      
-            commit('setcourseInfo', res.data);
-        });
+        if(state.current_course != id){
+            state.current_course = id;
+            const res = await axios.get(
+                `/api/course/ShowCourse/${id}`
+            ).then((res) => {
+                commit('setcourseInfo', res.data);
+            });
+        }
+       
     }
 };
 const mutations = {

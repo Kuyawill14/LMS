@@ -3838,11 +3838,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
-  Classworks: []
+  Classworks: [],
+  classwork_show_details: {},
+  current_classwork_id: null,
+  current_course_id: null
 };
 var getters = {
   get_Classworks: function get_Classworks(state) {
     return state.Classworks;
+  },
+  get_classwork_show_details: function get_classwork_show_details(state) {
+    return state.classwork_show_details;
   }
 };
 var actions = {
@@ -3894,12 +3900,46 @@ var actions = {
         }
       }, _callee2);
     }))();
+  },
+  fetchClassworkShowDetails: function fetchClassworkShowDetails(_ref3, data) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var commit, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+
+              if (!(data.classwork_id != state.current_classwork_id || data.course_id != state.current_course_id)) {
+                _context3.next = 8;
+                break;
+              }
+
+              state.current_classwork_id = data.classwork_id;
+              state.current_course_id = data.course_id;
+              _context3.next = 6;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/classwork/showDetails/".concat(data.classwork_id, "/").concat(data.course_id));
+
+            case 6:
+              res = _context3.sent;
+              commit('FETCH_CLASSWORK_SHOW_DETAILS', res.data);
+
+            case 8:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 };
 var mutations = {
   //CREATE_MAIN_MODULE: (state, main_module) => (state.main_module = main_module),
   FETCH_CLASSWORK: function FETCH_CLASSWORK(state, Classworks) {
     return state.Classworks = Classworks;
+  },
+  FETCH_CLASSWORK_SHOW_DETAILS: function FETCH_CLASSWORK_SHOW_DETAILS(state, classwork_show_details) {
+    return state.classwork_show_details = classwork_show_details;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -4122,7 +4162,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var state = {
   courseInfo: [],
-  completed: null
+  completed: null,
+  current_course: null
 };
 var getters = {
   getcourseInfo: function getcourseInfo(state) {
@@ -4135,21 +4176,28 @@ var getters = {
 var actions = {
   fetchScourse: function fetchScourse(_ref, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, check, res;
+      var commit, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
+
+              if (!(state.current_course != id)) {
+                _context.next = 6;
+                break;
+              }
+
+              state.current_course = id;
+              _context.next = 5;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/course/ShowCourse/".concat(id)).then(function (res) {
                 commit('setcourseInfo', res.data);
               });
 
-            case 3:
+            case 5:
               res = _context.sent;
 
-            case 4:
+            case 6:
             case "end":
               return _context.stop();
           }
