@@ -125,11 +125,14 @@
                     </v-col>
                     <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
-                        <v-btn v-if="myClasssworkStatus.status == 'Submitted' && !myClasssworkStatus.graded &&  (classworkData.availability == 1 ? format_date1(DateToday) <= format_date1(classworkData.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
-                        <v-chip v-if="myClasssworkStatus.graded"
-                          class="ma-2" color="green" outlined>
-                         Graded: {{myClasssworkStatus.score}} /{{myClasssworkStatus.totalPoints}}
-                        </v-chip>
+                        <div v-if="classworkDetails.publish == null">
+                            <v-btn v-if="myClasssworkStatus.status == 'Submitted' && !myClasssworkStatus.graded &&  (classworkData.availability == 1 ? format_date1(DateToday) <= format_date1(classworkData.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                            <v-chip v-if="myClasssworkStatus.graded"
+                              class="ma-2" color="green" outlined>
+                            Graded: {{myClasssworkStatus.score}} /{{myClasssworkStatus.totalPoints}}
+                            </v-chip>
+                        </div>
+                      
                    </v-col>
 
                    <!-- <v-col v-if="myClasssworkStatus.graded" cols="12" class="pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
@@ -210,7 +213,7 @@
                      
                           </v-col>
                         
-                           <v-col class="ma-0 pa-0 mb-4 " cols="12" >
+                           <v-col v-if="classworkDetails.publish == null" class="ma-0 pa-0 mb-4 " cols="12" >
                             <v-menu max-width="250" v-if="isResubmit || (myClasssworkStatus.status == 'Submitting' || myClasssworkStatus.status == null)" transition="scale-transition" offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
@@ -240,7 +243,7 @@
 
                            <v-col v-if="classworkData.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
-                              :disabled="myClasssworkStatus.length == 0"
+                              :disabled="myClasssworkStatus.length == 0 || classworkDetails.publish != null"
                               block
                                class="pl-12 pr-12 pb-3 pt-3"
                                :loading="IsSaving"

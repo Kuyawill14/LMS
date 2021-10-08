@@ -494,6 +494,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -1668,66 +1671,77 @@ var render = function() {
                                     [_vm._v("Your Work")]
                                   ),
                                   _vm._v(" "),
-                                  _vm.myClasssworkStatus.status ==
-                                    "Submitted" &&
-                                  !_vm.myClasssworkStatus.graded &&
-                                  (_vm.classworkData.availability == 1
-                                    ? _vm.format_date1(_vm.DateToday) <=
-                                      _vm.format_date1(
-                                        _vm.classworkData.to_date
-                                      )
-                                    : true)
+                                  _vm.classworkDetails.publish == null
                                     ? _c(
-                                        "v-btn",
-                                        {
-                                          staticClass: "blue--text",
-                                          attrs: { rounded: "", text: "" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.clickResubmit()
-                                            }
-                                          }
-                                        },
+                                        "div",
                                         [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.isResubmit
-                                                ? "Cancel"
-                                                : "Resubmit"
-                                            )
-                                          )
-                                        ]
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.myClasssworkStatus.graded
-                                    ? _c(
-                                        "v-chip",
-                                        {
-                                          staticClass: "ma-2",
-                                          attrs: {
-                                            color: "green",
-                                            outlined: ""
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n                         Graded: " +
-                                              _vm._s(
-                                                _vm.myClasssworkStatus.score
-                                              ) +
-                                              " /" +
-                                              _vm._s(
-                                                _vm.myClasssworkStatus
-                                                  .totalPoints
-                                              ) +
-                                              "\r\n                        "
-                                          )
-                                        ]
+                                          _vm.myClasssworkStatus.status ==
+                                            "Submitted" &&
+                                          !_vm.myClasssworkStatus.graded &&
+                                          (_vm.classworkData.availability == 1
+                                            ? _vm.format_date1(_vm.DateToday) <=
+                                              _vm.format_date1(
+                                                _vm.classworkData.to_date
+                                              )
+                                            : true)
+                                            ? _c(
+                                                "v-btn",
+                                                {
+                                                  staticClass: "blue--text",
+                                                  attrs: {
+                                                    rounded: "",
+                                                    text: ""
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.clickResubmit()
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.isResubmit
+                                                        ? "Cancel"
+                                                        : "Resubmit"
+                                                    )
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.myClasssworkStatus.graded
+                                            ? _c(
+                                                "v-chip",
+                                                {
+                                                  staticClass: "ma-2",
+                                                  attrs: {
+                                                    color: "green",
+                                                    outlined: ""
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                            Graded: " +
+                                                      _vm._s(
+                                                        _vm.myClasssworkStatus
+                                                          .score
+                                                      ) +
+                                                      " /" +
+                                                      _vm._s(
+                                                        _vm.myClasssworkStatus
+                                                          .totalPoints
+                                                      ) +
+                                                      "\r\n                            "
+                                                  )
+                                                ]
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
                                       )
                                     : _vm._e()
-                                ],
-                                1
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -2092,175 +2106,187 @@ var render = function() {
                                         1
                                       ),
                                       _vm._v(" "),
-                                      _c(
-                                        "v-col",
-                                        {
-                                          staticClass: "ma-0 pa-0 mb-4 ",
-                                          attrs: { cols: "12" }
-                                        },
-                                        [
-                                          _vm.isResubmit ||
-                                          _vm.myClasssworkStatus.status ==
-                                            "Submitting" ||
-                                            _vm.myClasssworkStatus.status ==
-                                              null
-                                            ? _c(
-                                                "v-menu",
-                                                {
-                                                  attrs: {
-                                                    "max-width": "250",
-                                                    transition:
-                                                      "scale-transition",
-                                                    "offset-y": ""
-                                                  },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "activator",
-                                                        fn: function(ref) {
-                                                          var on = ref.on
-                                                          var attrs = ref.attrs
-                                                          return [
-                                                            _c(
-                                                              "v-btn",
-                                                              _vm._g(
-                                                                _vm._b(
-                                                                  {
-                                                                    staticClass:
-                                                                      "pl-12 pr-12 pb-3 pt-3",
-                                                                    attrs: {
-                                                                      block: "",
-                                                                      color:
-                                                                        "primary",
-                                                                      dark: "",
-                                                                      disabled:
-                                                                        _vm
-                                                                          .classworkData
-                                                                          .availability ==
-                                                                          1 &&
-                                                                        _vm.format_date1(
-                                                                          _vm.DateToday
-                                                                        ) <
-                                                                          _vm.format_date1(
-                                                                            _vm
-                                                                              .classworkData
-                                                                              .from_date
-                                                                          ),
-                                                                      outlined:
-                                                                        ""
-                                                                    }
-                                                                  },
-                                                                  "v-btn",
-                                                                  attrs,
-                                                                  false
-                                                                ),
-                                                                on
-                                                              ),
-                                                              [
-                                                                _vm._v(
-                                                                  "\r\n                                  " +
-                                                                    _vm._s(
-                                                                      attrs.expanded
-                                                                    ) +
-                                                                    "\r\n                                    Add "
-                                                                ),
-                                                                _c(
-                                                                  "v-icon",
-                                                                  {
-                                                                    attrs: {
-                                                                      right: ""
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      "mdi-plus"
-                                                                    )
-                                                                  ]
-                                                                )
-                                                              ],
-                                                              1
-                                                            )
-                                                          ]
-                                                        }
-                                                      }
-                                                    ],
-                                                    null,
-                                                    false,
-                                                    2875199602
-                                                  )
-                                                },
-                                                [
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list",
+                                      _vm.classworkDetails.publish == null
+                                        ? _c(
+                                            "v-col",
+                                            {
+                                              staticClass: "ma-0 pa-0 mb-4 ",
+                                              attrs: { cols: "12" }
+                                            },
+                                            [
+                                              _vm.isResubmit ||
+                                              _vm.myClasssworkStatus.status ==
+                                                "Submitting" ||
+                                                _vm.myClasssworkStatus.status ==
+                                                  null
+                                                ? _c(
+                                                    "v-menu",
                                                     {
                                                       attrs: {
-                                                        nav: "",
-                                                        dense: ""
-                                                      }
+                                                        "max-width": "250",
+                                                        transition:
+                                                          "scale-transition",
+                                                        "offset-y": ""
+                                                      },
+                                                      scopedSlots: _vm._u(
+                                                        [
+                                                          {
+                                                            key: "activator",
+                                                            fn: function(ref) {
+                                                              var on = ref.on
+                                                              var attrs =
+                                                                ref.attrs
+                                                              return [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        staticClass:
+                                                                          "pl-12 pr-12 pb-3 pt-3",
+                                                                        attrs: {
+                                                                          block:
+                                                                            "",
+                                                                          color:
+                                                                            "primary",
+                                                                          dark:
+                                                                            "",
+                                                                          disabled:
+                                                                            _vm
+                                                                              .classworkData
+                                                                              .availability ==
+                                                                              1 &&
+                                                                            _vm.format_date1(
+                                                                              _vm.DateToday
+                                                                            ) <
+                                                                              _vm.format_date1(
+                                                                                _vm
+                                                                                  .classworkData
+                                                                                  .from_date
+                                                                              ),
+                                                                          outlined:
+                                                                            ""
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\r\n                                  " +
+                                                                        _vm._s(
+                                                                          attrs.expanded
+                                                                        ) +
+                                                                        "\r\n                                    Add "
+                                                                    ),
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      {
+                                                                        attrs: {
+                                                                          right:
+                                                                            ""
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-plus"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ]
+                                                            }
+                                                          }
+                                                        ],
+                                                        null,
+                                                        false,
+                                                        2875199602
+                                                      )
                                                     },
                                                     [
-                                                      _c(
-                                                        "v-list-item",
-                                                        {
-                                                          attrs: { link: "" },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.UploadFile()
-                                                            }
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                left: ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "mdi-cloud-upload-outline"
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(
-                                                            " Upload File\r\n                                  "
-                                                          )
-                                                        ],
-                                                        1
-                                                      ),
                                                       _vm._v(" "),
                                                       _c(
-                                                        "v-list-item",
+                                                        "v-list",
                                                         {
-                                                          attrs: { link: "" },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              _vm.AttachLink = !_vm.AttachLink
-                                                            }
+                                                          attrs: {
+                                                            nav: "",
+                                                            dense: ""
                                                           }
                                                         },
                                                         [
                                                           _c(
-                                                            "v-icon",
+                                                            "v-list-item",
                                                             {
                                                               attrs: {
-                                                                left: ""
+                                                                link: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.UploadFile()
+                                                                }
                                                               }
                                                             },
                                                             [
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    left: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "mdi-cloud-upload-outline"
+                                                                  )
+                                                                ]
+                                                              ),
                                                               _vm._v(
-                                                                "mdi-link-variant"
+                                                                " Upload File\r\n                                  "
                                                               )
-                                                            ]
+                                                            ],
+                                                            1
                                                           ),
-                                                          _vm._v(
-                                                            "Attach Link\r\n                                  "
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list-item",
+                                                            {
+                                                              attrs: {
+                                                                link: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.AttachLink = !_vm.AttachLink
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    left: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "mdi-link-variant"
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                "Attach Link\r\n                                  "
+                                                              )
+                                                            ],
+                                                            1
                                                           )
                                                         ],
                                                         1
@@ -2268,13 +2294,11 @@ var render = function() {
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e()
-                                        ],
-                                        1
-                                      ),
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          )
+                                        : _vm._e(),
                                       _vm._v(" "),
                                       _vm.classworkData.availability == 0
                                         ? _c(
@@ -2292,7 +2316,9 @@ var render = function() {
                                                   attrs: {
                                                     disabled:
                                                       _vm.myClasssworkStatus
-                                                        .length == 0,
+                                                        .length == 0 ||
+                                                      _vm.classworkDetails
+                                                        .publish != null,
                                                     block: "",
                                                     loading: _vm.IsSaving,
                                                     color:

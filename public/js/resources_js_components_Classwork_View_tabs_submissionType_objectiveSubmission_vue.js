@@ -292,7 +292,8 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       search: "",
       isViewing: false,
       isStarting: false,
-      resetdialog: false
+      resetdialog: false,
+      selected_user_id: null
     };
   },
   computed: {
@@ -319,13 +320,39 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       this.isStarting = true;
       this.Viewdialog = !this.Viewdialog;
       this.ViewDetails = data;
-      this.selected_index = index; //}
+      this.selected_index = index;
+      this.selected_id = data.id; //}
     },
     ResetSubmission: function ResetSubmission() {
-      this.ListData[this.selected_index].status = null;
-      this.ListData[this.selected_index].points = 0;
-      this.ListData[this.selected_index].Submitted_Answers = null;
-      this.isViewing = !this.isViewing;
+      var _this = this;
+
+      this.studentSubmissionList.forEach(function (item) {
+        if (item.id == _this.selected_id) {
+          item.status = null;
+          item.points = 0;
+          item.Submitted_Answers = null;
+        }
+      });
+      /*   this.studentSubmissionList[this.selected_index].status = null;
+          this.studentSubmissionList[this.selected_index].points = 0;
+          this.studentSubmissionList[this.selected_index].Submitted_Answers = null; */
+      //this.dialog = !this.dialog;
+    },
+    MultipleResetSubmission: function MultipleResetSubmission(data) {
+      var _this2 = this;
+
+      axios.post('/api/teacher/resetStudentSubmissions', data).then(function () {
+        data.forEach(function (item) {
+          _this2.studentSubmissionList.forEach(function (sb) {
+            if (item.id == sb.id) {
+              sb.status = null;
+              sb.points = 0;
+              sb.Submitted_Answers = null;
+            }
+          });
+        });
+        _this2.resetdialog = !_this2.resetdialog;
+      });
     }
   }
   /*  created(){
@@ -1118,9 +1145,7 @@ var render = function() {
                           toggleDialog: function($event) {
                             _vm.resetdialog = !_vm.resetdialog
                           },
-                          SuccessReset: function($event) {
-                            _vm.resetdialog = !_vm.resetdialog
-                          }
+                          StartReset: _vm.MultipleResetSubmission
                         }
                       })
                     : _vm._e()

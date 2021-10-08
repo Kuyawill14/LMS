@@ -12,13 +12,13 @@ const getters = {
 const actions = {
     async checkClassworkStatus({ commit }, data) {
         if(data.type == 'Objective Type'){
-            if(state.currentType != data.type){
-                state.currentType = data.type;
+          /*   if(state.currentType != data.type){
+                state.currentType = data.type; */
                 const res = await axios.get(
                     `/api/student/check-status/${data.id}`
                 );
                 commit('FETCH_CLASSWORK_STATUS', res.data);
-            }
+           /*  }
             else{
                 if(state.statusDetails.length == 0){
                     const res = await axios.get(
@@ -35,18 +35,18 @@ const actions = {
                         commit('FETCH_CLASSWORK_STATUS', res.data);
                     }
                 }
-            }
+            } */
            
         }
         else if(data.type == 'Subjective Type'){
-            if(state.currentType != data.type){
-                state.currentType = data.type;
+          /*   if(state.currentType != data.type){
+                state.currentType = data.type; */
                 const res = await axios.get(
                     `/api/submission/check-sbj/${data.id}`
                 );
                 
                 commit('FETCH_CLASSWORK_STATUS', res.data);
-            }
+           /*  }
             else{
                 if(state.statusDetails.length == 0){
                     const res = await axios.get(
@@ -63,7 +63,7 @@ const actions = {
                     }
                 }
             }
-          
+           */
         }
 
     

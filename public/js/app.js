@@ -3985,7 +3985,7 @@ var getters = {
 var actions = {
   checkClassworkStatus: function checkClassworkStatus(_ref, data) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res, _res, _res2, _res3, _res4, _res5;
+      var commit, res, _res;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
@@ -3994,107 +3994,69 @@ var actions = {
               commit = _ref.commit;
 
               if (!(data.type == 'Objective Type')) {
-                _context.next = 24;
+                _context.next = 8;
                 break;
               }
 
-              if (!(state.currentType != data.type)) {
-                _context.next = 10;
-                break;
-              }
-
-              state.currentType = data.type;
-              _context.next = 6;
+              _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/check-status/".concat(data.id));
 
-            case 6:
+            case 4:
               res = _context.sent;
               commit('FETCH_CLASSWORK_STATUS', res.data);
-              _context.next = 22;
-              break;
-
-            case 10:
-              if (!(state.statusDetails.length == 0)) {
-                _context.next = 17;
-                break;
-              }
+              /*  }
+               else{
+                   if(state.statusDetails.length == 0){
+                       const res = await axios.get(
+                           `/api/student/check-status/${data.id}`
+                       );
+                       commit('FETCH_CLASSWORK_STATUS', res.data);
+                   }
+                   else{
+                       if(state.statusDetails.cl_id != data.id){
+                           const res = await axios.get(
+                               `/api/student/check-status/${data.id}`
+                           );
+                             commit('FETCH_CLASSWORK_STATUS', res.data);
+                       }
+                   }
+               } */
 
               _context.next = 13;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/check-status/".concat(data.id));
+              break;
 
-            case 13:
+            case 8:
+              if (!(data.type == 'Subjective Type')) {
+                _context.next = 13;
+                break;
+              }
+
+              _context.next = 11;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
+
+            case 11:
               _res = _context.sent;
               commit('FETCH_CLASSWORK_STATUS', _res.data);
-              _context.next = 22;
-              break;
+              /*  }
+               else{
+                   if(state.statusDetails.length == 0){
+                       const res = await axios.get(
+                           `/api/submission/check-sbj/${data.id}`
+                       );
+                       commit('FETCH_CLASSWORK_STATUS', res.data);
+                   }
+                   else{
+                       if(state.statusDetails.classwork_id != data.id){
+                           const res = await axios.get(
+                               `/api/submission/check-sbj/${data.id}`
+                           );
+                           commit('FETCH_CLASSWORK_STATUS', res.data);
+                       }
+                   }
+               }
+              */
 
-            case 17:
-              if (!(state.statusDetails.cl_id != data.id)) {
-                _context.next = 22;
-                break;
-              }
-
-              _context.next = 20;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/check-status/".concat(data.id));
-
-            case 20:
-              _res2 = _context.sent;
-              commit('FETCH_CLASSWORK_STATUS', _res2.data);
-
-            case 22:
-              _context.next = 45;
-              break;
-
-            case 24:
-              if (!(data.type == 'Subjective Type')) {
-                _context.next = 45;
-                break;
-              }
-
-              if (!(state.currentType != data.type)) {
-                _context.next = 33;
-                break;
-              }
-
-              state.currentType = data.type;
-              _context.next = 29;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
-
-            case 29:
-              _res3 = _context.sent;
-              commit('FETCH_CLASSWORK_STATUS', _res3.data);
-              _context.next = 45;
-              break;
-
-            case 33:
-              if (!(state.statusDetails.length == 0)) {
-                _context.next = 40;
-                break;
-              }
-
-              _context.next = 36;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
-
-            case 36:
-              _res4 = _context.sent;
-              commit('FETCH_CLASSWORK_STATUS', _res4.data);
-              _context.next = 45;
-              break;
-
-            case 40:
-              if (!(state.statusDetails.classwork_id != data.id)) {
-                _context.next = 45;
-                break;
-              }
-
-              _context.next = 43;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/submission/check-sbj/".concat(data.id));
-
-            case 43:
-              _res5 = _context.sent;
-              commit('FETCH_CLASSWORK_STATUS', _res5.data);
-
-            case 45:
+            case 13:
             case "end":
               return _context.stop();
           }

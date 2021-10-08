@@ -95,6 +95,8 @@ class ObjectiveController extends Controller
                 $FinalAnswer[] = $tmp;    
             }     
         }
+
+        
         return ["Question"=>$temQuest , "Answer"=>$FinalAnswer];
     }
      /**
@@ -108,7 +110,9 @@ class ObjectiveController extends Controller
 
         $temQuest;
         $FinalAnswer = array();
-        $checkShowAnswer = tbl_classClassworks::find($class_clwk_Id);
+        $checkShowAnswer = tbl_classClassworks::withTrashed()
+        ->where('id', $class_clwk_Id)
+        ->first();
         if($checkShowAnswer->showAnswer == true && $checkShowAnswer->showAnswerType == 0){
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',

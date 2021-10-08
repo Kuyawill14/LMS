@@ -199,7 +199,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           count++;
         }
 
-        item.Sumissionstatus = item.status == 'Submitted' ? 1 : 0;
+        item.Sumissionstatus = item.status == 'Submitted' ? true : false;
 
         _this.SelectedAll_submission_id.push({
           id: item.id,
@@ -220,7 +220,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.selectAll) {
         this.ListData.forEach(function (item) {
-          item.Sumissionstatus = 1;
+          item.Sumissionstatus = true;
 
           _this2.SelectedAll_submission_id.push({
             id: item.id,
@@ -229,13 +229,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       } else {
         this.ListData.forEach(function (item) {
-          item.Sumissionstatus = 0;
+          item.Sumissionstatus = false;
         });
       }
     },
     SelectData: function SelectData(status, index) {
-      this.ListData[index].Sumissionstatus = status == 1 ? 0 : 1;
-      this.SelectedAll_submission_id[index].Sumissionstatus = status == 1 ? 0 : 1;
+      //this.ListData[index].Sumissionstatus = status == 1 ? 0 : 1;
+      this.SelectedAll_submission_id[index].status = this.ListData[index].Sumissionstatus;
     },
     ResetSubmission: function ResetSubmission() {
       var _this3 = this;
@@ -250,28 +250,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 ResetData = [];
 
                 _this3.SelectedAll_submission_id.forEach(function (item) {
-                  if (item.status == 1) {
+                  if (item.status == true) {
                     ResetData.push({
                       id: item.id,
-                      status: item.status
+                      status: 1
                     });
                   }
                 });
 
-                axios.post('/api/teacher/resetStudentSubmissions', ResetData).then(function (res) {
+                if (ResetData.length != 0) {
                   _this3.iReseting = false;
 
-                  for (var i = 0; i < _this3.ListData.length; i++) {
-                    for (var j = 0; j < ResetData.length; j++) {
-                      if (_this3.ListData[i].id == ResetData[j].id) {
-                        _this3.ListData[i].status = null;
-                        _this3.ListData[i].Sumissionstatus = 0;
-                      }
-                    }
-                  }
+                  _this3.$emit("StartReset", ResetData);
+                } else {
+                  _this3.iReseting = false;
 
-                  _this3.$emit("SuccessReset");
-                });
+                  _this3.toastError('You must select atleast one data!');
+                }
+                /*   axios.post('/api/teacher/resetStudentSubmissions',ResetData)
+                  .then((res)=>{
+                       this.iReseting = false;
+                         for (let i = 0; i < this.ListData.length; i++) {
+                           for (let j = 0; j < ResetData.length; j++) {
+                                if(this.ListData[i].id == ResetData[j].id){
+                                   this.ListData[i].status = null;
+                                   this.ListData[i].Sumissionstatus =  0;
+                               }
+                               
+                           }
+                       }
+                      
+                  }) */
+
 
               case 4:
               case "end":

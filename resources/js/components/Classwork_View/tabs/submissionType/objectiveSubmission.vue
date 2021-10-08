@@ -213,7 +213,7 @@
             <resetStudentSubmissionDialog
             scrollable
             v-on:toggleDialog="resetdialog = !resetdialog"
-            v-on:SuccessReset="resetdialog = !resetdialog"
+            v-on:StartReset="MultipleResetSubmission"
             :ListData="ListData"
             :ClassList="ClassList"
             v-if="resetdialog"></resetStudentSubmissionDialog>
@@ -266,7 +266,8 @@ export default {
             search: "",
             isViewing: false,
             isStarting: false,
-            resetdialog: false
+            resetdialog: false,
+            selected_user_id: null,
             
         }
     },
@@ -295,15 +296,40 @@ export default {
                 this.Viewdialog = !this.Viewdialog;
                 this.ViewDetails = data;
                 this.selected_index = index;
+                this.selected_id = data.id;
             //}
        
         },
         ResetSubmission(){
-            this.ListData[this.selected_index].status = null;
-            this.ListData[this.selected_index].points = 0;
-            this.ListData[this.selected_index].Submitted_Answers = null;
-            this.isViewing = !this.isViewing;
-        }
+
+            this.studentSubmissionList.forEach(item => {
+                if(item.id == this.selected_id){
+                   item.status = null;
+                   item.points = 0;
+                   item.Submitted_Answers = null;
+                }
+            });
+
+        /*   this.studentSubmissionList[this.selected_index].status = null;
+            this.studentSubmissionList[this.selected_index].points = 0;
+            this.studentSubmissionList[this.selected_index].Submitted_Answers = null; */
+           //this.dialog = !this.dialog;
+        },
+        MultipleResetSubmission(data){
+            axios.post('/api/teacher/resetStudentSubmissions',data)
+            .then(()=>{
+                 data.forEach(item => {
+                    this.studentSubmissionList.forEach(sb => {
+                        if(item.id == sb.id){
+                            sb.status = null;
+                            sb.points = 0;
+                            sb.Submitted_Answers = null;
+                        }
+                    });   
+                });
+                 this.resetdialog = !this.resetdialog
+            })
+        },
        
     },
    /*  created(){

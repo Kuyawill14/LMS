@@ -175,6 +175,7 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
 Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::put('/update-score/{id}', [TeacherController::class, 'updateScoreObj']);
     Route::put('/reset-obj/{id}', [TeacherController::class, 'resetStudentObjSubmission']);
+    Route::put('/reset-sbj/{id}', [TeacherController::class, 'resetStudentSbjSubmission']);
     Route::post('/invite-student', [TeacherController::class, 'InviteStudent']);
     Route::post('/invite-instructor', [TeacherController::class, 'InviteInstructor']);
     Route::post('/alert-student', [TeacherController::class, 'AlertStudent']);

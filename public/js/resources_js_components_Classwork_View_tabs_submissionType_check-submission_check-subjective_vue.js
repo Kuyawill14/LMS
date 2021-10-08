@@ -1066,38 +1066,10 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "ma-0 pa-0 pb-4",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _vm.CheckData.status != null &&
-                                  _vm.CheckData.status != "" &&
-                                  _vm.CheckData.status != "Submitting"
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            rounded: "",
-                                            color: "primary"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("mdi-restart")]
-                                          ),
-                                          _vm._v(" Reset Submission")
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e()
-                                ],
-                                1
-                              ),
+                              _c("v-col", {
+                                staticClass: "ma-0 pa-0 pb-4",
+                                attrs: { cols: "12" }
+                              }),
                               _vm._v(" "),
                               _c(
                                 "v-col",

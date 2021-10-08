@@ -326,6 +326,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -1618,7 +1620,8 @@ var render = function() {
                                           (_vm.statusDetails.status == null ||
                                             _vm.statusDetails.status == "") &&
                                           _vm.statusDetails.status !=
-                                            "Submitted"
+                                            "Submitted" &&
+                                          _vm.classworkDetails.publish == null
                                             ? _c(
                                                 "v-btn",
                                                 {
@@ -1666,7 +1669,9 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          _vm.statusDetails.status == "Taking"
+                                          _vm.statusDetails.status ==
+                                            "Taking" &&
+                                          _vm.classworkDetails.publish == null
                                             ? _c(
                                                 "v-btn",
                                                 {
@@ -1785,7 +1790,10 @@ var render = function() {
                                                         _vm.statusDetails
                                                           .status == "") &&
                                                       _vm.statusDetails
-                                                        .status != "Submitted"
+                                                        .status !=
+                                                        "Submitted" &&
+                                                      _vm.classworkDetails
+                                                        .publish == null
                                                         ? _c(
                                                             "v-btn",
                                                             {
@@ -1849,7 +1857,9 @@ var render = function() {
                                                         : _vm._e(),
                                                       _vm._v(" "),
                                                       _vm.statusDetails
-                                                        .status == "Taking"
+                                                        .status == "Taking" &&
+                                                      _vm.classworkDetails
+                                                        .publish == null
                                                         ? _c(
                                                             "v-btn",
                                                             {
@@ -1965,39 +1975,44 @@ var render = function() {
                                                     "v-col",
                                                     { attrs: { cols: "12" } },
                                                     [
-                                                      _c(
-                                                        "v-btn",
-                                                        {
-                                                          attrs: {
-                                                            block: !_vm.$vuetify
-                                                              .breakpoint
-                                                              .lgAndUp,
-                                                            rounded: "",
-                                                            color: "primary",
-                                                            disabled: ""
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\r\n                                    Not Yet Available"
-                                                          ),
-                                                          _c(
-                                                            "v-icon",
+                                                      _vm.classworkDetails
+                                                        .publish == null
+                                                        ? _c(
+                                                            "v-btn",
                                                             {
                                                               attrs: {
-                                                                right: "",
-                                                                dark: ""
+                                                                block: !_vm
+                                                                  .$vuetify
+                                                                  .breakpoint
+                                                                  .lgAndUp,
+                                                                rounded: "",
+                                                                color:
+                                                                  "primary",
+                                                                disabled: ""
                                                               }
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "mdi-book-arrow-right-outline"
+                                                                "\r\n                                    Not Yet Available"
+                                                              ),
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    right: "",
+                                                                    dark: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "mdi-book-arrow-right-outline"
+                                                                  )
+                                                                ]
                                                               )
-                                                            ]
+                                                            ],
+                                                            1
                                                           )
-                                                        ],
-                                                        1
-                                                      )
+                                                        : _vm._e()
                                                     ],
                                                     1
                                                   )

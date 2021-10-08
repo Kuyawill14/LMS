@@ -173,14 +173,12 @@ export default {
         getSubmittedStudents(){
             let count = 0;
             this.ListData.forEach(item => {
-                
                 if(item.status == 'Submitted'){
                     count++;
                 }
-                item.Sumissionstatus =  item.status == 'Submitted' ? 1 : 0;
+                item.Sumissionstatus =  item.status == 'Submitted' ? true : false;
                 this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
                 this.student.push(item);
-            
             });
 
             if(count == this.student.length){
@@ -193,31 +191,40 @@ export default {
         SelectAllStudent(){
             if(this.selectAll){
                  this.ListData.forEach(item => {
-                    item.Sumissionstatus =  1;
+                    item.Sumissionstatus =  true;
                     this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
                 });
             }
             else{
                   this.ListData.forEach(item => {
-                    item.Sumissionstatus =  0;
+                    item.Sumissionstatus =  false;
                 }); 
             }
              
         },
         SelectData(status, index){
-            this.ListData[index].Sumissionstatus = status == 1 ? 0 : 1;
-            this.SelectedAll_submission_id[index].Sumissionstatus = status == 1 ? 0 : 1;
+            //this.ListData[index].Sumissionstatus = status == 1 ? 0 : 1;
+            this.SelectedAll_submission_id[index].status = this.ListData[index].Sumissionstatus;
         },
         async ResetSubmission(){
             this.iReseting = true;
             let ResetData = [];
             this.SelectedAll_submission_id.forEach(item => {
-                if(item.status == 1){
-                    ResetData.push({id: item.id, status: item.status});
+                if(item.status == true){
+                  
+                    ResetData.push({id: item.id, status: 1});
                 }
             });
-           
-            axios.post('/api/teacher/resetStudentSubmissions',ResetData)
+            if(ResetData.length != 0){
+                this.iReseting = false;
+                this.$emit("StartReset", ResetData)
+            }
+            else{
+                this.iReseting = false;
+                this.toastError('You must select atleast one data!');
+            }
+             
+          /*   axios.post('/api/teacher/resetStudentSubmissions',ResetData)
             .then((res)=>{
                  this.iReseting = false;
 
@@ -226,13 +233,13 @@ export default {
                           if(this.ListData[i].id == ResetData[j].id){
                              this.ListData[i].status = null;
                              this.ListData[i].Sumissionstatus =  0;
-                        
                          }
                          
                      }
                  }
-                 this.$emit("SuccessReset")
-            })
+                
+            }) */
+            
         }
     },
     created(){

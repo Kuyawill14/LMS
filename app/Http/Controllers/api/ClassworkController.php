@@ -65,7 +65,8 @@ class ClassworkController extends Controller
                 ->where('tbl_submissions.status', 'Submitted')->count();
                 $item->submittion_count =  $submissionCount; */
 
-                $publishIn = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $item->id)
+                $publishIn = tbl_classClassworks::withTrashed()
+                ->where('tbl_class_classworks.classwork_id', $item->id)
                 ->select('tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
                 ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
                 ->get();
@@ -106,11 +107,12 @@ class ClassworkController extends Controller
         $ClassworkTitle = array();
         $totalClasswork = 0;
         //return date('Y-m-d H:i:s');
+        //whereNull('tbl_class_classworks.deleted_at')
         foreach($GradingCategory as $item){
-            $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
+            $classworkAll = tbl_classClassworks::withTrashed()
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
-            ,'tbl_classworks.instruction')
+            ,'tbl_classworks.instruction','tbl_class_classworks.deleted_at as publish')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id','=', $userId)
@@ -361,9 +363,6 @@ class ClassworkController extends Controller
             ->first();
       
             $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
-
-
-
             if(!$classworkDetails){
                 return response()->json([
                     "message" => "Classwork not found!",
@@ -378,7 +377,7 @@ class ClassworkController extends Controller
             ->first();
 
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
-            ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
+            ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id','tbl_class_classworks.deleted_at as publish',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer',
             'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo',
             'tbl_class_classworks.response_late',

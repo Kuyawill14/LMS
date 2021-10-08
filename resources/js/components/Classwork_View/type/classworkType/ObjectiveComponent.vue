@@ -193,16 +193,17 @@
                         <v-col v-if="classworkDetails.availability == 0" cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'">
                             <v-btn
                                 :block="!$vuetify.breakpoint.lgAndUp"
-                                v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
+                                v-if="((statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted') && classworkDetails.publish == null"
                                 rounded
                                 color="primary"
                                 :dark="totalQuestion != 0"
                                 :disabled="totalQuestion == 0"
                                 @click="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted' ? start(): ''">Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
+                            
                             <v-btn
                                 :block="!$vuetify.breakpoint.lgAndUp"
-                                v-if="statusDetails.status == 'Taking'"
+                                v-if="statusDetails.status == 'Taking' && classworkDetails.publish == null"
                                 rounded
                                 color="primary"
                                 :dark="totalQuestion != 0"
@@ -224,7 +225,7 @@
                             <v-col cols="12" v-if="DateToday >= format_date1(classworkDetails.from_date)">
                                     <v-btn
                                     :block="!$vuetify.breakpoint.lgAndUp"
-                                        v-if="(statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted'"
+                                        v-if="((statusDetails.status == null || statusDetails.status == '') && statusDetails.status != 'Submitted') && classworkDetails.publish == null"
                                         rounded
                                         color="primary"
                                         :dark="totalQuestion != 0"
@@ -234,7 +235,7 @@
 
                                     <v-btn
                                     :block="!$vuetify.breakpoint.lgAndUp"
-                                        v-if="statusDetails.status == 'Taking'"
+                                        v-if="statusDetails.status == 'Taking' && classworkDetails.publish == null"
                                         rounded
                                         color="primary"
                                         dark
@@ -252,6 +253,7 @@
                             </v-col>
                             <v-col v-else cols="12">
                                     <v-btn
+                                    v-if="classworkDetails.publish == null"
                                     :block="!$vuetify.breakpoint.lgAndUp"
                                     rounded
                                     color="primary"

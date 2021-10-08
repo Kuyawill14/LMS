@@ -25,7 +25,7 @@ class SubmissionController extends Controller
     public function index($id)
     {   
         $userId = auth('sanctum')->id();
-        $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
+        $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
         ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName')
         ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
         ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')

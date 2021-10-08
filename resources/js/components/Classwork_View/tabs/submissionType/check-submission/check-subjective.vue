@@ -51,8 +51,8 @@
                                         </v-list>
                                     </v-col>
                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                        <v-btn rounded v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
-                                         color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
+                                     <!--    <v-btn rounded v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
+                                         color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn> -->
                                     </v-col>
                                     <v-col cols="12">
                                         <v-row>
