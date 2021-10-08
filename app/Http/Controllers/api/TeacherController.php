@@ -181,11 +181,8 @@ class TeacherController extends Controller
         return "Submission reset Success";
     }
 
-
-
-
     
-
+    
     /**
      * Display the specified resource.
      *
@@ -284,6 +281,29 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function resetStudentObjSubmission($id)
+    {
+    
+        //return $id;
+        $ResetSubmission = tbl_Submission::find($id);
+           if($ResetSubmission){
+                $ResetSubmission->status = null;
+                $ResetSubmission->points = null;
+                $ResetSubmission->Submitted_Answers = null;
+                $ResetSubmission->created_at = null;
+                $ResetSubmission->updated_at = null;
+                $ResetSubmission->save();
+                return "Reset Success";
+           }
+           return "Submission Not found";
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resetStudentSbjSubmission($id)
     {
     
         //return $id;

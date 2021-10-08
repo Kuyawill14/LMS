@@ -42,8 +42,8 @@
             <v-col cols="12" >
                   <v-list >
                     <v-list-item-group >
-                        <template v-for="(item,i) in studentSubmissionList" >
-                            <v-list-item v-show="Class == $route.params.id || Class == item.class_id" :key="item.id">
+                        <template  v-for="(item,i) in studentSubmissionList" >
+                            <v-list-item v-if="Class == $route.params.id || Class == item.class_id" :key="item.id">
                                 <v-list-item-avatar @click="CheckData = item ,dialog = !dialog, isStarting = true"  color="secondary">
                                     <v-img alt="Profile"
                                         :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
@@ -64,7 +64,7 @@
                                 </v-list-item-action>
                                 </v-list-item>
                                   <v-divider
-                                    v-if="i < ListData.length "
+                                    v-if="i < ListData.length && Class == $route.params.id || Class == item.class_id"
                                     :key="i">
                                 </v-divider>
                             </template>

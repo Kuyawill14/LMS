@@ -21,7 +21,7 @@
 
 <v-row class="pa-1">
     
-    <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pl-5 d-none' : 'pl-5'" md="12" lg="4" xl="4" >
+    <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pl-5 d-none' : 'pl-5'" md="12" lg="3" xl="3" >
         <v-row>
             <v-col cols="12" class="mb-0 pb-0">
                 <h3>Students</h3>
@@ -73,7 +73,7 @@
                  <v-list >
                     <v-list-item-group >
                         <template v-for="(item,i) in studentSubmissionList" >
-                            <v-list-item v-show="Class == $route.params.id || Class == item.class_id" :key="item.id">
+                            <v-list-item v-if="Class == $route.params.id || Class == item.class_id" :key="item.id">
                                 <v-list-item-avatar @click="ViewSubmision(item, i)"   color="secondary">
                                     <v-img alt="Profile"
                                         :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
@@ -87,6 +87,7 @@
                                 <v-list-item-action v-if="item.status == 'Submitted'">
                                     <v-text-field 
                                         class="ma-0 pa-0"
+                                        
                                         :loading="isSavingScore" 
                                         @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
                                         dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
@@ -94,7 +95,7 @@
                                 </v-list-item-action>
                                 </v-list-item>
                                   <v-divider
-                                    v-if="i < ListData.length "
+                                    v-if="i < ListData.length && Class == $route.params.id || Class == item.class_id"
                                     :key="i">
                                 </v-divider>
                             </template>
@@ -106,7 +107,7 @@
 
              
     </v-col>
-    <v-col v-if="!isViewing" cols="12" md="12" lg="8" xl="8" class="pl-6">
+    <v-col v-if="!isViewing" cols="12" md="12" lg="9" xl="9" class="pl-6">
         <v-row>
             <v-col cols="12" class="mb-0 pb-0" >
                 <h3>{{classworkDetails.title}}</h3>

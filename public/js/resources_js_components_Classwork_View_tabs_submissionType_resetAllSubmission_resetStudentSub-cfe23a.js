@@ -199,7 +199,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           count++;
         }
 
-        item.Sumissionstatus = item.status == 'Submitted' ? true : false;
+        item.Sumissionstatus = false;
 
         _this.SelectedAll_submission_id.push({
           id: item.id,

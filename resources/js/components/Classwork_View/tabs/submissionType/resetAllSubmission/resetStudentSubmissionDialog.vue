@@ -176,7 +176,7 @@ export default {
                 if(item.status == 'Submitted'){
                     count++;
                 }
-                item.Sumissionstatus =  item.status == 'Submitted' ? true : false;
+                item.Sumissionstatus =  false;
                 this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
                 this.student.push(item);
             });

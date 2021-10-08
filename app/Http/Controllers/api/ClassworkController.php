@@ -160,7 +160,6 @@ class ClassworkController extends Controller
                        
                     }
                 }
-
             }
             $ClassworkTitle[] = ['title'=>$item->name, 'percent'=>$item->percentage];
             $ClassworksList[] = $classworkAll;
