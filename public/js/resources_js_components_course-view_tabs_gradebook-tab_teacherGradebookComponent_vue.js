@@ -263,6 +263,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var finalGradesGrades = function finalGradesGrades() {
@@ -463,12 +473,23 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       })["catch"](function (error) {//console.log(error)
       });
     },
-    getClassworkList: function getClassworkList() {
+    getClassworkList: function getClassworkList(isSelected) {
       var _this3 = this;
 
       this.headers = [];
       this.loading = true;
-      var total = 0; // this.getStudentList();
+      var total = 0;
+
+      if (isSelected) {
+        this.getStudentList();
+
+        for (var i = 0; i < this.classList.length; i++) {
+          if (this.classList[i].class_id == this.selectedClass) {
+            this.selectedClassName = this.classList[i].class_name;
+            break;
+          }
+        }
+      }
 
       this.headers.push({
         text: 'Name',
@@ -589,7 +610,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     test: function test(table) {
       (function () {
         var uri = 'data:application/vnd.ms-excel;base64,',
-            template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+            template = "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns=\"http://www.w3.org/TR/REC-html40\">\n                    <head>\n                    <!--[if gte mso 9]><xml>\n                    <x:ExcelWorkbook><x:ExcelWorksheets>\n                    <x:ExcelWorksheet><x:Name>{worksheet}</x:Name>\n                    <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>\n                    </x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook>\n                    </xml><![endif]--><meta http-equiv=\"content-type\" content=\"text/plain; charset=UTF-8\"/>\n                    </head><body><table>{table}</table></body></html>",
             base64 = function base64(s) {
           return window.btoa(unescape(encodeURIComponent(s)));
         },
@@ -1532,7 +1553,7 @@ var render = function() {
                 },
                 on: {
                   change: function($event) {
-                    return _vm.getClassworkList()
+                    return _vm.getClassworkList(true)
                   }
                 },
                 model: {
@@ -1605,7 +1626,7 @@ var render = function() {
                 [
                   _c("finalGradesGrades", {
                     attrs: {
-                      loader: _vm.loading,
+                      floader: _vm.loading,
                       grading_criteria: _vm.get_gradingCriteria,
                       students: _vm.students
                     }
@@ -1675,53 +1696,6 @@ var render = function() {
                       },
                       scopedSlots: _vm._u(
                         [
-                          _vm._l(_vm.headers, function(h) {
-                            return {
-                              key: "header." + h.value,
-                              fn: function(ref) {
-                                return [
-                                  _c(
-                                    "v-tooltip",
-                                    {
-                                      attrs: { bottom: "" },
-                                      scopedSlots: _vm._u(
-                                        [
-                                          {
-                                            key: "activator",
-                                            fn: function(ref) {
-                                              var on = ref.on
-                                              var attrs = ref.attrs
-                                              return [
-                                                _c(
-                                                  "span",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {},
-                                                      "span",
-                                                      attrs,
-                                                      false
-                                                    ),
-                                                    on
-                                                  ),
-                                                  [_vm._v(_vm._s(h.text))]
-                                                )
-                                              ]
-                                            }
-                                          }
-                                        ],
-                                        null,
-                                        true
-                                      )
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [_vm._v(_vm._s(h.text))])
-                                    ]
-                                  )
-                                ]
-                              }
-                            }
-                          }),
                           {
                             key: "body",
                             fn: function(ref) {
@@ -1964,8 +1938,40 @@ var render = function() {
       _vm.loading == false
         ? _c(
             "table",
-            { staticClass: "tableExp", attrs: { id: "testTable", hidden: "" } },
+            {
+              staticClass: "tableExp",
+              staticStyle: { display: "none" },
+              attrs: { id: "testTable", border: "1" }
+            },
             [
+              _c("tr", [
+                _c(
+                  "th",
+                  {
+                    staticStyle: {
+                      "font-size": "35px",
+                      background: "#e76a02",
+                      color: "#fff",
+                      "text-align": "left"
+                    },
+                    attrs: { colspan: "30" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm.getcourseInfo.course_code +
+                            "-" +
+                            _vm.getcourseInfo.course_name
+                        ) +
+                        " (" +
+                        _vm._s(_vm.selectedClassName) +
+                        ")\n                "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
               _c(
                 "tr",
                 [

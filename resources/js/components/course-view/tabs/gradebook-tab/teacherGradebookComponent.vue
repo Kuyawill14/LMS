@@ -32,8 +32,8 @@
                 </h2>
             </v-col>
             <v-col cols="6">
-                <v-select :items="classList" v-model="selectedClass" @change="getClassworkList()" item-text='class_name'
-                    item-value='class_id' label="Select Class" class="float-right">
+                <v-select :items="classList" v-model="selectedClass" @change="getClassworkList(true); "
+                    item-text='class_name' item-value='class_id' label="Select Class" class="float-right">
                 </v-select>
             </v-col>
         </v-row>
@@ -50,7 +50,8 @@
                 <v-tab-item id="final_grades">
 
                     <!-- students -->
-                    <finalGradesGrades :loader="loading" :grading_criteria="get_gradingCriteria" :students="students" />
+                    <finalGradesGrades :floader="loading" :grading_criteria="get_gradingCriteria"
+                        :students="students" />
 
                 </v-tab-item>
 
@@ -70,14 +71,14 @@
                     </v-card-title>
                     <v-data-table :headers="headers" :items="students" :sort-desc.sync="sortDesc" :sortBy="'points'"
                         :loading="loading">
-                        <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
+                        <!-- <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on, attrs }">
                                     <span v-bind="attrs" v-on="on">{{h.text}}</span>
                                 </template>
                                 <span>{{h.text}}</span>
                             </v-tooltip>
-                        </template>
+                        </template> -->
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="student in items" :key="student.id">
@@ -134,7 +135,16 @@
         </v-card>
 
 
-        <table id="testTable" v-if="loading == false" class="tableExp" hidden>
+
+
+
+        <table id="testTable" v-if="loading == false" class="tableExp" border="1" style="display:none">
+
+            <tr>
+                <th colspan="30" style="font-size: 35px;background: #e76a02;color: #fff;text-align:left">
+                    {{getcourseInfo.course_code +'-'+ getcourseInfo.course_name}} ({{selectedClassName}})
+                    </th>
+            </tr>
             <tr>
                 <th>Student ID</th>
                 <th>Name</th>
@@ -253,6 +263,7 @@
     export default {
         data: function () {
             return {
+
                 tab_id: null,
                 grading_criteria_data: [],
                 allclasswork: null,
@@ -299,12 +310,12 @@
             ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades",
                 "AllStudentClassworkGradesFortable"
             ]),
-             filteredItems() {
+            filteredItems() {
                 if (this.search) {
                     return this.students.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.lastName.toLowerCase()
                             .includes(v) || item.student_id.toString().includes(v) ||
-                            item.middleName.toLowerCase().includes(v)  ||
+                            item.middleName.toLowerCase().includes(v) ||
                             item.firstName.toLowerCase().includes(v))
                     })
                 } else {
@@ -460,12 +471,21 @@
                     })
             },
 
-            getClassworkList() {
+            getClassworkList(isSelected) {
                 this.headers = [];
                 this.loading = true;
                 var total = 0;
+                if (isSelected) {
+                    this.getStudentList();
+                    for(var i = 0; i < this.classList.length; i++)  {
+                        if(this.classList[i].class_id == this.selectedClass) {
+                            this.selectedClassName =this.classList[i].class_name;
+                            break;
+                        }
+                    }
+                }
 
-                // this.getStudentList();
+
 
                 this.headers.push({
                     text: 'Name',
@@ -610,7 +630,15 @@
                 (function () {
                     var uri = 'data:application/vnd.ms-excel;base64,',
                         template =
-                        '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>',
+                        `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+                        <head>
+                        <!--[if gte mso 9]><xml>
+                        <x:ExcelWorkbook><x:ExcelWorksheets>
+                        <x:ExcelWorksheet><x:Name>{worksheet}</x:Name>
+                        <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+                        </x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook>
+                        </xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>
+                        </head><body><table>{table}</table></body></html>`,
                         base64 = function (s) {
                             return window.btoa(unescape(encodeURIComponent(s)))
                         },

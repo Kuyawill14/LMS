@@ -74,9 +74,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['students', 'grading_criteria', 'loader'],
+  props: ['students', 'grading_criteria', 'floader'],
   data: function data() {
     return {
+      loader: this.floader,
       search: '',
       loading: false,
       headers: [{

@@ -58,9 +58,10 @@
         mapActions
     } from "vuex";
     export default {
-        props: ['students', 'grading_criteria', 'loader'],
+        props: ['students', 'grading_criteria', 'floader'],
         data() {
             return {
+                loader: this.floader,
                 search: '',
                 loading: false,
                 headers: [
