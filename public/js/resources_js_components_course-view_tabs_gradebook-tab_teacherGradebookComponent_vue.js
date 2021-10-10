@@ -273,6 +273,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 var finalGradesGrades = function finalGradesGrades() {
@@ -328,7 +329,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       if (this.search) {
         return this.students.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v) || item.middleName.toLowerCase().includes(v) || item.firstName.toLowerCase().includes(v);
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.student_id == null ? item.lastName.toLowerCase().includes(v) : item.student_id.toString().includes(v);
           });
         });
       } else {
@@ -492,6 +493,10 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       }
 
       this.headers.push({
+        text: 'ID',
+        value: 'student_id',
+        align: 'start'
+      }, {
         text: 'Name',
         value: 'lastName'
       });
@@ -539,6 +544,10 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
         this.$store.dispatch("fetchNotification", this.notificationType);
         var total = 0;
         this.headers.push({
+          text: 'ID',
+          value: 'student_id',
+          align: 'start'
+        }, {
           text: 'Name',
           value: 'lastName'
         });
@@ -1681,7 +1690,7 @@ var render = function() {
                     _c("v-data-table", {
                       attrs: {
                         headers: _vm.headers,
-                        items: _vm.students,
+                        items: _vm.filteredItems,
                         "sort-desc": _vm.sortDesc,
                         sortBy: "points",
                         loading: _vm.loading
@@ -1709,6 +1718,16 @@ var render = function() {
                                         "tr",
                                         { key: student.id },
                                         [
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-left" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(student.student_id) + " "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
                                           _c("td", [
                                             _vm._v(
                                               _vm._s(

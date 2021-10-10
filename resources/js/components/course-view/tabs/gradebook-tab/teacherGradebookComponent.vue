@@ -69,7 +69,7 @@
                             </v-text-field>
                         </div>
                     </v-card-title>
-                    <v-data-table :headers="headers" :items="students" :sort-desc.sync="sortDesc" :sortBy="'points'"
+                    <v-data-table :headers="headers" :items="filteredItems" :sort-desc.sync="sortDesc" :sortBy="'points'"
                         :loading="loading">
                         <!-- <template v-for="h in headers" v-slot:[`header.${h.value}`]="{  }">
                             <v-tooltip bottom>
@@ -82,6 +82,7 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="student in items" :key="student.id">
+                                     <td class="text-left">{{student.student_id}} </td>
                                     <td>{{student.lastName + ', ' + student.firstName }} </td>
 
                                     <td class="text-center"
@@ -313,10 +314,11 @@
             filteredItems() {
                 if (this.search) {
                     return this.students.filter((item) => {
-                        return this.search.toLowerCase().split(' ').every(v => item.lastName.toLowerCase()
-                            .includes(v) || item.student_id.toString().includes(v) ||
-                            item.middleName.toLowerCase().includes(v) ||
-                            item.firstName.toLowerCase().includes(v))
+                       return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.student_id == null ? item.lastName.toLowerCase()
+                            .includes(v) :item.student_id.toString().includes(v))
                     })
                 } else {
                     return this.students;
@@ -477,6 +479,8 @@
                 var total = 0;
                 if (isSelected) {
                     this.getStudentList();
+
+            
                     for(var i = 0; i < this.classList.length; i++)  {
                         if(this.classList[i].class_id == this.selectedClass) {
                             this.selectedClassName =this.classList[i].class_name;
@@ -487,7 +491,11 @@
 
 
 
-                this.headers.push({
+                this.headers.push(   {
+                        text: 'ID',
+                        value: 'student_id',
+                        align: 'start',
+                    },{
                     text: 'Name',
                     value: 'lastName'
                 });
@@ -544,7 +552,11 @@
                     this.$store.dispatch("fetchNotification", this.notificationType)
                     var total = 0;
 
-                    this.headers.push({
+                    this.headers.push(   {
+                        text: 'ID',
+                        value: 'student_id',
+                        align: 'start',
+                    },{
                         text: 'Name',
                         value: 'lastName'
                     });

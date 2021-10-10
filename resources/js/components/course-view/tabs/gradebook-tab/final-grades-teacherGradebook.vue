@@ -91,9 +91,12 @@
              filteredItems() {
                 if (this.search) {
                     return this.students.filter((item) => {
-                        return this.search.toLowerCase().split(' ').every(v => item.lastName.toLowerCase()
-                            .includes(v) || item.student_id.toString().includes(v)
-                            || item.middleName.toLowerCase().includes(v))
+                    
+                          return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.student_id == null ? item.lastName.toLowerCase()
+                            .includes(v) :item.student_id.toString().includes(v))
                     })
                 } else {
                     return this.students;
