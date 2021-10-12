@@ -90,7 +90,7 @@
                             </v-img>
  -->
                              <v-img
-                               :src="'../images/'+item.course_picture"
+                               :src="CheckBackgroundPath(item.course_picture)"
                                  :height="$vuetify.breakpoint.lgAndUp ? 200 : 140"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end grey lighten-2"
                                 aspect-ratio="1"
@@ -292,6 +292,15 @@
 
 
             },
+            CheckBackgroundPath(path){
+                let str = path;
+                if(str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
+                    return path;
+                }
+                else{
+                    return '../images/' + path;
+                }
+            }
         },
         mounted() {
             this.fetchClasses();

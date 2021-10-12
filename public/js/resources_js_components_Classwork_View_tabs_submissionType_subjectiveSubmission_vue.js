@@ -353,6 +353,21 @@ var checksubjective = function checksubjective() {
           }
         }, _callee);
       }))();
+    },
+    ResetSubmission: function ResetSubmission(id) {
+      this.studentSubmissionList.forEach(function (item) {
+        if (item.id == id) {
+          item.id = null;
+          item.Submitted_Answers = null;
+          item.status = null;
+          item.points = null;
+          item.updated_at = null;
+          item.rubrics_score = null;
+          item.graded = 0; //this.dialog = !this.dialog;
+
+          return false;
+        }
+      });
     }
   }
 });
@@ -1218,6 +1233,7 @@ var render = function() {
                           CheckData: _vm.CheckData
                         },
                         on: {
+                          SubmissionReset: _vm.ResetSubmission,
                           isMounted: function($event) {
                             _vm.isStarting = false
                           },

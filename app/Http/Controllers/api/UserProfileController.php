@@ -310,13 +310,18 @@ class UserProfileController extends Controller
         $todayTask = tbl_userclass::whereNull('tbl_class_classworks.deleted_at')
         ->where('tbl_userclasses.user_id', $userId)
         ->select('tbl_userclasses.course_id','tbl_classworks.title','tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date'
-        ,'tbl_class_classworks.classwork_id')
+        ,'tbl_class_classworks.classwork_id','tbl_submissions.status')
         ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
         ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
-        ->where('tbl_class_classworks.from_date', '=', date('Y-m-d H:i:s'))
-        ->get();
+        ->leftJoin('tbl_submissions', function ($join) use ($userId) {
+            $join->on('tbl_class_classworks.classwork_id', '=', 'tbl_submissions.classwork_id');
+            $join->on('tbl_submissions.user_id','=',DB::raw("'".$userId."'"));
+               
+        })
+       ->where('tbl_submissions.status' , null)
+       ->get();
 
-        foreach($todayTask as $sj){
+      /*   foreach($todayTask as $sj){
             $StatusCheck = tbl_Submission::where('tbl_submissions.classwork_id', $sj->classwork_id)
             ->where('tbl_submissions.user_id', $userId)
             ->first();
@@ -336,7 +341,7 @@ class UserProfileController extends Controller
                     $sj->status = null;
                 }
             }
-        }
+        } */
     
         return $todayTask;
         

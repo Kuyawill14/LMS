@@ -328,6 +328,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -350,7 +378,9 @@ var viewSubmission = function viewSubmission() {
       //statusDetails: [],
       isViewingSubmission: false,
       DateToday: null,
-      ScrollPosistion: 0
+      ScrollPosistion: 0,
+      isOpenQuiz: false,
+      confirmStartDialog: false
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
@@ -399,6 +429,8 @@ var viewSubmission = function viewSubmission() {
       }
     },
     start: function start() {
+      this.isOpenQuiz = true;
+
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
         //this.UpdateStatus( this.classworkDetails.id);
         this.$router.push({
@@ -410,7 +442,21 @@ var viewSubmission = function viewSubmission() {
             clwk: this.classworkDetails.id
           }
         });
+      } else {
+        this.isOpenQuiz = false;
       }
+    },
+    continueQuiz: function continueQuiz(id) {
+      this.isOpenQuiz = true;
+      this.$router.push({
+        name: 'quizstart',
+        params: {
+          id: this.$route.params.id
+        },
+        query: {
+          clwk: id
+        }
+      });
     },
     checkStatus: function checkStatus() {
       var _this = this;
@@ -709,10 +755,21 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("vue-element-loading", {
+        attrs: {
+          active: _vm.isOpenQuiz,
+          duration: "0.7",
+          spinner: "line-scale",
+          color: "#EF6C00",
+          size: "50",
+          "is-full-screen": ""
+        }
+      }),
+      _vm._v(" "),
       _c(
         "v-row",
         {
-          class: _vm.$vuetify.breakpoint.lgAndUp ? "pa-3" : "pa-1",
+          class: _vm.$vuetify.breakpoint.mdAndUp ? "pa-3" : "pa-0",
           attrs: {
             justify: "center",
             "align-content": "center",
@@ -720,7 +777,7 @@ var render = function() {
           }
         },
         [
-          !_vm.$vuetify.breakpoint.lgAndUp
+          !_vm.$vuetify.breakpoint.mdAndUp
             ? _c(
                 "v-col",
                 {
@@ -819,7 +876,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 1
+          _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 1
             ? _c(
                 "v-col",
                 {
@@ -832,7 +889,7 @@ var render = function() {
                     {
                       staticClass: "pa-3",
                       attrs: {
-                        elevation: _vm.$vuetify.breakpoint.lgAndUp ? 1 : 0,
+                        elevation: _vm.$vuetify.breakpoint.mdAndUp ? 1 : 0,
                         outlined: ""
                       }
                     },
@@ -1208,13 +1265,13 @@ var render = function() {
             ? _c(
                 "v-col",
                 {
-                  class: !_vm.$vuetify.breakpoint.lgAndUp
+                  class: !_vm.$vuetify.breakpoint.mdAndUp
                     ? "mt-1 pl-0 pt-1"
                     : "pt-0 pl-5",
                   attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
                 },
                 [
-                  _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 0
+                  _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 0
                     ? _c(
                         "div",
                         [
@@ -1230,7 +1287,7 @@ var render = function() {
                             {
                               staticClass: "pa-3",
                               attrs: {
-                                elevation: _vm.$vuetify.breakpoint.lgAndUp
+                                elevation: _vm.$vuetify.breakpoint.mdAndUp
                                   ? 1
                                   : 0,
                                 outlined: ""
@@ -1611,7 +1668,7 @@ var render = function() {
                                     ? _c(
                                         "v-col",
                                         {
-                                          class: _vm.$vuetify.breakpoint.lgAndUp
+                                          class: _vm.$vuetify.breakpoint.mdAndUp
                                             ? "pl-10 pr-5 pb-5 text-right"
                                             : "pb-5",
                                           attrs: { cols: "12" }
@@ -1627,9 +1684,10 @@ var render = function() {
                                                 {
                                                   attrs: {
                                                     block: !_vm.$vuetify
-                                                      .breakpoint.lgAndUp,
+                                                      .breakpoint.mdAndUp,
                                                     rounded: "",
                                                     color: "primary",
+                                                    loading: _vm.isOpenQuiz,
                                                     dark:
                                                       _vm.totalQuestion != 0,
                                                     disabled:
@@ -1643,7 +1701,7 @@ var render = function() {
                                                           .status == "") &&
                                                       _vm.statusDetails
                                                         .status != "Submitted"
-                                                        ? _vm.start()
+                                                        ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
                                                         : ""
                                                     }
                                                   }
@@ -1677,9 +1735,10 @@ var render = function() {
                                                 {
                                                   attrs: {
                                                     block: !_vm.$vuetify
-                                                      .breakpoint.lgAndUp,
+                                                      .breakpoint.mdAndUp,
                                                     rounded: "",
                                                     color: "primary",
+                                                    loading: _vm.isOpenQuiz,
                                                     dark:
                                                       _vm.totalQuestion != 0,
                                                     disabled:
@@ -1687,18 +1746,9 @@ var render = function() {
                                                   },
                                                   on: {
                                                     click: function($event) {
-                                                      return _vm.$router.push({
-                                                        name: "quizstart",
-                                                        params: {
-                                                          id:
-                                                            _vm.$route.params.id
-                                                        },
-                                                        query: {
-                                                          clwk:
-                                                            _vm.classworkDetails
-                                                              .id
-                                                        }
-                                                      })
+                                                      return _vm.continueQuiz(
+                                                        _vm.classworkDetails.id
+                                                      )
                                                     }
                                                   }
                                                 },
@@ -1731,7 +1781,7 @@ var render = function() {
                                                 {
                                                   attrs: {
                                                     block: !_vm.$vuetify
-                                                      .breakpoint.lgAndUp,
+                                                      .breakpoint.mdAndUp,
                                                     rounded: "",
                                                     color: "primary"
                                                   },
@@ -1768,7 +1818,7 @@ var render = function() {
                                     ? _c(
                                         "v-col",
                                         {
-                                          class: _vm.$vuetify.breakpoint.lgAndUp
+                                          class: _vm.$vuetify.breakpoint.mdAndUp
                                             ? "pl-10 pr-5 pb-5 text-right"
                                             : "pb-5",
                                           attrs: { cols: "12" }
@@ -1801,8 +1851,10 @@ var render = function() {
                                                                 block: !_vm
                                                                   .$vuetify
                                                                   .breakpoint
-                                                                  .lgAndUp,
+                                                                  .mdAndUp,
                                                                 rounded: "",
+                                                                loading:
+                                                                  _vm.isOpenQuiz,
                                                                 color:
                                                                   "primary",
                                                                 dark:
@@ -1828,7 +1880,7 @@ var render = function() {
                                                                     .statusDetails
                                                                     .status !=
                                                                     "Submitted"
-                                                                    ? _vm.start()
+                                                                    ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
                                                                     : ""
                                                                 }
                                                               }
@@ -1867,8 +1919,10 @@ var render = function() {
                                                                 block: !_vm
                                                                   .$vuetify
                                                                   .breakpoint
-                                                                  .lgAndUp,
+                                                                  .mdAndUp,
                                                                 rounded: "",
+                                                                loading:
+                                                                  _vm.isOpenQuiz,
                                                                 color:
                                                                   "primary",
                                                                 dark: ""
@@ -1877,24 +1931,10 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  return _vm.$router.push(
-                                                                    {
-                                                                      name:
-                                                                        "quizstart",
-                                                                      params: {
-                                                                        id:
-                                                                          _vm
-                                                                            .$route
-                                                                            .params
-                                                                            .id
-                                                                      },
-                                                                      query: {
-                                                                        clwk:
-                                                                          _vm
-                                                                            .classworkDetails
-                                                                            .id
-                                                                      }
-                                                                    }
+                                                                  return _vm.continueQuiz(
+                                                                    _vm
+                                                                      .classworkDetails
+                                                                      .id
                                                                   )
                                                                 }
                                                               }
@@ -1934,7 +1974,7 @@ var render = function() {
                                                                 block: !_vm
                                                                   .$vuetify
                                                                   .breakpoint
-                                                                  .lgAndUp,
+                                                                  .mdAndUp,
                                                                 rounded: "",
                                                                 color: "primary"
                                                               },
@@ -1984,7 +2024,7 @@ var render = function() {
                                                                 block: !_vm
                                                                   .$vuetify
                                                                   .breakpoint
-                                                                  .lgAndUp,
+                                                                  .mdAndUp,
                                                                 rounded: "",
                                                                 color:
                                                                   "primary",
@@ -2040,7 +2080,7 @@ var render = function() {
             : _c(
                 "v-col",
                 {
-                  class: !_vm.$vuetify.breakpoint.lgAndUp
+                  class: !_vm.$vuetify.breakpoint.mdAndUp
                     ? "mt-1 pl-0 pt-1"
                     : "pt-0 pl-5",
                   attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
@@ -2078,7 +2118,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      !_vm.$vuetify.breakpoint.lgAndUp
+      !_vm.$vuetify.breakpoint.mdAndUp
         ? _c(
             "v-bottom-navigation",
             {
@@ -2127,7 +2167,73 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "320" },
+          model: {
+            value: _vm.confirmStartDialog,
+            callback: function($$v) {
+              _vm.confirmStartDialog = $$v
+            },
+            expression: "confirmStartDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "text-h6" }, [
+                _vm._v("\r\n          Start Quiz?\r\n        ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "\r\n          Are you sure to take this quiz?\r\n        "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.confirmStartDialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\r\n            Cancel\r\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.start()
+                        }
+                      }
+                    },
+                    [_vm._v("\r\n            Start\r\n          ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
     ],
     1
   )

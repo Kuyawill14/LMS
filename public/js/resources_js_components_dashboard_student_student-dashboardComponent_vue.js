@@ -105,6 +105,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 var myCalendar = function myCalendar() {
@@ -483,7 +485,7 @@ var render = function() {
           _c(
             "v-col",
             {
-              class: _vm.$vuetify.breakpoint.mdAndUp ? "" : "pt-0 mt-0",
+              class: _vm.$vuetify.breakpoint.mdAndUp ? "pt-0" : "pt-0 mt-0",
               attrs: { cols: "12", lg: "4" }
             },
             [
@@ -493,9 +495,24 @@ var render = function() {
                     [
                       _c(
                         "v-col",
+                        { attrs: { cols: "12" } },
+                        [_c("v-card", [_c("myTask")], 1)],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 2
+                ? _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-col",
                         {
-                          class: _vm.$vuetify.breakpoint.lgAndUp
-                            ? "pt-0 mt-0"
+                          class: _vm.$vuetify.breakpoint.mdAndUp
+                            ? "pt-2 mt-2"
                             : "pt-3 mt-3",
                           attrs: { cols: "12" }
                         },
@@ -513,21 +530,6 @@ var render = function() {
                             1
                           )
                         ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 2
-                ? _c(
-                    "v-row",
-                    [
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
-                        [_c("v-card", [_c("myTask")], 1)],
                         1
                       )
                     ],
@@ -583,10 +585,10 @@ var render = function() {
                 },
                 [
                   _c("span", { staticStyle: { "font-size": "10px" } }, [
-                    _vm._v("My Calendar")
+                    _vm._v("My Tasks")
                   ]),
                   _vm._v(" "),
-                  _c("v-icon", [_vm._v("mdi-calendar")])
+                  _c("v-icon", [_vm._v("mdi-clipboard-edit-outline")])
                 ],
                 1
               ),
@@ -602,10 +604,10 @@ var render = function() {
                 },
                 [
                   _c("span", { staticStyle: { "font-size": "10px" } }, [
-                    _vm._v("Today's Task")
+                    _vm._v("My Calendar")
                   ]),
                   _vm._v(" "),
-                  _c("v-icon", [_vm._v("mdi-clipboard-edit-outline")])
+                  _c("v-icon", [_vm._v("mdi-calendar")])
                 ],
                 1
               )

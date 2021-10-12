@@ -13,7 +13,7 @@
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition">
-    <checksubjective v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false" :classworkDetails="classworkDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')" :CheckData="CheckData" v-on:closeDialog="dialog = !dialog"></checksubjective>
+    <checksubjective v-show="!isStarting" v-if="dialog" v-on:SubmissionReset="ResetSubmission" v-on:isMounted="isStarting = false" :classworkDetails="classworkDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')" :CheckData="CheckData" v-on:closeDialog="dialog = !dialog"></checksubjective>
     </v-dialog>
  </v-row> 
 
@@ -309,6 +309,21 @@ export default {
             }
             
         },
+        ResetSubmission(id){
+            this.studentSubmissionList.forEach(item => {
+                if(item.id == id){
+                    item.id = null;
+                    item.Submitted_Answers = null;
+                    item.status = null;
+                    item.points = null;
+                    item.updated_at = null;
+                    item.rubrics_score = null;
+                    item.graded = 0;
+                    //this.dialog = !this.dialog;
+                    return false;
+                }
+            });
+        }
        
        
     },

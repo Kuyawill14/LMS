@@ -1,7 +1,7 @@
 <template>
 <div class=" mt-12 d-flex align-center" >
-    <v-row style="margin-top:10rem"  justify="center" align="center">
-        <v-col cols="12" md="10" lg="8" xl="8" class="pl-7 pr-7 pt-5">
+    <v-row style="margin-top:10rem" class="pa-0"  justify="center" align="center">
+        <v-col cols="12" md="10" lg="8" xl="8" class="pt-5">
             <v-card elevation="1" outlined class="pa-3 text-center" >
                 <div class="text-left">
                     <v-btn icon @click="$router.push({name: 'classwork', params:{id: course_id}})">

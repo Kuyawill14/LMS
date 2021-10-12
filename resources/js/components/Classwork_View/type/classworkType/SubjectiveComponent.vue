@@ -81,8 +81,8 @@
       </v-dialog>
 
 
-    <v-row ref="ContainerSize" justify="center" no-gutters :class="$vuetify.breakpoint.lgAndUp ? 'pa-3' : 'pa-1'">
-        <v-col cols="12" md="10"  class="mb-2 mt-0 pt-0" v-if="!$vuetify.breakpoint.lgAndUp">
+    <v-row ref="ContainerSize" justify="center" no-gutters :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-0'">
+        <v-col cols="12" md="10"  class="mb-2 mt-0 pt-0" v-if="!$vuetify.breakpoint.mdAndUp ">
             <v-card class="pa-1" elevation="1" outlined>
                 <v-row>
                     <v-col cols="12" >
@@ -104,8 +104,8 @@
                 </v-row>
             </v-card>
         </v-col>
-         <v-col v-if="$vuetify.breakpoint.lgAndUp ? true : selected == 1 || selected == 2"  cols="12" md="10" lg="4" xl="4" class="mb-0 pb-0">
-             <v-card v-if="$vuetify.breakpoint.lgAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0">
+         <v-col v-if="$vuetify.breakpoint.mdAndUp ? true : selected == 1 || selected == 2"  cols="12" md="10" lg="4" xl="4" class="mb-0 pb-0">
+             <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
                <v-row  >
                  <v-col v-if="$vuetify.breakpoint.lgAndUp"  cols="12" class="ma-0 pa-0">
                    <v-tooltip top>
@@ -283,7 +283,7 @@
                    </v-col>
                 </v-row> 
           </v-card>
-          <v-card v-if="$vuetify.breakpoint.lgAndUp || selected == 2" :class="$vuetify.breakpoint.lgAndUp ? 'mt-4' :''" outlined  :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0">
+          <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 2" :class="$vuetify.breakpoint.mdAndUp ? 'mt-4' :''" outlined  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
             <div class="pt-3 pl-4 pr-4 pb-2">
                <v-icon left>mdi-comment</v-icon>Private Comments
             </div>
@@ -362,8 +362,8 @@
            
           </v-card>
         </v-col>
-         <v-col v-if="$vuetify.breakpoint.lgAndUp || selected == 0" :class="!$vuetify.breakpoint.lgAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
-          <v-card outlined :elevation="$vuetify.breakpoint.lgAndUp ? 1 : 0" class="pa-5">
+         <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 0" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
+          <v-card outlined :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" class="pa-5">
                 <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="12" class="ma-0">
                             <v-row >
@@ -448,7 +448,7 @@
     </v-row>
 
     <v-bottom-navigation app grow
-      v-if="!$vuetify.breakpoint.lgAndUp"
+      v-if="!$vuetify.breakpoint.mdAndUp "
         :value="selected"
         color="primary" >
         <v-btn @click="selected = 0">

@@ -34,7 +34,7 @@
                                     <v-card :color="active ? undefined : 'grey lighten-1'" class="my-4 mx-3"
                                         height="200" width="250">
                                         <v-card class="mx-auto">
-                                            <v-img :src="'../images/'+item.course_picture" height="200px"
+                                            <v-img :src="CheckBackgroundPath(item.course_picture)" height="200px"
                                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                                                 class="white--text align-end">
                                                 <div class="px-2">
@@ -187,6 +187,15 @@
                     }
                 });
             },
+             CheckBackgroundPath(path){
+                let str = path;
+                if(str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
+                    return path;
+                }
+                else{
+                    return '../images/' + path;
+                }
+            }
         },
         mounted() {
             this.isGetting = true;

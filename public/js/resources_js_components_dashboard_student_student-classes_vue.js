@@ -197,6 +197,15 @@ __webpack_require__.r(__webpack_exports__);
           "class": class_id
         }
       });
+    },
+    CheckBackgroundPath: function CheckBackgroundPath(path) {
+      var str = path;
+
+      if (str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+        return path;
+      } else {
+        return '../images/' + path;
+      }
     }
   },
   mounted: function mounted() {//this.fetchClasses();
@@ -465,9 +474,9 @@ var render = function() {
                                                           staticClass:
                                                             "white--text align-end",
                                                           attrs: {
-                                                            src:
-                                                              "../images/" +
-                                                              item.course_picture,
+                                                            src: _vm.CheckBackgroundPath(
+                                                              item.course_picture
+                                                            ),
                                                             height: _vm.$vuetify
                                                               .breakpoint
                                                               .lgAndUp

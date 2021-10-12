@@ -42,7 +42,7 @@ export default {
         displaySeconds: 0,
         SecondProgress:1000,
         isLoaded: false,
-        endAt:  (new Date).getTime()+10000,
+        endAt:  (new Date).getTime()+20000,
         timeSpent: null,
         isTimesUps: false
     }),

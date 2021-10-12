@@ -400,6 +400,15 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
 
 
       this.allCoursesData = data;
+    },
+    CheckBackgroundPath: function CheckBackgroundPath(path) {
+      var str = path;
+
+      if (str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+        return path;
+      } else {
+        return '../images/' + path;
+      }
     }
   }),
   mounted: function mounted() {
@@ -971,7 +980,9 @@ var render = function() {
                                 {
                                   staticClass: "white--text grey lighten-2",
                                   attrs: {
-                                    src: "../images/" + item.course_picture,
+                                    src: _vm.CheckBackgroundPath(
+                                      item.course_picture
+                                    ),
                                     height: "200px",
                                     link: "",
                                     gradient:

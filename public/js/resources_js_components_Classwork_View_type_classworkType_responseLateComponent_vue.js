@@ -143,6 +143,7 @@ var render = function() {
       _c(
         "v-row",
         {
+          staticClass: "pa-0",
           staticStyle: { "margin-top": "10rem" },
           attrs: { justify: "center", align: "center" }
         },
@@ -150,7 +151,7 @@ var render = function() {
           _c(
             "v-col",
             {
-              staticClass: "pl-7 pr-7 pt-5",
+              staticClass: "pt-5",
               attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
             },
             [

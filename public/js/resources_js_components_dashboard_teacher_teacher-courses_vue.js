@@ -197,6 +197,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           "class": class_id
         }
       });
+    },
+    CheckBackgroundPath: function CheckBackgroundPath(path) {
+      var str = path;
+
+      if (str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+        return path;
+      } else {
+        return '../images/' + path;
+      }
     }
   }),
   mounted: function mounted() {
@@ -515,9 +524,9 @@ var render = function() {
                                                         staticClass:
                                                           "white--text align-end",
                                                         attrs: {
-                                                          src:
-                                                            "../images/" +
-                                                            item.course_picture,
+                                                          src: _vm.CheckBackgroundPath(
+                                                            item.course_picture
+                                                          ),
                                                           height: "200px",
                                                           gradient:
                                                             "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"

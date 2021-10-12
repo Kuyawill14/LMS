@@ -136,8 +136,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
+};
+
+var previewUploadBackgroundDialog = function previewUploadBackgroundDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_previewUploadBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewUploadBackgroundDialog */ "./resources/js/components/course-view/previewUploadBackgroundDialog.vue"));
 };
 
 
@@ -145,7 +159,8 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
   components: {
-    selectBackgroundDialog: selectBackgroundDialog
+    selectBackgroundDialog: selectBackgroundDialog,
+    previewUploadBackgroundDialog: previewUploadBackgroundDialog
   },
   data: function data() {
     return {
@@ -157,7 +172,14 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
       routeName: '',
       showCard: true,
       dialog: false,
-      path: window.origin + '/storage/'
+      path: window.origin + '/storage/',
+      rules: [function (value) {
+        return !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!';
+      }],
+      previewUploaded: false,
+      filePreview: null,
+      file: null,
+      isChanging: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), {}, {
@@ -202,8 +224,35 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
       this.disconnect();
     },
     UpdateImage: function UpdateImage(data) {
+      this.isChanging = false;
       this.getcourseInfo.course_picture = data;
       this.dialog = !this.dialog;
+    },
+    onfileChange: function onfileChange(file) {
+      if (file) {
+        this.file = file;
+        this.isChanging = true;
+        this.filePreview = URL.createObjectURL(file); //this.previewUploaded = true;
+
+        this.SaveImageAsBackground(file);
+      }
+    },
+    SaveImageAsBackground: function SaveImageAsBackground(file) {
+      console.log('test123');
+      var fd = new FormData();
+      fd.append('course_id', this.getcourseInfo.id);
+      fd.append('file_name', this.file.name);
+      fd.append('file', this.file);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/teacher/change_class_picture', fd).then(function () {});
+    },
+    CheckBackgroundPath: function CheckBackgroundPath(path) {
+      var str = path;
+
+      if (str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+        return path;
+      } else {
+        return '../../images/' + path;
+      }
     }
   }),
   mounted: function mounted() {
@@ -375,33 +424,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-dialog",
-        {
-          attrs: { scrollable: "", persistent: "", "max-width": "800" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
-        [
-          _vm.dialog
-            ? _c("selectBackgroundDialog", {
-                on: {
-                  SaveSelected: _vm.UpdateImage,
-                  CloseDialog: function($event) {
-                    _vm.dialog = !_vm.dialog
-                  }
-                }
-              })
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
       _vm.showCard
         ? _c(
             "v-card",
@@ -412,7 +434,11 @@ var render = function() {
                   staticClass: "white--text align-end",
                   attrs: {
                     eager: "",
-                    src: "../../images/" + _vm.getcourseInfo.course_picture,
+                    src: !_vm.isChanging
+                      ? _vm.CheckBackgroundPath(
+                          _vm.getcourseInfo.course_picture
+                        )
+                      : _vm.filePreview,
                     gradient: "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
                     height: "150px",
                     "aspect-ratio": "2"
@@ -525,7 +551,7 @@ var render = function() {
                                     },
                                     [
                                       _c("v-list-item-title", [
-                                        _vm._v("Select Background")
+                                        _vm._v("Select background")
                                       ])
                                     ],
                                     1
@@ -533,10 +559,17 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "v-list-item",
-                                    { attrs: { link: "" } },
+                                    {
+                                      attrs: { link: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.$refs.UploadBackground.$refs.input.click()
+                                        }
+                                      }
+                                    },
                                     [
                                       _c("v-list-item-title", [
-                                        _vm._v("Upload Photo")
+                                        _vm._v("Upload photo")
                                       ])
                                     ],
                                     1
@@ -628,7 +661,69 @@ var render = function() {
           getcourseInfo: _vm.getcourseInfo,
           UserDetails: _vm.UserDetails
         }
-      })
+      }),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { scrollable: "", persistent: "", "max-width": "800" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
+        [
+          _vm.dialog
+            ? _c("selectBackgroundDialog", {
+                on: {
+                  SaveSelected: _vm.UpdateImage,
+                  CloseDialog: function($event) {
+                    _vm.dialog = !_vm.dialog
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-file-input", {
+        ref: "UploadBackground",
+        staticClass: "d-none",
+        attrs: { rules: _vm.rules, accept: "image/png, image/jpeg, image/bmp" },
+        on: { change: _vm.onfileChange }
+      }),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { scrollable: "", persistent: "", "max-width": "800" },
+          model: {
+            value: _vm.previewUploaded,
+            callback: function($$v) {
+              _vm.previewUploaded = $$v
+            },
+            expression: "previewUploaded"
+          }
+        },
+        [
+          _vm.previewUploaded
+            ? _c("previewUploadBackgroundDialog", {
+                attrs: { filePreview: _vm.filePreview },
+                on: {
+                  SaveImageFile: _vm.SaveImageAsBackground,
+                  CloseDialog: function($event) {
+                    _vm.previewUploaded = !_vm.previewUploaded
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )

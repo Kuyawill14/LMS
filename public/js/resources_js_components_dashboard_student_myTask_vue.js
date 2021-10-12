@@ -8572,7 +8572,7 @@ var render = function() {
       _c(
         "v-card",
         [
-          _c("h3", { staticClass: "pl-2 pt-2" }, [_vm._v("Today's Task")]),
+          _c("h3", { staticClass: "pl-2 pt-2" }, [_vm._v("MyTasks")]),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),

@@ -33,20 +33,27 @@
     </v-row>
 </v-container> -->
     
-    <vue-element-loading :active="isLoading" 
-    :text="isSubmitting ? 'Loading Questions' : 'Loading Questions'"
+    <vue-element-loading :active="isLoading || isSubmitting" 
+    :text="isSubmitting ? 'Submitting...' : 'Loading Questions'"
     duration="0.7"
     :textStyle="{fontSize: '18px'}"
     spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
+
+    <vue-element-loading :active="isLeavingPage" 
+ 
+    duration="0.7"
+
+    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
+    
    
 
 
-<v-container  fluid :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pa-2 ' : 'pa-2'" v-if="!isLoading" >
+<v-container  fluid :class="!$vuetify.breakpoint.mdAndUp ? 'pa-2 ' : ''" v-if="!isLoading || !isSubmitting" >
       <v-row justify="center" >
           <v-col cols="12" >
                <v-card elevation="2" outlined class="pa-2">
                <v-row v-if="!isLoading">
-                <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="8"  >
+                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="8"  >
                     <v-list>
                         <v-list-item>
                         <v-list-item-avatar>
@@ -63,19 +70,22 @@
                         </v-list-item>
                     </v-list>
                 </v-col>
-                <v-col :cols="$vuetify.breakpoint.lgAndUp ? 4 : 12" :class="$vuetify.breakpoint.lgAndUp ? 'd-flex justify-end' : 'd-flex justify-center'">
+                <v-col cols="12" md="4" :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-end' : ''">
                     <div >
-                        <h4 @click="Answersheet = true"  class="ml-10">Time Remaining</h4>
-                        <div class="d-flex">
-                             <div class="text-center">
-                                <v-menu offset-y>
+                       
+                        <div class="d-flex justify-space-between ">
+                            
+                             <div class="text-center mt-5">
+                                 
+                                <v-menu offset-y max-height="600" style="overflow-y:scroll;">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon
+                                    color="primary"
                                      v-bind="attrs"
-                                    v-on="on"><v-icon>mdi-chevron-down</v-icon> </v-btn>
+                                    v-on="on"><v-icon> {{ !$vuetify.breakpoint.mdAndUp  ? 'mdi-format-list-numbered' : 'mdi-chevron-down'}}</v-icon> </v-btn>
                                 </template>
-                                <v-list>
-                                    <v-list-item v-for="(item, index) in getAll_questions.Question" :key="index">
+                                <v-list  >
+                                    <v-list-item class="ma-0 pa-0" v-for="(item, index) in getAll_questions.Question" :key="index">
                                     <v-list-item-title>  
                                         <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
                                         text rounded @click="updateAnswer(), questionIndex = index">
@@ -92,7 +102,11 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                             <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded"></quizTimer>
+                            <div>
+                                 <h4 @click="Answersheet = true" class="ml-1" >Time Remaining</h4>
+                                 <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
+                            </div>
+                            
                         </div>
                     </div>
                 </v-col>
@@ -106,20 +120,20 @@
   <div v-if="!isLoading" class="mt-2 ma-2"  >
         <v-row  justify="center">
             <v-col cols="12" sm="12" md="10" lg="8" xl="7">
-                <v-card class="pa-5" elevation="2" outlined >
-                    <v-row>
+                <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-1'" :elevation="$vuetify.breakpoint.mdAndUp ? 2 : 0" :outlined="$vuetify.breakpoint.mdAndUp " >
+               
                         <v-row>
-                            <v-col cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.lgAndUp ? 'text-right' : 'text-center'" >
-                                <div :class="$vuetify.breakpoint.lgAndUp  ? 'mb-3 mt-1' : 'd-flex mb-3 mt-1'">
-                                    <v-btn :class="!$vuetify.breakpoint.lgAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
+                            <v-col cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'" >
+                                <div :class="$vuetify.breakpoint.mdAndUp  ? 'mb-3 mt-1' : 'd-flex mb-3 mt-1'">
+                                    <v-btn :class="!$vuetify.breakpoint.mdAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
                                         <v-icon left>mdi-arrow-left</v-icon>
                                         Previous
                                         </v-btn>
                                        
-                                        <v-spacer v-if="!$vuetify.breakpoint.lgAndUp"></v-spacer>
+                                        <v-spacer v-if="!$vuetify.breakpoint.mdAndUp"></v-spacer>
                                         <v-btn v-if="questionIndex != Qlength-1" 
-                                        :class="!$vuetify.breakpoint.lgAndUp ? 'pr-5' : ''"
+                                        :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
                                         :loading="isSavingAnswer"
                                         rounded color="primary" @click="next">
                                         Next
@@ -128,7 +142,7 @@
 
                                         <v-btn 
                                         :loading="isSavingAnswer"
-                                        :class="!$vuetify.breakpoint.lgAndUp ? 'pr-5' : ''"
+                                        :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
                                          v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
                                         Submit
                                         <v-icon right>mdi-lock</v-icon>
@@ -136,33 +150,34 @@
                                     </div>
                                 <v-divider></v-divider>
                             </v-col>
-                            <v-col  cols="12" md="12" lg="12" class="pa-9 pt-0 mt-0">
+                            <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
                             <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                 <div v-show="index === questionIndex">
                                         <v-row ma-0 pa-0>
                                             <v-col class="mb-0 pb-0" cols="12">
                                                 <v-container class="pa-0 ma-0 d-flex flex-row justify-space-between">
-                                                    <h3 >Question #{{index+1}}</h3>
+                                                    <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{index+1}}</h3>
+                                                    <h4 v-else >Question #{{index+1}}</h4>
                                                     <p class="mr-5 primary--text">({{item.points}} Points)</p>
                                                 </v-container>
                                             </v-col>
                                             <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
                                                 <v-container ma-0 pa-0 class="ma-0 pa-0">
                                                  
-                                                    <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1;user-select: none': 'user-select: none'" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
+                                                    <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
                                                 </v-container> 
                                             </v-col>
                                         </v-row>
                                         
-                                        <v-container v-if="item.type == 'Multiple Choice'">
-                                            <v-row>
-                                                <v-col class="ml-0 pl-0 pt-0 mt-0" cols="12" md="12">
+                                        <v-container  v-if="item.type == 'Multiple Choice'">
+                                            <v-row >
+                                                <v-col class="ma-0 pa-0" cols="12" >
                                                 <v-container >
                                                     <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
-                                                    <v-radio-group  :max="1" :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
+                                                    <v-radio-group    :max="1" :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
                                                         <v-radio
                                                         color="primary"
-                                                        
+                                                        :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                         :name="'option'+index"
                                                         @click="SelectAnswer()"
                                                         
@@ -173,16 +188,17 @@
                                                             <span style="user-select: none" v-html="Ans.Choice" class="post-content"></span>
                                                         </div>
                                                         </v-container>
-                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
-                                                            <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
-                                                        </v-container>
+                                                       
                                                     </v-container>
+                                                     <div class="ma-0 pa-0 text-right">
+                                                            <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
+                                                     </div>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
 
                                         <v-container v-if="item.type == 'Identification'">
-                                            <v-row ma-0 pa-0>
+                                            <v-row >
                                                 <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
                                                     <v-card style="width:100%" class="mb-3">
                                                         <editor 
@@ -193,7 +209,7 @@
                                                             id="editor-container" placeholder="Answer" 
                                                             theme="snow" :options="options"></editor>
                                                     </v-card>
-                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                        <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 d-flex flex-row-reverse">
                                                         <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
                                                     </v-container>
                                                 </v-col>
@@ -206,6 +222,7 @@
                                                 <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="FinalAnswers[index].Answer">
                                                     <v-radio
                                                     color="primary"
+                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                     @click="SelectAnswer()"
                                                     :key="index"
                                                     :value="inputCheck[n]"
@@ -216,9 +233,9 @@
                                                         {{inputCheck[n]}}
                                                     </div>
                                                     </v-container>
-                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                    <div class="ma-0 pa-0 text-right">
                                                         <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
-                                                    </v-container>
+                                                    </div>
                                             </v-container>
                                         </v-container>
                                     
@@ -255,21 +272,21 @@
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
                                                                         <div class="d-flex mt-7">
                                                                             <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="List.sub_question" class="subquestion-content"></span>
+                                                                            <span :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="List.sub_question" class="subquestion-content"></span>
                                                                         </div>
                                                                     </v-col>
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
                                                                         <div class="d-flex mt-7"> 
                                                                             <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                                            <span :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
                                                                         </div>
                                                                     </v-col>
                                                                 </v-row>
                                                             </v-container>
                                                         </v-container>
-                                                        <v-container class="mb-0 pb-0 d-flex flex-row-reverse">
+                                                        <div class="ma-0 pa-0 text-right">
                                                             <v-btn @click="reset(index, item.type)" text rounded small>Reset Answer</v-btn>
-                                                        </v-container>
+                                                        </div>
                                                     </v-col>
                                                 </v-row>
                                         </v-container>
@@ -287,9 +304,12 @@
                                                             id="editor-container" placeholder="Essay" 
                                                             theme="snow" :options="Essayoptions"></editor>
                                                       <!--   </v-card> -->
-                                                    <v-container class="mb-0 pb-0 d-flex flex-row-reverse mt-10">
+                                                 <!--    <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 pr-0 d-flex flex-row-reverse mt-10">
                                                         <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
-                                                    </v-container>
+                                                    </v-container> -->
+                                                      <div class="ma-0 pa-0 text-right">
+                                                            <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
+                                                        </div>
                                                 </v-col>
                                             </v-row>
                                         </v-container>
@@ -297,7 +317,7 @@
                                 </v-container>
                             </v-col>
                         </v-row>
-                    </v-row>
+                  
                 </v-card>
             </v-col>
         </v-row>
@@ -337,7 +357,7 @@ export default {
             Questype: "",
             questionIndex: 0,
             questionIsLoaded: false,
-            duration:'',
+            duration: null,
             Alphabet: "",
             options:{
             modules: {
@@ -371,6 +391,7 @@ export default {
             bus: "testing",
             TimesUpDialog: false,
             windowHeight: window.innerHeight - 100,
+            isLeavingPage: false
         }
     },
     computed: 
@@ -468,14 +489,14 @@ export default {
          SubmitAnswer(data){
              if(data.istime == false){
                   this.isExamStart = false;
-                    this.isLoading = !this.isLoading;
+                    //this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                     this.dialog = !this.dialog;
                     this.isStart = !this.isStart;
                     this.warningDialog = false;
                     axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: data.time})
                     .then((res)=>{
-                        this.isLoading = !this.isLoading;
+                        //this.isLoading = !this.isLoading;
                         this.isSubmitting = !this.isSubmitting;
                         this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
                     })       
@@ -485,7 +506,7 @@ export default {
         TimesUpSubmit(data){
             this.TimesUpDialog = !this.TimesUpDialog;
             this.isExamStart = false;
-            this.isLoading = !this.isLoading;
+            //this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
             this.isStart = !this.isStart;
             this.warningDialog = false;
@@ -493,7 +514,7 @@ export default {
             .then((res)=>{
                 console.log('timesUp');
                  setTimeout(() => {
-                    this.isLoading = !this.isLoading;
+                    //this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                     
                 }, 2000);
@@ -503,7 +524,6 @@ export default {
         fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(()=>{
                 this.Qlength = this.getAll_questions.Question.length;
-            
                 let AnswersList = this.Submitted_Answers;
         
                 if(AnswersList == null || AnswersList.length == 0){
@@ -664,7 +684,7 @@ export default {
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
                if(res.data.success == true){
-                    if(res.data.status == 'Taking' || res.data.status == '' || res.data.status == null){
+                    if(res.data.status != 'Submitted'){
                         this.Submitted_Answers = res.data.Submitted_Answers;
                         this.StartTime = res.data.startTime;
                         this.submission_id = res.data.submission_id;
@@ -680,7 +700,6 @@ export default {
                    this.toastError('Something went wrong while loading Questions!');
                   this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
                }
-               
             })
             .catch(e=>{
                 this.toastError('Something went wrong while loading Questions!');
@@ -689,7 +708,6 @@ export default {
         },
         SelectMatch(id, main_index, second_index){
             let Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
-           
              for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
                 for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
                     if(this.Alphabet[x].toUpperCase() == Answer.toUpperCase()){
@@ -730,12 +748,6 @@ export default {
                 "z"
             ];
             this.Alphabet = alphabet;
-          /*   axios.get('/api/classwork/showDetails/'+this.$route.query.clwk+'/'+this.$route.params.id)
-            .then(res=>{
-                this.duration = res.data.Details.duration;
-                this.classworkDetails = res.data.Details;
-                this.fetchQuestions();
-            }) */
             let data = {classwork_id : this.$route.query.clwk, course_id : this.$route.params.id}
             this.$store.dispatch('fetchClassworkShowDetails',  data)
             .then(()=>{
@@ -746,11 +758,11 @@ export default {
             //this.CountTime();
         },
         triggerWarning(){
-            ////console.log("test 123");
             if(this.isExamStart){
                 this.leaveStrike += 1;
                 if(this.leaveStrike == 5){
                     this.isExamStart = false;
+                 
                     this.toastError('You are lossing focus to examination page many times!');
                     this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
                 }
@@ -758,8 +770,6 @@ export default {
                     this.warningDialog = true;
                 }
               }
-           
-            
         },
     },
     beforeMount() {
@@ -773,18 +783,19 @@ export default {
         });
     },
      beforeRouteLeave(to, from, next) {
+   
         if (this.isExamStart) {
             if (!window.confirm("Leave without saving?")) {
+           
                 return;
             }
         }
+        this.isLeavingPage = true;
         next();
     },
-    async beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.isExamStart = true
-            vm.CheckStatus();
-        });
+    async mounted() {
+        this.isExamStart = true
+        this.CheckStatus();
     },
     
 }

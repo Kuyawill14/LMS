@@ -1,9 +1,6 @@
 <template>
     <div>
-        <v-dialog scrollable v-model="dialog" persistent max-width="800" >
-            <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
-            </selectBackgroundDialog>
-        </v-dialog>
+     
         <v-card v-if="showCard">
 
             <!-- <v-img :src="'../../images/' + getcourseInfo.course_picture " class="white--text align-end"
@@ -51,7 +48,7 @@
 
             <v-img
             eager
-                :src="'../../images/' + getcourseInfo.course_picture " class="white--text align-end"
+                :src="!isChanging ? CheckBackgroundPath(getcourseInfo.course_picture) : filePreview" class="white--text align-end"
                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px"
                 aspect-ratio="2"
             
@@ -81,10 +78,10 @@
                         </template>
                         <v-list>
                             <v-list-item link @click="dialog = !dialog">
-                                <v-list-item-title>Select Background</v-list-item-title>
+                                <v-list-item-title>Select background</v-list-item-title>
                             </v-list-item>
-                            <v-list-item link>
-                                <v-list-item-title>Upload Photo</v-list-item-title>
+                            <v-list-item link @click="$refs.UploadBackground.$refs.input.click()">
+                                <v-list-item-title>Upload photo</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -112,10 +109,24 @@
         </v-card>
 
         <router-view :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></router-view>
+
+         <v-dialog scrollable v-model="dialog" persistent max-width="800" >
+            <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
+            </selectBackgroundDialog>
+        </v-dialog>
+
+        
+
+        <v-file-input class="d-none" @change="onfileChange" :rules="rules" ref="UploadBackground" accept="image/png, image/jpeg, image/bmp"></v-file-input>
+         <v-dialog scrollable v-model="previewUploaded" persistent max-width="800" >
+            <previewUploadBackgroundDialog :filePreview="filePreview" v-on:SaveImageFile="SaveImageAsBackground" v-on:CloseDialog="previewUploaded = !previewUploaded" v-if="previewUploaded">
+            </previewUploadBackgroundDialog>
+        </v-dialog>
     </div>
 </template>
 <script>
     const selectBackgroundDialog = () => import('./SelectBackgroundDialog')
+     const previewUploadBackgroundDialog = () => import('./previewUploadBackgroundDialog')
     import {
         mapGetters,
         mapActions
@@ -124,7 +135,8 @@
     export default {
         props: ['role', 'UserDetails'],
         components: {
-            selectBackgroundDialog
+            selectBackgroundDialog,
+            previewUploadBackgroundDialog
         },
         data() {
             return {
@@ -137,6 +149,13 @@
                 showCard: true,
                 dialog: false,
                 path: window.origin + '/storage/' ,
+                rules: [
+                value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+                ],
+                previewUploaded: false,
+                filePreview: null,
+                file: null,
+                isChanging: false
             }
         },
         computed: {
@@ -187,8 +206,39 @@
                 this.disconnect();
             },
             UpdateImage(data) {
+                this.isChanging = false;
                 this.getcourseInfo.course_picture = data;
                 this.dialog = !this.dialog;
+            },
+            onfileChange(file){
+                if(file){
+                    this.file = file;
+                    this.isChanging = true;
+                    this.filePreview = URL.createObjectURL(file);
+                    //this.previewUploaded = true;
+                    this.SaveImageAsBackground(file);
+                }
+            },
+            SaveImageAsBackground(file){
+                console.log('test123');
+                let fd = new FormData;
+                fd.append('course_id', this.getcourseInfo.id);
+                fd.append('file_name', this.file.name);
+                fd.append('file', this.file);
+                
+                axios.post('/api/teacher/change_class_picture', fd)
+                .then(()=>{
+
+                })
+            },
+            CheckBackgroundPath(path){
+                let str = path;
+                if(str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
+                    return path;
+                }
+                else{
+                    return '../../images/' + path;
+                }
             }
 
         },

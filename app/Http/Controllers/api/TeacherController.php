@@ -19,8 +19,7 @@ use App\Mail\SendInviteMail;
 use App\Mail\AlertStudentMail;
 use App\Jobs\ProcessEmails;
 use Carbon\Carbon;
-
-
+use Illuminate\Support\Facades\Storage;
 
 
 class TeacherController extends Controller
@@ -297,17 +296,31 @@ class TeacherController extends Controller
            return "Submission Not found";
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
+     /**
+     * Update the specified resource in storage.
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function resetStudentSbjSubmission($id)
+    public function resetStudentSbjSubmission(Request $request, $id)
     {
-    
-        //return $id;
+       
         $ResetSubmission = tbl_Submission::find($id);
+        if($ResetSubmission){
+            foreach($request["files"] as $item){
+                if($item["fileExte"] != "link"){
+                    $path =  str_replace(\Config::get('app.do_url').'/', "", $item['link']);
+                    Storage::disk('DO_spaces')->delete($path);
+                }
+            }
+            $ResetSubmission->forceDelete();
+            return "Reset Success";
+        }
+        return "Submission Not found";
+       
+        
+        
+      /*   $ResetSubmission = tbl_Submission::find($id);
            if($ResetSubmission){
                 $ResetSubmission->status = null;
                 $ResetSubmission->points = null;
@@ -317,9 +330,50 @@ class TeacherController extends Controller
                 $ResetSubmission->save();
                 return "Reset Success";
            }
-           return "Submission Not found";
+           return "Submission Not found"; */
     }
 
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function ChangeClassPicture(Request $request)
+    {   
+        $course = tbl_subject_course::find($request->course_id);
+        
+        $contains = str_contains($course->course_picture, 'https://orangestr.sgp1.cdn.digitaloceanspaces.com');
+        if($contains){
+            $path =  str_replace(\Config::get('app.do_url').'/', "", $course->course_picture);
+            Storage::disk('DO_spaces')->delete($path);
+
+            $file = $request->file;
+            $file_exte = $file->getClientOriginalExtension();
+            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file_name);
+            $Uploadname = $original_file_name.'_'.time().'.'.$file_exte;
+            $upload_file = Storage::disk('DO_spaces')->putFileAs('courseBackground/'.$request->course_id, $file, $Uploadname , 'public');
+            $path = \Config::get('app.do_url').'/'. $upload_file;
+            $course->course_picture =  $path;
+            $course->save();
+            return;
+        }
+        else{
+            $file = $request->file;
+            $file_exte = $file->getClientOriginalExtension();
+            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file_name);
+            $Uploadname = $original_file_name.'_'.time().'.'.$file_exte;
+            $upload_file = Storage::disk('DO_spaces')->putFileAs('courseBackground/'.$request->course_id, $file, $Uploadname , 'public');
+            $path = \Config::get('app.do_url').'/'. $upload_file;
+            $course->course_picture =  $path;
+            $course->save();
+            return;
+        }
+
+
+      
+
+    }
 
     /**
      * Remove the specified resource from storage.

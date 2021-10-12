@@ -43,20 +43,21 @@
 
             </v-col>
 
-            <v-col cols="12" lg="4" :class="$vuetify.breakpoint.mdAndUp ? '' : 'pt-0 mt-0'" >
+            <v-col cols="12" lg="4" :class="$vuetify.breakpoint.mdAndUp ? 'pt-0' : 'pt-0 mt-0'" >
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 1">
-                    <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pt-0 mt-0' :'pt-3 mt-3'">
-                        <v-card>
-                            <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
+                    <v-col cols="12" >
+                       
+                           <v-card>
+                            <myTask> </myTask>
                         </v-card>
                     </v-col>
                 </v-row>
 
 
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 2">
-                    <v-col cols="12">
-                        <v-card>
-                            <myTask> </myTask>
+                    <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pt-2 mt-2' :'pt-3 mt-3'">
+                         <v-card>
+                            <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -71,13 +72,14 @@
                 <v-icon>mdi-chart-box-outline</v-icon>
             </v-btn>
             <v-btn @click="selected = 1">
+                <span style="font-size:10px">My Tasks</span>
+                <v-icon>mdi-clipboard-edit-outline</v-icon>
+            </v-btn>
+            <v-btn @click="selected = 2">
                 <span style="font-size:10px">My Calendar</span>
                 <v-icon>mdi-calendar</v-icon>
             </v-btn>
-            <v-btn @click="selected = 2">
-                <span style="font-size:10px">Today's Task</span>
-                <v-icon>mdi-clipboard-edit-outline</v-icon>
-            </v-btn>
+          
         </v-bottom-navigation>
        
     </div>

@@ -603,6 +603,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
         }
       }
+    },
+    ResetSubmission: function ResetSubmission(data) {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                console.log(data);
+                axios.put('/api/teacher/reset-sbj/' + data.id, {
+                  files: data.Submitted_Answers
+                }).then(function () {
+                  _this7.$emit('SubmissionReset', data.id);
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
     }
   },
   created: function created() {
@@ -1066,10 +1089,45 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c("v-col", {
-                                staticClass: "ma-0 pa-0 pb-4",
-                                attrs: { cols: "12" }
-                              }),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "ma-0 pa-0 pb-4",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _vm.CheckData.status != null &&
+                                  _vm.CheckData.status != "" &&
+                                  _vm.CheckData.status != "Submitting"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.ResetSubmission(
+                                                _vm.CheckData
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("mdi-restart")]
+                                          ),
+                                          _vm._v(" Reset Submission")
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e()
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
                                 "v-col",

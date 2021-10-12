@@ -1442,11 +1442,11 @@ var render = function() {
         "v-row",
         {
           ref: "ContainerSize",
-          class: _vm.$vuetify.breakpoint.lgAndUp ? "pa-3" : "pa-1",
+          class: _vm.$vuetify.breakpoint.mdAndUp ? "pa-3" : "pa-0",
           attrs: { justify: "center", "no-gutters": "" }
         },
         [
-          !_vm.$vuetify.breakpoint.lgAndUp
+          !_vm.$vuetify.breakpoint.mdAndUp
             ? _c(
                 "v-col",
                 {
@@ -1545,7 +1545,7 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          (_vm.$vuetify.breakpoint.lgAndUp
+          (_vm.$vuetify.breakpoint.mdAndUp
           ? true
           : _vm.selected == 1 || _vm.selected == 2)
             ? _c(
@@ -1555,14 +1555,14 @@ var render = function() {
                   attrs: { cols: "12", md: "10", lg: "4", xl: "4" }
                 },
                 [
-                  _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 1
+                  _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 1
                     ? _c(
                         "v-card",
                         {
                           staticClass: "pa-7",
                           attrs: {
                             outlined: "",
-                            elevation: _vm.$vuetify.breakpoint.lgAndUp ? 1 : 0
+                            elevation: _vm.$vuetify.breakpoint.mdAndUp ? 1 : 0
                           }
                         },
                         [
@@ -2522,14 +2522,14 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 2
+                  _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 2
                     ? _c(
                         "v-card",
                         {
-                          class: _vm.$vuetify.breakpoint.lgAndUp ? "mt-4" : "",
+                          class: _vm.$vuetify.breakpoint.mdAndUp ? "mt-4" : "",
                           attrs: {
                             outlined: "",
-                            elevation: _vm.$vuetify.breakpoint.lgAndUp ? 1 : 0
+                            elevation: _vm.$vuetify.breakpoint.mdAndUp ? 1 : 0
                           }
                         },
                         [
@@ -2796,11 +2796,11 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _vm.$vuetify.breakpoint.lgAndUp || _vm.selected == 0
+          _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 0
             ? _c(
                 "v-col",
                 {
-                  class: !_vm.$vuetify.breakpoint.lgAndUp
+                  class: !_vm.$vuetify.breakpoint.mdAndUp
                     ? "mt-0 pl-0 pt-0"
                     : "pt-0 pl-5",
                   attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
@@ -2812,7 +2812,7 @@ var render = function() {
                       staticClass: "pa-5",
                       attrs: {
                         outlined: "",
-                        elevation: _vm.$vuetify.breakpoint.lgAndUp ? 1 : 0
+                        elevation: _vm.$vuetify.breakpoint.mdAndUp ? 1 : 0
                       }
                     },
                     [
@@ -3214,7 +3214,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      !_vm.$vuetify.breakpoint.lgAndUp
+      !_vm.$vuetify.breakpoint.mdAndUp
         ? _c(
             "v-bottom-navigation",
             {

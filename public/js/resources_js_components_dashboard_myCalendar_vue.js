@@ -183,7 +183,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       CalendarSched: [],
       focus: '',
-      type: 'month',
+      type: 'week',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
@@ -253,8 +253,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                       events.push({
                         name: name,
-                        start: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.CalendarSched[index].from_date)._d,
-                        end: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.CalendarSched[index].to_date)._d,
+                        start: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.CalendarSched[index].to_date)._d,
+                        end: null,
                         color: color,
                         classwork_id: _this.CalendarSched[index].classwork_id,
                         course_id: _this.CalendarSched[index].course_id,
@@ -9043,10 +9043,10 @@ var render = function() {
                 "v-sheet",
                 {
                   attrs: {
-                    height: _vm.$vuetify.breakpoint.lgAndUp
+                    height: _vm.$vuetify.breakpoint.mdAndUp
                       ? "350"
                       : _vm.role == "Student"
-                      ? "530"
+                      ? "500"
                       : "350"
                   }
                 },

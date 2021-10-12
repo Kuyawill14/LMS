@@ -183,6 +183,8 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::post('/move-student', [TeacherController::class, 'MoveStudent']);
     Route::post('/resetStudentSubmissions', [TeacherController::class, 'ResetStudentSubmission']);
     
+    Route::post('/change_class_picture', [TeacherController::class, 'ChangeClassPicture']);
+    
 });
 
 

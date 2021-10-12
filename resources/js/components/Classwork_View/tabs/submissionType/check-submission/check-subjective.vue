@@ -51,8 +51,8 @@
                                         </v-list>
                                     </v-col>
                                     <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                     <!--    <v-btn rounded v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
-                                         color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn> -->
+                                        <v-btn rounded v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
+                                         @click="ResetSubmission(CheckData)" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-row>
@@ -516,7 +516,6 @@ import {mapGetters} from "vuex";
                this.isCommenting = false;
           },
           checkRubrics(){
-
               if(this.classworkDetails.rubrics.length != 0){
                     if(this.CheckData.rubrics_score == false){
                         this.CheckData.rubrics_score = [];
@@ -525,7 +524,14 @@ import {mapGetters} from "vuex";
                         });
                     }
               }
-          }
+          },
+        async ResetSubmission(data){
+            console.log(data);
+            axios.put('/api/teacher/reset-sbj/'+data.id, {files : data.Submitted_Answers})
+            .then(()=>{
+                this.$emit('SubmissionReset', data.id);
+            })
+        }
     },
     created(){
         if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){

@@ -99,7 +99,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet :height="$vuetify.breakpoint.lgAndUp ? '350' : role == 'Student' ? '530' : '350'">
+      <v-sheet :height="$vuetify.breakpoint.mdAndUp ? '350' : role == 'Student' ? '500' : '350'">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -161,7 +161,7 @@ import moment from 'moment/src/moment';
     data: () => ({
     CalendarSched:[],
       focus: '',
-      type: 'month',
+      type: 'week',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
@@ -229,8 +229,8 @@ import moment from 'moment/src/moment';
                   }
                   events.push({
                       name: name,
-                      start: moment(this.CalendarSched[index].from_date)._d,
-                      end: moment(this.CalendarSched[index].to_date)._d,
+                      start: moment(this.CalendarSched[index].to_date)._d,
+                      end: null,
                       color: color,
                       classwork_id: this.CalendarSched[index].classwork_id,
                       course_id: this.CalendarSched[index].course_id,

@@ -13,8 +13,6 @@
 
     <v-col cols="12" v-if="!isloading">
       <v-row>
-
-     
         <v-col cols="12" class="mb-0 pb-0">
             <div :class="$vuetify.breakpoint.lgAndUp ? 'text-h6 font-weight-bold': 'font-weight-bold'">MY CALENDAR</div> 
         </v-col>
