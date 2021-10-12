@@ -74,9 +74,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['students', 'grading_criteria', 'loader'],
+  props: ['students', 'grading_criteria', 'floader'],
   data: function data() {
     return {
+      loader: this.floader,
       search: '',
       loading: false,
       headers: [{
@@ -101,7 +102,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.search) {
         return this.students.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v) || item.middleName.toLowerCase().includes(v);
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.student_id == null ? item.lastName.toLowerCase().includes(v) : item.student_id.toString().includes(v);
           });
         });
       } else {
