@@ -43,12 +43,14 @@ const actions = {
 
         }
     },
-    clear_current_user({ commit }) {
+    clear_current_user({ rootState  }) {
         state.CurrentUser = [];
         state.UserRole = null;
         state.MyCourses = [];
         state.IsAuthenticated = false;
-        state.AccessToken = null
+        state.AccessToken = null;
+        rootState.classwork.current_classwork_id = null;
+        rootState.classwork.current_course_id = null;
         window.localStorage.removeItem('IsAuthenticated');
         window.localStorage.removeItem('personal_access_token');
     },

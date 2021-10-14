@@ -3103,12 +3103,14 @@ var actions = {
     }))();
   },
   clear_current_user: function clear_current_user(_ref3) {
-    var commit = _ref3.commit;
+    var rootState = _ref3.rootState;
     state.CurrentUser = [];
     state.UserRole = null;
     state.MyCourses = [];
     state.IsAuthenticated = false;
     state.AccessToken = null;
+    rootState.classwork.current_classwork_id = null;
+    rootState.classwork.current_course_id = null;
     window.localStorage.removeItem('IsAuthenticated');
     window.localStorage.removeItem('personal_access_token');
   },
@@ -3417,6 +3419,32 @@ var actions = {
           }
         }
       }, _callee3);
+    }))();
+  },
+  deleteClassPost: function deleteClassPost(_ref4, data) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      var commit, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit;
+              _context4.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().delete("/api/announcement/delete/".concat(data.id));
+
+            case 3:
+              res = _context4.sent;
+
+              if (res) {
+                state.class_post.splice(data.index, 1);
+              }
+
+            case 5:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
     }))();
   }
 };
@@ -4144,22 +4172,17 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-
-              if (!(state.current_course != id)) {
-                _context.next = 6;
-                break;
-              }
-
+              //if(state.current_course != id){
               state.current_course = id;
-              _context.next = 5;
+              _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/course/ShowCourse/".concat(id)).then(function (res) {
                 commit('setcourseInfo', res.data);
               });
 
-            case 5:
+            case 4:
               res = _context.sent;
 
-            case 6:
+            case 5:
             case "end":
               return _context.stop();
           }

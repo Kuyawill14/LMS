@@ -498,7 +498,7 @@ export default {
                     .then((res)=>{
                         //this.isLoading = !this.isLoading;
                         this.isSubmitting = !this.isSubmitting;
-                        this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
+                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                     })       
              }
                   
@@ -518,7 +518,7 @@ export default {
                     this.isSubmitting = !this.isSubmitting;
                     
                 }, 2000);
-                this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}});
+               this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
             })
         },
         fetchQuestions(){
@@ -685,6 +685,7 @@ export default {
             .then(res=>{
                if(res.data.success == true){
                     if(res.data.status != 'Submitted'){
+                        this.isExamStart = true
                         this.Submitted_Answers = res.data.Submitted_Answers;
                         this.StartTime = res.data.startTime;
                         this.submission_id = res.data.submission_id;
@@ -693,7 +694,15 @@ export default {
                     }
                     else{
                         this.isLoading = false;
-                        this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                        //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                        //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+                        this.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+                            theme: "toasted-primary",
+                            position: "top-center",
+                            icon: "warning",
+                            duration: 7000
+                        });
+                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                     }
                }
                else{
@@ -794,7 +803,6 @@ export default {
         next();
     },
     async mounted() {
-        this.isExamStart = true
         this.CheckStatus();
     },
     

@@ -247,17 +247,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -317,16 +306,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee);
       }))();
     },
-    NotificationHide: function NotificationHide(id) {
+    NotificationHide: function NotificationHide(id, index) {
       var _this2 = this;
 
       this.$store.dispatch("HideNotification", id).then(function (res) {
         if (res == 200) {
-          _this2.get_notification.forEach(function (item) {
-            if (item.n_id == id) {
-              item.hide_notif = 1;
-            }
-          });
+          _this2.get_notification.splice(index, 1);
+
+          _this2.$store.dispatch("LessNotificationCount");
+          /* this.get_notification.forEach(item => {
+                if(item.n_id == id){
+                    item.hide_notif = 1;
+                }
+            }); */
+
         }
       });
     },
@@ -390,7 +383,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
         }
       }
-    } else if (data.notification_type == 1) {
+    } else if (data.notification_type == 1 || data.notification_type == 3) {
       var path = '/course/' + data.c_id + '/announcement';
 
       if (this.$route.path != path) {
@@ -697,6 +690,52 @@ var render = function() {
                                   : "",
                               on: {
                                 click: function($event) {
+                                  ;(_vm.notificationType = 3),
+                                    (_vm.notifTypeName = "class-invites"),
+                                    _vm.getNotificationList()
+                                }
+                              }
+                            },
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  attrs: {
+                                    left:
+                                      !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.sm
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\r\n                mdi-account-plus\r\n              "
+                                  )
+                                ]
+                              ),
+                              _vm._v(
+                                "\r\n              \r\n              " +
+                                  _vm._s(
+                                    !_vm.$vuetify.breakpoint.xs &&
+                                      !_vm.$vuetify.breakpoint.sm
+                                      ? "Added class"
+                                      : ""
+                                  ) +
+                                  "\r\n            "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tab",
+                            {
+                              class:
+                                !_vm.$vuetify.breakpoint.xs &&
+                                !_vm.$vuetify.breakpoint.sm
+                                  ? "d-flex justify-start"
+                                  : "",
+                              on: {
+                                click: function($event) {
                                   ;(_vm.notificationType = "Hidden"),
                                     (_vm.notifTypeName = "hidden"),
                                     _vm.getNotificationList()
@@ -945,14 +984,16 @@ var render = function() {
                                               value:
                                                 _vm.notificationType == "all" ||
                                                 item.notification_type ==
-                                                  _vm.notificationType,
+                                                  _vm.notificationType ||
+                                                item.hide_notif == 1,
                                               expression:
-                                                "notificationType == 'all' || item.notification_type == notificationType"
+                                                "notificationType == 'all' || item.notification_type == notificationType || item.hide_notif == 1"
                                             }
                                           ],
                                           key: item.id,
                                           class:
-                                            item.status == null
+                                            item.status == null ||
+                                            item.status == 0
                                               ? "grey_active"
                                               : "",
                                           attrs: { link: "" }
@@ -1091,39 +1132,8 @@ var render = function() {
                                                   _vm._v(
                                                     "\r\n                                " +
                                                       _vm._s(item.message) +
-                                                      "\r\n                                 "
-                                                  ),
-                                                  item.notification_type == 3 &&
-                                                  item.notification_accepted ==
-                                                    0
-                                                    ? _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "blue--text",
-                                                          attrs: {
-                                                            href: "",
-                                                            link: ""
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              $event.preventDefault()
-                                                              return _vm.acceptJoin(
-                                                                item.notification_attachments,
-                                                                item.n_id
-                                                              )
-                                                            }
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\r\n                                Accept invite"
-                                                          )
-                                                        ]
-                                                      )
-                                                    : _vm._e()
+                                                      "\r\n                            "
+                                                  )
                                                 ]
                                               ),
                                               _vm._v(" "),
@@ -1180,7 +1190,8 @@ var render = function() {
                                                                             $event
                                                                           ) {
                                                                             return _vm.NotificationHide(
-                                                                              item.n_id
+                                                                              item.n_id,
+                                                                              index
                                                                             )
                                                                           }
                                                                         }

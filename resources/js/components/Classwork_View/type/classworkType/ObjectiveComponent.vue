@@ -51,7 +51,7 @@
                             <v-icon left>mdi-comment</v-icon>Private Comments
                         </div>
                         <v-divider></v-divider>
-                        <v-list class="mb-0 pb-0">
+                        <v-list :max-height="$vuetify.breakpoint.mdAndUp ? '350' : '500'" style="overflow-y:scroll;scrollbar-width: thin;"  class="mb-0 pb-0">
                    
                         <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                             <v-list-item-avatar>
@@ -512,4 +512,24 @@ export default {
         max-width: 100% !important;
         max-height: 50rem !important;
     }
+    /* width */
+    ::-webkit-scrollbar {
+    width: 8px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #888; 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+    }
+
 </style>

@@ -203,6 +203,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -246,9 +248,10 @@ var checksubjective = function checksubjective() {
       }],
       isSavingScore: false,
       score: null,
-      StatusType: ['All', 'Submitted', 'Graded'],
+      StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
       selectedStatus: 'All',
-      isStarting: false
+      isStarting: false,
+      isFiltered: false
     };
   },
   computed: {
@@ -368,6 +371,14 @@ var checksubjective = function checksubjective() {
           return false;
         }
       });
+    },
+    ShowLoading: function ShowLoading() {
+      var _this3 = this;
+
+      this.isFiltered = true;
+      setTimeout(function () {
+        return _this3.isFiltered = false;
+      }, 800);
     }
   }
 });
@@ -1291,6 +1302,7 @@ var render = function() {
                           "item-text": "class_name",
                           "item-value": "class_id"
                         },
+                        on: { change: _vm.ShowLoading },
                         model: {
                           value: _vm.Class,
                           callback: function($$v) {
@@ -1318,8 +1330,16 @@ var render = function() {
                                 i
                               ) {
                                 return [
-                                  _vm.Class == _vm.$route.params.id ||
-                                  _vm.Class == item.class_id
+                                  (_vm.Class == _vm.$route.params.id ||
+                                    _vm.Class == item.class_id) &&
+                                  (_vm.selectedStatus == "All" ||
+                                    (_vm.selectedStatus == "Submitted" &&
+                                      item.graded == 0) ||
+                                    (_vm.selectedStatus == "Graded" &&
+                                      item.graded == 1) ||
+                                    (_vm.selectedStatus == "No Submission" &&
+                                      (item.status == null ||
+                                        item.status == "")))
                                     ? _c(
                                         "v-list-item",
                                         { key: item.id },
@@ -1472,9 +1492,17 @@ var render = function() {
                                       )
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  (i < _vm.ListData.length &&
-                                    _vm.Class == _vm.$route.params.id) ||
-                                  _vm.Class == item.class_id
+                                  i < _vm.ListData.length &&
+                                  (_vm.Class == _vm.$route.params.id ||
+                                    _vm.Class == item.class_id) &&
+                                    (_vm.selectedStatus == "All" ||
+                                      (_vm.selectedStatus == "Submitted" &&
+                                        item.graded == 0) ||
+                                      (_vm.selectedStatus == "Graded" &&
+                                        item.graded == 1) ||
+                                      (_vm.selectedStatus == "No Submission" &&
+                                        (item.status == null ||
+                                          item.status == "")))
                                     ? _c("v-divider", { key: i })
                                     : _vm._e()
                                 ]
@@ -1565,6 +1593,7 @@ var render = function() {
                           label: "Status",
                           items: _vm.StatusType
                         },
+                        on: { change: _vm.ShowLoading },
                         model: {
                           value: _vm.selectedStatus,
                           callback: function($$v) {
@@ -1626,9 +1655,12 @@ var render = function() {
                                       (_vm.selectedStatus == "Submitted" &&
                                         item.graded == 0) ||
                                       (_vm.selectedStatus == "Graded" &&
-                                        item.graded == 1)),
+                                        item.graded == 1) ||
+                                      (_vm.selectedStatus == "No Submission" &&
+                                        (item.status == null ||
+                                          item.status == ""))),
                                   expression:
-                                    "(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1))"
+                                    "(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"
                                 }
                               ],
                               key: i,

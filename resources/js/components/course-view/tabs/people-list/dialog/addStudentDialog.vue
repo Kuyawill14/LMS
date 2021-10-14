@@ -88,6 +88,7 @@ export default {
             },
         async InviteStudent(){
             this.isAdding = true;
+            this.InviteDetails.course_id = this.$route.params.id;
             this.InviteDetails.class_id = this.cl_id;
             this.InviteDetails.course_name = this.course_name;
             this.InviteDetails.email = this.email;

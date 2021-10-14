@@ -544,9 +544,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this4.isSubmitting = !_this4.isSubmitting;
 
           _this4.$router.push({
-            name: 'result-page',
+            name: 'clwk',
             params: {
-              id: _this4.$route.query.clwk
+              id: _this4.$route.params.id
+            },
+            query: {
+              clwk: _this4.$route.query.clwk
             }
           });
         });
@@ -574,9 +577,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, 2000);
 
         _this5.$router.push({
-          name: 'result-page',
+          name: 'clwk',
           params: {
-            id: _this5.$route.query.clwk
+            id: _this5.$route.params.id
+          },
+          query: {
+            clwk: _this5.$route.query.clwk
           }
         });
       });
@@ -751,6 +757,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
         if (res.data.success == true) {
           if (res.data.status != 'Submitted') {
+            _this7.isExamStart = true;
             _this7.Submitted_Answers = res.data.Submitted_Answers;
             _this7.StartTime = res.data.startTime;
             _this7.submission_id = res.data.submission_id;
@@ -758,12 +765,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             _this7.StartQuiz();
           } else {
-            _this7.isLoading = false;
+            _this7.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+            //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+
+            _this7.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+              theme: "toasted-primary",
+              position: "top-center",
+              icon: "warning",
+              duration: 7000
+            });
 
             _this7.$router.push({
-              name: 'result-page',
+              name: 'clwk',
               params: {
-                id: _this7.$route.query.clwk
+                id: _this7.$route.params.id
+              },
+              query: {
+                clwk: _this7.$route.query.clwk
               }
             });
           }
@@ -875,11 +893,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _this9.isExamStart = true;
-
               _this9.CheckStatus();
 
-            case 2:
+            case 1:
             case "end":
               return _context2.stop();
           }

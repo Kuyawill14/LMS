@@ -35,7 +35,6 @@ class AnnouncementController extends Controller
     public function allClassPost($id)
     {
         $userId = auth("sanctum")->id();
-        //$userId = 3;
         $allClassPost;
         if(auth("sanctum")->user()->role != "Student")
         {
@@ -87,12 +86,10 @@ class AnnouncementController extends Controller
 
             $post->comment = $Comment;
             $post->comment_count = count($Comment);
+            $post->isCommented = tbl_comment::where("tbl_comments.post_id", $post->post_id)->where('tbl_comments.user_id', $userId)->exists();
 
-            $like = tbl_like::where('post_id', $post->post_id) ->where('user_id', $userId)->first();
-            $post->liked = $like ? true : false;
-
-            $like = tbl_like::where('post_id', $post->post_id)->where('user_id', $userId)->get();
-            $post->likes_count = count($like);
+            $post->liked = tbl_like::where('post_id', $post->post_id) ->where('user_id', $userId)->exists();
+            $post->likes_count =  $LikeCount = tbl_like::where('post_id', $post->post_id)->count();
 
             
         }

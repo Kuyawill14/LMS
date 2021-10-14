@@ -126,6 +126,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 var announcementList = function announcementList() {
@@ -139,7 +141,7 @@ var commentList = function commentList() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['PostList', 'UserDetails', 'classNames'],
+  props: ['UserDetails', 'classNames'],
   components: {
     commentList: commentList,
     announcementList: announcementList
@@ -155,15 +157,17 @@ var commentList = function commentList() {
       CommentList: [],
       showLess: true,
       class_id: this.$route.params.id,
-      isLoadingMore: false
+      isLoadingMore: false,
+      isdeleting: false,
+      isdeleting_id: null
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['current_page', 'last_page'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['current_page', 'last_page', 'getclass_post'])), {}, {
     icon: function icon() {
       return this.icons[this.iconIndex];
     }
   }),
-  methods: {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['deleteClassPost'])), {}, {
     test: function test() {
       $('.img-fluid').click(function () {//console.log($('.img-fluid').attr('src'))
       });
@@ -231,17 +235,29 @@ var commentList = function commentList() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_2___default().delete('/api/announcement/delete/' + id).then(function (res) {
-                  if (res.status == 200) {
-                    _this5.$emit('SlicePost', index);
-                  }
+                data = {};
+                data.id = id;
+                data.index = index;
+                _this5.isdeleting_id = id;
+                _this5.isdeleting = true;
+                /* axios.delete('/api/announcement/delete/'+id).then(res=>{
+                    if(res.status == 200){
+                        //this.$emit('SlicePost', index)
+                        
+                        this.getclass_post.splice(index, 1);
+                    }
+                }) */
+
+                _this5.$store.dispatch('deleteClassPost', data).then(function () {
+                  _this5.isdeleting = false;
                 });
 
-              case 1:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -249,7 +265,7 @@ var commentList = function commentList() {
         }, _callee);
       }))();
     }
-  },
+  }),
   beforeMount: function beforeMount() {
     $(".post-content p").replaceWith(function () {
       return "<span>" + this.innerHTML + "</span>";
@@ -416,7 +432,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.PostList.length != 0 && _vm.UserDetails.role != "Student"
+      _vm.getclass_post.length != 0 && _vm.UserDetails.role != "Student"
         ? _c(
             "v-row",
             [
@@ -457,7 +473,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm._l(_vm.PostList, function(post, index) {
+      _vm._l(_vm.getclass_post, function(post, index) {
         return _c(
           "v-card",
           {
@@ -476,9 +492,17 @@ var render = function() {
             staticClass: "mb-10"
           },
           [
+            _c("vue-element-loading", {
+              attrs: {
+                color: "primary",
+                active: _vm.isdeleting && _vm.isdeleting_id == post.post_id,
+                spinner: "bar-fade-scale"
+              }
+            }),
+            _vm._v(" "),
             _c(
               "v-row",
-              { staticClass: "pl-5 pr-5 pt-2 mb-3 " },
+              { staticClass: "pl-4 pr-5 pt-2 mb-3 " },
               [
                 _c("v-col", { attrs: { cols: "8" } }, [
                   _c(
@@ -682,7 +706,7 @@ var render = function() {
               _c("v-progress-circular", {
                 attrs: { indeterminate: "", color: "primary" }
               }),
-              _vm._v("\n            loading\n    ")
+              _vm._v("\n            loading\n         \n    ")
             ],
             1
           )

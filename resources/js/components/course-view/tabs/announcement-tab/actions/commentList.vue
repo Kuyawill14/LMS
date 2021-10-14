@@ -1,26 +1,14 @@
 <template>
 <div>
-    <v-container class="mt-3 text-right pl-5 pr-3 mb-2 d-inline-flex">
+    <v-container :class="!$vuetify.breakpoint.xs ? 'mt-3 text-right pl-5 pr-3 mb-2 d-inline-flex' : 'mt-3 text-center pl-5 pr-3 mb-2 d-inline-flex justify-space-between'">
         <v-btn rounded text @click="LikePost(postDetails.post_id, postDetails.liked)">
-        <v-badge 
-        offset-x="40" offset-y="12"
-         :content="postDetails.likes_count"
-        :value="postDetails.likes_count"
-        >
-        <v-icon :color="postDetails.liked ? 'blue' : ''" class="mr-1">  {{postDetails.liked ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'}} </v-icon>
-        </v-badge>
-            {{postDetails.liked ? '' :'like'}}
+            <v-icon :color="postDetails.liked ? 'blue' : ''" class="mr-1">  {{postDetails.liked ? 'mdi-thumb-up' : 'mdi-thumb-up-outline'}} </v-icon>
+            {{postDetails.likes_count+' like'}}
         </v-btn>
         
         <v-btn rounded text @click="postDetails.comment_count != 0 ?  showComment = !showComment : ''">
-        <v-badge 
-        offset-x="40" offset-y="12"
-        :content="!showComment ? postDetails.comment_count : ''"
-        :value="!showComment ? postDetails.comment_count : ''"
-        >
-        <v-icon class="mr-1">mdi-comment-outline</v-icon>
-        </v-badge>
-           
+            <v-icon :color="postDetails.isCommented ? 'blue' : ''" class="mr-1">mdi-comment</v-icon>
+           {{postDetails.comment_count+' Comments'}}
         </v-btn>
     </v-container>
 
@@ -30,20 +18,23 @@
      <transition transition="v-expand-transition" >
   <div class="mt-6 mb-0 pb-0" v-if="showComment">
      
-        <v-container v-for="item in postDetails.comment" :key="item.id" class="d-inline-flex pl-7 pr-4 pb-2 shrink" pa-0>
-            <v-avatar
-            color="grey"
-            size="36"
-            :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
+        <v-container v-for="(item, index) in postDetails.comment" :key="item.id" :class="$vuetify.breakpoint.mdAndUp ? 'd-inline-flex ml-1 pr-4 pb-2 shrink rounded-lg' : 'd-inline-flex pl-6 pr-4 pb-2 shrink rounded-lg'" >
+            <v-avatar v-if="idEditing_id != item.id" color="grey" :size="$vuetify.breakpoint.mdAndUp ? '40' : '30'" :class="isEditing && idEditing_id == item.id ? 'mt-1': ''">
             <v-img class="rounded-circle"  
                 :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + item.name : item.profile_pic"></v-img> 
             </v-avatar>
+            <v-btn class="mt-2" v-if="isEditing && idEditing_id == item.id" @click="isEditing = false , idEditing_id = null" icon small>
+                <v-icon>
+                    mdi-close
+                </v-icon>
+            </v-btn>
+
             <v-container class="d-flex flex-row ml-1 mt-1" ma-0 pa-0>
-                <v-container  class="d-flex flex-column ml-1 pr-10" ma-0 pa-0>
+                <v-container  class="d-flex flex-column ml-1" ma-0 pa-0>
                 <span v-if="!isEditing || idEditing_id != item.id" class="d-block name">{{item.name}}</span>
                 <span v-if="!isEditing || idEditing_id != item.id" class="caption" style="line-height:1.5">{{item.content}}</span>
                 
-                <v-text-field
+                <v-textarea
                 v-if="isEditing && idEditing_id == item.id"
                 v-model="UpdateComment"
                 append-outer-icon="mdi-send"
@@ -51,17 +42,19 @@
                 filled
                 rounded
                 dense
+                rows="1"
+                auto-grow
                 clear-icon="mdi-close-circle"
                 clearable
                 placeholder="Comment"
                 class="text-caption"
                 type="text"
-                @click:append-outer="UpdateCommentData()"
+                @click:append-outer="UpdateCommentData(index)"
                 @click:clear="UpdateComment=''"
-                ></v-text-field>
+                ></v-textarea>
                 
                 </v-container>
-                 <v-menu v-if="item.u_id == UserDetails.id || UserDetails.role == 'Teacher'" offset-y >
+                 <v-menu v-if="(item.u_id == UserDetails.id || UserDetails.role == 'Teacher') && idEditing_id != item.id" offset-y >
                     <template v-slot:activator="{ on, attrs }">
                         <v-btn icon v-bind="attrs" v-on="on">
                             <v-icon >mdi-dots-vertical</v-icon>
@@ -112,31 +105,33 @@
                 >
             </v-text-field> -->
 
-            <v-list class="mb-0 pb-0 mt-0 pt-0">
+            <v-list class="mb-0 pb-0 mt-0 pt-0 ">
                 <v-list-item class="mb-0 pb-0" >
-                    <v-list-item-avatar color="secondary" >
+                    <v-list-item-avatar v-if="$vuetify.breakpoint.mdAndUp" color="secondary" >
                         <v-img :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 
                         'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                         </v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>
-                             <v-text-field
+                             <v-textarea
                                     v-model="comment"
                                     append-outer-icon="mdi-send"
                                     prepend-avatar="mdi-emoticon-dead"
                                     filled
+                                    rows="1"
+                                    auto-grow
                                     rounded
                                     dense
                                     clear-icon="mdi-close-circle"
                                     clearable
                                     placeholder="Comment"
-                                    class="text-caption pl-0 mt-6"
+                                    class="text-caption pl-0 mt-7"
                                     type="text"
                                     @click:append-outer="addComment"
                                     @click:clear="clearComment"
                                     >
-                                </v-text-field>
+                                </v-textarea>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -186,6 +181,7 @@ export default {
         },
        
         async addComment () {
+            this.postDetails.isCommented =  true;
             this.data.content = this.comment;
             this.data.course_id = this.$route.params.id;
             this.data.post_id = this.postDetails.post_id;
@@ -208,8 +204,13 @@ export default {
                 this.getComments();
             })
         },
-        UpdateCommentData(){
-
+        async UpdateCommentData(Dataindex){
+            axios.put('/api/post/comment/update/'+this.idEditing_id, {comment : this.UpdateComment})
+            .then(()=>{
+                this.postDetails.comment[Dataindex].content = this.UpdateComment;
+                this.UpdateComment = '';
+                this.idEditing_id = null;
+            })
         },
         async LikePost(id, liked){
             if(!liked){

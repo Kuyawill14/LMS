@@ -22,13 +22,13 @@
             <v-menu bottom min-width="200px"  rounded offset-y>
                 <template v-slot:activator="{ on }">
                     <v-btn icon x-large v-on="on">
-                        <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="12" offset-y="12" color="red darken-4">
+                      <!--   <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="12" offset-y="12" color="red darken-4"> -->
                         <v-avatar style="border: 2px solid #FAFAFA" color="brown" size="40">
                             <v-img alt="Proflie"
                                 :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
-                        </v-badge>
+                      <!--   </v-badge> -->
                     </v-btn>
                 </template>
                 <v-card>
@@ -52,12 +52,12 @@
                             <v-btn depressed @click="$router.push({name:'archive-course'})" rounded text>
                                 <v-icon left>mdi-package-down</v-icon> Archive
                             </v-btn>
-                            <v-divider class="my-3"></v-divider>
+                          <!--   <v-divider class="my-3"></v-divider>
                             <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="15" offset-y="15" color="red darken-4">
                             <v-btn depressed @click="$router.push({name: 'invites'})" rounded text>
                                 <v-icon left>mdi-account-multiple-plus</v-icon> Class Invite
                             </v-btn>
-                            </v-badge>
+                            </v-badge> -->
                             <v-divider class="my-3"></v-divider>
                             <v-btn @click="logout" depressed rounded text>
                                 <v-icon left>mdi-power</v-icon> Logout
@@ -93,9 +93,6 @@
     const mainBottomNavigation = () => import(/* webpackChunkName: "layout" */"./bottom-navigation/course-bottom-navigation")
     const adminNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/admin/admin-navbar")
     const notifications = () => import(/* webpackChunkName: "layout" */"./notification/notification")
-    const invites = () => import(/* webpackChunkName: "layout" */"./notification/invites")
-
-    
 
     import {
         mapGetters,
@@ -108,7 +105,6 @@
             courseNavbar,
             adminNavbar,
             notifications,
-            invites,
             mainBottomNavigation
         },
         data() {

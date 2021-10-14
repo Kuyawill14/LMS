@@ -60,7 +60,7 @@
                         </v-list-item>
                         
                         <template v-for="(item, index) in get_notification">
-                            <v-list-item  :class="item.status == null ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" :key="item.id">
+                            <v-list-item  :class="item.status == null || item.status == 0 ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" :key="item.id">
                                 <v-list-item-avatar @click="GotoThisNotification(item)">
                                     <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                                     <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
@@ -79,8 +79,7 @@
                                 
                                     <div class="body-2">
                                         {{item.message}}
-                                        <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id, index),isClose = true" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
-                                        Accept invite</a>
+                                      
                                     </div>
                                     <small>{{format_date(item.created_at)}}</small>
                                         
@@ -261,16 +260,16 @@
             },
  */
              NotificationHide(id) {
-                this.$store.dispatch("HideNotification", id)
-                .then(res=>{
-                    if(res == 200){
-                        this.get_notification.forEach(item => {
-                            if(item.n_id == id){
-                                item.hide_notif = 1;
-                            }
-                        });
-                    }
-                })
+                    this.$store.dispatch("HideNotification", id)
+                    .then(res=>{
+                        if(res == 200){
+                            this.get_notification.forEach(item => {
+                                if(item.n_id == id){
+                                    item.hide_notif = 1;
+                                }
+                            });
+                        }
+                    })
                 },
             markAsread(id) {
                 this.AttachData.id = id;
@@ -282,7 +281,7 @@
                             if(item.n_id == id){
                                 item.status = 1;
                                 if(this.isAccepted){
-                                        item.notification_accepted = 1;
+                                    item.notification_accepted = 1;
                                 }
                             }
                         });
@@ -331,7 +330,15 @@
                     this.markAsread(data.n_id);
                 }
 
-                if(data.notification_type == 4){
+
+                 if(data.notification_type == 1 || data.notification_type == 3){
+                    let path = '/course/'+data.c_id+'/announcement';
+                    if(this.$route.path != path){
+                        this.$router.push({path: path});
+                    }
+                    
+                }
+                else if(data.notification_type == 4){
                     let startPath = '/classwork/'+data.c_id+'/classwork-details';
                     if(this.$route.path != startPath){
                         this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
@@ -341,13 +348,7 @@
                         }
                     }
                 }
-                else if(data.notification_type == 1){
-                    let path = '/course/'+data.c_id+'/announcement';
-                    if(this.$route.path != path){
-                        this.$router.push({path: path});
-                    }
-                    
-                }
+               
             },
             fetchNotificationall(on){
                 let checker = on['aria-expanded'] == 'false' ? false : true;

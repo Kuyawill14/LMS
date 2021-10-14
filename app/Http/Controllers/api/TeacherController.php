@@ -53,27 +53,32 @@ class TeacherController extends Controller
     public function InviteStudent(Request $request)
     {   
         $userId = auth('sanctum')->id();
-
-        $userId = auth('sanctum')->id();
         $name = tbl_userDetails::where('user_id',  $userId)->first();
         $UserFullName = $name->firstName.' '. $name->lastName;
         $FindUser = User::where('users.email', $request->email)
         ->first();
 
+    
+
+
+
         if($FindUser){
-            //return  $FindUser;
+            $course = tbl_subject_course::find($request->course_id);
+
+            $JoinClass = new tbl_userclass;
+            $JoinClass->class_id = $request->class_id;
+            $JoinClass->user_id = $FindUser->id;
+            $JoinClass->course_id = $request->course_id;
+            $JoinClass->save();
+
             $newNotification = new tbl_notification;
             $newNotification->user_id_to = $FindUser->id;
             $newNotification->from_id =  $userId;
-            $newNotification->message = "Invited you join ".$request->class_name." class using the class code "."'".$request->class_code."'";
-            $newNotification->notification_attachments = $request->class_code;
+            $newNotification->from_course = $request->course_id;
+            $newNotification->message = "Added you in ". $course->course_name." ".$request->class_name." class";
+            $newNotification->notification_attachments = $request->course_id;
             $newNotification->notification_type = 3;
             $newNotification->save();
-
-            $NewUnread = new UserNotification;
-            $NewUnread->notification_id =  $newNotification->id;
-            $NewUnread->user_id = $FindUser->id;
-            $NewUnread->save();
             return;
         }
         else{
@@ -343,31 +348,42 @@ class TeacherController extends Controller
     {   
         $course = tbl_subject_course::find($request->course_id);
         
+        
         $contains = str_contains($course->course_picture, 'https://orangestr.sgp1.cdn.digitaloceanspaces.com');
         if($contains){
             $path =  str_replace(\Config::get('app.do_url').'/', "", $course->course_picture);
             Storage::disk('DO_spaces')->delete($path);
 
-            $file = $request->file;
-            $file_exte = $file->getClientOriginalExtension();
-            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file_name);
-            $Uploadname = $original_file_name.'_'.time().'.'.$file_exte;
-            $upload_file = Storage::disk('DO_spaces')->putFileAs('courseBackground/'.$request->course_id, $file, $Uploadname , 'public');
-            $path = \Config::get('app.do_url').'/'. $upload_file;
-            $course->course_picture =  $path;
+            if($request->type == "uploaded"){
+                $file = $request->file;
+                $file_exte = $file->getClientOriginalExtension();
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file_name);
+                $Uploadname = $original_file_name.'_'.time().'.'.$file_exte;
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('courseBackground/'.$request->course_id, $file, $Uploadname , 'public');
+                $path = \Config::get('app.do_url').'/'. $upload_file;
+                $course->course_picture =  $path;
+            }
+            else if($request->type == "from_file"){
+                $course->course_picture = $request->file_name;
+            }
             $course->save();
-            return;
+            return $course->course_picture;
         }
         else{
-            $file = $request->file;
-            $file_exte = $file->getClientOriginalExtension();
-            $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file_name);
-            $Uploadname = $original_file_name.'_'.time().'.'.$file_exte;
-            $upload_file = Storage::disk('DO_spaces')->putFileAs('courseBackground/'.$request->course_id, $file, $Uploadname , 'public');
-            $path = \Config::get('app.do_url').'/'. $upload_file;
-            $course->course_picture =  $path;
+            if($request->type == "uploaded"){
+                $file = $request->file;
+                $file_exte = $file->getClientOriginalExtension();
+                $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->file_name);
+                $Uploadname = $original_file_name.'_'.time().'.'.$file_exte;
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('courseBackground/'.$request->course_id, $file, $Uploadname , 'public');
+                $path = \Config::get('app.do_url').'/'. $upload_file;
+                $course->course_picture =  $path;
+            }
+            else if($request->type == "from_file"){
+                $course->course_picture = $request->file_name;
+            }
             $course->save();
-            return;
+            return $course->course_picture;
         }
 
 

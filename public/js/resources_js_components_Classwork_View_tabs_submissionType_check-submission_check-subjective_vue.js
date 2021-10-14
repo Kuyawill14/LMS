@@ -712,7 +712,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\ninput::-webkit-outer-spin-button,\r\ninput::-webkit-inner-spin-button {\r\n    /* display: none; <- Crashes Chrome on hover */\r\n    -webkit-appearance: none;\r\n    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */\n}\ninput[type=number] {\r\n    -moz-appearance:textfield; /* Firefox */\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\ninput::-webkit-outer-spin-button,\r\ninput::-webkit-inner-spin-button {\r\n    /* display: none; <- Crashes Chrome on hover */\r\n    -webkit-appearance: none;\r\n    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */\n}\ninput[type=number] {\r\n    -moz-appearance:textfield; /* Firefox */\n}\r\n/* width */\n::-webkit-scrollbar {\r\n  width: 8px;\n}\r\n\r\n/* Track */\n::-webkit-scrollbar-track {\r\n  background: #f1f1f1;\n}\r\n \r\n/* Handle */\n::-webkit-scrollbar-thumb {\r\n  background: #888;\n}\r\n\r\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\r\n  background: #555;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1481,7 +1481,7 @@ var render = function() {
                       _c(
                         "v-card",
                         {
-                          staticClass: "mt-2 ",
+                          staticClass: "mt-2 scrollComment",
                           attrs: { elevation: "1", outlined: "" }
                         },
                         [
@@ -1503,7 +1503,14 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-list",
-                            { staticClass: "mb-0 pb-0" },
+                            {
+                              staticClass: "mb-0 pb-0",
+                              staticStyle: {
+                                "overflow-y": "scroll",
+                                "scrollbar-width": "thin"
+                              },
+                              attrs: { "max-height": "350" }
+                            },
                             _vm._l(_vm.CheckData.comments, function(item, i) {
                               return _c(
                                 "v-list-item",

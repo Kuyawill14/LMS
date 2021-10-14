@@ -58,6 +58,16 @@ const actions = {
         state.class_post.push({...newCLassPost });
         return res;
     },
+
+    async deleteClassPost({ commit }, data) {
+
+        const res = await axios.delete(`/api/announcement/delete/${data.id}`);
+        if(res){
+            state.class_post.splice(data.index, 1);
+        }
+        
+        
+    },
 };
 const mutations = {
     FETCH_CLASSPOST: (state, class_post) => (state.class_post = class_post),

@@ -30,6 +30,7 @@
                 <v-select
                 outlined
                 dense
+                @change="ShowLoading"
                 label="Class"
                 v-model="Class"
                 class="mb-0 pb-0"
@@ -72,8 +73,8 @@
 
                  <v-list >
                     <v-list-item-group >
-                        <template v-for="(item,i) in studentSubmissionList" >
-                            <v-list-item v-if="Class == $route.params.id || Class == item.class_id" :key="item.id">
+                        <template v-for="(item,i) in studentSubmissionList"  >
+                            <v-list-item v-show="(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))" :key="item.id">
                                 <v-list-item-avatar @click="ViewSubmision(item, i)"   color="secondary">
                                     <v-img alt="Profile"
                                         :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
@@ -95,7 +96,7 @@
                                 </v-list-item-action>
                                 </v-list-item>
                                   <v-divider
-                                    v-if="i < ListData.length && Class == $route.params.id || Class == item.class_id"
+                                    v-if="i < ListData.length && (Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"
                                     :key="i">
                                 </v-divider>
                             </template>
@@ -136,6 +137,7 @@
                  <v-select
                     outlined
                     dense
+                    @change="ShowLoading"
                     label="Status"
                     v-model="selectedStatus"
                     class="mb-0 pb-0"
@@ -158,7 +160,7 @@
 
             <v-col cols="12" class="mt-0 pt-0">
                 <v-row>
-                    <v-col v-show="(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"  class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"  class="text-center ma-0 pa-0 pl-2 pr-3 pb-3" cols="6" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                         <v-card 
                         outlined
                         
@@ -190,6 +192,20 @@
                             </v-list-item>
                           </v-alert>
                       </v-card>
+                    </v-col>
+
+                    <v-col cols="12" v-if="isFiltered">
+                        <v-container class="fill-height" style="height: 500px;">
+                        <v-row  align-content="center" justify="center">
+                                <v-col cols="12" class="text-center">
+                                    <vue-element-loading :active="isFiltered" 
+                                    duration="0.7"
+                                  
+                                    spinner="line-scale" color="#EF6C00"  size="40" />
+                                </v-col>
+                            </v-row>
+                        </v-container>
+
                     </v-col>
                 </v-row>
             </v-col>
@@ -269,6 +285,7 @@ export default {
             isStarting: false,
             resetdialog: false,
             selected_user_id: null,
+            isFiltered: false,
             
         }
     },
@@ -331,6 +348,10 @@ export default {
                  this.resetdialog = !this.resetdialog
             })
         },
+        ShowLoading(){
+            this.isFiltered = true;
+            setTimeout(() => (this.isFiltered = false), 800);
+        }
        
     },
    /*  created(){

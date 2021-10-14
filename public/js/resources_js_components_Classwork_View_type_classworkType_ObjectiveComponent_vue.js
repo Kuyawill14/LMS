@@ -618,7 +618,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n/* width */\n::-webkit-scrollbar {\nwidth: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\nbackground: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\nbackground: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\nbackground: #555;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1000,7 +1000,19 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-list",
-                                { staticClass: "mb-0 pb-0" },
+                                {
+                                  staticClass: "mb-0 pb-0",
+                                  staticStyle: {
+                                    "overflow-y": "scroll",
+                                    "scrollbar-width": "thin"
+                                  },
+                                  attrs: {
+                                    "max-height": _vm.$vuetify.breakpoint
+                                      .mdAndUp
+                                      ? "350"
+                                      : "500"
+                                  }
+                                },
                                 _vm._l(_vm.classworkDetails.comments, function(
                                   item,
                                   i

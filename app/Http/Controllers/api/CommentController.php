@@ -38,6 +38,26 @@ class CommentController extends Controller
         return $CommentCount;
     }
 
+    /**
+     * Display a listing of the resource.
+     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateComment($id, Request $request)
+    {
+        $Comment = tbl_comment::find($id);
+        if($Comment){
+            $Comment->content = $request->comment;
+            $Comment->save();
+            return "Comment Updated!";
+        }
+        return "Failed updating the comment";
+
+
+    }
+
+
    
 
     /**
@@ -122,31 +142,25 @@ class CommentController extends Controller
         if(auth('sanctum')->user()->role != 'Student'){
             $NewComment = new tbl_comment;
             $NewComment->classwork_id = $request->classwork_id;
-
             $NewComment->user_id = $userId;
             $NewComment->from_user =  $request->to_user;
             $NewComment->to_user = $userId;
-            $NewComment->type = $request->type;
+            $NewComment->type = "Private";
             $NewComment->course_id =  $request->course_id;
             $NewComment->content = $request->comment;
-            $NewComment->type = $request->type;
             $NewComment->save();
         }else{
             $NewComment = new tbl_comment;
             $NewComment->classwork_id = $request->classwork_id;
-
             $NewComment->user_id = $userId;
             $NewComment->from_user = $userId;
             $NewComment->to_user = $request->to_user;
-            $NewComment->type = $request->type;
-
+            $NewComment->type = "Private";
             $NewComment->course_id =  $request->course_id;
             $NewComment->content = $request->comment;
-            $NewComment->type = $request->type;
             $NewComment->save();
         }
-      
-        
+    
         $details = tbl_userDetails::where('user_id', $NewComment->user_id)->first();
         return response()->json([
             "id"=>$NewComment->id, 

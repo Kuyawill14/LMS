@@ -161,11 +161,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'postDetails'],
   data: function data() {
@@ -240,6 +235,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                _this3.postDetails.isCommented = true;
                 _this3.data.content = _this3.comment;
                 _this3.data.course_id = _this3.$route.params.id;
                 _this3.data.post_id = _this3.postDetails.post_id;
@@ -253,7 +249,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this3.getComments();
                 });
 
-              case 4:
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -287,8 +283,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    UpdateCommentData: function UpdateCommentData() {},
-    LikePost: function LikePost(id, liked) {
+    UpdateCommentData: function UpdateCommentData(Dataindex) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -296,19 +291,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!liked) {
-                  axios.post('/api/post/like', {
-                    post_id: id
-                  }).then(function () {
-                    _this5.postDetails.liked = true;
-                    _this5.postDetails.likes_count += 1;
-                  });
-                } else {
-                  axios["delete"]('/api/post/like/delete/' + id).then(function () {
-                    _this5.postDetails.liked = false;
-                    _this5.postDetails.likes_count = _this5.postDetails.likes_count != 0 ? _this5.postDetails.likes_count -= 1 : 0;
-                  });
-                }
+                axios.put('/api/post/comment/update/' + _this5.idEditing_id, {
+                  comment: _this5.UpdateComment
+                }).then(function () {
+                  _this5.postDetails.comment[Dataindex].content = _this5.UpdateComment;
+                  _this5.UpdateComment = '';
+                  _this5.idEditing_id = null;
+                });
 
               case 1:
               case "end":
@@ -316,6 +305,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee5);
+      }))();
+    },
+    LikePost: function LikePost(id, liked) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                if (!liked) {
+                  axios.post('/api/post/like', {
+                    post_id: id
+                  }).then(function () {
+                    _this6.postDetails.liked = true;
+                    _this6.postDetails.likes_count += 1;
+                  });
+                } else {
+                  axios["delete"]('/api/post/like/delete/' + id).then(function () {
+                    _this6.postDetails.liked = false;
+                    _this6.postDetails.likes_count = _this6.postDetails.likes_count != 0 ? _this6.postDetails.likes_count -= 1 : 0;
+                  });
+                }
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   }
@@ -412,7 +431,11 @@ var render = function() {
     [
       _c(
         "v-container",
-        { staticClass: "mt-3 text-right pl-5 pr-3 mb-2 d-inline-flex" },
+        {
+          class: !_vm.$vuetify.breakpoint.xs
+            ? "mt-3 text-right pl-5 pr-3 mb-2 d-inline-flex"
+            : "mt-3 text-center pl-5 pr-3 mb-2 d-inline-flex justify-space-between"
+        },
         [
           _c(
             "v-btn",
@@ -429,40 +452,26 @@ var render = function() {
             },
             [
               _c(
-                "v-badge",
+                "v-icon",
                 {
-                  attrs: {
-                    "offset-x": "40",
-                    "offset-y": "12",
-                    content: _vm.postDetails.likes_count,
-                    value: _vm.postDetails.likes_count
-                  }
+                  staticClass: "mr-1",
+                  attrs: { color: _vm.postDetails.liked ? "blue" : "" }
                 },
                 [
-                  _c(
-                    "v-icon",
-                    {
-                      staticClass: "mr-1",
-                      attrs: { color: _vm.postDetails.liked ? "blue" : "" }
-                    },
-                    [
-                      _vm._v(
-                        "  " +
-                          _vm._s(
-                            _vm.postDetails.liked
-                              ? "mdi-thumb-up"
-                              : "mdi-thumb-up-outline"
-                          ) +
-                          " "
-                      )
-                    ]
+                  _vm._v(
+                    "  " +
+                      _vm._s(
+                        _vm.postDetails.liked
+                          ? "mdi-thumb-up"
+                          : "mdi-thumb-up-outline"
+                      ) +
+                      " "
                   )
-                ],
-                1
+                ]
               ),
               _vm._v(
                 "\r\n            " +
-                  _vm._s(_vm.postDetails.liked ? "" : "like") +
+                  _vm._s(_vm.postDetails.likes_count + " like") +
                   "\r\n        "
               )
             ],
@@ -483,23 +492,17 @@ var render = function() {
             },
             [
               _c(
-                "v-badge",
+                "v-icon",
                 {
-                  attrs: {
-                    "offset-x": "40",
-                    "offset-y": "12",
-                    content: !_vm.showComment
-                      ? _vm.postDetails.comment_count
-                      : "",
-                    value: !_vm.showComment ? _vm.postDetails.comment_count : ""
-                  }
+                  staticClass: "mr-1",
+                  attrs: { color: _vm.postDetails.isCommented ? "blue" : "" }
                 },
-                [
-                  _c("v-icon", { staticClass: "mr-1" }, [
-                    _vm._v("mdi-comment-outline")
-                  ])
-                ],
-                1
+                [_vm._v("mdi-comment")]
+              ),
+              _vm._v(
+                "\r\n           " +
+                  _vm._s(_vm.postDetails.comment_count + " Comments") +
+                  "\r\n        "
               )
             ],
             1
@@ -515,38 +518,71 @@ var render = function() {
           ? _c(
               "div",
               { staticClass: "mt-6 mb-0 pb-0" },
-              _vm._l(_vm.postDetails.comment, function(item) {
+              _vm._l(_vm.postDetails.comment, function(item, index) {
                 return _c(
                   "v-container",
                   {
                     key: item.id,
-                    staticClass: "d-inline-flex pl-7 pr-4 pb-2 shrink",
-                    attrs: { "pa-0": "" }
+                    class: _vm.$vuetify.breakpoint.mdAndUp
+                      ? "d-inline-flex ml-1 pr-4 pb-2 shrink rounded-lg"
+                      : "d-inline-flex pl-6 pr-4 pb-2 shrink rounded-lg"
                   },
                   [
-                    _c(
-                      "v-avatar",
-                      {
-                        class:
-                          _vm.isEditing && _vm.idEditing_id == item.id
-                            ? "mt-1"
-                            : "",
-                        attrs: { color: "grey", size: "36" }
-                      },
-                      [
-                        _c("v-img", {
-                          staticClass: "rounded-circle",
-                          attrs: {
-                            src:
-                              item.profile_pic == null || item.profile_pic == ""
-                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                  item.name
-                                : item.profile_pic
-                          }
-                        })
-                      ],
-                      1
-                    ),
+                    _vm.idEditing_id != item.id
+                      ? _c(
+                          "v-avatar",
+                          {
+                            class:
+                              _vm.isEditing && _vm.idEditing_id == item.id
+                                ? "mt-1"
+                                : "",
+                            attrs: {
+                              color: "grey",
+                              size: _vm.$vuetify.breakpoint.mdAndUp
+                                ? "40"
+                                : "30"
+                            }
+                          },
+                          [
+                            _c("v-img", {
+                              staticClass: "rounded-circle",
+                              attrs: {
+                                src:
+                                  item.profile_pic == null ||
+                                  item.profile_pic == ""
+                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                      item.name
+                                    : item.profile_pic
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.isEditing && _vm.idEditing_id == item.id
+                      ? _c(
+                          "v-btn",
+                          {
+                            staticClass: "mt-2",
+                            attrs: { icon: "", small: "" },
+                            on: {
+                              click: function($event) {
+                                ;(_vm.isEditing = false),
+                                  (_vm.idEditing_id = null)
+                              }
+                            }
+                          },
+                          [
+                            _c("v-icon", [
+                              _vm._v(
+                                "\r\n                    mdi-close\r\n                "
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      : _vm._e(),
                     _vm._v(" "),
                     _c(
                       "v-container",
@@ -558,7 +594,7 @@ var render = function() {
                         _c(
                           "v-container",
                           {
-                            staticClass: "d-flex flex-column ml-1 pr-10",
+                            staticClass: "d-flex flex-column ml-1",
                             attrs: { "ma-0": "", "pa-0": "" }
                           },
                           [
@@ -580,7 +616,7 @@ var render = function() {
                               : _vm._e(),
                             _vm._v(" "),
                             _vm.isEditing && _vm.idEditing_id == item.id
-                              ? _c("v-text-field", {
+                              ? _c("v-textarea", {
                                   staticClass: "text-caption",
                                   attrs: {
                                     "append-outer-icon": "mdi-send",
@@ -588,6 +624,8 @@ var render = function() {
                                     filled: "",
                                     rounded: "",
                                     dense: "",
+                                    rows: "1",
+                                    "auto-grow": "",
                                     "clear-icon": "mdi-close-circle",
                                     clearable: "",
                                     placeholder: "Comment",
@@ -595,7 +633,7 @@ var render = function() {
                                   },
                                   on: {
                                     "click:append-outer": function($event) {
-                                      return _vm.UpdateCommentData()
+                                      return _vm.UpdateCommentData(index)
                                     },
                                     "click:clear": function($event) {
                                       _vm.UpdateComment = ""
@@ -614,8 +652,9 @@ var render = function() {
                           1
                         ),
                         _vm._v(" "),
-                        item.u_id == _vm.UserDetails.id ||
-                        _vm.UserDetails.role == "Teacher"
+                        (item.u_id == _vm.UserDetails.id ||
+                          _vm.UserDetails.role == "Teacher") &&
+                        _vm.idEditing_id != item.id
                           ? _c(
                               "v-menu",
                               {
@@ -746,31 +785,33 @@ var render = function() {
             [
               _c(
                 "v-list",
-                { staticClass: "mb-0 pb-0 mt-0 pt-0" },
+                { staticClass: "mb-0 pb-0 mt-0 pt-0 " },
                 [
                   _c(
                     "v-list-item",
                     { staticClass: "mb-0 pb-0" },
                     [
-                      _c(
-                        "v-list-item-avatar",
-                        { attrs: { color: "secondary" } },
-                        [
-                          _c("v-img", {
-                            attrs: {
-                              src:
-                                _vm.UserDetails.profile_pic == null ||
-                                _vm.UserDetails.profile_pic == ""
-                                  ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                    (_vm.UserDetails.firstName +
-                                      " " +
-                                      _vm.UserDetails.lastName)
-                                  : _vm.UserDetails.profile_pic
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                      _vm.$vuetify.breakpoint.mdAndUp
+                        ? _c(
+                            "v-list-item-avatar",
+                            { attrs: { color: "secondary" } },
+                            [
+                              _c("v-img", {
+                                attrs: {
+                                  src:
+                                    _vm.UserDetails.profile_pic == null ||
+                                    _vm.UserDetails.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        (_vm.UserDetails.firstName +
+                                          " " +
+                                          _vm.UserDetails.lastName)
+                                      : _vm.UserDetails.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "v-list-item-content",
@@ -778,12 +819,14 @@ var render = function() {
                           _c(
                             "v-list-item-title",
                             [
-                              _c("v-text-field", {
-                                staticClass: "text-caption pl-0 mt-6",
+                              _c("v-textarea", {
+                                staticClass: "text-caption pl-0 mt-7",
                                 attrs: {
                                   "append-outer-icon": "mdi-send",
                                   "prepend-avatar": "mdi-emoticon-dead",
                                   filled: "",
+                                  rows: "1",
+                                  "auto-grow": "",
                                   rounded: "",
                                   dense: "",
                                   "clear-icon": "mdi-close-circle",

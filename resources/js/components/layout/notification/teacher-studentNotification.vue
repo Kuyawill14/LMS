@@ -49,14 +49,14 @@
               
               {{!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'Classwork' : ''}}
             </v-tab>
-            <!-- <v-tab @click="notificationType = 3,notifTypeName = 'class-invites', getNotificationList()" 
+            <v-tab @click="notificationType = 3,notifTypeName = 'class-invites', getNotificationList()" 
             :class="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
               <v-icon :left="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm">
                 mdi-account-plus
               </v-icon>
               
-              {{!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'Class Invites' : ''}}
-            </v-tab> -->
+              {{!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'Added class' : ''}}
+            </v-tab>
 
             <v-tab @click="notificationType = 'Hidden',notifTypeName = 'hidden', getNotificationList()" 
             :class="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 'd-flex justify-start' : ''">
@@ -119,10 +119,7 @@
                     </v-list-item>
                     
                    <template v-for="(item, index) in get_notification">
-                    <v-list-item link :class="item.status == null ? 'grey_active' : ''"  v-show="notificationType == 'all' || item.notification_type == notificationType"  :key="item.id">
-                        
-
-                            
+                    <v-list-item link :class="item.status == null || item.status == 0 ? 'grey_active' : ''"  v-show="notificationType == 'all' || item.notification_type == notificationType || item.hide_notif == 1"  :key="item.id">                  
                         <v-list-item-avatar @click="GotoThisNotification(item)" >
                             <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                             <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
@@ -142,12 +139,6 @@
                            
                             <div class="body-2">
                                 {{item.message}}
-                                 <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id)" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
-                                Accept invite</a>
-                               <!--  <v-btn v-if="item.notification_type == 3 && item.notification_accepted == 0"
-                                 
-                                @click="acceptJoin(item.notification_attachments)" rounded small text>Accept invite</v-btn> -->
-                               
                             </div>
                             <small>{{format_date(item.created_at)}}</small>
                                  
@@ -183,7 +174,7 @@
                                         <v-tooltip  top>
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
-                                                    @click="NotificationHide(item.n_id)">
+                                                    @click="NotificationHide(item.n_id, index)">
                                                     <v-icon small>mdi-close</v-icon>
                                                 </v-btn>
                                             </template>
@@ -214,8 +205,6 @@
                     </v-list-item>
                     </div>
                 </v-list>
-     
-      
         </v-col>
       </v-row>
           
@@ -280,18 +269,21 @@ export default {
       }
     
     },
-    NotificationHide(id) {
+    NotificationHide(id, index) {
        this.$store.dispatch("HideNotification", id)
        .then(res=>{
           if(res == 200){
-            this.get_notification.forEach(item => {
+            this.get_notification.splice(index, 1);
+            this.$store.dispatch("LessNotificationCount");
+            /* this.get_notification.forEach(item => {
                   if(item.n_id == id){
                       item.hide_notif = 1;
                   }
-              });
+              }); */
           }
        })
       },
+    
      markAsread(id) {
        this.AttachData.id = id;
        this.AttachData.accepted = this.isAccepted;
@@ -345,7 +337,7 @@ export default {
                         }
                     }
                 }
-                else if(data.notification_type == 1){
+                else if(data.notification_type == 1 || data.notification_type == 3){
                     let path = '/course/'+data.c_id+'/announcement';
                     if(this.$route.path != path){
                         this.$router.push({path: path});

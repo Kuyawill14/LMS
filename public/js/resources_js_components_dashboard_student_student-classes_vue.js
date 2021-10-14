@@ -199,12 +199,12 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     CheckBackgroundPath: function CheckBackgroundPath(path) {
-      var str = path;
-
-      if (str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
-        return path;
-      } else {
-        return '../images/' + path;
+      if (path != null) {
+        if (path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+          return path;
+        } else {
+          return '../images/' + path;
+        }
       }
     }
   },

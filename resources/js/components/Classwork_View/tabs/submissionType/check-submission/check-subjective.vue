@@ -170,13 +170,13 @@
 
                             </v-card>
 
-                             <v-card class="mt-2 " elevation="1" outlined>
+                             <v-card   class="mt-2 scrollComment" elevation="1" outlined>
                                 <div class="pt-3 pl-4 pr-4 pb-2">
                                 <v-icon left>mdi-comment</v-icon>Private Comments
                                 </div>
                                 
                                 <v-divider></v-divider>
-                                <v-list class="mb-0 pb-0">
+                                <v-list max-height="350" style="overflow-y:scroll;scrollbar-width: thin;" class="mb-0 pb-0">
                         
                                     <v-list-item class="mb-0 pb-0" v-for="(item, i) in CheckData.comments" :key="i">
                                     <v-list-item-avatar>
@@ -594,5 +594,24 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield; /* Firefox */
+}
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 </style>

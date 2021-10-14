@@ -97,7 +97,7 @@
 
                 </v-card-subtitle>
         
-                    <v-btn depressed color="primary" small style="position: absolute; z-index: 999; bottom: 15px;right: 14px;" target="_blank" :disabled="getcourseInfo.course_guide == null" :href="path+getcourseInfo.course_guide ">
+                    <v-btn v-if="getcourseInfo.course_guide != null" depressed color="primary" small style="position: absolute; z-index: 999; bottom: 15px;right: 14px;" target="_blank"  :href="path+getcourseInfo.course_guide ">
                         <v-icon left dark>
                             mdi-cloud-download
                         </v-icon>
@@ -114,19 +114,11 @@
             <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
             </selectBackgroundDialog>
         </v-dialog>
-
-        
-
         <v-file-input class="d-none" @change="onfileChange" :rules="rules" ref="UploadBackground" accept="image/png, image/jpeg, image/bmp"></v-file-input>
-         <v-dialog scrollable v-model="previewUploaded" persistent max-width="800" >
-            <previewUploadBackgroundDialog :filePreview="filePreview" v-on:SaveImageFile="SaveImageAsBackground" v-on:CloseDialog="previewUploaded = !previewUploaded" v-if="previewUploaded">
-            </previewUploadBackgroundDialog>
-        </v-dialog>
     </div>
 </template>
 <script>
     const selectBackgroundDialog = () => import('./SelectBackgroundDialog')
-     const previewUploadBackgroundDialog = () => import('./previewUploadBackgroundDialog')
     import {
         mapGetters,
         mapActions
@@ -136,7 +128,6 @@
         props: ['role', 'UserDetails'],
         components: {
             selectBackgroundDialog,
-            previewUploadBackgroundDialog
         },
         data() {
             return {
@@ -155,7 +146,7 @@
                 previewUploaded: false,
                 filePreview: null,
                 file: null,
-                isChanging: false
+                isChanging: false,
             }
         },
         computed: {
@@ -207,8 +198,17 @@
             },
             UpdateImage(data) {
                 this.isChanging = false;
-                this.getcourseInfo.course_picture = data;
                 this.dialog = !this.dialog;
+                this.getcourseInfo.course_picture = data;
+                let fd = new FormData;
+                fd.append('type', "from_file");
+                fd.append('course_id', this.getcourseInfo.id);
+                fd.append('file_name', data);
+                axios.post('/api/teacher/change_class_picture', fd)
+                .then(()=>{
+                    
+                })
+                
             },
             onfileChange(file){
                 if(file){
@@ -216,29 +216,30 @@
                     this.isChanging = true;
                     this.filePreview = URL.createObjectURL(file);
                     //this.previewUploaded = true;
-                    this.SaveImageAsBackground(file);
+                    let type = "Uploaded";
+                    this.SaveImageAsBackground(file, type);
                 }
             },
             SaveImageAsBackground(file){
-                console.log('test123');
+    
                 let fd = new FormData;
+                fd.append('type', "uploaded");
                 fd.append('course_id', this.getcourseInfo.id);
                 fd.append('file_name', this.file.name);
                 fd.append('file', this.file);
-                
                 axios.post('/api/teacher/change_class_picture', fd)
-                .then(()=>{
-
-                })
+                .then(()=>{})
             },
             CheckBackgroundPath(path){
-                let str = path;
-                if(str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
+               if(path != null){
+                     if(path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
                     return path;
                 }
                 else{
                     return '../../images/' + path;
                 }
+               }
+              
             }
 
         },

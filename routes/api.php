@@ -113,7 +113,11 @@ Route::middleware('auth:sanctum')->prefix('/post')->group(function () {
     Route::delete('/classwork/comment/delete/{id}', [CommentController::class, 'deletePrivateComment']);
 
     Route::delete('/like/delete/{id}', [CommentController::class, 'RemoveLike']);
+
     Route::delete('/comment/remove/{id}', [CommentController::class, 'destroy']);
+    Route::put('/comment/update/{id}', [CommentController::class, 'updateComment']);
+
+    
     
 });
 

@@ -132,6 +132,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 _this2.isAdding = true;
+                _this2.InviteDetails.course_id = _this2.$route.params.id;
                 _this2.InviteDetails.class_id = _this2.cl_id;
                 _this2.InviteDetails.course_name = _this2.course_name;
                 _this2.InviteDetails.email = _this2.email;
@@ -157,7 +158,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this2.isAdding = false;
                 });
 
-              case 6:
+              case 7:
               case "end":
                 return _context2.stop();
             }

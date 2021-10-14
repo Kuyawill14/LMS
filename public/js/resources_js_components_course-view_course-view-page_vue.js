@@ -139,19 +139,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
-};
-
-var previewUploadBackgroundDialog = function previewUploadBackgroundDialog() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_previewUploadBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewUploadBackgroundDialog */ "./resources/js/components/course-view/previewUploadBackgroundDialog.vue"));
 };
 
 
@@ -159,8 +148,7 @@ var previewUploadBackgroundDialog = function previewUploadBackgroundDialog() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
   components: {
-    selectBackgroundDialog: selectBackgroundDialog,
-    previewUploadBackgroundDialog: previewUploadBackgroundDialog
+    selectBackgroundDialog: selectBackgroundDialog
   },
   data: function data() {
     return {
@@ -225,8 +213,13 @@ var previewUploadBackgroundDialog = function previewUploadBackgroundDialog() {
     },
     UpdateImage: function UpdateImage(data) {
       this.isChanging = false;
-      this.getcourseInfo.course_picture = data;
       this.dialog = !this.dialog;
+      this.getcourseInfo.course_picture = data;
+      var fd = new FormData();
+      fd.append('type', "from_file");
+      fd.append('course_id', this.getcourseInfo.id);
+      fd.append('file_name', data);
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/teacher/change_class_picture', fd).then(function () {});
     },
     onfileChange: function onfileChange(file) {
       if (file) {
@@ -234,24 +227,25 @@ var previewUploadBackgroundDialog = function previewUploadBackgroundDialog() {
         this.isChanging = true;
         this.filePreview = URL.createObjectURL(file); //this.previewUploaded = true;
 
-        this.SaveImageAsBackground(file);
+        var type = "Uploaded";
+        this.SaveImageAsBackground(file, type);
       }
     },
     SaveImageAsBackground: function SaveImageAsBackground(file) {
-      console.log('test123');
       var fd = new FormData();
+      fd.append('type', "uploaded");
       fd.append('course_id', this.getcourseInfo.id);
       fd.append('file_name', this.file.name);
       fd.append('file', this.file);
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/teacher/change_class_picture', fd).then(function () {});
     },
     CheckBackgroundPath: function CheckBackgroundPath(path) {
-      var str = path;
-
-      if (str.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
-        return path;
-      } else {
-        return '../../images/' + path;
+      if (path != null) {
+        if (path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+          return path;
+        } else {
+          return '../../images/' + path;
+        }
       }
     }
   }),
@@ -617,36 +611,37 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      staticStyle: {
-                        position: "absolute",
-                        "z-index": "999",
-                        bottom: "15px",
-                        right: "14px"
-                      },
-                      attrs: {
-                        depressed: "",
-                        color: "primary",
-                        small: "",
-                        target: "_blank",
-                        disabled: _vm.getcourseInfo.course_guide == null,
-                        href: _vm.path + _vm.getcourseInfo.course_guide
-                      }
-                    },
-                    [
-                      _c("v-icon", { attrs: { left: "", dark: "" } }, [
-                        _vm._v(
-                          "\n                        mdi-cloud-download\n                    "
-                        )
-                      ]),
-                      _vm._v(
-                        "\n                    Course Guide\n                "
+                  _vm.getcourseInfo.course_guide != null
+                    ? _c(
+                        "v-btn",
+                        {
+                          staticStyle: {
+                            position: "absolute",
+                            "z-index": "999",
+                            bottom: "15px",
+                            right: "14px"
+                          },
+                          attrs: {
+                            depressed: "",
+                            color: "primary",
+                            small: "",
+                            target: "_blank",
+                            href: _vm.path + _vm.getcourseInfo.course_guide
+                          }
+                        },
+                        [
+                          _c("v-icon", { attrs: { left: "", dark: "" } }, [
+                            _vm._v(
+                              "\n                        mdi-cloud-download\n                    "
+                            )
+                          ]),
+                          _vm._v(
+                            "\n                    Course Guide\n                "
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
+                    : _vm._e()
                 ],
                 1
               )
@@ -695,35 +690,7 @@ var render = function() {
         staticClass: "d-none",
         attrs: { rules: _vm.rules, accept: "image/png, image/jpeg, image/bmp" },
         on: { change: _vm.onfileChange }
-      }),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { scrollable: "", persistent: "", "max-width": "800" },
-          model: {
-            value: _vm.previewUploaded,
-            callback: function($$v) {
-              _vm.previewUploaded = $$v
-            },
-            expression: "previewUploaded"
-          }
-        },
-        [
-          _vm.previewUploaded
-            ? _c("previewUploadBackgroundDialog", {
-                attrs: { filePreview: _vm.filePreview },
-                on: {
-                  SaveImageFile: _vm.SaveImageAsBackground,
-                  CloseDialog: function($event) {
-                    _vm.previewUploaded = !_vm.previewUploaded
-                  }
-                }
-              })
-            : _vm._e()
-        ],
-        1
-      )
+      })
     ],
     1
   )

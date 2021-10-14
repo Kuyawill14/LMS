@@ -30,6 +30,7 @@
                 <v-select
                 outlined
                 dense
+                @change="ShowLoading"
                 label="Class"
                 v-model="Class"
                 class="mb-0 pb-0"
@@ -43,7 +44,7 @@
                   <v-list >
                     <v-list-item-group >
                         <template  v-for="(item,i) in studentSubmissionList" >
-                            <v-list-item v-if="Class == $route.params.id || Class == item.class_id" :key="item.id">
+                            <v-list-item v-if="((Class == $route.params.id || Class == item.class_id) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))))" :key="item.id">
                                 <v-list-item-avatar @click="CheckData = item ,dialog = !dialog, isStarting = true"  color="secondary">
                                     <v-img alt="Profile"
                                         :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
@@ -64,7 +65,7 @@
                                 </v-list-item-action>
                                 </v-list-item>
                                   <v-divider
-                                    v-if="i < ListData.length && Class == $route.params.id || Class == item.class_id"
+                                    v-if="i < ListData.length && ((Class == $route.params.id || Class == item.class_id) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))))"
                                     :key="i">
                                 </v-divider>
                             </template>
@@ -128,6 +129,7 @@
                     outlined
                     dense
                     label="Status"
+                    @change="ShowLoading"
                     v-model="selectedStatus"
                     class="mb-0 pb-0"
                     :items="StatusType"
@@ -148,7 +150,7 @@
 
             <v-col cols="12">
                 <v-row>
-                    <v-col v-show="(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1))" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
                           <v-card
                           style="cursor:pointer" 
                         class="mx-auto"
@@ -211,9 +213,10 @@ export default {
             ],
            isSavingScore: false,
             score: null,
-            StatusType: ['All', 'Submitted', 'Graded'],
+            StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
             selectedStatus:'All',
             isStarting: false,
+            isFiltered: false,
         }
     },
      computed: {
@@ -323,6 +326,10 @@ export default {
                     return false;
                 }
             });
+        },
+        ShowLoading(){
+            this.isFiltered = true;
+            setTimeout(() => (this.isFiltered = false), 800);
         }
        
        

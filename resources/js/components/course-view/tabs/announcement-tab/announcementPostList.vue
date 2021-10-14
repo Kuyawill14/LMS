@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-row v-if="PostList.length != 0 && UserDetails.role != 'Student'">
+        <v-row v-if="getclass_post.length != 0 && UserDetails.role != 'Student'">
             <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 text-right">
                  <div class="d-inline-flex ">
                     <v-select
@@ -16,9 +16,10 @@
         </v-row>
        
      
-        <v-card v-show="post.class_id == class_id || class_id == $route.params.id" class="mb-10" v-for="(post, index) in PostList" :key="post.id">
+        <v-card v-show="post.class_id == class_id || class_id == $route.params.id" class="mb-10" v-for="(post, index) in getclass_post" :key="post.id">
            <!--Post Poser -->
-            <v-row class="pl-5 pr-5 pt-2 mb-3 " >
+              <vue-element-loading color="primary" :active="isdeleting && isdeleting_id == post.post_id" spinner="bar-fade-scale" />
+            <v-row class="pl-4 pr-5 pt-2 mb-3 " >
                 <v-col cols="8">
                     <div class="d-flex flex-row user-info">
                         <v-avatar color="grey" :size="!$vuetify.breakpoint.xs  && !$vuetify.breakpoint.sm ? 45 : 40">
@@ -89,6 +90,7 @@
                 color="primary"
                 ></v-progress-circular>
                 loading
+             
         </div>
     </div>
 
@@ -102,7 +104,7 @@
      import {mapGetters, mapActions} from "vuex";
 import axios from 'axios';
     export default {
-        props:['PostList','UserDetails','classNames'],
+        props:['UserDetails','classNames'],
         components:{
             commentList,
             announcementList
@@ -119,10 +121,12 @@ import axios from 'axios';
             showLess:true,
             class_id: this.$route.params.id,
             isLoadingMore: false,
+            isdeleting: false,
+            isdeleting_id: null
             }
         },
         computed: {
-            ...mapGetters(['current_page','last_page']),
+            ...mapGetters(['current_page','last_page','getclass_post']),
             icon () {
                 return this.icons[this.iconIndex]
             },
@@ -130,6 +134,7 @@ import axios from 'axios';
         },
     
         methods: {
+            ...mapActions(['deleteClassPost']),
             test() {
                 $('.img-fluid').click(function () {
                     //console.log($('.img-fluid').attr('src'))
@@ -190,10 +195,21 @@ import axios from 'axios';
                 
             },
             async deletePost(id, index){
-                axios.delete('/api/announcement/delete/'+id).then(res=>{
+                let data = {};
+                data.id = id;
+                data.index = index;
+
+                this.isdeleting_id = id;
+                this.isdeleting = true;
+                /* axios.delete('/api/announcement/delete/'+id).then(res=>{
                     if(res.status == 200){
-                        this.$emit('SlicePost', index)
+                        //this.$emit('SlicePost', index)
+                        
+                        this.getclass_post.splice(index, 1);
                     }
+                }) */
+                this.$store.dispatch('deleteClassPost', data).then(()=>{
+                    this.isdeleting = false;
                 })
             }
         },
