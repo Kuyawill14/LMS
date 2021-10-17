@@ -258,7 +258,7 @@
                                 </div> -->
                                 
                               
-                                <div class="pa-3"  :style="OpenFileType == 'document' ? 'height:100vh;': 'height:90vh'">
+                                <div class="pa-3"  :style="OpenFileType == 'document' ? 'height:100vh !important;': 'height:90vh !important'">
                                     <div class="pa-3 text-center" >
                                     <v-progress-circular
                                         style="margin-top:23rem"
@@ -273,14 +273,14 @@
                                         <iframe title="google pdf viewer" id="pdf-iframe" 
                                         :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + path" 
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
+                                        style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
                                     </div> 
              
                                     <div v-if="!isOpening && OpenFileType == 'link'">
                                         <iframe title="Link" 
                                         :src="path" 
                                         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                        style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"></iframe>
+                                        style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
                                     </div> 
                                      <div v-if="!isOpening && OpenFileType == 'media'" >
                                         <v-img

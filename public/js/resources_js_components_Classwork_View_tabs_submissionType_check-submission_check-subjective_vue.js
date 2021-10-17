@@ -1797,8 +1797,8 @@ var render = function() {
                                 staticClass: "pa-3",
                                 style:
                                   _vm.OpenFileType == "document"
-                                    ? "height:100vh;"
-                                    : "height:90vh"
+                                    ? "height:100vh !important;"
+                                    : "height:90vh !important"
                               },
                               [
                                 _c(
@@ -1828,8 +1828,8 @@ var render = function() {
                                           position: "absolute",
                                           top: "0px",
                                           left: "0px",
-                                          width: "100%",
-                                          height: "100%"
+                                          width: "100% !important",
+                                          height: "100% !important"
                                         },
                                         attrs: {
                                           title: "google pdf viewer",
@@ -1851,8 +1851,8 @@ var render = function() {
                                           position: "absolute",
                                           top: "0px",
                                           left: "0px",
-                                          width: "100%",
-                                          height: "100%"
+                                          width: "100% !important",
+                                          height: "100% !important"
                                         },
                                         attrs: {
                                           title: "Link",
