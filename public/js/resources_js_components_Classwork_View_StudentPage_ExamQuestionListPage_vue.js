@@ -1,5 +1,436 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_StudentPage_ExamQuestionListPage_vue"],{
 
+/***/ "./node_modules/@chenfengyuan/vue-countdown/dist/vue-countdown.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@chenfengyuan/vue-countdown/dist/vue-countdown.js ***!
+  \************************************************************************/
+/***/ (function(module) {
+
+/*!
+ * vue-countdown v1.1.5
+ * https://fengyuanchen.github.io/vue-countdown
+ *
+ * Copyright 2018-present Chen Fengyuan
+ * Released under the MIT license
+ *
+ * Date: 2020-02-25T01:19:32.769Z
+ */
+
+(function (global, factory) {
+   true ? module.exports = factory() :
+  0;
+}(this, (function () { 'use strict';
+
+  var MILLISECONDS_SECOND = 1000;
+  var MILLISECONDS_MINUTE = 60 * MILLISECONDS_SECOND;
+  var MILLISECONDS_HOUR = 60 * MILLISECONDS_MINUTE;
+  var MILLISECONDS_DAY = 24 * MILLISECONDS_HOUR;
+  var EVENT_VISIBILITY_CHANGE = 'visibilitychange';
+  var index = {
+    name: 'countdown',
+    data: function data() {
+      return {
+        /**
+         * It is counting down.
+         * @type {boolean}
+         */
+        counting: false,
+
+        /**
+         * The absolute end time.
+         * @type {number}
+         */
+        endTime: 0,
+
+        /**
+         * The remaining milliseconds.
+         * @type {number}
+         */
+        totalMilliseconds: 0
+      };
+    },
+    props: {
+      /**
+       * Starts the countdown automatically when initialized.
+       */
+      autoStart: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
+       * Emits the countdown events.
+       */
+      emitEvents: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
+       * The interval time (in milliseconds) of the countdown progress.
+       */
+      interval: {
+        type: Number,
+        default: 1000,
+        validator: function validator(value) {
+          return value >= 0;
+        }
+      },
+
+      /**
+       * Generate the current time of a specific time zone.
+       */
+      now: {
+        type: Function,
+        default: function _default() {
+          return Date.now();
+        }
+      },
+
+      /**
+       * The tag name of the component's root element.
+       */
+      tag: {
+        type: String,
+        default: 'span'
+      },
+
+      /**
+       * The time (in milliseconds) to count down from.
+       */
+      time: {
+        type: Number,
+        default: 0,
+        validator: function validator(value) {
+          return value >= 0;
+        }
+      },
+
+      /**
+       * Transforms the output props before render.
+       */
+      transform: {
+        type: Function,
+        default: function _default(props) {
+          return props;
+        }
+      }
+    },
+    computed: {
+      /**
+       * Remaining days.
+       * @returns {number} The computed value.
+       */
+      days: function days() {
+        return Math.floor(this.totalMilliseconds / MILLISECONDS_DAY);
+      },
+
+      /**
+       * Remaining hours.
+       * @returns {number} The computed value.
+       */
+      hours: function hours() {
+        return Math.floor(this.totalMilliseconds % MILLISECONDS_DAY / MILLISECONDS_HOUR);
+      },
+
+      /**
+       * Remaining minutes.
+       * @returns {number} The computed value.
+       */
+      minutes: function minutes() {
+        return Math.floor(this.totalMilliseconds % MILLISECONDS_HOUR / MILLISECONDS_MINUTE);
+      },
+
+      /**
+       * Remaining seconds.
+       * @returns {number} The computed value.
+       */
+      seconds: function seconds() {
+        return Math.floor(this.totalMilliseconds % MILLISECONDS_MINUTE / MILLISECONDS_SECOND);
+      },
+
+      /**
+       * Remaining milliseconds.
+       * @returns {number} The computed value.
+       */
+      milliseconds: function milliseconds() {
+        return Math.floor(this.totalMilliseconds % MILLISECONDS_SECOND);
+      },
+
+      /**
+       * Total remaining days.
+       * @returns {number} The computed value.
+       */
+      totalDays: function totalDays() {
+        return this.days;
+      },
+
+      /**
+       * Total remaining hours.
+       * @returns {number} The computed value.
+       */
+      totalHours: function totalHours() {
+        return Math.floor(this.totalMilliseconds / MILLISECONDS_HOUR);
+      },
+
+      /**
+       * Total remaining minutes.
+       * @returns {number} The computed value.
+       */
+      totalMinutes: function totalMinutes() {
+        return Math.floor(this.totalMilliseconds / MILLISECONDS_MINUTE);
+      },
+
+      /**
+       * Total remaining seconds.
+       * @returns {number} The computed value.
+       */
+      totalSeconds: function totalSeconds() {
+        return Math.floor(this.totalMilliseconds / MILLISECONDS_SECOND);
+      }
+    },
+    render: function render(createElement) {
+      return createElement(this.tag, this.$scopedSlots.default ? [this.$scopedSlots.default(this.transform({
+        days: this.days,
+        hours: this.hours,
+        minutes: this.minutes,
+        seconds: this.seconds,
+        milliseconds: this.milliseconds,
+        totalDays: this.totalDays,
+        totalHours: this.totalHours,
+        totalMinutes: this.totalMinutes,
+        totalSeconds: this.totalSeconds,
+        totalMilliseconds: this.totalMilliseconds
+      }))] : this.$slots.default);
+    },
+    watch: {
+      $props: {
+        deep: true,
+        immediate: true,
+
+        /**
+         * Update the countdown when props changed.
+         */
+        handler: function handler() {
+          this.totalMilliseconds = this.time;
+          this.endTime = this.now() + this.time;
+
+          if (this.autoStart) {
+            this.start();
+          }
+        }
+      }
+    },
+    methods: {
+      /**
+       * Starts to countdown.
+       * @public
+       * @emits Countdown#start
+       */
+      start: function start() {
+        if (this.counting) {
+          return;
+        }
+
+        this.counting = true;
+
+        if (this.emitEvents) {
+          /**
+           * Countdown start event.
+           * @event Countdown#start
+           */
+          this.$emit('start');
+        }
+
+        if (document.visibilityState === 'visible') {
+          this.continue();
+        }
+      },
+
+      /**
+       * Continues the countdown.
+       * @private
+       */
+      continue: function _continue() {
+        var _this = this;
+
+        if (!this.counting) {
+          return;
+        }
+
+        var delay = Math.min(this.totalMilliseconds, this.interval);
+
+        if (delay > 0) {
+          if (window.requestAnimationFrame) {
+            var init;
+            var prev;
+
+            var step = function step(now) {
+              if (!init) {
+                init = now;
+              }
+
+              if (!prev) {
+                prev = now;
+              }
+
+              var range = now - init;
+
+              if (range >= delay // Avoid losing time about one second per minute (now - prev ≈ 16ms) (#43)
+              || range + (now - prev) / 2 >= delay) {
+                _this.progress();
+              } else {
+                _this.requestId = requestAnimationFrame(step);
+              }
+
+              prev = now;
+            };
+
+            this.requestId = requestAnimationFrame(step);
+          } else {
+            this.timeoutId = setTimeout(function () {
+              _this.progress();
+            }, delay);
+          }
+        } else {
+          this.end();
+        }
+      },
+
+      /**
+       * Pauses the countdown.
+       * @private
+       */
+      pause: function pause() {
+        if (window.requestAnimationFrame) {
+          cancelAnimationFrame(this.requestId);
+        } else {
+          clearTimeout(this.timeoutId);
+        }
+      },
+
+      /**
+       * Progresses to countdown.
+       * @private
+       * @emits Countdown#progress
+       */
+      progress: function progress() {
+        if (!this.counting) {
+          return;
+        }
+
+        this.totalMilliseconds -= this.interval;
+
+        if (this.emitEvents && this.totalMilliseconds > 0) {
+          /**
+           * Countdown progress event.
+           * @event Countdown#progress
+           */
+          this.$emit('progress', {
+            days: this.days,
+            hours: this.hours,
+            minutes: this.minutes,
+            seconds: this.seconds,
+            milliseconds: this.milliseconds,
+            totalDays: this.totalDays,
+            totalHours: this.totalHours,
+            totalMinutes: this.totalMinutes,
+            totalSeconds: this.totalSeconds,
+            totalMilliseconds: this.totalMilliseconds
+          });
+        }
+
+        this.continue();
+      },
+
+      /**
+       * Aborts the countdown.
+       * @public
+       * @emits Countdown#abort
+       */
+      abort: function abort() {
+        if (!this.counting) {
+          return;
+        }
+
+        this.pause();
+        this.counting = false;
+
+        if (this.emitEvents) {
+          /**
+           * Countdown abort event.
+           * @event Countdown#abort
+           */
+          this.$emit('abort');
+        }
+      },
+
+      /**
+       * Ends the countdown.
+       * @public
+       * @emits Countdown#end
+       */
+      end: function end() {
+        if (!this.counting) {
+          return;
+        }
+
+        this.pause();
+        this.totalMilliseconds = 0;
+        this.counting = false;
+
+        if (this.emitEvents) {
+          /**
+           * Countdown end event.
+           * @event Countdown#end
+           */
+          this.$emit('end');
+        }
+      },
+
+      /**
+       * Updates the count.
+       * @private
+       */
+      update: function update() {
+        if (this.counting) {
+          this.totalMilliseconds = Math.max(0, this.endTime - this.now());
+        }
+      },
+
+      /**
+       * visibility change event handler.
+       * @private
+       */
+      handleVisibilityChange: function handleVisibilityChange() {
+        switch (document.visibilityState) {
+          case 'visible':
+            this.update();
+            this.continue();
+            break;
+
+          case 'hidden':
+            this.pause();
+            break;
+        }
+      }
+    },
+    mounted: function mounted() {
+      document.addEventListener(EVENT_VISIBILITY_CHANGE, this.handleVisibilityChange);
+    },
+    beforeDestroy: function beforeDestroy() {
+      document.removeEventListener(EVENT_VISIBILITY_CHANGE, this.handleVisibilityChange);
+      this.pause();
+    }
+  };
+
+  return index;
+
+})));
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/ExamQuestionListPage.vue?vue&type=script&lang=js& ***!
@@ -32,6 +463,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -419,7 +859,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       bus: "testing",
       TimesUpDialog: false,
       windowHeight: window.innerHeight - 100,
-      isLeavingPage: false
+      isLeavingPage: false,
+      CurrentTime: null,
+      testDate: null,
+      isReloadTime: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -541,8 +984,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           timeSpent: data.time
         }).then(function (res) {
           //this.isLoading = !this.isLoading;
-          _this4.isSubmitting = !_this4.isSubmitting;
-
+          //this.isSubmitting = !this.isSubmitting;
           _this4.$router.push({
             name: 'clwk',
             params: {
@@ -558,7 +1000,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     TimesUpSubmit: function TimesUpSubmit(data) {
       var _this5 = this;
 
-      this.TimesUpDialog = !this.TimesUpDialog;
       this.isExamStart = false; //this.isLoading = !this.isLoading;
 
       this.isSubmitting = !this.isSubmitting;
@@ -570,21 +1011,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         timerCount: this.TimerCount,
         timeSpent: data.time
       }).then(function (res) {
-        console.log('timesUp');
-        setTimeout(function () {
-          //this.isLoading = !this.isLoading;
-          _this5.isSubmitting = !_this5.isSubmitting;
-        }, 2000);
-
-        _this5.$router.push({
-          name: 'clwk',
-          params: {
-            id: _this5.$route.params.id
-          },
-          query: {
-            clwk: _this5.$route.query.clwk
-          }
-        });
+        _this5.TimesUpDialog = !_this5.TimesUpDialog;
+        setTimeout(function () {//this.isLoading = !this.isLoading;
+          //this.isSubmitting = !this.isSubmitting;
+        }, 2000); //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
       });
     },
     fetchQuestions: function fetchQuestions() {
@@ -751,53 +1181,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (!this.isStart) return;
       event.returnValue = "";
     },
-    CheckStatus: function CheckStatus() {
+    ReloadStatus: function ReloadStatus() {
       var _this7 = this;
 
       axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
         if (res.data.success == true) {
           if (res.data.status != 'Submitted') {
-            _this7.isExamStart = true;
-            _this7.Submitted_Answers = res.data.Submitted_Answers;
+            _this7.CurrentTime = res.data.currentTime;
             _this7.StartTime = res.data.startTime;
-            _this7.submission_id = res.data.submission_id;
-            _this7.preventNav = !_this7.preventNav;
-
-            _this7.StartQuiz();
-          } else {
-            _this7.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-            //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
-
-            _this7.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
-              theme: "toasted-primary",
-              position: "top-center",
-              icon: "warning",
-              duration: 7000
-            });
-
-            _this7.$router.push({
-              name: 'clwk',
-              params: {
-                id: _this7.$route.params.id
-              },
-              query: {
-                clwk: _this7.$route.query.clwk
-              }
-            });
           }
-        } else {
-          _this7.toastError('Something went wrong while loading Questions!');
-
-          _this7.$router.push({
-            name: 'clwk',
-            params: {
-              id: _this7.$route.params.id
-            },
-            query: {
-              clwk: _this7.$route.query.clwk
-            }
-          });
         }
+
+        _this7.isReloadTime = false;
       })["catch"](function (e) {
         _this7.toastError('Something went wrong while loading Questions!');
 
@@ -808,6 +1203,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           },
           query: {
             clwk: _this7.$route.query.clwk
+          }
+        });
+      });
+    },
+    CheckStatus: function CheckStatus() {
+      var _this8 = this;
+
+      axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
+        if (res.data.success == true) {
+          if (res.data.status != 'Submitted') {
+            _this8.isExamStart = true;
+            _this8.Submitted_Answers = res.data.Submitted_Answers;
+            _this8.CurrentTime = res.data.currentTime;
+            _this8.testDate = res.data.testDate;
+            _this8.StartTime = res.data.startTime;
+            _this8.submission_id = res.data.submission_id;
+            _this8.preventNav = !_this8.preventNav;
+
+            _this8.StartQuiz();
+          } else {
+            _this8.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+            //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+
+            _this8.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+              theme: "toasted-primary",
+              position: "top-center",
+              icon: "warning",
+              duration: 7000
+            });
+
+            _this8.$router.push({
+              name: 'clwk',
+              params: {
+                id: _this8.$route.params.id
+              },
+              query: {
+                clwk: _this8.$route.query.clwk
+              }
+            });
+          }
+        } else {
+          _this8.toastError('Something went wrong while loading Questions!');
+
+          _this8.$router.push({
+            name: 'clwk',
+            params: {
+              id: _this8.$route.params.id
+            },
+            query: {
+              clwk: _this8.$route.query.clwk
+            }
+          });
+        }
+      })["catch"](function (e) {
+        _this8.toastError('Something went wrong while loading Questions!');
+
+        _this8.$router.push({
+          name: 'clwk',
+          params: {
+            id: _this8.$route.params.id
+          },
+          query: {
+            clwk: _this8.$route.query.clwk
           }
         });
       });
@@ -825,7 +1283,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     StartQuiz: function StartQuiz() {
-      var _this8 = this;
+      var _this9 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -835,10 +1293,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         course_id: this.$route.params.id
       };
       this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
-        _this8.duration = _this8.get_classwork_show_details.Details.duration;
-        _this8.classworkDetails = _this8.get_classwork_show_details.Details;
+        _this9.duration = _this9.get_classwork_show_details.Details.duration;
+        _this9.classworkDetails = _this9.get_classwork_show_details.Details;
 
-        _this8.fetchQuestions();
+        _this9.fetchQuestions();
       }); //this.CountTime();
     },
     triggerWarning: function triggerWarning() {
@@ -863,6 +1321,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.warningDialog = true;
         }
       }
+    },
+    ReloadTime: function ReloadTime() {
+      this.ReloadStatus();
+      this.isReloadTime = true; //setTimeout(() => (this.isReloadTime = false), 300);
     }
   }),
   beforeMount: function beforeMount() {
@@ -886,14 +1348,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     next();
   },
   mounted: function mounted() {
-    var _this9 = this;
+    var _this10 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _this9.CheckStatus();
+              _this10.CheckStatus();
 
             case 1:
             case "end":
@@ -911,6 +1373,108 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /*!*******************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @chenfengyuan/vue-countdown */ "./node_modules/@chenfengyuan/vue-countdown/dist/vue-countdown.js");
+/* harmony import */ var _chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['duration', 'StopTimer', 'StartTime', 'CurrentTime'],
+  components: {
+    Countdown: (_chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_0___default())
+  },
+  data: function data() {
+    return {
+      EndDate: null,
+      endAt: null,
+      timeSpent: null,
+      isTimesUps: false,
+      Startdate: null,
+      CurrentUserTime: {}
+    };
+  },
+  watch: {
+    'StopTimer': function StopTimer(arMsg) {
+      if (arMsg == true) {
+        if (this.isTimesUps != true) {
+          //this.getTimeSpent();
+          this.$refs.QuizTimer.abort();
+        }
+      }
+    }
+  },
+  methods: {
+    startTimer: function startTimer() {
+      this.endAt = this.CurrentTime + 1000;
+      this.Startdate = this.CurrentTime;
+      var due = this.duration * 60 * 1000;
+      this.EndDate = this.StartTime + due - this.CurrentTime;
+    },
+    EndTimer: function EndTimer() {
+      var totalSeconds = this.CurrentUserTime.hours * 60 * 1000 + this.CurrentUserTime.minutes * 1000;
+      this.timeSpent = this.duration;
+      var data = {};
+      data.time = this.timeSpent;
+      this.isTimesUps = true;
+      this.$emit('TimesUp', data);
+    },
+    getTimeSpent: function getTimeSpent() {
+      var totalSeconds = this.CurrentUserTime.hours * 60 * 60 * 1000 + this.CurrentUserTime.minutes * 60 * 1000;
+      this.timeSpent = Math.floor(totalSeconds / 1000 / 60);
+      console.log(this.duration - this.timeSpent);
+      var data = {};
+      data.time = this.duration - this.timeSpent;
+      data.istime = this.isTimesUps;
+      this.$emit('TimerStop', data);
+    },
+    handleCountdownProgress: function handleCountdownProgress(data) {
+      this.CurrentUserTime.hours = data.hours;
+      this.CurrentUserTime.minutes = data.minutes;
+    }
+  },
+  beforeMount: function beforeMount() {
+    this.startTimer();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -948,62 +1512,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['duration', 'StopTimer', 'StartTime'],
   data: function data() {
     return {
-      Startdate: new Date().getTime(),
-      EndDate: null,
-      checkTime: null,
-      NewTimer: null,
-      displayHours: 0,
-      displayMinutes: 0,
-      displaySeconds: 0,
-      SecondProgress: 1000,
-      isLoaded: false,
-      endAt: new Date().getTime() + 20000,
-      timeSpent: null,
-      isTimesUps: false
+      count: 3
     };
   },
-  watch: {
-    'StopTimer': function StopTimer(arMsg) {
-      if (arMsg == true) {
-        if (this.isTimesUps != true) {
-          this.getTimeSpent();
-        }
-      }
-    }
-  },
   methods: {
-    startTimer: function startTimer() {
-      var due = this.duration * 60 * 1000;
-      this.EndDate = new Date(this.StartTime).getTime() + due;
-      /*             let timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-                  this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
-    },
-    EndTimer: function EndTimer() {
-      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
-      var data = {};
-      data.time = this.timeSpent;
-      this.isTimesUps = true;
-      clearInterval(this.NewTimer);
-      localStorage.removeItem(name);
-      this.$emit('TimesUp', data);
-    },
-    getTimeSpent: function getTimeSpent() {
-      var timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-      this.timeSpent = Math.floor(timeConsumed / 1000 / 60);
-      var data = {};
-      data.time = this.timeSpent;
-      data.istime = this.isTimesUps;
-      this.$emit('TimerStop', data);
+    SetInterVal: function SetInterVal() {
+      var _this = this;
+
+      var time = setInterval(function () {
+        _this.count--;
+
+        if (_this.count == 0) {
+          clearInterval(time);
+
+          _this.$emit("SubmitAnswer");
+        }
+      }, 1000);
     }
   },
-  beforeMount: function beforeMount() {
-    this.startTimer();
+  mounted: function mounted() {
+    this.SetInterVal();
   }
 });
 
@@ -23396,15 +23927,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=template&id=ea0677ca& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=template&id=ea0677ca&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TimesUpDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 ;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__.default)(
-  script,
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.render,
   _TimesUpDialog_vue_vue_type_template_id_ea0677ca___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
@@ -23528,6 +24061,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./QuizTimer.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/QuizTimer.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_QuizTimer_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TimesUpDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/StudentPage/TimesUpDialog.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimesUpDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -23726,7 +24275,7 @@ var render = function() {
             ? _c("dialogWarning", {
                 on: {
                   toggleCloaseDialog: function($event) {
-                    _vm.warningDialog = !_vm.warningDialog
+                    ;(_vm.warningDialog = !_vm.warningDialog), _vm.ReloadTime()
                   }
                 }
               })
@@ -23751,13 +24300,11 @@ var render = function() {
           _vm.TimesUpDialog
             ? _c("timesUpDialog", {
                 on: {
-                  toggleCloaseDialog: function($event) {
-                    _vm.TimesUpDialog = !_vm.TimesUpDialog
-                  },
                   SubmitAnswer: function($event) {
                     return _vm.$router.push({
-                      name: "result-page",
-                      params: { id: this.$route.query.clwk }
+                      name: "clwk",
+                      params: { id: _vm.$route.params.id },
+                      query: { clwk: _vm.$route.query.clwk }
                     })
                   }
                 }
@@ -23769,8 +24316,8 @@ var render = function() {
       _vm._v(" "),
       _c("vue-element-loading", {
         attrs: {
-          active: _vm.isLoading || _vm.isSubmitting,
-          text: _vm.isSubmitting ? "Submitting..." : "Loading Questions",
+          active: _vm.isLoading,
+          text: "Loading Questions",
           duration: "0.7",
           textStyle: { fontSize: "18px" },
           spinner: "line-scale",
@@ -24195,45 +24742,72 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              [
-                                                _c(
-                                                  "h4",
+                                            _vm.isReloadTime
+                                              ? _c(
+                                                  "div",
                                                   {
-                                                    staticClass: "ml-1",
-                                                    on: {
-                                                      click: function($event) {
-                                                        _vm.Answersheet = true
-                                                      }
+                                                    staticStyle: {
+                                                      "margin-right": "3rem"
                                                     }
                                                   },
-                                                  [_vm._v("Time Remaining")]
-                                                ),
-                                                _vm._v(" "),
-                                                !_vm.isLoading &&
-                                                _vm.questionIsLoaded &&
-                                                _vm.duration != null
-                                                  ? _c("quizTimer", {
+                                                  [
+                                                    _c("vue-element-loading", {
                                                       attrs: {
-                                                        bus: _vm.bus,
-                                                        StartTime:
-                                                          _vm.StartTime,
-                                                        StopTimer:
-                                                          _vm.StopTimer,
-                                                        duration: _vm.duration
-                                                      },
-                                                      on: {
-                                                        TimerStop:
-                                                          _vm.SubmitAnswer,
-                                                        TimesUp:
-                                                          _vm.TimesUpSubmit
+                                                        active:
+                                                          _vm.isReloadTime,
+                                                        duration: "0.7",
+                                                        spinner: "line-scale",
+                                                        color: "#EF6C00",
+                                                        size: "25"
                                                       }
                                                     })
-                                                  : _vm._e()
-                                              ],
-                                              1
-                                            )
+                                                  ],
+                                                  1
+                                                )
+                                              : _c(
+                                                  "div",
+                                                  [
+                                                    _c(
+                                                      "h4",
+                                                      {
+                                                        staticClass: "ml-1",
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.Answersheet = true
+                                                          }
+                                                        }
+                                                      },
+                                                      [_vm._v("Time Remaining")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    !_vm.isLoading &&
+                                                    _vm.questionIsLoaded &&
+                                                    _vm.duration != null
+                                                      ? _c("quizTimer", {
+                                                          attrs: {
+                                                            bus: _vm.bus,
+                                                            CurrentTime:
+                                                              _vm.CurrentTime,
+                                                            StartTime:
+                                                              _vm.StartTime,
+                                                            StopTimer:
+                                                              _vm.StopTimer,
+                                                            duration:
+                                                              _vm.duration
+                                                          },
+                                                          on: {
+                                                            TimerStop:
+                                                              _vm.SubmitAnswer,
+                                                            TimesUp:
+                                                              _vm.TimesUpSubmit
+                                                          }
+                                                        })
+                                                      : _vm._e()
+                                                  ],
+                                                  1
+                                                )
                                           ]
                                         )
                                       ])
@@ -25579,75 +26153,102 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("vue-countdown-timer", {
-        attrs: {
-          "start-time": _vm.Startdate,
-          "end-time": _vm.EndDate ? _vm.EndDate : _vm.endAt,
-          interval: 1000,
-          "hour-txt": "hours",
-          "minutes-txt": "minutes",
-          "seconds-txt": "seconds"
-        },
-        on: {
-          end_callback: function($event) {
-            return _vm.EndTimer()
-          }
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "countdown",
-            fn: function(scope) {
-              return [
-                _c("div", { staticClass: "d-flex justify-center mt-0 pt-0" }, [
-                  _c("div", { staticClass: "text-center" }, [
-                    _c("div", { staticClass: "text-md-h6" }, [
-                      _vm._v(" " + _vm._s(scope.props.hours))
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "caption" }, [
-                      _vm._v(_vm._s(scope.props.hourTxt))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "font-weight-bold mt-1" }, [
-                    _vm._v(":")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-center" }, [
-                    _c("div", { staticClass: "text-md-h6" }, [
-                      _vm._v(_vm._s(scope.props.minutes))
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "caption" }, [
-                      _vm._v(_vm._s(scope.props.minutesTxt))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "font-weight-bold mt-1" }, [
-                    _vm._v(":")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "text-center" }, [
-                    _c("div", { staticClass: "text-md-h6" }, [
-                      _vm._v(_vm._s(scope.props.seconds))
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "caption" }, [
-                      _vm._v(_vm._s(scope.props.secondsTxt) + " ")
-                    ])
-                  ])
-                ])
-              ]
-            }
-          }
-        ])
-      })
-    ],
-    1
-  )
+  return _c("div", [
+    _vm.EndDate
+      ? _c(
+          "div",
+          [
+            _c("countdown", {
+              ref: "QuizTimer",
+              attrs: { time: _vm.EndDate, interval: 100, tag: "p" },
+              on: {
+                progress: _vm.handleCountdownProgress,
+                abort: _vm.getTimeSpent,
+                end: _vm.EndTimer
+              },
+              scopedSlots: _vm._u(
+                [
+                  {
+                    key: "default",
+                    fn: function(ref) {
+                      var hours = ref.hours
+                      var minutes = ref.minutes
+                      var seconds = ref.seconds
+                      return [
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "d-flex justify-center mt-0 pt-0" },
+                            [
+                              _c("div", { staticClass: "text-center" }, [
+                                _c("div", { staticClass: "text-md-h6" }, [
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(hours >= 10 ? hours : "0" + hours)
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "caption" }, [
+                                  _vm._v("hours")
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticClass: "font-weight-bold mt-1" },
+                                [_vm._v(":")]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "text-center" }, [
+                                _c("div", { staticClass: "text-md-h6" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      minutes >= 10 ? minutes : "0" + minutes
+                                    )
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "caption" }, [
+                                  _vm._v("minutes")
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                { staticClass: "font-weight-bold mt-1" },
+                                [_vm._v(":")]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "text-center" }, [
+                                _c("div", { staticClass: "text-md-h6" }, [
+                                  _vm._v(
+                                    _vm._s(
+                                      seconds >= 10 ? seconds : "0" + seconds
+                                    )
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "caption" }, [
+                                  _vm._v("seconds")
+                                ])
+                              ])
+                            ]
+                          )
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                null,
+                false,
+                4026758457
+              )
+            })
+          ],
+          1
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -25703,6 +26304,16 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { staticClass: "text-center mt-0 pt-0", attrs: { cols: "12" } },
+                [
+                  _c("div", { staticClass: "primary--text display-2" }, [
+                    _vm._v(_vm._s(_vm.count))
+                  ])
+                ]
               )
             ],
             1
@@ -25720,7 +26331,7 @@ var render = function() {
               _c("v-col", { staticClass: "text-center" }, [
                 _c("p", { staticClass: "body-1" }, [
                   _vm._v(
-                    "\n                 Your time is finish the examination will now submitted!\n              "
+                    "\n                 Your time is finish the examination will now submit!\n              "
                   )
                 ])
               ])

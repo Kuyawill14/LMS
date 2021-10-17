@@ -1435,7 +1435,13 @@ var render = function() {
                                                         _vm.classworkDetails
                                                           .duration
                                                       ) +
-                                                      " mins"
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.classworkDetails
+                                                          .duration > 1
+                                                          ? "mins"
+                                                          : "min"
+                                                      )
                                                   )
                                                 ],
                                                 1

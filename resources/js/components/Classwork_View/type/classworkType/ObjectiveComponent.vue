@@ -151,7 +151,7 @@
                                 <div
                                 class="float-right mt-3"
                                 fab>
-                                    <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} mins</div>
+                                    <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> {{classworkDetails.duration}} {{classworkDetails.duration > 1 ? 'mins' : 'min'}}</div>
                                     <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
                                 </div>
                             </v-container>

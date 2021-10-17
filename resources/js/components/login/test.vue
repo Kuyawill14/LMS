@@ -5,13 +5,16 @@
         <p>
             <span>Authenticate with Google Drive</span>
         </p>
+        <h1>{{testTime}}</h1>
+          <h1>{{endAt}}</h1>
     
-        <v-btn color="primary" @click="driveIconClicked()">Connect to Google Drive</v-btn>
+        <v-btn color="primary" @click="driveIconClicked()">Connect to  Gelo</v-btn>
         </div>
 
     </v-app>
 </template>
 <script>
+import moment from 'moment-timezone';
 export default {
 data() {
   return {
@@ -20,7 +23,10 @@ data() {
       clientId: "50494717699-ef0j944ojc06eb8ofqipepfd0enj2sg3.apps.googleusercontent.com",
       scope: "https://www.googleapis.com/auth/drive",
       oauthToken: null,
-      appId : "632002309900"
+      appId : "632002309900",
+      endAt:  (new  Date).getTime(),
+      momentDate: moment().format('MMMM Do YYYY, h:mm:ss a'),
+      testTime: null
   }
 },
 methods:{
@@ -92,6 +98,17 @@ mounted() {
     gDrive.setAttribute("type", "text/javascript");
     gDrive.setAttribute("src", "https://apis.google.com/js/api.js");
     document.head.appendChild(gDrive);
+    const timdate = moment(new Date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+    
+    let dd = Date.now();
+    console.log(this.endAt);
+    console.log(this.momentDate);
+    axios.get('/api/profile/datetoday')
+    .then(res=>{
+      //console.log(res.data);
+      this.testTime = res.data;
+    })
+
   }
 }
 </script>

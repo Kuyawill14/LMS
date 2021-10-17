@@ -14,6 +14,7 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_student_course_subject_grades;
 use App\Models\tbl_student_main_grades;
 use App\Models\tbl_comment;
+use Carbon\Carbon;
 class SubmissionController extends Controller
 {
     /**
@@ -45,7 +46,6 @@ class SubmissionController extends Controller
                     $Sub->timeSpent = null;
                     $Sub->updated_at = null;
                     $Sub->Submitted_Answers = null;
-                  
                     $Sub->rubrics_score = null;
                     
                 }
@@ -54,7 +54,8 @@ class SubmissionController extends Controller
                     $Sub->status = $Submission->status;
                     $Sub->points = $Submission->points;
                     $Sub->graded = $Submission->graded;
-                    $Sub->timeSpent =  $Submission->timeSpent;
+                    $time = (Carbon::parse($Submission->updated_at)->timestamp * 1000) - (Carbon::parse($Submission->created_at)->timestamp * 1000);
+                    $Sub->timeSpent =  floor(($time/1000)/60);
                     $Sub->updated_at = $Submission->updated_at;
                     $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
                     $Sub->rubrics_score = unserialize($Submission->rubrics_score);

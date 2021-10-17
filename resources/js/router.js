@@ -110,8 +110,7 @@ let submissionListTab = () =>
     import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/submissionListTab");
 let publishClassworkTab = () =>
     import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/publishClassworkTab");
-let test = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/test");
+
 
 let classworkDetailsTab = () =>
     import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/classworkDetailsTab");

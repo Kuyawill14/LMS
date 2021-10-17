@@ -454,11 +454,11 @@ var render = function() {
                                                       ? undefined
                                                       : "grey lighten-1",
                                                     height: _vm.$vuetify
-                                                      .breakpoint.lgAndUp
+                                                      .breakpoint.mdAndUp
                                                       ? 170
                                                       : 130,
                                                     width: _vm.$vuetify
-                                                      .breakpoint.lgAndUp
+                                                      .breakpoint.mdAndUp
                                                       ? 250
                                                       : 230
                                                   }
@@ -479,7 +479,7 @@ var render = function() {
                                                             ),
                                                             height: _vm.$vuetify
                                                               .breakpoint
-                                                              .lgAndUp
+                                                              .mdAndUp
                                                               ? 170
                                                               : 130,
                                                             gradient:
@@ -568,7 +568,7 @@ var render = function() {
                                                                                   style: _vm
                                                                                     .$vuetify
                                                                                     .breakpoint
-                                                                                    .lgAndUp
+                                                                                    .mdAndUp
                                                                                     ? "font-size: 16px;text-overflow: ellipsis;overflow: hidden; "
                                                                                     : "font-size: 14px;text-overflow: ellipsis;overflow: hidden; "
                                                                                 },

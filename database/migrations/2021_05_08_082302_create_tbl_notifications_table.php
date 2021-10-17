@@ -19,6 +19,7 @@ class CreateTblNotificationsTable extends Migration
             $table->integer('class_id')->nullable();
             $table->integer('from_id');
             $table->integer('user_id_to')->nullable();
+            $table->integer('from_course')->nullable();
             $table->string('message');
             $table->string('notification_attachments')->nullable();
             $table->integer('notification_type');

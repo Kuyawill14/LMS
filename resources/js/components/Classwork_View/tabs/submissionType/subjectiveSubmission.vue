@@ -150,11 +150,10 @@
 
             <v-col cols="12">
                 <v-row>
-                    <v-col v-show="(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col v-show="!isFiltered && (item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))" link class="text-center" cols="6" md="3" lg="3" v-for="(item,i) in studentSubmissionList" :key="i">
                           <v-card
                           style="cursor:pointer" 
-                        class="mx-auto"
-                      
+                          class="mx-auto"
                         outlined>
                         <v-list-item link @click="CheckData = item ,dialog = !dialog, isStarting = true" >
                                 <v-list-item-content>
@@ -173,6 +172,20 @@
                                 </v-list-item-content>
                         </v-list-item>
                       </v-card>
+                    </v-col>
+
+                    <v-col cols="12" v-if="isFiltered">
+                        <v-container class="fill-height" style="height: 500px;">
+                        <v-row  align-content="center" justify="center">
+                                <v-col cols="12" class="text-center">
+                                    <vue-element-loading :active="isFiltered" 
+                                    duration="0.7"
+                                  
+                                    spinner="line-scale" color="#EF6C00"  size="40" />
+                                </v-col>
+                            </v-row>
+                        </v-container>
+
                     </v-col>
                 </v-row>
             </v-col>

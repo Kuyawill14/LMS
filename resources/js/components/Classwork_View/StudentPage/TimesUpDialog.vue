@@ -10,16 +10,16 @@
                        <v-img src="https://media.baamboozle.com/uploads/images/48952/1623726160_37310.gif"></v-img>
                   </v-avatar>
               </v-col>
-             <!--   <v-col cols="12" class="text-center mt-0 pt-0">
+               <v-col cols="12" class="text-center mt-0 pt-0">
                  <div class="primary--text display-2">{{count}}</div>
-              </v-col> -->
+              </v-col>
           </v-row>
         </div>
         <v-card-text >
             <v-row>
                 <v-col class="text-center">
                   <p class="body-1">
-                     Your time is finish the examination will now submitted!
+                     Your time is finish the examination will now submit!
                   </p>
              
                 </v-col>
@@ -28,3 +28,26 @@
         </v-card-text>
       </v-card>
 </template>
+<script>
+export default {
+    data(){
+        return{
+            count: 3,
+        }
+    },
+    methods:{
+        SetInterVal(){
+          let time = setInterval(()=>{
+                this.count--;
+                if(this.count == 0){
+                    clearInterval(time);
+                    this.$emit("SubmitAnswer");
+                }
+            },1000)
+        }
+    },
+    mounted(){
+        this.SetInterVal()
+    }
+}
+</script>

@@ -16,6 +16,7 @@ use App\Events\NewNotification;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_userDetails;
+use Carbon\Carbon;
 
 
 
@@ -435,7 +436,9 @@ class StudentController extends Controller
             return response()->json([
                 'submission_id'=> $CheckStatus->id, 
                 'status' => $CheckStatus->status,
-                'startTime' => $CheckStatus->created_at,
+                'currentTime' =>  (Carbon::now('Asia/Manila')->timestamp * 1000),
+                'testDate' =>  Carbon::now('Asia/Manila')->toDateTimeString(),
+                'startTime' => (Carbon::parse($CheckStatus->created_at)->timestamp * 1000),
                 'Submitted_Answers'=>$tempAnswer,
                 'success'=>true
             ]);
@@ -459,10 +462,13 @@ class StudentController extends Controller
             $NewSubmission->status = "Taking";
             $NewSubmission->save();
 
+         /*    $date_today = Carbon::now('Asia/Manila')timestamp;
+            return  $date_today->timestamp; */
             return response()->json([
                 'submission_id'=> $NewSubmission->id, 
                 'status' => 'Taking',
-                'startTime' =>  $NewSubmission->created_at,
+                'currentTime' =>  (Carbon::now('Asia/Manila')->timestamp * 1000),
+                'startTime' =>  Carbon::parse($NewSubmission->created_at)->timestamp * 1000,
                 'Submitted_Answers'=> null,
                 'success'=>true
             ]);  
@@ -571,7 +577,7 @@ class StudentController extends Controller
         $JoinClass->save();
 
 
-
+        
 
         $userInClass = DB::table('tbl_userclasses')
         ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')

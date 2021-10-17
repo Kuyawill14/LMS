@@ -316,6 +316,7 @@ Route::middleware('auth:sanctum')->prefix('/profile')->group(function () {
 
     Route::get('/mycalendar', [UserProfileController::class, 'FetchCalendarSched']);
     Route::get('/taskToday', [UserProfileController::class, 'FetchTodayTask']);
+    Route::get('/datetoday', [UserProfileController::class, 'FetchDatetoday']);
     
 });
 

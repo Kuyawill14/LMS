@@ -205,6 +205,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -1639,144 +1652,201 @@ var render = function() {
                     [
                       _c(
                         "v-row",
-                        _vm._l(_vm.studentSubmissionList, function(item, i) {
-                          return _c(
-                            "v-col",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value:
-                                    item.status == "Submitted" &&
-                                    (_vm.Class == _vm.$route.params.id ||
-                                      _vm.Class == item.class_id) &&
-                                    (_vm.selectedStatus == "All" ||
-                                      (_vm.selectedStatus == "Submitted" &&
-                                        item.graded == 0) ||
-                                      (_vm.selectedStatus == "Graded" &&
-                                        item.graded == 1) ||
-                                      (_vm.selectedStatus == "No Submission" &&
-                                        (item.status == null ||
-                                          item.status == ""))),
-                                  expression:
-                                    "(item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"
-                                }
-                              ],
-                              key: i,
-                              staticClass: "text-center",
-                              attrs: { link: "", cols: "6", md: "3", lg: "3" }
-                            },
-                            [
-                              _c(
-                                "v-card",
-                                {
-                                  staticClass: "mx-auto",
-                                  staticStyle: { cursor: "pointer" },
-                                  attrs: { outlined: "" }
-                                },
-                                [
-                                  _c(
-                                    "v-list-item",
-                                    {
-                                      attrs: { link: "" },
-                                      on: {
-                                        click: function($event) {
-                                          ;(_vm.CheckData = item),
-                                            (_vm.dialog = !_vm.dialog),
-                                            (_vm.isStarting = true)
+                        [
+                          _vm._l(_vm.studentSubmissionList, function(item, i) {
+                            return _c(
+                              "v-col",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value:
+                                      !_vm.isFiltered &&
+                                      item.status == "Submitted" &&
+                                        (_vm.Class == _vm.$route.params.id ||
+                                          _vm.Class == item.class_id) &&
+                                      (_vm.selectedStatus == "All" ||
+                                        (_vm.selectedStatus == "Submitted" &&
+                                          item.graded == 0) ||
+                                        (_vm.selectedStatus == "Graded" &&
+                                          item.graded == 1) ||
+                                        (_vm.selectedStatus ==
+                                          "No Submission" &&
+                                          (item.status == null ||
+                                            item.status == ""))),
+                                    expression:
+                                      "!isFiltered && (item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"
+                                  }
+                                ],
+                                key: i,
+                                staticClass: "text-center",
+                                attrs: { link: "", cols: "6", md: "3", lg: "3" }
+                              },
+                              [
+                                _c(
+                                  "v-card",
+                                  {
+                                    staticClass: "mx-auto",
+                                    staticStyle: { cursor: "pointer" },
+                                    attrs: { outlined: "" }
+                                  },
+                                  [
+                                    _c(
+                                      "v-list-item",
+                                      {
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
+                                            ;(_vm.CheckData = item),
+                                              (_vm.dialog = !_vm.dialog),
+                                              (_vm.isStarting = true)
+                                          }
                                         }
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-list-item-content",
-                                        [
-                                          _c(
-                                            "v-list-item-title",
-                                            {
-                                              staticClass:
-                                                "d-flex flex-column align-self-center"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass: "mb-2",
-                                                  staticStyle: {
-                                                    "max-height": "30px",
-                                                    overflow: "hidden"
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      item.firstName +
-                                                        " " +
-                                                        item.lastName
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("v-divider"),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-icon",
-                                                {
-                                                  attrs: {
-                                                    color:
-                                                      item.Submitted_Answers !=
-                                                      null
-                                                        ? _vm.CheckFileIconColor(
-                                                            item
-                                                              .Submitted_Answers[0]
-                                                              .fileExte
-                                                          )
-                                                        : "primary",
-                                                    "x-large": ""
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\r\n                                           " +
+                                      },
+                                      [
+                                        _c(
+                                          "v-list-item-content",
+                                          [
+                                            _c(
+                                              "v-list-item-title",
+                                              {
+                                                staticClass:
+                                                  "d-flex flex-column align-self-center"
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass: "mb-2",
+                                                    staticStyle: {
+                                                      "max-height": "30px",
+                                                      overflow: "hidden"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
                                                       _vm._s(
+                                                        item.firstName +
+                                                          " " +
+                                                          item.lastName
+                                                      )
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("v-divider"),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      color:
                                                         item.Submitted_Answers !=
-                                                          null
-                                                          ? _vm.CheckFileIcon(
+                                                        null
+                                                          ? _vm.CheckFileIconColor(
                                                               item
                                                                 .Submitted_Answers[0]
                                                                 .fileExte
                                                             )
-                                                          : ""
-                                                      ) +
-                                                      "\r\n                                         "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "small",
-                                                {
-                                                  staticStyle: {
-                                                    "max-height": "12px",
-                                                    overflow: "hidden"
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(
-                                                        item.Submitted_Answers !=
-                                                          null
-                                                          ? item
-                                                              .Submitted_Answers[0]
-                                                              .name
-                                                          : ""
-                                                      )
-                                                  )
-                                                ]
-                                              )
+                                                          : "primary",
+                                                      "x-large": ""
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\r\n                                           " +
+                                                        _vm._s(
+                                                          item.Submitted_Answers !=
+                                                            null
+                                                            ? _vm.CheckFileIcon(
+                                                                item
+                                                                  .Submitted_Answers[0]
+                                                                  .fileExte
+                                                              )
+                                                            : ""
+                                                        ) +
+                                                        "\r\n                                         "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "small",
+                                                  {
+                                                    staticStyle: {
+                                                      "max-height": "12px",
+                                                      overflow: "hidden"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      " " +
+                                                        _vm._s(
+                                                          item.Submitted_Answers !=
+                                                            null
+                                                            ? item
+                                                                .Submitted_Answers[0]
+                                                                .name
+                                                            : ""
+                                                        )
+                                                    )
+                                                  ]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          }),
+                          _vm._v(" "),
+                          _vm.isFiltered
+                            ? _c(
+                                "v-col",
+                                { attrs: { cols: "12" } },
+                                [
+                                  _c(
+                                    "v-container",
+                                    {
+                                      staticClass: "fill-height",
+                                      staticStyle: { height: "500px" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            "align-content": "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            {
+                                              staticClass: "text-center",
+                                              attrs: { cols: "12" }
+                                            },
+                                            [
+                                              _c("vue-element-loading", {
+                                                attrs: {
+                                                  active: _vm.isFiltered,
+                                                  duration: "0.7",
+                                                  spinner: "line-scale",
+                                                  color: "#EF6C00",
+                                                  size: "40"
+                                                }
+                                              })
                                             ],
                                             1
                                           )
@@ -1789,11 +1859,9 @@ var render = function() {
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          )
-                        }),
-                        1
+                            : _vm._e()
+                        ],
+                        2
                       )
                     ],
                     1

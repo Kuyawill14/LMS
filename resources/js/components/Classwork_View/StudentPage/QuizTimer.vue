@@ -1,89 +1,86 @@
 <template>
     <div>
-    <vue-countdown-timer
-        @end_callback="EndTimer()"
-        :start-time="Startdate"
-        :end-time="EndDate?EndDate:endAt"
-        :interval="1000"
-        :hour-txt="'hours'"
-        :minutes-txt="'minutes'"
-        :seconds-txt="'seconds'">
-        <template slot="countdown" slot-scope="scope">
-        <div class="d-flex justify-center mt-0 pt-0">
-            <div class="text-center">
-                <div class="text-md-h6"> {{scope.props.hours}}</div>
-                <div class="caption">{{scope.props.hourTxt}}</div>  
-            </div>
-            <span class="font-weight-bold mt-1">:</span>
-            <div class="text-center">
-                <div class="text-md-h6">{{scope.props.minutes}}</div>
-                <div class="caption">{{scope.props.minutesTxt}}</div>  
-            </div>
-            <span class="font-weight-bold mt-1">:</span>
-            <div class="text-center">
-                <div class="text-md-h6">{{scope.props.seconds}}</div>
-                <div class="caption">{{scope.props.secondsTxt}} </div>  
-            </div>
-        </div>
-        </template>
-    </vue-countdown-timer>
+      <div v-if="EndDate">
+          <countdown ref="QuizTimer" @progress="handleCountdownProgress"
+          @abort="getTimeSpent" @end="EndTimer" :time="EndDate" :interval="100" tag="p" v-slot="{hours, minutes, seconds }">
+            <template> 
+                <div class="d-flex justify-center mt-0 pt-0">
+                    <div class="text-center">
+                        <div class="text-md-h6"> {{hours >= 10 ? hours : '0'+hours}}</div>
+                        <div class="caption">hours</div>  
+                    </div>
+                    <span class="font-weight-bold mt-1">:</span>
+                    <div class="text-center">
+                        <div class="text-md-h6">{{minutes >= 10 ? minutes : '0'+minutes }}</div>
+                        <div class="caption">minutes</div>  
+                    </div>
+                    <span class="font-weight-bold mt-1">:</span>
+                    <div class="text-center">
+                        <div class="text-md-h6">{{seconds >= 10 ? seconds : '0'+seconds }}</div>
+                        <div class="caption">seconds</div>  
+                    </div>
+                </div>
+            </template>
+        </countdown>
+      </div>
 </div>
 </template>
 <script>
+import Countdown from '@chenfengyuan/vue-countdown';
 export default {
-    props:['duration','StopTimer','StartTime'],
+    props:['duration','StopTimer','StartTime','CurrentTime'],
+    components:{
+        Countdown
+    },
     data: ()=> ({
-        Startdate: (new Date).getTime(),
         EndDate: null,
-        checkTime:null,
-        NewTimer: null,
-        displayHours: 0,
-        displayMinutes: 0,
-        displaySeconds: 0,
-        SecondProgress:1000,
-        isLoaded: false,
-        endAt:  (new Date).getTime()+20000,
+        endAt: null,
         timeSpent: null,
-        isTimesUps: false
+        isTimesUps: false,
+        Startdate: null,
+        CurrentUserTime:{}
     }),
     watch: {
       'StopTimer': function(arMsg) {
          if(arMsg == true){
              if( this.isTimesUps != true){
-                this.getTimeSpent();
+                //this.getTimeSpent();
+                this.$refs.QuizTimer.abort();
              }
          }
       }
    },
     methods:{
         startTimer(){
+            this.endAt = this.CurrentTime+1000;
+            this.Startdate = this.CurrentTime;
             let due = (this.duration*60) * 1000;
-            this.EndDate = new Date(this.StartTime).getTime()+due;
-/*             let timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-            this.timeSpent = Math.floor((timeConsumed / 1000)/60); */
+            this.EndDate = (this.StartTime+due) - this.CurrentTime;
         },
         EndTimer(){
-            const timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-            this.timeSpent = Math.floor((timeConsumed / 1000)/60);
+            let totalSeconds = ((this.CurrentUserTime.hours*60)*1000)+(this.CurrentUserTime.minutes*1000);
+            this.timeSpent = this.duration;
             let data = {};
             data.time = this.timeSpent;
             this.isTimesUps = true;
-            clearInterval(this.NewTimer);
-            localStorage.removeItem(name);
             this.$emit('TimesUp', data);
         },
         getTimeSpent(){
-            const timeConsumed = this.Startdate - new Date(this.StartTime).getTime();
-            this.timeSpent = Math.floor((timeConsumed / 1000)/60);
+            let totalSeconds = (((this.CurrentUserTime.hours*60)*60)*1000)+((this.CurrentUserTime.minutes*60)*1000);
+            this.timeSpent = Math.floor((totalSeconds / 1000)/60);
+            console.log((this.duration - this.timeSpent));
             let data = {};
-            data.time = this.timeSpent;
+            data.time = this.duration - this.timeSpent;
             data.istime = this.isTimesUps;
             this.$emit('TimerStop', data);
-        }
+        },
+        handleCountdownProgress(data) {
+            this.CurrentUserTime.hours = data.hours;
+            this.CurrentUserTime.minutes = data.minutes;
+        },
     },
     beforeMount(){
         this.startTimer();
     },
-   
 }
 </script>

@@ -18,7 +18,7 @@ use App\Models\tbl_sub_modules;
 use App\Models\tbl_Submission;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
-
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 //use Image;
 
@@ -347,6 +347,16 @@ class UserProfileController extends Controller
         
     }
 
+    /**
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function FetchDatetoday()
+    {
+     
+        //$date_today = 
+        return  Carbon::now('Asia/Manila')->timestamp * 1000;
+    }
     
 
     /**

@@ -19,9 +19,9 @@
                                     :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
                                     style="text-decoration: none">
                                     <v-card :color="active ? undefined : 'grey lighten-1'" class="my-4 mx-3"
-                                        :height="$vuetify.breakpoint.lgAndUp ? 170 : 130" :width="$vuetify.breakpoint.lgAndUp  ? 250 : 230">
+                                        :height="$vuetify.breakpoint.mdAndUp ? 170 : 130" :width="$vuetify.breakpoint.mdAndUp ? 250 : 230">
                                         <v-card class="mx-auto">
-                                            <v-img :src="CheckBackgroundPath(item.course_picture)" :height="$vuetify.breakpoint.lgAndUp ? 170 : 130"
+                                            <v-img :src="CheckBackgroundPath(item.course_picture)" :height="$vuetify.breakpoint.mdAndUp ? 170 : 130"
                                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                                                 class="white--text align-end">
                                                 <div class="px-2">
@@ -43,7 +43,7 @@
                                                         <v-list-item>
                                                             <v-list-item-content>
                                                                 <v-list-item-title class="white--text">
-                                                                     <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
+                                                                     <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.mdAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
                                                                     <br> 
                                                                     <span style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</span>
                                                                 </p>

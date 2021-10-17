@@ -74,7 +74,7 @@
                  <v-list >
                     <v-list-item-group >
                         <template v-for="(item,i) in studentSubmissionList"  >
-                            <v-list-item v-show="(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))" :key="item.id">
+                            <v-list-item v-if="(Class == $route.params.id || Class == item.class_id) && (selectedStatus == 'All' || selectedStatus == item.status || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))" :key="item.id">
                                 <v-list-item-avatar @click="ViewSubmision(item, i)"   color="secondary">
                                     <v-img alt="Profile"
                                         :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">

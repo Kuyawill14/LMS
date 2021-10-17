@@ -2226,10 +2226,6 @@ var publishClassworkTab = function publishClassworkTab() {
   return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/publishClassworkTab */ "./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue"));
 };
 
-var test = function test() {
-  return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/test */ "./resources/js/components/Classwork_View/tabs/test.vue"));
-};
-
 var classworkDetailsTab = function classworkDetailsTab() {
   return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/tabs/classworkDetailsTab */ "./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue"));
 };

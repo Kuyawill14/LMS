@@ -34,6 +34,7 @@
         "vuetifyjs-mix-extension": "0.0.20"
     },
     "dependencies": {
+        "@chenfengyuan/vue-countdown": "^1.1.5",
         "@kouts/vue-modal": "^2.1.0",
         "chart.js": "^2.9.4",
         "dotenv": "^10.0.0",

@@ -10,15 +10,14 @@
 
 <v-dialog v-model="warningDialog" persistent max-width="500">
     <dialogWarning
-    v-on:toggleCloaseDialog="warningDialog = !warningDialog"
+    v-on:toggleCloaseDialog="warningDialog = !warningDialog,ReloadTime()"
     
      v-if="warningDialog"></dialogWarning>
 </v-dialog>
 
 <v-dialog v-model="TimesUpDialog" persistent max-width="500">
     <timesUpDialog
-    v-on:toggleCloaseDialog="TimesUpDialog = !TimesUpDialog"
-    v-on:SubmitAnswer="$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})"
+    v-on:SubmitAnswer="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: $route.query.clwk}})"
      v-if="TimesUpDialog"></timesUpDialog>
 </v-dialog>
 
@@ -33,16 +32,20 @@
     </v-row>
 </v-container> -->
     
-    <vue-element-loading :active="isLoading || isSubmitting" 
-    :text="isSubmitting ? 'Submitting...' : 'Loading Questions'"
+    <vue-element-loading :active="isLoading" 
+    text="Loading Questions"
     duration="0.7"
     :textStyle="{fontSize: '18px'}"
     spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
 
-    <vue-element-loading :active="isLeavingPage" 
- 
+    <!--  <vue-element-loading :active="isSubmitting" 
+    text="Submitting..."
     duration="0.7"
+    :textStyle="{fontSize: '18px'}"
+    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen /> -->
 
+    <vue-element-loading :active="isLeavingPage" 
+    duration="0.7"
     spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
     
    
@@ -102,9 +105,15 @@
                                 </v-list>
                                 </v-menu>
                             </div>
-                            <div>
+                              <div v-if="isReloadTime" style="margin-right:3rem">
+                                  
+                                 <vue-element-loading :active="isReloadTime" 
+                                    duration="0.7"
+                                    spinner="line-scale" color="#EF6C00"  size="25"  />
+                            </div>
+                            <div v-else>
                                  <h4 @click="Answersheet = true" class="ml-1" >Time Remaining</h4>
-                                 <quizTimer :bus="bus" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
+                                 <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
                             </div>
                             
                         </div>
@@ -391,7 +400,10 @@ export default {
             bus: "testing",
             TimesUpDialog: false,
             windowHeight: window.innerHeight - 100,
-            isLeavingPage: false
+            isLeavingPage: false,
+            CurrentTime: null,
+            testDate: null,
+            isReloadTime: false,
         }
     },
     computed: 
@@ -497,14 +509,14 @@ export default {
                     axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: data.time})
                     .then((res)=>{
                         //this.isLoading = !this.isLoading;
-                        this.isSubmitting = !this.isSubmitting;
+                        //this.isSubmitting = !this.isSubmitting;
                         this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                     })       
              }
                   
         },
         TimesUpSubmit(data){
-            this.TimesUpDialog = !this.TimesUpDialog;
+            
             this.isExamStart = false;
             //this.isLoading = !this.isLoading;
             this.isSubmitting = !this.isSubmitting;
@@ -512,13 +524,12 @@ export default {
             this.warningDialog = false;
              axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount, timeSpent: data.time})
             .then((res)=>{
-                console.log('timesUp');
+                this.TimesUpDialog = !this.TimesUpDialog;
                  setTimeout(() => {
                     //this.isLoading = !this.isLoading;
-                    this.isSubmitting = !this.isSubmitting;
-                    
+                    //this.isSubmitting = !this.isSubmitting;
                 }, 2000);
-               this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
+               //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
             })
         },
         fetchQuestions(){
@@ -680,6 +691,22 @@ export default {
             if (!this.isStart) return;
             event.returnValue = "";
         },
+        ReloadStatus(){
+            axios.get('/api/student/checking/'+this.$route.query.clwk)
+            .then(res=>{
+               if(res.data.success == true){
+                    if(res.data.status != 'Submitted'){
+                        this.CurrentTime = res.data.currentTime;
+                        this.StartTime = res.data.startTime;
+                    }
+                }
+                this.isReloadTime = false;
+            })
+            .catch(e=>{
+                this.toastError('Something went wrong while loading Questions!');
+                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
+            })
+        },
          CheckStatus(){
             axios.get('/api/student/checking/'+this.$route.query.clwk)
             .then(res=>{
@@ -687,6 +714,8 @@ export default {
                     if(res.data.status != 'Submitted'){
                         this.isExamStart = true
                         this.Submitted_Answers = res.data.Submitted_Answers;
+                        this.CurrentTime = res.data.currentTime;
+                        this.testDate = res.data.testDate;
                         this.StartTime = res.data.startTime;
                         this.submission_id = res.data.submission_id;
                         this.preventNav = !this.preventNav;
@@ -780,6 +809,11 @@ export default {
                 }
               }
         },
+        ReloadTime(){
+            this.ReloadStatus();
+            this.isReloadTime = true;
+            //setTimeout(() => (this.isReloadTime = false), 300);
+        }
     },
     beforeMount() {
         document.addEventListener('contextmenu', function(e) {
