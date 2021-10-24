@@ -54827,7 +54827,7 @@ var render = function() {
                                                                                 _vm
                                                                                   .AnswerList[
                                                                                   i
-                                                                                ]
+                                                                                ][0]
                                                                                   .Choice,
                                                                               callback: function(
                                                                                 $$v
@@ -54836,13 +54836,13 @@ var render = function() {
                                                                                   _vm
                                                                                     .AnswerList[
                                                                                     i
-                                                                                  ],
+                                                                                  ][0],
                                                                                   "Choice",
                                                                                   $$v
                                                                                 )
                                                                               },
                                                                               expression:
-                                                                                "AnswerList[i].Choice"
+                                                                                "AnswerList[i][0].Choice"
                                                                             }
                                                                           }
                                                                         )
@@ -55138,7 +55138,7 @@ var render = function() {
                                                           "subchoices-content",
                                                         domProps: {
                                                           innerHTML: _vm._s(
-                                                            _vm.AnswerList[i]
+                                                            _vm.AnswerList[i][0]
                                                               .Choice
                                                           )
                                                         }

@@ -54,11 +54,11 @@ class ObjectiveController extends Controller
             $tempData1;
             $tempSubQuestion;
             if(auth('sanctum')->user()->role == 'Student'){
-               /*  $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                 ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                ->get(); */
+                ->get();
 
-                $tempData1 = [];
+               /*  $tempData1 = [];
                 if($cl->type != 'Matching type'){
                     $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
@@ -71,7 +71,7 @@ class ObjectiveController extends Controller
                         ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                         ->get();
                     }
-                }
+                } */
 
                 $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
                 ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
@@ -80,8 +80,6 @@ class ObjectiveController extends Controller
                
             }
             else{
-                
-
                 $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
                 ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
                 ->get();

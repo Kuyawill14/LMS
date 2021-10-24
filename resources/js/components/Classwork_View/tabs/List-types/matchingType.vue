@@ -142,7 +142,7 @@
                                                             <v-card style="width:100%" class="mb-3" elevation="0" outlined>
                                                                 
                                                             <editor 
-                                                                v-model="AnswerList[i].Choice"
+                                                                v-model="AnswerList[i][0].Choice"
                                                                 id="editor-container"  :placeholder="'Answer '+(i+1)" 
                                                                 theme="snow" :options="options">
                                                             </editor>
@@ -204,7 +204,7 @@
                                     <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
                                         <div class="d-flex"> 
                                             <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                            <span v-html="AnswerList[i].Choice" class="subchoices-content"></span>
+                                            <span v-html="AnswerList[i][0].Choice" class="subchoices-content"></span>
                                         </div>
                                     </v-col>
                                 </v-row>
