@@ -1,6 +1,19 @@
 
 <template>
 <div class="pa-1">
+
+<div transition="slide-y-reverse-transition">
+    <v-app-bar elevation="5" 
+     v-if="!$vuetify.breakpoint.mdAndUp"
+        app :dense="$vuetify.breakpoint.mdAndUp"  color="primary"  >
+         <v-btn dark rounded icon text 
+            v-if="!$vuetify.breakpoint.mdAndUp"
+            @click="$router.push({name: 'classwork'})" >
+            <v-icon >mdi-arrow-left-thick</v-icon>
+        </v-btn>
+        <v-divider   vertical></v-divider>
+    </v-app-bar>
+</div>
 <v-overlay :value="isLeaving">
     <v-progress-circular
         indeterminate
@@ -25,12 +38,13 @@
     </v-row>
 </v-container>
 
- <v-row  justify="center" v-if="List.length == 0 && !isloading">
-    <v-col cols="12" sm="8" md="4" class="text-center">
+ <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'"  justify="center" v-if="List.length == 0 && !isloading">
+    <v-col cols="12" class="text-center">
         <v-icon style="font-size:10rem">
             mdi-notebook-check-outline
         </v-icon>
-        <h1> Empty Submission </h1>
+        <h1 v-if="$vuetify.breakpoint.mdAndUp"> Empty Submission </h1>
+        <h2 v-else> Empty Submission </h2>
         <p> Your classwork is not publish to any class yet!</p>
          <v-btn color="primary" @click="$router.push({name: 'publish-to',query: {clwk: $route.query.clwk} })"> Publish classwork </v-btn>
     </v-col>
@@ -131,6 +145,12 @@ export default {
 </script>
 
 <style scoped>
-  
+  .centered{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
         
 </style>

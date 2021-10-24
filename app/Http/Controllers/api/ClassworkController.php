@@ -15,6 +15,7 @@ use App\Models\tbl_teacher_course;
 use App\Models\tbl_subjective_rubrics;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 
@@ -70,6 +71,7 @@ class ClassworkController extends Controller
                 ->select('tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
                 ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
                 ->get();
+                //return $publishIn;
                 $item->publish_in = $publishIn;
                 $totalSubmission = 0;
                 foreach($publishIn as $pub){
@@ -112,17 +114,29 @@ class ClassworkController extends Controller
             $classworkAll = tbl_classClassworks::withTrashed()
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
-            ,'tbl_classworks.instruction','tbl_class_classworks.deleted_at as publish')
+            ,'tbl_submissions.status' ,'tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date'
+            ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
+            ->leftJoin("tbl_submissions", function($join) use ($userId){
+                $join->on("tbl_submissions.classwork_id", "=", "tbl_class_classworks.classwork_id");
+                $join->on('tbl_submissions.user_id','=',DB::raw("'".$userId."'"));
+            })
             ->where('tbl_userclasses.user_id','=', $userId)
             ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
             ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->where('tbl_class_classworks.availability', '!=',2)
             ->orderBy('created_at', 'DESC')
             ->get();
+
+            foreach($classworkAll as $clwk){
+                if($clwk->type == "Objective Type"){
+                    $clwk->total_questions = tbl_Questions::where('classwork_id','=', $clwk->classwork_id)->count();
+                }
+            }
+            
             $totalClasswork += count($classworkAll);
-            $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
+            /* $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
             ->orderBy('classwork_id', 'DESC')
             ->get();
    
@@ -134,8 +148,8 @@ class ClassworkController extends Controller
                     $classW->Sub_date = null;
                 }
             }
-            else{
-                foreach($CheckSub as $subM){
+            else{ */
+              /*   foreach($CheckSub as $subM){
                     foreach($classworkAll as $classW){
                         if($subM->classwork_id == $classW->classwork_id){
                             if($subM->status == ''){
@@ -159,12 +173,12 @@ class ClassworkController extends Controller
                         }
                        
                     }
-                }
-            }
+                } */
+            //}
             $ClassworkTitle[] = ['title'=>$item->name, 'percent'=>$item->percentage];
             $ClassworksList[] = $classworkAll;
         }
-            return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList, 'totalClasswork'=> $totalClasswork];
+            return ["ClassworkTitle"=>$ClassworkTitle, "ClassworksList"=>$ClassworksList, 'totalClasswork'=> $totalClasswork, 'currentDate' => Carbon::now('Asia/Manila')];
 
         }
         
@@ -370,12 +384,36 @@ class ClassworkController extends Controller
             }
         }
         else{
-            $class_id = tbl_userclass::where('tbl_userclasses.user_id', $userId)
-            ->select('tbl_userclasses.class_id')
-            ->where('tbl_userclasses.course_id', $courseId)
+            $classworkDetails = tbl_userclass::where(function ($query) use ($userId , $courseId) {
+                $query->where('tbl_userclasses.user_id',  $userId)
+                      ->Where('tbl_userclasses.course_id', $courseId);
+            })
+            ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
+            'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer','tbl_class_classworks.reviewAnswer',
+            'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo', 'tbl_class_classworks.response_late',
+            'tbl_submissions.id as Sub_id','tbl_submissions.status', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at as Submitted_at','tbl_userclasses.user_id',
+            'tbl_class_classworks.deleted_at as publish')
+            ->leftJoin("tbl_classworks", function($join) use ($id){
+                $join->on('tbl_classworks.id','=',DB::raw("'".$id."'"));
+            })
+            ->leftJoin("tbl_class_classworks", function($join){
+                $join->on('tbl_class_classworks.classwork_id','=','tbl_classworks.id');
+                $join->on('tbl_class_classworks.class_id','=','tbl_userclasses.class_id');
+            })
+            ->leftJoin("tbl_submissions", function($join) use ($userId){
+                $join->on('tbl_submissions.classwork_id','=','tbl_classworks.id');
+                $join->on('tbl_submissions.user_id','=',DB::raw("'".$userId."'"));
+            })
             ->first();
 
-            $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+            
+
+           
+
+
+
+
+           /*  $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id','tbl_class_classworks.deleted_at as publish',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer',
             'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo',
@@ -384,7 +422,7 @@ class ClassworkController extends Controller
             ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.classwork_id','=','tbl_classworks.id')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.user_id','=', 'tbl_classworks.user_id')
             ->where('tbl_class_classworks.class_id', $class_id->class_id)
-            ->first();
+            ->first(); */
 
             if(!$classworkDetails){
                 return response()->json([
@@ -392,11 +430,35 @@ class ClassworkController extends Controller
                     "success" => false
                 ]);
             }
+
+            if($classworkDetails->type == 'Objective Type'){
+                if($classworkDetails->reviewAnswer == 1){
+                    $TempAnswer = unserialize($classworkDetails->Submitted_Answers);
+                    $classworkDetails->Submitted_Answers = $TempAnswer;
+                }
+                else{
+                    $classworkDetails->Submitted_Answers = null;
+                }
+            }
+            else{
+                $TempAnswer = unserialize($classworkDetails->Submitted_Answers);
+                if($TempAnswer){
+                    $classworkDetails->Submitted_Answers = $TempAnswer;
+                }
+                else{
+                    $EmptyArray = array();
+                    $classworkDetails->Submitted_Answers = $EmptyArray ;
+                }
+                
+            }
+
+
+            $classworkDetails->currentDate = Carbon::now('Asia/Manila');
             $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : null;
             $teacher_id = tbl_teacher_course::where('course_id', $courseId)->first();
-
+            //return  $teacher_id;
             
-            $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails ->id)
+            $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails->id)
             ->select("tbl_comments.id","tbl_comments.user_id as u_id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
             ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
             ->where('tbl_comments.from_user',  $userId)
@@ -404,20 +466,16 @@ class ClassworkController extends Controller
             ->where('tbl_comments.type', 'Private')
             ->orderBy("tbl_comments.created_at", "ASC")
             ->get();
+
             $classworkDetails->comments =  $PrivateComment;
 
 
         }
+
+
         if($classworkDetails->type == 'Objective Type'){
-            $Items = tbl_Questions::where('classwork_id','=', $id)
-            ->select('tbl_questions.points')
-            ->get();
-            $count = 0;
-            $points = 0;
-            foreach($Items as $i){
-                $count++;
-                $points+= $i->points;
-            }
+            $points = tbl_Questions::where('classwork_id','=', $id)->sum('tbl_questions.points');
+            $count = tbl_Questions::where('classwork_id','=', $id)->count();
             return response()->json([
                 "Details"=>$classworkDetails,
                 "ItemsCount"=>$count,

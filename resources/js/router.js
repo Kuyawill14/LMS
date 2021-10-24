@@ -724,6 +724,12 @@ const router = new Router({
                                     });
                                 })
                         })
+                        .catch(()=>{
+                            store.state.CurrentUser.IsAuthenticated = false;
+                            return next({
+                                path: "/login"
+                            });
+                        })
                     },
                     props: true,
                     children: [{

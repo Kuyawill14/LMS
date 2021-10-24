@@ -11,14 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var moment_src_moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment/src/moment */ "./node_modules/moment/src/moment.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -126,116 +120,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['Preview_id'],
+  props: ["Preview_details"],
   data: function data() {
     return {
       isloading: true,
       totalPoints: null,
       totalQuestion: null,
-      Details: {},
-      DateToday: ''
+      Details: {}
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['get_classwork_show_details'])), {}, {
+  computed: {
     Fileextension: function Fileextension() {
       var attach = this.Details.attachment;
       return attach.split('.').pop();
     }
-  }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassworkShowDetails'])), {}, {
-    getClassworkDetails: function getClassworkDetails() {
-      var _this = this;
-
-      /*   axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
-        .then(res=>{
-            this.Details = res.data.Details;
-            this.Details.from_date = moment(this.Details.from_date).format('YYYY-MM-DD HH:mm:ss')
-            this.isloading = !this.isloading;
-            this.totalPoints = res.data.totalpoints;
-            this.totalQuestion = res.data.ItemsCount;
-        }) */
-      var data = {
-        classwork_id: this.Preview_id,
-        course_id: this.$route.params.id
-      };
-      this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
-        _this.Details = _this.get_classwork_show_details.Details;
-        _this.Details.from_date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(_this.Details.from_date).format('YYYY-MM-DD HH:mm:ss');
-        _this.totalPoints = _this.get_classwork_show_details.totalpoints;
-        _this.totalQuestion = _this.get_classwork_show_details.ItemsCount;
-        _this.isloading = !_this.isloading;
-      });
-    },
+  },
+  methods: {
     format_date: function format_date(value) {
       if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format('dddd, h:mm a');
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format('dddd,  h:mm a');
       }
     },
     DownLoadFile: function DownLoadFile(file) {
       window.location = "/storage/" + file;
     }
-  }),
+  },
   mounted: function mounted() {
-    this.getClassworkDetails();
-    var newDate = new Date();
-    this.DateToday = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(newDate).format('YYYY-MM-DD HH:mm:ss');
+    this.isloading = !this.isloading;
   },
   created: function created() {
     this.$emit('isMounted');
@@ -499,10 +412,11 @@ var render = function() {
                                     [_vm._v("mdi-book-clock-outline")]
                                   ),
                                   _vm._v(" "),
-                                  _vm.Details.type != "Subjective Type"
+                                  _vm.Preview_details.type != "Subjective Type"
                                     ? _c("span", [
                                         _vm._v(
-                                          _vm._s(_vm.Details.duration) + " mins"
+                                          _vm._s(_vm.Preview_details.duration) +
+                                            " mins"
                                         )
                                       ])
                                     : _vm._e()
@@ -519,10 +433,10 @@ var render = function() {
                                   _vm._v(
                                     " " +
                                       _vm._s(
-                                        _vm.Details.availability != 0
+                                        _vm.Preview_details.availability != 0
                                           ? "Due " +
                                               _vm.format_date(
-                                                _vm.Details.to_date
+                                                _vm.Preview_details.to_date
                                               )
                                           : "No due date"
                                       )
@@ -545,17 +459,20 @@ var render = function() {
                       _c(
                         "div",
                         { staticClass: "text-sm-body-2 font-weight-bold" },
-                        [_vm._v(_vm._s(_vm.Details.title))]
+                        [_vm._v(_vm._s(_vm.Preview_details.title))]
                       ),
                       _vm._v(" "),
                       _c("div", { staticClass: "pt-2 d-flex flex-row " }, [
-                        _vm.Details.type == "Objective Type"
+                        _vm.Preview_details.type == "Objective Type"
                           ? _c(
                               "div",
                               { staticClass: "captions font-weight-medium" },
                               [
                                 _c("v-icon", [_vm._v("mdi-circle-medium")]),
-                                _vm._v(_vm._s(_vm.totalQuestion) + " Question")
+                                _vm._v(
+                                  _vm._s(_vm.Preview_details.total_questions) +
+                                    " Question"
+                                )
                               ],
                               1
                             )
@@ -568,9 +485,9 @@ var render = function() {
                             _c("v-icon", [_vm._v("mdi-circle-medium")]),
                             _vm._v(
                               _vm._s(
-                                _vm.Details.type == "Objective Type"
-                                  ? _vm.totalPoints
-                                  : _vm.Details.points
+                                _vm.Preview_details.type == "Objective Type"
+                                  ? _vm.Preview_details.points
+                                  : _vm.Preview_details.points
                               ) + " Points"
                             )
                           ],
@@ -589,210 +506,74 @@ var render = function() {
                     [
                       _c("span", {
                         staticClass: "text-sm-body-2 ",
-                        domProps: { innerHTML: _vm._s(_vm.Details.instruction) }
+                        domProps: {
+                          innerHTML: _vm._s(_vm.Preview_details.instruction)
+                        }
                       })
                     ]
                   ),
                   _vm._v(" "),
-                  _vm.Details.availability == 0
-                    ? _c(
-                        "v-col",
-                        {
-                          staticClass: "pl-10 pr-5 pb-5 text-right",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _vm.Details.type == "Objective Type"
-                            ? _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    rounded: "",
-                                    color: "primary",
-                                    dark: _vm.totalQuestion != 0
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$emit("OpenClasswork")
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                            View Quiz"
-                                  ),
-                                  _c(
-                                    "v-icon",
-                                    { attrs: { right: "", dark: "" } },
-                                    [_vm._v("mdi-book-arrow-right-outline")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.Details.type == "Subjective Type"
-                            ? _c(
-                                "v-btn",
-                                {
-                                  attrs: {
-                                    rounded: "",
-                                    color: "primary",
-                                    dark: ""
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$emit("OpenClasswork")
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                                Submit Work"
-                                  ),
-                                  _c(
-                                    "v-icon",
-                                    { attrs: { right: "", dark: "" } },
-                                    [_vm._v("mdi-book-arrow-right-outline")]
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    : _c(
-                        "v-col",
-                        {
-                          staticClass: "pl-10 pr-5 pb-5 text-right",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _vm.Details.type == "Objective Type"
-                            ? _c(
-                                "div",
-                                { staticClass: "ma-0 pa-0" },
-                                [
-                                  _vm.DateToday > _vm.Details.from_date
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            rounded: "",
-                                            color: "primary",
-                                            dark: _vm.totalQuestion != 0
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.$emit("OpenClasswork")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                View Quiz"
-                                          ),
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { right: "", dark: "" } },
-                                            [
-                                              _vm._v(
-                                                "mdi-book-arrow-right-outline"
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    : _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            rounded: "",
-                                            disabled: "",
-                                            color: "primary"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Not Yet Available"
-                                          )
-                                        ]
-                                      )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.Details.type == "Subjective Type"
-                            ? _c(
-                                "div",
-                                { staticClass: "ma-0 pa-0" },
-                                [
-                                  _vm.DateToday > _vm.Details.from_date
-                                    ? _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            rounded: "",
-                                            color: "primary",
-                                            dark: ""
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.$emit("OpenClasswork")
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Submit Work"
-                                          ),
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { right: "", dark: "" } },
-                                            [
-                                              _vm._v(
-                                                "mdi-book-arrow-right-outline"
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    : _c(
-                                        "v-btn",
-                                        {
-                                          attrs: {
-                                            rounded: "",
-                                            color: "primary",
-                                            disabled: "",
-                                            dark: ""
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                Not Yet Available"
-                                          ),
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { right: "", dark: "" } },
-                                            [
-                                              _vm._v(
-                                                "mdi-book-arrow-right-outline"
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ]
-                      )
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pl-10 pr-5 pb-5 text-right",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _vm.Preview_details.type == "Objective Type"
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                rounded: "",
+                                color: "primary",
+                                dark: _vm.totalQuestion != 0
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$emit("OpenClasswork")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v("\n                            View Quiz"),
+                              _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                                _vm._v("mdi-book-arrow-right-outline")
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.Preview_details.type == "Subjective Type"
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                rounded: "",
+                                color: "primary",
+                                dark: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.$emit("OpenClasswork")
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                Submit Work"
+                              ),
+                              _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                                _vm._v("mdi-book-arrow-right-outline")
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
                 ],
                 1
               )

@@ -119,7 +119,7 @@
                             <v-container>
                                 <v-row ma-0 pa-0>
                                     <div class="font-weight-medium">Options</div>
-                                        <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in getAnswerList" :key="Ans.id">
+                                        <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" v-for="(Ans, i) in getAnswerList.options" :key="Ans.id">
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container ma-0 pa-0 class="d-flex flex-row ma-0 pa-0">
@@ -198,7 +198,7 @@
                             <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" class="subtitle-2"> <span v-html="getQuestion.question" class="post-content"></span></div>
                         </v-container>
                         <v-container class="pl-5 pr-5">
-                            <v-container class="d-flex flex-row ma-0 pa-0" v-for="Ans in getAnswerList" :key="Ans.id">
+                            <v-container class="d-flex flex-row ma-0 pa-0" v-for="Ans in getAnswerList.options" :key="Ans.id">
                             <v-radio-group  class="ma-0 pa-0"  v-model="getQuestion.answer">
                                 <v-radio
                                 readonly

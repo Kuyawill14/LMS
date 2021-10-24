@@ -35,6 +35,11 @@ Vue.use(VueCountdownTimer);
 import VueElementLoading from "vue-element-loading";
 Vue.component("VueElementLoading", VueElementLoading);
 
+//QuilEditor
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+Vue.use(VueQuillEditor, /* { default global options } */)
 
 
 //Vuex Store

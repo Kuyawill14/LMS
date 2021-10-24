@@ -20,13 +20,13 @@
       
       <v-col v-else cols="12" sm="12"   justify="center">
         <v-row align="center" justify="center">
-          <v-col v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= DateToday && statusDetails.status != 'Submitted'" cols="12" md="7" lg="6" xl="6">
+          <v-col v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= CheckFormatDue(classworkDetails.currentDate)  && classworkDetails.status != 'Submitted'" cols="12" md="7" lg="6" xl="6">
                 <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
           </v-col>
             <v-col v-else cols="12" >
               <v-row align="center" justify="center">
                 <v-col v-if="classworkDetails.type == 'Objective Type'" sm="12" md="12" lg="10" xl="10" cols="12">
-                  <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails" :statusDetails="statusDetails"
+                  <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails" 
                 :totalPoints="totalPoints" :totalQuestion="totalQuestion"
                 ></objectiveType>  
                 </v-col>
@@ -104,9 +104,11 @@ export default {
       window.history.forward(1)
     }, */
     mounted(){
-      if(this.classworkDetails){
+     /*  if(this.classworkDetails){
         this.checkStatus();
-      }
+        
+      } */
+      this.loaded = true;
     },
     beforeMount(){
       const newDate = new Date();

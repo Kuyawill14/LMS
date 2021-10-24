@@ -137,9 +137,11 @@ var responseLatePageWarning = function responseLatePageWarning() {
         window.history.forward(1)
       }, */
   mounted: function mounted() {
-    if (this.classworkDetails) {
-      this.checkStatus();
-    }
+    /*  if(this.classworkDetails){
+       this.checkStatus();
+       
+     } */
+    this.loaded = true;
   },
   beforeMount: function beforeMount() {
     var newDate = new Date();
@@ -1043,8 +1045,10 @@ var render = function() {
                         [
                           _vm.classworkDetails.response_late == 0 &&
                           _vm.CheckFormatDue(_vm.classworkDetails.to_date) <=
-                            _vm.DateToday &&
-                          _vm.statusDetails.status != "Submitted"
+                            _vm.CheckFormatDue(
+                              _vm.classworkDetails.currentDate
+                            ) &&
+                          _vm.classworkDetails.status != "Submitted"
                             ? _c(
                                 "v-col",
                                 {
@@ -1097,8 +1101,6 @@ var render = function() {
                                                     attrs: {
                                                       classworkDetails:
                                                         _vm.classworkDetails,
-                                                      statusDetails:
-                                                        _vm.statusDetails,
                                                       totalPoints:
                                                         _vm.totalPoints,
                                                       totalQuestion:

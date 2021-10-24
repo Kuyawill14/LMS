@@ -82,7 +82,8 @@
     
   
     <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
-     <editor style="outline:none;" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)" :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
+     
+     <editor class="AnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)" :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
       v-model="announcement.content" @change="onChange" theme="snow" :options="options"></editor>
 
         <!-- <editor style="outline:none;"  :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
@@ -270,29 +271,46 @@ export default {
 }
 </script>
 
-<style >
-  
-        .ql-bold,.ql-italic,.ql-underline, .ql-strike
-        ,.ql-picker-label,.ql-align,.ql-list,.ql-link
-        ,.ql-image,.ql-video
-        {
-            outline: none !important;
-            border:none !important;
-        } 
-        .ql-tooltip, .ql-editing{
-            z-index: 1;
+<style>
+
+.AnnoumentEditor .quill-editor {
+        position: relative;
+        background: #d0cece;
+
+    }
+
+    .AnnoumentEditor .ql-container.ql-snow {
+        border: none !important;
+    }
+
+    .AnnoumentEditor .ql-toolbar.ql-snow {
+        background: #f2f2f2;
+        border: none;
+
+    }
+
+    .AnnoumentEditor
+    .ql-bold,.ql-italic,.ql-underline, .ql-strike
+    ,.ql-picker-label,.ql-align,.ql-list,.ql-link
+    ,.ql-image,.ql-video
+    {
+        outline: none !important;
+        border:none !important;
+    } 
+        .AnnoumentEditor .ql-tooltip, .ql-editing{
+        z-index: 1;
+    }
+        .AnnoumentEditor iframe{
+            width: 100% !important;
+        height: 20rem !important;
         }
-         iframe{
-             width: 100% !important;
-            height: 20rem !important;
-         }
-         .ql-editor img{
-  
-             max-height: 25rem !important;
-         }
-         .ql-container{
-             max-height: 70rem;
-         }
+        .AnnoumentEditor .ql-editor img{
+
+            max-height: 25rem !important;
+        }
+        .AnnoumentEditor .ql-container{
+            max-height: 70rem;
+        }
         
     
         

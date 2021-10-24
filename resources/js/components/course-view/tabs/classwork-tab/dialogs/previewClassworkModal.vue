@@ -13,16 +13,6 @@
                  <v-row style="height:2vh"></v-row>
                  <v-row   class="fill-height" align-content="center"
                  justify="center" v-if="isloading" style="height:30vh">
-                    <!--  <v-col cols="6">
-                        <v-progress-linear
-                            w
-                            color="primary"
-                            indeterminate
-                            rounded
-                            height="4"
-                        ></v-progress-linear>
-                     </v-col> -->
-
                       <vue-element-loading :active="isloading" 
                         duration="0.7"
                         :textStyle="{fontSize: '14px'}"
@@ -47,25 +37,24 @@
                         class="float-right mt-3"
                         fab
                         >
-                        <div class="text-md-h5 font-weight-medium"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> <span v-if="Details.type != 'Subjective Type'">{{Details.duration}} mins</span></div>
-                        <div class="caption ml-2 font-weight-medium"> {{ Details.availability != 0 ? 'Due '+ format_date(Details.to_date): 'No due date'}}</div>  
+                        <div class="text-md-h5 font-weight-medium"> <v-icon large color="primary">mdi-book-clock-outline</v-icon> <span v-if="Preview_details.type != 'Subjective Type'">{{Preview_details.duration}} mins</span></div>
+                        <div class="caption ml-2 font-weight-medium"> {{ Preview_details.availability != 0 ? 'Due '+ format_date(Preview_details.to_date): 'No due date'}}</div>  
                         </div>
                     </v-container>
                     </v-col>
 
                       <v-col cols="12" class="pl-7 pr-5">
-                            <div class="text-sm-body-2 font-weight-bold">{{Details.title}}</div>
+                            <div class="text-sm-body-2 font-weight-bold">{{Preview_details.title}}</div>
                             
                                 <div class="pt-2 d-flex flex-row ">
-                                    <div v-if="Details.type == 'Objective Type'" class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{totalQuestion}} Question</div>
-                                    <div class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{Details.type == 'Objective Type' ? totalPoints : Details.points}} Points</div>
+                                    <div v-if="Preview_details.type == 'Objective Type'" class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{Preview_details.total_questions}} Question</div>
+                                    <div class="captions font-weight-medium"><v-icon>mdi-circle-medium</v-icon>{{Preview_details.type == 'Objective Type' ? Preview_details.points : Preview_details.points}} Points</div>
                                 </div>
                             <v-divider></v-divider>
                         </v-col>
 
                         <v-col cols="12" class="pl-8 pr-5 ">
-                            <span class="text-sm-body-2 " v-html="Details.instruction"></span>
-                            <!-- <div class="text-sm-body-2 "> {{Details.instruction}}</div> -->
+                            <span class="text-sm-body-2 " v-html="Preview_details.instruction"></span>
                         </v-col>
 
                         <!-- <v-col v-if="Details.attachment != null" cols="12" class="pl-5 pr-5 pb-2">
@@ -91,9 +80,9 @@
                             </v-hover>
                         </v-col> -->
 
-                        <v-col v-if="Details.availability == 0" cols="12" class="pl-10 pr-5 pb-5 text-right">
+                        <v-col cols="12" class="pl-10 pr-5 pb-5 text-right">
                             <v-btn
-                                v-if="Details.type == 'Objective Type'"
+                                v-if="Preview_details.type == 'Objective Type'"
                                 rounded
                                 color="primary"
                                 :dark="totalQuestion != 0"
@@ -101,56 +90,13 @@
                                 View Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
                             <v-btn
-                                v-if="Details.type == 'Subjective Type'"
+                                v-if="Preview_details.type == 'Subjective Type'"
                                     rounded
                                     color="primary"
                                     dark
                                     @click="$emit('OpenClasswork')" >
                                     Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                             </v-btn>
-                        </v-col>
-
-                        <v-col v-else cols="12" class="pl-10 pr-5 pb-5 text-right">
-                            <div v-if="Details.type == 'Objective Type'" class="ma-0 pa-0">
-                                <v-btn
-                                    v-if="DateToday > Details.from_date"
-                                    rounded
-                                    color="primary"
-                                    :dark="totalQuestion != 0"
-                                    @click="$emit('OpenClasswork')">
-                                    View Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
-
-                                 <v-btn
-                                    v-else
-                                    rounded
-                                    disabled
-                                    color="primary">
-                                    Not Yet Available<!-- <v-icon right dark>mdi-book-arrow-right-outline</v-icon> -->
-                                </v-btn>
-                            </div>
-                            
-                            <div v-if="Details.type == 'Subjective Type'" class="ma-0 pa-0">
-                                <v-btn
-                                    v-if="DateToday > Details.from_date"
-                                    rounded
-                                    color="primary"
-                                    dark
-                                    @click="$emit('OpenClasswork')" >
-                                    Submit Work<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
-                                <v-btn
-                                    v-else
-                                    rounded
-                                    color="primary"
-                                    disabled
-                                    dark>
-                                    Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
-                            </div>
-                            
-
-                            
                         </v-col>
                     </v-row>
                  <v-row style="height:2vh"></v-row> 
@@ -160,61 +106,35 @@
 </template>
 
 <script>
-import moment from 'moment/src/moment';
-import {mapGetters,mapActions} from "vuex";
+ import moment from 'moment-timezone';
 export default {
-    props:['Preview_id'],
+    props:["Preview_details"],
     data(){
         return{
             isloading:true,
             totalPoints:null,
             totalQuestion:null,
             Details:{},
-            DateToday: '',
         }
     },
     computed:{
-        ...mapGetters(['get_classwork_show_details']),
         Fileextension() {
              let attach = this.Details.attachment;
             return attach.split('.').pop();
         }
     },
     methods:{
-        ...mapActions(['fetchClassworkShowDetails']),
-          getClassworkDetails(){
-          /*   axios.get('/api/classwork/showDetails/'+ this.Preview_id+'/'+this.$route.params.id)
-            .then(res=>{
-                this.Details = res.data.Details;
-                this.Details.from_date = moment(this.Details.from_date).format('YYYY-MM-DD HH:mm:ss')
-                this.isloading = !this.isloading;
-                this.totalPoints = res.data.totalpoints;
-                this.totalQuestion = res.data.ItemsCount;
-            }) */
-            let data = {classwork_id : this.Preview_id, course_id : this.$route.params.id}
-            this.$store.dispatch('fetchClassworkShowDetails',  data)
-            .then(()=>{
-                this.Details = this.get_classwork_show_details.Details;
-                this.Details.from_date = moment(this.Details.from_date).format('YYYY-MM-DD HH:mm:ss')
-                this.totalPoints = this.get_classwork_show_details.totalpoints;
-                this.totalQuestion = this.get_classwork_show_details.ItemsCount;
-                this.isloading = !this.isloading;
-            })
-        },
           format_date(value) {
             if (value) {
-                return moment(String(value)).format('dddd, h:mm a')
+                return moment(String(value)).tz("Asia/Manila").format('dddd,  h:mm a');
             }
         },
         DownLoadFile(file){
             window.location = "/storage/"+file;
         },
-
     },
     mounted(){
-        this.getClassworkDetails();
-        let newDate = new Date();
-        this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
+         this.isloading = !this.isloading;
     },
     created(){
         this.$emit('isMounted');

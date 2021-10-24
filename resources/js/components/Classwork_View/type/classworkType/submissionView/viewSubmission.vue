@@ -35,7 +35,7 @@
                            </v-col>
                            <v-col cols="6"  class="text-right">
                                 <v-chip color="success" class="ma-2">
-                                    <div class="body-2">Score: {{details.score}} /{{details.totalPoints}}</div>
+                                    <div class="body-2">Score: {{classworkDetails.score}} /{{classworkDetails.points}}</div>
                                 </v-chip>
                            </v-col>
                        </v-row>
@@ -47,7 +47,7 @@
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                             <v-checkbox
                             readonly
-                            v-if="details.showAnswer == true"
+                            v-if="classworkDetails.showAnswer == true"
                             class="mt-0 pt-0"
                             color="success"
                             v-model="Check[index]"
@@ -193,19 +193,19 @@ import moment from 'moment/src/moment';
             }
         },
           fetchQuestions(){
-              this.ViewSubmiisionConditions.showAnswer = this.details.showAnswer;
-               this.ViewSubmiisionConditions.showAnswerType = this.details.showAnswerType;
-              axios.get('/api/question/question-answer/'+this.classworkDetails.id+'/'+this.details.class_classwork_id)
+              this.ViewSubmiisionConditions.showAnswer = this.classworkDetails.showAnswer;
+               this.ViewSubmiisionConditions.showAnswerType = this.classworkDetails.showAnswerType;
+              axios.get('/api/question/question-answer/'+this.classworkDetails.id+'/'+this.classworkDetails.class_classwork_id)
               .then(res=>{
                   ////console.log(res.data)
                    this.QuestionAndAnswer = res.data;
 
-                    let Submitted_length = this.details.Submitted_Answers.length;
+                    let Submitted_length = this.classworkDetails.Submitted_Answers.length;
                     let Question_length = this.QuestionAndAnswer.Question.length;
                     let diff = Question_length  - Submitted_length;
                     for (let i = 0; i < diff; i++) {
                         if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.QuestionAndAnswer.Question[i].type == 'Essay'){
-                            this.details.Submitted_Answers.push({
+                            this.classworkDetails.Submitted_Answers.push({
                                 Answer: null,
                                 Question_id: this.QuestionAndAnswer.Question[i].id,
                                 timeConsume: null,
@@ -218,11 +218,11 @@ import moment from 'moment/src/moment';
     
                     }
                     for (let i = 0; i < this.QuestionAndAnswer.Question.length; i++) {
-                        for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
-                            if(this.QuestionAndAnswer.Question[i].id == this.details.Submitted_Answers[j].Question_id){
+                        for (let j = 0; j < this.classworkDetails.Submitted_Answers.length; j++) {
+                            if(this.QuestionAndAnswer.Question[i].id == this.classworkDetails.Submitted_Answers[j].Question_id){
                                 if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.QuestionAndAnswer.Question[i].type == 'Essay'){
-                                     this.SubmittedAnswer[i] =  this.details.Submitted_Answers[j];
-                                    if(this.QuestionAndAnswer.Question[i].answer == this.details.Submitted_Answers[j].Answer){
+                                     this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                    if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
                                         this.Check[i] = true;
                                     }
                                     else{
@@ -232,7 +232,7 @@ import moment from 'moment/src/moment';
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
                                     let Ans = new Array();
                                     let match_check = new Array();
-                                     this.details.Submitted_Answers[j].Answer.forEach(item => {
+                                     this.classworkDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.QuestionAndAnswer.Answer[i].SubQuestion.length; x++) {
                                             if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
                                                 Ans.push({
@@ -247,7 +247,7 @@ import moment from 'moment/src/moment';
                                         }
                                      });  
                                     let tmpChoices = new Array();
-                                    this.details.Submitted_Answers[j].Choices_id.forEach(item => {
+                                    this.classworkDetails.Submitted_Answers[j].Choices_id.forEach(item => {
                                         this.QuestionAndAnswer.Answer[i].SubAnswer.forEach(choice => {
                                             if(item.choice_id == choice.id){
                                                 tmpChoices.push({
@@ -330,9 +330,6 @@ import moment from 'moment/src/moment';
                 "z"
             ];
             this.Alphabet = alphabet;
-          console.log(this.details);
-          console.log(this.classworkDetails);
-          ////console.log(this.details)
       }
   }
 </script>

@@ -968,14 +968,16 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  class: !_vm.$vuetify.breakpoint.lgAndUp ? "pt-5" : "",
+                  class: !_vm.$vuetify.breakpoint.mdAndUp ? "pt-5" : "",
                   attrs: { cols: "12", md: "9", lg: "9", xl: "10" }
                 },
                 [
                   _c(
                     "v-card",
                     {
-                      staticClass: "pb-3 pl-5 pr-5",
+                      class: _vm.$vuetify.breakpoint.mdAndUp
+                        ? "pb-3 pl-5 pr-5"
+                        : "pb-3",
                       attrs: { elevation: "0" }
                     },
                     [

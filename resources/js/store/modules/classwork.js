@@ -5,6 +5,7 @@ const state = {
     classwork_show_details: {},
     current_classwork_id: null,
     current_course_id: null,
+    isFromOtherPage: false,
 };
 const getters = {
     get_Classworks: (state) => state.Classworks,
@@ -29,12 +30,12 @@ const actions = {
     },
 
     async fetchClassworkShowDetails({ commit }, data) {
-        if(data.classwork_id != state.current_classwork_id || data.course_id != state.current_course_id){
+        //if(data.classwork_id != state.current_classwork_id || data.course_id != state.current_course_id){
             state.current_classwork_id = data.classwork_id;
             state.current_course_id = data.course_id;
             const res = await axios.get(`/api/classwork/showDetails/${data.classwork_id}/${data.course_id}`);
             commit('FETCH_CLASSWORK_SHOW_DETAILS', res.data);
-        }
+        //}
     },
 
 };

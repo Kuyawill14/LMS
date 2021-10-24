@@ -141,6 +141,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'classNames'],
   data: function data() {
@@ -356,7 +357,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.ql-bold,.ql-italic,.ql-underline, .ql-strike\n,.ql-picker-label,.ql-align,.ql-list,.ql-link\n,.ql-image,.ql-video\n{\n    outline: none !important;\n    border:none !important;\n}\n.ql-tooltip, .ql-editing{\n    z-index: 1;\n}\niframe{\n     width: 100% !important;\n    height: 20rem !important;\n}\n.ql-editor img{\n\n     max-height: 25rem !important;\n}\n.ql-container{\n     max-height: 70rem;\n}\n\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.AnnoumentEditor .quill-editor {\r\n        position: relative;\r\n        background: #d0cece;\n}\n.AnnoumentEditor .ql-container.ql-snow {\r\n        border: none !important;\n}\n.AnnoumentEditor .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\n}\n.AnnoumentEditor\r\n    .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\n}\n.AnnoumentEditor .ql-tooltip, .ql-editing{\r\n        z-index: 1;\n}\n.AnnoumentEditor iframe{\r\n            width: 100% !important;\r\n        height: 20rem !important;\n}\n.AnnoumentEditor .ql-editor img{\r\n\r\n            max-height: 25rem !important;\n}\n.AnnoumentEditor .ql-container{\r\n            max-height: 70rem;\n}\r\n        \r\n    \r\n        \r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -498,7 +499,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("editor", {
-        staticStyle: { outline: "none" },
+        staticClass: "AnnoumentEditor",
         attrs: {
           "paste-as-text": _vm.pasteText,
           placeholder: "Announce something in your class!",

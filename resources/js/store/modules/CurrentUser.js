@@ -17,16 +17,23 @@ const getters = {
 };
 const actions = {
     async IsAuthenticated({ commit, actions }) {
-        const res = await axios.get(`/api/authenticated`)
+        if(state.CurrentUser.length == 0){
+            const res = await axios.get(`/api/authenticated`)
             .catch((e) => {
                 commit('SET_AUTHENTICATED', false);
                 window.localStorage.removeItem('IsAuthenticated');
                 window.localStorage.removeItem('personal_access_token');
             })
-        if (res.data == true) {
+            if (res.data == true) {
+                commit('SET_AUTHENTICATED', true);
+                window.localStorage.setItem('IsAuthenticated', true);
+            }
+        }
+        else{
             commit('SET_AUTHENTICATED', true);
             window.localStorage.setItem('IsAuthenticated', true);
         }
+        
     },
     async fetchCurrentUser({ commit }) {
         if (state.CurrentUser.length == 0) {

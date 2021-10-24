@@ -154,9 +154,9 @@
    
                  
             </v-col>
-            <v-col cols="12" md="9" lg="9" xl="10" :class="!$vuetify.breakpoint.lgAndUp ? 'pt-5' : ''">
+            <v-col cols="12" md="9" lg="9" xl="10" :class="!$vuetify.breakpoint.mdAndUp ? 'pt-5' : ''">
                 <v-card
-                  class="pb-3 pl-5 pr-5"
+                  :class="$vuetify.breakpoint.mdAndUp  ? 'pb-3 pl-5 pr-5' : 'pb-3'"
                 elevation="0"  >
                <v-row>
                    <v-col cols="12">

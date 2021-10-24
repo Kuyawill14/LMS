@@ -1,6 +1,52 @@
 
 <template>
 <div class="pa-1">
+<div transition="slide-y-reverse-transition">
+    <v-app-bar elevation="5" 
+     v-if="!$vuetify.breakpoint.mdAndUp"
+        app :dense="$vuetify.breakpoint.mdAndUp"  color="primary"  >
+         <v-btn dark rounded icon text 
+            v-if="!$vuetify.breakpoint.mdAndUp"
+            @click="$router.push({name: 'classwork'})" >
+            <v-icon >mdi-arrow-left-thick</v-icon>
+        </v-btn>
+        <v-divider   vertical></v-divider>
+    </v-app-bar>
+</div>
+
+<v-container v-if="isMaintenance">
+    
+
+<v-row justify="center"  >
+    <v-col cols="12" class="text-center ">
+            <div class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'">
+                 <v-img  class="Image_centered" height="150" width="150"
+                src="https://cdn-icons.flaticon.com/png/512/1163/premium/1163796.png?token=exp=1635049821~hmac=ec85b4268657c5c7e6755b2a4c5e6fa5">
+                </v-img>
+
+                <h1 v-if="$vuetify.breakpoint.mdAndUp ">Page Maintenance!</h1>
+                <h2 v-else >Page Maintenance!</h2>
+                <div>
+                    <p>Sorry for the inconvenience but we&rsquo;re performing some maintenance in this page at the moment!</p>
+                    <p>&mdash; Orange Team</p>
+                </div>
+            </div>
+             
+       
+    </v-col>
+
+    
+<v-col cols="12" class="text-center">
+   
+    </v-col>
+</v-row>
+   
+</v-container>
+
+
+
+
+<div v-if="!isMaintenance" >
 <v-overlay :value="isLeaving">
     <v-progress-circular
         indeterminate
@@ -94,6 +140,7 @@
           </v-col>
       </v-row>
     </v-container>
+    </div>
 </div>
 </template>
 <script>
@@ -159,6 +206,7 @@ export default {
            isSettingData: false,
            isSelected: null,
            submissionLength: 0,
+           isMaintenance: true,
         }
     },
     methods:{
@@ -275,7 +323,10 @@ export default {
         
     },
     mounted(){
-        this.GetList();
+        if(!this.isMaintenance){
+                this.GetList();
+        }
+    
     },
     beforeRouteLeave(to, from, next) {
         this.isLeaving = true;
@@ -285,6 +336,19 @@ export default {
 </script>
 
 <style scoped>
+
+.Image_centered {
+   display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+.centered{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
     /* width */
 ::-webkit-scrollbar {
   width: 5px;

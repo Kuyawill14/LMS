@@ -228,22 +228,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -258,6 +242,7 @@ var previewClassworkModal = function previewClassworkModal() {
     return {
       Previewdialog: false,
       Preview_id: null,
+      Preview_details: [],
       DateToday: '',
       SelectedFilter: "All",
       FilterItems: [],
@@ -276,13 +261,11 @@ var previewClassworkModal = function previewClassworkModal() {
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        //return moment(String(value)).format('MMMM DD YYYY, hh:mm A')
         return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, hh:mm A');
       }
     },
     CheckFormatDue: function CheckFormatDue(value) {
       if (value) {
-        //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
         return moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
     },
@@ -297,21 +280,20 @@ var previewClassworkModal = function previewClassworkModal() {
         }
       });
     },
-    OpenClaswork: function OpenClaswork(type, status, score, classwork_id) {
+    OpenClaswork: function OpenClaswork(details) {
       this.isLoading = true;
 
-      if (status == 'Submitted' && score != null) {
-        this.Preview_id = classwork_id;
+      if (details.status == 'Submitted' && details.score != null) {
+        this.Preview_id = details.classwork_id;
 
-        if (type == 'Objective Type') {
-          // this.$router.push({name:'result-page', params:{id: classwork_id}})
+        if (details.type == 'Objective Type') {
           this.$router.push({
             name: 'clwk',
             params: {
               id: this.$route.params.id
             },
             query: {
-              clwk: classwork_id
+              clwk: details.classwork_id
             }
           });
         } else {
@@ -321,13 +303,14 @@ var previewClassworkModal = function previewClassworkModal() {
               id: this.$route.params.id
             },
             query: {
-              clwk: classwork_id
+              clwk: details.classwork_id
             }
           });
         }
-      } else if (status == 'Submitting' || status == null || status == 'Taking') {
+      } else if (details.status == 'Submitting' || details.status == null || details.status == 'Taking') {
         this.Previewdialog = !this.Previewdialog;
-        this.Preview_id = classwork_id;
+        this.Preview_id = details.classwork_id;
+        this.Preview_details = details;
       }
     },
     setFilterItems: function setFilterItems() {
@@ -345,13 +328,6 @@ var previewClassworkModal = function previewClassworkModal() {
         }
       }
     }
-    /*    CheckClassworkCount(){
-          let data = this.classworks.ClassworksList;
-          data.forEach(item => {
-              this.ClassworkLength += item.length;
-          });
-      } */
-
   },
   mounted: function mounted() {
     this.setFilterItems();
@@ -22665,7 +22641,7 @@ var render = function() {
                         [
                           _vm.Previewdialog
                             ? _c("previewClassworkModal", {
-                                attrs: { Preview_id: _vm.Preview_id },
+                                attrs: { Preview_details: _vm.Preview_details },
                                 on: {
                                   OpenClasswork: function($event) {
                                     ;(_vm.Previewdialog = false),
@@ -22839,10 +22815,7 @@ var render = function() {
                                                     on: {
                                                       click: function($event) {
                                                         return _vm.OpenClaswork(
-                                                          item.type,
-                                                          item.status,
-                                                          item.score,
-                                                          item.classwork_id
+                                                          item
                                                         )
                                                       }
                                                     }
@@ -22872,7 +22845,11 @@ var render = function() {
                                                                       : _vm.CheckFormatDue(
                                                                           item.to_date
                                                                         ) >
-                                                                        _vm.DateToday
+                                                                        _vm.CheckFormatDue(
+                                                                          _vm
+                                                                            .classworks
+                                                                            .currentDate
+                                                                        )
                                                                       ? item.status ==
                                                                         "Submitted"
                                                                         ? "success"
@@ -23044,7 +23021,11 @@ var render = function() {
                                                                                 ? _vm.CheckFormatDue(
                                                                                     item.to_date
                                                                                   ) >
-                                                                                  _vm.DateToday
+                                                                                  _vm.CheckFormatDue(
+                                                                                    _vm
+                                                                                      .classworks
+                                                                                      .currentDate
+                                                                                  )
                                                                                   ? "card-subtitle text-50"
                                                                                   : item.status ==
                                                                                     "Submitted"
@@ -23063,7 +23044,11 @@ var render = function() {
                                                                                       ? _vm.CheckFormatDue(
                                                                                           item.to_date
                                                                                         ) >
-                                                                                        _vm.DateToday
+                                                                                        _vm.CheckFormatDue(
+                                                                                          _vm
+                                                                                            .classworks
+                                                                                            .currentDate
+                                                                                        )
                                                                                         ? ""
                                                                                         : item.status ==
                                                                                           "Submitted"
@@ -23088,7 +23073,11 @@ var render = function() {
                                                                                     ? _vm.CheckFormatDue(
                                                                                         item.to_date
                                                                                       ) >
-                                                                                      _vm.DateToday
+                                                                                      _vm.CheckFormatDue(
+                                                                                        _vm
+                                                                                          .classworks
+                                                                                          .currentDate
+                                                                                      )
                                                                                       ? ""
                                                                                       : "Late"
                                                                                     : ""

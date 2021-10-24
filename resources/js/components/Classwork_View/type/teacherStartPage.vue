@@ -1,15 +1,19 @@
 <template>
-  
+  <div>
+      
+
+
         <v-container fluid ma-0 pa-0>
             <v-row no-gutters>
                 <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'ma-0 pa-0 mt-0 pt-0' : 'ma-0 pa-0 mt-0 pt-0 pr-7 d-flex'">
-                     <v-tooltip top>
+                     <v-tooltip v-if="$vuetify.breakpoint.mdAndUp" top>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn rounded
                                     v-bind="attrs"
                                     v-on="on"
                                     icon 
                                     text 
+                                     v-if="$vuetify.breakpoint.mdAndUp"
                                     :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ?  'mb-0 pb-0' : ' mt-1 ml-2'"
                                     @click="$router.push({name: 'classwork'})" >
                                 <v-icon dark>mdi-arrow-left-thick</v-icon>
@@ -43,7 +47,7 @@
 
          
 
-                 <v-tabs  rounded v-if="classworkDetails.type == 'Subjective Type'"
+                 <v-tabs  rounded v-if="classworkDetails.type == 'Subjective Type' && $vuetify.breakpoint.mdAndUp "
                 next-icon="mdi-arrow-right-bold-box-outline"
                 prev-icon="mdi-arrow-left-bold-box-outline"
                 show-arrows  
@@ -72,6 +76,34 @@
                   </v-col>
             </v-row>
        </v-container>
+
+        <!--  <v-bottom-navigation app 
+         v-if="!$vuetify.breakpoint.mdAndUp && classworkDetails.type == 'Objective Type'"
+        :value="selected"
+        color="primary" >
+        <v-btn small @click="GotoRoute(item.name)" v-for="(item,index) in ObjectIveTabs" :key="index">
+            <span style="font-size: 8px">
+                
+            </span>
+            <v-icon small>{{item.icon}}</v-icon>
+        </v-btn>
+        </v-bottom-navigation> -->
+
+
+         <v-bottom-navigation app grow
+         v-if="!$vuetify.breakpoint.mdAndUp && classworkDetails.type == 'Subjective Type'"
+        
+        color="primary" >
+        <v-btn small :to="{name: item.name, query: {clwk: $route.query.clwk}}" v-for="(item,index) in SubjectiveTabs" :key="index">
+            <span >
+                {{item.text == 'CLASSWORK DETAILS' ? 'DETAILS' : item.text == 'SUBMISSION LIST' ? 'SUBMISSION' : item.text}}
+            </span>
+            <v-icon small>{{item.icon}}</v-icon>
+        </v-btn>
+        </v-bottom-navigation>
+
+
+  </div>
 </template>
 
 <script>
@@ -96,8 +128,14 @@ export default {
               
             ],
             tabs: null,
+            
         }
         
+    },
+    methods:{
+        GotoRoute(Routename){
+            this.$router.push({name: Routename, query: {clwk: this.$route.query.clwk}})
+        }
     },
     created(){
           this.$emit('isMounted');

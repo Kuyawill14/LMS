@@ -251,8 +251,11 @@ Route::middleware('auth:sanctum')->prefix('/student_sub_module')->group(function
 
 
 //Objective Questions
-Route::middleware('auth:sanctum')->prefix('/question')->group(function () {
-    Route::get('/all/{id}', [ObjectiveController::class, 'index']);
+/* middleware('auth:sanctum')-> */
+Route::prefix('/question')->group(function () {
+    Route::get('/all/{id}', [ObjectiveController::class, 'fetctQuestions']);
+
+    /* Route::get('/all/{id}', [ObjectiveController::class, 'checker']); */
     Route::get('/question-answer/{id}/{class_clwk_Id}', [ObjectiveController::class, 'fetchQuestionAnswerForViewSubmision']);
     Route::post('/insert', [ObjectiveController::class, 'store']);
     Route::post('/check/{id}', [ObjectiveController::class, 'check']);
@@ -264,6 +267,13 @@ Route::middleware('auth:sanctum')->prefix('/question')->group(function () {
     Route::put('/delete/{id}', [ObjectiveController::class, 'removeOption']);
     Route::delete('/remove/{id}', [ObjectiveController::class, 'deleteQuestion']);
 
+    Route::post('/add_new_question', [ObjectiveController::class, 'AddNewQuestion']);
+    Route::post('/add_new_option', [ObjectiveController::class, 'AddNewOption']);
+    Route::put('/update_question_details/{id}', [ObjectiveController::class, 'UpdateQuestion']);
+    Route::put('/remove_question_option/{id}', [ObjectiveController::class, 'removeQuestionOption']);
+    Route::put('/remove_question_match/{id}', [ObjectiveController::class, 'removeQuestionMatch']);
+    Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
+    Route::put('/delete_selected_question/{id}', [ObjectiveController::class, 'DeleteSelectedQuestion']);
     
 });
 

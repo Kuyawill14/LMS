@@ -127,22 +127,8 @@
     }
 
 </script>
-<style>
-    .quill-editor {
-        position: relative;
-        background: #d0cece;
-
-    }
-
-    .ql-container.ql-snow {
-        border: none !important;
-    }
-
-    .ql-toolbar.ql-snow {
-        background: #f2f2f2;
-        border: none;
-
-    }
+<style scoped>
+    
 
 
 

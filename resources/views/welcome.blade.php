@@ -22,9 +22,7 @@
           <link rel="stylesheet" type="text/css" href="{{asset('css/app.css')}}">
             <link href="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.css" rel="stylesheet">
             <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
-       
-       
-       
+      
           </head>
         <body class="antialiased">
           

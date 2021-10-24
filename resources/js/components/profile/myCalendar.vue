@@ -14,7 +14,7 @@
     <v-col cols="12" v-if="!isloading">
       <v-row>
         <v-col cols="12" class="mb-0 pb-0">
-            <div :class="$vuetify.breakpoint.lgAndUp ? 'text-h6 font-weight-bold': 'font-weight-bold'">MY CALENDAR</div> 
+            <div :class="$vuetify.breakpoint.mdAndUp ? 'text-h6 font-weight-bold': 'font-weight-bold'">MY CALENDAR</div> 
         </v-col>
         <v-col cols="12" class="mb-0 pb-0">
             <v-divider></v-divider>
@@ -26,6 +26,7 @@
                   flat
                 >
                   <v-btn
+                    v-if="$vuetify.breakpoint.mdAndUp"
                     outlined
                     class="mr-4"
                     color="grey darken-2"
@@ -93,7 +94,7 @@
                   </v-menu>
                 </v-toolbar>
               </v-sheet>
-              <v-sheet class="pa-1" height="450" width="100%">
+              <v-sheet :class="!$vuetify.breakpoint.mdAndUp ? 'pt-2' : ''"  :height="$vuetify.breakpoint.mdAndUp ? '750' : '500'" width="100%">
                 <v-calendar
                   ref="calendar"
                   v-model="focus"

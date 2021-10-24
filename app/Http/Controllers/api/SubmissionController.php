@@ -32,6 +32,7 @@ class SubmissionController extends Controller
         ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
         ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
         ->where('users.role','Student')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
 
         if(count($SubmissionList) != 0){
@@ -47,7 +48,6 @@ class SubmissionController extends Controller
                     $Sub->updated_at = null;
                     $Sub->Submitted_Answers = null;
                     $Sub->rubrics_score = null;
-                    
                 }
                 else{
                     $Sub->id = $Submission->id;
@@ -180,14 +180,15 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateSbjSubmissionScore(Request $request,$id)
+    public function updateSbjSubmissionScore(Request $request, $id)
     {
 
+        //return $request;
         $UpdateScore = tbl_Submission::find($id);
         if($UpdateScore){
             $UpdateScore->graded = 1;
             $UpdateScore->points = $request->score;
-            if(count($request->data) > 0){
+            if($request->data != false){
                 $UpdateScore->rubrics_score = serialize($request->data) ;
             }
             $UpdateScore->save();

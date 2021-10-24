@@ -512,7 +512,6 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     var _this = this;
 
     return {
-      classworkData: this.classworkDetails,
       AttachLink: false,
       FileList: [],
       file: [],
@@ -522,7 +521,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       myClasssworkStatus: [],
       uploadPercentage: 0,
       isUploading: [],
-      tempId: '',
+      tempId: this.classworkDetails.Sub_id,
       isResubmit: false,
       isloading: true,
       fileIndex: null,
@@ -550,6 +549,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       CheckeFileExtention: null,
       fileType: ['pdf', 'txt', 'docx', 'doc', 'jpg', 'jpeg', 'gif', 'svg', 'png', 'bmp', 'link'],
       extensionIcon: ['mdi-file-pdf', 'mdi-note-text-outline', 'mdi-file-word', 'mdi-file-link', 'mdi-image'],
+      acceptedFileType: ['xlsx', 'xls', 'jpg', 'jpeg', 'gif', 'svg', 'png', 'bmp', 'doc', 'docx', 'ppt', 'pptx', 'pdf', 'text'],
       selected: 0,
       ScrollPosistion: 0,
       TempFile: ""
@@ -563,11 +563,11 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       return this.CheckeFileExtention ? this.CheckeFileExtention.name.split('.').pop() : '';
     },
     Fileextension: function Fileextension() {
-      var attach = this.classworkData.attachment;
+      var attach = this.classworkDetails.attachment;
       return attach.split('.').pop();
     },
     SubmittedFilextension: function SubmittedFilextension() {
-      var attach = this.myClasssworkStatus.Submitted_Answers[0].name;
+      var attach = this.classworkDetails.Submitted_Answers[0].name;
       return attach.split('.').pop();
     }
   }),
@@ -629,57 +629,37 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       window.open(file, '_blank');
     },
     scrapeDocID: function scrapeDocID() {
-      //var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
-      //var path = "https://drive.google.com/file/d/" + d + "/preview";
       var path = this.linkFile;
-
-      if (this.myClasssworkStatus.length == 0) {
-        this.myClasssworkStatus = {};
-        this.myClasssworkStatus.Submitted_Answers = [];
-        this.myClasssworkStatus.classwork_id = this.$route.query.clwk;
-        this.myClasssworkStatus.course_id = this.$route.params.id;
-        this.myClasssworkStatus.graded = 0;
-        this.myClasssworkStatus.score = 0;
-        this.myClasssworkStatus.status = 'Submitting';
-        this.myClasssworkStatus.totalPoints = this.classworkData.points;
-        this.myClasssworkStatus.Submitted_Answers.push({
-          name: this.linkName,
-          fileSize: '',
-          fileExte: 'link',
-          link: path
-        });
-      } else {
-        //this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', link: path});
-        this.myClasssworkStatus.Submitted_Answers.push({
-          name: this.linkName,
-          fileSize: '',
-          fileExte: 'link',
-          link: path
-        });
-      }
-
+      this.classworkDetails.Submitted_Answers.push({
+        name: this.linkName,
+        fileSize: '',
+        fileExte: 'link',
+        link: path
+      });
+      this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
       this.AttachLink = !this.AttachLink;
-      this.AddLinkInSubmittedAnswer(); // this.AddLinkInSubmittedAnswer(index);
+      this.AddLinkInSubmittedAnswer();
     },
     AddLinkInSubmittedAnswer: function AddLinkInSubmittedAnswer() {
       var _this2 = this;
 
-      var index = this.myClasssworkStatus.Submitted_Answers.length - 1;
+      var index = this.classworkDetails.Submitted_Answers.length - 1;
       var sub_id = this.tempId == null ? 'empty' : this.tempId;
       var fd = new FormData();
       fd.append('Submission_id', sub_id);
-      fd.append('id', this.classworkData.id);
-      fd.append('class_classwork_id', this.classworkData.class_classwork_id);
-      fd.append('type', this.classworkData.type);
-      fd.append('fileName', this.myClasssworkStatus.Submitted_Answers[index].name);
-      fd.append('fileSize', this.myClasssworkStatus.Submitted_Answers[index].fileSize);
-      fd.append('fileExte', this.myClasssworkStatus.Submitted_Answers[index].fileExte);
-      fd.append('file', this.myClasssworkStatus.Submitted_Answers[index].link);
+      fd.append('id', this.classworkDetails.id);
+      fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
+      fd.append('type', this.classworkDetails.type);
+      fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
+      fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
+      fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
+      fd.append('file', this.classworkDetails.Submitted_Answers[index].link);
       axios.post('/api/student/linkAndstatus', fd).then(function (res) {
         _this2.AttachLink = false;
         _this2.linkName = null;
         _this2.linkFile = null;
         _this2.tempId = res.data;
+        _this2.classworkDetails.status = "Submitting";
       });
     },
     UploadFile: function UploadFile() {
@@ -712,6 +692,8 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       window.open(link, '_blank');
     },
     onChange: function onChange(file) {
+      var _this3 = this;
+
       /* console.log(this.FileList.length);
       if(this.FileList.length > 1){
         let count = 0;
@@ -724,8 +706,17 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       } */
       var fileData = this.FileList[this.FileList.length - 1];
       this.CheckeFileExtention = fileData;
+      /* b */
 
-      if (this.Checkextension != 'mp4' && this.Checkextension != 'mkv' && this.Checkextension != 'avi' && this.Checkextension != 'mov' && this.Checkextension != 'wmv' && this.Checkextension != 'webm' && this.Checkextension != 'flv') {
+      var Checker = false;
+      this.acceptedFileType.forEach(function (item) {
+        if (_this3.Checkextension == item) {
+          Checker = true;
+          return;
+        }
+      });
+
+      if (Checker == true) {
         if (fileData.size <= 10000000) {
           this.createFile(fileData);
         } else {
@@ -737,25 +728,9 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     },
     createFile: function createFile(file) {
       var IndexFile;
-
-      if (this.myClasssworkStatus.length == 0) {
-        //IndexFile = this.file.length;
-        this.myClasssworkStatus = {};
-        this.myClasssworkStatus.Submitted_Answers = [];
-        this.myClasssworkStatus.classwork_id = this.$route.query.clwk;
-        this.myClasssworkStatus.course_id = this.$route.params.id;
-        this.myClasssworkStatus.graded = 0;
-        this.myClasssworkStatus.score = 0;
-        this.myClasssworkStatus.status = 'Submitting';
-        this.myClasssworkStatus.totalPoints = this.classworkData.points;
-        IndexFile = this.myClasssworkStatus.Submitted_Answers.length;
-      } else {
-        IndexFile = this.myClasssworkStatus.Submitted_Answers.length;
-      }
-
+      IndexFile = this.classworkDetails.Submitted_Answers.length;
       this.isUploading[IndexFile] = true;
-      this.fileIndex = IndexFile; ////console.log(this.file.length)
-
+      this.fileIndex = IndexFile;
       this.tempFile = file;
       var tempSize = file.size;
 
@@ -770,45 +745,36 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
         var _finalSize = parseInt(sizeFile);
 
         this.fileSize = _finalSize + 'kb';
-      } //this.dragging = false;
-      //
+      }
 
-      /*     if(this.myClasssworkStatus.length == 0){
-            this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile, link : ''});
-            this.isUpIndex = this.file.length-1
-          }
-          else{ */
-
-
-      this.isUpIndex = this.myClasssworkStatus.Submitted_Answers.length;
-      this.myClasssworkStatus.Submitted_Answers.push({
+      this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
+      this.classworkDetails.Submitted_Answers.push({
         name: this.tempFile.name,
         fileSize: this.fileSize,
         fileExte: this.extension,
         link: '',
         file: this.tempFile
-      }); //}
-
+      });
       this.fileIndex = this.file.length;
       this.isUploadSaving = true;
-      this.UpdateSubmission(this.myClasssworkStatus.Submitted_Answers.length - 1);
+      this.UpdateSubmission(this.classworkDetails.Submitted_Answers.length - 1);
     },
     removeFile: function removeFile(index) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.isDeleting_id = index;
       this.isDeleting = true;
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
-        _this3.uploadPercentage = 0;
+        _this4.uploadPercentage = 0;
 
-        _this3.file.splice(index, 1);
+        _this4.file.splice(index, 1);
 
-        _this3.tempId = null;
-        _this3.isUploading[index] = false;
-        _this3.isDeleting = false;
-        _this3.isDeleting_id = null;
+        _this4.tempId = null;
+        _this4.isUploading[index] = false;
+        _this4.isDeleting = false;
+        _this4.isDeleting_id = null;
       });
     },
     test: function test() {
@@ -816,7 +782,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     },
 
     /*  async checkStatus(type){
-       axios.get('/api/submission/check-sbj/'+this.classworkData.id)
+       axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
        .then(res=>{
            this.myClasssworkStatus = res.data;
            this.tempId = res.data.Sub_id;
@@ -826,56 +792,57 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
        })
     }, */
     checkStatus: function checkStatus(type) {
-      var _this4 = this;
+      var _this5 = this;
 
       var data = {};
       data.id = this.$route.query.clwk;
       data.type = this.classworkDetails.type;
       this.$store.dispatch('checkClassworkStatus', data).then(function () {
-        _this4.myClasssworkStatus = _this4.statusDetails;
-        _this4.tempId = _this4.statusDetails.Sub_id;
+        _this5.myClasssworkStatus = _this5.statusDetails;
+        _this5.tempId = _this5.statusDetails.Sub_id;
 
         if (type != 'submit') {
-          _this4.isloading = !_this4.isloading;
+          _this5.isloading = !_this5.isloading;
         }
       });
     },
     UpdateSubmission: function UpdateSubmission(index) {
-      var _this5 = this;
+      var _this6 = this;
 
       var sub_id = this.tempId == null ? 'empty' : this.tempId;
       var fd = new FormData();
       fd.append('Submission_id', sub_id);
-      fd.append('id', this.classworkData.id);
-      fd.append('class_classwork_id', this.classworkData.class_classwork_id);
-      fd.append('type', this.classworkData.type);
-      fd.append('fileName', this.myClasssworkStatus.Submitted_Answers[index].name);
-      fd.append('fileSize', this.myClasssworkStatus.Submitted_Answers[index].fileSize);
-      fd.append('fileExte', this.myClasssworkStatus.Submitted_Answers[index].fileExte);
-      fd.append('file', this.myClasssworkStatus.Submitted_Answers[index].file);
+      fd.append('id', this.classworkDetails.id);
+      fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
+      fd.append('type', this.classworkDetails.type);
+      fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
+      fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
+      fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
+      fd.append('file', this.classworkDetails.Submitted_Answers[index].file);
       axios.post('/api/student/update-status', fd, {
         onUploadProgress: function onUploadProgress(progressEvent) {
           var total = progressEvent.total;
           var totalLength = progressEvent.lengthComputable ? total : null;
 
           if (totalLength != null) {
-            _this5.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+            _this6.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
           }
         }
       }).then(function (res) {
-        if (_this5.myClasssworkStatus.length == 0) {
-          _this5.file[_this5.isUpIndex].link = res.data.link;
-        } else {
-          _this5.myClasssworkStatus.Submitted_Answers[_this5.isUpIndex].link = res.data.link;
+        /* if(this.classworkDetails.Submitted_Answers.length == 0){
+           this.file[this.isUpIndex].link = res.data.link;
         }
+        else{ */
+        _this6.classworkDetails.Submitted_Answers[_this6.isUpIndex].link = res.data.link; //}
 
-        _this5.tempId = _this5.tempId == null ? res.data.id : _this5.tempId;
-        _this5.isUploadSaving = false;
-        _this5.isUpIndex = null; //this.$refs.UploadAttachFile.value = null;
+        _this6.tempId = _this6.tempId == null ? res.data.id : _this6.tempId;
+        _this6.isUploadSaving = false;
+        _this6.isUpIndex = null;
+        _this6.classworkDetails.status = "Submitting";
       });
     },
     DeleteUpload: function DeleteUpload(index) {
-      var _this6 = this;
+      var _this7 = this;
 
       this.isDeleting_id = index;
       this.isDeleting = true;
@@ -883,21 +850,20 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       axios.put('/api/submission/file-remove/' + this.tempId, {
         Fileindex: index
       }).then(function (res) {
-        //this.checkStatus(type);
-        _this6.myClasssworkStatus.Submitted_Answers.splice(index, 1);
+        _this7.classworkDetails.Submitted_Answers.splice(index, 1);
 
-        if (_this6.FileList.length != 0) {
-          _this6.FileList.splice(index, 1);
+        if (_this7.FileList.length != 0) {
+          _this7.FileList.splice(index, 1);
         }
 
-        _this6.uploadPercentage = 0;
-        _this6.isUploading[index] = false;
-        _this6.isDeleting = false;
-        _this6.isDeleting_id = null;
+        _this7.uploadPercentage = 0;
+        _this7.isUploading[index] = false;
+        _this7.isDeleting = false;
+        _this7.isDeleting_id = null;
       });
     },
     SubmitClasswork: function SubmitClasswork() {
-      var _this7 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var type;
@@ -905,27 +871,14 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                /*  let rubrics = [];
-                  if(this.classworkData.rubrics.length != 0){
-                       this.classworkData.rubrics.forEach(item => {
-                         rubrics.push({
-                           id: item.id,
-                           points: null,
-                         })
-                     });
-                  }
-                  else{
-                    rubrics = null;
-                  } */
-                _this7.IsSaving = true;
+                _this8.IsSaving = true;
                 type = 'submit';
-                axios.put('/api/student/submit-classwork/' + _this7.tempId).then(function (res) {
+                axios.put('/api/student/submit-classwork/' + _this8.tempId).then(function (res) {
                   if (res.status == 200) {
-                    _this7.checkStatus(type);
-
-                    _this7.myClasssworkStatus.status = 'Submitted';
-                    _this7.IsSaving = false;
-                    _this7.isResubmit = false;
+                    //this.checkStatus(type);
+                    _this8.classworkDetails.status = 'Submitted';
+                    _this8.IsSaving = false;
+                    _this8.isResubmit = false;
                   }
                 });
 
@@ -938,7 +891,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }))();
     },
     addComment: function addComment(details) {
-      var _this8 = this;
+      var _this9 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var data;
@@ -947,26 +900,26 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 data = {};
-                _this8.isCommenting = true;
+                _this9.isCommenting = true;
                 data.classwork_id = details.id;
                 data.to_user = details.user_id;
                 data.type = 'Private';
-                data.course_id = _this8.$route.params.id;
-                data.comment = _this8.comment;
+                data.course_id = _this9.$route.params.id;
+                data.comment = _this9.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
                   //console.log(res.data);
                   if (res.status == 200) {
-                    _this8.classworkData.comments.push({
+                    _this9.classworkDetails.comments.push({
                       content: res.data.comment,
                       id: res.data.id,
                       name: res.data.name,
                       profile_pic: res.data.profile_pic
                     });
 
-                    _this8.comment = null;
+                    _this9.comment = null;
                   }
                 });
-                _this8.isCommenting = false;
+                _this9.isCommenting = false;
 
               case 9:
               case "end":
@@ -977,7 +930,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       }))();
     },
     DeleteComment: function DeleteComment(id, index) {
-      var _this9 = this;
+      var _this10 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
@@ -986,7 +939,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
               case 0:
                 axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
                   if (res.data.success == true) {
-                    _this9.classworkData.comments.splice(index, 1);
+                    _this10.classworkDetails.comments.splice(index, 1);
                   }
                 });
 
@@ -1016,24 +969,20 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     },
     clickResubmit: function clickResubmit() {
       if (!this.isResubmit) {
-        this.MarkAsSubmitting(this.myClasssworkStatus.Sub_id);
+        this.MarkAsSubmitting(this.classworkDetails.Sub_id);
         this.isResubmit = !this.isResubmit;
       } else {
         this.SubmitClasswork();
       }
     }
   }),
-  created: function created() {
-    var _this10 = this;
+  created: function created() {//this.checkStatus();
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _this10.checkStatus();
-
-            case 1:
             case "end":
               return _context5.stop();
           }
@@ -1042,6 +991,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     }))();
   },
   mounted: function mounted() {
+    this.isloading = !this.isloading;
     window.addEventListener('scroll', this.handleScroll);
   },
   destroyed: function destroyed() {
@@ -1552,7 +1502,7 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "mb-0 pb-0",
-                  attrs: { cols: "12", md: "10", lg: "4", xl: "4" }
+                  attrs: { cols: "12", md: "4", lg: "4", xl: "4" }
                 },
                 [
                   _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 1
@@ -1569,7 +1519,7 @@ var render = function() {
                           _c(
                             "v-row",
                             [
-                              _vm.$vuetify.breakpoint.lgAndUp
+                              _vm.$vuetify.breakpoint.mdAndUp
                                 ? _c(
                                     "v-col",
                                     {
@@ -1675,13 +1625,14 @@ var render = function() {
                                     ? _c(
                                         "div",
                                         [
-                                          _vm.myClasssworkStatus.status ==
+                                          _vm.classworkDetails.status ==
                                             "Submitted" &&
-                                          !_vm.myClasssworkStatus.graded &&
-                                          (_vm.classworkData.availability == 1
+                                          !_vm.classworkDetails.graded &&
+                                          (_vm.classworkDetails.availability ==
+                                          1
                                             ? _vm.format_date1(_vm.DateToday) <=
                                               _vm.format_date1(
-                                                _vm.classworkData.to_date
+                                                _vm.classworkDetails.to_date
                                               )
                                             : true)
                                             ? _c(
@@ -1710,7 +1661,7 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          _vm.myClasssworkStatus.graded
+                                          _vm.classworkDetails.graded
                                             ? _c(
                                                 "v-chip",
                                                 {
@@ -1724,13 +1675,13 @@ var render = function() {
                                                   _vm._v(
                                                     "\r\n                            Graded: " +
                                                       _vm._s(
-                                                        _vm.myClasssworkStatus
+                                                        _vm.classworkDetails
                                                           .score
                                                       ) +
                                                       " /" +
                                                       _vm._s(
-                                                        _vm.myClasssworkStatus
-                                                          .totalPoints
+                                                        _vm.classworkDetails
+                                                          .points
                                                       ) +
                                                       "\r\n                            "
                                                   )
@@ -1854,7 +1805,7 @@ var render = function() {
                                               attrs: { "ma-0": "", "pa-0": "" }
                                             },
                                             _vm._l(
-                                              _vm.myClasssworkStatus
+                                              _vm.classworkDetails
                                                 .Submitted_Answers,
                                               function(item, index) {
                                                 return _c(
@@ -1978,11 +1929,15 @@ var render = function() {
                                                             _c(
                                                               "v-list-item-action",
                                                               [
-                                                                _vm
-                                                                  .myClasssworkStatus
+                                                                (_vm
+                                                                  .classworkDetails
                                                                   .status ==
                                                                   "Submitting" ||
-                                                                _vm.isResubmit
+                                                                  _vm.isResubmit) &&
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .publish ==
+                                                                  null
                                                                   ? _c(
                                                                       "v-tooltip",
                                                                       {
@@ -2115,9 +2070,9 @@ var render = function() {
                                             },
                                             [
                                               _vm.isResubmit ||
-                                              _vm.myClasssworkStatus.status ==
+                                              _vm.classworkDetails.status ==
                                                 "Submitting" ||
-                                                _vm.myClasssworkStatus.status ==
+                                                _vm.classworkDetails.status ==
                                                   null
                                                 ? _c(
                                                     "v-menu",
@@ -2153,7 +2108,7 @@ var render = function() {
                                                                             "",
                                                                           disabled:
                                                                             _vm
-                                                                              .classworkData
+                                                                              .classworkDetails
                                                                               .availability ==
                                                                               1 &&
                                                                             _vm.format_date1(
@@ -2161,7 +2116,7 @@ var render = function() {
                                                                             ) <
                                                                               _vm.format_date1(
                                                                                 _vm
-                                                                                  .classworkData
+                                                                                  .classworkDetails
                                                                                   .from_date
                                                                               ),
                                                                           outlined:
@@ -2205,7 +2160,7 @@ var render = function() {
                                                         ],
                                                         null,
                                                         false,
-                                                        2875199602
+                                                        3245075026
                                                       )
                                                     },
                                                     [
@@ -2300,7 +2255,7 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      _vm.classworkData.availability == 0
+                                      _vm.classworkDetails.availability == 0
                                         ? _c(
                                             "v-col",
                                             {
@@ -2315,14 +2270,15 @@ var render = function() {
                                                     "pl-12 pr-12 pb-3 pt-3",
                                                   attrs: {
                                                     disabled:
-                                                      _vm.myClasssworkStatus
+                                                      _vm.classworkDetails
+                                                        .Submitted_Answers
                                                         .length == 0 ||
                                                       _vm.classworkDetails
                                                         .publish != null,
                                                     block: "",
                                                     loading: _vm.IsSaving,
                                                     color:
-                                                      _vm.myClasssworkStatus
+                                                      _vm.classworkDetails
                                                         .status ==
                                                         "Submitted" &&
                                                       !_vm.isResubmit
@@ -2331,7 +2287,7 @@ var render = function() {
                                                   },
                                                   on: {
                                                     click: function($event) {
-                                                      _vm.myClasssworkStatus
+                                                      _vm.classworkDetails
                                                         .status ==
                                                         "Submitted" &&
                                                       !_vm.isResubmit
@@ -2341,8 +2297,8 @@ var render = function() {
                                                   }
                                                 },
                                                 [
-                                                  _vm.myClasssworkStatus
-                                                    .status == "Submitted" &&
+                                                  _vm.classworkDetails.status ==
+                                                    "Submitted" &&
                                                   !_vm.isResubmit
                                                     ? _c(
                                                         "v-icon",
@@ -2353,7 +2309,7 @@ var render = function() {
                                                   _vm._v(
                                                     "\r\n                                " +
                                                       _vm._s(
-                                                        _vm.myClasssworkStatus
+                                                        _vm.classworkDetails
                                                           .status ==
                                                           "Submitted" &&
                                                           !_vm.isResubmit
@@ -2381,7 +2337,8 @@ var render = function() {
                                                     _vm.DateToday
                                                   ) >=
                                                   _vm.format_date1(
-                                                    _vm.classworkData.from_date
+                                                    _vm.classworkDetails
+                                                      .from_date
                                                   )
                                                     ? _c(
                                                         "v-col",
@@ -2397,7 +2354,8 @@ var render = function() {
                                                               attrs: {
                                                                 disabled:
                                                                   _vm
-                                                                    .myClasssworkStatus
+                                                                    .classworkDetails
+                                                                    .Submitted_Answers
                                                                     .length ==
                                                                   0,
                                                                 block: "",
@@ -2405,7 +2363,7 @@ var render = function() {
                                                                   _vm.IsSaving,
                                                                 color:
                                                                   _vm
-                                                                    .myClasssworkStatus
+                                                                    .classworkDetails
                                                                     .status ==
                                                                     "Submitted" &&
                                                                   !_vm.isResubmit
@@ -2417,7 +2375,7 @@ var render = function() {
                                                                   $event
                                                                 ) {
                                                                   _vm
-                                                                    .myClasssworkStatus
+                                                                    .classworkDetails
                                                                     .status ==
                                                                     "Submitted" &&
                                                                   !_vm.isResubmit
@@ -2428,7 +2386,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm
-                                                                .myClasssworkStatus
+                                                                .classworkDetails
                                                                 .status ==
                                                                 "Submitted" &&
                                                               !_vm.isResubmit
@@ -2450,7 +2408,7 @@ var render = function() {
                                                                 "\r\n                                    " +
                                                                   _vm._s(
                                                                     _vm
-                                                                      .myClasssworkStatus
+                                                                      .classworkDetails
                                                                       .status ==
                                                                       "Submitted" &&
                                                                       !_vm.isResubmit
@@ -2561,7 +2519,7 @@ var render = function() {
                                   : "450"
                               }
                             },
-                            _vm._l(_vm.classworkData.comments, function(
+                            _vm._l(_vm.classworkDetails.comments, function(
                               item,
                               i
                             ) {
@@ -2775,7 +2733,7 @@ var render = function() {
                                           on: {
                                             click: function($event) {
                                               return _vm.addComment(
-                                                _vm.classworkData
+                                                _vm.classworkDetails
                                               )
                                             }
                                           }
@@ -2814,7 +2772,7 @@ var render = function() {
                   class: !_vm.$vuetify.breakpoint.mdAndUp
                     ? "mt-0 pl-0 pt-0"
                     : "pt-0 pl-5",
-                  attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
+                  attrs: { cols: "12", md: "8", lg: "8", xl: "8" }
                 },
                 [
                   _c(
@@ -2912,10 +2870,11 @@ var render = function() {
                                                   _vm._v(
                                                     "Due " +
                                                       _vm._s(
-                                                        _vm.classworkData
+                                                        _vm.classworkDetails
                                                           .availability
                                                           ? _vm.format_date(
-                                                              _vm.classworkData
+                                                              _vm
+                                                                .classworkDetails
                                                                 .to_date
                                                             )
                                                           : "always Available"
@@ -2946,7 +2905,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            _vm._s(_vm.classworkData.title)
+                                            _vm._s(_vm.classworkDetails.title)
                                           )
                                         ]
                                       ),
@@ -2963,7 +2922,7 @@ var render = function() {
                                             [
                                               _vm._v(
                                                 _vm._s(
-                                                  _vm.classworkData.points
+                                                  _vm.classworkDetails.points
                                                 ) + " Points"
                                               )
                                             ]
@@ -2987,14 +2946,14 @@ var render = function() {
                                         staticClass: "text-sm-body-2 ",
                                         domProps: {
                                           innerHTML: _vm._s(
-                                            _vm.classworkData.instruction
+                                            _vm.classworkDetails.instruction
                                           )
                                         }
                                       })
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _vm.classworkData.rubrics.length != 0
+                                  _vm.classworkDetails.rubrics.length != 0
                                     ? _c(
                                         "v-col",
                                         {
@@ -3011,7 +2970,7 @@ var render = function() {
                                           _c(
                                             "v-list",
                                             _vm._l(
-                                              _vm.classworkData.rubrics,
+                                              _vm.classworkDetails.rubrics,
                                               function(item, index) {
                                                 return _c(
                                                   "v-list-item",
@@ -3081,7 +3040,7 @@ var render = function() {
                                       )
                                     : _vm._e(),
                                   _vm._v(" "),
-                                  _vm.classworkData.attachment != null
+                                  _vm.classworkDetails.attachment != null
                                     ? _c(
                                         "v-col",
                                         {
@@ -3102,7 +3061,7 @@ var render = function() {
                                               attrs: { dense: "" }
                                             },
                                             _vm._l(
-                                              _vm.classworkData.attachment,
+                                              _vm.classworkDetails.attachment,
                                               function(item, i) {
                                                 return _c(
                                                   "v-list-item",

@@ -2689,6 +2689,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2989,6 +3001,19 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3535,7 +3560,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-        //console.log(res);
         _this2.Qlength = res.data.Question.length;
         _this2.QuestionsList = res[0];
         _this2.isloading = false;
@@ -3703,6 +3727,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3751,7 +3822,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)', 'rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
       isSettingData: false,
       isSelected: null,
-      submissionLength: 0
+      submissionLength: 0,
+      isMaintenance: true
     };
   },
   methods: {
@@ -3909,7 +3981,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   mounted: function mounted() {
-    this.GetList();
+    if (!this.isMaintenance) {
+      this.GetList();
+    }
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     this.isLeaving = true;
@@ -3938,6 +4012,20 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -20343,7 +20431,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .ql-toolbar.ql-snow {\n        background: #f2f2f2;\n        border: none;\n }\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\n    ,.ql-image,.ql-video\n    {\n        outline: none !important;\n        border:none !important;\n    }  */\n.centered-input >>> input {\n    text-align: center\n}\n.ql-editor img{\n\n    max-height: 15rem !important;\n}\n.ql-container{\n    max-height: 50rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20367,7 +20455,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\niframe{\n    width: 100% !important;\n    height: 20rem !important;\n}\n.ql-editor img{\n\n    max-height: 25rem !important;\n    max-width: 100% !important;\n}\n.ql-container{\n    max-height: 70rem;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.classwork_editor iframe{\n    width: 100% !important;\n    height: 20rem !important;\n}\n.classwork_editor .ql-editor img{\n\n    max-height: 25rem !important;\n    max-width: 100% !important;\n}\n.classwork_editor .ql-container{\n    max-height: 70rem;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20415,7 +20503,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.Image_centered[data-v-5e081adf] {\r\n   display: block;\r\n    margin-left: auto;\r\n    margin-right: auto\n}\n.centered[data-v-5e081adf]{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\r\n  width: 5px;\n}\r\n\r\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\r\n  background: #f1f1f1;\n}\r\n \r\n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\r\n  background: #888; \r\n   border-radius: 3px\n}\r\n\r\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\r\n  background: #555;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered[data-v-38d36a53]{\n    position: fixed;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n        \n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -20569,6 +20681,36 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_0_id_5e081adf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -51239,15 +51381,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _submissionListTab_vue_vue_type_template_id_38d36a53_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./submissionListTab.vue?vue&type=template&id=38d36a53&scoped=true& */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=template&id=38d36a53&scoped=true&");
 /* harmony import */ var _submissionListTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./submissionListTab.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _submissionListTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _submissionListTab_vue_vue_type_template_id_38d36a53_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
   _submissionListTab_vue_vue_type_template_id_38d36a53_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -51550,6 +51694,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_0_id_5e081adf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./questionnAnalyticstab.vue?vue&type=style&index=0&id=5e081adf&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=0&id=5e081adf&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&":
+/*!************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -53631,7 +53788,7 @@ var render = function() {
                                                 ),
                                                 _vm._v(" "),
                                                 _vm._l(
-                                                  _vm.getAnswerList,
+                                                  _vm.getAnswerList.options,
                                                   function(Ans, i) {
                                                     return _c(
                                                       "v-col",
@@ -53926,7 +54083,9 @@ var render = function() {
                                 _c(
                                   "v-container",
                                   { staticClass: "pl-5 pr-5" },
-                                  _vm._l(_vm.getAnswerList, function(Ans) {
+                                  _vm._l(_vm.getAnswerList.options, function(
+                                    Ans
+                                  ) {
                                     return _c(
                                       "v-container",
                                       {
@@ -57082,6 +57241,47 @@ var render = function() {
     { staticClass: "pa-1" },
     [
       _c(
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                {
+                  attrs: {
+                    elevation: "5",
+                    app: "",
+                    dense: _vm.$vuetify.breakpoint.mdAndUp,
+                    color: "primary"
+                  }
+                },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-overlay",
         { attrs: { value: _vm.isLeaving } },
         [
@@ -57238,6 +57438,7 @@ var render = function() {
                                     },
                                     [
                                       _c("editor", {
+                                        staticClass: "classwork_editor",
                                         attrs: {
                                           placeholder: "Instruction",
                                           theme: "snow"
@@ -57983,6 +58184,47 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
+      _c(
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                {
+                  attrs: {
+                    elevation: "5",
+                    app: "",
+                    dense: _vm.$vuetify.breakpoint.mdAndUp,
+                    color: "primary"
+                  }
+                },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "v-overlay",
         { attrs: { value: _vm.isLeaving } },
@@ -58970,43 +59212,100 @@ var render = function() {
     { staticClass: "pa-1" },
     [
       _c(
-        "v-overlay",
-        { attrs: { value: _vm.isLeaving } },
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
         [
-          _c("v-progress-circular", {
-            attrs: { indeterminate: "", size: "64" }
-          })
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                {
+                  attrs: {
+                    elevation: "5",
+                    app: "",
+                    dense: _vm.$vuetify.breakpoint.mdAndUp,
+                    color: "primary"
+                  }
+                },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       ),
       _vm._v(" "),
-      _vm.isloading
+      _vm.isMaintenance
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
+                { attrs: { justify: "center" } },
                 [
                   _c(
                     "v-col",
-                    { staticClass: "text-center", attrs: { cols: "12" } },
+                    { staticClass: "text-center ", attrs: { cols: "12" } },
                     [
-                      _c("vue-element-loading", {
-                        attrs: {
-                          active: _vm.isloading,
-                          text: "Loading",
-                          duration: "0.7",
-                          textStyle: { fontSize: "20px" },
-                          spinner: "line-scale",
-                          color: "#EF6C00",
-                          size: "60"
-                        }
-                      })
-                    ],
-                    1
-                  )
+                      _c(
+                        "div",
+                        {
+                          staticClass: "centered",
+                          style: _vm.$vuetify.breakpoint.mdAndUp
+                            ? ""
+                            : "width:330px !important"
+                        },
+                        [
+                          _c("v-img", {
+                            staticClass: "Image_centered",
+                            attrs: {
+                              height: "150",
+                              width: "150",
+                              src:
+                                "https://cdn-icons.flaticon.com/png/512/1163/premium/1163796.png?token=exp=1635049821~hmac=ec85b4268657c5c7e6755b2a4c5e6fa5"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.$vuetify.breakpoint.mdAndUp
+                            ? _c("h1", [_vm._v("Page Maintenance!")])
+                            : _c("h2", [_vm._v("Page Maintenance!")]),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c("p", [
+                              _vm._v(
+                                "Sorry for the inconvenience but we’re performing some maintenance in this page at the moment!"
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", [_vm._v("— Orange Team")])
+                          ])
+                        ],
+                        1
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("v-col", {
+                    staticClass: "text-center",
+                    attrs: { cols: "12" }
+                  })
                 ],
                 1
               )
@@ -59015,305 +59314,397 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      !_vm.isloading
+      !_vm.isMaintenance
         ? _c(
-            "v-container",
-            {
-              staticClass: "pa-0 pa-0",
-              attrs: { "pa-0": "", "ma-0": "", fluid: "" }
-            },
+            "div",
             [
               _c(
-                "v-row",
+                "v-overlay",
+                { attrs: { value: _vm.isLeaving } },
                 [
-                  _c(
-                    "v-col",
+                  _c("v-progress-circular", {
+                    attrs: { indeterminate: "", size: "64" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.isloading
+                ? _c(
+                    "v-container",
                     {
-                      staticStyle: {
-                        "max-height": "85vh",
-                        "overflow-y": "scroll",
-                        "overflow-x": "hidden"
-                      },
-                      attrs: { cols: "5" }
+                      staticClass: "fill-height",
+                      staticStyle: { height: "570px" }
                     },
                     [
-                      _c("h3", [_vm._v("Questions")]),
-                      _vm._v(" "),
                       _c(
-                        "v-list",
+                        "v-row",
+                        {
+                          attrs: {
+                            "align-content": "center",
+                            justify: "center"
+                          }
+                        },
                         [
                           _c(
-                            "v-list-item",
+                            "v-col",
                             {
-                              class:
-                                _vm.isSelected == "correct"
-                                  ? "grey lighten-2 rounded"
-                                  : "rounded",
-                              attrs: { link: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.setChartForAllQuestionCorrect()
-                                }
-                              }
+                              staticClass: "text-center",
+                              attrs: { cols: "12" }
                             },
                             [
-                              _c(
-                                "v-list-item-content",
-                                { staticClass: "ma-0 pa-0" },
-                                [
-                                  _c("div", { staticClass: "d-flex" }, [
-                                    _c(
-                                      "p",
-                                      {
-                                        staticClass:
-                                          "mb-0 pb-0 pl-1 font-weight-bold"
-                                      },
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          {
-                                            attrs: {
-                                              left: "",
-                                              color: "success"
-                                            }
-                                          },
-                                          [_vm._v("mdi-check")]
-                                        ),
-                                        _vm._v("Correct student per question")
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                ]
-                              )
+                              _c("vue-element-loading", {
+                                attrs: {
+                                  active: _vm.isloading,
+                                  text: "Loading",
+                                  duration: "0.7",
+                                  textStyle: { fontSize: "20px" },
+                                  spinner: "line-scale",
+                                  color: "#EF6C00",
+                                  size: "60"
+                                }
+                              })
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-list-item",
-                            {
-                              class:
-                                _vm.isSelected == "wrong"
-                                  ? "grey lighten-2 rounded"
-                                  : "rounded",
-                              attrs: { link: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.setChartForAllQuestionWrong()
-                                }
-                              }
-                            },
-                            [
-                              _c(
-                                "v-list-item-content",
-                                { staticClass: "ma-0 pa-0" },
-                                [
-                                  _c("div", { staticClass: "d-flex" }, [
-                                    _c(
-                                      "p",
-                                      {
-                                        staticClass:
-                                          "mb-0 pb-0 pl-1 font-weight-bold"
-                                      },
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          {
-                                            attrs: { left: "", color: "error" }
-                                          },
-                                          [_vm._v("mdi-close")]
-                                        ),
-                                        _vm._v("Wrong student per question")
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                ]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _vm._l(_vm.List, function(item, index) {
-                            return _c(
-                              "v-list-item",
-                              {
-                                key: index,
-                                class:
-                                  _vm.isSelected == index
-                                    ? "grey lighten-2 rounded"
-                                    : "rounded",
-                                attrs: { link: "" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.setChartForThisQuestion(
-                                      item,
-                                      index
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-list-item-content",
-                                  { staticClass: "ma-0 pa-0" },
-                                  [
-                                    _c("div", { staticClass: "d-flex" }, [
-                                      _c("h4", [
-                                        _vm._v(_vm._s("Q" + (index + 1) + ". "))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "p",
-                                        { staticClass: "mb-0 pb-0 pl-1" },
-                                        [
-                                          _c("span", {
-                                            staticClass: "post-content",
-                                            domProps: {
-                                              innerHTML: _vm._s(item.question)
-                                            }
-                                          })
-                                        ]
-                                      )
-                                    ])
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _c("v-list-item-action", [
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weigth-bold" },
-                                    [
-                                      _vm._v(
-                                        _vm._s(item.correct_count) +
-                                          " / " +
-                                          _vm._s(
-                                            item.correct_count +
-                                              item.wrong_count
-                                          )
-                                      )
-                                    ]
-                                  )
-                                ])
-                              ],
-                              1
-                            )
-                          })
+                          )
                         ],
-                        2
+                        1
                       )
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "7" } },
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.isloading
+                ? _c(
+                    "v-container",
+                    {
+                      staticClass: "pa-0 pa-0",
+                      attrs: { "pa-0": "", "ma-0": "", fluid: "" }
+                    },
                     [
-                      _vm.isSettingData
-                        ? _c(
-                            "v-container",
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
                             {
-                              staticClass: "fill-height",
-                              staticStyle: { height: "500px" }
+                              staticStyle: {
+                                "max-height": "85vh",
+                                "overflow-y": "scroll",
+                                "overflow-x": "hidden"
+                              },
+                              attrs: { cols: "5" }
                             },
                             [
+                              _c("h3", [_vm._v("Questions")]),
+                              _vm._v(" "),
                               _c(
-                                "v-row",
-                                {
-                                  attrs: {
-                                    "align-content": "center",
-                                    justify: "center"
-                                  }
-                                },
+                                "v-list",
                                 [
                                   _c(
-                                    "v-col",
+                                    "v-list-item",
                                     {
-                                      staticClass: "text-center",
-                                      attrs: { cols: "12" }
+                                      class:
+                                        _vm.isSelected == "correct"
+                                          ? "grey lighten-2 rounded"
+                                          : "rounded",
+                                      attrs: { link: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setChartForAllQuestionCorrect()
+                                        }
+                                      }
                                     },
                                     [
-                                      _c("v-progress-circular", {
-                                        attrs: {
-                                          size: 40,
-                                          color: "primary",
-                                          indeterminate: ""
-                                        }
-                                      })
+                                      _c(
+                                        "v-list-item-content",
+                                        { staticClass: "ma-0 pa-0" },
+                                        [
+                                          _c("div", { staticClass: "d-flex" }, [
+                                            _c(
+                                              "p",
+                                              {
+                                                staticClass:
+                                                  "mb-0 pb-0 pl-1 font-weight-bold"
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      left: "",
+                                                      color: "success"
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-check")]
+                                                ),
+                                                _vm._v(
+                                                  "Correct student per question"
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        ]
+                                      )
                                     ],
                                     1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      !_vm.isSettingData
-                        ? _c(
-                            "v-container",
-                            {
-                              staticClass: "fill-height",
-                              staticStyle: { height: "600px" }
-                            },
-                            [
-                              _c(
-                                "v-row",
-                                {
-                                  attrs: {
-                                    "align-content": "center",
-                                    justify: "center"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass:
-                                        "text-subtitle-1 text-center",
-                                      attrs: { cols: "12" }
-                                    },
-                                    [_c("h3", [_vm._v("Question statistics")])]
                                   ),
                                   _vm._v(" "),
                                   _c(
-                                    "v-col",
-                                    { attrs: { cols: "12" } },
+                                    "v-list-item",
+                                    {
+                                      class:
+                                        _vm.isSelected == "wrong"
+                                          ? "grey lighten-2 rounded"
+                                          : "rounded",
+                                      attrs: { link: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setChartForAllQuestionWrong()
+                                        }
+                                      }
+                                    },
                                     [
-                                      !_vm.isSettingData
-                                        ? _c("bar-chart", {
-                                            attrs: {
-                                              chartTitle: _vm.chartTitle,
-                                              Qname: _vm.Qname,
-                                              QCorrentCount: _vm.QCorrentCount,
-                                              barColors: _vm.barColors,
-                                              barborderColors:
-                                                _vm.barborderColors
-                                            }
-                                          })
-                                        : _vm._e()
+                                      _c(
+                                        "v-list-item-content",
+                                        { staticClass: "ma-0 pa-0" },
+                                        [
+                                          _c("div", { staticClass: "d-flex" }, [
+                                            _c(
+                                              "p",
+                                              {
+                                                staticClass:
+                                                  "mb-0 pb-0 pl-1 font-weight-bold"
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      left: "",
+                                                      color: "error"
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-close")]
+                                                ),
+                                                _vm._v(
+                                                  "Wrong student per question"
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        ]
+                                      )
                                     ],
                                     1
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-divider"),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.List, function(item, index) {
+                                    return _c(
+                                      "v-list-item",
+                                      {
+                                        key: index,
+                                        class:
+                                          _vm.isSelected == index
+                                            ? "grey lighten-2 rounded"
+                                            : "rounded",
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setChartForThisQuestion(
+                                              item,
+                                              index
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "v-list-item-content",
+                                          { staticClass: "ma-0 pa-0" },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "d-flex" },
+                                              [
+                                                _c("h4", [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      "Q" + (index + 1) + ". "
+                                                    )
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "p",
+                                                  {
+                                                    staticClass:
+                                                      "mb-0 pb-0 pl-1"
+                                                  },
+                                                  [
+                                                    _c("span", {
+                                                      staticClass:
+                                                        "post-content",
+                                                      domProps: {
+                                                        innerHTML: _vm._s(
+                                                          item.question
+                                                        )
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("v-list-item-action", [
+                                          _c(
+                                            "span",
+                                            { staticClass: "font-weigth-bold" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(item.correct_count) +
+                                                  " / " +
+                                                  _vm._s(
+                                                    item.correct_count +
+                                                      item.wrong_count
+                                                  )
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  })
                                 ],
-                                1
+                                2
                               )
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "7" } },
+                            [
+                              _vm.isSettingData
+                                ? _c(
+                                    "v-container",
+                                    {
+                                      staticClass: "fill-height",
+                                      staticStyle: { height: "500px" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            "align-content": "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            {
+                                              staticClass: "text-center",
+                                              attrs: { cols: "12" }
+                                            },
+                                            [
+                                              _c("v-progress-circular", {
+                                                attrs: {
+                                                  size: 40,
+                                                  color: "primary",
+                                                  indeterminate: ""
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              !_vm.isSettingData
+                                ? _c(
+                                    "v-container",
+                                    {
+                                      staticClass: "fill-height",
+                                      staticStyle: { height: "600px" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            "align-content": "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            {
+                                              staticClass:
+                                                "text-subtitle-1 text-center",
+                                              attrs: { cols: "12" }
+                                            },
+                                            [
+                                              _c("h3", [
+                                                _vm._v("Question statistics")
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              !_vm.isSettingData
+                                                ? _c("bar-chart", {
+                                                    attrs: {
+                                                      chartTitle:
+                                                        _vm.chartTitle,
+                                                      Qname: _vm.Qname,
+                                                      QCorrentCount:
+                                                        _vm.QCorrentCount,
+                                                      barColors: _vm.barColors,
+                                                      barborderColors:
+                                                        _vm.barborderColors
+                                                    }
+                                                  })
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ],
+                            1
                           )
-                        : _vm._e()
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              )
+                : _vm._e()
             ],
             1
           )
@@ -59349,6 +59740,47 @@ var render = function() {
     "div",
     { staticClass: "pa-1" },
     [
+      _c(
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                {
+                  attrs: {
+                    elevation: "5",
+                    app: "",
+                    dense: _vm.$vuetify.breakpoint.mdAndUp,
+                    color: "primary"
+                  }
+                },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "v-overlay",
         { attrs: { value: _vm.isLeaving } },
@@ -59398,14 +59830,17 @@ var render = function() {
       _vm.List.length == 0 && !_vm.isloading
         ? _c(
             "v-row",
-            { attrs: { justify: "center" } },
+            {
+              staticClass: "centered",
+              style: _vm.$vuetify.breakpoint.mdAndUp
+                ? ""
+                : "width:330px !important",
+              attrs: { justify: "center" }
+            },
             [
               _c(
                 "v-col",
-                {
-                  staticClass: "text-center",
-                  attrs: { cols: "12", sm: "8", md: "4" }
-                },
+                { staticClass: "text-center", attrs: { cols: "12" } },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
@@ -59413,7 +59848,9 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("h1", [_vm._v(" Empty Submission ")]),
+                  _vm.$vuetify.breakpoint.mdAndUp
+                    ? _c("h1", [_vm._v(" Empty Submission ")])
+                    : _c("h2", [_vm._v(" Empty Submission ")]),
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(" Your classwork is not publish to any class yet!")

@@ -345,6 +345,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -366,7 +379,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       RubricsPoints: [],
       SaveRubricsData: [],
       OpenFileType: null,
-      isOpening: true
+      isOpening: true,
+      SelectedNav: 0
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -436,8 +450,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         ctr++;
       });
-      var score = TotalPointsInRubrics / TotalRubics * this.classworkDetails.points; //alert(score);
-
+      var score = TotalPointsInRubrics / TotalRubics * this.classworkDetails.points;
       this.CheckData.points = Math.round(score);
       this.score = Math.round(this.CheckData.points);
       this.isSavingScore = !this.isSavingScore;
@@ -461,7 +474,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                       _this2.isSavingScore = !_this2.isSavingScore;
 
-                      _this2.$emit('UpdateSubmission');
+                      _this2.$emit('UpdateSubmission', _this2.CheckData.id);
                     }
                   });
                 } else {
@@ -513,6 +526,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     OpenFile: function OpenFile(extension, link) {
       var _this4 = this;
 
+      this.SelectedNav = 1;
       this.isOpening = true;
 
       if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
@@ -689,7 +703,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.doc[data-v-2cc7d58e] {\n    width: 100%;\n    height: 70vh;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.doc[data-v-2cc7d58e] {\n    width: 100%;\n    height: 70vh;\n}\n.fixed-bar[data-v-2cc7d58e] {\n    position: sticky;\n    position: -webkit-sticky; /* for Safari */\n    top: 0em;\n    z-index: 2;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -893,8 +907,17 @@ var render = function() {
     "v-card",
     [
       _c(
-        "v-app-bar",
-        { attrs: { color: "primary" } },
+        "v-toolbar",
+        {
+          staticClass: "fixed-bar",
+          attrs: {
+            dense: "",
+            shaped: "",
+            floating: "",
+            color: "primary",
+            app: ""
+          }
+        },
         [
           _c(
             "v-btn",
@@ -915,7 +938,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-text",
-        { staticClass: "ma-0 pa-0 pa-2" },
+        {
+          staticClass: "ma-0 pa-0 pl-1 pr-1 ",
+          staticStyle: { "margin-bottom": "10rem" }
+        },
         [
           _c(
             "v-row",
@@ -924,7 +950,7 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  class: _vm.$vuetify.breakpoint.xs ? "pt-2" : "pt-2 pr-3",
+                  class: !_vm.$vuetify.breakpoint.mdAndUp ? "" : "pr-3",
                   attrs: { cols: "12", md: "4", lg: "4" }
                 },
                 [
@@ -935,6 +961,17 @@ var render = function() {
                       _c(
                         "v-card",
                         {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value:
+                                _vm.$vuetify.breakpoint.mdAndUp ||
+                                _vm.SelectedNav == 0,
+                              expression:
+                                "$vuetify.breakpoint.mdAndUp || SelectedNav == 0"
+                            }
+                          ],
                           staticClass: "pa-5 pb-8 pt-0",
                           attrs: { elevation: "1", outlined: "" }
                         },
@@ -1041,6 +1078,8 @@ var render = function() {
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
+                                                      rounded: "",
+                                                      "hide-details": "",
                                                       loading:
                                                         _vm.isSavingScore,
                                                       dense: "",
@@ -1189,13 +1228,13 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                                                    " +
+                                                                  "\n                                                                              " +
                                                                     _vm._s(
                                                                       _vm.CheckFileIcon(
                                                                         item.fileExte
                                                                       )
                                                                     ) +
-                                                                    "\n                                                                                "
+                                                                    "\n                                                                          "
                                                                 )
                                                               ]
                                                             )
@@ -1222,11 +1261,11 @@ var render = function() {
                                                               "v-list-item-title",
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                                                " +
+                                                                  "\n                                                                          " +
                                                                     _vm._s(
                                                                       item.name
                                                                     ) +
-                                                                    "\n                                                                            "
+                                                                    "\n                                                                      "
                                                                 )
                                                               ]
                                                             )
@@ -1387,19 +1426,17 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                            " +
+                                                "\n                                      " +
                                                   _vm._s(item.criteria_name) +
-                                                  "\n                                        "
+                                                  "\n                                  "
                                               )
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _c("v-list-item-subtitle", [
-                                            _vm._v(
-                                              "\n                                            " +
-                                                _vm._s(item.description) +
-                                                "\n                                        "
-                                            )
+                                          _c("div", [
+                                            _c("p", [
+                                              _vm._v(_vm._s(item.description))
+                                            ])
                                           ])
                                         ],
                                         1
@@ -1412,6 +1449,8 @@ var render = function() {
                                           _c("v-text-field", {
                                             staticClass: "ma-0 pa-0",
                                             attrs: {
+                                              rounded: "",
+                                              "hide-details": "",
                                               type: "number",
                                               suffix: "/" + item.points,
                                               dense: "",
@@ -1466,7 +1505,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                    Save\n                                "
+                                        "\n                              Save\n                          "
                                       )
                                     ]
                                   )
@@ -1481,6 +1520,17 @@ var render = function() {
                       _c(
                         "v-card",
                         {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value:
+                                _vm.$vuetify.breakpoint.mdAndUp ||
+                                _vm.SelectedNav == 2,
+                              expression:
+                                "$vuetify.breakpoint.mdAndUp || SelectedNav == 2"
+                            }
+                          ],
                           staticClass: "mt-2 scrollComment",
                           attrs: { elevation: "1", outlined: "" }
                         },
@@ -1492,9 +1542,7 @@ var render = function() {
                               _c("v-icon", { attrs: { left: "" } }, [
                                 _vm._v("mdi-comment")
                               ]),
-                              _vm._v(
-                                "Private Comments\n                            "
-                              )
+                              _vm._v("Private Comments\n                      ")
                             ],
                             1
                           ),
@@ -1536,17 +1584,17 @@ var render = function() {
                                   _c(
                                     "v-list-item-content",
                                     [
-                                      _c("v-list-item-title", {
-                                        domProps: {
-                                          innerHTML: _vm._s(item.name)
-                                        }
-                                      }),
+                                      _c("v-list-item-title", [
+                                        _vm._v(
+                                          "\n                                  " +
+                                            _vm._s(item.name) +
+                                            "\n                              "
+                                        )
+                                      ]),
                                       _vm._v(" "),
-                                      _c("v-list-item-subtitle", {
-                                        domProps: {
-                                          innerHTML: _vm._s(item.content)
-                                        }
-                                      })
+                                      _c("div", [
+                                        _c("p", [_vm._v(_vm._s(item.content))])
+                                      ])
                                     ],
                                     1
                                   ),
@@ -1697,8 +1745,9 @@ var render = function() {
                   attrs: { cols: "12", md: "8", lg: "8" }
                 },
                 [
-                  _vm.CheckData.Submitted_Answers == null ||
-                  _vm.CheckData.Submitted_Answers == ""
+                  (_vm.CheckData.Submitted_Answers == null ||
+                    _vm.CheckData.Submitted_Answers == "") &&
+                  (_vm.$vuetify.breakpoint.mdAndUp || _vm.SelectedNav == 1)
                     ? _c(
                         "v-container",
                         {
@@ -1737,7 +1786,7 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            "\n                                        mdi-notebook-remove-outline\n                                    "
+                                            "\n                                  mdi-notebook-remove-outline\n                              "
                                           )
                                         ]
                                       ),
@@ -1785,7 +1834,8 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _vm.CheckData.Submitted_Answers != null &&
-                  _vm.CheckData.Submitted_Answers != ""
+                  _vm.CheckData.Submitted_Answers != "" &&
+                  (_vm.$vuetify.breakpoint.mdAndUp || _vm.SelectedNav == 1)
                     ? _c(
                         "v-container",
                         { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
@@ -1797,8 +1847,12 @@ var render = function() {
                                 staticClass: "pa-3",
                                 style:
                                   _vm.OpenFileType == "document"
-                                    ? "height:100vh !important;"
-                                    : "height:90vh !important"
+                                    ? _vm.$vuetify.breakpoint.mdAndUp
+                                      ? "height:90vh !important;"
+                                      : "height:85vh !important;"
+                                    : _vm.$vuetify.breakpoint.mdAndUp
+                                    ? "height:90vh !important"
+                                    : "height:85vh !important"
                               },
                               [
                                 _c(
@@ -1932,6 +1986,80 @@ var render = function() {
             ],
             1
           )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "pt-10" },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-bottom-navigation",
+                {
+                  attrs: {
+                    fixed: "",
+                    grow: "",
+                    value: _vm.SelectedNav,
+                    color: "primary"
+                  }
+                },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.SelectedNav = 0
+                        }
+                      }
+                    },
+                    [
+                      _c("span", [_vm._v("Submitted Files")]),
+                      _vm._v(" "),
+                      _c("v-icon", [_vm._v("mdi-file")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.SelectedNav = 1
+                        }
+                      }
+                    },
+                    [
+                      _c("span", [_vm._v("Viewer")]),
+                      _vm._v(" "),
+                      _c("v-icon", [_vm._v("mdi-file-eye")])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.SelectedNav = 2
+                        }
+                      }
+                    },
+                    [
+                      _c("span", [_vm._v("Comments")]),
+                      _vm._v(" "),
+                      _c("v-icon", [_vm._v("mdi-comment")])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e()
         ],
         1
       )

@@ -218,6 +218,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -262,9 +307,13 @@ var checksubjective = function checksubjective() {
       isSavingScore: false,
       score: null,
       StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
-      selectedStatus: 'All',
+      selectedStatus: 'Submitted',
+      SortType: ['Name', 'Highest Score', 'Lowest Score'],
+      selectedSort: 'Name',
       isStarting: false,
-      isFiltered: false
+      isFiltered: false,
+      Over_total: 0,
+      Submitted_count: 0
     };
   },
   computed: {
@@ -274,26 +323,120 @@ var checksubjective = function checksubjective() {
       if (this.search) {
         var data = this.search;
         return this.ListData.filter(function (item) {
-          console.log(item.firstName);
-          return item.firstName.toLowerCase().includes(_this.search.toLowerCase()) || item.lastName.toLowerCase().includes(_this.search.toLowerCase()); // return data.toLowerCase().split(' ').every(v => item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v))
+          return item.firstName.toLowerCase().includes(_this.search.toLowerCase()) || item.lastName.toLowerCase().includes(_this.search.toLowerCase());
         });
       } else {
-        return this.ListData;
+        if (this.selectedStatus == "All") {
+          var Filterddata = this.ListData; //this.Submitted_count = Filterddata.length;
+
+          if (this.selectedSort == "Name") {
+            return Filterddata;
+          } else if (this.selectedSort == "Lowest Score") {
+            var _data = Filterddata.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data;
+          } else if (this.selectedSort == "Highest Score") {
+            var _data2 = Filterddata.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data2.reverse();
+          }
+        } else if (this.selectedStatus == "Submitted") {
+          var _Filterddata = this.ListData;
+          _Filterddata = _Filterddata.filter(function (item) {
+            if (_this.Class == _this.$route.params.id) {
+              return item.status == "Submitted" && item.graded == 0;
+            } else {
+              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this.Class;
+            }
+          }); //this.Submitted_count = Filterddata.length;
+
+          if (this.selectedSort == "Name") {
+            return _Filterddata.sort();
+          } else if (this.selectedSort == "Lowest Score") {
+            var _data3 = _Filterddata.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data3;
+          } else if (this.selectedSort == "Highest Score") {
+            var _data4 = _Filterddata.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data4.reverse();
+          }
+        } else if (this.selectedStatus == "Graded") {
+          var _Filterddata2 = this.ListData;
+          _Filterddata2 = _Filterddata2.filter(function (item) {
+            if (_this.Class == _this.$route.params.id) {
+              return item.graded == 1;
+            } else {
+              return item.graded == 1 && item.class_id == _this.Class;
+            }
+          });
+          this.Submitted_count = _Filterddata2.length;
+
+          if (this.selectedSort == "Name") {
+            return _Filterddata2.sort();
+          } else if (this.selectedSort == "Lowest Score") {
+            var _data5 = _Filterddata2.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data5;
+          } else if (this.selectedSort == "Highest Score") {
+            var _data6 = _Filterddata2.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data6.reverse();
+          }
+        } else if (this.selectedStatus == "No Submission") {
+          var _Filterddata3 = this.ListData;
+          _Filterddata3 = _Filterddata3.filter(function (item) {
+            if (_this.Class == _this.$route.params.id) {
+              return item.status != 'Submitted';
+            } else {
+              return item.status != 'Submitted' && item.class_id == _this.Class;
+            }
+          });
+          this.Submitted_count = _Filterddata3.length;
+
+          if (this.selectedSort == "Name") {
+            return _Filterddata3.sort();
+          } else if (this.selectedSort == "Lowest Score") {
+            var _data7 = _Filterddata3.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data7;
+          } else if (this.selectedSort == "Highest Score") {
+            var _data8 = _Filterddata3.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            return _data8.reverse();
+          }
+        }
       }
     }
   },
   methods: {
     CheckFileIcon: function CheckFileIcon(ext) {
       if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
-        return 'mdi-image';
+        return ['mdi-image', 'info'];
       } else if (ext == 'pdf') {
-        return 'mdi-file-pdf';
+        return ['mdi-file-pdf', 'red'];
       } else if (ext == 'txt') {
-        return 'mdi-note-text-outline';
+        return ['mdi-note-text-outline', 'primary'];
       } else if (ext == 'docx' || ext == 'doc') {
-        return 'mdi-file-word';
+        return ['mdi-file-word', 'blue'];
       } else if (ext == 'link') {
-        return 'mdi-file-link';
+        return ['mdi-file-link', 'green'];
       }
     },
     CheckFileIconColor: function CheckFileIconColor(ext) {
@@ -385,16 +528,94 @@ var checksubjective = function checksubjective() {
         }
       });
     },
+    MarkAsGraded: function MarkAsGraded(id) {
+      this.studentSubmissionList.forEach(function (item) {
+        if (id == item.id) {
+          item.graded = 1;
+        }
+      });
+    },
     ShowLoading: function ShowLoading() {
       var _this3 = this;
 
       this.isFiltered = true;
       setTimeout(function () {
         return _this3.isFiltered = false;
-      }, 800);
+      }, 400);
+    },
+    FilteredClass: function FilteredClass() {
+      var _this4 = this;
+
+      this.Over_total = 0;
+      this.Submitted_count = 0;
+      this.ShowLoading(); //if(this.Class != this.$route.params.id){
+
+      this.ListData.forEach(function (item) {
+        if (item.class_id == _this4.Class) {
+          _this4.Over_total++;
+
+          if (item.status == 'Submitted') {
+            _this4.Submitted_count++;
+          }
+        }
+      }); //}
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__control[data-v-6fc79489]{\r\n    padding: 0px;\r\n    margin: 0px;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_style_index_0_id_6fc79489_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_style_index_0_id_6fc79489_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_style_index_0_id_6fc79489_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -1128,23 +1349,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _subjectiveSubmission_vue_vue_type_template_id_6fc79489___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./subjectiveSubmission.vue?vue&type=template&id=6fc79489& */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&");
+/* harmony import */ var _subjectiveSubmission_vue_vue_type_template_id_6fc79489_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true& */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true&");
 /* harmony import */ var _subjectiveSubmission_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./subjectiveSubmission.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _subjectiveSubmission_vue_vue_type_style_index_0_id_6fc79489_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _subjectiveSubmission_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _subjectiveSubmission_vue_vue_type_template_id_6fc79489___WEBPACK_IMPORTED_MODULE_0__.render,
-  _subjectiveSubmission_vue_vue_type_template_id_6fc79489___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _subjectiveSubmission_vue_vue_type_template_id_6fc79489_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _subjectiveSubmission_vue_vue_type_template_id_6fc79489_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "6fc79489",
   null
   
 )
@@ -1172,27 +1395,40 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&":
-/*!****************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489& ***!
-  \****************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_style_index_0_id_6fc79489_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=style&index=0&id=6fc79489&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true&":
+/*!****************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true& ***!
+  \****************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_template_id_6fc79489___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_template_id_6fc79489___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_template_id_6fc79489_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_template_id_6fc79489_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_template_id_6fc79489___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./subjectiveSubmission.vue?vue&type=template&id=6fc79489& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_subjectiveSubmission_vue_vue_type_template_id_6fc79489_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue?vue&type=template&id=6fc79489&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1261,9 +1497,7 @@ var render = function() {
                           isMounted: function($event) {
                             _vm.isStarting = false
                           },
-                          UpdateSubmission: function($event) {
-                            return _vm.$emit("UpdateSubmission")
-                          },
+                          UpdateSubmission: _vm.MarkAsGraded,
                           closeDialog: function($event) {
                             _vm.dialog = !_vm.dialog
                           }
@@ -1280,268 +1514,10 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pa-1" },
         [
           _c(
             "v-col",
-            {
-              class:
-                _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
-                  ? "pl-5 d-none"
-                  : "pl-5",
-              attrs: { cols: "12", md: "12", lg: "4", xl: "4" }
-            },
-            [
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-col",
-                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                    [_c("h3", [_vm._v("Students")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                    [
-                      _c("v-select", {
-                        staticClass: "mb-0 pb-0",
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          label: "Class",
-                          items: _vm.ClassList,
-                          "item-text": "class_name",
-                          "item-value": "class_id"
-                        },
-                        on: { change: _vm.ShowLoading },
-                        model: {
-                          value: _vm.Class,
-                          callback: function($$v) {
-                            _vm.Class = $$v
-                          },
-                          expression: "Class"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [
-                      _c(
-                        "v-list",
-                        [
-                          _c(
-                            "v-list-item-group",
-                            [
-                              _vm._l(_vm.studentSubmissionList, function(
-                                item,
-                                i
-                              ) {
-                                return [
-                                  (_vm.Class == _vm.$route.params.id ||
-                                    _vm.Class == item.class_id) &&
-                                  (_vm.selectedStatus == "All" ||
-                                    (_vm.selectedStatus == "Submitted" &&
-                                      item.graded == 0) ||
-                                    (_vm.selectedStatus == "Graded" &&
-                                      item.graded == 1) ||
-                                    (_vm.selectedStatus == "No Submission" &&
-                                      (item.status == null ||
-                                        item.status == "")))
-                                    ? _c(
-                                        "v-list-item",
-                                        { key: item.id },
-                                        [
-                                          _c(
-                                            "v-list-item-avatar",
-                                            {
-                                              attrs: { color: "secondary" },
-                                              on: {
-                                                click: function($event) {
-                                                  ;(_vm.CheckData = item),
-                                                    (_vm.dialog = !_vm.dialog),
-                                                    (_vm.isStarting = true)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-img", {
-                                                attrs: {
-                                                  alt: "Profile",
-                                                  src:
-                                                    item.profile_pic == null ||
-                                                    item.profile_pic == ""
-                                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                        item.firstName +
-                                                        " " +
-                                                        item.lastName
-                                                      : item.profile_pic
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item-content",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  ;(_vm.CheckData = item),
-                                                    (_vm.dialog = !_vm.dialog),
-                                                    (_vm.isStarting = true)
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "v-list-item-title",
-                                                {
-                                                  staticClass:
-                                                    "font-weight-medium"
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    _vm._s(
-                                                      item.firstName +
-                                                        " " +
-                                                        item.lastName
-                                                    )
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item-subtitle",
-                                                {
-                                                  staticClass: "success--text"
-                                                },
-                                                [
-                                                  item.graded == 1
-                                                    ? _c(
-                                                        "v-icon",
-                                                        {
-                                                          attrs: {
-                                                            small: "",
-                                                            color: "success"
-                                                          }
-                                                        },
-                                                        [_vm._v("mdi-check")]
-                                                      )
-                                                    : _vm._e(),
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(
-                                                        item.graded == 1
-                                                          ? "Graded"
-                                                          : item.status ==
-                                                            "Submitted"
-                                                          ? "Submitted"
-                                                          : ""
-                                                      )
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          item.status == "Submitted"
-                                            ? _c(
-                                                "v-list-item-action",
-                                                { staticClass: "mt-7" },
-                                                [
-                                                  _c("v-text-field", {
-                                                    staticClass: "ma-0 pa-0",
-                                                    attrs: {
-                                                      loading:
-                                                        _vm.isSavingScore,
-                                                      dense: "",
-                                                      outlined: "",
-                                                      type: "number",
-                                                      suffix:
-                                                        "/" +
-                                                        _vm.classworkDetails
-                                                          .points,
-                                                      max:
-                                                        _vm.classworkDetails
-                                                          .points,
-                                                      maxlength: _vm.classworkDetails.points.toString()
-                                                        .length,
-                                                      min: "0"
-                                                    },
-                                                    on: {
-                                                      keyup: function($event) {
-                                                        return _vm.SaveScore(
-                                                          item.id,
-                                                          item.points
-                                                        )
-                                                      }
-                                                    },
-                                                    model: {
-                                                      value: item.points,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          item,
-                                                          "points",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression: "item.points"
-                                                    }
-                                                  })
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e()
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  i < _vm.ListData.length &&
-                                  (_vm.Class == _vm.$route.params.id ||
-                                    _vm.Class == item.class_id) &&
-                                    (_vm.selectedStatus == "All" ||
-                                      (_vm.selectedStatus == "Submitted" &&
-                                        item.graded == 0) ||
-                                      (_vm.selectedStatus == "Graded" &&
-                                        item.graded == 1) ||
-                                      (_vm.selectedStatus == "No Submission" &&
-                                        (item.status == null ||
-                                          item.status == "")))
-                                    ? _c("v-divider", { key: i })
-                                    : _vm._e()
-                                ]
-                              })
-                            ],
-                            2
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            {
-              staticClass: "pa-3 pl-6",
-              attrs: { cols: "12", md: "12", lg: "8", xl: "8" }
-            },
+            { staticClass: "pa-3 pl-6", attrs: { cols: "12" } },
             [
               _c(
                 "v-row",
@@ -1558,13 +1534,29 @@ var render = function() {
                     [
                       _c(
                         "v-row",
+                        { staticClass: "pb-1" },
                         [
                           _c(
                             "v-col",
-                            { attrs: { cols: "2", sm: "2", md: "1" } },
+                            { attrs: { cols: "6", sm: "3", md: "2" } },
                             [
                               _c("div", { staticClass: "d-flex flex-column" }, [
-                                _c("h1", [_vm._v(_vm._s(_vm.Submitted))]),
+                                _c("h1", [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.Class == _vm.$route.params.id &&
+                                        _vm.selectedStatus == "Submitted"
+                                        ? _vm.Submitted
+                                        : _vm.Submitted_count
+                                    ) +
+                                      " / " +
+                                      _vm._s(
+                                        _vm.Class == _vm.$route.params.id
+                                          ? _vm.ListData.length
+                                          : _vm.Over_total
+                                      )
+                                  )
+                                ]),
                                 _vm._v(" "),
                                 _c("small", [_vm._v("Submitted")])
                               ])
@@ -1573,7 +1565,7 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "v-col",
-                            { attrs: { cols: "2", sm: "2", md: "1" } },
+                            { attrs: { cols: "6", sm: "3", md: "2" } },
                             [
                               _c("div", { staticClass: "d-flex flex-column" }, [
                                 _c("h1", [_vm._v(_vm._s(_vm.Graded))]),
@@ -1594,8 +1586,8 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1",
-                      attrs: { cols: "12", md: "12", lg: "3", xl: "3" }
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      attrs: { cols: "6", sm: "6", lg: "2", xl: "2" }
                     },
                     [
                       _c("v-select", {
@@ -1603,6 +1595,38 @@ var render = function() {
                         attrs: {
                           outlined: "",
                           dense: "",
+                          label: "Class",
+                          items: _vm.ClassList,
+                          "hide-details": "",
+                          "item-text": "class_name",
+                          "item-value": "class_id"
+                        },
+                        on: { change: _vm.FilteredClass },
+                        model: {
+                          value: _vm.Class,
+                          callback: function($$v) {
+                            _vm.Class = $$v
+                          },
+                          expression: "Class"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      attrs: { cols: "6", md: "6", lg: "2", xl: "2" }
+                    },
+                    [
+                      _c("v-select", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          outlined: "",
+                          dense: "",
+                          "hide-details": "",
                           label: "Status",
                           items: _vm.StatusType
                         },
@@ -1622,13 +1646,43 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1",
-                      attrs: { cols: "12", md: "12", lg: "9", xl: "9" }
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      attrs: { cols: "12", md: "4", lg: "2", xl: "2" }
+                    },
+                    [
+                      _c("v-select", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          outlined: "",
+                          dense: "",
+                          "hide-details": "",
+                          label: "Sort By",
+                          items: _vm.SortType
+                        },
+                        on: { change: _vm.ShowLoading },
+                        model: {
+                          value: _vm.selectedSort,
+                          callback: function($$v) {
+                            _vm.selectedSort = $$v
+                          },
+                          expression: "selectedSort"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      attrs: { cols: "12", md: "8", lg: "6", xl: "6" }
                     },
                     [
                       _c("v-text-field", {
-                        staticClass: "mb-0 pb-0",
+                        staticClass: "mb-0 pb-0 mt-0 pt-0",
                         attrs: {
+                          "hide-details": "",
                           "prepend-inner-icon": "mdi-magnify",
                           outlined: "",
                           dense: "",
@@ -1648,7 +1702,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { attrs: { cols: "12" } },
+                    { staticClass: "mt-0 pt-0", attrs: { cols: "12" } },
                     [
                       _c(
                         "v-row",
@@ -1663,139 +1717,200 @@ var render = function() {
                                     rawName: "v-show",
                                     value:
                                       !_vm.isFiltered &&
-                                      item.status == "Submitted" &&
-                                        (_vm.Class == _vm.$route.params.id ||
-                                          _vm.Class == item.class_id) &&
-                                      (_vm.selectedStatus == "All" ||
-                                        (_vm.selectedStatus == "Submitted" &&
-                                          item.graded == 0) ||
-                                        (_vm.selectedStatus == "Graded" &&
-                                          item.graded == 1) ||
-                                        (_vm.selectedStatus ==
-                                          "No Submission" &&
-                                          (item.status == null ||
-                                            item.status == ""))),
+                                      (_vm.Class == _vm.$route.params.id ||
+                                        _vm.Class == item.class_id),
                                     expression:
-                                      "!isFiltered && (item.status == 'Submitted' && (Class == $route.params.id || Class == item.class_id)) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == '')))"
+                                      "!isFiltered && (Class == $route.params.id || Class == item.class_id)"
                                   }
                                 ],
                                 key: i,
-                                staticClass: "text-center",
-                                attrs: { link: "", cols: "6", md: "3", lg: "3" }
+                                attrs: {
+                                  link: "",
+                                  cols: "12",
+                                  md: "6",
+                                  lg: "3",
+                                  xl: "3"
+                                }
                               },
                               [
                                 _c(
-                                  "v-card",
+                                  "v-alert",
                                   {
-                                    staticClass: "mx-auto",
-                                    staticStyle: { cursor: "pointer" },
-                                    attrs: { outlined: "" }
+                                    staticClass: "ma-0 pa-0",
+                                    attrs: {
+                                      outlined: "",
+                                      color:
+                                        item.status == "Taking"
+                                          ? "blue"
+                                          : item.status == "Submitted"
+                                          ? "success"
+                                          : "grey"
+                                    }
                                   },
                                   [
                                     _c(
                                       "v-list-item",
                                       {
-                                        attrs: { link: "" },
-                                        on: {
-                                          click: function($event) {
-                                            ;(_vm.CheckData = item),
-                                              (_vm.dialog = !_vm.dialog),
-                                              (_vm.isStarting = true)
-                                          }
-                                        }
+                                        staticClass: "pt-1 pb-1",
+                                        attrs: { link: "" }
                                       },
                                       [
                                         _c(
-                                          "v-list-item-content",
+                                          "v-list-item-avatar",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                ;(_vm.CheckData = item),
+                                                  (_vm.dialog = !_vm.dialog),
+                                                  (_vm.isStarting = true)
+                                              }
+                                            }
+                                          },
                                           [
                                             _c(
-                                              "v-list-item-title",
+                                              "v-avatar",
                                               {
-                                                staticClass:
-                                                  "d-flex flex-column align-self-center"
+                                                attrs: {
+                                                  color: "brown",
+                                                  size: "40"
+                                                }
                                               },
                                               [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass: "mb-2",
-                                                    staticStyle: {
-                                                      "max-height": "30px",
-                                                      overflow: "hidden"
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(
-                                                        item.firstName +
+                                                _c("v-img", {
+                                                  attrs: {
+                                                    alt: "Profile",
+                                                    src:
+                                                      item.profile_pic ==
+                                                        null ||
+                                                      item.profile_pic == ""
+                                                        ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                                          item.firstName +
                                                           " " +
                                                           item.lastName
-                                                      )
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c("v-divider"),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "v-icon",
-                                                  {
-                                                    attrs: {
-                                                      color:
-                                                        item.Submitted_Answers !=
-                                                        null
-                                                          ? _vm.CheckFileIconColor(
-                                                              item
-                                                                .Submitted_Answers[0]
-                                                                .fileExte
-                                                            )
-                                                          : "primary",
-                                                      "x-large": ""
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "\r\n                                           " +
-                                                        _vm._s(
-                                                          item.Submitted_Answers !=
-                                                            null
-                                                            ? _vm.CheckFileIcon(
-                                                                item
-                                                                  .Submitted_Answers[0]
-                                                                  .fileExte
-                                                              )
-                                                            : ""
-                                                        ) +
-                                                        "\r\n                                         "
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "small",
-                                                  {
-                                                    staticStyle: {
-                                                      "max-height": "12px",
-                                                      overflow: "hidden"
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      " " +
-                                                        _vm._s(
-                                                          item.Submitted_Answers !=
-                                                            null
-                                                            ? item
-                                                                .Submitted_Answers[0]
-                                                                .name
-                                                            : ""
-                                                        )
-                                                    )
-                                                  ]
-                                                )
+                                                        : item.profile_pic
+                                                  }
+                                                })
                                               ],
                                               1
                                             )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list-item-content",
+                                          {
+                                            on: {
+                                              click: function($event) {
+                                                ;(_vm.CheckData = item),
+                                                  (_vm.dialog = !_vm.dialog),
+                                                  (_vm.isStarting = true)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("v-list-item-title", [
+                                              _vm._v(
+                                                "\r\n                                             " +
+                                                  _vm._s(
+                                                    item.firstName +
+                                                      " " +
+                                                      item.lastName
+                                                  ) +
+                                                  "\r\n                                        "
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list-item-subtitle",
+                                              { staticClass: "success--text" },
+                                              [
+                                                item.graded == 1
+                                                  ? _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: {
+                                                          small: "",
+                                                          color: "success"
+                                                        }
+                                                      },
+                                                      [_vm._v("mdi-check")]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.status == "Submitted" &&
+                                                item.graded == 0
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "success--text"
+                                                      },
+                                                      [_vm._v("Submitted")]
+                                                    )
+                                                  : item.status ==
+                                                      "Submitted" &&
+                                                    item.graded == 1
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "success--text"
+                                                      },
+                                                      [_vm._v("Graded")]
+                                                    )
+                                                  : _c(
+                                                      "span",
+                                                      {
+                                                        staticClass: "red--text"
+                                                      },
+                                                      [_vm._v("No Submission")]
+                                                    )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list-item-action",
+                                          [
+                                            _c("v-text-field", {
+                                              staticClass: "ma-0 pa-0",
+                                              attrs: {
+                                                "hide-details": "",
+                                                label: "Score",
+                                                rounded: "",
+                                                loading: _vm.isSavingScore,
+                                                dense: "",
+                                                outlined: "",
+                                                type: "number",
+                                                suffix:
+                                                  "/" +
+                                                  _vm.classworkDetails.points,
+                                                max:
+                                                  _vm.classworkDetails.points,
+                                                maxlength: _vm.classworkDetails.points.toString()
+                                                  .length,
+                                                min: "0"
+                                              },
+                                              on: {
+                                                keyup: function($event) {
+                                                  return _vm.SaveScore(
+                                                    item.id,
+                                                    item.points
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value: item.points,
+                                                callback: function($$v) {
+                                                  _vm.$set(item, "points", $$v)
+                                                },
+                                                expression: "item.points"
+                                              }
+                                            })
                                           ],
                                           1
                                         )

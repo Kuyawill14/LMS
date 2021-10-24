@@ -356,6 +356,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -385,9 +389,6 @@ var viewSubmission = function viewSubmission() {
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
   methods: {
-    handleScroll: function handleScroll(event) {
-      this.ScrollPosistion = window.scrollY;
-    },
     CheckFileIcon: function CheckFileIcon(ext) {
       if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
         return 'mdi-image';
@@ -429,6 +430,7 @@ var viewSubmission = function viewSubmission() {
       }
     },
     start: function start() {
+      this.classworkDetails.status = "Taking";
       this.isOpenQuiz = true;
 
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
@@ -586,10 +588,6 @@ var viewSubmission = function viewSubmission() {
     this.isLoaded = false;
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  destroyed: function destroyed() {
-    window.removeEventListener('scroll', this.handleScroll);
   }
   /*   beforeRouteEnter(to, from, next) {
        next(vm => {
@@ -881,7 +879,7 @@ var render = function() {
                 "v-col",
                 {
                   staticClass: "mb-0 pb-0 ",
-                  attrs: { cols: "12", md: "12", lg: "4", xl: "4" }
+                  attrs: { cols: "12", md: "4", lg: "4", xl: "4" }
                 },
                 [
                   _c(
@@ -897,7 +895,7 @@ var render = function() {
                       _c(
                         "v-row",
                         [
-                          _vm.$vuetify.breakpoint.lgAndUp
+                          _vm.$vuetify.breakpoint.mdAndUp
                             ? _c(
                                 "v-col",
                                 {
@@ -990,7 +988,7 @@ var render = function() {
                                     _vm._v("mdi-comment")
                                   ]),
                                   _vm._v(
-                                    "Private Comments\r\n                        "
+                                    "Private Comments \r\n                          "
                                   )
                                 ],
                                 1
@@ -1280,7 +1278,7 @@ var render = function() {
                   class: !_vm.$vuetify.breakpoint.mdAndUp
                     ? "mt-1 pl-0 pt-1"
                     : "pt-0 pl-5",
-                  attrs: { cols: "12", md: "10", lg: "8", xl: "8" }
+                  attrs: { cols: "12", md: "8", lg: "8", xl: "8" }
                 },
                 [
                   _vm.$vuetify.breakpoint.mdAndUp || _vm.selected == 0
@@ -1317,7 +1315,7 @@ var render = function() {
                                         "div",
                                         { staticClass: "text-right pt-1" },
                                         [
-                                          _vm.statusDetails.status ==
+                                          _vm.classworkDetails.status ==
                                           "Submitted"
                                             ? _c(
                                                 "v-chip",
@@ -1331,11 +1329,11 @@ var render = function() {
                                                   _vm._v(
                                                     " Score: " +
                                                       _vm._s(
-                                                        _vm.statusDetails
+                                                        _vm.classworkDetails
                                                           .score +
                                                           "/" +
-                                                          _vm.statusDetails
-                                                            .totalPoints
+                                                          _vm.classworkDetails
+                                                            .points
                                                       )
                                                   )
                                                 ],
@@ -1350,7 +1348,7 @@ var render = function() {
                                         staticStyle: { height: "4vh" }
                                       }),
                                       _vm._v(" "),
-                                      _vm.statusDetails.status == "Submitted"
+                                      _vm.classworkDetails.status == "Submitted"
                                         ? _c("v-divider")
                                         : _vm._e()
                                     ],
@@ -1376,27 +1374,16 @@ var render = function() {
                                               attrs: {
                                                 fab: "",
                                                 dark: "",
-                                                color:
-                                                  _vm.statusDetails.status ==
-                                                  "Submitted"
-                                                    ? "success"
-                                                    : "primary"
+                                                color: "primary"
                                               }
                                             },
                                             [
                                               _c(
                                                 "v-icon",
-                                                { attrs: { "x-large": "" } },
+                                                { attrs: { large: "" } },
                                                 [
                                                   _vm._v(
-                                                    "\r\n                                    " +
-                                                      _vm._s(
-                                                        _vm.statusDetails
-                                                          .status == "Submitted"
-                                                          ? "mdi-check"
-                                                          : "mdi-book-open-variant"
-                                                      ) +
-                                                      "\r\n                                    "
+                                                    "\r\n                                    mdi-book-open-variant\r\n                                    "
                                                   )
                                                 ]
                                               )
@@ -1447,25 +1434,49 @@ var render = function() {
                                                 1
                                               ),
                                               _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "caption ml-2" },
-                                                [
-                                                  _vm._v(
-                                                    "Due " +
-                                                      _vm._s(
-                                                        _vm.classworkDetails
-                                                          .availability
-                                                          ? _vm.format_date(
+                                              _vm.classworkDetails.status !=
+                                              "Submitted"
+                                                ? _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "caption ml-2"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Due " +
+                                                          _vm._s(
+                                                            _vm.classworkDetails
+                                                              .availability
+                                                              ? _vm.format_date(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .to_date
+                                                                )
+                                                              : "always Available"
+                                                          )
+                                                      )
+                                                    ]
+                                                  )
+                                                : _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "caption ml-2"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Submitted: " +
+                                                          _vm._s(
+                                                            _vm.format_date(
                                                               _vm
                                                                 .classworkDetails
-                                                                .to_date
+                                                                .Submitted_at
                                                             )
-                                                          : "always Available"
+                                                          )
                                                       )
+                                                    ]
                                                   )
-                                                ]
-                                              )
                                             ]
                                           )
                                         ],
@@ -1692,9 +1703,11 @@ var render = function() {
                                           attrs: { cols: "12" }
                                         },
                                         [
-                                          (_vm.statusDetails.status == null ||
-                                            _vm.statusDetails.status == "") &&
-                                          _vm.statusDetails.status !=
+                                          (_vm.classworkDetails.status ==
+                                            null ||
+                                            _vm.classworkDetails.status ==
+                                              "") &&
+                                          _vm.classworkDetails.status !=
                                             "Submitted" &&
                                           _vm.classworkDetails.publish == null
                                             ? _c(
@@ -1713,11 +1726,11 @@ var render = function() {
                                                   },
                                                   on: {
                                                     click: function($event) {
-                                                      ;(_vm.statusDetails
+                                                      ;(_vm.classworkDetails
                                                         .status == null ||
-                                                        _vm.statusDetails
+                                                        _vm.classworkDetails
                                                           .status == "") &&
-                                                      _vm.statusDetails
+                                                      _vm.classworkDetails
                                                         .status != "Submitted"
                                                         ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
                                                         : ""
@@ -1745,7 +1758,7 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          _vm.statusDetails.status ==
+                                          _vm.classworkDetails.status ==
                                             "Taking" &&
                                           _vm.classworkDetails.publish == null
                                             ? _c(
@@ -1791,9 +1804,9 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          _vm.statusDetails.status ==
+                                          _vm.classworkDetails.status ==
                                             "Submitted" &&
-                                          _vm.statusDetails.reviewAnswer == 1
+                                          _vm.classworkDetails.reviewAnswer == 1
                                             ? _c(
                                                 "v-btn",
                                                 {
@@ -1845,7 +1858,9 @@ var render = function() {
                                           _c(
                                             "v-row",
                                             [
-                                              _vm.DateToday >=
+                                              _vm.format_date1(
+                                                _vm.classworkDetails.currentDate
+                                              ) >=
                                               _vm.format_date1(
                                                 _vm.classworkDetails.from_date
                                               )
@@ -1853,11 +1868,11 @@ var render = function() {
                                                     "v-col",
                                                     { attrs: { cols: "12" } },
                                                     [
-                                                      (_vm.statusDetails
+                                                      (_vm.classworkDetails
                                                         .status == null ||
-                                                        _vm.statusDetails
+                                                        _vm.classworkDetails
                                                           .status == "") &&
-                                                      _vm.statusDetails
+                                                      _vm.classworkDetails
                                                         .status !=
                                                         "Submitted" &&
                                                       _vm.classworkDetails
@@ -1886,18 +1901,10 @@ var render = function() {
                                                                 click: function(
                                                                   $event
                                                                 ) {
-                                                                  ;(_vm
-                                                                    .statusDetails
-                                                                    .status ==
-                                                                    null ||
-                                                                    _vm
-                                                                      .statusDetails
-                                                                      .status ==
-                                                                      "") &&
                                                                   _vm
-                                                                    .statusDetails
+                                                                    .classworkDetails
                                                                     .status !=
-                                                                    "Submitted"
+                                                                  "Submitted"
                                                                     ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
                                                                     : ""
                                                                 }
@@ -1926,7 +1933,7 @@ var render = function() {
                                                           )
                                                         : _vm._e(),
                                                       _vm._v(" "),
-                                                      _vm.statusDetails
+                                                      _vm.classworkDetails
                                                         .status == "Taking" &&
                                                       _vm.classworkDetails
                                                         .publish == null
@@ -1980,10 +1987,10 @@ var render = function() {
                                                           )
                                                         : _vm._e(),
                                                       _vm._v(" "),
-                                                      _vm.statusDetails
+                                                      _vm.classworkDetails
                                                         .status ==
                                                         "Submitted" &&
-                                                      _vm.statusDetails
+                                                      _vm.classworkDetails
                                                         .reviewAnswer == 1
                                                         ? _c(
                                                             "v-btn",

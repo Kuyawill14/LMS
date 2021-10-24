@@ -1,5 +1,14 @@
 <template>
 <v-card >
+
+    
+    <v-toolbar  dense shaped class="fixed-bar" floating color="primary"  >
+        <v-btn dark @click="$emit('closeDialog')" icon>
+            <v-icon>mdi-close</v-icon>
+        </v-btn>
+    </v-toolbar>
+
+
     <v-dialog v-model="dialog" persistent max-width="400">
             <resetConfirmation
             v-on:toggleCancelDialog="dialog = !dialog"
@@ -7,42 +16,11 @@
             :ViewDetails="ViewDetails"
             v-if="dialog"></resetConfirmation>
         </v-dialog>
-        <!-- <v-toolbar
-          dark
-          color="primary"
-        >
-          <v-btn
-             text
-            rounded
-            @click="$emit('closeDialog')">
-            <v-icon left>mdi-close</v-icon>
-            Close
-          </v-btn>
-        </v-toolbar> -->
-        <v-app-bar
-        color="primary">
-            <v-btn dark @click="$emit('closeDialog')" icon>
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-    </v-app-bar>
-
-        
-
-           <!--  <v-container class="fill-height" v-if="isLoading" style="height: 400px;">
-                <v-row  align-content="center" justify="center">
-                    <v-col class="text-subtitle-1 text-center" cols="12">
-                        Loading
-                    </v-col>
-                    <v-col cols="6">
-                        <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-                    </v-col>
-                </v-row>
-            </v-container> -->
-        <v-card-text  class="ma-0 pa-0 pa-2">
+         <v-card-text  class="ma-0 pa-0 pr-1 pb-1 pl-1">
         
           
                <v-row no-gutters> 
-                   <v-col cols="12" md="4" lg="4" :class="$vuetify.breakpoint.xs ? 'pt-2' : 'pt-2 pr-3'">
+                   <v-col cols="12" md="4" lg="4" :class="!$vuetify.breakpoint.mdAndUp ? '' : 'pr-3'">
                        <v-container fluid ma-0 pa-0>
                             <v-card class="pt-3 pl-4 pr-4 pb-2">
                                     <v-list class="pa-0 ma-0">
@@ -136,11 +114,25 @@
                             </v-card>
                         </v-container>
                    </v-col>
-                <v-col cols="12" md="8" lg="8" class="pt-2">
-           
+                <v-col cols="12" md="8" lg="8" class="">
+
+                <v-card style="height:50vh" outlined elevation="1" class=" pa-4 " v-if="!isLoaded">
+                <v-row class="mt-12 pt-12"  justify="center" align-content="center" >
+                    <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
+                        <div style="margin-top:8rem">
+                             <vue-element-loading :active="!isLoaded" 
+                        text="Loading"
+                        duration="0.7"
+                        :textStyle="{fontSize: '20px'}"
+                        spinner="line-scale" color="#EF6C00"  size="60" />
+                        </div>
+                      
+                    </v-col>
+                </v-row>
+                </v-card>
         
 
-                <v-card outlined elevation="1" class=" pa-4 " v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == ''">
+                <v-card outlined elevation="1" class=" pa-4 " v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '' && isLoaded">
                 <v-row class="mt-12 pt-12"  justify="center" align-content="center" >
                     <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
                         <v-icon style="font-size:7rem">
@@ -152,34 +144,65 @@
                     </v-col>
                 </v-row>
                 </v-card>
-                <v-card elevation="1" outlined class="pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != ''">
+                <v-card elevation="1" outlined class="pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
                         <v-container ma-0 pa-0 v-for="(item, index) in Details.Question" :key="index">
-                            <v-container ma-0 pa-0 class="ma-0 pa-0">
-                                <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
+                            <v-container ma-0 pa-0>
+                               <!--  <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                                     <v-checkbox
+                                    hide-details
                                     @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
                                     class="mt-0 pt-0"
                                     color="success"
                                     v-model="Check[index]"
                                     ></v-checkbox>
                                     
-                                    <!--  <v-btn class="mt-0 pt-0" v-if="Check[index] == true" icon text>
+                                     <v-btn class="mt-0 pt-0" v-if="Check[index] == true" icon text>
                                         <v-icon  color="success">mdi-checkbox-marked</v-icon>
                                     </v-btn>
                                     <v-btn  class="mt-0 pt-0" v-else icon text>
                                         <v-icon color="red">mdi-close-box</v-icon>
-                                    </v-btn> -->
+                                    </v-btn>
                                     
                                     <h3 class="font-weight-bold">{{index+1}}.</h3>
-                                        <span style="width:90%" v-html="item.question" class="post-content ml-1"></span>
-                                        <small class="primary--text ml-1">({{item.points+' points'}})</small>
+                                    <div class="d-flex justify-space-between">
+                                        <div style="width:90%" v-html="item.question" class="post-content pl-1"></div>
+                                        <div class="primary--textd d-flex ">
+                                             <small class="primary--text ">({{item.points+' points'}})</small>
                                         </div>
+                                       
+                                    </div>
+                                       
+                                    </div> -->
+                                    <v-list>
+                                        <v-list-item class="ma-0 pa-0">
+                                            <v-list-item-icon class="ma-0 pa-0 mt-2">
+                                                 <v-checkbox
+                                                hide-details
+                                                @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
+                                                class="mt-0 pt-0"
+                                                color="success"
+                                                v-model="Check[index]"
+                                                ></v-checkbox>
+                                            </v-list-item-icon>
+                                            <v-list-item-content class="subtitle-1 ">
+                                                <div class="d-flex">
+                                                      <h3 class="font-weight-bold">{{index+1}}.</h3>
+                                                     <div style="width:90%" v-html="item.question" class="post-content pl-1"></div>
+                                                </div>
+                                              
+                                            </v-list-item-content>
+                                            <v-list-item-action class="ma-0 pa-0">
+                                                <small class="primary--text ">({{item.points+' points'}})</small>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
                             </v-container> 
                         
-                            <v-container ml-0 pl-0 v-if="item.type == 'Multiple Choice'">
-                                <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
-                                v-for="(Ans, i) in Details.Answer[index]" :key="i">
-                                <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
+                            <v-container ml-0 pl-6 pt-1 mt-1 pl-0 v-if="item.type == 'Multiple Choice'">
+                                <!-- <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
+                                v-for="(Ans, i) in Details.Answer[index]" :key="i"> -->
+                                
+                                    <!-- <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
                                     <v-radio
                                     color="primary"
                                     :key="index"
@@ -189,17 +212,51 @@
                                     <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
                                         <span v-html="Ans.Choice" class="post-content"></span>
                                         <span class="caption primary--text ml-1 mt-1" v-if="item.Answer == Ans.Choice">(correct answer)</span>
-                                    </div>
-                                </v-container>
+                                    </div> -->
+                                    <v-list >
+                                       
+                                        <v-list-item class="ma-0 pa-0"  v-for="(Ans, i) in Details.Answer[index].options" :key="i">
+                                             <v-list-item-icon class="ma-0 pa-0">
+                                                <v-radio-group hide-details :name="'option'+index"  class="ma-0 pa-0 mt-1" v-model="SubmittedAnswer[index].Answer">
+                                                    <v-radio
+                                                    hide-details
+                                                    color="primary"
+                                                    :key="index"
+                                                    :value="Ans.Choice">
+                                                    </v-radio>
+                                                </v-radio-group>
+                                            </v-list-item-icon>
+                                            <v-list-item-content class="ma-0 pa-0">
+                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
+                                                    <span v-html="Ans.Choice" class="post-content"></span>
+                                                    
+                                                    <span class="caption primary--text ml-1" v-if="item.answer == Ans.Choice">(correct answer)</span>
+                                                </div>
+                                                <div>
+                                                    
+                                                </div>
+                                            </v-list-item-content>
+                                           
+                                        </v-list-item>
+                                    </v-list>
+                               
+                               <!--  </v-container> -->
                             </v-container>
 
                             <v-container v-if="item.type == 'Identification'">
                                 <v-container ma-0 pa-0 class="ml-7">
-                                <div class="subtitle-2 font-weight-bold">Answer</div>
+                                <div class="subtitle-2 font-weight-bold primary--text">Correct Answer</div>
+                                 <div class="subtitle-1 d-flex item ml-4">
+                                    <span v-html="item.answer" class="post-content"></span>
+                                </div>
+
+                                <div class="subtitle-2 font-weight-bold">Student Answer</div>
                                 <div class="subtitle-1 d-flex item ml-4">
                                     <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
                                     <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
                                 </div>
+
+                                
                             </v-container>
                             </v-container>
 
@@ -317,7 +374,9 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             isCommenting:false,
             comment: null,
             isAlerting: false,
-            isReseting: false
+            isReseting: false,
+            isScrolling: false,
+            isLoaded: false
           }
       },
       computed:mapGetters(['get_CurrentUser','getAll_questions']),
@@ -330,7 +389,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             }
         },
           fetchQuestions(){
-            this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(res=>{
+            this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res)=>{
         
                 this.Details = this.getAll_questions;
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
@@ -419,20 +478,15 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                         Ans[a].SubChoice = tmpChoices[a].choice;
                                     }
 
-                                    
                                     this.SubmittedAnswer[i] = Ans;
-                                   
                                     this.Check[i] = match_check;
-                                     //console.log(this.Check);
                                 }
                         }
                         
                     }
                     
                 }
-                 
-                 
-                ////console.log(this.ViewDetails.Submitted_Answers);
+                 this.isLoaded = true;
                 this.$emit('isMounted');
             });
 
@@ -521,16 +575,18 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                       this.isAlerting = false;
                   }
               })
-          }
+          },
+          
      
       },
     
       beforeMount(){
-      
+    
             if(this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != ''){
                 this.fetchQuestions();
             }
             else{
+                this.isLoaded = true;
                 this.$emit('isMounted');
             }
             const alphabet = [
@@ -569,6 +625,15 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
   }
 </script>
 <style scoped>
+.post-content  img{
+        max-height: 15rem !important;
+    }
+ .fixed-bar {
+    position: sticky;
+    position: -webkit-sticky; /* for Safari */
+    top: 0em;
+    z-index: 2;
+ }
     /* width */
 ::-webkit-scrollbar {
   width: 5px;

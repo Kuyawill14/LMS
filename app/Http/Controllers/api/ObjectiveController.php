@@ -14,25 +14,27 @@ use App\Models\tbl_Submission;
 use App\Models\tbl_questionAnalytic;
 use App\Models\tbl_student_main_grades;
 use App\Models\tbl_student_course_subject_grades;
+use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 
 class ObjectiveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+   /**
+     * Store a newly created resource in storage.
+     *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function fetctQuestions($id)
     {
-       
-        
         $temQuest;
         if(auth('sanctum')->user()->role == 'Student'){
-            
+
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points')
-            ->orderBy('created_at','DESC')
+            ->orderBy('created_at','ASC')
+            //->whereNotNull('tbl_questions.question')
             ->get();
             $temQuest = $Questions->shuffle();
         }
@@ -40,7 +42,7 @@ class ObjectiveController extends Controller
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type',
             'tbl_questions.answer','tbl_questions.points','tbl_questions.sensitivity')
-            ->orderBy('created_at','DESC')
+            ->orderBy('created_at','ASC')
             ->get();
             $temQuest = $Questions;
         }
@@ -52,24 +54,55 @@ class ObjectiveController extends Controller
             $tempData1;
             $tempSubQuestion;
             if(auth('sanctum')->user()->role == 'Student'){
-                $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+               /*  $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                 ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                ->get();
+                ->get(); */
+
+                $tempData1 = [];
+                if($cl->type != 'Matching type'){
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+                }
+                else{
+                    $tempData1 = [];
+                    foreach($tempSubQuestion as $item){
+                        $tempData1 = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                        ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                        ->get();
+                    }
+                }
 
                 $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
                 ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
                 ->get();
+
+               
             }
             else{
-                $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
-                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                ->get();
+                
 
                 $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
                 ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
                 ->get();
-            }
+                $tempData1;
+                if($cl->type != 'Matching type'){
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+                }
+                else{
+                    $tempData1 = [];
+                    foreach($tempSubQuestion as $item){
+                        $tempData1[] = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                        ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                        ->get();
+                    }
+                }
 
+                
+               
+            }
 
             if($cl->type != 'Matching type'){
                 $tempData2;
@@ -79,7 +112,15 @@ class ObjectiveController extends Controller
                 else{
                     $tempData2 = $tempData1;
                 }
-                $FinalAnswer[] =  $tempData2;
+
+                if(auth('sanctum')->user()->role == 'Student'){
+                    $FinalAnswer[] =  $tempData2;
+                }
+                else{
+                    $FinalAnswer[] =  ['options'=> $tempData2];
+                }
+                //$FinalAnswer[] =  $tempData2;
+                
             }
             else{
                 $tmp = array();
@@ -358,6 +399,366 @@ class ObjectiveController extends Controller
       
     }
 
+    
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function AddNewQuestion(Request $request)
+    {
+        $newQuestion  = new tbl_Questions;
+        $newQuestion->classwork_id = $request->classwork_id;
+        $newQuestion->question = '<p>'.'New Question '.$request->new_number.'</p>';
+        $newQuestion->answer = '<p>Option 1</p>';
+        $newQuestion->points = 0;
+        $newQuestion->type = "Multiple Choice";
+        $newQuestion->save();
+
+        if(!$newQuestion){
+            return response()->json([
+                "message" => "Something went wrong while adding question!",
+                "success" => false
+            ]);
+        }
+
+        $QuestionChoice  = new tbl_choice;
+        $QuestionChoice->question_id = $newQuestion->id;
+        $QuestionChoice->Choice = '<p>'.'Option 1'.'</p>';
+        $QuestionChoice->save();
+
+        return response()->json([
+            "message" => "Question Succesfully Added!",
+            "question_id"=> $newQuestion->id,
+            "choice1_id"=> $QuestionChoice->id,
+            "success" => true
+        ]);
+      
+    }
+
+    
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function AddNewOption(Request $request)
+    {
+
+        $NewChoice  = new tbl_choice;
+        $NewChoice->question_id = $request->question_id;
+        $NewChoice->save();
+        return response()->json([
+            "message" => "New Option Added!",
+            "newChoice_id"=> $NewChoice->id,
+            "success" => true
+        ]);
+      
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeQuestionOption(Request $request, $id)
+    {
+        $RemoveOption = tbl_choice::find($id);
+        if($RemoveOption){
+            $RemoveOption->delete();
+            return "Option Successfully Remove.";
+        }
+        return "Option not found";
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeQuestionMatch(Request $request, $id){
+        $DelAnswerSubQuestion = tbl_SubQuestion::find($request->sub_question_id);
+        if($DelAnswerSubQuestion){
+            $DelAnswer = tbl_choice::find($request->answer_id);
+            if($DelAnswer){
+                $DelAnswer->delete();
+            }
+            $DelAnswerSubQuestion->delete();
+            return "Match Successfully Remove.";
+        }
+        return "Match not found";
+    }
+        
+    
+
+    
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function UpdateQuestion(Request $request, $id)
+    {
+
+       
+      return $request;
+        $updateQuestion = tbl_Questions::find($id);
+        if($updateQuestion){
+            $oldType = $updateQuestion->type;
+            $updateQuestion->question = $request->question['question'];
+            $updateQuestion->answer = $request->question['answer'];
+            $updateQuestion->points = $request->question['points'] == '' || $request->question['points'] == null ? 0 : $request->question['points'];
+            $updateQuestion->sensitivity = $request->question['sensitivity'];
+            $updateQuestion->type = $request->question['type'];
+            $updateQuestion->save();
+
+            if($request->question['type'] == "Multiple Choice"){ 
+                foreach($request->answer as $item){
+                    $checkChoice = tbl_choice::find($item['id']);
+                    if($checkChoice){
+                        $checkChoice->Choice = $item['Choice'];
+                        $checkChoice->save();
+                    }
+                    else{
+                        $updateChoice  = new tbl_choice;
+                        $QuestionChoice->question_id = $id;
+                        $updateChoice->Choice = $item['Choice'];
+                        $updateChoice->save();
+                    }
+                }
+            }
+            elseif ($request->question['type'] == 'Matching type'){
+                $currentIndex = 0;
+                foreach($request->answer['SubQuestion'] as $item){    
+                    $checkSubQuestion = tbl_SubQuestion::find($item['id']);
+                    if($checkSubQuestion){
+                        $checkSubQuestion->sub_question = $item['sub_question'];
+                        $checkSubQuestion->save();
+
+                        $checkSubQuestionAnswer = tbl_choice::find($request->answer['SubAnswer'][$currentIndex]['id']);
+                        if($checkSubQuestionAnswer){
+                            $checkSubQuestionAnswer->Choice = $request->answer['SubAnswer'][$currentIndex]['Choice'];
+                            $checkSubQuestionAnswer->save();
+                        }
+                        else{
+                            $NewSubQuestionAnswer  = new tbl_choice;
+                            $NewSubQuestionAnswer->question_id = $updateQuestion->id;
+                            $NewSubQuestionAnswer->Choice = $request->answer['SubAnswer'][$currentIndex]['Choice'];
+                            $NewSubQuestionAnswer->save();
+
+                            $checkSubQuestion->answer_id = $NewSubQuestionAnswer->id;
+                            $checkSubQuestion->save();
+                        }
+                        
+                    }
+                    else{
+
+                        $checkSubQuestionAnswer = tbl_choice::find($request->answer['SubAnswer'][$currentIndex]['id']);
+                        if($checkSubQuestionAnswer){
+                            $checkSubQuestionAnswer->Choice = $request->answer['SubAnswer'][$currentIndex]['Choice'];
+                            $checkSubQuestionAnswer->save();
+
+                            $NewSubQuestion  = new tbl_SubQuestion;
+                            $NewSubQuestion->mainQuestion_id = $updateQuestion->id;
+                            $NewSubQuestion->sub_question = $item['sub_question'];
+                            $NewSubQuestion->answer_id = $checkSubQuestionAnswer->id;
+                            $NewSubQuestion->save(); 
+                        }
+                        else{
+                            $NewSubQuestionAnswer  = new tbl_choice;
+                            $NewSubQuestionAnswer->question_id = $updateQuestion->id;
+                            $NewSubQuestionAnswer->Choice = $request->answer['SubAnswer'][$currentIndex]['Choice'];
+                            $NewSubQuestionAnswer->save();
+
+                            $NewSubQuestion  = new tbl_SubQuestion;
+                            $NewSubQuestion->mainQuestion_id = $updateQuestion->id;
+                            $NewSubQuestion->sub_question = $item['sub_question'];
+                            $NewSubQuestion->answer_id = $NewSubQuestionAnswer->id;
+                            $NewSubQuestion->save(); 
+                        }
+                    } 
+                    $currentIndex++;  
+                }
+            }
+
+
+
+           /*  elseif($oldType != $request->question['type']){
+                if($oldType == 'Multiple Choice'){
+                    $RemoveOptions = tbl_choice::where('question_id', $id)->delete();
+                }
+                else{
+                    if($request->question['type'] == 'Multiple Choice'){
+                        foreach($request->answer as $item){
+                            $checkChoice = tbl_choice::find($item['id']);
+                            if($checkChoice){
+                                $checkChoice->Choice = $item['Choice'];
+                                $checkChoice->save();
+                            }
+                            else{
+                                $updateChoice  = new tbl_choice;
+                                $updateChoice->question_id = $id;
+                                $updateChoice->Choice = $item['Choice'];
+                                $updateChoice->save();
+                            }
+                        }
+                    }
+                }  
+            } */
+
+            return response()->json([
+                "message" => "Question Succefully Updated!",
+                "success" => true
+            ]);
+        }
+      
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function SaveAllQuestion(Request $request, $id)
+    {
+        //return $request->Answer[3];
+        //return $request;
+        //return $request->Answer[3]['SubQuestion'];
+        $currentIndex = 0;
+        $totalPoints = 0;
+        foreach($request->Question as $mainItem){
+            $checkQuestion = tbl_Questions::find($mainItem['id']);
+            if($checkQuestion){
+                $checkQuestion->question = $mainItem['question'];
+                $checkQuestion->answer = $mainItem['answer'];
+                $checkQuestion->points = $mainItem['points'] == '' || $mainItem['points'] == null ? 0 : $mainItem['points'];
+                $checkQuestion->sensitivity = $mainItem['sensitivity'];
+                $checkQuestion->type = $mainItem['type'];
+                $checkQuestion->save();
+
+                if($mainItem['type'] == 'Multiple Choice'){
+                    foreach($request->Answer[$currentIndex]['options'] as $Ans){
+                        $checkOption = tbl_choice::find($Ans['id']);
+                        if($checkOption){
+                            $checkOption->Choice = $Ans['Choice'];
+                            $checkOption->save();
+                        }
+                        else{
+                            $newOption  = new tbl_choice;
+                            $newOption->question_id = $checkQuestion->id;
+                            $newOption->Choice = $Ans['Choice'];
+                            $newOption->save();
+                        }
+                    }
+                }
+                elseif($mainItem['type'] == 'Matching type'){
+                    $matchIndex = 0;
+                    foreach($request->Answer[$currentIndex]['SubQuestion'] as $SubQues){
+                        $checkSubQuestion = tbl_SubQuestion::find($SubQues['id']);
+                        if($checkSubQuestion){
+                            $checkSubQuestion->sub_question = $SubQues['sub_question'];
+                            $checkSubQuestion->save();
+
+                            $checkOption = tbl_choice::find($request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['id']);
+                            if($checkOption){
+                                $checkOption->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['Choice'];
+                                $checkOption->save();
+                            }
+                            else{
+                                $NewSubQuestionAnswer  = new tbl_choice;
+                                $NewSubQuestionAnswer->question_id =  $checkQuestion->id;
+                                $NewSubQuestionAnswer->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['Choice'];
+                                $NewSubQuestionAnswer->save();
+                            }
+                        }
+                        else{
+                            $SubQuestion = new tbl_SubQuestion;
+                            $SubQuestion->mainQuestion_id = $checkQuestion->id;
+                            $SubQuestion->sub_question = $SubQues['sub_question'];
+                            $SubQuestion->save(); 
+
+                            if($SubQuestion){
+                                $SubQuestionAnswer  = new tbl_choice;
+                                $SubQuestionAnswer->question_id = $checkQuestion->id;
+                                $SubQuestionAnswer->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['Choice'];
+                                $SubQuestionAnswer->save();
+                                $SubQuestion->answer_id = $SubQuestionAnswer->id;
+                                $SubQuestion->save(); 
+                            }
+                        }
+
+                        $matchIndex++;
+                    }
+                }
+            }
+            $currentIndex++;
+            $totalPoints += $checkQuestion->points;
+            
+
+
+        }
+
+        $UpdatePoints = tbl_classwork::find($id);
+        $UpdatePoints->points = $totalPoints;
+        $UpdatePoints->save();
+
+
+        return response()->json([
+            "message" => "All Questions Succesfully Added!",
+            "success" => true
+        ]);
+      
+    }
+
+
+    
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function DeleteSelectedQuestion(Request $request, $id)
+    {
+       
+        $totalPoints = 0;
+        foreach($request->question as $item){
+            $DelQuestion = tbl_Questions::find($item['question_id']);
+            if($DelQuestion){
+                $DelAnswer = tbl_choice::where('question_id', $DelQuestion->id)->delete();
+                $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $DelQuestion->id)->delete();
+                $totalPoints += $DelQuestion->points;
+                $DelQuestion->delete();
+            }
+        }
+
+        $UpdatePoints = tbl_classwork::find($id);
+        $UpdatePoints->points = $UpdatePoints->points - $totalPoints;
+        $UpdatePoints->save();
+
+        return response()->json([
+            "message" => "Questions Succesfully remove!",
+            "success" => true
+        ]);
+    }
+
+
+
      /**
      * Update the specified resource in storage.
      *
@@ -581,6 +982,7 @@ class ObjectiveController extends Controller
         
     }
 
+    
      /**
      * Remove the specified resource from storage.
      *
@@ -591,25 +993,22 @@ class ObjectiveController extends Controller
     {
         $DelQuestion = tbl_Questions::find($id);
         if($DelQuestion){
-            //$DelAnswer = tbl_choice::where('question_id', $id)->delete();
-            if($DelQuestion->type != 'Matching type'){
-                $DelAnswer = tbl_choice::where('question_id', $id)
-                ->delete();
-            }
-            else{
-                $DelAnswer = tbl_choice::where('question_id', $id)->delete();
-                $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $id)->delete();
-            }
+            $DelAnswer = tbl_choice::where('question_id', $id)->delete();
+            $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $id)->delete();
             $UpdatePoints = tbl_classwork::find($DelQuestion->classwork_id);
-            $UpdatePoints->points =  $UpdatePoints->points - $DelQuestion->points;
+            $UpdatePoints->points = $UpdatePoints->points - $DelQuestion->points;
             $UpdatePoints->save();
-
-
             $DelQuestion->delete();
-            return "Success";
+            return response()->json([
+                "message" => "Questions Succesfully remove!",
+                "success" => true
+            ]);
 
         }
-        return "Question not found";
+        return response()->json([
+            "message" => "Questions does not exist!",
+            "success" => false
+        ]);
     }
 
      /**
@@ -627,9 +1026,8 @@ class ObjectiveController extends Controller
         $userId = auth('sanctum')->id();
         $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-        ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points')
+        ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
         ->get();
-
    
         $tempData = array();
         $score = 0;
@@ -639,16 +1037,26 @@ class ObjectiveController extends Controller
                 foreach($Questions as $ques){
                     if($ques['id'] == $cl['Question_id']){
                         if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False' /* || $cl['type'] == 'Essay' */){
-                            if($ques['answer'] == $cl['Answer']){
+
+                            $userAns;
+                            $questionAns;
+                            if($ques['sensitivity']){
+                                $userAns = $cl['Answer'];
+                                $questionAns = $ques['answer'];
+                            }
+                            else{
+                                $userAns = strtolower($cl['Answer']);
+                                $questionAns = strtolower($ques['answer']);
+                            }
+                            if($questionAns == $userAns){
                                 $score += $ques['points'];
                                 $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
                             
                                 if($AnalyticsFind){
                                     $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
                                     if($AnalyticsFind->shortest_time > $cl['timeConsume']){
-                                    $AnalyticsFind->shortest_time = $cl['timeConsume'];
+                                        $AnalyticsFind->shortest_time = $cl['timeConsume'];
                                     }
-
                                     if($AnalyticsFind->longest_time < $cl['timeConsume']){
                                         $AnalyticsFind->longest_time  = $cl['timeConsume'];
                                     }
@@ -700,10 +1108,6 @@ class ObjectiveController extends Controller
                                     if($CheckMatch->answer_id == $item['Ans_id']){
                                         $score += $Tempoints;
                                     }
-                                   /*  $checkChoice = tbl_choice::find($CheckMatch->answer_id);
-                                    if($checkChoice->Choice == $item['Ans_id']){
-                                        
-                                    } */
                                 }
                                 
                             }
@@ -713,7 +1117,6 @@ class ObjectiveController extends Controller
             }
         }
 
-        
         $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
         ->where('tbl_submissions.classwork_id', $id)
         ->first();
@@ -723,120 +1126,7 @@ class ObjectiveController extends Controller
             $UpdateStatus->timeSpent = $request->timeSpent;
             $UpdateStatus->Submitted_Answers = serialize($request->item);
             $UpdateStatus->update();
-
-
-         /* 
-            $tbl_classClassworks = tbl_classClassworks::where('classwork_id',$id)
-            ->select('grading_criteria as grading_criteria_id','class_id','percentage')
-            ->leftJoin('tbl_main_grade_categories' , 'tbl_main_grade_categories.id' , '=' , 'tbl_class_classworks.grading_criteria')
-            ->first();
-
-            $tbl_classworks = tbl_classwork::
-            select('tbl_classworks.course_id')
-            ->selectRaw('sum(tbl_classworks.points) as total_category_points ')
-
-            ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_classworks.id')
-            ->where('tbl_class_classworks.class_id',   $tbl_classClassworks->class_id )
-            ->where('tbl_class_classworks.grading_criteria',   $tbl_classClassworks->grading_criteria_id )
-            ->get();
-
-            $totalPoints =  tbl_Submission::where("tbl_submissions.user_id",$userId)
-            ->selectRaw('sum(tbl_submissions.points) as total_points ')
-            ->leftJoin('tbl_class_classworks' , 'tbl_class_classworks.classwork_id' , '=' , 'tbl_submissions.classwork_id')
-            ->where('tbl_class_classworks.class_id',  $tbl_classClassworks->class_id)
-            ->where('tbl_class_classworks.grading_criteria',  $tbl_classClassworks->grading_criteria_id)
-            ->first();
-
-            
-            $totalPercentage = ($totalPoints->total_points/$tbl_classworks[0]->total_category_points) *  $tbl_classClassworks->percentage;
-
-            $tbl_student_main_grades = tbl_student_main_grades::
-            select('grade_category_id')
-            ->where('course_id',$tbl_classworks[0]->course_id)
-            ->where('grade_category_id', $tbl_classClassworks->grading_criteria_id )
-            ->where( 'student_id', $userId)
-            ->count();
-          
-            if($tbl_student_main_grades == 0) {
-                $tbl_student_main_grades = new tbl_student_main_grades;
-                $tbl_student_main_grades->student_id =  $userId;
-                $tbl_student_main_grades->grade_category_id =   $tbl_classClassworks->grading_criteria_id;
-                $tbl_student_main_grades->course_id =  $tbl_classworks[0]->course_id;
-                $tbl_student_main_grades->grade =  $totalPercentage;
-                $tbl_student_main_grades->save();
-
-            } else {
-               // return [$tbl_classworks[0]->course_id,$tbl_classClassworks->grading_criteria_id,$userId ];
-                $tbl_student_main_grades = DB::table('tbl_student_main_grades')
-                ->where(['course_id'=>$tbl_classworks[0]->course_id,
-                'grade_category_id'=> $tbl_classClassworks->grading_criteria_id,
-                'student_id'=> $userId ])
-                ->update(
-                    [
-                    'grade' => $totalPercentage
-                    ]
-                );
-            }
-
-            $get_all_student_main_grades = tbl_student_main_grades::
-            select('grade')
-            ->where('course_id',$tbl_classworks[0]->course_id)
-            ->where( 'student_id', $userId)
-            ->get();
-
-            $final_grade = 0;
-            foreach($get_all_student_main_grades as $grade)
-            {
-                $final_grade += $grade->grade;
-            }
-
-
-            $update_course_finalGrade = tbl_student_course_subject_grades::
-            select('student_id')
-            ->where('course_id',$tbl_classworks[0]->course_id)
-            ->where( 'student_id', $userId)
-            ->count();
-          
-            if($update_course_finalGrade == 0) {
-                $update_course_finalGrade = new tbl_student_course_subject_grades;
-                $update_course_finalGrade->student_id =  $userId;
-                $update_course_finalGrade->course_id =  $tbl_classworks[0]->course_id;
-                $update_course_finalGrade->final_grade =  $final_grade;
-                $update_course_finalGrade->save();
-
-            } else {
-               // return [$tbl_classworks[0]->course_id,$tbl_classClassworks->grading_criteria_id,$userId ];
-               $update_course_finalGrade = DB::table('tbl_student_course_subject_grades')
-               ->where(['course_id'=>$tbl_classworks[0]->course_id,
-               'student_id'=> $userId ])
-               ->update(
-                   [
-                   'final_grade' => $final_grade
-                   ]
-               );
-            } */
-
-
-          
-            // ->updateOrInsert(
-            //     [
-            //     'course_id'=>  $tbl_classworks[0]->course_id ,
-            //     'grade_category_id'=> $tbl_classClassworks->grading_criteria,
-            //     'student_id'=>$userId 
-            //     ],
-            //     array(
-            //         'grade' => $totalPercentage,
-            //         'course_id'=>  $tbl_classworks[0]->course_id,
-            //         'grade_category_id' => $tbl_classClassworks->grading_criteria_id,
-            //         'student_id' => $userId,
-            //     )
-            // );
-           
-            // $gradingCategory = json_decode($gradingCategory, true);
-            //return   $final_grade;
         }   
-       
-        
     }
  
 }

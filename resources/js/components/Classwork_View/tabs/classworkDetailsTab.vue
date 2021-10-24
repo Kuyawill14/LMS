@@ -1,5 +1,17 @@
 <template>
     <div class="pa-1">
+    <div transition="slide-y-reverse-transition">
+        <v-app-bar elevation="5" 
+        v-if="!$vuetify.breakpoint.mdAndUp"
+            app :dense="$vuetify.breakpoint.mdAndUp"  color="primary"  >
+            <v-btn dark rounded icon text 
+                v-if="!$vuetify.breakpoint.mdAndUp"
+                @click="$router.push({name: 'classwork'})" >
+                <v-icon >mdi-arrow-left-thick</v-icon>
+            </v-btn>
+            <v-divider   vertical></v-divider>
+        </v-app-bar>
+    </div>
         <!-- <v-container class="fill-height" v-if="isloading" style="height: 500px;">
   <v-row  align-content="center" justify="center">
             <v-col cols="12" class="text-center">
@@ -55,7 +67,7 @@
                                         label="Instruction" auto-grow>
                                     </v-textarea> -->
 
-                                    <editor v-model="Details.instruction" placeholder="Instruction" theme="snow"></editor>
+                                    <editor class="classwork_editor" v-model="Details.instruction" placeholder="Instruction" theme="snow"></editor>
                                 </v-col>
                                 <v-col v-if="Details.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
 
@@ -449,16 +461,16 @@
 </script>
 
 <style >
-    iframe{
+    .classwork_editor iframe{
         width: 100% !important;
         height: 20rem !important;
     }
-    .ql-editor img{
+    .classwork_editor .ql-editor img{
 
         max-height: 25rem !important;
         max-width: 100% !important;
     }
-    .ql-container{
+    .classwork_editor .ql-container{
         max-height: 70rem;
     }
 

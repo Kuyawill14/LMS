@@ -643,8 +643,6 @@ export default {
 </script>
 
 <style >
-
-
  /* .ql-toolbar.ql-snow {
         background: #f2f2f2;
         border: none;

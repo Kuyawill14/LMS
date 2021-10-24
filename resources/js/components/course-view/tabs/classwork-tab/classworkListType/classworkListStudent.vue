@@ -16,11 +16,11 @@
     <v-container v-if="classworks.totalClasswork != 0" fluid>
         <!-- Modal -->
         <div v-if="Previewdialog">
-               <v-dialog persistent v-model="Previewdialog"  width="650px">
-            <previewClassworkModal v-on:OpenClasswork="Previewdialog = false,$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})" v-on:isMounted="isLoading = false" v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog" :Preview_id="Preview_id"></previewClassworkModal>
-         </v-dialog>
+            <v-dialog persistent v-model="Previewdialog"  width="650px">
+                <previewClassworkModal v-on:OpenClasswork="Previewdialog = false,$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}})" v-on:isMounted="isLoading = false" 
+                v-if="Previewdialog" v-on:toggleCloseDialog="Previewdialog = !Previewdialog"  :Preview_details="Preview_details"></previewClassworkModal>
+            </v-dialog>
         </div>
-<!-- , $router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: Preview_id}}) -->
 
         <v-row >
           <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
@@ -80,14 +80,13 @@
                 <v-col cols="12"  md="6" lg="4" xl="4" class="pb-0 mb-0" v-for="(item, index) in classworks.ClassworksList[i]" :key="index">
                    
                     <v-hover v-slot="{ hover }">
-                        <v-card   @click="OpenClaswork(item.type,item.status,item.score,item.classwork_id)" 
+                        <v-card   @click="OpenClaswork(item)" 
                             link :elevation="hover ? 4 : 3" class="pt-2 pb-2">
-                           <!--   <vue-element-loading  :active="isLoading && Preview_id == item.classwork_id " text="Loading..." spinner="bar-fade-scale" /> -->
                                 <v-list>
                                     <v-list-item>
                                         <v-list-item-avatar size="45" :color="item.availability == 0 ?  item.status == 'Submitted' ?  'success' : 
                                         item.status == 'Taking' ?  'primary' :  'blue'  : 
-                                                CheckFormatDue(item.to_date) > DateToday ? item.status == 'Submitted' ? 'success' : item.status == 'Taking' ?  'primary' :'blue'
+                                                CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? item.status == 'Submitted' ? 'success' : item.status == 'Taking' ?  'primary' :'blue'
                                                 : item.status == 'Submitted' ? 'success': 'red darken-4'"  >
                                                 <v-icon 
                                                
@@ -108,11 +107,12 @@
                                                 </v-tooltip>
 
                                             </v-list-item-title>
+                                            
                                             <v-list-item-subtitle>
                                                  <small
-                                                    v-if="item.status == null || item.status == 'Submitting'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
-                                                    <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
-                                                    {{item.availability != 0 ? CheckFormatDue(item.to_date) > DateToday ? '' : "Late" :''}}
+                                                    v-if="item.status == null || item.status == 'Submitting'" :class="item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? 'card-subtitle text-50': item.status == 'Submitted' ? 'card-subtitle text-50':'card-subtitle text-50 red--text':'card-subtitle text-50'">
+                                                    <v-icon :color="item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? '': item.status == 'Submitted' ? '':'red darken-4':''" small>mdi-clock</v-icon> 
+                                                    {{item.availability != 0 ? CheckFormatDue(item.to_date) > CheckFormatDue(classworks.currentDate) ? '' : "Late" :''}}
                                                     {{item.availability != 0 ? ' Due Date:' : 'No Due Date'}}
                                                     {{item.availability != 0 ? format_date(item.to_date) : ''}} 
                                                 </small>
@@ -130,24 +130,8 @@
                                         </v-list-item-content>
                                         <v-list-item-action>
                                              <v-chip color="green" class="mt-1 " outlined v-if="item.status == 'Submitted' && item.score != null">
-                                                
                                                 <span class="success--text" >{{ item.type == "Subjective Type" ? item.graded ? item.score : '?' : item.score}} <span class="black--text">/ </span>{{item.points}}</span>
-                                                </v-chip>
-                                              <!--   <v-tooltip top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn
-                                                            v-if="item.status == 'Taking' && item.status != null"
-                                                            @click="continueClasswork(item.classwork_id)"
-                                                            class="mt-1 mr-5 pa-2 blue--text" 
-                                                            text
-                                                            v-bind="attrs"
-                                                            v-on="on"
-                                                            rounded>
-                                                            Continue
-                                                        </v-btn>
-                                                    </template>
-                                                    <span>Continue Classwork</span>
-                                                </v-tooltip> -->
+                                            </v-chip>
                                         </v-list-item-action>
                                     </v-list-item>
                                 </v-list>
@@ -241,6 +225,7 @@
             return {
                 Previewdialog:false,
                 Preview_id:null,
+                Preview_details: [],
                 DateToday:'',
                 SelectedFilter: "All",
                 FilterItems:[],
@@ -258,13 +243,11 @@
         methods: {
             format_date(value) {
                 if (value) {
-                    //return moment(String(value)).format('MMMM DD YYYY, hh:mm A')
                     return moment(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, hh:mm A');
                 }
             },
             CheckFormatDue(value){
                 if (value) {
-                    //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
                     return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 }
             },
@@ -273,21 +256,21 @@
                 this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
          
             },
-            OpenClaswork(type, status, score,classwork_id){
+            OpenClaswork(details){
                 this.isLoading = true;
-                if(status == 'Submitted' && score != null){
-                     this.Preview_id = classwork_id;
-                    if(type == 'Objective Type'){
-                    // this.$router.push({name:'result-page', params:{id: classwork_id}})
-                     this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
+                if(details.status == 'Submitted' && details.score != null){
+                     this.Preview_id = details.classwork_id;
+                    if(details.type == 'Objective Type'){
+                     this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: details.classwork_id}})
                     }
                     else{
-                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: classwork_id}})
+                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: details.classwork_id}})
                     }
                 }
-                else if(status == 'Submitting' || status == null || status == 'Taking'){
+                else if(details.status == 'Submitting' || details.status == null || details.status == 'Taking'){
                     this.Previewdialog = !this.Previewdialog;
-                    this.Preview_id = classwork_id
+                    this.Preview_id = details.classwork_id;
+                    this.Preview_details = details;
                 }
 
             },
@@ -304,12 +287,6 @@
                 }
 
             },
-          /*    CheckClassworkCount(){
-                let data = this.classworks.ClassworksList;
-                data.forEach(item => {
-                    this.ClassworkLength += item.length;
-                });
-            } */
         },
         mounted(){
             this.setFilterItems();

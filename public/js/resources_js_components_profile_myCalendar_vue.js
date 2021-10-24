@@ -170,6 +170,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -8778,7 +8779,7 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          class: _vm.$vuetify.breakpoint.lgAndUp
+                          class: _vm.$vuetify.breakpoint.mdAndUp
                             ? "text-h6 font-weight-bold"
                             : "font-weight-bold"
                         },
@@ -8810,22 +8811,24 @@ var render = function() {
                                 "v-toolbar",
                                 { attrs: { flat: "" } },
                                 [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "mr-4",
-                                      attrs: {
-                                        outlined: "",
-                                        color: "grey darken-2"
-                                      },
-                                      on: { click: _vm.setToday }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                  Today\n                "
+                                  _vm.$vuetify.breakpoint.mdAndUp
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mr-4",
+                                          attrs: {
+                                            outlined: "",
+                                            color: "grey darken-2"
+                                          },
+                                          on: { click: _vm.setToday }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                  Today\n                "
+                                          )
+                                        ]
                                       )
-                                    ]
-                                  ),
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "v-btn",
@@ -9029,8 +9032,15 @@ var render = function() {
                           _c(
                             "v-sheet",
                             {
-                              staticClass: "pa-1",
-                              attrs: { height: "450", width: "100%" }
+                              class: !_vm.$vuetify.breakpoint.mdAndUp
+                                ? "pt-2"
+                                : "",
+                              attrs: {
+                                height: _vm.$vuetify.breakpoint.mdAndUp
+                                  ? "750"
+                                  : "500",
+                                width: "100%"
+                              }
                             },
                             [
                               _c("v-calendar", {

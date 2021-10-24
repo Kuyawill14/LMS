@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tbl_comment;
 use App\Models\tbl_like;
 use App\Models\tbl_userDetails;
+use App\Models\tbl_teacher_course;
 use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
@@ -150,11 +151,12 @@ class CommentController extends Controller
             $NewComment->content = $request->comment;
             $NewComment->save();
         }else{
+            $teacher_id = tbl_teacher_course::where('course_id',$request->course_id)->first();
             $NewComment = new tbl_comment;
             $NewComment->classwork_id = $request->classwork_id;
             $NewComment->user_id = $userId;
             $NewComment->from_user = $userId;
-            $NewComment->to_user = $request->to_user;
+            $NewComment->to_user =   $teacher_id->user_id;
             $NewComment->type = "Private";
             $NewComment->course_id =  $request->course_id;
             $NewComment->content = $request->comment;

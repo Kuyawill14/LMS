@@ -63,6 +63,7 @@
         "vue-lazytube": "^1.0.2",
         "vue-material": "^1.0.0-beta-15",
         "vue-quill": "^1.5.1",
+        "vue-quill-editor": "^3.0.6",
         "vue-router": "^3.5.2",
         "vue-toasted": "^1.1.28",
         "vuedraggable": "^2.24.3",

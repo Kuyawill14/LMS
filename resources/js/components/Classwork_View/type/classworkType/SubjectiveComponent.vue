@@ -104,10 +104,10 @@
                 </v-row>
             </v-card>
         </v-col>
-         <v-col v-if="$vuetify.breakpoint.mdAndUp ? true : selected == 1 || selected == 2"  cols="12" md="10" lg="4" xl="4" class="mb-0 pb-0">
+         <v-col v-if="$vuetify.breakpoint.mdAndUp ? true : selected == 1 || selected == 2"  cols="12" md="4" lg="4" xl="4" class="mb-0 pb-0">
              <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
                <v-row  >
-                 <v-col v-if="$vuetify.breakpoint.lgAndUp"  cols="12" class="ma-0 pa-0">
+                 <v-col v-if="$vuetify.breakpoint.mdAndUp"  cols="12" class="ma-0 pa-0">
                    <v-tooltip top>
                     <template v-slot:activator="{ on, attrs }">
                           <v-btn rounded
@@ -126,10 +126,10 @@
                     <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
                         <div v-if="classworkDetails.publish == null">
-                            <v-btn v-if="myClasssworkStatus.status == 'Submitted' && !myClasssworkStatus.graded &&  (classworkData.availability == 1 ? format_date1(DateToday) <= format_date1(classworkData.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
-                            <v-chip v-if="myClasssworkStatus.graded"
+                            <v-btn v-if="classworkDetails.status == 'Submitted' && !classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                            <v-chip v-if="classworkDetails.graded"
                               class="ma-2" color="green" outlined>
-                            Graded: {{myClasssworkStatus.score}} /{{myClasssworkStatus.totalPoints}}
+                            Graded: {{classworkDetails.score}} /{{classworkDetails.points}}
                             </v-chip>
                         </div>
                       
@@ -159,6 +159,7 @@
                      type="file" class="d-none" @change="onChange"> -->
                       <v-file-input
                         multiple
+                   
                         v-model="FileList"
                         @change="onChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain" ref="UploadAttachFile"
                         class="d-none">
@@ -168,7 +169,7 @@
                    <v-col class="ma-0 pa-0" cols="12" v-if="!isloading">
                           <v-col cols="12" class="mb-0 pb-0" >
                                 <v-row ma-0 pa-0 class="mb-2">
-                                  <v-col v-for="(item, index) in myClasssworkStatus.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
+                                  <v-col v-for="(item, index) in classworkDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
                                       <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
                                            <v-list-item-avatar>
@@ -194,7 +195,7 @@
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
                                             <v-list-item-action>
-                                                 <v-tooltip v-if="myClasssworkStatus.status == 'Submitting' || isResubmit" top>
+                                                 <v-tooltip v-if="(classworkDetails.status == 'Submitting' || isResubmit) && classworkDetails.publish == null" top>
                                                   <template v-slot:activator="{ on, attrs }">
                                                       
                                                       <v-btn
@@ -214,14 +215,14 @@
                           </v-col>
                         
                            <v-col v-if="classworkDetails.publish == null" class="ma-0 pa-0 mb-4 " cols="12" >
-                            <v-menu max-width="250" v-if="isResubmit || (myClasssworkStatus.status == 'Submitting' || myClasssworkStatus.status == null)" transition="scale-transition" offset-y>
+                            <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     block
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     color="primary"
                                     dark
-                                    :disabled="classworkData.availability == 1 && (format_date1(DateToday) < format_date1(classworkData.from_date))"
+                                    :disabled="classworkDetails.availability == 1 && (format_date1(DateToday) < format_date1(classworkDetails.from_date))"
                                     outlined
                                     v-bind="attrs"
                                     v-on="on"
@@ -241,32 +242,32 @@
                               </v-menu>
                           </v-col>
 
-                           <v-col v-if="classworkData.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
+                           <v-col v-if="classworkDetails.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
-                              :disabled="myClasssworkStatus.length == 0 || classworkDetails.publish != null"
+                              :disabled="classworkDetails.Submitted_Answers.length == 0 || classworkDetails.publish != null"
                               block
                                class="pl-12 pr-12 pb-3 pt-3"
                                :loading="IsSaving"
-                                @click="myClasssworkStatus.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
-                                :color="myClasssworkStatus.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
-                                <v-icon left v-if="myClasssworkStatus.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
-                                {{myClasssworkStatus.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
+                                @click="classworkDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
+                                :color="classworkDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
+                                <v-icon left v-if="classworkDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
+                                {{classworkDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
                            
                           </v-col>
 
                            <v-col v-else class="ma-0 pa-0 mb-1 " cols="12" >
 
                              <v-row>
-                                <v-col cols="12" v-if="format_date1(DateToday) >= format_date1(classworkData.from_date)">
+                                <v-col cols="12" v-if="format_date1(DateToday) >= format_date1(classworkDetails.from_date)">
                                     <v-btn
-                                    :disabled="myClasssworkStatus.length == 0"
+                                    :disabled="classworkDetails.Submitted_Answers.length == 0"
                                     block
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     :loading="IsSaving"
-                                      @click="myClasssworkStatus.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
-                                      :color="myClasssworkStatus.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
-                                      <v-icon left v-if="myClasssworkStatus.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
-                                    {{myClasssworkStatus.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
+                                      @click="classworkDetails.status == 'Submitted' && !isResubmit ? '' :SubmitClasswork()"  
+                                      :color="classworkDetails.status == 'Submitted' && !isResubmit  ? 'success': 'primary'">
+                                      <v-icon left v-if="classworkDetails.status == 'Submitted' && !isResubmit ">mdi-check</v-icon>
+                                    {{classworkDetails.status == 'Submitted' && !isResubmit ? 'Submitted' :'Submit Classwork'}}</v-btn>
                                </v-col>
 
                                <v-col cols="12" v-else>
@@ -291,7 +292,7 @@
             <v-divider></v-divider>
             <v-list :max-height="$vuetify.breakpoint.mdAndUp ? '350' : '450'" style="overflow-y:scroll;scrollbar-width: thin;"  class="mb-0 pb-0">
       
-                <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkData.comments" :key="i">
+                <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                   <v-list-item-avatar>
                       <v-img 
                       :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : item.profile_pic">
@@ -352,7 +353,7 @@
                             </v-textarea>
                       </v-list-item-content>
                       <v-list-item-action>
-                        <v-btn :loading="isCommenting" @click="addComment(classworkData)" icon>
+                        <v-btn :loading="isCommenting" @click="addComment(classworkDetails)" icon>
                           <v-icon  color="primary">mdi-send</v-icon>
                         </v-btn>
                       </v-list-item-action>
@@ -362,7 +363,7 @@
            
           </v-card>
         </v-col>
-         <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 0" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
+         <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 0" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="8" lg="8" xl="8" >
           <v-card outlined :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" class="pa-5">
                 <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="12" class="ma-0">
@@ -385,29 +386,28 @@
                                     fab
                                     >
                                     <div class="text-md-h5"> <v-icon large color="primary">mdi-book-clock-outline</v-icon></div>
-                                    <div class="caption ml-2">Due {{ classworkData.availability ? format_date(classworkData.to_date) : 'always Available'}}</div>  
+                                    <div class="caption ml-2">Due {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}</div>  
                                     </div>
                                 </div>
                                 </v-col>
 
                             <v-col cols="12" class="pl-7 pr-5">
-                                <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">{{classworkData.title}}</div>
+                                <div class="font-weight-medium text-sm-body-2 text-md-h6 text-xl-h5">{{classworkDetails.title}}</div>
                                 
                                     <div class="pt-2 d-flex flex-row ">
                                        
-                                        <div class="font-weight-bold">{{classworkData.points}} Points</div>
+                                        <div class="font-weight-bold">{{classworkDetails.points}} Points</div>
                                     </div>
                                 <v-divider></v-divider>
                             </v-col>
 
                                 <v-col cols="12" class="pl-7 pr-5">
-                                  <!--   <div class="text-sm-body-2"> {{classworkData.instruction}}</div> -->
-                                    <span class="text-sm-body-2 " v-html="classworkData.instruction"></span>
+                                    <span class="text-sm-body-2 " v-html="classworkDetails.instruction"></span>
                                 </v-col>
-                                <v-col v-if="classworkData.rubrics.length != 0" cols="12" class=" pb-5 pl-4 pr-4">
+                                <v-col v-if="classworkDetails.rubrics.length != 0" cols="12" class=" pb-5 pl-4 pr-4">
                                   <div  class="overline">Rubrics</div>
                                   <v-list>
-                                      <v-list-item v-for="(item, index) in classworkData.rubrics" :key="index">
+                                      <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index">
                                           <v-list-item-avatar tile>
                                               <div class="font-weight-bold">{{item.points}}%</div>
                                           </v-list-item-avatar>
@@ -419,10 +419,10 @@
 
                                   </v-list>
                                 </v-col>
-                                 <v-col v-if="classworkData.attachment != null" cols="12" class=" pb-5 pl-4 pr-4">
+                                 <v-col v-if="classworkDetails.attachment != null" cols="12" class=" pb-5 pl-4 pr-4">
                                    <div class="overline">Attachments</div>
                                    <v-list dense class="ma-0 pa-0">
-                                        <v-list-item v-for="(item, i) in classworkData.attachment" :key="i" class="ma-0 pa-0">
+                                        <v-list-item v-for="(item, i) in classworkDetails.attachment" :key="i" class="ma-0 pa-0">
                                             <v-list-item-avatar >
                                                     <v-icon large
                                                     :color="CheckFileIconColor(item.extension)">
@@ -481,7 +481,6 @@ export default {
     },
     data(){
         return{
-            classworkData: this.classworkDetails,
             AttachLink: false,
             FileList:[],
             file: [],
@@ -491,7 +490,7 @@ export default {
             myClasssworkStatus:[],
             uploadPercentage: 0,
             isUploading: [],
-            tempId: '',
+            tempId: this.classworkDetails.Sub_id,
             isResubmit: false,
             isloading: true,
             fileIndex:null,
@@ -518,6 +517,7 @@ export default {
             CheckeFileExtention: null,
             fileType:['pdf', 'txt', 'docx', 'doc', 'jpg', 'jpeg' ,'gif','svg','png', 'bmp', 'link'],
             extensionIcon:['mdi-file-pdf', 'mdi-note-text-outline', 'mdi-file-word', 'mdi-file-link',  'mdi-image'],
+            acceptedFileType:['xlsx', 'xls','jpg','jpeg','gif','svg','png','bmp','doc','docx','ppt', 'pptx','pdf','text'],
             selected: 0,
             ScrollPosistion: 0,
             TempFile: "",
@@ -532,11 +532,11 @@ export default {
             return (this.CheckeFileExtention) ? this.CheckeFileExtention.name.split('.').pop() : '';
         },
          Fileextension() {
-             let attach = this.classworkData.attachment;
+             let attach = this.classworkDetails.attachment;
             return attach.split('.').pop();
         },
          SubmittedFilextension() {
-             let attach = this.myClasssworkStatus.Submitted_Answers[0].name;
+             let attach = this.classworkDetails.Submitted_Answers[0].name;
             return attach.split('.').pop();
         }
     },
@@ -611,48 +611,34 @@ export default {
         window.open(file,'_blank');
       },
       scrapeDocID() {
-
-              //var d = this.linkFile.replace(/.*\/d\//, '').replace(/\/.*/, '');
-              //var path = "https://drive.google.com/file/d/" + d + "/preview";
               let path = this.linkFile;
-              
-              if(this.myClasssworkStatus.length == 0){
-                  this.myClasssworkStatus = {};
-                  this.myClasssworkStatus.Submitted_Answers = [];
-                  this.myClasssworkStatus.classwork_id = this.$route.query.clwk;
-                  this.myClasssworkStatus.course_id = this.$route.params.id;
-                  this.myClasssworkStatus.graded = 0;
-                  this.myClasssworkStatus.score = 0;
-                  this.myClasssworkStatus.status = 'Submitting';
-                  this.myClasssworkStatus.totalPoints = this.classworkData.points;
-                  this.myClasssworkStatus.Submitted_Answers.push({ name: this.linkName, fileSize: '', fileExte: 'link', link: path});
-              }
-              else{
-                //this.file.push({ fileName: this.linkName, fileSize: '', fileExte: 'link', link: path});
-                this.myClasssworkStatus.Submitted_Answers.push({ name: this.linkName, fileSize: '', fileExte: 'link', link: path});
-              }
+              this.classworkDetails.Submitted_Answers.push({ name: this.linkName, fileSize: '', fileExte: 'link', link: path});
+              this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
               this.AttachLink = !this.AttachLink;
               this.AddLinkInSubmittedAnswer();
-              // this.AddLinkInSubmittedAnswer(index);
+
           },
           AddLinkInSubmittedAnswer(){
-              let index = this.myClasssworkStatus.Submitted_Answers.length-1;
+              
+              let index = this.classworkDetails.Submitted_Answers.length-1;
               let sub_id = this.tempId == null ? 'empty' : this.tempId;
               let fd = new FormData;
               fd.append('Submission_id', sub_id);
-              fd.append('id', this.classworkData.id);
-              fd.append('class_classwork_id', this.classworkData.class_classwork_id);
-              fd.append('type', this.classworkData.type);
-              fd.append('fileName', this.myClasssworkStatus.Submitted_Answers[index].name);
-              fd.append('fileSize', this.myClasssworkStatus.Submitted_Answers[index].fileSize);
-              fd.append('fileExte', this.myClasssworkStatus.Submitted_Answers[index].fileExte);
-              fd.append('file', this.myClasssworkStatus.Submitted_Answers[index].link);
+              fd.append('id', this.classworkDetails.id);
+              fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
+              fd.append('type', this.classworkDetails.type);
+              fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
+              fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
+              fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
+              fd.append('file', this.classworkDetails.Submitted_Answers[index].link);
               axios.post('/api/student/linkAndstatus', fd)
               .then(res=>{
+                    
                     this.AttachLink = false;
                     this.linkName = null;
                     this.linkFile = null;
                     this.tempId = res.data;
+                    this.classworkDetails.status = "Submitting";
               })
           },
         UploadFile(){
@@ -701,39 +687,32 @@ export default {
             let fileData = this.FileList[this.FileList.length-1];
             this.CheckeFileExtention = fileData;
 
-            if(this.Checkextension != 'mp4' && this.Checkextension != 'mkv' && this.Checkextension != 'avi' && this.Checkextension != 'mov' && this.Checkextension != 'wmv' && this.Checkextension != 'webm' && this.Checkextension != 'flv'){
-                if(fileData.size <= 10000000){
+            /* b */
+            let Checker = false;
+            this.acceptedFileType.forEach(item => {
+                if(this.Checkextension == item){
+                  Checker = true;
+                  return;
+                }
+            });
+            if(Checker == true){
+               if(fileData.size <= 10000000){
                     this.createFile(fileData);
                 }else{
-                    this.toastError('Your file is to big, maximum file size is 10mb only!');
-                  }
-              }
-              else{
-                this.toastError('This file format is not yet supported for upload!');
+                  this.toastError('Your file is to big, maximum file size is 10mb only!');
+                }
+            }
+            else{
+              this.toastError('This file format is not yet supported for upload!');
             }
               
         },
         createFile(file) {
               
               let IndexFile;
-              if(this.myClasssworkStatus.length == 0){
-                //IndexFile = this.file.length;
-                this.myClasssworkStatus = {};
-                this.myClasssworkStatus.Submitted_Answers = [];
-                this.myClasssworkStatus.classwork_id = this.$route.query.clwk;
-                this.myClasssworkStatus.course_id = this.$route.params.id;
-                this.myClasssworkStatus.graded = 0;
-                this.myClasssworkStatus.score = 0;
-                this.myClasssworkStatus.status = 'Submitting';
-                this.myClasssworkStatus.totalPoints = this.classworkData.points;
-                IndexFile = this.myClasssworkStatus.Submitted_Answers.length;
-              }
-              else{
-                IndexFile = this.myClasssworkStatus.Submitted_Answers.length;
-              }
+              IndexFile = this.classworkDetails.Submitted_Answers.length;
               this.isUploading[IndexFile] = true;
               this.fileIndex = IndexFile;
-              ////console.log(this.file.length)
               this.tempFile = file;
              
               let tempSize = file.size;
@@ -748,20 +727,13 @@ export default {
                   let finalSize = parseInt(sizeFile);
                   this.fileSize =finalSize+'kb';
               }
-              //this.dragging = false;
-              //
-          /*     if(this.myClasssworkStatus.length == 0){
-                this.file.push({ fileName: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, file: this.tempFile, link : ''});
-                this.isUpIndex = this.file.length-1
-              }
-              else{ */
-                this.isUpIndex = this.myClasssworkStatus.Submitted_Answers.length;
+             
                
-                this.myClasssworkStatus.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, link: '', file: this.tempFile,});
-              //}
-               this.fileIndex = this.file.length;
+                this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
+                this.classworkDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, link: '', file: this.tempFile});
+                this.fileIndex = this.file.length;
                 this.isUploadSaving = true;
-                this.UpdateSubmission(this.myClasssworkStatus.Submitted_Answers.length-1);
+                this.UpdateSubmission(this.classworkDetails.Submitted_Answers.length-1);
             },
             removeFile(index) {
               this.isDeleting_id = index;
@@ -781,7 +753,7 @@ export default {
               //console.log(data);
             },
            /*  async checkStatus(type){
-              axios.get('/api/submission/check-sbj/'+this.classworkData.id)
+              axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
               .then(res=>{
                   this.myClasssworkStatus = res.data;
                   this.tempId = res.data.Sub_id;
@@ -812,13 +784,13 @@ export default {
               let sub_id = this.tempId == null ? 'empty' : this.tempId;
               let fd = new FormData;
               fd.append('Submission_id', sub_id);
-              fd.append('id', this.classworkData.id);
-              fd.append('class_classwork_id', this.classworkData.class_classwork_id);
-              fd.append('type', this.classworkData.type);
-              fd.append('fileName', this.myClasssworkStatus.Submitted_Answers[index].name);
-              fd.append('fileSize', this.myClasssworkStatus.Submitted_Answers[index].fileSize);
-              fd.append('fileExte', this.myClasssworkStatus.Submitted_Answers[index].fileExte);
-              fd.append('file', this.myClasssworkStatus.Submitted_Answers[index].file);
+              fd.append('id', this.classworkDetails.id);
+              fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
+              fd.append('type', this.classworkDetails.type);
+              fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
+              fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
+              fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
+              fd.append('file', this.classworkDetails.Submitted_Answers[index].file);
                axios.post('/api/student/update-status', fd,{
                  onUploadProgress: (progressEvent)=>{
                    const total = progressEvent.total;
@@ -829,16 +801,16 @@ export default {
                  }
                })
               .then(res=>{
-                 if(this.myClasssworkStatus.length == 0){
+                 /* if(this.classworkDetails.Submitted_Answers.length == 0){
                     this.file[this.isUpIndex].link = res.data.link;
                 }
-                else{
-                    this.myClasssworkStatus.Submitted_Answers[this.isUpIndex].link = res.data.link;
-                }
+                else{ */
+                    this.classworkDetails.Submitted_Answers[this.isUpIndex].link = res.data.link;
+                //}
                 this.tempId = this.tempId == null ? res.data.id : this.tempId ;
                 this.isUploadSaving = false;
                 this.isUpIndex = null;
-                //this.$refs.UploadAttachFile.value = null;
+                 this.classworkDetails.status = "Submitting";
               })
           },
           DeleteUpload(index){
@@ -846,8 +818,7 @@ export default {
               this.isDeleting = true;
               let type = 'submit';
               axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
-                  //this.checkStatus(type);
-                  this.myClasssworkStatus.Submitted_Answers.splice(index, 1);
+                  this.classworkDetails.Submitted_Answers.splice(index, 1);
                   if(this.FileList.length != 0){
                     this.FileList.splice(index, 1);
                   }
@@ -858,25 +829,12 @@ export default {
               })
           },
           async SubmitClasswork(){
-         /*  let rubrics = [];
-           if(this.classworkData.rubrics.length != 0){
-                this.classworkData.rubrics.forEach(item => {
-                  rubrics.push({
-                    id: item.id,
-                    points: null,
-                  })
-              });
-           }
-           else{
-             rubrics = null;
-           } */
-           
             this.IsSaving = true;
             let type = 'submit';
             axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
               if(res.status == 200){
-                this.checkStatus(type);
-                this.myClasssworkStatus.status = 'Submitted';
+                //this.checkStatus(type);
+                this.classworkDetails.status = 'Submitted';
                 this.IsSaving = false;
                 this.isResubmit = false;
               }
@@ -894,7 +852,7 @@ export default {
               .then((res)=>{
                 //console.log(res.data);
                   if(res.status == 200 ){
-                    this.classworkData.comments.push({
+                    this.classworkDetails.comments.push({
                       content : res.data.comment,
                       id : res.data.id,
                       name : res.data.name,
@@ -910,7 +868,7 @@ export default {
               axios.delete('/api/post/classwork/comment/delete/'+id)
               .then(res=>{
                   if(res.data.success == true){
-                      this.classworkData.comments.splice(index, 1);
+                      this.classworkDetails.comments.splice(index, 1);
                       
                   }
               })
@@ -924,7 +882,7 @@ export default {
          },
          clickResubmit(){
            if(!this.isResubmit){
-             this.MarkAsSubmitting(this.myClasssworkStatus.Sub_id)
+             this.MarkAsSubmitting(this.classworkDetails.Sub_id)
              this.isResubmit = !this.isResubmit;
            }
            else{
@@ -934,12 +892,13 @@ export default {
          }
     },
     async created(){
-      this.checkStatus();
+      //this.checkStatus();
      
 
 
     },
     mounted(){
+      this.isloading = !this.isloading;
        window.addEventListener('scroll', this.handleScroll);
     },
   

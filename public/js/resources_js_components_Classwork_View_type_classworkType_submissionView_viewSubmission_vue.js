@@ -208,18 +208,18 @@ __webpack_require__.r(__webpack_exports__);
     fetchQuestions: function fetchQuestions() {
       var _this = this;
 
-      this.ViewSubmiisionConditions.showAnswer = this.details.showAnswer;
-      this.ViewSubmiisionConditions.showAnswerType = this.details.showAnswerType;
-      axios.get('/api/question/question-answer/' + this.classworkDetails.id + '/' + this.details.class_classwork_id).then(function (res) {
+      this.ViewSubmiisionConditions.showAnswer = this.classworkDetails.showAnswer;
+      this.ViewSubmiisionConditions.showAnswerType = this.classworkDetails.showAnswerType;
+      axios.get('/api/question/question-answer/' + this.classworkDetails.id + '/' + this.classworkDetails.class_classwork_id).then(function (res) {
         ////console.log(res.data)
         _this.QuestionAndAnswer = res.data;
-        var Submitted_length = _this.details.Submitted_Answers.length;
+        var Submitted_length = _this.classworkDetails.Submitted_Answers.length;
         var Question_length = _this.QuestionAndAnswer.Question.length;
         var diff = Question_length - Submitted_length;
 
         for (var i = 0; i < diff; i++) {
           if (_this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[i].type == 'Identification' || _this.QuestionAndAnswer.Question[i].type == 'True or False' || _this.QuestionAndAnswer.Question[i].type == 'Essay') {
-            _this.details.Submitted_Answers.push({
+            _this.classworkDetails.Submitted_Answers.push({
               Answer: null,
               Question_id: _this.QuestionAndAnswer.Question[i].id,
               timeConsume: null,
@@ -229,12 +229,12 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         var _loop = function _loop(_i) {
-          for (var j = 0; j < _this.details.Submitted_Answers.length; j++) {
-            if (_this.QuestionAndAnswer.Question[_i].id == _this.details.Submitted_Answers[j].Question_id) {
+          for (var j = 0; j < _this.classworkDetails.Submitted_Answers.length; j++) {
+            if (_this.QuestionAndAnswer.Question[_i].id == _this.classworkDetails.Submitted_Answers[j].Question_id) {
               if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False' || _this.QuestionAndAnswer.Question[_i].type == 'Essay') {
-                _this.SubmittedAnswer[_i] = _this.details.Submitted_Answers[j];
+                _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
 
-                if (_this.QuestionAndAnswer.Question[_i].answer == _this.details.Submitted_Answers[j].Answer) {
+                if (_this.QuestionAndAnswer.Question[_i].answer == _this.classworkDetails.Submitted_Answers[j].Answer) {
                   _this.Check[_i] = true;
                 } else {
                   _this.Check[_i] = false;
@@ -244,7 +244,7 @@ __webpack_require__.r(__webpack_exports__);
                   var Ans = new Array();
                   var match_check = new Array();
 
-                  _this.details.Submitted_Answers[j].Answer.forEach(function (item) {
+                  _this.classworkDetails.Submitted_Answers[j].Answer.forEach(function (item) {
                     for (var x = 0; x < _this.QuestionAndAnswer.Answer[_i].SubQuestion.length; x++) {
                       if (_this.QuestionAndAnswer.Answer[_i].SubQuestion[x].id == item.subquestion_id) {
                         Ans.push({
@@ -259,7 +259,7 @@ __webpack_require__.r(__webpack_exports__);
 
                   var tmpChoices = new Array();
 
-                  _this.details.Submitted_Answers[j].Choices_id.forEach(function (item) {
+                  _this.classworkDetails.Submitted_Answers[j].Choices_id.forEach(function (item) {
                     _this.QuestionAndAnswer.Answer[_i].SubAnswer.forEach(function (choice) {
                       if (item.choice_id == choice.id) {
                         tmpChoices.push({
@@ -316,8 +316,6 @@ __webpack_require__.r(__webpack_exports__);
     this.fetchQuestions();
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     this.Alphabet = alphabet;
-    console.log(this.details);
-    console.log(this.classworkDetails); ////console.log(this.details)
   }
 });
 
@@ -554,9 +552,9 @@ var render = function() {
                                   _c("div", { staticClass: "body-2" }, [
                                     _vm._v(
                                       "Score: " +
-                                        _vm._s(_vm.details.score) +
+                                        _vm._s(_vm.classworkDetails.score) +
                                         " /" +
-                                        _vm._s(_vm.details.totalPoints)
+                                        _vm._s(_vm.classworkDetails.points)
                                     )
                                   ])
                                 ]
@@ -589,7 +587,7 @@ var render = function() {
                             : ""
                         },
                         [
-                          _vm.details.showAnswer == true
+                          _vm.classworkDetails.showAnswer == true
                             ? _c("v-checkbox", {
                                 staticClass: "mt-0 pt-0",
                                 attrs: { readonly: "", color: "success" },
