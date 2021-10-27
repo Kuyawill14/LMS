@@ -445,6 +445,7 @@ class NotificationController extends Controller
                 $notifType[1] = 2;
                 $notifType[2] = 3;
                 $notifType[3] = 4;
+                $notifType[4] = 5;
             }
 
             $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)

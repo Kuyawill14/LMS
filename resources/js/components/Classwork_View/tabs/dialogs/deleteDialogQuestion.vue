@@ -1,14 +1,12 @@
 <template>
-
-       <v-card>
-        <v-card-title class="text-h6">
+    <v-card>
+        <v-card-title class="text-h5">
           Are you sure?
         </v-card-title>
-        <v-card-text class="pb-0 mb-0 text-subtitle-1">
-      
-             Deleting questions from this classwork cannot be undone.
+        <v-card-text class="pb-0 mb-0">
+             <p class="d-flex">Remove question <span class="ml-2" v-html="DeleteDetails.question"></span></p>
         </v-card-text >
-        <v-card-actions class="pb-3">
+        <v-card-actions class="pb-2">
           <v-spacer></v-spacer>
           <v-btn
             text
@@ -26,3 +24,8 @@
         </v-card-actions>
       </v-card>
 </template>
+<script>
+export default {
+    props:['DeleteDetails'],
+}
+</script>

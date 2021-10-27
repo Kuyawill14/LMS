@@ -47,7 +47,7 @@
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                             <v-checkbox
                             readonly
-                            v-if="classworkDetails.showAnswer == true"
+                            v-if="classworkDetails.showAnswer == true && item.type != 'Matching type'"
                             class="mt-0 pt-0"
                             color="success"
                             v-model="Check[index]"
@@ -112,10 +112,10 @@
                                 <v-container class="ma-0 pa-0">
                                     <v-container>
                                         <v-row>
-                                            <v-col class="font-weight-bold" cols="1" md="1" lg="1">
-                                                
+                                            <v-col class="font-weight-bold" cols="2" md="2" lg="2">
+                                                            
                                             </v-col>
-                                            <v-col class="font-weight-bold" cols="5" md="6" lg="6">
+                                            <v-col class="font-weight-bold" cols="5" md="5" lg="5">
                                                 Column A
                                             </v-col>
                                             <v-col class="font-weight-bold" cols="5">
@@ -124,14 +124,22 @@
                                         </v-row>
                                     </v-container>
                                     <v-divider></v-divider>
-                                    <v-container class="mb-0 pb-0" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
+                                    <v-container class="mb-0 pb-0 pt-2 pb-3" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
                                         
                                         <v-row>
+                                             <v-col v-if="classworkDetails.showAnswer == true" class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
+                                               <v-checkbox
+                                                    hide-details
+                                                    class="mt-5 pr-0 mr-0"
+                                                    v-model="Check[index][i]"
+                                                    color="success">
+                                                </v-checkbox>
+                                            </v-col>
                                             <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
                                                 <v-text-field readonly class="centered-input" v-model="item.Ans_Letter">
                                                 </v-text-field>
                                             </v-col>
-                                            <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
+                                            <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="5" lg="5">
                                                 <div class="d-flex mt-7">
                                                     <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                     <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
@@ -232,19 +240,36 @@ import moment from 'moment/src/moment';
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
                                     let Ans = new Array();
                                     let match_check = new Array();
+                                    let counter = 0;
                                      this.classworkDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.QuestionAndAnswer.Answer[i].SubQuestion.length; x++) {
                                             if(this.QuestionAndAnswer.Answer[i].SubQuestion[x].id == item.subquestion_id){
                                                 Ans.push({
+                                                    /* Ans_Letter: item.Ans_letter,
+                                                    Answer: item.Answers,
+                                                    SubQuestion: this.QuestionAndAnswer.Answer[i].SubQuestion[x].sub_question,
+                                                    SubChoice: null,
+                                                    Correct_Answer: null */
                                                     Ans_Letter: item.Ans_letter,
                                                     Answer: item.Answers,
                                                     SubQuestion: this.QuestionAndAnswer.Answer[i].SubQuestion[x].sub_question,
-                                                    SubChoice: null
+                                                    SubChoice: this.QuestionAndAnswer.Answer[i].SubAnswer[x].Choice,
+                                                    Correct_Answer: null
                                                 })
+
+                                                if(this.QuestionAndAnswer.Answer[i].SubAnswer[x].Choice == item.Answers){
+                                                    match_check[counter] = true;
+                                                   
+                                                }
+                                                else{
+                                                    match_check[counter] = false;
+                                                    /*  Ans[x].Correct_Answer = this.Alphabet[x] */
+                                                }
 
 
                                             }                           
                                         }
+                                        counter+=1;   
                                      });  
                                     let tmpChoices = new Array();
                                     this.classworkDetails.Submitted_Answers[j].Choices_id.forEach(item => {
@@ -260,9 +285,9 @@ import moment from 'moment/src/moment';
 
                                     for (let a = 0; a < Ans.length; a++) {
                                         Ans[a].SubChoice = tmpChoices[a].choice
-                                        //console.log(tmpChoices[a].choice);
                                     }
                                     this.SubmittedAnswer[i] = Ans;
+                                    this.Check[i] = match_check;
                                 }
                             }
                             
@@ -271,30 +296,6 @@ import moment from 'moment/src/moment';
                     }
                     this.isLoading = false;
               })
-
-            /* this.$store.dispatch('fetchQuestions', this.$route.params.id).then(res=>{
-                ////console.log(res);
-                this.Details = res[0];
-                for (let i = 0; i < this.Details.Question.length; i++) {
-                    for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
-                        if(this.Details.Question[i].id == this.details.Submitted_Answers[j].Question_id){
-                            this.SubmittedAnswer[i] =  this.details.Submitted_Answers[j];
-                            if(this.Details.Question[i].answer == this.details.Submitted_Answers[j].Answer){
-                                this.Check[i] = true;
-                            }
-                            else{
-                                this.Check[i] = false;
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                }
-                ////console.log(this.details.Submitted_Answers);
-                this.isLoading = false;
-            });
- */
         },
        
      

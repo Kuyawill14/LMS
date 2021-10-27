@@ -16,6 +16,7 @@
                                 <v-list-item-icon class="ma-0 pa-0">
                                     <v-radio-group hide-details :name="'option'+question.id"  class="ma-0 pa-0 mt-1" v-model="question.answer">
                                         <v-radio
+                                         :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                         readonly
                                         color="primary"
                                         :key="Ans.id"
@@ -61,6 +62,7 @@
                                 <v-list-item-icon class="ma-0 pa-0">
                                     <v-radio-group hide-details  v-model="question.answer">
                                         <v-radio
+                                         :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                          readonly
                                         color="primary"
                                         :key="n"
@@ -94,7 +96,7 @@
                         <div class="mb-5">
                                 <v-divider></v-divider>
                         </div>
-                        <v-container class="mb-0 pb-0 pt-2" v-for="(List, i) in answer.SubQuestion" :key="List.id">
+                        <v-container class="mb-0 pb-0 pt-2 pb-3" v-for="(List, i) in answer.SubQuestion" :key="List.id">
                             <v-row>
                                 <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="7">
                                     <div class="d-flex"> 
@@ -105,7 +107,7 @@
                                 <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
                                     <div class="d-flex"> 
                                         <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                        <span v-html="answer.SubAnswer[i][0].Choice" class="subchoices-content"></span>
+                                        <span v-html="answer.SubAnswer[i].Choice" class="subchoices-content"></span>
                                     </div>
                                 </v-col>
                             </v-row>
@@ -118,11 +120,10 @@
                         <v-list class="pl-3" >
                             <v-list-item class="ma-0 pa-0" >
                                 <v-list-item-content  class="ma-0 pa-0">
-                                            <quill-editor
-                                            :disabled="quill_disabled"
-                                            class="Essayeditor"
-                                            ref="myTextEditor"
-                                            :options="editorOption"/>
+                                        <quill-editor
+                                        class="Essayeditor"
+                                        ref="myTextEditor"
+                                        :options="editorOption"/>
                                 </v-list-item-content>  
                             </v-list-item>
                         </v-list>

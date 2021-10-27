@@ -2,33 +2,25 @@
 
 <div >
 
+<div transition="slide-y-reverse-transition">
+    <v-app-bar elevation="5" 
+    
+     v-if="!$vuetify.breakpoint.mdAndUp"
+        app  color="primary"  >
+         <v-btn dark rounded icon text 
+            v-if="!$vuetify.breakpoint.mdAndUp"
+            @click="$router.push({name: 'classwork'})" >
+            <v-icon >mdi-arrow-left-thick</v-icon>
+        </v-btn>
+        <v-divider   vertical></v-divider>
+    </v-app-bar>
+</div>
+
  <vue-element-loading :active="isOpenQuiz" duration="0.7" spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
      
     <v-row  justify="center" align-content="center" no-gutters :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-0'">
-        <v-col cols="12" :class="selected == 1 ? 'mb-2' : ''" v-if="!$vuetify.breakpoint.mdAndUp ">
-            <v-card class="pa-1" elevation="1"  outlined>
-                <v-row>
-                    <v-col cols="12" >
-                        <v-tooltip top>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-btn rounded
-                                    v-bind="attrs"
-                                    v-on="on"
-                                    icon 
-                                    text 
-                                    class=""
-                                    @click="$router.push({name: 'classwork'})" >
-                                <v-icon dark>mdi-arrow-left-thick</v-icon>
-                                </v-btn>
-                            </template>
-                            <span>Back to classworks</span>
-                        </v-tooltip>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </v-col>
         <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 1"  cols="12" md="4" lg="4" xl="4" class="mb-0 pb-0 ">
-            <v-card  class="pa-3" :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" outlined>
+            <v-card  :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-1'" :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" :outlined="$vuetify.breakpoint.mdAndUp">
                 <v-row  >
                     <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" class="mb-0 pb-0">
                         <v-tooltip top>
@@ -69,7 +61,6 @@
                             </v-list-item-content>
                             <v-list-item-action>
     
-<!-- v-if="get_CurrentUser.id == item.u_id" -->
                                   <v-menu offset-x >
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn icon v-bind="attrs" v-on="on">
@@ -132,7 +123,7 @@
         <v-col v-if="!isViewingSubmission" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 pl-5'" cols="12" md="8" lg="8" xl="8">
             <div v-if="$vuetify.breakpoint.mdAndUp || selected == 0">
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
-                <v-card class="pa-3" :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" outlined>
+                <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-1'" :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" :outlined="$vuetify.breakpoint.mdAndUp">
                     <v-row >
                         
                         <v-col cols="12">

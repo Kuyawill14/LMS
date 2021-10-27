@@ -98,7 +98,7 @@ const teacherStartPage = () => import('./type/teacherStartPage')
 import moment from 'moment/src/moment';
  import {mapGetters, mapActions } from "vuex";
 export default {
-    props:['role','UserDetails'],
+  props:['role','UserDetails'],
   components:{
     studentStartPage,
     teacherStartPage

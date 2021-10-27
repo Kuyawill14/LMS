@@ -205,6 +205,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -266,10 +276,21 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       selected_user_id: null,
       isFiltered: false,
       Submitted_count: 0,
-      Over_total: 0
+      Over_total: 0,
+      pageNo: 1,
+      pageSize: 12,
+      currentPage: 1,
+      totalPage: 0,
+      currentTotalData: 0
     };
   },
   computed: {
+    indexStart: function indexStart() {
+      return (this.currentPage - 1) * this.pageSize;
+    },
+    indexEnd: function indexEnd() {
+      return this.indexStart + this.pageSize;
+    },
     studentSubmissionList: function studentSubmissionList() {
       var _this = this;
 
@@ -306,7 +327,14 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
           this.Submitted_count = Filterddata.length;
 
           if (this.selectedSort == "Name") {
+            this.totalPage = Math.round((Filterddata.length - 1) / this.pageSize);
             return Filterddata.sort();
+            /* 
+                                            let data2 = Filterddata.sort();
+                                              let data3 = data2.splice(this.indexEnd - this.pageSiz, this.indexEnd);
+                                            
+                                              return data3; */
+            //return data2.splice((this.currentPage-1) * this.pageSize, ((this.currentPage-1) * this.pageSize) + this.pageSize);
           } else if (this.selectedSort == "Lowest Score") {
             var _data = Filterddata.sort(function (a, b) {
               return a.points - b.points;
@@ -377,6 +405,9 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
     }
   },
   methods: {
+    setPage: function setPage() {
+      this.currentPage = this.pageNo - 1;
+    },
     ViewSubmision: function ViewSubmision(data, index) {
       this.ViewDetails = null; //this.isLoadingData = true;
       //if(data.status == 'Submitted'){

@@ -274,6 +274,7 @@ Route::prefix('/question')->group(function () {
     Route::put('/remove_question_match/{id}', [ObjectiveController::class, 'removeQuestionMatch']);
     Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
     Route::put('/delete_selected_question/{id}', [ObjectiveController::class, 'DeleteSelectedQuestion']);
+    Route::put('/store_duplicate_question/{id}', [ObjectiveController::class, 'StoreDuplicateQuestion']);
     
 });
 

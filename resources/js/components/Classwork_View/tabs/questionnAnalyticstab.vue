@@ -20,9 +20,9 @@
 <v-row justify="center"  >
     <v-col cols="12" class="text-center ">
             <div class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'">
-                 <v-img  class="Image_centered" height="150" width="150"
+                <!--  <v-img  class="Image_centered" height="150" width="150"
                 src="https://cdn-icons.flaticon.com/png/512/1163/premium/1163796.png?token=exp=1635049821~hmac=ec85b4268657c5c7e6755b2a4c5e6fa5">
-                </v-img>
+                </v-img> -->
 
                 <h1 v-if="$vuetify.breakpoint.mdAndUp ">Page Maintenance!</h1>
                 <h2 v-else >Page Maintenance!</h2>

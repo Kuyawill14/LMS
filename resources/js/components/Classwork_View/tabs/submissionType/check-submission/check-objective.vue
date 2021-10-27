@@ -144,81 +144,43 @@
                     </v-col>
                 </v-row>
                 </v-card>
-                <v-card elevation="1" outlined class="pa-4" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
-                        <v-container ma-0 pa-0 v-for="(item, index) in Details.Question" :key="index">
-                            <v-container ma-0 pa-0>
-                               <!--  <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
-                                    <v-checkbox
-                                    hide-details
-                                    @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
-                                    class="mt-0 pt-0"
-                                    color="success"
-                                    v-model="Check[index]"
-                                    ></v-checkbox>
-                                    
-                                     <v-btn class="mt-0 pt-0" v-if="Check[index] == true" icon text>
-                                        <v-icon  color="success">mdi-checkbox-marked</v-icon>
-                                    </v-btn>
-                                    <v-btn  class="mt-0 pt-0" v-else icon text>
-                                        <v-icon color="red">mdi-close-box</v-icon>
-                                    </v-btn>
-                                    
-                                    <h3 class="font-weight-bold">{{index+1}}.</h3>
-                                    <div class="d-flex justify-space-between">
-                                        <div style="width:90%" v-html="item.question" class="post-content pl-1"></div>
-                                        <div class="primary--textd d-flex ">
-                                             <small class="primary--text ">({{item.points+' points'}})</small>
-                                        </div>
-                                       
-                                    </div>
-                                       
-                                    </div> -->
+                <v-card elevation="1" outlined class="pa-5" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
+                    <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
+                        <v-row>
+                            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0" >
                                     <v-list>
-                                        <v-list-item class="ma-0 pa-0">
-                                            <v-list-item-icon class="ma-0 pa-0 mt-2">
-                                                 <v-checkbox
-                                                hide-details
-                                                @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
-                                                class="mt-0 pt-0"
-                                                color="success"
-                                                v-model="Check[index]"
-                                                ></v-checkbox>
-                                            </v-list-item-icon>
-                                            <v-list-item-content class="subtitle-1 ">
-                                                <div class="d-flex">
-                                                      <h3 class="font-weight-bold">{{index+1}}.</h3>
-                                                     <div style="width:90%" v-html="item.question" class="post-content pl-1"></div>
-                                                </div>
-                                              
-                                            </v-list-item-content>
-                                            <v-list-item-action class="ma-0 pa-0">
-                                                <small class="primary--text ">({{item.points+' points'}})</small>
-                                            </v-list-item-action>
-                                        </v-list-item>
-                                    </v-list>
-                            </v-container> 
-                        
-                            <v-container ml-0 pl-6 pt-1 mt-1 pl-0 v-if="item.type == 'Multiple Choice'">
-                                <!-- <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
-                                v-for="(Ans, i) in Details.Answer[index]" :key="i"> -->
-                                
-                                    <!-- <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
-                                    <v-radio
-                                    color="primary"
-                                    :key="index"
-                                    :value="Ans.Choice">
-                                    </v-radio>
-                                    </v-radio-group>
-                                    <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
-                                        <span v-html="Ans.Choice" class="post-content"></span>
-                                        <span class="caption primary--text ml-1 mt-1" v-if="item.Answer == Ans.Choice">(correct answer)</span>
-                                    </div> -->
-                                    <v-list >
-                                       
-                                        <v-list-item class="ma-0 pa-0"  v-for="(Ans, i) in Details.Answer[index].options" :key="i">
-                                             <v-list-item-icon class="ma-0 pa-0">
+                                    <v-list-item class="ma-0 pa-0">
+                                        <v-list-item-icon class="ma-0 pa-0 mt-2">
+                                                <v-checkbox
+                                                v-if="item.type != 'Matching type'"
+                                            hide-details
+                                            @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
+                                            class="mt-0 pt-0"
+                                            color="success"
+                                            v-model="Check[index]"
+                                            ></v-checkbox>
+                                        </v-list-item-icon>
+                                        <v-list-item-content class="subtitle-1 ">
+                                            <div class="d-flex">
+                                                    <h3 class="font-weight-bold">{{index+1}}.</h3>
+                                                    <div style="width:90%" v-html="item.question" class="post-content pl-1"></div>
+                                            </div>
+                                            
+                                        </v-list-item-content>
+                                        <v-list-item-action class="ma-0 pa-0">
+                                            <small class="primary--text ">({{item.points+' points'}})</small>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </v-list>
+                            </v-col>
+                            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0" v-if="item.type == 'Multiple Choice'">
+                                <div>
+                                    <v-list class="pl-6" >
+                                        <v-list-item class="ma-0 pa-0"  v-for="(Ans, i) in getAll_questions.Answer[index].options" :key="i">
+                                            <v-list-item-icon class="ma-0 pa-0 ">
                                                 <v-radio-group hide-details :name="'option'+index"  class="ma-0 pa-0 mt-1" v-model="SubmittedAnswer[index].Answer">
                                                     <v-radio
+                                                     :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                     hide-details
                                                     color="primary"
                                                     :key="index"
@@ -229,118 +191,139 @@
                                             <v-list-item-content class="ma-0 pa-0">
                                                 <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
                                                     <span v-html="Ans.Choice" class="post-content"></span>
-                                                    
                                                     <span class="caption primary--text ml-1" v-if="item.answer == Ans.Choice">(correct answer)</span>
                                                 </div>
-                                                <div>
-                                                    
-                                                </div>
                                             </v-list-item-content>
-                                           
                                         </v-list-item>
                                     </v-list>
-                               
-                               <!--  </v-container> -->
-                            </v-container>
-
-                            <v-container v-if="item.type == 'Identification'">
-                                <v-container ma-0 pa-0 class="ml-7">
-                                <div class="subtitle-2 font-weight-bold primary--text">Correct Answer</div>
-                                 <div class="subtitle-1 d-flex item ml-4">
-                                    <span v-html="item.answer" class="post-content"></span>
                                 </div>
+                            </v-col>
+                            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0" v-if="item.type == 'Identification'">
+                                    <div>
+                                    <v-list class="pl-6" >
+                                        <v-list-item class="ma-0 pa-0"  >
+                                            <v-list-item-content class="ma-0 pa-0 ">
+                                                <div class="success--text">
+                                                    Correct Answer:
+                                                </div>
+                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex pl-3 success--text">
+                                                    <span class="pr-2">&bull; </span>
+                                                        <span v-html="item.answer" class="post-content"></span>
+                                                </div>
 
-                                <div class="subtitle-2 font-weight-bold">Student Answer</div>
-                                <div class="subtitle-1 d-flex item ml-4">
-                                    <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
-                                    <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
+                                                <div class="primary--text">
+                                                    Student Answer:
+                                                </div>
+                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex pl-3 primary--text">
+                                                    <span class="pr-2">&bull; </span>
+                                                        <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
+                                                        <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
+                                                </div>
+                                            </v-list-item-content>  
+                                        </v-list-item>
+                                    </v-list>
                                 </div>
-
-                                
-                            </v-container>
-                            </v-container>
-
-
-                            <v-container v-if="item.type == 'True or False'">
-                                <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0'" 
-                                v-for="(x, n) in inputCheck" :key="n">
-                                <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="SubmittedAnswer[index].Answer">
-                                    <v-radio
-                                    color="primary"
-                                    :key="index"
-                                    :value="inputCheck[n]">
-                                    </v-radio>
-                                </v-radio-group>
-                                <div class="Subtitle 1">
-                                    {{inputCheck[n]}} 
-                                    <span class="caption primary--text ml-1 mt-1" v-if="inputCheck[n] == SubmittedAnswer[index].Answer">(correct answer)</span>
+                            </v-col>
+                            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0" v-if="item.type == 'True or False'">
+                                    <div>
+                                    <v-list class="pl-6" >
+                                        <v-list-item class="ma-0 pa-0"  v-for="(x, n) in inputCheck" :key="n">
+                                            <v-list-item-icon class="ma-0 pa-0">
+                                                <v-radio-group hide-details  :name="'option'+index"   class="ma-0 pa-0 mt-1"  v-model="SubmittedAnswer[index].Answer">
+                                                    <v-radio
+                                                     :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                    color="primary"
+                                                    :key="index"
+                                                    name="Answer" 
+                                                    :value="inputCheck[n]">
+                                                    ></v-radio>
+                                                </v-radio-group>
+                                            </v-list-item-icon>
+                                            <v-list-item-content  class="ma-0 pa-0">
+                                                <div  style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
+                                                    
+                                                    <span v-html="TrueOrFalse[n]"></span>
+                                                        <span class="caption primary--text ml-1 " v-if="inputCheck[n] == SubmittedAnswer[index].Answer">(correct answer)</span>
+                                                </div>
+                                            </v-list-item-content>  
+                                        </v-list-item>
+                                    </v-list>
                                 </div>
-                            </v-container>
-                            </v-container>
-
-
-                            <v-container ma-0 pa-0 class="mb-3"  v-if="item.type == 'Matching type'">
-                                <v-row no-gutters>
-                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="10" md="12" >
-                                        <v-container class="ma-0 pa-0">
-                                            <v-container>
-                                                <v-row>
-                                                    <v-col class="font-weight-bold" cols="2" md="2" lg="2">
-                                                        
-                                                    </v-col>
-                                                    <v-col class="font-weight-bold" cols="5" md="5" lg="5">
-                                                        Column A
-                                                    </v-col>
-                                                    <v-col class="font-weight-bold" cols="5">
-                                                        Column B
-                                                    </v-col>
-                                                </v-row>
+                            </v-col>
+                            <v-col cols="12" class="mt-0 pt-0 mb-5 pb-0" v-if="item.type == 'Matching type'">
+                                <div class="pl-5">
+                                    <v-row no-gutters>
+                                        <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12"  >
+                                            <v-container class="ma-0 pa-0">
+                                                <v-container>
+                                                    <v-row>
+                                                        <v-col class="font-weight-bold" cols="2" md="2" lg="2">
+                                                            
+                                                        </v-col>
+                                                        <v-col class="font-weight-bold" cols="5" md="5" lg="5">
+                                                            Column A
+                                                        </v-col>
+                                                        <v-col class="font-weight-bold" cols="5">
+                                                            Column B
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-container>
+                                                <v-divider></v-divider>
+                                                <v-container class="mb-0 pb-0" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
+                                                    <v-row>
+                                                        <v-col class="mb-1 pb-0 pt-0 mt-0 mr-0 pr-0  text-center" cols="2" md="1" lg="1">
+                                                            <v-checkbox
+                                                            hide-details
+                                                                class="mt-4 pr-0 mr-0"
+                                                                color="success"
+                                                                v-model="Check[index][i]"
+                                                                ></v-checkbox>
+                                                        </v-col>
+                                                        <v-col class="ml-0 pl-0 mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
+                                                            <v-text-field hide-details readonly class="ml-0 pl-0 centered-input" v-model="item.Ans_Letter">
+                                                            </v-text-field>
+                                                        </v-col>
+                                                        <v-col class="mb-1 pb-0 pt-0 mt-0" cols="4" md="5" lg="5">
+                                                            <div class="d-flex mt-7">
+                                                                <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
+                                                                <small v-if="!Check[index][i]" class="primary--text">(correct answer: {{item.Correct_Answer}})</small>
+                                                            </div>
+                                                        </v-col>
+                                                        <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="4" md="4" lg="5">
+                                                            <div class="d-flex mt-7"> 
+                                                                <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubChoice" class="subchoices-content"></span>
+                                                            </div>
+                                                        </v-col>
+                                                    </v-row>
+                                                </v-container>
                                             </v-container>
-                                            <v-divider></v-divider>
-                                            <v-container class="mb-0 pb-0" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
-                                                
-                                                <v-row>
-                                                    <v-col class="mb-1 pb-0 pt-0 mt-0 mr-0 pr-0" cols="2" md="1" lg="1">
-                                                        <v-checkbox
-                                                            class="mt-4 pr-0 mr-0"
-                                                            color="success"
-                                                            v-model="Check[index][i]"
-                                                            ></v-checkbox>
-                                                    </v-col>
-                                                    <v-col class="ml-0 pl-0 mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
-                                                        <v-text-field  readonly class="ml-0 pl-0 centered-input" v-model="item.Ans_Letter">
-                                                        </v-text-field>
-                                                    </v-col>
-                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="4" md="5" lg="5">
-                                                        <div class="d-flex mt-7">
-                                                            <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
-                                                        </div>
-                                                    </v-col>
-                                                    <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="4" md="4" lg="5">
-                                                        <div class="d-flex mt-7"> 
-                                                            <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                            <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubChoice" class="subchoices-content"></span>
-                                                        </div>
-                                                    </v-col>
-                                                </v-row>
-                                            </v-container>
-                                        </v-container>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-
-                          <v-container v-if="item.type == 'Essay'">
-                                <v-container ma-0 pa-0 class="ml-7">
-                                <div class="subtitle-2 font-weight-bold">Answer</div>
-                                <div  class="subtitle-1 d-flex item pl-4 pr-4">
-                                    <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
-                                    <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
+                                        </v-col>
+                                    </v-row>
                                 </div>
-                            </v-container>
-                            </v-container>
-                    </v-container>
-               
+                            </v-col>
+                            <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0" v-if="item.type == 'Essay'">
+                                <div class="mt-0 pt-0">
+                                    <v-list class="pl-6" >
+                                        <v-list-item class="ma-0 pa-0"  >
+                                            <v-list-item-content class="ma-0 pa-0 ">
+
+                                                <div class="primary--text">
+                                                    Student Answer:
+                                                </div>
+                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex pl-3">
+                                                    <span class="pr-2">&bull; </span>
+                                                    <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
+                                                    <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
+                                                </div>
+                                            </v-list-item-content>  
+                                        </v-list-item>
+                                    </v-list>
+                                </div>
+                            </v-col>
+                        </v-row>
+                </v-container>
             </v-card>
         </v-col>
         
@@ -363,10 +346,10 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
       data(){
           return{
             Qlength: null,
-            Details: [],
             Check: [],
             isLoading: true,
             inputCheck:['True','False'],
+            TrueOrFalse:['<p>True</p>','<p>False</p>'],
             SubmittedAnswer:[],
             UpdateDetails:{},
             dialog: false,
@@ -390,71 +373,102 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         },
           fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res)=>{
-        
-                this.Details = this.getAll_questions;
+
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
                 let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length  - Submitted_length;
-                for (let i = 0; i < diff; i++) {
-                    if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
-                        this.ViewDetails.Submitted_Answers.push({
-                            Answer: null,
-                            Question_id: this.Details.Question[i].id,
-                            timeConsume: null,
-                            type: this.Details.Question[i].type
-                        })
-                    }
-                    else if(this.Details.Question[i].type == 'Essay'){
-                         this.ViewDetails.Submitted_Answers.push({
-                            Answer: null,
-                            Question_id: this.Details.Question[i].id,
-                            timeConsume: null,
-                            type: this.Details.Question[i].type,
-                            check: false
-                        })
-                    }
-                    else if(this.Details.Question[i].type == 'Matching type'){
-
-                    }
- 
+                
+                 let counter;
+                for (let j = 0; j < Question_length; j++) {
+                    counter = 0;
+                   for (let k = 0; k < Submitted_length; k++) {
+                        if(this.getAll_questions.Question[j].id != this.ViewDetails.Submitted_Answers[k].Question_id){
+                            counter++;
+                        }
+                   }
+                   if(counter == Submitted_length){
+                        if(this.getAll_questions.Question[j].type == 'Multiple Choice' || this.getAll_questions.Question[j].type == 'Identification' || this.getAll_questions.Question[j].type == 'True or False'){
+                            this.ViewDetails.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.getAll_questions.Question[j].id,
+                                timeConsume: null,
+                                type: this.getAll_questions.Question[j].type
+                            })
+                        }
+                        else if(this.getAll_questions.Question[j].type == 'Essay'){
+                            this.ViewDetails.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.getAll_questions.Question[j].id,
+                                timeConsume: null,
+                                type: this.getAll_questions.Question[j].type,
+                                check: false
+                            })
+                        }
+                        else if(this.getAll_questions.Question[j].type == 'Matching type'){
+                             this.ViewDetails.Submitted_Answers.push({
+                                Answer:[], 
+                                type: 'Matching type',
+                                Question_id: this.getAll_questions.Question[j].id,
+                                Choices_id:[], 
+                            })
+                            let counter = 0;
+                             this.getAll_questions.Answer[j].SubQuestion.forEach(item => {
+                                 this.ViewDetails.Submitted_Answers[this.ViewDetails.Submitted_Answers.length-1].Choices_id.push({
+                                   choice_id: this.getAll_questions.Answer[j].SubAnswer[counter].id,
+                                })
+                                 this.ViewDetails.Submitted_Answers[this.ViewDetails.Submitted_Answers.length-1].Answer.push({
+                                    Ans_id: null,
+                                    Ans_letter: null,
+                                    Answers: null,
+                                    subquestion_id: item.id,
+                                })
+                                counter++;
+                            });
+                        }
+                   }
+                    
                 }
-                ////console.log(this.Details.Question)
+                console.log(this.ViewDetails.Submitted_Answers);
+               
                 for (let i = 0; i < this.getAll_questions.Question.length; i++) {
+
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
-                        if(this.Details.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
-                            if(this.Details.Question[i].type == 'Multiple Choice' || this.Details.Question[i].type == 'Identification' || this.Details.Question[i].type == 'True or False'){
+                        if(this.getAll_questions.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
+                            if(this.getAll_questions.Question[i].type == 'Multiple Choice' || this.getAll_questions.Question[i].type == 'Identification' || this.getAll_questions.Question[i].type == 'True or False'){
                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
-                                if(this.Details.Question[i].answer == this.ViewDetails.Submitted_Answers[j].Answer){
+                                if(this.getAll_questions.Question[i].answer == this.ViewDetails.Submitted_Answers[j].Answer){
                                     this.Check[i] = true;
                                 }
                                 else{
                                     this.Check[i] = false;
                                 }
                             }
-                            else if(this.Details.Question[i].type == 'Essay'){
+                            else if(this.getAll_questions.Question[i].type == 'Essay'){
                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
                                 this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
                             }
-                            else if(this.Details.Question[i].type == 'Matching type'){
+                            else if(this.getAll_questions.Question[i].type == 'Matching type'){
                                     let Ans = new Array();
                                     let match_check = new Array();
                                     let counter = 0;
                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
-                                       
-                                        for (let x = 0; x < this.Details.Answer[i].SubQuestion.length; x++) {
-                                            if(this.Details.Answer[i].SubQuestion[x].id == item.subquestion_id){
+                                        for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion.length; x++) {
+                                            if(this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id){
                                                 Ans.push({
                                                     Ans_Letter: item.Ans_letter,
                                                     Answer: item.Answers,
-                                                    SubQuestion: this.Details.Answer[i].SubQuestion[x].sub_question,
-                                                    SubChoice: null
+                                                    SubQuestion: this.getAll_questions.Answer[i].SubQuestion[x].sub_question,
+                                                    SubChoice: this.getAll_questions.Answer[i].SubAnswer[x].Choice,
+                                                    Correct_Answer: null
                                                 })
 
-                                                if(this.Details.Answer[i].SubAnswer[x].Choice == item.Answers){
+                                                if(this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers){
                                                     match_check[counter] = true;
+                                                   
                                                 }
                                                 else{
                                                     match_check[counter] = false;
+                                                     Ans[x].Correct_Answer = this.Alphabet[x]
                                                 }
                                             }
                                                                 
@@ -464,7 +478,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                     });  
                                     let tmpChoices = new Array();
                                     this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
-                                        this.Details.Answer[i].SubAnswer.forEach(choice => {
+                                        this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
                                             if(item.choice_id == choice.id){
                                                 tmpChoices.push({
                                                     id: choice.id,
@@ -486,7 +500,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                     }
                     
                 }
-                 this.isLoaded = true;
+    
+                this.isLoaded = true;
                 this.$emit('isMounted');
             });
 
@@ -580,7 +595,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
      
       },
     
-      beforeMount(){
+      mounted(){
     
             if(this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != ''){
                 this.fetchQuestions();

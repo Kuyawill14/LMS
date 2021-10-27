@@ -1,5 +1,20 @@
 <template>
 <div >
+
+
+<div transition="slide-y-reverse-transition">
+    <v-app-bar elevation="5" 
+    
+     v-if="!$vuetify.breakpoint.mdAndUp"
+        app  color="primary"  >
+         <v-btn dark rounded icon text 
+            v-if="!$vuetify.breakpoint.mdAndUp"
+            @click="$router.push({name: 'classwork'})" >
+            <v-icon >mdi-arrow-left-thick</v-icon>
+        </v-btn>
+        <v-divider   vertical></v-divider>
+    </v-app-bar>
+</div>
   <v-dialog v-model="AttachLink" persistent max-width="400">
          <!--    <attachlinkDiaglog 
             v-on:toggleCancelDialog="AttachLink = !AttachLink"
@@ -82,7 +97,7 @@
 
 
     <v-row ref="ContainerSize" justify="center" no-gutters :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-0'">
-        <v-col cols="12" md="10"  class="mb-2 mt-0 pt-0" v-if="!$vuetify.breakpoint.mdAndUp ">
+      <!--   <v-col cols="12" md="10"  class="mb-2 mt-0 pt-0" v-if="!$vuetify.breakpoint.mdAndUp ">
             <v-card class="pa-1" elevation="1" outlined>
                 <v-row>
                     <v-col cols="12" >
@@ -103,7 +118,7 @@
                     </v-col>
                 </v-row>
             </v-card>
-        </v-col>
+        </v-col> -->
          <v-col v-if="$vuetify.breakpoint.mdAndUp ? true : selected == 1 || selected == 2"  cols="12" md="4" lg="4" xl="4" class="mb-0 pb-0">
              <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
                <v-row  >
@@ -364,7 +379,7 @@
           </v-card>
         </v-col>
          <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 0" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="8" lg="8" xl="8" >
-          <v-card outlined :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" class="pa-5">
+          <v-card :outlined="$vuetify.breakpoint.mdAndUp" :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-1'">
                 <v-row class="mb-0 pb-0">
                     <v-col cols="12" md="12" class="ma-0">
                             <v-row >

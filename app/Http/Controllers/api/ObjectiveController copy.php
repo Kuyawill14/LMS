@@ -14,7 +14,6 @@ use App\Models\tbl_Submission;
 use App\Models\tbl_questionAnalytic;
 use App\Models\tbl_student_main_grades;
 use App\Models\tbl_student_course_subject_grades;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 
@@ -35,7 +34,7 @@ class ObjectiveController extends Controller
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
             ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points')
             ->orderBy('created_at','ASC')
-            ->whereNotNull('tbl_questions.question')
+            //->whereNotNull('tbl_questions.question')
             ->get();
             $temQuest = $Questions->shuffle();
         }
@@ -47,21 +46,66 @@ class ObjectiveController extends Controller
             ->get();
             $temQuest = $Questions;
         }
-        
         $FinalAnswer = array();
         $tempQuestion = new Collection();
         $tempAnswer = new Collection();
         foreach($temQuest as $cl){
            
             $tempData1;
-            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
-            ->get();
-
-            if($cl->type != 'Matching type'){
+            $tempSubQuestion;
+            if(auth('sanctum')->user()->role == 'Student'){
                 $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                 ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                 ->get();
+
+               /*  $tempData1;
+                if($cl->type != 'Matching type'){
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+                }
+                else{
+                    $tempData1 = [];
+                    foreach($tempSubQuestion as $item){
+                        $tempData1 = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                        ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                        ->get();
+                    }
+                } */
+
+                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+                ->get();
+
+               
+            }
+            else{
+                
+
+                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
+                ->get();
+                $tempData1;
+                
+                if($cl->type != 'Matching type'){
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+                }
+                else{
+                    $tempData1 = [];
+                    foreach($tempSubQuestion as $item){
+                        $tempData1[] = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                        ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                        ->get();
+                    }
+                }
+
+                
+               
+            }
+
+            if($cl->type != 'Matching type'){
                 $tempData2;
                 if(auth('sanctum')->user()->role == 'Student'){
                     $tempData2  = $tempData1->shuffle();
@@ -71,33 +115,33 @@ class ObjectiveController extends Controller
                     $tempData2 = $tempData1;
                     $FinalAnswer[] =  ['options'=> $tempData2, 'SubQuestion'=> [], 'SubAnswer'=> []];
                 }
-                
 
+
+               /*  if(auth('sanctum')->user()->role == 'Student'){
+                    $FinalAnswer[] =  $tempData2;
+                }
+                else{
+                    $FinalAnswer[] =  ['options'=> $tempData2];
+                } */
+                //$FinalAnswer[] =  $tempData2;
+                
             }
             else{
-                $tempData1 = [];
-                foreach($tempSubQuestion as $item){
-                    $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
-                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                    ->first();
-                    if(auth('sanctum')->user()->role == 'Student'){
-                        $item->answer_id = null;
-                    }
-                }
-        
+                $tmp = array();
                 if(auth('sanctum')->user()->role == 'Student'){
-                    $tempAns =  Arr::shuffle($tempData1);
-                    $temQues = $tempSubQuestion->shuffle();
+                    $tempAns =  $tempData1->shuffle();
+                    $temQues = $tempSubQuestion->shuffle();  
                 }
                 else{
                     $tempAns =  $tempData1;
                     $temQues = $tempSubQuestion;  
-                }
+                } 
                 $tmp =  ['options'=> [], "SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
-                $FinalAnswer[] = $tmp;
-            }
-
+                $FinalAnswer[] = $tmp;    
+            }     
         }
+
+        
         return ["Question"=>$temQuest , "Answer"=>$FinalAnswer];
     }
      /**
@@ -128,32 +172,50 @@ class ObjectiveController extends Controller
             foreach($temQuest as $cl){
                
                 $tempData1;
-                $tempData1;
-                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-                ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
-                ->get();
-    
-                if($cl->type != 'Matching type'){
+                $tempSubQuestion;
+                if(auth('sanctum')->user()->role == 'Student'){
                     $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                     ->get();
-
-                    $FinalAnswer[] =  $tempData1;
+    
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+                    ->get();
                 }
                 else{
-                    $tempData1 = [];
-                    $tmp = array();
-                    foreach($tempSubQuestion as $item){
-                        $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
-                        ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                        ->first();
-                        if(auth('sanctum')->user()->role == 'Student'){
-                            $item->answer_id = null;
-                        }
-                    }
-                    $tmp =  ["SubQuestion"=>$tempSubQuestion , "SubAnswer"=>$tempData1];
-                    $FinalAnswer[] = $tmp;
+                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->get();
+    
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
+                    ->get();
                 }
+    
+    
+                if($cl->type != 'Matching type'){
+                    $tempData2;
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $tempData2  = $tempData1;
+                    }
+                    else{
+                        $tempData2 = $tempData1;
+                    }
+                    $FinalAnswer[] =  $tempData2;
+                }
+                else{
+                    $tmp = array();
+                    if(auth('sanctum')->user()->role == 'Student'){
+                        $tempAns =  $tempData1;
+                        $temQues = $tempSubQuestion;
+                    }
+                    else{
+                        $tempAns =  $tempData1;
+                        $temQues = $tempSubQuestion;  
+                    } 
+                    $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
+                    $FinalAnswer[] = $tmp;    
+                }     
             }
             
         }
@@ -451,11 +513,9 @@ class ObjectiveController extends Controller
     {
 
         //return   $request;
-
         $counter = 0;
         $question_id = array();
         $answer_id = array();
-        $totalPoints = 0;
         foreach($request->question as $mainItem){
             $newQuestion  = new tbl_Questions;
             $newQuestion->classwork_id = $id;
@@ -487,7 +547,7 @@ class ObjectiveController extends Controller
                 foreach($request->answer[$counter]['SubAnswer'] as $sub_question){
                     $QuestionChoice  = new tbl_choice;
                     $QuestionChoice->question_id = $newQuestion->id;
-                    $QuestionChoice->Choice = $sub_question['Choice'];
+                    $QuestionChoice->Choice = $sub_question[0]['Choice'];
                     $QuestionChoice->save();
                     $sub_answer_id[] = $QuestionChoice->id;
 
@@ -501,16 +561,8 @@ class ObjectiveController extends Controller
                 }
                 $answer_id[] = ['options_id' =>[], 'SubQuestion_id' => $sub_question_id, 'SubAnswer_id'=> $sub_answer_id];
             }
-
-            $totalPoints += $mainItem['points'];
             $counter++;
-            
         }
-
-        $NewPoints = tbl_classwork::find($id);
-        $tmp_points = ($NewPoints->points + $totalPoints);
-        $NewPoints->points = $tmp_points;
-        $NewPoints->save();
     
         return ["answer_id"=> $answer_id , "question_id"=>$question_id];      
     }
@@ -691,15 +743,15 @@ class ObjectiveController extends Controller
                             $checkSubQuestion->sub_question = $SubQues['sub_question'];
                             $checkSubQuestion->save();
 
-                            $checkOption = tbl_choice::find($request->Answer[$currentIndex]['SubAnswer'][$matchIndex]['id']);
+                            $checkOption = tbl_choice::find($request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['id']);
                             if($checkOption){
-                                $checkOption->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex]['Choice'];
+                                $checkOption->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['Choice'];
                                 $checkOption->save();
                             }
                             else{
                                 $NewSubQuestionAnswer  = new tbl_choice;
                                 $NewSubQuestionAnswer->question_id =  $checkQuestion->id;
-                                $NewSubQuestionAnswer->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex]['Choice'];
+                                $NewSubQuestionAnswer->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['Choice'];
                                 $NewSubQuestionAnswer->save();
                             }
                         }
@@ -712,7 +764,7 @@ class ObjectiveController extends Controller
                             if($SubQuestion){
                                 $SubQuestionAnswer  = new tbl_choice;
                                 $SubQuestionAnswer->question_id = $checkQuestion->id;
-                                $SubQuestionAnswer->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex]['Choice'];
+                                $SubQuestionAnswer->Choice = $request->Answer[$currentIndex]['SubAnswer'][$matchIndex][0]['Choice'];
                                 $SubQuestionAnswer->save();
                                 $SubQuestion->answer_id = $SubQuestionAnswer->id;
                                 $SubQuestion->save(); 
@@ -1041,95 +1093,100 @@ class ObjectiveController extends Controller
     public function check(Request $request, $id)
     {
         
-        //return $request;
+        
         //return serialize($request->item);
         $userId = auth('sanctum')->id();
+        $questionCount = tbl_Questions::where('tbl_questions.classwork_id', $id)->count();
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
         ->get();
    
-
+        $tempData = array();
         $score = 0;
+    
         foreach($request->item as $cl){
+           
                 foreach($Questions as $ques){
-                if($ques['id'] == $cl['Question_id']){
-                    if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+                    if($ques['id'] == $cl['Question_id']){
+                        if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False' /* || $cl['type'] == 'Essay' */){
 
-                        $userAns;
-                        $questionAns;
-                        if($ques['sensitivity']){
-                            $userAns = $cl['Answer'];
-                            $questionAns = $ques['answer'];
-                        }
-                        else{
-                            $userAns = strtolower($cl['Answer']);
-                            $questionAns = strtolower($ques['answer']);
-                        }
+                            $userAns;
+                            $questionAns;
+                            if($ques['sensitivity']){
+                                $userAns = $cl['Answer'];
+                                $questionAns = $ques['answer'];
+                            }
+                            else{
+                                $userAns = strtolower($cl['Answer']);
+                                $questionAns = strtolower($ques['answer']);
+                            }
 
-                        
-                        if($questionAns == $userAns){
-                            $score += $ques['points'];
-                            $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
-                        
-                            if($AnalyticsFind){
-                                $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
-                                if($AnalyticsFind->shortest_time > $cl['timeConsume']){
+                            
+                            if($questionAns == $userAns){
+                                $score += $ques['points'];
+                                $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
+                            
+                                if($AnalyticsFind){
+                                    $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
+                                    if($AnalyticsFind->shortest_time > $cl['timeConsume']){
+                                        $AnalyticsFind->shortest_time = $cl['timeConsume'];
+                                    }
+                                    if($AnalyticsFind->longest_time < $cl['timeConsume']){
+                                        $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                    }
+                                    $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
+                                    $AnalyticsFind->save();
+                                }
+                                else{
+                                    $NewAnalytics  = new tbl_questionAnalytic;
+                                    $NewAnalytics->question_id = $cl['Question_id'];
+                                    $NewAnalytics->correct_count = 1;
+                                    $NewAnalytics->wrong_count = 0;
+                                    $NewAnalytics->shortest_time = $cl['timeConsume'];
+                                    $NewAnalytics->longest_time = $cl['timeConsume'];
+                                    $NewAnalytics->average_time = $cl['timeConsume'];
+                                    $NewAnalytics->save();
+                                }
+                            }
+                            else{
+                                $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
+                                if($AnalyticsFind){
+                                    $AnalyticsFind->wrong_count = ($AnalyticsFind->correct_count+1);
+                                    if($AnalyticsFind->shortest_time > $cl['timeConsume']){
                                     $AnalyticsFind->shortest_time = $cl['timeConsume'];
-                                }
-                                if($AnalyticsFind->longest_time < $cl['timeConsume']){
-                                    $AnalyticsFind->longest_time  = $cl['timeConsume'];
-                                }
-                                $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
-                                $AnalyticsFind->save();
-                            }
-                            else{
-                                $NewAnalytics  = new tbl_questionAnalytic;
-                                $NewAnalytics->question_id = $cl['Question_id'];
-                                $NewAnalytics->correct_count = 1;
-                                $NewAnalytics->wrong_count = 0;
-                                $NewAnalytics->shortest_time = $cl['timeConsume'];
-                                $NewAnalytics->longest_time = $cl['timeConsume'];
-                                $NewAnalytics->average_time = $cl['timeConsume'];
-                                $NewAnalytics->save();
-                            }
-                        }
-                        else{
-                            $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
-                            if($AnalyticsFind){
-                                $AnalyticsFind->wrong_count = ($AnalyticsFind->correct_count+1);
-                                if($AnalyticsFind->shortest_time > $cl['timeConsume']){
-                                $AnalyticsFind->shortest_time = $cl['timeConsume'];
-                                }
+                                    }
 
-                                if($AnalyticsFind->longest_time < $cl['timeConsume']){
-                                    $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                    if($AnalyticsFind->longest_time < $cl['timeConsume']){
+                                        $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                    }
+                                    $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
+                                    $AnalyticsFind->save();
                                 }
-                                $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
-                                $AnalyticsFind->save();
-                            }
-                            else{
-                                $NewAnalytics  = new tbl_questionAnalytic;
-                                $NewAnalytics->question_id = $cl['Question_id'];
-                                $NewAnalytics->correct_count = 0;
-                                $NewAnalytics->wrong_count = 1;
-                                $NewAnalytics->shortest_time = $cl['timeConsume'];
-                                $NewAnalytics->longest_time = $cl['timeConsume'];
-                                $NewAnalytics->average_time = $cl['timeConsume'];
-                                $NewAnalytics->save();
-                            }
-                        }
-                    }
-                    elseif($cl['type'] == 'Matching type'){
-                        $Tempoints =  $ques['points'] / count($cl['Answer']);
-                        foreach($cl['Answer'] as $item){
-                            $CheckMatch = tbl_SubQuestion::find($item['subquestion_id']);
-                            if($CheckMatch){
-                                if($CheckMatch->answer_id == $item['Ans_id']){
-                                    $score += $Tempoints;
+                                else{
+                                    $NewAnalytics  = new tbl_questionAnalytic;
+                                    $NewAnalytics->question_id = $cl['Question_id'];
+                                    $NewAnalytics->correct_count = 0;
+                                    $NewAnalytics->wrong_count = 1;
+                                    $NewAnalytics->shortest_time = $cl['timeConsume'];
+                                    $NewAnalytics->longest_time = $cl['timeConsume'];
+                                    $NewAnalytics->average_time = $cl['timeConsume'];
+                                    $NewAnalytics->save();
                                 }
                             }
                         }
-                    }
+                        elseif($cl['type'] == 'Matching type'){
+                            $Tempoints =  $ques['points'] / count($cl['Answer']);
+                            foreach($cl['Answer'] as $item){
+                                $CheckMatch = tbl_SubQuestion::find($item['subquestion_id']);
+                                if($CheckMatch){
+                                    if($CheckMatch->answer_id == $item['Ans_id']){
+                                        $score += $Tempoints;
+                                    }
+                                }
+                                
+                            }
+                           
+                        }
                 }
             }
         }

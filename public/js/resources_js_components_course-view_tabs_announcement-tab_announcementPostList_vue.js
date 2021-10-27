@@ -122,12 +122,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 var announcementList = function announcementList() {
@@ -168,10 +162,10 @@ var commentList = function commentList() {
     }
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['deleteClassPost'])), {}, {
-    test: function test() {
-      $('.img-fluid').click(function () {//console.log($('.img-fluid').attr('src'))
-      });
-    },
+    /*  test() {
+         $('.img-fluid').click(function () {
+         })
+     }, */
     format_date: function format_date(value) {
       if (value) {
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("ddd, MMMM DD, YYYY h:mm a");
@@ -194,37 +188,30 @@ var commentList = function commentList() {
     clearComment: function clearComment(i) {
       this.comment[i] = '';
     },
-    getComments: function getComments() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/post/allcomment/' + this.$route.params.id).then(function (res) {
-        _this2.CommentList = res.data;
-      });
-    },
     getAnnouncementWhileScrolling: function getAnnouncementWhileScrolling() {
-      var _this3 = this;
+      var _this2 = this;
 
       window.onscroll = function () {
         var bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
 
         if (bottomOfWindow) {
-          if (_this3.isLoadingMore != true) {
-            _this3.loadMore();
+          if (_this2.isLoadingMore != true) {
+            _this2.loadMore();
           }
         }
       };
     },
     loadMore: function loadMore() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.isLoadingMore = true;
 
       if (this.current_page != this.last_page) {
         this.$store.dispatch('loadMore', this.$route.params.id).then(function (res) {
           if (res == 200) {
-            _this4.isLoadingMore = false;
+            _this3.isLoadingMore = false;
           } else {
-            _this4.isLoadingMore = false;
+            _this3.isLoadingMore = false;
           }
         });
       } else {
@@ -232,7 +219,7 @@ var commentList = function commentList() {
       }
     },
     deletePost: function deletePost(id, index) {
-      var _this5 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var data;
@@ -243,8 +230,8 @@ var commentList = function commentList() {
                 data = {};
                 data.id = id;
                 data.index = index;
-                _this5.isdeleting_id = id;
-                _this5.isdeleting = true;
+                _this4.isdeleting_id = id;
+                _this4.isdeleting = true;
                 /* axios.delete('/api/announcement/delete/'+id).then(res=>{
                     if(res.status == 200){
                         //this.$emit('SlicePost', index)
@@ -253,8 +240,8 @@ var commentList = function commentList() {
                     }
                 }) */
 
-                _this5.$store.dispatch('deleteClassPost', data).then(function () {
-                  _this5.isdeleting = false;
+                _this4.$store.dispatch('deleteClassPost', data).then(function () {
+                  _this4.isdeleting = false;
                 });
 
               case 6:
@@ -270,7 +257,6 @@ var commentList = function commentList() {
     $(".post-content p").replaceWith(function () {
       return "<span>" + this.innerHTML + "</span>";
     });
-    this.test(); //this.getComments();
   },
   mounted: function mounted() {
     this.getAnnouncementWhileScrolling();
@@ -445,7 +431,11 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "d-inline-flex " },
+                    {
+                      class: _vm.$vuetify.breakpoint.mdAndUp
+                        ? "d-inline-flex"
+                        : ""
+                    },
                     [
                       _c("v-select", {
                         attrs: {
@@ -550,7 +540,7 @@ var render = function() {
                             [_vm._v(_vm._s(post.name))]
                           ),
                           _vm._v(" "),
-                          _c("span", { staticClass: "date text-black-50" }, [
+                          _c("small", { staticClass: "date text-black-50" }, [
                             _vm._v(_vm._s(_vm.format_date(post.created_at)))
                           ])
                         ]
@@ -676,22 +666,7 @@ var render = function() {
             _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
             _vm._v(" "),
             _c("commentList", {
-              attrs: {
-                commentCount: post.comment_count,
-                LikesCount: post.likes_count,
-                commentListData: post.comment,
-                postDetails: post,
-                PostId: post.post_id,
-                UserDetails: _vm.UserDetails
-              },
-              on: {
-                AddCount: function($event) {
-                  post.comment_count++
-                },
-                MinusCount: function($event) {
-                  post.comment_count--
-                }
-              }
+              attrs: { postDetails: post, UserDetails: _vm.UserDetails }
             })
           ],
           1

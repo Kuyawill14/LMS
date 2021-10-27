@@ -94,7 +94,17 @@
                 </v-text-field>
             </v-col>
             <v-col cols="12" class="mt-0 pt-0">
+              <!--   <div class="d-flex justify-end mb-2">
+                    <v-pagination
+                    v-model="currentPage"
+                    @click="setPage"
+                    :length="totalPage"
+                   
+                    circle
+                    ></v-pagination>
+                </div> -->
                 <v-row>
+                    
                     <v-col v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)"   cols="12" md="6" lg="3" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                         <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
                             <v-list-item class="pt-1 pb-1" link  >
@@ -239,9 +249,20 @@ export default {
             isFiltered: false,
             Submitted_count: 0,
             Over_total: 0,
+            pageNo: 1,
+            pageSize: 12,
+            currentPage: 1,
+            totalPage: 0,
+            currentTotalData:0,
         }
     },
      computed: {
+          indexStart() {
+                return (this.currentPage - 1) * this.pageSize;
+            },
+            indexEnd() {
+                return this.indexStart + this.pageSize;
+            },
             studentSubmissionList() {
                 /*  if(this.selectedStatus == "All"){
                     if (this.search) {
@@ -278,7 +299,16 @@ export default {
                             })
                             this.Submitted_count = Filterddata.length;
                             if(this.selectedSort == "Name"){
+                                
+                                this.totalPage =  Math.round((Filterddata.length-1) / this.pageSize);
                                 return Filterddata.sort();
+/* 
+                                let data2 = Filterddata.sort();
+                                  let data3 = data2.splice(this.indexEnd - this.pageSiz, this.indexEnd);
+                                
+                                  return data3; */
+                                //return data2.splice((this.currentPage-1) * this.pageSize, ((this.currentPage-1) * this.pageSize) + this.pageSize);
+
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
@@ -355,6 +385,9 @@ export default {
             }
         },
     methods:{
+        setPage(){
+            this.currentPage = this.pageNo - 1;
+        },
         ViewSubmision(data, index){
              this.ViewDetails = null;
              //this.isLoadingData = true;

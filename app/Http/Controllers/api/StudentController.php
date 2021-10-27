@@ -611,7 +611,7 @@ class StudentController extends Controller
         
 
         $CheckNotif = tbl_notification::where('course_id', $userInClass->course_id)
-        ->where('class_id', $JoinClass->class_id)
+        ->where('class_id', $JoinClass->class_id)->where('notification_type', 2)
         ->first();
 
         $user = tbl_userDetails::where('user_id', $userId)

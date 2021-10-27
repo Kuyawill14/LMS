@@ -77,15 +77,8 @@ class AnnouncementController extends Controller
             }
         }        
         foreach ($allClassPost as $post) {
-            $Comment = tbl_comment::where("tbl_comments.post_id", $post->post_id)
-            ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.user_id as u_id","tbl_comments.content","tbl_comments.created_at",
-            DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
-            ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
-            ->orderBy("tbl_comments.created_at", "ASC")
-            ->get();
-
-            $post->comment = $Comment;
-            $post->comment_count = count($Comment);
+            $Comment = tbl_comment::where("tbl_comments.post_id", $post->post_id)->count();
+            $post->comment_count = $Comment;
             $post->isCommented = tbl_comment::where("tbl_comments.post_id", $post->post_id)->where('tbl_comments.user_id', $userId)->exists();
 
             $post->liked = tbl_like::where('post_id', $post->post_id) ->where('user_id', $userId)->exists();

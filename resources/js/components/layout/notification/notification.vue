@@ -65,6 +65,7 @@
                                     <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                                     <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                                     <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
+                                    <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
                                 
                                 </v-list-item-avatar>
                                 <v-list-item-content @click="GotoThisNotification(item)" >
@@ -331,14 +332,14 @@
                 }
 
 
-                 if(data.notification_type == 1 || data.notification_type == 3){
+                 if(data.notification_type == 1 || data.notification_type == 3 || data.notification_type == 5){
                     let path = '/course/'+data.c_id+'/announcement';
                     if(this.$route.path != path){
                         this.$router.push({path: path});
                     }
                     
                 }
-                else if(data.notification_type == 4){
+                else if(data.notification_type == 4 ){
                     let startPath = '/classwork/'+data.c_id+'/classwork-details';
                     if(this.$route.path != startPath){
                         this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});

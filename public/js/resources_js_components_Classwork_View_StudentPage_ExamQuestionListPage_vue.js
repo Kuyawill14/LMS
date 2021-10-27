@@ -799,6 +799,99 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -819,6 +912,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       dialog: false,
       warningDialog: false,
       inputCheck: ['True', 'False'],
+      TrueOrFalse: ['<p>True</p>', '<p>False</p>'],
       isSubmitting: false,
       Qlength: '',
       isStart: false,
@@ -1130,7 +1224,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
         } else if (_this6.Qlength == AnswersList.length) {
           for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
-            for (var j = 0; j < AnswersList.length; j++) {
+            var _loop = function _loop(j) {
               if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
                 if (_this6.getAll_questions.Question[x].type == 'Identification' || _this6.getAll_questions.Question[x].type == 'Multiple Choice' || _this6.getAll_questions.Question[x].type == 'True or False' || _this6.getAll_questions.Question[x].type == 'Essay') {
                   _this6.FinalAnswers.push({
@@ -1140,35 +1234,49 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     timeConsume: AnswersList[j].timeConsume
                   });
                 } else if (_this6.getAll_questions.Question[x].type == 'Matching type') {
-                  (function () {
-                    var Ans = new Array();
-                    var Choices_id = new Array();
+                  var Ans = new Array();
+                  var Choices_id = new Array();
 
-                    _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
-                      Choices_id.push({
-                        choice_id: item.id
-                      });
+                  _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                    Choices_id.push({
+                      choice_id: item.id
                     });
+                  });
 
-                    AnswersList[j].Answer.forEach(function (item) {
-                      Ans.push({
-                        Ans_letter: item.Ans_letter,
-                        Ans_id: item.Ans_id,
-                        subquestion_id: item.subquestion_id,
-                        Answers: item.Answers
-                      });
-                    });
+                  var counter = 0;
 
-                    _this6.FinalAnswers.push({
-                      Answer: Ans,
-                      Choices_id: Choices_id,
-                      Question_id: AnswersList[j].Question_id,
-                      type: AnswersList[j].type,
-                      timeConsume: AnswersList[j].timeConsume
+                  _this6.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
+                    Ans.push({
+                      Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
+                      Ans_id: AnswersList[j].Answer[counter].Ans_id,
+                      subquestion_id: item.id,
+                      Answers: AnswersList[j].Answer[counter].Answers
                     });
-                  })();
+                    counter++;
+                  });
+                  /*     AnswersList[j].Answer.forEach(item => {
+                         Ans.push({
+                             Ans_letter: item.Ans_letter,
+                             Ans_id: item.Ans_id,
+                             subquestion_id: item.subquestion_id,
+                             Answers: item.Answers
+                         })
+                      }); */
+
+
+                  _this6.FinalAnswers.push({
+                    Answer: Ans,
+                    Choices_id: Choices_id,
+                    Question_id: AnswersList[j].Question_id,
+                    type: AnswersList[j].type,
+                    timeConsume: AnswersList[j].timeConsume
+                  });
                 }
               }
+            };
+
+            for (var j = 0; j < AnswersList.length; j++) {
+              _loop(j);
             }
           }
         }
@@ -1273,14 +1381,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     SelectMatch: function SelectMatch(id, main_index, second_index) {
       var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
 
-      for (var i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-        for (var x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+      for (var i = 0; i < this.getAll_questions.Answer[main_index].SubAnswer.length; i++) {
+        for (var x = 0; x < this.getAll_questions.Answer[main_index].SubAnswer.length; x++) {
           if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
-            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id;
+            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[main_index].SubAnswer[x].Choice;
+            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[main_index].SubAnswer[x].id;
           }
         }
       }
+
+      console.log(this.FinalAnswers[main_index]);
     },
     StartQuiz: function StartQuiz() {
       var _this9 = this;
@@ -1300,27 +1410,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }); //this.CountTime();
     },
     triggerWarning: function triggerWarning() {
-      if (this.isExamStart) {
-        this.leaveStrike += 1;
-
-        if (this.leaveStrike == 5) {
-          this.isExamStart = false;
-          this.toastError('You are lossing focus to examination page many times!');
-          this.$router.push({
-            name: 'clwk',
-            params: {
-              id: this.$route.params.id
-            },
-            query: {
-              clwk: this.$route.query.clwk
+      /*   if(this.isExamStart){
+            this.leaveStrike += 1;
+            if(this.leaveStrike == 5){
+                this.isExamStart = false;
+             
+                this.toastError('You are lossing focus to examination page many times!');
+                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
             }
-          });
-        }
-
-        if (!this.preventWarning) {
-          this.warningDialog = true;
-        }
-      }
+            if(!this.preventWarning){
+                this.warningDialog = true;
+            }
+          } */
     },
     ReloadTime: function ReloadTime() {
       this.ReloadStatus();
@@ -1328,9 +1429,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   beforeMount: function beforeMount() {
-    document.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
+    /*   document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+      }); */
     window.addEventListener("onbeforeunload", this.preventNav);
     var self = this;
     $(window).blur(function () {
@@ -24230,215 +24331,220 @@ var render = function() {
     "v-app",
     [
       _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "", "max-width": "550" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
+        "v-container",
+        { attrs: { fluid: "" } },
         [
-          _vm.dialog
-            ? _c("confirmDialog", {
-                on: {
-                  toggleCancelDialog: function($event) {
-                    _vm.dialog = !_vm.dialog
-                  },
-                  toggleSubmit: function($event) {
-                    _vm.StopTimer = true
-                  }
-                }
-              })
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "", "max-width": "500" },
-          model: {
-            value: _vm.warningDialog,
-            callback: function($$v) {
-              _vm.warningDialog = $$v
-            },
-            expression: "warningDialog"
-          }
-        },
-        [
-          _vm.warningDialog
-            ? _c("dialogWarning", {
-                on: {
-                  toggleCloaseDialog: function($event) {
-                    ;(_vm.warningDialog = !_vm.warningDialog), _vm.ReloadTime()
-                  }
-                }
-              })
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "", "max-width": "500" },
-          model: {
-            value: _vm.TimesUpDialog,
-            callback: function($$v) {
-              _vm.TimesUpDialog = $$v
-            },
-            expression: "TimesUpDialog"
-          }
-        },
-        [
-          _vm.TimesUpDialog
-            ? _c("timesUpDialog", {
-                on: {
-                  SubmitAnswer: function($event) {
-                    return _vm.$router.push({
-                      name: "clwk",
-                      params: { id: _vm.$route.params.id },
-                      query: { clwk: _vm.$route.query.clwk }
-                    })
-                  }
-                }
-              })
-            : _vm._e()
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("vue-element-loading", {
-        attrs: {
-          active: _vm.isLoading,
-          text: "Loading Questions",
-          duration: "0.7",
-          textStyle: { fontSize: "18px" },
-          spinner: "line-scale",
-          color: "#EF6C00",
-          size: "50",
-          "is-full-screen": ""
-        }
-      }),
-      _vm._v(" "),
-      _c("vue-element-loading", {
-        attrs: {
-          active: _vm.isLeavingPage,
-          duration: "0.7",
-          spinner: "line-scale",
-          color: "#EF6C00",
-          size: "50",
-          "is-full-screen": ""
-        }
-      }),
-      _vm._v(" "),
-      !_vm.isLoading || !_vm.isSubmitting
-        ? _c(
-            "v-container",
+          _c(
+            "v-dialog",
             {
-              class: !_vm.$vuetify.breakpoint.mdAndUp ? "pa-2 " : "",
-              attrs: { fluid: "" }
+              attrs: { persistent: "", "max-width": "550" },
+              model: {
+                value: _vm.dialog,
+                callback: function($$v) {
+                  _vm.dialog = $$v
+                },
+                expression: "dialog"
+              }
             },
             [
-              _c(
-                "v-row",
-                { attrs: { justify: "center" } },
+              _vm.dialog
+                ? _c("confirmDialog", {
+                    on: {
+                      toggleCancelDialog: function($event) {
+                        _vm.dialog = !_vm.dialog
+                      },
+                      toggleSubmit: function($event) {
+                        _vm.StopTimer = true
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { persistent: "", "max-width": "500" },
+              model: {
+                value: _vm.warningDialog,
+                callback: function($$v) {
+                  _vm.warningDialog = $$v
+                },
+                expression: "warningDialog"
+              }
+            },
+            [
+              _vm.warningDialog
+                ? _c("dialogWarning", {
+                    on: {
+                      toggleCloaseDialog: function($event) {
+                        ;(_vm.warningDialog = !_vm.warningDialog),
+                          _vm.ReloadTime()
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-dialog",
+            {
+              attrs: { persistent: "", "max-width": "500" },
+              model: {
+                value: _vm.TimesUpDialog,
+                callback: function($$v) {
+                  _vm.TimesUpDialog = $$v
+                },
+                expression: "TimesUpDialog"
+              }
+            },
+            [
+              _vm.TimesUpDialog
+                ? _c("timesUpDialog", {
+                    on: {
+                      SubmitAnswer: function($event) {
+                        return _vm.$router.push({
+                          name: "clwk",
+                          params: { id: _vm.$route.params.id },
+                          query: { clwk: _vm.$route.query.clwk }
+                        })
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("vue-element-loading", {
+            attrs: {
+              active: _vm.isLoading,
+              text: "Loading Questions",
+              duration: "0.7",
+              textStyle: { fontSize: "18px" },
+              spinner: "line-scale",
+              color: "#EF6C00",
+              size: "50",
+              "is-full-screen": ""
+            }
+          }),
+          _vm._v(" "),
+          _c("vue-element-loading", {
+            attrs: {
+              active: _vm.isLeavingPage,
+              duration: "0.7",
+              spinner: "line-scale",
+              color: "#EF6C00",
+              size: "50",
+              "is-full-screen": ""
+            }
+          }),
+          _vm._v(" "),
+          !_vm.isLoading || !_vm.isSubmitting
+            ? _c(
+                "v-container",
+                {
+                  class: !_vm.$vuetify.breakpoint.mdAndUp ? "" : "",
+                  attrs: { fluid: "" }
+                },
                 [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
+                    "v-row",
+                    { attrs: { justify: "center" } },
                     [
                       _c(
-                        "v-card",
-                        {
-                          staticClass: "pa-2",
-                          attrs: { elevation: "2", outlined: "" }
-                        },
+                        "v-col",
+                        { attrs: { cols: "12" } },
                         [
-                          !_vm.isLoading
-                            ? _c(
-                                "v-row",
-                                [
-                                  _vm.$vuetify.breakpoint.mdAndUp
-                                    ? _c(
-                                        "v-col",
-                                        { attrs: { cols: "8" } },
-                                        [
-                                          _c(
-                                            "v-list",
+                          _c(
+                            "v-card",
+                            { attrs: { elevation: "2", outlined: "" } },
+                            [
+                              !_vm.isLoading
+                                ? _c(
+                                    "v-row",
+                                    [
+                                      _vm.$vuetify.breakpoint.mdAndUp
+                                        ? _c(
+                                            "v-col",
+                                            { attrs: { cols: "8" } },
                                             [
                                               _c(
-                                                "v-list-item",
+                                                "v-list",
                                                 [
                                                   _c(
-                                                    "v-list-item-avatar",
+                                                    "v-list-item",
                                                     [
                                                       _c(
-                                                        "v-avatar",
-                                                        {
-                                                          attrs: {
-                                                            color: "blue"
-                                                          }
-                                                        },
+                                                        "v-list-item-avatar",
                                                         [
                                                           _c(
-                                                            "v-icon",
+                                                            "v-avatar",
                                                             {
                                                               attrs: {
-                                                                dark: ""
+                                                                color: "blue"
                                                               }
                                                             },
                                                             [
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    dark: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\r\n                                mdi-book-open-variant\r\n                                "
+                                                                  )
+                                                                ]
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item-content",
+                                                        [
+                                                          _c(
+                                                            "v-list-item-title",
+                                                            {
+                                                              staticClass:
+                                                                "font-weight-bold"
+                                                            },
+                                                            [
                                                               _vm._v(
-                                                                "\r\n                                mdi-book-open-variant\r\n                                "
+                                                                _vm._s(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .title
+                                                                )
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list-item-subtitle",
+                                                            [
+                                                              _vm._v(
+                                                                "Total Points: " +
+                                                                  _vm._s(
+                                                                    _vm
+                                                                      .classworkDetails
+                                                                      .points
+                                                                  )
                                                               )
                                                             ]
                                                           )
                                                         ],
                                                         1
-                                                      )
-                                                    ],
-                                                    1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list-item-content",
-                                                    [
-                                                      _c(
-                                                        "v-list-item-title",
-                                                        {
-                                                          staticClass:
-                                                            "font-weight-bold"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            _vm._s(
-                                                              _vm
-                                                                .classworkDetails
-                                                                .title
-                                                            )
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "v-list-item-subtitle",
-                                                        [
-                                                          _vm._v(
-                                                            "Total Points: " +
-                                                              _vm._s(
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .points
-                                                              )
-                                                          )
-                                                        ]
                                                       )
                                                     ],
                                                     1
@@ -24449,6 +24555,910 @@ var render = function() {
                                             ],
                                             1
                                           )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _vm.$vuetify.breakpoint.mdAndUp
+                                        ? _c(
+                                            "v-col",
+                                            {
+                                              class: _vm.$vuetify.breakpoint
+                                                .mdAndUp
+                                                ? "d-flex justify-end"
+                                                : "",
+                                              attrs: { cols: "12", md: "4" }
+                                            },
+                                            [
+                                              _c("div", [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "d-flex justify-space-between "
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "div",
+                                                      {
+                                                        staticClass:
+                                                          "text-center mt-5"
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-menu",
+                                                          {
+                                                            staticStyle: {
+                                                              "overflow-y":
+                                                                "scroll"
+                                                            },
+                                                            attrs: {
+                                                              "offset-y": "",
+                                                              "max-height":
+                                                                "600"
+                                                            },
+                                                            scopedSlots: _vm._u(
+                                                              [
+                                                                {
+                                                                  key:
+                                                                    "activator",
+                                                                  fn: function(
+                                                                    ref
+                                                                  ) {
+                                                                    var on =
+                                                                      ref.on
+                                                                    var attrs =
+                                                                      ref.attrs
+                                                                    return [
+                                                                      _c(
+                                                                        "v-btn",
+                                                                        _vm._g(
+                                                                          _vm._b(
+                                                                            {
+                                                                              attrs: {
+                                                                                icon:
+                                                                                  "",
+                                                                                color:
+                                                                                  "primary"
+                                                                              }
+                                                                            },
+                                                                            "v-btn",
+                                                                            attrs,
+                                                                            false
+                                                                          ),
+                                                                          on
+                                                                        ),
+                                                                        [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            [
+                                                                              _vm._v(
+                                                                                " " +
+                                                                                  _vm._s(
+                                                                                    !_vm
+                                                                                      .$vuetify
+                                                                                      .breakpoint
+                                                                                      .mdAndUp
+                                                                                      ? "mdi-format-list-numbered"
+                                                                                      : "mdi-chevron-down"
+                                                                                  )
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ]
+                                                                  }
+                                                                }
+                                                              ],
+                                                              null,
+                                                              false,
+                                                              1137808014
+                                                            )
+                                                          },
+                                                          [
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-list",
+                                                              _vm._l(
+                                                                _vm
+                                                                  .getAll_questions
+                                                                  .Question,
+                                                                function(
+                                                                  item,
+                                                                  index
+                                                                ) {
+                                                                  return _c(
+                                                                    "v-list-item",
+                                                                    {
+                                                                      key: index,
+                                                                      staticClass:
+                                                                        "ma-0 pa-0"
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-item-title",
+                                                                        [
+                                                                          item.type ==
+                                                                            "Multiple Choice" ||
+                                                                          item.type ==
+                                                                            "Identification" ||
+                                                                          item.type ==
+                                                                            "True or False" ||
+                                                                          item.type ==
+                                                                            "Essay"
+                                                                            ? _c(
+                                                                                "v-btn",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    text:
+                                                                                      "",
+                                                                                    rounded:
+                                                                                      ""
+                                                                                  },
+                                                                                  on: {
+                                                                                    click: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      _vm.updateAnswer(),
+                                                                                        (_vm.questionIndex = index)
+                                                                                    }
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-icon",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        color:
+                                                                                          _vm
+                                                                                            .FinalAnswers[
+                                                                                            index
+                                                                                          ]
+                                                                                            .Answer ==
+                                                                                            null ||
+                                                                                          _vm
+                                                                                            .FinalAnswers[
+                                                                                            index
+                                                                                          ]
+                                                                                            .Answer ==
+                                                                                            ""
+                                                                                            ? ""
+                                                                                            : "primary",
+                                                                                        left:
+                                                                                          ""
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        _vm._s(
+                                                                                          _vm
+                                                                                            .FinalAnswers[
+                                                                                            index
+                                                                                          ]
+                                                                                            .Answer ==
+                                                                                            null ||
+                                                                                            _vm
+                                                                                              .FinalAnswers[
+                                                                                              index
+                                                                                            ]
+                                                                                              .Answer ==
+                                                                                              ""
+                                                                                            ? "mdi-checkbox-blank-outline"
+                                                                                            : "mdi-checkbox-marked"
+                                                                                        )
+                                                                                      )
+                                                                                    ]
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    "\r\n                                        " +
+                                                                                      _vm._s(
+                                                                                        index +
+                                                                                          1
+                                                                                      ) +
+                                                                                      "\r\n                                       "
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            : _vm._e(),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          item.type ==
+                                                                          "Matching type"
+                                                                            ? _c(
+                                                                                "v-btn",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    text:
+                                                                                      "",
+                                                                                    rounded:
+                                                                                      ""
+                                                                                  },
+                                                                                  on: {
+                                                                                    click: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      _vm.updateAnswer(),
+                                                                                        (_vm.questionIndex = index)
+                                                                                    }
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-icon",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        color:
+                                                                                          _vm
+                                                                                            .FinalAnswers[
+                                                                                            index
+                                                                                          ]
+                                                                                            .Answer[0]
+                                                                                            .Ans_letter ==
+                                                                                            null ||
+                                                                                          _vm
+                                                                                            .FinalAnswers[
+                                                                                            index
+                                                                                          ]
+                                                                                            .Answer[0]
+                                                                                            .Ans_letter ==
+                                                                                            ""
+                                                                                            ? ""
+                                                                                            : "primary",
+                                                                                        left:
+                                                                                          ""
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        "\r\n                                                " +
+                                                                                          _vm._s(
+                                                                                            _vm
+                                                                                              .FinalAnswers[
+                                                                                              index
+                                                                                            ]
+                                                                                              .Answer[0]
+                                                                                              .Ans_letter ==
+                                                                                              null ||
+                                                                                              _vm
+                                                                                                .FinalAnswers[
+                                                                                                index
+                                                                                              ]
+                                                                                                .Answer[0]
+                                                                                                .Ans_letter ==
+                                                                                                ""
+                                                                                              ? "mdi-checkbox-blank-outline"
+                                                                                              : "mdi-checkbox-marked"
+                                                                                          )
+                                                                                      )
+                                                                                    ]
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    "\r\n                                            " +
+                                                                                      _vm._s(
+                                                                                        index +
+                                                                                          1
+                                                                                      ) +
+                                                                                      "\r\n                                       "
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            : _vm._e()
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                }
+                                                              ),
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _vm.isReloadTime
+                                                      ? _c(
+                                                          "div",
+                                                          {
+                                                            staticStyle: {
+                                                              "margin-right":
+                                                                "3rem"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "vue-element-loading",
+                                                              {
+                                                                attrs: {
+                                                                  active:
+                                                                    _vm.isReloadTime,
+                                                                  duration:
+                                                                    "0.7",
+                                                                  spinner:
+                                                                    "line-scale",
+                                                                  color:
+                                                                    "#EF6C00",
+                                                                  size: "25"
+                                                                }
+                                                              }
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      : _c(
+                                                          "div",
+                                                          [
+                                                            _c(
+                                                              "h4",
+                                                              {
+                                                                staticClass:
+                                                                  "ml-1",
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    _vm.Answersheet = true
+                                                                  }
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Time Remaining"
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            !_vm.isLoading &&
+                                                            _vm.questionIsLoaded &&
+                                                            _vm.duration != null
+                                                              ? _c(
+                                                                  "quizTimer",
+                                                                  {
+                                                                    attrs: {
+                                                                      bus:
+                                                                        _vm.bus,
+                                                                      CurrentTime:
+                                                                        _vm.CurrentTime,
+                                                                      StartTime:
+                                                                        _vm.StartTime,
+                                                                      StopTimer:
+                                                                        _vm.StopTimer,
+                                                                      duration:
+                                                                        _vm.duration
+                                                                    },
+                                                                    on: {
+                                                                      TimerStop:
+                                                                        _vm.SubmitAnswer,
+                                                                      TimesUp:
+                                                                        _vm.TimesUpSubmit
+                                                                    }
+                                                                  }
+                                                                )
+                                                              : _vm._e()
+                                                          ],
+                                                          1
+                                                        )
+                                                  ]
+                                                )
+                                              ])
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-col", { attrs: { cols: "12" } }, [
+                        _c(
+                          "div",
+                          {
+                            attrs: { transition: "slide-y-reverse-transition" }
+                          },
+                          [
+                            !_vm.$vuetify.breakpoint.mdAndUp
+                              ? _c(
+                                  "v-app-bar",
+                                  {
+                                    attrs: {
+                                      flat: "",
+                                      app: "",
+                                      color: "primary"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "v-menu",
+                                      {
+                                        staticStyle: { "overflow-y": "scroll" },
+                                        attrs: {
+                                          "offset-y": "",
+                                          "max-height": "600"
+                                        },
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "activator",
+                                              fn: function(ref) {
+                                                var on = ref.on
+                                                var attrs = ref.attrs
+                                                return [
+                                                  _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        {
+                                                          attrs: {
+                                                            icon: "",
+                                                            dark: ""
+                                                          }
+                                                        },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c("v-icon", [
+                                                        _vm._v(
+                                                          "mdi-format-list-numbered"
+                                                        )
+                                                      ])
+                                                    ],
+                                                    1
+                                                  )
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          null,
+                                          false,
+                                          1426707468
+                                        )
+                                      },
+                                      [
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-list",
+                                          _vm._l(
+                                            _vm.getAll_questions.Question,
+                                            function(item, index) {
+                                              return _c(
+                                                "v-list-item",
+                                                {
+                                                  key: index,
+                                                  staticClass: "ma-0 pa-0"
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    [
+                                                      item.type ==
+                                                        "Multiple Choice" ||
+                                                      item.type ==
+                                                        "Identification" ||
+                                                      item.type ==
+                                                        "True or False" ||
+                                                      item.type == "Essay"
+                                                        ? _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                text: "",
+                                                                rounded: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.updateAnswer(),
+                                                                    (_vm.questionIndex = index)
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    color:
+                                                                      _vm
+                                                                        .FinalAnswers[
+                                                                        index
+                                                                      ]
+                                                                        .Answer ==
+                                                                        null ||
+                                                                      _vm
+                                                                        .FinalAnswers[
+                                                                        index
+                                                                      ]
+                                                                        .Answer ==
+                                                                        ""
+                                                                        ? ""
+                                                                        : "primary",
+                                                                    left: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      _vm
+                                                                        .FinalAnswers[
+                                                                        index
+                                                                      ]
+                                                                        .Answer ==
+                                                                        null ||
+                                                                        _vm
+                                                                          .FinalAnswers[
+                                                                          index
+                                                                        ]
+                                                                          .Answer ==
+                                                                          ""
+                                                                        ? "mdi-checkbox-blank-outline"
+                                                                        : "mdi-checkbox-marked"
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                "\r\n                                " +
+                                                                  _vm._s(
+                                                                    index + 1
+                                                                  ) +
+                                                                  "\r\n                                "
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      item.type ==
+                                                      "Matching type"
+                                                        ? _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                text: "",
+                                                                rounded: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  _vm.updateAnswer(),
+                                                                    (_vm.questionIndex = index)
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-icon",
+                                                                {
+                                                                  attrs: {
+                                                                    color:
+                                                                      _vm
+                                                                        .FinalAnswers[
+                                                                        index
+                                                                      ]
+                                                                        .Answer[0]
+                                                                        .Ans_letter ==
+                                                                        null ||
+                                                                      _vm
+                                                                        .FinalAnswers[
+                                                                        index
+                                                                      ]
+                                                                        .Answer[0]
+                                                                        .Ans_letter ==
+                                                                        ""
+                                                                        ? ""
+                                                                        : "primary",
+                                                                    left: ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\r\n                                        " +
+                                                                      _vm._s(
+                                                                        _vm
+                                                                          .FinalAnswers[
+                                                                          index
+                                                                        ]
+                                                                          .Answer[0]
+                                                                          .Ans_letter ==
+                                                                          null ||
+                                                                          _vm
+                                                                            .FinalAnswers[
+                                                                            index
+                                                                          ]
+                                                                            .Answer[0]
+                                                                            .Ans_letter ==
+                                                                            ""
+                                                                          ? "mdi-checkbox-blank-outline"
+                                                                          : "mdi-checkbox-marked"
+                                                                      )
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(
+                                                                "\r\n                                    " +
+                                                                  _vm._s(
+                                                                    index + 1
+                                                                  ) +
+                                                                  "\r\n                                "
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        : _vm._e()
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            }
+                                          ),
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("v-divider", {
+                                      attrs: { vertical: "" }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("v-spacer"),
+                                    _vm._v(" "),
+                                    _vm.isReloadTime
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticStyle: {
+                                              "margin-right": "1.5rem"
+                                            }
+                                          },
+                                          [
+                                            _c("vue-element-loading", {
+                                              attrs: {
+                                                active: _vm.isReloadTime,
+                                                duration: "0.7",
+                                                spinner: "line-scale",
+                                                color: "white",
+                                                size: "25"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      : _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "white--text mt-5 font-weight-bold"
+                                          },
+                                          [
+                                            !_vm.isLoading &&
+                                            _vm.questionIsLoaded &&
+                                            _vm.duration != null
+                                              ? _c("quizTimer", {
+                                                  attrs: {
+                                                    bus: _vm.bus,
+                                                    CurrentTime:
+                                                      _vm.CurrentTime,
+                                                    StartTime: _vm.StartTime,
+                                                    StopTimer: _vm.StopTimer,
+                                                    duration: _vm.duration
+                                                  },
+                                                  on: {
+                                                    TimerStop: _vm.SubmitAnswer,
+                                                    TimesUp: _vm.TimesUpSubmit
+                                                  }
+                                                })
+                                              : _vm._e()
+                                          ],
+                                          1
+                                        )
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.isLoading
+            ? _c(
+                "div",
+                { staticClass: "mt-10" },
+                [
+                  _c(
+                    "v-row",
+                    { attrs: { justify: "center" } },
+                    [
+                      _c(
+                        "v-col",
+                        {
+                          attrs: {
+                            cols: "12",
+                            sm: "12",
+                            md: "10",
+                            lg: "8",
+                            xl: "7"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            {
+                              class: _vm.$vuetify.breakpoint.mdAndUp
+                                ? "pa-5"
+                                : "pa-0",
+                              attrs: {
+                                elevation: _vm.$vuetify.breakpoint.mdAndUp
+                                  ? 2
+                                  : 0,
+                                outlined: _vm.$vuetify.breakpoint.mdAndUp
+                              }
+                            },
+                            [
+                              _c(
+                                "v-row",
+                                [
+                                  _vm.$vuetify.breakpoint.mdAndUp
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          class: _vm.$vuetify.breakpoint.mdAndUp
+                                            ? "text-right"
+                                            : "text-center",
+                                          attrs: {
+                                            cols: "12",
+                                            md: "12",
+                                            lg: "12"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              class: _vm.$vuetify.breakpoint
+                                                .mdAndUp
+                                                ? "mb-3 mt-1"
+                                                : "d-flex mb-3 mt-1"
+                                            },
+                                            [
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  class: !_vm.$vuetify
+                                                    .breakpoint.mdAndUp
+                                                    ? "pl-5"
+                                                    : "",
+                                                  attrs: {
+                                                    rounded: "",
+                                                    color: "primary",
+                                                    outlined: "",
+                                                    disabled:
+                                                      _vm.questionIndex <= 0
+                                                  },
+                                                  on: { click: _vm.prev }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    { attrs: { left: "" } },
+                                                    [_vm._v("mdi-arrow-left")]
+                                                  ),
+                                                  _vm._v(
+                                                    "\r\n                                        Previous\r\n                                        "
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              !_vm.$vuetify.breakpoint.mdAndUp
+                                                ? _c("v-spacer")
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _vm.questionIndex !=
+                                              _vm.Qlength - 1
+                                                ? _c(
+                                                    "v-btn",
+                                                    {
+                                                      class: !_vm.$vuetify
+                                                        .breakpoint.mdAndUp
+                                                        ? "pr-5"
+                                                        : "",
+                                                      attrs: {
+                                                        loading:
+                                                          _vm.isSavingAnswer,
+                                                        rounded: "",
+                                                        color: "primary"
+                                                      },
+                                                      on: { click: _vm.next }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                        Next\r\n                                        "
+                                                      ),
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: { right: "" }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-arrow-right"
+                                                          )
+                                                        ]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _vm.questionIndex ==
+                                              _vm.Qlength - 1
+                                                ? _c(
+                                                    "v-btn",
+                                                    {
+                                                      class: !_vm.$vuetify
+                                                        .breakpoint.mdAndUp
+                                                        ? "pr-5"
+                                                        : "",
+                                                      attrs: {
+                                                        loading:
+                                                          _vm.isSavingAnswer,
+                                                        rounded: "",
+                                                        color: "success"
+                                                      },
+                                                      on: {
+                                                        click: _vm.SubmitPromp
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                        Submit\r\n                                        "
+                                                      ),
+                                                      _c(
+                                                        "v-icon",
+                                                        {
+                                                          attrs: { right: "" }
+                                                        },
+                                                        [_vm._v("mdi-lock")]
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-divider")
                                         ],
                                         1
                                       )
@@ -24458,1017 +25468,1115 @@ var render = function() {
                                     "v-col",
                                     {
                                       class: _vm.$vuetify.breakpoint.mdAndUp
-                                        ? "d-flex justify-end"
-                                        : "",
-                                      attrs: { cols: "12", md: "4" }
+                                        ? "pa-9 pt-0 mt-0"
+                                        : "pa-4 pt-0 mt-0",
+                                      attrs: { cols: "12" }
                                     },
-                                    [
-                                      _c("div", [
-                                        _c(
-                                          "div",
+                                    _vm._l(
+                                      _vm.getAll_questions.Question,
+                                      function(item, index) {
+                                        return _c(
+                                          "v-container",
                                           {
-                                            staticClass:
-                                              "d-flex justify-space-between "
+                                            key: index,
+                                            attrs: { "ma-0": "", "pa-0": "" }
                                           },
                                           [
                                             _c(
                                               "div",
                                               {
-                                                staticClass: "text-center mt-5"
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value:
+                                                      index ===
+                                                      _vm.questionIndex,
+                                                    expression:
+                                                      "index === questionIndex"
+                                                  }
+                                                ]
                                               },
                                               [
                                                 _c(
-                                                  "v-menu",
+                                                  "v-row",
                                                   {
-                                                    staticStyle: {
-                                                      "overflow-y": "scroll"
-                                                    },
                                                     attrs: {
-                                                      "offset-y": "",
-                                                      "max-height": "600"
-                                                    },
-                                                    scopedSlots: _vm._u(
-                                                      [
-                                                        {
-                                                          key: "activator",
-                                                          fn: function(ref) {
-                                                            var on = ref.on
-                                                            var attrs =
-                                                              ref.attrs
-                                                            return [
-                                                              _c(
-                                                                "v-btn",
-                                                                _vm._g(
-                                                                  _vm._b(
-                                                                    {
-                                                                      attrs: {
-                                                                        icon:
-                                                                          "",
-                                                                        color:
-                                                                          "primary"
-                                                                      }
-                                                                    },
-                                                                    "v-btn",
-                                                                    attrs,
-                                                                    false
-                                                                  ),
-                                                                  on
-                                                                ),
-                                                                [
-                                                                  _c("v-icon", [
-                                                                    _vm._v(
-                                                                      " " +
-                                                                        _vm._s(
-                                                                          !_vm
-                                                                            .$vuetify
-                                                                            .breakpoint
-                                                                            .mdAndUp
-                                                                            ? "mdi-format-list-numbered"
-                                                                            : "mdi-chevron-down"
-                                                                        )
-                                                                    )
-                                                                  ])
-                                                                ],
-                                                                1
-                                                              )
-                                                            ]
-                                                          }
-                                                        }
-                                                      ],
-                                                      null,
-                                                      false,
-                                                      1137808014
-                                                    )
+                                                      "ma-0": "",
+                                                      "pa-0": ""
+                                                    }
                                                   },
                                                   [
-                                                    _vm._v(" "),
                                                     _c(
-                                                      "v-list",
-                                                      _vm._l(
-                                                        _vm.getAll_questions
-                                                          .Question,
-                                                        function(item, index) {
-                                                          return _c(
-                                                            "v-list-item",
-                                                            {
-                                                              key: index,
-                                                              staticClass:
-                                                                "ma-0 pa-0"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-list-item-title",
-                                                                [
-                                                                  item.type ==
-                                                                    "Multiple Choice" ||
-                                                                  item.type ==
-                                                                    "Identification" ||
-                                                                  item.type ==
-                                                                    "True or False" ||
-                                                                  item.type ==
-                                                                    "Essay"
-                                                                    ? _c(
-                                                                        "v-btn",
-                                                                        {
-                                                                          attrs: {
-                                                                            text:
-                                                                              "",
-                                                                            rounded:
-                                                                              ""
-                                                                          },
-                                                                          on: {
-                                                                            click: function(
-                                                                              $event
-                                                                            ) {
-                                                                              _vm.updateAnswer(),
-                                                                                (_vm.questionIndex = index)
-                                                                            }
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "v-icon",
-                                                                            {
-                                                                              attrs: {
-                                                                                color:
-                                                                                  _vm
-                                                                                    .FinalAnswers[
-                                                                                    index
-                                                                                  ]
-                                                                                    .Answer ==
-                                                                                    null ||
-                                                                                  _vm
-                                                                                    .FinalAnswers[
-                                                                                    index
-                                                                                  ]
-                                                                                    .Answer ==
-                                                                                    ""
-                                                                                    ? ""
-                                                                                    : "primary",
-                                                                                left:
-                                                                                  ""
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _vm._v(
-                                                                                _vm._s(
-                                                                                  _vm
-                                                                                    .FinalAnswers[
-                                                                                    index
-                                                                                  ]
-                                                                                    .Answer ==
-                                                                                    null ||
-                                                                                    _vm
-                                                                                      .FinalAnswers[
-                                                                                      index
-                                                                                    ]
-                                                                                      .Answer ==
-                                                                                      ""
-                                                                                    ? "mdi-checkbox-blank-outline"
-                                                                                    : "mdi-checkbox-marked"
-                                                                                )
-                                                                              )
-                                                                            ]
-                                                                          ),
-                                                                          _vm._v(
-                                                                            "\r\n                                        " +
-                                                                              _vm._s(
-                                                                                index +
-                                                                                  1
-                                                                              ) +
-                                                                              "\r\n                                       "
-                                                                          )
-                                                                        ],
-                                                                        1
+                                                      "v-col",
+                                                      {
+                                                        staticClass:
+                                                          "mb-0 pb-0",
+                                                        attrs: { cols: "12" }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-container",
+                                                          {
+                                                            staticClass:
+                                                              "pa-0 ma-0 d-flex flex-row justify-space-between"
+                                                          },
+                                                          [
+                                                            _vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp
+                                                              ? _c("h3", [
+                                                                  _vm._v(
+                                                                    "Question #" +
+                                                                      _vm._s(
+                                                                        index +
+                                                                          1
                                                                       )
-                                                                    : _vm._e(),
-                                                                  _vm._v(" "),
-                                                                  item.type ==
-                                                                  "Matching type"
-                                                                    ? _c(
-                                                                        "v-btn",
-                                                                        {
-                                                                          attrs: {
-                                                                            text:
-                                                                              "",
-                                                                            rounded:
-                                                                              ""
-                                                                          },
-                                                                          on: {
-                                                                            click: function(
-                                                                              $event
-                                                                            ) {
-                                                                              _vm.updateAnswer(),
-                                                                                (_vm.questionIndex = index)
-                                                                            }
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "v-icon",
-                                                                            {
-                                                                              attrs: {
-                                                                                color:
-                                                                                  _vm
-                                                                                    .FinalAnswers[
-                                                                                    index
-                                                                                  ]
-                                                                                    .Answer[0]
-                                                                                    .Ans_letter ==
-                                                                                    null ||
-                                                                                  _vm
-                                                                                    .FinalAnswers[
-                                                                                    index
-                                                                                  ]
-                                                                                    .Answer[0]
-                                                                                    .Ans_letter ==
-                                                                                    ""
-                                                                                    ? ""
-                                                                                    : "primary",
-                                                                                left:
-                                                                                  ""
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _vm._v(
-                                                                                "\r\n                                                " +
-                                                                                  _vm._s(
-                                                                                    _vm
-                                                                                      .FinalAnswers[
-                                                                                      index
-                                                                                    ]
-                                                                                      .Answer[0]
-                                                                                      .Ans_letter ==
-                                                                                      null ||
-                                                                                      _vm
-                                                                                        .FinalAnswers[
-                                                                                        index
-                                                                                      ]
-                                                                                        .Answer[0]
-                                                                                        .Ans_letter ==
-                                                                                        ""
-                                                                                      ? "mdi-checkbox-blank-outline"
-                                                                                      : "mdi-checkbox-marked"
-                                                                                  )
-                                                                              )
-                                                                            ]
-                                                                          ),
-                                                                          _vm._v(
-                                                                            "\r\n                                            " +
-                                                                              _vm._s(
-                                                                                index +
-                                                                                  1
-                                                                              ) +
-                                                                              "\r\n                                       "
-                                                                          )
-                                                                        ],
-                                                                        1
+                                                                  )
+                                                                ])
+                                                              : _c("h4", [
+                                                                  _vm._v(
+                                                                    "Question #" +
+                                                                      _vm._s(
+                                                                        index +
+                                                                          1
                                                                       )
-                                                                    : _vm._e()
-                                                                ],
-                                                                1
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        }
-                                                      ),
+                                                                  )
+                                                                ]),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "p",
+                                                              {
+                                                                staticClass:
+                                                                  "mr-5 primary--text"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "(" +
+                                                                    _vm._s(
+                                                                      item.points
+                                                                    ) +
+                                                                    " Points)"
+                                                                )
+                                                              ]
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
                                                       1
                                                     )
                                                   ],
                                                   1
-                                                )
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _vm.isReloadTime
-                                              ? _c(
-                                                  "div",
-                                                  {
-                                                    staticStyle: {
-                                                      "margin-right": "3rem"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("vue-element-loading", {
-                                                      attrs: {
-                                                        active:
-                                                          _vm.isReloadTime,
-                                                        duration: "0.7",
-                                                        spinner: "line-scale",
-                                                        color: "#EF6C00",
-                                                        size: "25"
-                                                      }
-                                                    })
-                                                  ],
-                                                  1
-                                                )
-                                              : _c(
-                                                  "div",
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-row",
                                                   [
                                                     _c(
-                                                      "h4",
+                                                      "v-col",
                                                       {
-                                                        staticClass: "ml-1",
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            _vm.Answersheet = true
-                                                          }
+                                                        staticClass:
+                                                          "mt-0 pt-1 pl-3 mb-0 pb-0",
+                                                        attrs: {
+                                                          cols: "12",
+                                                          md: "11",
+                                                          lg: "11"
                                                         }
                                                       },
-                                                      [_vm._v("Time Remaining")]
+                                                      [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            style: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp
+                                                              ? "line-height:1.1;user-select: none"
+                                                              : "user-select: none"
+                                                          },
+                                                          [
+                                                            _c("span", {
+                                                              staticClass:
+                                                                "post-content",
+                                                              domProps: {
+                                                                innerHTML: _vm._s(
+                                                                  item.question
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
                                                     ),
                                                     _vm._v(" "),
-                                                    !_vm.isLoading &&
-                                                    _vm.questionIsLoaded &&
-                                                    _vm.duration != null
-                                                      ? _c("quizTimer", {
-                                                          attrs: {
-                                                            bus: _vm.bus,
-                                                            CurrentTime:
-                                                              _vm.CurrentTime,
-                                                            StartTime:
-                                                              _vm.StartTime,
-                                                            StopTimer:
-                                                              _vm.StopTimer,
-                                                            duration:
-                                                              _vm.duration
-                                                          },
-                                                          on: {
-                                                            TimerStop:
-                                                              _vm.SubmitAnswer,
-                                                            TimesUp:
-                                                              _vm.TimesUpSubmit
-                                                          }
-                                                        })
-                                                      : _vm._e()
-                                                  ],
-                                                  1
-                                                )
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isLoading
-        ? _c(
-            "div",
-            { staticClass: "mt-2 ma-2" },
-            [
-              _c(
-                "v-row",
-                { attrs: { justify: "center" } },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      attrs: {
-                        cols: "12",
-                        sm: "12",
-                        md: "10",
-                        lg: "8",
-                        xl: "7"
-                      }
-                    },
-                    [
-                      _c(
-                        "v-card",
-                        {
-                          class: _vm.$vuetify.breakpoint.mdAndUp
-                            ? "pa-5"
-                            : "pa-1",
-                          attrs: {
-                            elevation: _vm.$vuetify.breakpoint.mdAndUp ? 2 : 0,
-                            outlined: _vm.$vuetify.breakpoint.mdAndUp
-                          }
-                        },
-                        [
-                          _c(
-                            "v-row",
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  class: _vm.$vuetify.breakpoint.mdAndUp
-                                    ? "text-right"
-                                    : "text-center",
-                                  attrs: { cols: "12", md: "12", lg: "12" }
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      class: _vm.$vuetify.breakpoint.mdAndUp
-                                        ? "mb-3 mt-1"
-                                        : "d-flex mb-3 mt-1"
-                                    },
-                                    [
-                                      _c(
-                                        "v-btn",
-                                        {
-                                          class: !_vm.$vuetify.breakpoint
-                                            .mdAndUp
-                                            ? "pl-5"
-                                            : "",
-                                          attrs: {
-                                            rounded: "",
-                                            color: "primary",
-                                            outlined: "",
-                                            disabled: _vm.questionIndex <= 0
-                                          },
-                                          on: { click: _vm.prev }
-                                        },
-                                        [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { left: "" } },
-                                            [_vm._v("mdi-arrow-left")]
-                                          ),
-                                          _vm._v(
-                                            "\r\n                                        Previous\r\n                                        "
-                                          )
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      !_vm.$vuetify.breakpoint.mdAndUp
-                                        ? _c("v-spacer")
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.questionIndex != _vm.Qlength - 1
-                                        ? _c(
-                                            "v-btn",
-                                            {
-                                              class: !_vm.$vuetify.breakpoint
-                                                .mdAndUp
-                                                ? "pr-5"
-                                                : "",
-                                              attrs: {
-                                                loading: _vm.isSavingAnswer,
-                                                rounded: "",
-                                                color: "primary"
-                                              },
-                                              on: { click: _vm.next }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\r\n                                        Next\r\n                                        "
-                                              ),
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { right: "" } },
-                                                [_vm._v("mdi-arrow-right")]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.questionIndex == _vm.Qlength - 1
-                                        ? _c(
-                                            "v-btn",
-                                            {
-                                              class: !_vm.$vuetify.breakpoint
-                                                .mdAndUp
-                                                ? "pr-5"
-                                                : "",
-                                              attrs: {
-                                                loading: _vm.isSavingAnswer,
-                                                rounded: "",
-                                                color: "success"
-                                              },
-                                              on: { click: _vm.SubmitPromp }
-                                            },
-                                            [
-                                              _vm._v(
-                                                "\r\n                                        Submit\r\n                                        "
-                                              ),
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { right: "" } },
-                                                [_vm._v("mdi-lock")]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c("v-divider")
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  class: _vm.$vuetify.breakpoint.mdAndUp
-                                    ? "pa-9 pt-0 mt-0"
-                                    : "pa-4 pt-0 mt-0",
-                                  attrs: { cols: "12" }
-                                },
-                                _vm._l(_vm.getAll_questions.Question, function(
-                                  item,
-                                  index
-                                ) {
-                                  return _c(
-                                    "v-container",
-                                    {
-                                      key: index,
-                                      attrs: { "ma-0": "", "pa-0": "" }
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        {
-                                          directives: [
-                                            {
-                                              name: "show",
-                                              rawName: "v-show",
-                                              value:
-                                                index === _vm.questionIndex,
-                                              expression:
-                                                "index === questionIndex"
-                                            }
-                                          ]
-                                        },
-                                        [
-                                          _c(
-                                            "v-row",
-                                            {
-                                              attrs: { "ma-0": "", "pa-0": "" }
-                                            },
-                                            [
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: "mb-0 pb-0",
-                                                  attrs: { cols: "12" }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-container",
-                                                    {
-                                                      staticClass:
-                                                        "pa-0 ma-0 d-flex flex-row justify-space-between"
-                                                    },
-                                                    [
-                                                      _vm.$vuetify.breakpoint
-                                                        .mdAndUp
-                                                        ? _c("h3", [
-                                                            _vm._v(
-                                                              "Question #" +
-                                                                _vm._s(
-                                                                  index + 1
-                                                                )
-                                                            )
-                                                          ])
-                                                        : _c("h4", [
-                                                            _vm._v(
-                                                              "Question #" +
-                                                                _vm._s(
-                                                                  index + 1
-                                                                )
-                                                            )
-                                                          ]),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "p",
-                                                        {
-                                                          staticClass:
-                                                            "mr-5 primary--text"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "(" +
-                                                              _vm._s(
-                                                                item.points
-                                                              ) +
-                                                              " Points)"
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-col",
-                                                {
-                                                  staticClass: " mt-0 pt-1",
-                                                  attrs: {
-                                                    cols: "12",
-                                                    md: "11",
-                                                    lg: "11"
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-container",
-                                                    {
-                                                      staticClass: "ma-0 pa-0",
-                                                      attrs: {
-                                                        "ma-0": "",
-                                                        "pa-0": ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "subtitle-1",
-                                                          style: !_vm.$vuetify
-                                                            .breakpoint.mdAndUp
-                                                            ? "line-height:1.1;user-select: none"
-                                                            : "user-select: none"
-                                                        },
-                                                        [
-                                                          _c("span", {
+                                                    item.type ==
+                                                    "Multiple Choice"
+                                                      ? _c(
+                                                          "v-col",
+                                                          {
                                                             staticClass:
-                                                              "post-content",
-                                                            domProps: {
-                                                              innerHTML: _vm._s(
-                                                                item.question
-                                                              )
+                                                              "ma-0 pa-0",
+                                                            attrs: {
+                                                              cols: "12"
                                                             }
-                                                          })
-                                                        ]
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          item.type == "Multiple Choice"
-                                            ? _c(
-                                                "v-container",
-                                                [
-                                                  _c(
-                                                    "v-row",
-                                                    [
-                                                      _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "ma-0 pa-0",
-                                                          attrs: { cols: "12" }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-container",
-                                                            _vm._l(
-                                                              _vm
-                                                                .getAll_questions
-                                                                .Answer[index],
-                                                              function(Ans, i) {
-                                                                return _c(
-                                                                  "v-container",
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              [
+                                                                _c(
+                                                                  "v-list",
                                                                   {
-                                                                    key: i,
                                                                     staticClass:
-                                                                      "d-flex flex-row ma-0 pa-0 mb-1"
+                                                                      "pl-8"
+                                                                  },
+                                                                  _vm._l(
+                                                                    _vm
+                                                                      .getAll_questions
+                                                                      .Answer[
+                                                                      index
+                                                                    ],
+                                                                    function(
+                                                                      Ans,
+                                                                      i
+                                                                    ) {
+                                                                      return _c(
+                                                                        "v-list-item",
+                                                                        {
+                                                                          key: i,
+                                                                          staticClass:
+                                                                            "ma-0 pa-0"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-list-item-icon",
+                                                                            {
+                                                                              staticClass:
+                                                                                "ma-0 pa-0"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-radio-group",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "ma-0 pa-0 mt-1",
+                                                                                  attrs: {
+                                                                                    "hide-details":
+                                                                                      "",
+                                                                                    name:
+                                                                                      "option" +
+                                                                                      index
+                                                                                  },
+                                                                                  model: {
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .FinalAnswers[
+                                                                                        index
+                                                                                      ]
+                                                                                        .Answer,
+                                                                                    callback: function(
+                                                                                      $$v
+                                                                                    ) {
+                                                                                      _vm.$set(
+                                                                                        _vm
+                                                                                          .FinalAnswers[
+                                                                                          index
+                                                                                        ],
+                                                                                        "Answer",
+                                                                                        $$v
+                                                                                      )
+                                                                                    },
+                                                                                    expression:
+                                                                                      "FinalAnswers[index].Answer"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-radio",
+                                                                                    {
+                                                                                      style: _vm
+                                                                                        .$vuetify
+                                                                                        .breakpoint
+                                                                                        .mdAndUp
+                                                                                        ? "transform: scale(1.3)"
+                                                                                        : "transform: scale(1.35)",
+                                                                                      attrs: {
+                                                                                        name:
+                                                                                          "option" +
+                                                                                          index,
+                                                                                        value:
+                                                                                          Ans.Choice
+                                                                                      },
+                                                                                      on: {
+                                                                                        click: function(
+                                                                                          $event
+                                                                                        ) {
+                                                                                          return _vm.SelectAnswer()
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-list-item-content",
+                                                                            {
+                                                                              staticClass:
+                                                                                "ma-0 pa-0"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "Subtitle-1 ma-0 pa-0 d-flex mt-1",
+                                                                                  staticStyle: {
+                                                                                    "line-height":
+                                                                                      "1.4"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "post-content",
+                                                                                      domProps: {
+                                                                                        innerHTML: _vm._s(
+                                                                                          Ans.Choice
+                                                                                        )
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    }
+                                                                  ),
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "ma-0 pa-0 text-right"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  {
+                                                                    attrs: {
+                                                                      text: "",
+                                                                      rounded:
+                                                                        "",
+                                                                      small: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.reset(
+                                                                          index,
+                                                                          item.type
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Reset selection"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    item.type ==
+                                                    "Identification"
+                                                      ? _c(
+                                                          "v-col",
+                                                          {
+                                                            staticClass:
+                                                              "ma-0 pa-0",
+                                                            attrs: {
+                                                              cols: "12"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              [
+                                                                _c(
+                                                                  "v-list",
+                                                                  {
+                                                                    staticClass:
+                                                                      "pl-3"
                                                                   },
                                                                   [
                                                                     _c(
-                                                                      "v-radio-group",
+                                                                      "v-list-item",
                                                                       {
                                                                         staticClass:
-                                                                          "ma-0 pa-0",
-                                                                        attrs: {
-                                                                          max: 1,
-                                                                          name:
-                                                                            "option" +
-                                                                            index
-                                                                        },
-                                                                        model: {
-                                                                          value:
-                                                                            _vm
-                                                                              .FinalAnswers[
-                                                                              index
-                                                                            ]
-                                                                              .Answer,
-                                                                          callback: function(
-                                                                            $$v
-                                                                          ) {
-                                                                            _vm.$set(
-                                                                              _vm
-                                                                                .FinalAnswers[
-                                                                                index
-                                                                              ],
-                                                                              "Answer",
-                                                                              $$v
-                                                                            )
-                                                                          },
-                                                                          expression:
-                                                                            "FinalAnswers[index].Answer"
-                                                                        }
+                                                                          "ma-0 pa-0"
                                                                       },
                                                                       [
                                                                         _c(
-                                                                          "v-radio",
+                                                                          "v-list-item-content",
                                                                           {
-                                                                            style: _vm
-                                                                              .$vuetify
-                                                                              .breakpoint
-                                                                              .mdAndUp
-                                                                              ? "transform: scale(1.3)"
-                                                                              : "transform: scale(1.35)",
-                                                                            attrs: {
-                                                                              color:
-                                                                                "primary",
-                                                                              name:
-                                                                                "option" +
-                                                                                index,
-                                                                              value:
-                                                                                Ans.Choice
-                                                                            },
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                return _vm.SelectAnswer()
+                                                                            staticClass:
+                                                                              "ma-0 pa-0"
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "editor",
+                                                                              {
+                                                                                attrs: {
+                                                                                  id:
+                                                                                    "editor-container",
+                                                                                  placeholder:
+                                                                                    "Answer",
+                                                                                  theme:
+                                                                                    "snow",
+                                                                                  options:
+                                                                                    _vm.options
+                                                                                },
+                                                                                on: {
+                                                                                  focus: function(
+                                                                                    $event
+                                                                                  ) {
+                                                                                    return _vm.SetWarning()
+                                                                                  },
+                                                                                  blur: function(
+                                                                                    $event
+                                                                                  ) {
+                                                                                    return _vm.SetWarning()
+                                                                                  },
+                                                                                  change: function(
+                                                                                    $event
+                                                                                  ) {
+                                                                                    return _vm.SelectAnswer()
+                                                                                  }
+                                                                                },
+                                                                                model: {
+                                                                                  value:
+                                                                                    _vm
+                                                                                      .FinalAnswers[
+                                                                                      index
+                                                                                    ]
+                                                                                      .Answer,
+                                                                                  callback: function(
+                                                                                    $$v
+                                                                                  ) {
+                                                                                    _vm.$set(
+                                                                                      _vm
+                                                                                        .FinalAnswers[
+                                                                                        index
+                                                                                      ],
+                                                                                      "Answer",
+                                                                                      $$v
+                                                                                    )
+                                                                                  },
+                                                                                  expression:
+                                                                                    "FinalAnswers[index].Answer"
+                                                                                }
                                                                               }
-                                                                            }
-                                                                          }
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "ma-0 pa-0 text-right"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  {
+                                                                    attrs: {
+                                                                      text: "",
+                                                                      rounded:
+                                                                        "",
+                                                                      small: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.reset(
+                                                                          index,
+                                                                          item.type
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Clear Answer"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
+                                                    item.type == "True or False"
+                                                      ? _c(
+                                                          "v-col",
+                                                          {
+                                                            staticClass:
+                                                              "ma-0 pa-0",
+                                                            attrs: {
+                                                              cols: "12"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              [
+                                                                _c(
+                                                                  "v-list",
+                                                                  {
+                                                                    staticClass:
+                                                                      "pl-8"
+                                                                  },
+                                                                  _vm._l(
+                                                                    _vm.inputCheck,
+                                                                    function(
+                                                                      x,
+                                                                      n
+                                                                    ) {
+                                                                      return _c(
+                                                                        "v-list-item",
+                                                                        {
+                                                                          key: n,
+                                                                          staticClass:
+                                                                            "ma-0 pa-0"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-list-item-icon",
+                                                                            {
+                                                                              staticClass:
+                                                                                "ma-0 pa-0"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-radio-group",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "ma-0 pa-0 mt-1",
+                                                                                  attrs: {
+                                                                                    "hide-details":
+                                                                                      "",
+                                                                                    name:
+                                                                                      "option" +
+                                                                                      index
+                                                                                  },
+                                                                                  model: {
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .FinalAnswers[
+                                                                                        index
+                                                                                      ]
+                                                                                        .Answer,
+                                                                                    callback: function(
+                                                                                      $$v
+                                                                                    ) {
+                                                                                      _vm.$set(
+                                                                                        _vm
+                                                                                          .FinalAnswers[
+                                                                                          index
+                                                                                        ],
+                                                                                        "Answer",
+                                                                                        $$v
+                                                                                      )
+                                                                                    },
+                                                                                    expression:
+                                                                                      "FinalAnswers[index].Answer"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-radio",
+                                                                                    {
+                                                                                      key: index,
+                                                                                      style: _vm
+                                                                                        .$vuetify
+                                                                                        .breakpoint
+                                                                                        .mdAndUp
+                                                                                        ? "transform: scale(1.3)"
+                                                                                        : "transform: scale(1.35)",
+                                                                                      attrs: {
+                                                                                        color:
+                                                                                          "primary",
+                                                                                        value:
+                                                                                          _vm
+                                                                                            .inputCheck[
+                                                                                            n
+                                                                                          ]
+                                                                                      },
+                                                                                      on: {
+                                                                                        click: function(
+                                                                                          $event
+                                                                                        ) {
+                                                                                          return _vm.SelectAnswer()
+                                                                                        }
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-list-item-content",
+                                                                            {
+                                                                              staticClass:
+                                                                                "ma-0 pa-0"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "Subtitle-1 ma-0 pa-0 d-flex mt-1",
+                                                                                  staticStyle: {
+                                                                                    "line-height":
+                                                                                      "1.4"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      domProps: {
+                                                                                        innerHTML: _vm._s(
+                                                                                          _vm
+                                                                                            .TrueOrFalse[
+                                                                                            n
+                                                                                          ]
+                                                                                        )
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    }
+                                                                  ),
+                                                                  1
+                                                                )
+                                                              ],
+                                                              1
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "ma-0 pa-0 text-right"
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-btn",
+                                                                  {
+                                                                    attrs: {
+                                                                      text: "",
+                                                                      rounded:
+                                                                        "",
+                                                                      small: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.reset(
+                                                                          index,
+                                                                          item.type
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Reset selection"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                item.type == "Matching type"
+                                                  ? _c(
+                                                      "v-container",
+                                                      { staticClass: "mb-4" },
+                                                      [
+                                                        _c(
+                                                          "v-row",
+                                                          [
+                                                            _c(
+                                                              "v-col",
+                                                              {
+                                                                staticClass:
+                                                                  "ma-0 pa-0",
+                                                                attrs: {
+                                                                  "ma-0": "",
+                                                                  "pa-0": "",
+                                                                  cols: "12",
+                                                                  lg: "12",
+                                                                  md: "12"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c(
+                                                                  "v-container",
+                                                                  {
+                                                                    class: _vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp
+                                                                      ? "pl-5 pr-5"
+                                                                      : "ma-0 pa-0"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-container",
+                                                                      {
+                                                                        staticClass:
+                                                                          "mb-0 pb-0"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-row",
+                                                                          [
+                                                                            _c(
+                                                                              "v-col",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "font-weight-bold",
+                                                                                attrs: {
+                                                                                  cols:
+                                                                                    "2",
+                                                                                  md:
+                                                                                    "1",
+                                                                                  lg:
+                                                                                    "1"
+                                                                                }
+                                                                              }
+                                                                            ),
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "v-col",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "font-weight-bold",
+                                                                                attrs: {
+                                                                                  cols:
+                                                                                    "5",
+                                                                                  md:
+                                                                                    "6",
+                                                                                  lg:
+                                                                                    "6"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "\r\n                                                                        Column A\r\n                                                                    "
+                                                                                )
+                                                                              ]
+                                                                            ),
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "v-col",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "font-weight-bold",
+                                                                                attrs: {
+                                                                                  cols:
+                                                                                    "5"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "\r\n                                                                        Column B\r\n                                                                    "
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ],
+                                                                          1
                                                                         )
                                                                       ],
                                                                       1
                                                                     ),
                                                                     _vm._v(" "),
                                                                     _c(
-                                                                      "div",
-                                                                      {
-                                                                        staticClass:
-                                                                          "Subtitle-1 ma-0 pa-0",
-                                                                        staticStyle: {
-                                                                          "line-height":
-                                                                            "1.4"
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "span",
-                                                                          {
-                                                                            staticClass:
-                                                                              "post-content",
-                                                                            staticStyle: {
-                                                                              "user-select":
-                                                                                "none"
-                                                                            },
-                                                                            domProps: {
-                                                                              innerHTML: _vm._s(
-                                                                                Ans.Choice
-                                                                              )
-                                                                            }
-                                                                          }
-                                                                        )
+                                                                      "v-divider"
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _vm._l(
+                                                                      _vm
+                                                                        .getAll_questions
+                                                                        .Answer[
+                                                                        index
                                                                       ]
+                                                                        .SubQuestion,
+                                                                      function(
+                                                                        List,
+                                                                        i
+                                                                      ) {
+                                                                        return _c(
+                                                                          "v-container",
+                                                                          {
+                                                                            key:
+                                                                              List.id,
+                                                                            staticClass:
+                                                                              "mb-0 pb-0"
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-row",
+                                                                              [
+                                                                                _c(
+                                                                                  "v-col",
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "mb-1 pb-0 pt-0 mt-0",
+                                                                                    attrs: {
+                                                                                      cols:
+                                                                                        "2",
+                                                                                      md:
+                                                                                        "1",
+                                                                                      lg:
+                                                                                        "1"
+                                                                                    }
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "v-text-field",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "centered-input",
+                                                                                        attrs: {
+                                                                                          "hide-details":
+                                                                                            ""
+                                                                                        },
+                                                                                        on: {
+                                                                                          change: function(
+                                                                                            $event
+                                                                                          ) {
+                                                                                            return _vm.SelectMatch(
+                                                                                              item.id,
+                                                                                              index,
+                                                                                              i
+                                                                                            )
+                                                                                          }
+                                                                                        },
+                                                                                        model: {
+                                                                                          value:
+                                                                                            _vm
+                                                                                              .FinalAnswers[
+                                                                                              index
+                                                                                            ]
+                                                                                              .Answer[
+                                                                                              i
+                                                                                            ]
+                                                                                              .Ans_letter,
+                                                                                          callback: function(
+                                                                                            $$v
+                                                                                          ) {
+                                                                                            _vm.$set(
+                                                                                              _vm
+                                                                                                .FinalAnswers[
+                                                                                                index
+                                                                                              ]
+                                                                                                .Answer[
+                                                                                                i
+                                                                                              ],
+                                                                                              "Ans_letter",
+                                                                                              $$v
+                                                                                            )
+                                                                                          },
+                                                                                          expression:
+                                                                                            "FinalAnswers[index].Answer[i].Ans_letter"
+                                                                                        }
+                                                                                      }
+                                                                                    )
+                                                                                  ],
+                                                                                  1
+                                                                                ),
+                                                                                _vm._v(
+                                                                                  " "
+                                                                                ),
+                                                                                _c(
+                                                                                  "v-col",
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "mb-1 pb-0 pt-0 mt-0",
+                                                                                    attrs: {
+                                                                                      cols:
+                                                                                        "5",
+                                                                                      md:
+                                                                                        "6",
+                                                                                      lg:
+                                                                                        "6"
+                                                                                    }
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "div",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "d-flex mt-7"
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "font-weight-medium mr-1"
+                                                                                          },
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              _vm._s(
+                                                                                                i +
+                                                                                                  1 +
+                                                                                                  ". "
+                                                                                              )
+                                                                                            )
+                                                                                          ]
+                                                                                        ),
+                                                                                        _vm._v(
+                                                                                          " "
+                                                                                        ),
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "subquestion-content",
+                                                                                            style: !_vm
+                                                                                              .$vuetify
+                                                                                              .breakpoint
+                                                                                              .mdAndUp
+                                                                                              ? "line-height:1.1;user-select: none"
+                                                                                              : "line-height:1.5;user-select: none",
+                                                                                            domProps: {
+                                                                                              innerHTML: _vm._s(
+                                                                                                List.sub_question
+                                                                                              )
+                                                                                            }
+                                                                                          }
+                                                                                        )
+                                                                                      ]
+                                                                                    )
+                                                                                  ]
+                                                                                ),
+                                                                                _vm._v(
+                                                                                  " "
+                                                                                ),
+                                                                                _c(
+                                                                                  "v-col",
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "mb-1 pb-0 pt-0 mt-0",
+                                                                                    attrs: {
+                                                                                      cols:
+                                                                                        "5",
+                                                                                      md:
+                                                                                        "5",
+                                                                                      lg:
+                                                                                        "5"
+                                                                                    }
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "div",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "d-flex mt-7"
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "font-weight-medium mr-1"
+                                                                                          },
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              _vm._s(
+                                                                                                _vm
+                                                                                                  .Alphabet[
+                                                                                                  i
+                                                                                                ] +
+                                                                                                  ". "
+                                                                                              )
+                                                                                            )
+                                                                                          ]
+                                                                                        ),
+                                                                                        _vm._v(
+                                                                                          " "
+                                                                                        ),
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "subchoices-content",
+                                                                                            style: !_vm
+                                                                                              .$vuetify
+                                                                                              .breakpoint
+                                                                                              .mdAndUp
+                                                                                              ? "line-height:1.1;user-select: none"
+                                                                                              : "line-height:1.5;user-select: none",
+                                                                                            domProps: {
+                                                                                              innerHTML: _vm._s(
+                                                                                                _vm
+                                                                                                  .getAll_questions
+                                                                                                  .Answer[
+                                                                                                  index
+                                                                                                ]
+                                                                                                  .SubAnswer[
+                                                                                                  i
+                                                                                                ]
+                                                                                                  .Choice
+                                                                                              )
+                                                                                            }
+                                                                                          }
+                                                                                        )
+                                                                                      ]
+                                                                                    )
+                                                                                  ]
+                                                                                )
+                                                                              ],
+                                                                              1
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      }
                                                                     )
                                                                   ],
-                                                                  1
+                                                                  2
                                                                 )
-                                                              }
-                                                            ),
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "ma-0 pa-0 text-right"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-btn",
-                                                                {
-                                                                  attrs: {
-                                                                    text: "",
-                                                                    rounded: "",
-                                                                    small: ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      return _vm.reset(
-                                                                        index,
-                                                                        item.type
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "Reset selection"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          item.type == "Identification"
-                                            ? _c(
-                                                "v-container",
-                                                [
-                                                  _c(
-                                                    "v-row",
-                                                    [
-                                                      _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "ma-0 pa-0 mt-5",
-                                                          attrs: {
-                                                            "ma-0": "",
-                                                            "pa-0": "",
-                                                            cols: "12"
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-card",
-                                                            {
-                                                              staticClass:
-                                                                "mb-3",
-                                                              staticStyle: {
-                                                                width: "100%"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c("editor", {
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                item.type == "Essay"
+                                                  ? _c(
+                                                      "v-container",
+                                                      [
+                                                        _c(
+                                                          "v-row",
+                                                          {
+                                                            attrs: {
+                                                              "ma-0": "",
+                                                              "pa-0": ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-col",
+                                                              {
+                                                                staticClass:
+                                                                  "ma-0 pa-0 mt-5",
                                                                 attrs: {
-                                                                  id:
-                                                                    "editor-container",
-                                                                  placeholder:
-                                                                    "Answer",
-                                                                  theme: "snow",
-                                                                  options:
-                                                                    _vm.options
-                                                                },
-                                                                on: {
-                                                                  focus: function(
-                                                                    $event
-                                                                  ) {
-                                                                    return _vm.SetWarning()
-                                                                  },
-                                                                  blur: function(
-                                                                    $event
-                                                                  ) {
-                                                                    return _vm.SetWarning()
-                                                                  },
-                                                                  change: function(
-                                                                    $event
-                                                                  ) {
-                                                                    return _vm.SelectAnswer()
-                                                                  }
-                                                                },
-                                                                model: {
-                                                                  value:
-                                                                    _vm
-                                                                      .FinalAnswers[
-                                                                      index
-                                                                    ].Answer,
-                                                                  callback: function(
-                                                                    $$v
-                                                                  ) {
-                                                                    _vm.$set(
-                                                                      _vm
-                                                                        .FinalAnswers[
-                                                                        index
-                                                                      ],
-                                                                      "Answer",
-                                                                      $$v
-                                                                    )
-                                                                  },
-                                                                  expression:
-                                                                    "FinalAnswers[index].Answer"
+                                                                  "ma-0": "",
+                                                                  "pa-0": "",
+                                                                  cols: "12"
                                                                 }
-                                                              })
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "v-container",
-                                                            {
-                                                              staticClass:
-                                                                "mb-0 pb-0 pl-0 ml-0 mr-0 d-flex flex-row-reverse"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-btn",
-                                                                {
+                                                              },
+                                                              [
+                                                                _c("editor", {
+                                                                  staticStyle: {
+                                                                    height:
+                                                                      "220px"
+                                                                  },
                                                                   attrs: {
-                                                                    text: "",
-                                                                    rounded: "",
-                                                                    small: ""
+                                                                    id:
+                                                                      "editor-container",
+                                                                    placeholder:
+                                                                      "Essay",
+                                                                    theme:
+                                                                      "snow",
+                                                                    options:
+                                                                      _vm.Essayoptions
                                                                   },
                                                                   on: {
-                                                                    click: function(
+                                                                    focus: function(
                                                                       $event
                                                                     ) {
-                                                                      return _vm.reset(
-                                                                        index,
-                                                                        item.type
-                                                                      )
+                                                                      return _vm.SetWarning()
+                                                                    },
+                                                                    blur: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.SetWarning()
+                                                                    },
+                                                                    change: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.SelectAnswer()
                                                                     }
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "Clear Answer"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          item.type == "True or False"
-                                            ? _c(
-                                                "v-container",
-                                                [
-                                                  _c(
-                                                    "v-container",
-                                                    {
-                                                      attrs: {
-                                                        "ma-0": "",
-                                                        "pa-0": ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._l(
-                                                        _vm.inputCheck,
-                                                        function(x, n) {
-                                                          return _c(
-                                                            "v-container",
-                                                            {
-                                                              key: n,
-                                                              staticClass:
-                                                                "d-flex flex-row ma-0 pa-0"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-radio-group",
-                                                                {
-                                                                  staticClass:
-                                                                    "ma-0 pa-0",
-                                                                  attrs: {
-                                                                    name:
-                                                                      "option" +
-                                                                      index
                                                                   },
                                                                   model: {
                                                                     value:
@@ -25491,623 +26599,66 @@ var render = function() {
                                                                     expression:
                                                                       "FinalAnswers[index].Answer"
                                                                   }
-                                                                },
-                                                                [
-                                                                  _c(
-                                                                    "v-radio",
-                                                                    {
-                                                                      key: index,
-                                                                      style: _vm
-                                                                        .$vuetify
-                                                                        .breakpoint
-                                                                        .mdAndUp
-                                                                        ? "transform: scale(1.3)"
-                                                                        : "transform: scale(1.35)",
-                                                                      attrs: {
-                                                                        color:
-                                                                          "primary",
-                                                                        value:
-                                                                          _vm
-                                                                            .inputCheck[
-                                                                            n
-                                                                          ]
+                                                                }),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ma-0 pa-0 text-right"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          text:
+                                                                            "",
+                                                                          rounded:
+                                                                            "",
+                                                                          small:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.reset(
+                                                                              index,
+                                                                              item.type
+                                                                            )
+                                                                          }
+                                                                        }
                                                                       },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          return _vm.SelectAnswer()
-                                                                        }
-                                                                      }
-                                                                    }
-                                                                  )
-                                                                ],
-                                                                1
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "div",
-                                                                {
-                                                                  staticClass:
-                                                                    "Subtitle 1"
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "\r\n                                                        " +
-                                                                      _vm._s(
-                                                                        _vm
-                                                                          .inputCheck[
-                                                                          n
-                                                                        ]
-                                                                      ) +
-                                                                      "\r\n                                                    "
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        }
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "ma-0 pa-0 text-right"
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                text: "",
-                                                                rounded: "",
-                                                                small: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.reset(
-                                                                    index,
-                                                                    item.type
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "Reset selection"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    2
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          item.type == "Matching type"
-                                            ? _c(
-                                                "v-container",
-                                                { staticClass: "mb-4" },
-                                                [
-                                                  _c(
-                                                    "v-row",
-                                                    [
-                                                      _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "ma-0 pa-0",
-                                                          attrs: {
-                                                            "ma-0": "",
-                                                            "pa-0": "",
-                                                            cols: "12",
-                                                            lg: "12",
-                                                            md: "12"
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-container",
-                                                            {
-                                                              staticClass:
-                                                                "pl-5 pr-5"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-container",
-                                                                [
-                                                                  _c(
-                                                                    "v-row",
-                                                                    [
-                                                                      _c(
-                                                                        "v-col",
-                                                                        {
-                                                                          staticClass:
-                                                                            "font-weight-bold",
-                                                                          attrs: {
-                                                                            cols:
-                                                                              "1",
-                                                                            md:
-                                                                              "1",
-                                                                            lg:
-                                                                              "1"
-                                                                          }
-                                                                        }
-                                                                      ),
-                                                                      _vm._v(
-                                                                        " "
-                                                                      ),
-                                                                      _c(
-                                                                        "v-col",
-                                                                        {
-                                                                          staticClass:
-                                                                            "font-weight-bold",
-                                                                          attrs: {
-                                                                            cols:
-                                                                              "5",
-                                                                            md:
-                                                                              "6",
-                                                                            lg:
-                                                                              "6"
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            "\r\n                                                                        Column A\r\n                                                                    "
-                                                                          )
-                                                                        ]
-                                                                      ),
-                                                                      _vm._v(
-                                                                        " "
-                                                                      ),
-                                                                      _c(
-                                                                        "v-col",
-                                                                        {
-                                                                          staticClass:
-                                                                            "font-weight-bold",
-                                                                          attrs: {
-                                                                            cols:
-                                                                              "5"
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            "\r\n                                                                        Column B\r\n                                                                    "
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  )
-                                                                ],
-                                                                1
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c("v-divider"),
-                                                              _vm._v(" "),
-                                                              _vm._l(
-                                                                _vm
-                                                                  .getAll_questions
-                                                                  .Answer[index]
-                                                                  .SubQuestion,
-                                                                function(
-                                                                  List,
-                                                                  i
-                                                                ) {
-                                                                  return _c(
-                                                                    "v-container",
-                                                                    {
-                                                                      key:
-                                                                        List.id,
-                                                                      staticClass:
-                                                                        "mb-0 pb-0"
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-row",
-                                                                        [
-                                                                          _c(
-                                                                            "v-col",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mb-1 pb-0 pt-0 mt-0",
-                                                                              attrs: {
-                                                                                cols:
-                                                                                  "2",
-                                                                                md:
-                                                                                  "1",
-                                                                                lg:
-                                                                                  "1"
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "v-text-field",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "centered-input",
-                                                                                  on: {
-                                                                                    change: function(
-                                                                                      $event
-                                                                                    ) {
-                                                                                      return _vm.SelectMatch(
-                                                                                        item.id,
-                                                                                        index,
-                                                                                        i
-                                                                                      )
-                                                                                    }
-                                                                                  },
-                                                                                  model: {
-                                                                                    value:
-                                                                                      _vm
-                                                                                        .FinalAnswers[
-                                                                                        index
-                                                                                      ]
-                                                                                        .Answer[
-                                                                                        i
-                                                                                      ]
-                                                                                        .Ans_letter,
-                                                                                    callback: function(
-                                                                                      $$v
-                                                                                    ) {
-                                                                                      _vm.$set(
-                                                                                        _vm
-                                                                                          .FinalAnswers[
-                                                                                          index
-                                                                                        ]
-                                                                                          .Answer[
-                                                                                          i
-                                                                                        ],
-                                                                                        "Ans_letter",
-                                                                                        $$v
-                                                                                      )
-                                                                                    },
-                                                                                    expression:
-                                                                                      "FinalAnswers[index].Answer[i].Ans_letter"
-                                                                                  }
-                                                                                }
-                                                                              )
-                                                                            ],
-                                                                            1
-                                                                          ),
-                                                                          _vm._v(
-                                                                            " "
-                                                                          ),
-                                                                          _c(
-                                                                            "v-col",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mb-1 pb-0 pt-0 mt-0",
-                                                                              attrs: {
-                                                                                cols:
-                                                                                  "5",
-                                                                                md:
-                                                                                  "6",
-                                                                                lg:
-                                                                                  "6"
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "div",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "d-flex mt-7"
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "font-weight-medium mr-1"
-                                                                                    },
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        _vm._s(
-                                                                                          i +
-                                                                                            1 +
-                                                                                            ". "
-                                                                                        )
-                                                                                      )
-                                                                                    ]
-                                                                                  ),
-                                                                                  _vm._v(
-                                                                                    " "
-                                                                                  ),
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "subquestion-content",
-                                                                                      style: !_vm
-                                                                                        .$vuetify
-                                                                                        .breakpoint
-                                                                                        .mdAndUp
-                                                                                        ? "line-height:1.1;user-select: none"
-                                                                                        : "line-height:1.5;user-select: none",
-                                                                                      domProps: {
-                                                                                        innerHTML: _vm._s(
-                                                                                          List.sub_question
-                                                                                        )
-                                                                                      }
-                                                                                    }
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ]
-                                                                          ),
-                                                                          _vm._v(
-                                                                            " "
-                                                                          ),
-                                                                          _c(
-                                                                            "v-col",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mb-1 pb-0 pt-0 mt-0",
-                                                                              attrs: {
-                                                                                cols:
-                                                                                  "5",
-                                                                                md:
-                                                                                  "5",
-                                                                                lg:
-                                                                                  "5"
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "div",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "d-flex mt-7"
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "font-weight-medium mr-1"
-                                                                                    },
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        _vm._s(
-                                                                                          _vm
-                                                                                            .Alphabet[
-                                                                                            i
-                                                                                          ] +
-                                                                                            ". "
-                                                                                        )
-                                                                                      )
-                                                                                    ]
-                                                                                  ),
-                                                                                  _vm._v(
-                                                                                    " "
-                                                                                  ),
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "subchoices-content",
-                                                                                      style: !_vm
-                                                                                        .$vuetify
-                                                                                        .breakpoint
-                                                                                        .mdAndUp
-                                                                                        ? "line-height:1.1;user-select: none"
-                                                                                        : "line-height:1.5;user-select: none",
-                                                                                      domProps: {
-                                                                                        innerHTML: _vm._s(
-                                                                                          _vm
-                                                                                            .getAll_questions
-                                                                                            .Answer[
-                                                                                            index
-                                                                                          ]
-                                                                                            .SubAnswer[
-                                                                                            i
-                                                                                          ]
-                                                                                            .Choice
-                                                                                        )
-                                                                                      }
-                                                                                    }
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ]
-                                                                          )
-                                                                        ],
-                                                                        1
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  )
-                                                                }
-                                                              )
-                                                            ],
-                                                            2
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "ma-0 pa-0 text-right"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-btn",
-                                                                {
-                                                                  attrs: {
-                                                                    text: "",
-                                                                    rounded: "",
-                                                                    small: ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      return _vm.reset(
-                                                                        index,
-                                                                        item.type
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "Reset Answer"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          item.type == "Essay"
-                                            ? _c(
-                                                "v-container",
-                                                [
-                                                  _c(
-                                                    "v-row",
-                                                    {
-                                                      attrs: {
-                                                        "ma-0": "",
-                                                        "pa-0": ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "ma-0 pa-0 mt-5",
-                                                          attrs: {
-                                                            "ma-0": "",
-                                                            "pa-0": "",
-                                                            cols: "12"
-                                                          }
-                                                        },
-                                                        [
-                                                          _c("editor", {
-                                                            staticStyle: {
-                                                              height: "220px"
-                                                            },
-                                                            attrs: {
-                                                              id:
-                                                                "editor-container",
-                                                              placeholder:
-                                                                "Essay",
-                                                              theme: "snow",
-                                                              options:
-                                                                _vm.Essayoptions
-                                                            },
-                                                            on: {
-                                                              focus: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.SetWarning()
-                                                              },
-                                                              blur: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.SetWarning()
-                                                              },
-                                                              change: function(
-                                                                $event
-                                                              ) {
-                                                                return _vm.SelectAnswer()
-                                                              }
-                                                            },
-                                                            model: {
-                                                              value:
-                                                                _vm
-                                                                  .FinalAnswers[
-                                                                  index
-                                                                ].Answer,
-                                                              callback: function(
-                                                                $$v
-                                                              ) {
-                                                                _vm.$set(
-                                                                  _vm
-                                                                    .FinalAnswers[
-                                                                    index
+                                                                      [
+                                                                        _vm._v(
+                                                                          "Clear Answer"
+                                                                        )
+                                                                      ]
+                                                                    )
                                                                   ],
-                                                                  "Answer",
-                                                                  $$v
+                                                                  1
                                                                 )
-                                                              },
-                                                              expression:
-                                                                "FinalAnswers[index].Answer"
-                                                            }
-                                                          }),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "ma-0 pa-0 text-right"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-btn",
-                                                                {
-                                                                  attrs: {
-                                                                    text: "",
-                                                                    rounded: "",
-                                                                    small: ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      return _vm.reset(
-                                                                        index,
-                                                                        item.type
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "Clear Answer"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            : _vm._e()
-                                        ],
-                                        1
-                                      )
-                                    ]
+                                                              ],
+                                                              1
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  : _vm._e()
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        )
+                                      }
+                                    ),
+                                    1
                                   )
-                                }),
+                                ],
                                 1
                               )
                             ],
@@ -26122,10 +26673,95 @@ var render = function() {
                 ],
                 1
               )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              !_vm.$vuetify.breakpoint.mdAndUp
+                ? _c(
+                    "v-app-bar",
+                    {
+                      attrs: {
+                        color: "white",
+                        outlined: "",
+                        elevation: "0",
+                        app: "",
+                        dense: _vm.$vuetify.breakpoint.mdAndUp,
+                        bottom: "",
+                        flat: ""
+                      }
+                    },
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { icon: "", disabled: _vm.questionIndex <= 0 },
+                          on: { click: _vm.prev }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "d-flex justify-center" }, [
+                        _c("small", [
+                          _vm._v(
+                            _vm._s(_vm.questionIndex + 1) +
+                              " of " +
+                              _vm._s(_vm.getAll_questions.Question.length)
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _vm.questionIndex != _vm.Qlength - 1
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                icon: "",
+                                loading: _vm.isSavingAnswer,
+                                color: "primary"
+                              },
+                              on: { click: _vm.next }
+                            },
+                            [_c("v-icon", [_vm._v("mdi-arrow-right")])],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.questionIndex == _vm.Qlength - 1
+                        ? _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                text: "",
+                                loading: _vm.isSavingAnswer,
+                                rounded: "",
+                                color: "success"
+                              },
+                              on: { click: _vm.SubmitPromp }
+                            },
+                            [
+                              _vm._v(
+                                "\r\n            Submit\r\n           \r\n            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )
