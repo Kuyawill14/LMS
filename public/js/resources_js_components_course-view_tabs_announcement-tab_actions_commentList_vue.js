@@ -821,7 +821,8 @@ var render = function() {
                                   )
                                 : _vm._e(),
                               _vm._v(" "),
-                              this.last_page == this.current_page
+                              this.last_page == this.current_page &&
+                              _vm.postDetails.comment_count > 5
                                 ? _c(
                                     "a",
                                     {

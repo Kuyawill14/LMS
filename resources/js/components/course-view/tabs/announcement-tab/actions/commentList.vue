@@ -25,7 +25,7 @@
         <v-row class="mt-0 mb-0" v-if="postDetails.comment_count != 0" >
             <v-col cols="8" class="text-left">
                 <a v-if="current_count < postDetails.comment_count && this.last_page != this.current_page " href="" @click.prevent="loadMoreComment()" style="text-decoration:none;font-size:0.8rem">View previous comments</a>
-                 <a v-if="this.last_page == this.current_page" href="" @click.prevent="LoadLessComment()" style="text-decoration:none;font-size:0.8rem">Show less comments</a>
+                 <a v-if="this.last_page == this.current_page && postDetails.comment_count > 5" href="" @click.prevent="LoadLessComment()" style="text-decoration:none;font-size:0.8rem">Show less comments</a>
             </v-col>
             <v-col cols="4" class="text-right">
                 <small>
