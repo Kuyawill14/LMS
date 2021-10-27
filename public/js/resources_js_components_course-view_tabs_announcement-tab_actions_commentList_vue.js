@@ -418,6 +418,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                _this6.showComment = true;
                 _this6.postDetails.isCommented = true;
                 _this6.data.content = _this6.comment;
                 _this6.data.course_id = _this6.$route.params.id;
@@ -439,7 +440,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 });
 
-              case 5:
+              case 6:
               case "end":
                 return _context6.stop();
             }
@@ -1342,86 +1343,82 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _vm.showComment
-        ? _c(
-            "v-row",
-            { staticClass: "pa-3 pt-0 mt-0 mb-0 pb-0" },
+      _c(
+        "v-row",
+        { staticClass: "pa-3 pt-0 mt-0 mb-0 pb-0" },
+        [
+          _c(
+            "v-col",
+            { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
             [
               _c(
-                "v-col",
-                { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
+                "v-list",
+                { staticClass: "mb-0 pb-0 mt-0 pt-0 " },
                 [
                   _c(
-                    "v-list",
-                    { staticClass: "mb-0 pb-0 mt-0 pt-0 " },
+                    "v-list-item",
+                    { staticClass: "mb-0 pb-0" },
                     [
-                      _c(
-                        "v-list-item",
-                        { staticClass: "mb-0 pb-0" },
-                        [
-                          _vm.$vuetify.breakpoint.mdAndUp
-                            ? _c(
-                                "v-list-item-avatar",
-                                {
-                                  staticClass: "mt-0 pt-0",
-                                  attrs: { color: "secondary" }
-                                },
-                                [
-                                  _c("v-img", {
-                                    attrs: {
-                                      src:
-                                        _vm.UserDetails.profile_pic == null ||
-                                        _vm.UserDetails.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                            (_vm.UserDetails.firstName +
-                                              " " +
-                                              _vm.UserDetails.lastName)
-                                          : _vm.UserDetails.profile_pic
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-list-item-content",
-                            { staticClass: "ma-0 pa-0" },
+                      _vm.$vuetify.breakpoint.mdAndUp
+                        ? _c(
+                            "v-list-item-avatar",
+                            {
+                              staticClass: "mt-0 pt-0",
+                              attrs: { color: "secondary" }
+                            },
                             [
-                              _c(
-                                "v-list-item-title",
-                                [
-                                  _c("v-textarea", {
-                                    staticClass: "text-caption pl-0 mt-5",
-                                    attrs: {
-                                      "append-outer-icon": "mdi-send",
-                                      "prepend-avatar": "mdi-emoticon-dead",
-                                      filled: "",
-                                      rows: "1",
-                                      "auto-grow": "",
-                                      "hid-details": "",
-                                      rounded: "",
-                                      dense: "",
-                                      "clear-icon": "mdi-close-circle",
-                                      clearable: "",
-                                      placeholder: "Comment",
-                                      type: "text"
-                                    },
-                                    on: {
-                                      "click:append-outer": _vm.addComment,
-                                      "click:clear": _vm.clearComment
-                                    },
-                                    model: {
-                                      value: _vm.comment,
-                                      callback: function($$v) {
-                                        _vm.comment = $$v
-                                      },
-                                      expression: "comment"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
+                              _c("v-img", {
+                                attrs: {
+                                  src:
+                                    _vm.UserDetails.profile_pic == null ||
+                                    _vm.UserDetails.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        (_vm.UserDetails.firstName +
+                                          " " +
+                                          _vm.UserDetails.lastName)
+                                      : _vm.UserDetails.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-item-content",
+                        { staticClass: "ma-0 pa-0" },
+                        [
+                          _c(
+                            "v-list-item-title",
+                            [
+                              _c("v-textarea", {
+                                staticClass: "text-caption pl-0 mt-5",
+                                attrs: {
+                                  "append-outer-icon": "mdi-send",
+                                  "prepend-avatar": "mdi-emoticon-dead",
+                                  filled: "",
+                                  rows: "1",
+                                  "auto-grow": "",
+                                  "hid-details": "",
+                                  rounded: "",
+                                  dense: "",
+                                  "clear-icon": "mdi-close-circle",
+                                  clearable: "",
+                                  placeholder: "Comment",
+                                  type: "text"
+                                },
+                                on: {
+                                  "click:append-outer": _vm.addComment,
+                                  "click:clear": _vm.clearComment
+                                },
+                                model: {
+                                  value: _vm.comment,
+                                  callback: function($$v) {
+                                    _vm.comment = $$v
+                                  },
+                                  expression: "comment"
+                                }
+                              })
                             ],
                             1
                           )
@@ -1437,7 +1434,9 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )

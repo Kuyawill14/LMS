@@ -197,7 +197,7 @@
       </div>
      </div>
       </transition>
-      <v-row  class="pa-3 pt-0 mt-0 mb-0 pb-0" v-if="showComment">
+      <v-row  class="pa-3 pt-0 mt-0 mb-0 pb-0" >
          <v-col  cols="12" class="ma-0 pa-0" >
             <v-list class="mb-0 pb-0 mt-0 pt-0 ">
                 <v-list-item class="mb-0 pb-0" >
@@ -317,6 +317,7 @@ export default {
         },
        
         async addComment () {
+            this.showComment = true;
             this.postDetails.isCommented =  true;
             this.data.content = this.comment;
             this.data.course_id = this.$route.params.id;
