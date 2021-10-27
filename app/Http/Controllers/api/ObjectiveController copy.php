@@ -52,7 +52,12 @@ class ObjectiveController extends Controller
         foreach($temQuest as $cl){
            
             $tempData1;
-            $tempSubQuestion;
+            
+            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+            ->get();
+
+
             if(auth('sanctum')->user()->role == 'Student'){
                 $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                 ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
