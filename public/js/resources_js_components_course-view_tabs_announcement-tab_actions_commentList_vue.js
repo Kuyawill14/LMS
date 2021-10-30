@@ -257,6 +257,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'postDetails'],
@@ -272,7 +287,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       current_count: 0,
       current_page: null,
       last_page: null,
-      isloading: false
+      isloading: false,
+      isLoaded: false,
+      readMore: [],
+      readMore_id: null,
+      AreaHeight: []
     };
   },
   methods: {
@@ -335,28 +354,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this3.isloading = true;
-                axios.get('/api/post/allcomment/' + _this3.postDetails.post_id).then(function (res) {
-                  _this3.CommentList = res.data.data;
-                  _this3.last_page = res.data.last_page;
-                  _this3.current_count = _this3.CommentList.length;
-                  _this3.current_page = 1;
+                if (_this3.postDetails.comment_count != 0) {
+                  _this3.isloading = true;
+                  axios.get('/api/post/allcomment/' + _this3.postDetails.post_id).then(function (res) {
+                    _this3.CommentList = res.data.data;
+                    _this3.last_page = res.data.last_page;
+                    _this3.current_count = _this3.CommentList.length;
+                    _this3.current_page = 1;
 
-                  _this3.CommentList.sort(function (a, b) {
-                    return a.id - b.id;
+                    _this3.CommentList.sort(function (a, b) {
+                      return a.id - b.id;
+                    });
+
+                    _this3.CommentList.forEach(function (item) {
+                      _this3.readMore.push({
+                        id: item.id,
+                        isLongText: false,
+                        IsreadMore: false
+                      });
+                    });
+
+                    _this3.isloading = false;
+                    _this3.postDetails.comment_count = res.data.total;
+                    setTimeout(function () {
+                      return _this3.checkContainerHeight();
+                    }, 1000);
                   });
+                }
 
-                  _this3.isloading = false;
-                  _this3.postDetails.comment_count = res.data.total;
-                });
-
-              case 2:
+              case 1:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3);
       }))();
+    },
+    checkContainerHeight: function checkContainerHeight() {
+      for (var index = 0; index < this.CommentList.length; index++) {
+        var testData = this.postDetails.id + 'commentContainer' + index;
+        var element = this.$refs[testData][0].clientHeight;
+
+        if (element > 160) {
+          this.readMore[index].IsreadMore = true;
+        } else {
+          this.readMore[index].IsreadMore = false;
+        }
+      }
     },
     loadMoreComment: function loadMoreComment() {
       var _this4 = this;
@@ -380,7 +424,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       return a.id - b.id;
                     });
 
+                    _this4.CommentList.forEach(function (item) {
+                      _this4.readMore.push({
+                        id: item.id,
+                        isLongText: false,
+                        IsreadMore: false
+                      });
+                    });
+
                     _this4.postDetails.comment_count = res.data.total;
+                    setTimeout(function () {
+                      return _this4.checkContainerHeight();
+                    }, 1000);
                   });
                 }
 
@@ -425,19 +480,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this6.data.post_id = _this6.postDetails.post_id;
                 axios.post('/api/post/comment/insert', _this6.data).then(function (res) {
                   _this6.clearComment();
+                  /* this.CommentList.push({
+                      id: res.data.id,
+                      content: res.data.content,
+                      name: this.UserDetails.firstName+' '+this.UserDetails.lastName,
+                      post_id: this.postDetails.post_id,
+                      profile_pic: this.UserDetails.profile_pic,
+                      created_at: res.data.created_at,
+                      u_id: this.UserDetails.id
+                  }) */
 
-                  _this6.CommentList.push({
-                    id: res.data.id,
-                    content: res.data.content,
-                    name: _this6.UserDetails.firstName + ' ' + _this6.UserDetails.lastName,
-                    post_id: _this6.postDetails.post_id,
-                    profile_pic: _this6.UserDetails.profile_pic,
-                    created_at: res.data.created_at,
-                    u_id: _this6.UserDetails.id
-                  });
 
-                  _this6.getCount(); //this.postDetails.comment_count +=1;
+                  _this6.getComments(); //this.readMore.push({id: res.data.id , isLongText: false, IsreadMore: false})
 
+
+                  _this6.getCount();
+
+                  setTimeout(function () {
+                    return _this6.checkContainerHeight();
+                  }, 1000); //this.postDetails.comment_count +=1;
                 });
 
               case 6:
@@ -868,82 +929,104 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              !_vm.isloading
-                ? _c(
-                    "div",
-                    _vm._l(_vm.CommentList, function(item, index) {
-                      return _c(
-                        "v-container",
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.isloading,
+                      expression: "!isloading"
+                    }
+                  ]
+                },
+                _vm._l(_vm.CommentList, function(item, index) {
+                  return _c(
+                    "v-container",
+                    {
+                      key: item.id,
+                      class: _vm.$vuetify.breakpoint.mdAndUp
+                        ? "d-inline-flex ml-1 pr-4 pb-2 shrink rounded-lg"
+                        : "d-inline-flex pl-6 pr-4 pb-2 shrink rounded-lg",
+                      attrs: { fluid: "" }
+                    },
+                    [
+                      _vm.idEditing_id != item.id
+                        ? _c(
+                            "v-avatar",
+                            {
+                              class:
+                                _vm.isEditing && _vm.idEditing_id == item.id
+                                  ? "mt-1"
+                                  : "",
+                              attrs: {
+                                color: "grey",
+                                size: _vm.$vuetify.breakpoint.mdAndUp
+                                  ? "40"
+                                  : "30"
+                              }
+                            },
+                            [
+                              _c("v-img", {
+                                staticClass: "rounded-circle",
+                                attrs: {
+                                  src:
+                                    item.profile_pic == null ||
+                                    item.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                        item.name
+                                      : item.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.isEditing && _vm.idEditing_id == item.id
+                        ? _c(
+                            "v-btn",
+                            {
+                              staticClass: "mt-2",
+                              attrs: { icon: "", small: "" },
+                              on: {
+                                click: function($event) {
+                                  ;(_vm.isEditing = false),
+                                    (_vm.idEditing_id = null)
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", [
+                                _vm._v(
+                                  "\r\n                    mdi-close\r\n                "
+                                )
+                              ])
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "div",
                         {
-                          key: item.id,
-                          class: _vm.$vuetify.breakpoint.mdAndUp
-                            ? "d-inline-flex ml-1 pr-4 pb-2 shrink rounded-lg"
-                            : "d-inline-flex pl-6 pr-4 pb-2 shrink rounded-lg",
-                          attrs: { fluid: "" }
+                          ref: _vm.postDetails.id + "commentContainer" + index,
+                          refInFor: true,
+                          staticClass: "ma-0 pa-0",
+                          staticStyle: { width: "100%" },
+                          on: {
+                            click: function($event) {
+                              return _vm.checkContainerHeight(index)
+                            }
+                          }
                         },
                         [
-                          _vm.idEditing_id != item.id
-                            ? _c(
-                                "v-avatar",
-                                {
-                                  class:
-                                    _vm.isEditing && _vm.idEditing_id == item.id
-                                      ? "mt-1"
-                                      : "",
-                                  attrs: {
-                                    color: "grey",
-                                    size: _vm.$vuetify.breakpoint.mdAndUp
-                                      ? "40"
-                                      : "30"
-                                  }
-                                },
-                                [
-                                  _c("v-img", {
-                                    staticClass: "rounded-circle",
-                                    attrs: {
-                                      src:
-                                        item.profile_pic == null ||
-                                        item.profile_pic == ""
-                                          ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                            item.name
-                                          : item.profile_pic
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.isEditing && _vm.idEditing_id == item.id
-                            ? _c(
-                                "v-btn",
-                                {
-                                  staticClass: "mt-2",
-                                  attrs: { icon: "", small: "" },
-                                  on: {
-                                    click: function($event) {
-                                      ;(_vm.isEditing = false),
-                                        (_vm.idEditing_id = null)
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-icon", [
-                                    _vm._v(
-                                      "\r\n                    mdi-close\r\n                "
-                                    )
-                                  ])
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
                           _c(
                             "v-alert",
                             {
                               staticClass: "ma-0 pa-0 ml-2 rounded-xl",
                               attrs: {
-                                width: "100%",
                                 color:
                                   !_vm.isEditing || _vm.idEditing_id != item.id
                                     ? "#F5F5F5"
@@ -1217,8 +1300,16 @@ var render = function() {
                                                             style: !_vm.$vuetify
                                                               .breakpoint
                                                               .mdAndUp
-                                                              ? "line-height:1.5;font-size:0.9rem;background-color:transparent"
-                                                              : "line-height:1.5;font-size:0.95rem",
+                                                              ? _vm.readMore[
+                                                                  index
+                                                                ].isLongText
+                                                                ? "line-height:1.5;font-size:0.9rem;background-color:transparent"
+                                                                : "line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px"
+                                                              : _vm.readMore[
+                                                                  index
+                                                                ].isLongText
+                                                              ? "line-height:1.5;font-size:0.95rem;"
+                                                              : "line-height:1.5;font-size:0.95rem;max-height:160px;overflow:hidden",
                                                             attrs: {
                                                               rounded: "",
                                                               readonly: "",
@@ -1245,6 +1336,90 @@ var render = function() {
                                                                 "item.content"
                                                             }
                                                           })
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm.readMore[index]
+                                                        .IsreadMore
+                                                        ? _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "text-right"
+                                                            },
+                                                            [
+                                                              !_vm.readMore[
+                                                                index
+                                                              ].isLongText
+                                                                ? _c(
+                                                                    "a",
+                                                                    {
+                                                                      staticClass:
+                                                                        "mr-5",
+                                                                      staticStyle: {
+                                                                        "text-decoration":
+                                                                          "none",
+                                                                        "font-size":
+                                                                          "12px"
+                                                                      },
+                                                                      attrs: {
+                                                                        href: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          $event.preventDefault()
+                                                                          _vm.readMore[
+                                                                            index
+                                                                          ].isLongText = true
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Read more.."
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                : _vm._e(),
+                                                              _vm._v(" "),
+                                                              _vm.readMore[
+                                                                index
+                                                              ].isLongText
+                                                                ? _c(
+                                                                    "a",
+                                                                    {
+                                                                      staticClass:
+                                                                        "mr-5",
+                                                                      staticStyle: {
+                                                                        "text-decoration":
+                                                                          "none",
+                                                                        "font-size":
+                                                                          "12px"
+                                                                      },
+                                                                      attrs: {
+                                                                        href: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          $event.preventDefault()
+                                                                          _vm.readMore[
+                                                                            index
+                                                                          ].isLongText = false
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Read less.."
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                : _vm._e()
+                                                            ]
+                                                          )
                                                         : _vm._e()
                                                     ],
                                                     1
@@ -1335,10 +1510,12 @@ var render = function() {
                         ],
                         1
                       )
-                    }),
+                    ],
                     1
                   )
-                : _vm._e()
+                }),
+                1
+              )
             ])
           : _vm._e()
       ]),

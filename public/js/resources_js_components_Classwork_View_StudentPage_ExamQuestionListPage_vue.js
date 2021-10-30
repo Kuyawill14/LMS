@@ -892,6 +892,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -956,7 +958,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isLeavingPage: false,
       CurrentTime: null,
       testDate: null,
-      isReloadTime: false
+      isReloadTime: false,
+      unAnsweredQuestion: 0
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -969,6 +972,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, 1000);
     },
     SubmitPromp: function SubmitPromp() {
+      var _this2 = this;
+
+      this.unAnsweredQuestion = 0;
+      this.FinalAnswers.forEach(function (item) {
+        if (item.type != "Matching type") {
+          if (item.Answer == null || item.Answer == '') {
+            _this2.unAnsweredQuestion++;
+          }
+        } else {}
+      });
       this.isRemoving = true;
       this.dialog = true;
       ;
@@ -998,7 +1011,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.preventWarning = !this.preventWarning;
     },
     next: function next() {
-      var _this2 = this;
+      var _this3 = this;
 
       /*  let name = btoa('CurrentAnswers');
         localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
@@ -1023,20 +1036,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       setTimeout(function () {
-        return _this2.isSavingAnswer = false;
+        return _this3.isSavingAnswer = false;
       }, 700);
     },
     updateAnswer: function updateAnswer() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.put('/api/question/store-answer/' + _this3.submission_id, {
+                axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
-                  data: _this3.FinalAnswers
+                  data: _this4.FinalAnswers
                 }); //this.isSavingAnswer = false;
                 //setTimeout(() => (this.isSavingAnswer = false), 500);
 
@@ -1062,7 +1075,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.questionIndex--;
     },
     SubmitAnswer: function SubmitAnswer(data) {
-      var _this4 = this;
+      var _this5 = this;
 
       if (data.istime == false) {
         this.isExamStart = false; //this.isLoading = !this.isLoading;
@@ -1079,20 +1092,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }).then(function (res) {
           //this.isLoading = !this.isLoading;
           //this.isSubmitting = !this.isSubmitting;
-          _this4.$router.push({
+          _this5.$router.push({
             name: 'clwk',
             params: {
-              id: _this4.$route.params.id
+              id: _this5.$route.params.id
             },
             query: {
-              clwk: _this4.$route.query.clwk
+              clwk: _this5.$route.query.clwk
             }
           });
         });
       }
     },
     TimesUpSubmit: function TimesUpSubmit(data) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.isExamStart = false; //this.isLoading = !this.isLoading;
 
@@ -1105,48 +1118,48 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         timerCount: this.TimerCount,
         timeSpent: data.time
       }).then(function (res) {
-        _this5.TimesUpDialog = !_this5.TimesUpDialog;
+        _this6.TimesUpDialog = !_this6.TimesUpDialog;
         setTimeout(function () {//this.isLoading = !this.isLoading;
           //this.isSubmitting = !this.isSubmitting;
         }, 2000); //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
       });
     },
     fetchQuestions: function fetchQuestions() {
-      var _this6 = this;
+      var _this7 = this;
 
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
-        _this6.Qlength = _this6.getAll_questions.Question.length;
-        var AnswersList = _this6.Submitted_Answers;
+        _this7.Qlength = _this7.getAll_questions.Question.length;
+        var AnswersList = _this7.Submitted_Answers;
 
         if (AnswersList == null || AnswersList.length == 0) {
-          for (var index = 0; index < _this6.getAll_questions.Question.length; index++) {
-            if (_this6.getAll_questions.Question[index].type == 'Identification' || _this6.getAll_questions.Question[index].type == 'Multiple Choice' || _this6.getAll_questions.Question[index].type == 'True or False') {
-              _this6.FinalAnswers.push({
+          for (var index = 0; index < _this7.getAll_questions.Question.length; index++) {
+            if (_this7.getAll_questions.Question[index].type == 'Identification' || _this7.getAll_questions.Question[index].type == 'Multiple Choice' || _this7.getAll_questions.Question[index].type == 'True or False') {
+              _this7.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this6.getAll_questions.Question[index].id,
-                type: _this6.getAll_questions.Question[index].type,
+                Question_id: _this7.getAll_questions.Question[index].id,
+                type: _this7.getAll_questions.Question[index].type,
                 timeConsume: null
               });
-            } else if (_this6.getAll_questions.Question[index].type == 'Essay') {
-              _this6.FinalAnswers.push({
+            } else if (_this7.getAll_questions.Question[index].type == 'Essay') {
+              _this7.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this6.getAll_questions.Question[index].id,
-                type: _this6.getAll_questions.Question[index].type,
+                Question_id: _this7.getAll_questions.Question[index].id,
+                type: _this7.getAll_questions.Question[index].type,
                 check: false,
                 timeConsume: null
               });
-            } else if (_this6.getAll_questions.Question[index].type == 'Matching type') {
+            } else if (_this7.getAll_questions.Question[index].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
 
-                _this6.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
+                _this7.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
                   });
                 });
 
-                _this6.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
+                _this7.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
                   Ans.push({
                     Ans_letter: '',
                     Ans_id: null,
@@ -1155,50 +1168,50 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   });
                 });
 
-                _this6.FinalAnswers.push({
+                _this7.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
-                  Question_id: _this6.getAll_questions.Question[index].id,
-                  type: _this6.getAll_questions.Question[index].type,
+                  Question_id: _this7.getAll_questions.Question[index].id,
+                  type: _this7.getAll_questions.Question[index].type,
                   timeConsume: null
                 });
               })();
             }
           }
 
-          axios.put('/api/question/store-answer/' + _this6.submission_id, {
+          axios.put('/api/question/store-answer/' + _this7.submission_id, {
             type: "multiple",
-            data: _this6.FinalAnswers
+            data: _this7.FinalAnswers
           });
-        } else if (_this6.Qlength != AnswersList.length) {
-          for (var _index = 0; _index < _this6.getAll_questions.Question.length; _index++) {
-            if (_this6.getAll_questions.Question[_index].type == 'Identification' || _this6.getAll_questions.Question[_index].type == 'Multiple Choice' || _this6.getAll_questions.Question[_index].type == 'True or False') {
-              _this6.FinalAnswers.push({
+        } else if (_this7.Qlength != AnswersList.length) {
+          for (var _index = 0; _index < _this7.getAll_questions.Question.length; _index++) {
+            if (_this7.getAll_questions.Question[_index].type == 'Identification' || _this7.getAll_questions.Question[_index].type == 'Multiple Choice' || _this7.getAll_questions.Question[_index].type == 'True or False') {
+              _this7.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this6.getAll_questions.Question[_index].id,
-                type: _this6.getAll_questions.Question[_index].type,
+                Question_id: _this7.getAll_questions.Question[_index].id,
+                type: _this7.getAll_questions.Question[_index].type,
                 timeConsume: null
               });
-            } else if (_this6.getAll_questions.Question[_index].type == 'Essay') {
-              _this6.FinalAnswers.push({
+            } else if (_this7.getAll_questions.Question[_index].type == 'Essay') {
+              _this7.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this6.getAll_questions.Question[_index].id,
-                type: _this6.getAll_questions.Question[_index].type,
+                Question_id: _this7.getAll_questions.Question[_index].id,
+                type: _this7.getAll_questions.Question[_index].type,
                 check: false,
                 timeConsume: null
               });
-            } else if (_this6.getAll_questions.Question[_index].type == 'Matching type') {
+            } else if (_this7.getAll_questions.Question[_index].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
 
-                _this6.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
+                _this7.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
                   });
                 });
 
-                _this6.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
+                _this7.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
                   Ans.push({
                     Ans_letter: '',
                     Ans_id: null,
@@ -1207,37 +1220,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   });
                 });
 
-                _this6.FinalAnswers.push({
+                _this7.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
-                  Question_id: _this6.getAll_questions.Question[_index].id,
-                  type: _this6.getAll_questions.Question[_index].type,
+                  Question_id: _this7.getAll_questions.Question[_index].id,
+                  type: _this7.getAll_questions.Question[_index].type,
                   timeConsume: null
                 });
               })();
             }
           }
 
-          axios.put('/api/question/store-answer/' + _this6.submission_id, {
+          axios.put('/api/question/store-answer/' + _this7.submission_id, {
             type: "multiple",
-            data: _this6.FinalAnswers
+            data: _this7.FinalAnswers
           });
-        } else if (_this6.Qlength == AnswersList.length) {
-          for (var x = 0; x < _this6.getAll_questions.Question.length; x++) {
+        } else if (_this7.Qlength == AnswersList.length) {
+          for (var x = 0; x < _this7.getAll_questions.Question.length; x++) {
             var _loop = function _loop(j) {
-              if (_this6.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
-                if (_this6.getAll_questions.Question[x].type == 'Identification' || _this6.getAll_questions.Question[x].type == 'Multiple Choice' || _this6.getAll_questions.Question[x].type == 'True or False' || _this6.getAll_questions.Question[x].type == 'Essay') {
-                  _this6.FinalAnswers.push({
+              if (_this7.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                if (_this7.getAll_questions.Question[x].type == 'Identification' || _this7.getAll_questions.Question[x].type == 'Multiple Choice' || _this7.getAll_questions.Question[x].type == 'True or False' || _this7.getAll_questions.Question[x].type == 'Essay') {
+                  _this7.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (_this6.getAll_questions.Question[x].type == 'Matching type') {
+                } else if (_this7.getAll_questions.Question[x].type == 'Matching type') {
                   var Ans = new Array();
                   var Choices_id = new Array();
 
-                  _this6.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                  _this7.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                     Choices_id.push({
                       choice_id: item.id
                     });
@@ -1245,7 +1258,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                   var counter = 0;
 
-                  _this6.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
+                  _this7.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
                     Ans.push({
                       Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
                       Ans_id: AnswersList[j].Answer[counter].Ans_id,
@@ -1264,7 +1277,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                       }); */
 
 
-                  _this6.FinalAnswers.push({
+                  _this7.FinalAnswers.push({
                     Answer: Ans,
                     Choices_id: Choices_id,
                     Question_id: AnswersList[j].Question_id,
@@ -1281,8 +1294,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }
 
-        _this6.isLoading = false;
-        _this6.questionIsLoaded = true;
+        _this7.isLoading = false;
+        _this7.questionIsLoaded = true;
       });
     },
     preventNav: function preventNav(event) {
@@ -1290,80 +1303,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       event.returnValue = "";
     },
     ReloadStatus: function ReloadStatus() {
-      var _this7 = this;
-
-      axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
-        if (res.data.success == true) {
-          if (res.data.status != 'Submitted') {
-            _this7.CurrentTime = res.data.currentTime;
-            _this7.StartTime = res.data.startTime;
-          }
-        }
-
-        _this7.isReloadTime = false;
-      })["catch"](function (e) {
-        _this7.toastError('Something went wrong while loading Questions!');
-
-        _this7.$router.push({
-          name: 'clwk',
-          params: {
-            id: _this7.$route.params.id
-          },
-          query: {
-            clwk: _this7.$route.query.clwk
-          }
-        });
-      });
-    },
-    CheckStatus: function CheckStatus() {
       var _this8 = this;
 
       axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
         if (res.data.success == true) {
           if (res.data.status != 'Submitted') {
-            _this8.isExamStart = true;
-            _this8.Submitted_Answers = res.data.Submitted_Answers;
             _this8.CurrentTime = res.data.currentTime;
-            _this8.testDate = res.data.testDate;
             _this8.StartTime = res.data.startTime;
-            _this8.submission_id = res.data.submission_id;
-            _this8.preventNav = !_this8.preventNav;
-
-            _this8.StartQuiz();
-          } else {
-            _this8.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-            //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
-
-            _this8.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
-              theme: "toasted-primary",
-              position: "top-center",
-              icon: "warning",
-              duration: 7000
-            });
-
-            _this8.$router.push({
-              name: 'clwk',
-              params: {
-                id: _this8.$route.params.id
-              },
-              query: {
-                clwk: _this8.$route.query.clwk
-              }
-            });
           }
-        } else {
-          _this8.toastError('Something went wrong while loading Questions!');
-
-          _this8.$router.push({
-            name: 'clwk',
-            params: {
-              id: _this8.$route.params.id
-            },
-            query: {
-              clwk: _this8.$route.query.clwk
-            }
-          });
         }
+
+        _this8.isReloadTime = false;
       })["catch"](function (e) {
         _this8.toastError('Something went wrong while loading Questions!');
 
@@ -1374,6 +1324,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           },
           query: {
             clwk: _this8.$route.query.clwk
+          }
+        });
+      });
+    },
+    CheckStatus: function CheckStatus() {
+      var _this9 = this;
+
+      axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
+        if (res.data.success == true) {
+          if (res.data.status != 'Submitted') {
+            _this9.isExamStart = true;
+            _this9.Submitted_Answers = res.data.Submitted_Answers;
+            _this9.CurrentTime = res.data.currentTime;
+            _this9.testDate = res.data.testDate;
+            _this9.StartTime = res.data.startTime;
+            _this9.submission_id = res.data.submission_id;
+            _this9.preventNav = !_this9.preventNav;
+
+            _this9.StartQuiz();
+          } else {
+            _this9.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+            //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+
+            _this9.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+              theme: "toasted-primary",
+              position: "top-center",
+              icon: "warning",
+              duration: 7000
+            });
+
+            _this9.$router.push({
+              name: 'clwk',
+              params: {
+                id: _this9.$route.params.id
+              },
+              query: {
+                clwk: _this9.$route.query.clwk
+              }
+            });
+          }
+        } else {
+          _this9.toastError('Something went wrong while loading Questions!');
+
+          _this9.$router.push({
+            name: 'clwk',
+            params: {
+              id: _this9.$route.params.id
+            },
+            query: {
+              clwk: _this9.$route.query.clwk
+            }
+          });
+        }
+      })["catch"](function (e) {
+        _this9.toastError('Something went wrong while loading Questions!');
+
+        _this9.$router.push({
+          name: 'clwk',
+          params: {
+            id: _this9.$route.params.id
+          },
+          query: {
+            clwk: _this9.$route.query.clwk
           }
         });
       });
@@ -1393,7 +1406,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       console.log(this.FinalAnswers[main_index]);
     },
     StartQuiz: function StartQuiz() {
-      var _this9 = this;
+      var _this10 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -1403,25 +1416,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         course_id: this.$route.params.id
       };
       this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
-        _this9.duration = _this9.get_classwork_show_details.Details.duration;
-        _this9.classworkDetails = _this9.get_classwork_show_details.Details;
+        _this10.duration = _this10.get_classwork_show_details.Details.duration;
+        _this10.classworkDetails = _this10.get_classwork_show_details.Details;
 
-        _this9.fetchQuestions();
+        _this10.fetchQuestions();
       }); //this.CountTime();
     },
     triggerWarning: function triggerWarning() {
-      /*   if(this.isExamStart){
-            this.leaveStrike += 1;
-            if(this.leaveStrike == 5){
-                this.isExamStart = false;
-             
-                this.toastError('You are lossing focus to examination page many times!');
-                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
+      if (this.isExamStart) {
+        this.leaveStrike += 1;
+
+        if (this.leaveStrike == 5) {
+          this.isExamStart = false;
+          this.toastError('You are lossing focus to examination page many times!');
+          this.$router.push({
+            name: 'clwk',
+            params: {
+              id: this.$route.params.id
+            },
+            query: {
+              clwk: this.$route.query.clwk
             }
-            if(!this.preventWarning){
-                this.warningDialog = true;
-            }
-          } */
+          });
+        }
+
+        if (!this.preventWarning) {
+          this.warningDialog = true;
+        }
+      }
     },
     ReloadTime: function ReloadTime() {
       this.ReloadStatus();
@@ -1449,14 +1471,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     next();
   },
   mounted: function mounted() {
-    var _this10 = this;
+    var _this11 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _this10.CheckStatus();
+              _this11.CheckStatus();
 
             case 1:
             case "end":
@@ -1680,7 +1702,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['unAnsweredQuestion']
+});
 
 /***/ }),
 
@@ -24349,6 +24379,7 @@ var render = function() {
             [
               _vm.dialog
                 ? _c("confirmDialog", {
+                    attrs: { unAnsweredQuestion: _vm.unAnsweredQuestion },
                     on: {
                       toggleCancelDialog: function($event) {
                         _vm.dialog = !_vm.dialog
@@ -25222,6 +25253,20 @@ var render = function() {
                                       attrs: { vertical: "" }
                                     }),
                                     _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "pl-2 mt-1 white--text" },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.getAll_questions.Question[
+                                              _vm.questionIndex
+                                            ].points
+                                          ) + " points"
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
                                     _c("v-spacer"),
                                     _vm._v(" "),
                                     _vm.isReloadTime
@@ -25229,7 +25274,7 @@ var render = function() {
                                           "div",
                                           {
                                             staticStyle: {
-                                              "margin-right": "1.5rem"
+                                              "margin-right": "1.2rem"
                                             }
                                           },
                                           [
@@ -25249,7 +25294,7 @@ var render = function() {
                                           "div",
                                           {
                                             staticClass:
-                                              "white--text mt-5 font-weight-bold"
+                                              "white--text mt-5 ml-0 font-weight-bold"
                                           },
                                           [
                                             !_vm.isLoading &&
@@ -25498,76 +25543,80 @@ var render = function() {
                                                 ]
                                               },
                                               [
-                                                _c(
-                                                  "v-row",
-                                                  {
-                                                    attrs: {
-                                                      "ma-0": "",
-                                                      "pa-0": ""
-                                                    }
-                                                  },
-                                                  [
-                                                    _c(
-                                                      "v-col",
+                                                _vm.$vuetify.breakpoint.mdAndUp
+                                                  ? _c(
+                                                      "v-row",
                                                       {
-                                                        staticClass:
-                                                          "mb-0 pb-0",
-                                                        attrs: { cols: "12" }
+                                                        attrs: {
+                                                          "ma-0": "",
+                                                          "pa-0": ""
+                                                        }
                                                       },
                                                       [
                                                         _c(
-                                                          "v-container",
+                                                          "v-col",
                                                           {
                                                             staticClass:
-                                                              "pa-0 ma-0 d-flex flex-row justify-space-between"
+                                                              "mb-0 pb-0",
+                                                            attrs: {
+                                                              cols: "12"
+                                                            }
                                                           },
                                                           [
-                                                            _vm.$vuetify
-                                                              .breakpoint
-                                                              .mdAndUp
-                                                              ? _c("h3", [
-                                                                  _vm._v(
-                                                                    "Question #" +
-                                                                      _vm._s(
-                                                                        index +
-                                                                          1
-                                                                      )
-                                                                  )
-                                                                ])
-                                                              : _c("h4", [
-                                                                  _vm._v(
-                                                                    "Question #" +
-                                                                      _vm._s(
-                                                                        index +
-                                                                          1
-                                                                      )
-                                                                  )
-                                                                ]),
-                                                            _vm._v(" "),
                                                             _c(
-                                                              "p",
+                                                              "v-container",
                                                               {
                                                                 staticClass:
-                                                                  "mr-5 primary--text"
+                                                                  "pa-0 ma-0 d-flex flex-row justify-space-between"
                                                               },
                                                               [
-                                                                _vm._v(
-                                                                  "(" +
-                                                                    _vm._s(
-                                                                      item.points
-                                                                    ) +
-                                                                    " Points)"
+                                                                _vm.$vuetify
+                                                                  .breakpoint
+                                                                  .mdAndUp
+                                                                  ? _c("h3", [
+                                                                      _vm._v(
+                                                                        "Question #" +
+                                                                          _vm._s(
+                                                                            index +
+                                                                              1
+                                                                          )
+                                                                      )
+                                                                    ])
+                                                                  : _c("h4", [
+                                                                      _vm._v(
+                                                                        "Question #" +
+                                                                          _vm._s(
+                                                                            index +
+                                                                              1
+                                                                          )
+                                                                      )
+                                                                    ]),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "p",
+                                                                  {
+                                                                    staticClass:
+                                                                      "mr-5 primary--text"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "(" +
+                                                                        _vm._s(
+                                                                          item.points
+                                                                        ) +
+                                                                        " Points)"
+                                                                    )
+                                                                  ]
                                                                 )
                                                               ]
                                                             )
-                                                          ]
+                                                          ],
+                                                          1
                                                         )
                                                       ],
                                                       1
                                                     )
-                                                  ],
-                                                  1
-                                                ),
+                                                  : _vm._e(),
                                                 _vm._v(" "),
                                                 _c(
                                                   "v-row",
@@ -25587,6 +25636,8 @@ var render = function() {
                                                         _c(
                                                           "div",
                                                           {
+                                                            staticClass:
+                                                              "font-weight-medium",
                                                             style: !_vm.$vuetify
                                                               .breakpoint
                                                               .mdAndUp
@@ -25626,8 +25677,12 @@ var render = function() {
                                                                 _c(
                                                                   "v-list",
                                                                   {
-                                                                    staticClass:
-                                                                      "pl-8"
+                                                                    class: _vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp
+                                                                      ? "pl-8"
+                                                                      : "pl-5"
                                                                   },
                                                                   _vm._l(
                                                                     _vm
@@ -25969,8 +26024,12 @@ var render = function() {
                                                                 _c(
                                                                   "v-list",
                                                                   {
-                                                                    staticClass:
-                                                                      "pl-8"
+                                                                    class: _vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp
+                                                                      ? "pl-8"
+                                                                      : "pl-5"
                                                                   },
                                                                   _vm._l(
                                                                     _vm.inputCheck,
@@ -26158,7 +26217,12 @@ var render = function() {
                                                 item.type == "Matching type"
                                                   ? _c(
                                                       "v-container",
-                                                      { staticClass: "mb-4" },
+                                                      {
+                                                        class: _vm.$vuetify
+                                                          .breakpoint.mdAndUp
+                                                          ? "mb-4"
+                                                          : "mb-4 pa-0"
+                                                      },
                                                       [
                                                         _c(
                                                           "v-row",
@@ -27009,19 +27073,43 @@ var render = function() {
     { staticClass: "pa-2" },
     [
       _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
-        _vm._v("\n      Submit Answer\n    ")
+        _vm._v("\n      Submit Quiz\n    ")
       ]),
       _vm._v(" "),
       _c("v-card-text", { staticClass: "font-weight-bold" }, [
-        _c(
-          "div",
-          { staticClass: "subtitle-1 ", staticStyle: { "line-height": "1.3" } },
-          [
-            _vm._v(
-              "Clicking submit will end this quiz. \n             You will no longer be able to make changes \n             to your answers unless allowed by the instructor."
+        _vm.unAnsweredQuestion == 0
+          ? _c(
+              "div",
+              {
+                staticClass: "subtitle-1 ",
+                staticStyle: { "line-height": "1.1" }
+              },
+              [
+                _vm._v(
+                  "Are you sure you want to submit your quiz?\n             You will no longer be able to make changes \n             to your answers unless allowed by the instructor.\n          "
+                )
+              ]
             )
-          ]
-        )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.unAnsweredQuestion > 0
+          ? _c(
+              "div",
+              {
+                staticClass: "subtitle-1 ",
+                staticStyle: { "line-height": "1.1" }
+              },
+              [
+                _vm._v(
+                  "Are you sure you want to submit your quiz?\n             You have "
+                ),
+                _c("span", { staticClass: "font-weight-medium" }, [
+                  _vm._v(_vm._s(_vm.unAnsweredQuestion))
+                ]),
+                _vm._v(" unanswered questions.\n          ")
+              ]
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c(
@@ -27039,7 +27127,13 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n        Cancel\n      ")]
+            [
+              _vm._v(
+                "\n        " +
+                  _vm._s(_vm.unAnsweredQuestion == 0 ? "Cancel" : "Resume") +
+                  "\n      "
+              )
+            ]
           ),
           _vm._v(" "),
           _c(
@@ -27052,7 +27146,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n        Confirm\n      ")]
+            [_vm._v("\n        Submit\n      ")]
           )
         ],
         1

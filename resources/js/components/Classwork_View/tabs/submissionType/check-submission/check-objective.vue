@@ -273,7 +273,7 @@
                                                     <v-row>
                                                         <v-col class="mb-1 pb-0 pt-0 mt-0 mr-0 pr-0  text-center" cols="2" md="1" lg="1">
                                                             <v-checkbox
-                                                            hide-details
+                                                                hide-details
                                                                 class="mt-4 pr-0 mr-0"
                                                                 color="success"
                                                                 v-model="Check[index][i]"

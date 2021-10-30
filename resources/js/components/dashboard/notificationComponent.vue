@@ -39,6 +39,7 @@
                             <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                             <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                              <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
+                             <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
                         </v-list-item-avatar>
                       
                 
@@ -46,7 +47,7 @@
                             
                             <v-list-item-title  class="font-weight-medium">
                                 <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
-                                :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : item.notification_type == 3 ? 'green' : ''" >
+                                :color="item.notification_type == 1 || item.notification_type == 5 ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : item.notification_type == 3 ? 'green' : ''" >
                                 {{item.name}}   
                                 </v-badge>
                                 </v-list-item-title>

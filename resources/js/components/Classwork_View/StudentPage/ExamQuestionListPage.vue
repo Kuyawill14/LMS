@@ -8,6 +8,7 @@
    
 <v-dialog v-model="dialog" persistent max-width="550">
     <confirmDialog
+    :unAnsweredQuestion="unAnsweredQuestion"
     v-on:toggleCancelDialog="dialog = !dialog"
     v-on:toggleSubmit="StopTimer = true"
      v-if="dialog"></confirmDialog>
@@ -158,14 +159,15 @@
                         </v-menu>
                   
                     <v-divider vertical></v-divider>
-
+                    <div class="pl-2 mt-1 white--text">{{getAll_questions.Question[questionIndex].points}} points</div>
+                   
                     <v-spacer></v-spacer>
-                    <div v-if="isReloadTime" style="margin-right:1.5rem">
+                    <div v-if="isReloadTime" style="margin-right:1.2rem">
                             <vue-element-loading :active="isReloadTime" 
                         duration="0.7"
                         spinner="line-scale"  color="white" size="25"  />
                     </div>
-                     <div v-else class="white--text mt-5 font-weight-bold">
+                     <div v-else class="white--text mt-5 ml-0 font-weight-bold">
                            <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
                      </div>
                   
@@ -212,7 +214,7 @@
                             <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
                             <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                 <div v-show="index === questionIndex">
-                                        <v-row ma-0 pa-0>
+                                        <v-row v-if="$vuetify.breakpoint.mdAndUp" ma-0 pa-0>
                                             <v-col class="mb-0 pb-0" cols="12">
                                                 <v-container class="pa-0 ma-0 d-flex flex-row justify-space-between">
                                                     <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{index+1}}</h3>
@@ -225,13 +227,13 @@
                                      
                                         <v-row >
                                             <v-col class="mt-0 pt-1 pl-3 mb-0 pb-0" cols="12" md="11" lg="11">
-                                                <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="">
+                                                <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="font-weight-medium">
                                                     <span v-html="item.question" class="post-content"></span>
                                                 </div>
                                             </v-col>
                                             <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'Multiple Choice'">
                                                 <div>
-                                                    <v-list class="pl-8" >
+                                                    <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'" >
                                                         <v-list-item class="ma-0 pa-0"  v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
                                                             <v-list-item-icon class="ma-0 pa-0">
                                                                 <v-radio-group hide-details :name="'option'+index"  class="ma-0 pa-0 mt-1" v-model="FinalAnswers[index].Answer">
@@ -279,7 +281,7 @@
 
                                             <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'True or False'">
                                                  <div>
-                                                    <v-list class="pl-8" >
+                                                    <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'" >
                                                         <v-list-item class="ma-0 pa-0"  v-for="(x, n) in inputCheck" :key="n">
                                                             <v-list-item-icon class="ma-0 pa-0">
                                                                 <v-radio-group hide-details class="ma-0 pa-0 mt-1" :name="'option'+index" v-model="FinalAnswers[index].Answer">
@@ -306,7 +308,7 @@
                                             </v-col>
                                         </v-row>
                                       
-                                        <v-container class="mb-4" v-if="item.type == 'Matching type'">
+                                        <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'mb-4' : 'mb-4 pa-0'" v-if="item.type == 'Matching type'">
                                             <v-row >
                                                     <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
                                                         <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'pl-5 pr-5' : 'ma-0 pa-0'">
@@ -498,6 +500,7 @@ export default {
             CurrentTime: null,
             testDate: null,
             isReloadTime: false,
+            unAnsweredQuestion: 0,
 
         }
     },
@@ -511,6 +514,18 @@ export default {
             },1000)
         },
         SubmitPromp(){
+            this.unAnsweredQuestion = 0;
+            this.FinalAnswers.forEach(item => {
+                if(item.type != "Matching type"){
+                    if(item.Answer == null || item.Answer == ''){
+                        this.unAnsweredQuestion++;
+                    }
+                }
+                else{
+
+                }
+            });
+
             this.isRemoving = true;
             this.dialog = true;;
         },
@@ -908,7 +923,7 @@ export default {
             //this.CountTime();
         },
         triggerWarning(){
-          /*   if(this.isExamStart){
+            if(this.isExamStart){
                 this.leaveStrike += 1;
                 if(this.leaveStrike == 5){
                     this.isExamStart = false;
@@ -919,7 +934,7 @@ export default {
                 if(!this.preventWarning){
                     this.warningDialog = true;
                 }
-              } */
+              }
         },
         ReloadTime(){
             this.ReloadStatus();

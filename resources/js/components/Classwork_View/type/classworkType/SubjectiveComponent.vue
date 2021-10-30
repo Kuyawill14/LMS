@@ -374,8 +374,6 @@
                       </v-list-item-action>
                     </v-list-item>
                 </v-list>
-                    
-           
           </v-card>
         </v-col>
          <v-col v-if="$vuetify.breakpoint.mdAndUp || selected == 0" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-0 pl-0 pt-0' : 'pt-0 pl-5'" cols="12" md="8" lg="8" xl="8" >
