@@ -114,7 +114,7 @@ export default {
             activeTab: "",
             ObjectIveTabs: [
                 { name: "clwk", text: "CLASSWORK DETAILS", icon:"mdi-file-cog"},
-                { name: "add-question", text: "ADD QUESTION", icon:"mdi-text-box-plus-outline"}, 
+                { name: "add-question", text: "QUESTION", icon:"mdi-text-box-plus-outline"}, 
                 //{ name: "question-list", text: "QUESTION LIST", icon:"mdi-clipboard-list"},
                 { name: "publish-to", text: "PUBLISH TO", icon:"mdi-publish"},
                 { name: "submission-list", text: "SUBMISSION LIST", icon:"mdi-notebook-check-outline"},

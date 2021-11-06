@@ -75,7 +75,7 @@
         </v-row>
     </v-col> -->
     <v-col cols="12" class="pa-3 pl-6">
-        <v-row>
+        <v-row no-gutters>
             <v-col cols="12" class="mb-0 pb-0" >
                 <h3>{{classworkDetails.title}}</h3>
             </v-col>
@@ -96,7 +96,7 @@
                 </v-row>
                 <v-divider></v-divider>
             </v-col>
-             <v-col cols="6"  sm="6" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+             <v-col cols="6"  sm="6" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3">
                   <v-select
                 outlined
                 dense
@@ -110,7 +110,7 @@
                 item-value="class_id">
                 </v-select>
             </v-col>
-            <v-col cols="6" md="6" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+            <v-col cols="6" md="6" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3">
                  <v-select
                     outlined
                     dense
@@ -122,7 +122,7 @@
                     :items="StatusType">
                 </v-select>
             </v-col>
-            <v-col cols="12"  md="4" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+            <v-col cols="12"  md="4" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3">
                  <v-select
                     outlined
                     dense
@@ -135,7 +135,20 @@
                 </v-select>
             </v-col>
 
-            <v-col cols="12" md="8" lg="6" xl="6" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+             <v-col cols="12" md="1" sm="6" lg="1" xl="1" class="pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3">
+                 <v-select
+                    outlined
+                    hide-details
+                    dense
+                    @change="ShowLoading"
+                    label="Limit"
+                    v-model="selectedShowNumber"
+                    class="mb-0 pb-0"
+                    :items="ShowNumber">
+                </v-select>
+            </v-col>
+
+            <v-col cols="12" sm="6"  md="5" lg="5" xl="5" class="pt-0 mt-0 pb-0 mb-0 pt-3 pb-3">
                 <v-text-field 
                     class="mb-0 pb-0 mt-0 pt-0"
                     v-model="search"
@@ -274,6 +287,8 @@ export default {
             StatusType: ['All','Submitted', 'Graded', 'No Submission'],
             selectedStatus:'Submitted',
             SortType: ['Name', 'Highest Score', 'Lowest Score'],
+            selectedShowNumber: 24,
+            ShowNumber:[24, 36, 48, 'all'],
             selectedSort: 'Name',
             isStarting: false,
             isFiltered: false,
@@ -293,19 +308,36 @@ export default {
                     let Filterddata = this.ListData;
                     //this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
-                        return Filterddata
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = Filterddata.sort();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return Filterddata.sort();
+                        }
                     }
                     else if(this.selectedSort == "Lowest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data;
+                        if(this.selectedShowNumber != 'all'){
+                            return data.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data;
+                        }
                     }
                     else if(this.selectedSort == "Highest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data.reverse();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = data.reverse();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data.reverse();
+                        }
                     }
                 }
                 else if(this.selectedStatus == "Submitted"){
@@ -321,19 +353,36 @@ export default {
                     })
                     //this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
-                        return Filterddata.sort();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = Filterddata.sort();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return Filterddata.sort();
+                        }
                     }
                     else if(this.selectedSort == "Lowest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data;
+                        if(this.selectedShowNumber != 'all'){
+                            return data.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data;
+                        }
                     }
                     else if(this.selectedSort == "Highest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data.reverse();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = data.reverse();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data.reverse();
+                        }
                     }
                     
                 }
@@ -350,19 +399,36 @@ export default {
                     
                     this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
-                        return Filterddata.sort();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = Filterddata.sort();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return Filterddata.sort();
+                        }
                     }
                     else if(this.selectedSort == "Lowest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data;
+                         if(this.selectedShowNumber != 'all'){
+                            return data.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data;
+                        }
                     }
                     else if(this.selectedSort == "Highest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data.reverse();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = data.reverse();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data.reverse();
+                        }
                     }
                 }
                 else if(this.selectedStatus == "No Submission"){
@@ -377,19 +443,36 @@ export default {
                     })
                     this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
-                        return Filterddata.sort();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = Filterddata.sort();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return Filterddata.sort();
+                        }
                     }
                     else if(this.selectedSort == "Lowest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data;
+                        if(this.selectedShowNumber != 'all'){
+                            return data.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data;
+                        }
                     }
                     else if(this.selectedSort == "Highest Score"){
                         let data = Filterddata.sort((a, b) => {
                             return a.points - b.points; 
                         })
-                        return data.reverse();
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = data.reverse();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data.reverse();
+                        }
                     }
                 }
                 

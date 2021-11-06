@@ -1137,6 +1137,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this7.FinalAnswers.push({
                 Answer: '',
                 Question_id: _this7.getAll_questions.Question[index].id,
+                answer_id: null,
                 type: _this7.getAll_questions.Question[index].type,
                 timeConsume: null
               });
@@ -1144,6 +1145,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this7.FinalAnswers.push({
                 Answer: '',
                 Question_id: _this7.getAll_questions.Question[index].id,
+                answer_id: null,
                 type: _this7.getAll_questions.Question[index].type,
                 check: false,
                 timeConsume: null
@@ -1189,6 +1191,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this7.FinalAnswers.push({
                 Answer: '',
                 Question_id: _this7.getAll_questions.Question[_index].id,
+                answer_id: null,
                 type: _this7.getAll_questions.Question[_index].type,
                 timeConsume: null
               });
@@ -1196,6 +1199,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this7.FinalAnswers.push({
                 Answer: '',
                 Question_id: _this7.getAll_questions.Question[_index].id,
+                answer_id: null,
                 type: _this7.getAll_questions.Question[_index].type,
                 check: false,
                 timeConsume: null
@@ -1243,6 +1247,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   _this7.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
+                    answer_id: null,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
@@ -1487,6 +1492,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       }, _callee2);
     }))();
+  },
+  beforeDestroy: function beforeDestroy() {
+    window.removeEventListener('onbeforeunload', this.preventNav);
   }
 });
 
@@ -25765,7 +25773,10 @@ var render = function() {
                                                                                         click: function(
                                                                                           $event
                                                                                         ) {
-                                                                                          return _vm.SelectAnswer()
+                                                                                          _vm.FinalAnswers[
+                                                                                            index
+                                                                                          ].answer_id =
+                                                                                            Ans.id
                                                                                         }
                                                                                       }
                                                                                     }

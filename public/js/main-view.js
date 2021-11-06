@@ -75,6 +75,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -665,6 +667,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
@@ -693,7 +704,8 @@ var notifications = function notifications() {
     courseNavbar: courseNavbar,
     adminNavbar: adminNavbar,
     notifications: notifications,
-    mainBottomNavigation: mainBottomNavigation
+    mainBottomNavigation: mainBottomNavigation,
+    isLogout: false
   },
   data: function data() {
     return {
@@ -719,6 +731,7 @@ var notifications = function notifications() {
     logout: function logout() {
       var _this = this;
 
+      this.isLogout = true;
       axios.post('/api/logout').then(function () {
         _this.clear_current_user();
 
@@ -10268,7 +10281,8 @@ var render = function() {
                                                 value:
                                                   item.status == 1 ? "" : "new",
                                                 color:
-                                                  item.notification_type == 1
+                                                  item.notification_type == 1 ||
+                                                  item.notification_type == 5
                                                     ? "red"
                                                     : item.notification_type ==
                                                         3 ||
@@ -10858,6 +10872,33 @@ var render = function() {
                     1
                   )
                 : _vm._e()
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isLogout
+        ? _c(
+            "v-row",
+            { attrs: { "align-content": "center", justify: "center" } },
+            [
+              _c(
+                "v-col",
+                { staticClass: "text-center", attrs: { cols: "12" } },
+                [
+                  _c("vue-element-loading", {
+                    attrs: {
+                      active: _vm.isLogout,
+                      duration: "0.7",
+                      "is-full-screen": true,
+                      spinner: "line-scale",
+                      color: "#EF6C00",
+                      size: "60"
+                    }
+                  })
+                ],
+                1
+              )
             ],
             1
           )

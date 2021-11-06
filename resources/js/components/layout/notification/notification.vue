@@ -72,7 +72,7 @@
                                     
                                     <v-list-item-title  class="font-weight-medium">
                                         <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
-                                        :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
+                                        :color="item.notification_type == 1 || item.notification_type == 5 ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
                                         item.notification_type == 4 ? 'green' : ''" >
                                         {{ item.notification_type != 2 ? item.name : 'Join Class'}}   
                                         </v-badge>

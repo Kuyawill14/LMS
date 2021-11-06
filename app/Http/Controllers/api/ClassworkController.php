@@ -15,6 +15,7 @@ use App\Models\tbl_teacher_course;
 use App\Models\tbl_subjective_rubrics;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Models\tbl_Submitted_Answer;
 use Carbon\Carbon;
 
 
@@ -433,8 +434,25 @@ class ClassworkController extends Controller
 
             if($classworkDetails->type == 'Objective Type'){
                 if($classworkDetails->reviewAnswer == 1){
-                    $TempAnswer = unserialize($classworkDetails->Submitted_Answers);
-                    $classworkDetails->Submitted_Answers = $TempAnswer;
+
+                    if($classworkDetails->isNew == null){
+                        $TempAnswer = unserialize($classworkDetails->Submitted_Answers);
+                        $classworkDetails->Submitted_Answers = $TempAnswer;
+                    }
+                    else{
+                        $submitted_answers = tbl_Submitted_Answer::where('classwork_id', $id)
+                        ->select('answer as Answer', 'question_id as Question_id',  'type','Choices_id','isCorrect as check')
+                        ->where('user_id', $userId)
+                        ->get();
+        
+                        foreach($submitted_answers as $item){
+                            if($item['type'] == 'Matching type'){
+                                $item['Answer'] =  unserialize($item['Answer']);
+                                $item['Choices_id'] =  unserialize($item['Choices_id']);
+                            }
+                        }
+                        $classworkDetails->Submitted_Answers = $submitted_answers;
+                    }
                 }
                 else{
                     $classworkDetails->Submitted_Answers = null;
@@ -456,7 +474,6 @@ class ClassworkController extends Controller
             $classworkDetails->currentDate = Carbon::now('Asia/Manila');
             $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : null;
             $teacher_id = tbl_teacher_course::where('course_id', $courseId)->first();
-            //return  $teacher_id;
             
             $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $classworkDetails->id)
             ->select("tbl_comments.id","tbl_comments.user_id as u_id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")

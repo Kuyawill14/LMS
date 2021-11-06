@@ -462,8 +462,6 @@ var resetConfirmation = function resetConfirmation() {
           _loop(j);
         }
 
-        console.log(_this.ViewDetails.Submitted_Answers);
-
         var _loop2 = function _loop2(i) {
           for (var _j = 0; _j < _this.ViewDetails.Submitted_Answers.length; _j++) {
             if (_this.getAll_questions.Question[i].id == _this.ViewDetails.Submitted_Answers[_j].Question_id) {
@@ -552,7 +550,8 @@ var resetConfirmation = function resetConfirmation() {
                 _this2.UpdateDetails.check = data;
                 _this2.UpdateDetails.points = points;
                 _this2.UpdateDetails.question_id = id;
-                _this2.UpdateDetails.answer = answer; //this.UpdateDetails.type = type;
+                _this2.UpdateDetails.answer = answer;
+                _this2.UpdateDetails.user_id = _this2.ViewDetails.user_id; //this.UpdateDetails.type = type;
 
                 axios.put('/api/teacher/update-score/' + _this2.ViewDetails.id, _this2.UpdateDetails).then(function (res) {
                   if (res.status == 200) {
@@ -574,7 +573,7 @@ var resetConfirmation = function resetConfirmation() {
                   }
                 });
 
-              case 5:
+              case 6:
               case "end":
                 return _context.stop();
             }

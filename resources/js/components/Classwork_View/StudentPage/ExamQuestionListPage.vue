@@ -240,7 +240,7 @@
                                                                     <v-radio
                                                                     :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                                         :name="'option'+index"
-                                                                    @click="SelectAnswer()"
+                                                                    @click="FinalAnswers[index].answer_id = Ans.id"
                                                                     :value="Ans.Choice">
                                                                     </v-radio>
                                                                 </v-radio-group>
@@ -653,6 +653,7 @@ export default {
                             this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 timeConsume: null
                             });
@@ -661,6 +662,7 @@ export default {
                              this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 check: false,
                                 timeConsume: null
@@ -704,6 +706,7 @@ export default {
                             this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                 answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 timeConsume: null
                             });
@@ -712,6 +715,7 @@ export default {
                              this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 check: false,
                                 timeConsume: null
@@ -759,6 +763,7 @@ export default {
                                     this.FinalAnswers.push({
                                         Answer: AnswersList[j].Answer,
                                         Question_id: AnswersList[j].Question_id,
+                                        answer_id: null,
                                         type: AnswersList[j].type,
                                         timeConsume: AnswersList[j].timeConsume
                                     });
@@ -964,6 +969,9 @@ export default {
     },
     async mounted() {
         this.CheckStatus();
+    },
+    beforeDestroy(){
+         window.removeEventListener('onbeforeunload', this.preventNav)
     },
     
 }

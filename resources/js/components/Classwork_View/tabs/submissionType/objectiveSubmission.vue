@@ -71,7 +71,7 @@
                     :items="StatusType">
                 </v-select>
             </v-col>
-             <v-col cols="12" md="2" sm="6" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+             <v-col cols="12" md="2" sm="12" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
                  <v-select
                     outlined
                     hide-details
@@ -84,7 +84,20 @@
                 </v-select>
             </v-col>
 
-            <v-col cols="12" sm="6"  md="6" lg="6" xl="6" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+             <v-col cols="12" md="1" sm="6" lg="1" xl="1" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+                 <v-select
+                    outlined
+                    hide-details
+                    dense
+                    @change="ShowLoading"
+                    label="Limit"
+                    v-model="selectedShowNumber"
+                    class="mb-0 pb-0"
+                    :items="ShowNumber">
+                </v-select>
+            </v-col>
+
+            <v-col cols="12" sm="6"  md="5" lg="5" xl="5" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
                 <v-text-field 
                     class="mb-0 pb-0 mt-0 pt-0"
                     v-model="search"
@@ -239,6 +252,8 @@ export default {
             StatusType: ['Submitted', 'Taking', 'No Submission'],
             selectedStatus:'Submitted',
             SortType: ['Name', 'Highest Score', 'Lowest Score'],
+            selectedShowNumber: 24,
+            ShowNumber:[24, 36, 48, 'all'],
             selectedSort: 'Name',
             isSavingScore: false,
             search: "",
@@ -301,26 +316,38 @@ export default {
                             if(this.selectedSort == "Name"){
                                 
                                 this.totalPage =  Math.round((Filterddata.length-1) / this.pageSize);
-                                return Filterddata.sort();
-/* 
-                                let data2 = Filterddata.sort();
-                                  let data3 = data2.splice(this.indexEnd - this.pageSiz, this.indexEnd);
-                                
-                                  return data3; */
-                                //return data2.splice((this.currentPage-1) * this.pageSize, ((this.currentPage-1) * this.pageSize) + this.pageSize);
-
+                                if(this.selectedShowNumber != 'all'){
+                                   let data2 = Filterddata.sort();
+                                   return data2.splice(0, this.selectedShowNumber)
+                               }
+                               else{
+                                   return Filterddata.sort();
+                               }
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data;
+                                //return data;
+                                if(this.selectedShowNumber != 'all'){
+                                   return data.splice(0, this.selectedShowNumber)
+                               }
+                               else{
+                                   return data;
+                               }
                             }
                             else if(this.selectedSort == "Highest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data.reverse();
+                                //return data.reverse();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = data.reverse();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data.reverse();
+                                }
                             }
                             
                         }
@@ -337,19 +364,39 @@ export default {
                             
                             this.Submitted_count = Filterddata.length;
                             if(this.selectedSort == "Name"){
-                                return Filterddata.sort();
+                                //return Filterddata.sort();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = Filterddata.sort();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return Filterddata.sort();
+                                }
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data;
+                                //return data;
+                                if(this.selectedShowNumber != 'all'){
+                                    return data.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data;
+                                }
                             }
                             else if(this.selectedSort == "Highest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data.reverse();
+                                //return data.reverse();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = data.reverse();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data.reverse();
+                                }
                             }
                         }
                         else if(this.selectedStatus == "No Submission"){
@@ -364,19 +411,39 @@ export default {
                             })
                             this.Submitted_count = Filterddata.length;
                             if(this.selectedSort == "Name"){
-                                return Filterddata.sort();
+                                //return Filterddata.sort();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = Filterddata.sort();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return Filterddata.sort();
+                                }
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data;
+                                //return data;
+                                if(this.selectedShowNumber != 'all'){
+                                    return data.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data;
+                                }
                             }
                             else if(this.selectedSort == "Highest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data.reverse();
+                                //return data.reverse();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = data.reverse();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data.reverse();
+                                }
                             }
                         
                         }

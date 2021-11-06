@@ -13,12 +13,15 @@ class CreateTblSubmittedAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl__submitted__answers', function (Blueprint $table) {
+        Schema::create('tbl_submitted_answers', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->integer('classwork_id');
             $table->integer('question_id');
-            $table->integer('answer_id');
+            $table->longText('answer')->nullable();
+            $table->mediumText('Choices_id')->nullable();
+            $table->boolean('isCorrect')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateTblSubmittedAnswersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl__submitted__answers');
+        Schema::dropIfExists('tbl_submitted_answers');
     }
 }

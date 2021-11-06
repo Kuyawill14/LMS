@@ -26,6 +26,7 @@ class CreateTblClassworksTable extends Migration
             $table->mediumText("attachment")->nullable(); 
             $table->integer("duration")->nullable();
             $table->integer("points")->nullable();
+            $table->boolean("isNew")->nullable();
             $table->timestamps();
         });
     }

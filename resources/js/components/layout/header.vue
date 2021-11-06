@@ -57,6 +57,8 @@
             </v-menu>
         </div>
 
+        
+
     </v-app-bar>
 </template>
 
@@ -72,6 +74,7 @@
             dialog: false,
             drawer: null,
             menuVisible: false,
+         
             
         }),
         methods: {

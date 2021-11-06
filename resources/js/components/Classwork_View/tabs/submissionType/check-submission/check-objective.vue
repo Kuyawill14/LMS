@@ -428,7 +428,6 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                    }
                     
                 }
-                console.log(this.ViewDetails.Submitted_Answers);
                
                 for (let i = 0; i < this.getAll_questions.Question.length; i++) {
 
@@ -511,6 +510,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             this.UpdateDetails.points = points;
             this.UpdateDetails.question_id = id;
             this.UpdateDetails.answer = answer;
+            this.UpdateDetails.user_id = this.ViewDetails.user_id;
+            
             //this.UpdateDetails.type = type;
             axios.put('/api/teacher/update-score/'+this.ViewDetails.id, this.UpdateDetails)
             .then(res=>{

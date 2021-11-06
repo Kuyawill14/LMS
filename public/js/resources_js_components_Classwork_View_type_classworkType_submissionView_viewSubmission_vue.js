@@ -239,7 +239,7 @@ __webpack_require__.r(__webpack_exports__);
         var _loop = function _loop(_i) {
           for (var j = 0; j < _this.classworkDetails.Submitted_Answers.length; j++) {
             if (_this.QuestionAndAnswer.Question[_i].id == _this.classworkDetails.Submitted_Answers[j].Question_id) {
-              if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False' || _this.QuestionAndAnswer.Question[_i].type == 'Essay') {
+              if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False') {
                 _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
 
                 if (_this.QuestionAndAnswer.Question[_i].answer == _this.classworkDetails.Submitted_Answers[j].Answer) {
@@ -247,6 +247,9 @@ __webpack_require__.r(__webpack_exports__);
                 } else {
                   _this.Check[_i] = false;
                 }
+              } else if (_this.QuestionAndAnswer.Question[_i].type == 'Essay') {
+                _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+                _this.Check[_i] = _this.classworkDetails.Submitted_Answers[j].check;
               } else if (_this.QuestionAndAnswer.Question[_i].type == 'Matching type') {
                 (function () {
                   var Ans = new Array();

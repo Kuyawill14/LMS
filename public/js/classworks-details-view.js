@@ -2275,6 +2275,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -2337,7 +2347,8 @@ var viewQuestion = function viewQuestion() {
       DeleteDetails: null,
       DeleteIndex: null,
       DuplicateQuestion: [],
-      DuplicateAnswers: []
+      DuplicateAnswers: [],
+      isAddingNewQuestion: false
     };
   },
   watch: {
@@ -2361,6 +2372,7 @@ var viewQuestion = function viewQuestion() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.isAddingNewQuestion = true;
                 axios.post('/api/question/add_new_question', {
                   classwork_id: _this.$route.query.clwk,
                   new_number: _this.getAll_questions.Question.length + 1
@@ -2401,9 +2413,11 @@ var viewQuestion = function viewQuestion() {
                       duration: 3000
                     });
                   }
+
+                  _this.isAddingNewQuestion = false;
                 });
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -2590,6 +2604,7 @@ var viewQuestion = function viewQuestion() {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
+                _this7.isAddingNewQuestion = true;
                 _this7.showSnackbar = true;
                 _this7.isSavingAllQuestion = true;
                 axios.put('/api/question/save_all_question/' + _this7.$route.query.clwk, _this7.getAll_questions).then(function (res) {
@@ -2600,9 +2615,11 @@ var viewQuestion = function viewQuestion() {
                       _this7.showSnackbar = false;
                     }, 3000);
                   }
+
+                  _this7.isAddingNewQuestion = false;
                 });
 
-              case 3:
+              case 4:
               case "end":
                 return _context7.stop();
             }
@@ -2642,6 +2659,7 @@ var viewQuestion = function viewQuestion() {
     DeleteSelected: function DeleteSelected() {
       var _this9 = this;
 
+      this.isAddingNewQuestion = true;
       var question_id_list = [];
       var question_index = 0;
       this.selectedData.forEach(function (item) {
@@ -2683,6 +2701,8 @@ var viewQuestion = function viewQuestion() {
           if (_this9.getAll_questions.Question.length == 0) {
             _this9.Qlength = 0;
           }
+
+          _this9.isAddingNewQuestion = false;
         }
       });
     },
@@ -2719,6 +2739,7 @@ var viewQuestion = function viewQuestion() {
       }))();
     },
     singleDuplicate: function singleDuplicate(question, answer) {
+      this.isAddingNewQuestion = true;
       this.DuplicateQuestion = [];
       this.DuplicateAnswers = [];
       this.DuplicateQuestion.push(question);
@@ -2726,6 +2747,7 @@ var viewQuestion = function viewQuestion() {
       this.DuplicateQuestionAction();
     },
     mulipleDuplicate: function mulipleDuplicate() {
+      this.isAddingNewQuestion = true;
       this.DuplicateQuestion = [];
       this.DuplicateAnswers = [];
 
@@ -2798,6 +2820,10 @@ var viewQuestion = function viewQuestion() {
                       }
                     }
                   }
+
+                  _this11.isAddingNewQuestion = false;
+
+                  _this11.UnselectAll();
                 });
 
               case 1:
@@ -2815,6 +2841,17 @@ var viewQuestion = function viewQuestion() {
     },
     toTop: function toTop() {
       this.$vuetify.goTo(0);
+    },
+    confirmLeave: function confirmLeave() {
+      return window.confirm('Do you really want to leave? you have unsaved changes!');
+    },
+    beforeWindowUnload: function beforeWindowUnload(e) {
+      if (this.isNewChanges == true) {
+        // Cancel the event
+        e.preventDefault(); // Chrome requires returnValue to be set
+
+        e.returnValue = '';
+      }
     }
   },
   created: function created() {
@@ -2828,10 +2865,17 @@ var viewQuestion = function viewQuestion() {
     this.isLeaving = true;
 
     if (this.isNewChanges == true) {
-      this.SaveAllQuestion();
+      if (!window.confirm("You have new changes! Do you want to save?")) {
+        next();
+      } else {
+        next();
+      }
+    } else {
+      next();
     }
-
-    next();
+  },
+  beforeDestroy: function beforeDestroy() {
+    window.removeEventListener('beforeunload', this.beforeWindowUnload);
   },
   mounted: function mounted() {
     var _this13 = this;
@@ -2851,6 +2895,9 @@ var viewQuestion = function viewQuestion() {
         _this13.Qlength = tmp.length;
       }
     });
+  },
+  beforeMount: function beforeMount() {
+    window.addEventListener('beforeunload', this.beforeWindowUnload);
   }
 });
 
@@ -20792,7 +20839,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -56624,6 +56671,34 @@ var render = function() {
                       active: _vm.isloading,
                       text: "Loading",
                       duration: "0.7",
+                      textStyle: { fontSize: "20px" },
+                      spinner: "line-scale",
+                      color: "#EF6C00",
+                      size: "60"
+                    }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.isAddingNewQuestion
+        ? _c(
+            "v-row",
+            { attrs: { "align-content": "center", justify: "center" } },
+            [
+              _c(
+                "v-col",
+                { staticClass: "text-center", attrs: { cols: "12" } },
+                [
+                  _c("vue-element-loading", {
+                    attrs: {
+                      active: _vm.isAddingNewQuestion,
+                      duration: "0.7",
+                      "is-full-screen": true,
                       textStyle: { fontSize: "20px" },
                       spinner: "line-scale",
                       color: "#EF6C00",

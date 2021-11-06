@@ -13,6 +13,7 @@ use App\Models\tbl_choice;
 use App\Models\tbl_Submission;
 use App\Models\tbl_questionAnalytic;
 use App\Models\tbl_student_main_grades;
+use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_student_course_subject_grades;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -756,6 +757,8 @@ class ObjectiveController extends Controller
     {
        
         $totalPoints = 0;
+        $UpdatePoints = tbl_classwork::find($id);
+
         foreach($request->question as $item){
             $DelQuestion = tbl_Questions::find($item['question_id']);
             if($DelQuestion){
@@ -763,13 +766,17 @@ class ObjectiveController extends Controller
                 $DelAnswerSubQuestion = tbl_SubQuestion::where('mainQuestion_id', $DelQuestion->id)->delete();
                 $totalPoints += $DelQuestion->points;
                 $DelQuestion->delete();
+
+                if($UpdatePoints->isNew != null  || $UpdatePoints->isNew != '' || $UpdatePoints->isNew != false){
+                    $checkCLasswork = tbl_Submitted_Answer::where('question_id', $item['question_id'])->delete();
+                }
             }
         }
 
-        $UpdatePoints = tbl_classwork::find($id);
+       
         $UpdatePoints->points = $UpdatePoints->points - $totalPoints;
         $UpdatePoints->save();
-
+       
         return response()->json([
             "message" => "Questions Succesfully remove!",
             "success" => true
@@ -787,11 +794,69 @@ class ObjectiveController extends Controller
      */
     public function storeAnswer(Request $request, $id)
     {
-       
+            //return  $request;
+            $userId = auth('sanctum')->id();
             $StoreAnwers = tbl_Submission::find($id);
             if($StoreAnwers){
-                $StoreAnwers->Submitted_Answers = serialize($request->data);
-                $StoreAnwers->save();
+                $checkClasswork = tbl_classwork::find($StoreAnwers->classwork_id);
+                if($checkClasswork->isNew == null){
+                    $StoreAnwers->Submitted_Answers = serialize($request->data);
+                    $StoreAnwers->save();
+                }
+                else{
+                    
+                    //return $request->data;
+                    foreach($request->data as $item){
+                        if($item['type'] == 'Multiple Choice' || $item['type'] == 'Identification' || $item['type'] == 'True or False' || $item['type'] == 'Essay' ){
+
+                            $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $checkClasswork->id)
+                            ->where('question_id', $item['Question_id'])
+                            ->where('user_id', $userId)
+                            ->first();
+
+                            if($checkSubmitted){
+                                $checkSubmitted->answer = $item['Answer'];
+                                $checkSubmitted->save();
+                            }
+                            else{
+                                $SubmittedAnswer  = new tbl_Submitted_Answer;
+                                $SubmittedAnswer->question_id = $item['Question_id'];
+                                $SubmittedAnswer->user_id = $userId;
+                                $SubmittedAnswer->classwork_id = $checkClasswork->id;
+                                $SubmittedAnswer->type = $item['type'];
+                                $SubmittedAnswer->answer = $item['Answer'];
+                                $SubmittedAnswer->save();
+                            }
+
+                        }
+                        else{
+                          
+                                $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $checkClasswork->id)
+                                ->where('question_id', $item['Question_id'])
+                                ->where('user_id', $userId)
+                                ->first();
+
+                                if($checkSubmitted){
+                                    $checkSubmitted->answer = serialize($item['Answer']);
+                                    $checkSubmitted->Choices_id = serialize($item['Choices_id']);
+                                    $checkSubmitted->save();
+                                }
+                                else{
+                                    $SubmittedAnswer  = new tbl_Submitted_Answer;
+                                    $SubmittedAnswer->question_id = $item['Question_id'];
+                                    $SubmittedAnswer->user_id = $userId;
+                                    $SubmittedAnswer->classwork_id = $checkClasswork->id;
+                                    $SubmittedAnswer->type = $item['type'];
+                                    $SubmittedAnswer->answer = serialize($item['Answer']);
+                                    $SubmittedAnswer->Choices_id = serialize($item['Choices_id']) ;
+                                    $SubmittedAnswer->save();
+                                }
+                             
+                        }
+                        
+                    }
+                }
+               
             }
        
        
@@ -1040,110 +1105,183 @@ class ObjectiveController extends Controller
      */
     public function check(Request $request, $id)
     {
-        
+        //return $request->item;
         //return $request;
         //return serialize($request->item);
         $userId = auth('sanctum')->id();
+        $classwordDetails = tbl_classwork::find($id);
         $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
         ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
         ->get();
-   
 
-        $score = 0;
-        foreach($request->item as $cl){
-                foreach($Questions as $ques){
-                if($ques['id'] == $cl['Question_id']){
-                    if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+        if($classwordDetails->isNew == null){
+            $score = 0;
+            foreach($request->item as $cl){
+                    foreach($Questions as $ques){
+                    if($ques['id'] == $cl['Question_id']){
+                        if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
 
-                        $userAns;
-                        $questionAns;
-                        if($ques['sensitivity']){
-                            $userAns = $cl['Answer'];
-                            $questionAns = $ques['answer'];
-                        }
-                        else{
-                            $userAns = strtolower($cl['Answer']);
-                            $questionAns = strtolower($ques['answer']);
-                        }
+                            $userAns;
+                            $questionAns;
+                            if($ques['sensitivity']){
+                                $userAns = $cl['Answer'];
+                                $questionAns = $ques['answer'];
+                            }
+                            else{
+                                $userAns = strtolower($cl['Answer']);
+                                $questionAns = strtolower($ques['answer']);
+                            }
 
-                        
-                        if($questionAns == $userAns){
-                            $score += $ques['points'];
-                            $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
-                        
-                            if($AnalyticsFind){
-                                $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
-                                if($AnalyticsFind->shortest_time > $cl['timeConsume']){
+                            
+                            if($questionAns == $userAns){
+                                $score += $ques['points'];
+                                $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
+                            
+                                if($AnalyticsFind){
+                                    $AnalyticsFind->correct_count = ($AnalyticsFind->correct_count+1);
+                                    if($AnalyticsFind->shortest_time > $cl['timeConsume']){
+                                        $AnalyticsFind->shortest_time = $cl['timeConsume'];
+                                    }
+                                    if($AnalyticsFind->longest_time < $cl['timeConsume']){
+                                        $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                    }
+                                    $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
+                                    $AnalyticsFind->save();
+                                }
+                                else{
+                                    $NewAnalytics  = new tbl_questionAnalytic;
+                                    $NewAnalytics->question_id = $cl['Question_id'];
+                                    $NewAnalytics->correct_count = 1;
+                                    $NewAnalytics->wrong_count = 0;
+                                    $NewAnalytics->shortest_time = $cl['timeConsume'];
+                                    $NewAnalytics->longest_time = $cl['timeConsume'];
+                                    $NewAnalytics->average_time = $cl['timeConsume'];
+                                    $NewAnalytics->save();
+                                }
+                            }
+                            else{
+                                $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
+                                if($AnalyticsFind){
+                                    $AnalyticsFind->wrong_count = ($AnalyticsFind->correct_count+1);
+                                    if($AnalyticsFind->shortest_time > $cl['timeConsume']){
                                     $AnalyticsFind->shortest_time = $cl['timeConsume'];
-                                }
-                                if($AnalyticsFind->longest_time < $cl['timeConsume']){
-                                    $AnalyticsFind->longest_time  = $cl['timeConsume'];
-                                }
-                                $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
-                                $AnalyticsFind->save();
-                            }
-                            else{
-                                $NewAnalytics  = new tbl_questionAnalytic;
-                                $NewAnalytics->question_id = $cl['Question_id'];
-                                $NewAnalytics->correct_count = 1;
-                                $NewAnalytics->wrong_count = 0;
-                                $NewAnalytics->shortest_time = $cl['timeConsume'];
-                                $NewAnalytics->longest_time = $cl['timeConsume'];
-                                $NewAnalytics->average_time = $cl['timeConsume'];
-                                $NewAnalytics->save();
-                            }
-                        }
-                        else{
-                            $AnalyticsFind = tbl_questionAnalytic::where("tbl_question_analytics.question_id",$cl['Question_id'])->first();
-                            if($AnalyticsFind){
-                                $AnalyticsFind->wrong_count = ($AnalyticsFind->correct_count+1);
-                                if($AnalyticsFind->shortest_time > $cl['timeConsume']){
-                                $AnalyticsFind->shortest_time = $cl['timeConsume'];
-                                }
+                                    }
 
-                                if($AnalyticsFind->longest_time < $cl['timeConsume']){
-                                    $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                    if($AnalyticsFind->longest_time < $cl['timeConsume']){
+                                        $AnalyticsFind->longest_time  = $cl['timeConsume'];
+                                    }
+                                    $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
+                                    $AnalyticsFind->save();
                                 }
-                                $AnalyticsFind->average_time = $AnalyticsFind->average_time + $cl['timeConsume'];
-                                $AnalyticsFind->save();
-                            }
-                            else{
-                                $NewAnalytics  = new tbl_questionAnalytic;
-                                $NewAnalytics->question_id = $cl['Question_id'];
-                                $NewAnalytics->correct_count = 0;
-                                $NewAnalytics->wrong_count = 1;
-                                $NewAnalytics->shortest_time = $cl['timeConsume'];
-                                $NewAnalytics->longest_time = $cl['timeConsume'];
-                                $NewAnalytics->average_time = $cl['timeConsume'];
-                                $NewAnalytics->save();
+                                else{
+                                    $NewAnalytics  = new tbl_questionAnalytic;
+                                    $NewAnalytics->question_id = $cl['Question_id'];
+                                    $NewAnalytics->correct_count = 0;
+                                    $NewAnalytics->wrong_count = 1;
+                                    $NewAnalytics->shortest_time = $cl['timeConsume'];
+                                    $NewAnalytics->longest_time = $cl['timeConsume'];
+                                    $NewAnalytics->average_time = $cl['timeConsume'];
+                                    $NewAnalytics->save();
+                                }
                             }
                         }
-                    }
-                    elseif($cl['type'] == 'Matching type'){
-                        $Tempoints =  $ques['points'] / count($cl['Answer']);
-                        foreach($cl['Answer'] as $item){
-                            $CheckMatch = tbl_SubQuestion::find($item['subquestion_id']);
-                            if($CheckMatch){
-                                if($CheckMatch->answer_id == $item['Ans_id']){
-                                    $score += $Tempoints;
+                        elseif($cl['type'] == 'Matching type'){
+                            $Tempoints =  $ques['points'] / count($cl['Answer']);
+                            foreach($cl['Answer'] as $item){
+                                $CheckMatch = tbl_SubQuestion::find($item['subquestion_id']);
+                                if($CheckMatch){
+                                    if($CheckMatch->answer_id == $item['Ans_id']){
+                                        $score += $Tempoints;
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
 
-        $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
-        ->where('tbl_submissions.classwork_id', $id)
-        ->first();
-        if($UpdateStatus){
-            $UpdateStatus->status = 'Submitted';
-            $UpdateStatus->points = $score;
-            $UpdateStatus->timeSpent = $request->timeSpent;
-            $UpdateStatus->Submitted_Answers = serialize($request->item);
-            $UpdateStatus->update();
-        }   
+            $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
+            ->where('tbl_submissions.classwork_id', $id)
+            ->first();
+            if($UpdateStatus){
+                $UpdateStatus->status = 'Submitted';
+                $UpdateStatus->points = $score;
+                $UpdateStatus->timeSpent = $request->timeSpent;
+                $UpdateStatus->Submitted_Answers = serialize($request->item);
+                $UpdateStatus->update();
+            }   
+        }
+        else{
+            $score = 0;
+            foreach($request->item as $cl){
+                    foreach($Questions as $ques){
+                    if($ques['id'] == $cl['Question_id']){
+                        if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False' || $cl['type'] == 'Essay'){
+
+                            $userAns;
+                            $questionAns;
+                            if($ques['sensitivity']){
+                                $userAns = $cl['Answer'];
+                                $questionAns = $ques['answer'];
+                            }
+                            else{
+                                $userAns = strtolower($cl['Answer']);
+                                $questionAns = strtolower($ques['answer']);
+                            }
+                            
+                            if($questionAns == $userAns){
+                                $score += $ques['points'];
+                            }
+
+                            $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $id)
+                            ->where('question_id', $cl['Question_id'])
+                            ->where('user_id', $userId)
+                            ->first();
+
+                            if($checkSubmitted){
+                                $checkSubmitted->answer = $cl['Answer'];
+                                $checkSubmitted->isCorrect = $questionAns == $userAns ? true : false;
+                                $checkSubmitted->save();
+                            }
+
+                           
+                        }
+                        elseif($cl['type'] == 'Matching type'){
+                            $Tempoints =  $ques['points'] / count($cl['Answer']);
+                            foreach($cl['Answer'] as $item){
+                                $CheckMatch = tbl_SubQuestion::find($item['subquestion_id']);
+                                if($CheckMatch){
+                                    if($CheckMatch->answer_id == $item['Ans_id']){
+                                        $score += $Tempoints;
+                                    }
+                                }
+                            }
+
+                            $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $id)
+                            ->where('question_id', $cl['Question_id'])
+                            ->where('user_id', $userId)
+                            ->first();
+
+                            if($checkSubmitted){
+                                $checkSubmitted->answer = serialize($cl['Answer']);
+                                $checkSubmitted->save();
+                            }
+                        }
+                    }
+                }
+            }
+
+            $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
+            ->where('tbl_submissions.classwork_id', $id)
+            ->first();
+            if($UpdateStatus){
+                $UpdateStatus->status = 'Submitted';
+                $UpdateStatus->points = $score;
+                $UpdateStatus->timeSpent = $request->timeSpent;
+                $UpdateStatus->update();
+            }   
+
+        }
     }
  
 }

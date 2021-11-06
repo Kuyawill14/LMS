@@ -131,6 +131,16 @@
             spinner="line-scale" color="#EF6C00"  size="60" />
         </v-col>
     </v-row>
+
+    <v-row v-if="isAddingNewQuestion" align-content="center" justify="center">
+        <v-col cols="12" class="text-center">
+            <vue-element-loading :active="isAddingNewQuestion" 
+            duration="0.7"
+             :is-full-screen="true"
+            :textStyle="{fontSize: '20px'}"
+            spinner="line-scale" color="#EF6C00"  size="60" />
+        </v-col>
+    </v-row>
 <!-- </v-container> -->
 
 <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'" justify="center" v-if="Qlength== 0 && !isloading">
@@ -528,7 +538,8 @@ export default {
             DeleteDetails: null,
             DeleteIndex: null,
             DuplicateQuestion:[],
-            DuplicateAnswers:[]
+            DuplicateAnswers:[],
+            isAddingNewQuestion: false,
         }
     },
     watch: {
@@ -545,6 +556,7 @@ export default {
     computed: mapGetters(["getAll_questions"]),
     methods:{
        async AddNewQuestion(){
+           this.isAddingNewQuestion = true;
            axios.post('/api/question/add_new_question', {
                classwork_id: this.$route.query.clwk,
                 new_number : (this.getAll_questions.Question.length+1),
@@ -587,6 +599,8 @@ export default {
                     duration: 3000,
                 });
                }
+
+               this.isAddingNewQuestion = false;
                
            })
             
@@ -688,6 +702,7 @@ export default {
                 }
         },
         async SaveAllQuestion(){
+            this.isAddingNewQuestion = true;
             this.showSnackbar = true
             this.isSavingAllQuestion = true;
             axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
@@ -699,6 +714,7 @@ export default {
                           this.showSnackbar = false;
                     }, 3000);
                 }
+                this.isAddingNewQuestion = false;
             })
         },
         CheckSelectedCount(check){
@@ -731,6 +747,7 @@ export default {
             this.selectedDataCount = 0;
         },
         DeleteSelected(){
+            this.isAddingNewQuestion = true;
             let question_id_list = [];
             let question_index = 0;
             this.selectedData.forEach(item => {
@@ -767,6 +784,7 @@ export default {
                     if(this.getAll_questions.Question.length == 0){
                         this.Qlength = 0;
                     }
+                    this.isAddingNewQuestion = false;
                 }
             })
         },
@@ -786,6 +804,7 @@ export default {
             })
         },
         singleDuplicate(question, answer){
+            this.isAddingNewQuestion = true;
             this.DuplicateQuestion = [];
             this.DuplicateAnswers = [];
             this.DuplicateQuestion.push(question);
@@ -793,6 +812,7 @@ export default {
             this.DuplicateQuestionAction();
         },
         mulipleDuplicate(){
+            this.isAddingNewQuestion = true;
             this.DuplicateQuestion = [];
             this.DuplicateAnswers = [];
             for (let i = 0; i < this.selectedData.length; i++) {
@@ -853,6 +873,9 @@ export default {
                      }
                     
                 }
+                this.isAddingNewQuestion = false;
+                this.UnselectAll();
+                
             })
         },
         onScroll(e) {
@@ -863,23 +886,42 @@ export default {
         toTop() {
             this.$vuetify.goTo(0);
         },
+         confirmLeave() {
+            return window.confirm('Do you really want to leave? you have unsaved changes!')
+        },
+        beforeWindowUnload(e) {
+        if (this.isNewChanges == true) {
+            // Cancel the event
+            e.preventDefault()
+            // Chrome requires returnValue to be set
+            e.returnValue = ''
+        }   
+    },
           
     },
     created(){
          this.$nextTick(()=>{
             this.quill_disabled=false;
         })
-     
-    
     },
-     beforeRouteLeave(to, from, next) {
+    beforeRouteLeave (to, from, next) {
         this.isLeaving = true;
-
-        if(this.isNewChanges == true){
-            this.SaveAllQuestion();
+        if (this.isNewChanges == true){
+             if (!window.confirm("You have new changes! Do you want to save?")) {
+               next()
+            }
+            else{
+                 next()
+            }
+            
+        } else {
+           next()
         }
-        next();
     },
+    beforeDestroy(){
+         window.removeEventListener('beforeunload', this.beforeWindowUnload)
+    },
+
     mounted(){
      const top = window.pageYOffset || 0;
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
@@ -902,6 +944,9 @@ export default {
       })  
        
     },
+    beforeMount(){
+        window.addEventListener('beforeunload', this.beforeWindowUnload)
+    }
 }
 </script>
 
@@ -926,6 +971,7 @@ export default {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
 
 
  /* .ql-toolbar.ql-snow {

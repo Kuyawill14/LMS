@@ -228,7 +228,7 @@ import moment from 'moment/src/moment';
                     for (let i = 0; i < this.QuestionAndAnswer.Question.length; i++) {
                         for (let j = 0; j < this.classworkDetails.Submitted_Answers.length; j++) {
                             if(this.QuestionAndAnswer.Question[i].id == this.classworkDetails.Submitted_Answers[j].Question_id){
-                                if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False' || this.QuestionAndAnswer.Question[i].type == 'Essay'){
+                                if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
                                      this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
                                     if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
                                         this.Check[i] = true;
@@ -236,6 +236,10 @@ import moment from 'moment/src/moment';
                                     else{
                                         this.Check[i] = false;
                                     }
+                                }
+                                else if(this.QuestionAndAnswer.Question[i].type == 'Essay'){
+                                    this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                    this.Check[i] = this.classworkDetails.Submitted_Answers[j].check;
                                 }
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
                                     let Ans = new Array();

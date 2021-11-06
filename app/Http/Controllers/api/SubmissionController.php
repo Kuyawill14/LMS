@@ -14,7 +14,9 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_student_course_subject_grades;
 use App\Models\tbl_student_main_grades;
 use App\Models\tbl_comment;
+use App\Models\tbl_Submitted_Answer;
 use Carbon\Carbon;
+
 class SubmissionController extends Controller
 {
     /**
@@ -50,6 +52,7 @@ class SubmissionController extends Controller
                     $Sub->rubrics_score = null;
                 }
                 else{
+
                     $Sub->id = $Submission->id;
                     $Sub->status = $Submission->status;
                     $Sub->points = $Submission->points;
@@ -57,8 +60,31 @@ class SubmissionController extends Controller
                     $time = (Carbon::parse($Submission->updated_at)->timestamp * 1000) - (Carbon::parse($Submission->created_at)->timestamp * 1000);
                     $Sub->timeSpent =  floor(($time/1000)/60);
                     $Sub->updated_at = $Submission->updated_at;
-                    $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
                     $Sub->rubrics_score = unserialize($Submission->rubrics_score);
+
+
+                    $checkClasswork = tbl_classwork::find($id);
+
+                    if($checkClasswork->isNew == null){
+                        $Sub->Submitted_Answers = unserialize($Submission->Submitted_Answers);
+                    }
+                    else{
+                        $submitted_answers = tbl_Submitted_Answer::where('classwork_id', $id)
+                        ->select('answer as Answer', 'question_id as Question_id',  'type','Choices_id','isCorrect as check')
+                        ->where('user_id', $Sub->user_id)
+                        ->get();
+
+
+                        foreach($submitted_answers as $item){
+                            if($item['type'] == 'Matching type'){
+                                $item['Answer'] =  unserialize($item['Answer']);
+                                $item['Choices_id'] =  unserialize($item['Choices_id']);
+                            }
+                        }
+                
+                        $Sub->Submitted_Answers = $submitted_answers;
+                    }
+    
                 }
 
                 $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $Sub->classwork_id)
@@ -169,6 +195,7 @@ class SubmissionController extends Controller
         ->where('tbl_submissions.user_id',  $userId)
         ->first();
         if($CheckStatus){
+
             $CheckStatus->Submitted_Answers = unserialize($CheckStatus->Submitted_Answers);
         }
         return $CheckStatus;

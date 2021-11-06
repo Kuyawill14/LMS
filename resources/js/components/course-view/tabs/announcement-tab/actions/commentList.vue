@@ -47,7 +47,7 @@
             </v-btn>
           
 
-           <div class="ma-0 pa-0" @click="checkContainerHeight(index)"  :ref="postDetails.id+'commentContainer'+index"  style="width:100%">
+           <div class="ma-0 pa-0"  @mouseover="singleCheck(postDetails.id+'commentContainer'+index, index)" :ref="postDetails.id+'commentContainer'+index"  style="width:100%">
 
          
             <v-alert  :color="!isEditing || idEditing_id != item.id ? '#F5F5F5' : ''" class="ma-0 pa-0 ml-2 rounded-xl">
@@ -313,7 +313,6 @@ export default {
                     this.CommentList.sort(function(a, b){return a.id - b.id});
                     this.CommentList.forEach(item => {
                         this.readMore.push({id: item.id , isLongText: false, IsreadMore: false})
-                        
                     });
                 
                     this.isloading = false;
@@ -324,17 +323,29 @@ export default {
         }
            
         },
+        singleCheck(ref, mainindex){
+            let element = this.$refs[ref][0].clientHeight; ;
+              if(element > 215){
+                    this.readMore[mainindex].IsreadMore = true;
+            }
+            else{
+                this.readMore[mainindex].IsreadMore = false;
+            }
+        },
         checkContainerHeight(){
-            for (let index = 0; index < this.CommentList.length; index++) {
-                let testData = this.postDetails.id+'commentContainer'+index;
-                var element = this.$refs[testData][0].clientHeight;
-                if(element > 160){
-                        this.readMore[index].IsreadMore = true;
+            let current_index = 0;
+            this.readMore.forEach(item => {
+                 let testData = this.postDetails.id+'commentContainer'+current_index;
+                let element = this.$refs[testData][0].clientHeight;
+                console.log(element);
+                if(element > 215){
+                        item.IsreadMore = true;
                 }
                 else{
-                    this.readMore[index].IsreadMore = false;
+                    item.IsreadMore = false;
                 }
-            }
+                current_index++;
+            });
         },
         async loadMoreComment(){
             if(this.current_page !=  this.last_page){
@@ -383,7 +394,7 @@ export default {
                 this.getComments();
                 //this.readMore.push({id: res.data.id , isLongText: false, IsreadMore: false})
                 this.getCount();
-                setTimeout(() => (this.checkContainerHeight()), 1000);
+                //setTimeout(() => (this.checkContainerHeight()), 1000);
                 //this.postDetails.comment_count +=1;
             })
         },
@@ -422,6 +433,7 @@ export default {
             }
         }
     }, 
+   
 }
 </script>
 <style scoped>
