@@ -2,7 +2,7 @@
     <div>
         <v-row v-if="getclass_post.length != 0 && UserDetails.role != 'Student'">
             <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 text-right">
-                 <div class="d-inline-flex ">
+                 <div :class="$vuetify.breakpoint.mdAndUp  ? 'd-inline-flex' : ''">
                     <v-select
                         :items="classNames"
                         item-text="class_name"
@@ -28,7 +28,7 @@
                         </v-avatar>
                         <div class="d-flex flex-column justify-content-start ml-2 mt-1">
                             <span class="d-block font-weight-bold name">{{post.name}}</span>
-                            <span class="date text-black-50">{{format_date(post.created_at)}}</span>
+                            <small class="date text-black-50">{{format_date(post.created_at)}}</small>
                         </div>
                     </div>
                 </v-col>
@@ -75,13 +75,7 @@
             
               <!--Comment List -->
             <commentList 
-            v-on:AddCount="post.comment_count++"
-            v-on:MinusCount="post.comment_count--" 
-            :commentCount="post.comment_count"
-            :LikesCount="post.likes_count"
-            :commentListData="post.comment"
-            :postDetails="post"
-            :PostId="post.post_id" :UserDetails="UserDetails" ></commentList>
+            :postDetails="post" :UserDetails="UserDetails" ></commentList>
         </v-card>
 
          <div v-if="isLoadingMore" class="text-center">
@@ -135,11 +129,10 @@ import axios from 'axios';
     
         methods: {
             ...mapActions(['deleteClassPost']),
-            test() {
+           /*  test() {
                 $('.img-fluid').click(function () {
-                    //console.log($('.img-fluid').attr('src'))
                 })
-            },
+            }, */
             format_date(value){
                 if (value) {
                 return moment(String(value)).format("ddd, MMMM DD, YYYY h:mm a")
@@ -158,13 +151,6 @@ import axios from 'axios';
             },
             clearComment (i) {
                 this.comment[i] = ''
-            },
-
-            getComments(){
-                axios.get('/api/post/allcomment/'+this.$route.params.id)
-                .then((res)=>{
-                    this.CommentList = res.data;
-                })
             },
              getAnnouncementWhileScrolling() {
                 window.onscroll = () => {
@@ -216,12 +202,7 @@ import axios from 'axios';
         beforeMount() {
             $(".post-content p").replaceWith(function () {
                 return "<span>" + this.innerHTML + "</span>";
-            });
-             this.test();
-            //this.getComments();
-
-           
-              
+            });              
         },
         mounted(){
             this.getAnnouncementWhileScrolling();

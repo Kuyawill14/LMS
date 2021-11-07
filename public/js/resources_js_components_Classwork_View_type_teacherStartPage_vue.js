@@ -130,13 +130,10 @@ __webpack_require__.r(__webpack_exports__);
         icon: "mdi-file-cog"
       }, {
         name: "add-question",
-        text: "ADD QUESTION",
+        text: "QUESTION",
         icon: "mdi-text-box-plus-outline"
-      }, {
-        name: "question-list",
-        text: "QUESTION LIST",
-        icon: "mdi-clipboard-list"
-      }, {
+      }, //{ name: "question-list", text: "QUESTION LIST", icon:"mdi-clipboard-list"},
+      {
         name: "publish-to",
         text: "PUBLISH TO",
         icon: "mdi-publish"

@@ -2,7 +2,7 @@
 <template>
 <div class="pa-1">
 
-    <div transition="slide-y-reverse-transition">
+<div transition="slide-y-reverse-transition">
     <v-app-bar elevation="5" 
      v-if="!$vuetify.breakpoint.mdAndUp"
         app :dense="$vuetify.breakpoint.mdAndUp"  color="primary"  >
@@ -12,7 +12,7 @@
             <v-icon >mdi-arrow-left-thick</v-icon>
         </v-btn>
         <v-divider   vertical></v-divider>
-</v-app-bar>
+    </v-app-bar>
 </div>
      <v-overlay :value="isLeaving">
         <v-progress-circular

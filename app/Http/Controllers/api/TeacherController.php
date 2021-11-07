@@ -12,6 +12,8 @@ use App\Models\UserNotification;
 use App\Models\tbl_student_course_subject_grades;
 use App\Models\tbl_subject_course;
 use App\Models\tbl_userclass;
+use App\Models\tbl_classwork;
+use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_userDetails;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -226,24 +228,48 @@ class TeacherController extends Controller
      */
     public function updateScoreObj(Request $request, $id)
     {   
-        //return $request->type;
-
+        //return $request;
+        $userId = auth('sanctum')->id();
         $updateObj = tbl_Submission::where('id', $id)->first();
         if($updateObj){
-            $TempAnswers = array();
+
+            $checkClasswork = tbl_classwork::find($updateObj->classwork_id);
+
+            if($checkClasswork ->isNew == null){
+                $TempAnswers = array();
             
-            $Tmp = unserialize($updateObj->Submitted_Answers);
-            if($request->check != true){
-                $updateObj->points = ($updateObj->points - $request->points);
-                foreach($Tmp as $item){
-                    if($item['Question_id'] == $request->question_id){
-                        if($item['type'] == 'Essay'){
-                            $item['check'] = false;   
+                $Tmp = unserialize($updateObj->Submitted_Answers);
+                if($request->check != true){
+                    $updateObj->points = ($updateObj->points - $request->points);
+                    foreach($Tmp as $item){
+                        if($item['Question_id'] == $request->question_id){
+                            if($item['type'] == 'Essay'){
+                                $item['check'] = false;   
+                            }
+                            else{
+                                $item['Answer'] = null;
+                            }
+                        
+                            array_push($TempAnswers, $item);
                         }
                         else{
-                            $item['Answer'] = null;
+                            array_push($TempAnswers, $item);
                         }
-                      
+                    }
+                    $updateObj->Submitted_Answers = serialize($TempAnswers);
+                    $updateObj->save();
+                    return;
+                }
+                $updateObj->points = ($updateObj->points + $request->points);
+                foreach($Tmp as $item){
+                    if($item['Question_id'] == $request->question_id){
+                        //$item['Answer'] =  $request->answer;
+                        if($item['type'] == 'Essay'){
+                            $item['check'] = true;   
+                        }
+                        else{
+                            $item['Answer'] =  $request->answer;
+                        }
                         array_push($TempAnswers, $item);
                     }
                     else{
@@ -254,25 +280,47 @@ class TeacherController extends Controller
                 $updateObj->save();
                 return;
             }
-            $updateObj->points = ($updateObj->points + $request->points);
-            foreach($Tmp as $item){
-                if($item['Question_id'] == $request->question_id){
-                    //$item['Answer'] =  $request->answer;
-                    if($item['type'] == 'Essay'){
-                        $item['check'] = true;   
+            else{
+
+                $submitted_Answer = tbl_Submitted_Answer::where('question_id', $request->question_id)
+                ->where('user_id', $request->user_id)->first();
+              
+                //return  $submitted_Answer;
+
+                if($request->check == true){
+                    $updateObj->points = ($updateObj->points + $request->points);
+                    if($submitted_Answer->type == 'Essay'){
+                        $submitted_Answer->isCorrect = true;
                     }
                     else{
-                        $item['Answer'] =  $request->answer;
+                        $submitted_Answer->answer = $request->answer;
+                        $submitted_Answer->isCorrect = true;
                     }
-                    array_push($TempAnswers, $item);
+
+                    $submitted_Answer->save();
+                    $updateObj->save();
+                    return;
                 }
                 else{
-                    array_push($TempAnswers, $item);
+                    $updateObj->points = ($updateObj->points - $request->points);
+                    if($submitted_Answer->type == 'Essay'){
+                        $submitted_Answer->isCorrect = null;
+                    }
+                    else{
+                        $submitted_Answer->answer = $request->answer;
+                        $submitted_Answer->isCorrect = null;
+                    }
+                    
+                    $submitted_Answer->save();
+                    $updateObj->save();
+                    return;
+
                 }
+                
+
             }
-            $updateObj->Submitted_Answers = serialize($TempAnswers);
-            $updateObj->save();
-            return;
+
+            
         }
        
     }

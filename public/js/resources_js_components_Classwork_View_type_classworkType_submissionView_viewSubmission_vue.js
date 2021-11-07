@@ -181,6 +181,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -231,7 +239,7 @@ __webpack_require__.r(__webpack_exports__);
         var _loop = function _loop(_i) {
           for (var j = 0; j < _this.classworkDetails.Submitted_Answers.length; j++) {
             if (_this.QuestionAndAnswer.Question[_i].id == _this.classworkDetails.Submitted_Answers[j].Question_id) {
-              if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False' || _this.QuestionAndAnswer.Question[_i].type == 'Essay') {
+              if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False') {
                 _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
 
                 if (_this.QuestionAndAnswer.Question[_i].answer == _this.classworkDetails.Submitted_Answers[j].Answer) {
@@ -239,22 +247,41 @@ __webpack_require__.r(__webpack_exports__);
                 } else {
                   _this.Check[_i] = false;
                 }
+              } else if (_this.QuestionAndAnswer.Question[_i].type == 'Essay') {
+                _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+                _this.Check[_i] = _this.classworkDetails.Submitted_Answers[j].check;
               } else if (_this.QuestionAndAnswer.Question[_i].type == 'Matching type') {
                 (function () {
                   var Ans = new Array();
                   var match_check = new Array();
+                  var counter = 0;
 
                   _this.classworkDetails.Submitted_Answers[j].Answer.forEach(function (item) {
                     for (var x = 0; x < _this.QuestionAndAnswer.Answer[_i].SubQuestion.length; x++) {
                       if (_this.QuestionAndAnswer.Answer[_i].SubQuestion[x].id == item.subquestion_id) {
                         Ans.push({
+                          /* Ans_Letter: item.Ans_letter,
+                          Answer: item.Answers,
+                          SubQuestion: this.QuestionAndAnswer.Answer[i].SubQuestion[x].sub_question,
+                          SubChoice: null,
+                          Correct_Answer: null */
                           Ans_Letter: item.Ans_letter,
                           Answer: item.Answers,
                           SubQuestion: _this.QuestionAndAnswer.Answer[_i].SubQuestion[x].sub_question,
-                          SubChoice: null
+                          SubChoice: _this.QuestionAndAnswer.Answer[_i].SubAnswer[x].Choice,
+                          Correct_Answer: null
                         });
+
+                        if (_this.QuestionAndAnswer.Answer[_i].SubAnswer[x].Choice == item.Answers) {
+                          match_check[counter] = true;
+                        } else {
+                          match_check[counter] = false;
+                          /*  Ans[x].Correct_Answer = this.Alphabet[x] */
+                        }
                       }
                     }
+
+                    counter += 1;
                   });
 
                   var tmpChoices = new Array();
@@ -271,10 +298,11 @@ __webpack_require__.r(__webpack_exports__);
                   });
 
                   for (var a = 0; a < Ans.length; a++) {
-                    Ans[a].SubChoice = tmpChoices[a].choice; //console.log(tmpChoices[a].choice);
+                    Ans[a].SubChoice = tmpChoices[a].choice;
                   }
 
                   _this.SubmittedAnswer[_i] = Ans;
+                  _this.Check[_i] = match_check;
                 })();
               }
             }
@@ -287,29 +315,6 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.isLoading = false;
       });
-      /* this.$store.dispatch('fetchQuestions', this.$route.params.id).then(res=>{
-          ////console.log(res);
-          this.Details = res[0];
-          for (let i = 0; i < this.Details.Question.length; i++) {
-              for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
-                  if(this.Details.Question[i].id == this.details.Submitted_Answers[j].Question_id){
-                      this.SubmittedAnswer[i] =  this.details.Submitted_Answers[j];
-                      if(this.Details.Question[i].answer == this.details.Submitted_Answers[j].Answer){
-                          this.Check[i] = true;
-                      }
-                      else{
-                          this.Check[i] = false;
-                      }
-                      
-                  }
-                  
-              }
-              
-          }
-          ////console.log(this.details.Submitted_Answers);
-          this.isLoading = false;
-      });
-      */
     }
   },
   mounted: function mounted() {
@@ -587,7 +592,8 @@ var render = function() {
                             : ""
                         },
                         [
-                          _vm.classworkDetails.showAnswer == true
+                          _vm.classworkDetails.showAnswer == true &&
+                          item.type != "Matching type"
                             ? _c("v-checkbox", {
                                 staticClass: "mt-0 pt-0",
                                 attrs: { readonly: "", color: "success" },
@@ -858,9 +864,9 @@ var render = function() {
                                                   staticClass:
                                                     "font-weight-bold",
                                                   attrs: {
-                                                    cols: "1",
-                                                    md: "1",
-                                                    lg: "1"
+                                                    cols: "2",
+                                                    md: "2",
+                                                    lg: "2"
                                                   }
                                                 }),
                                                 _vm._v(" "),
@@ -871,8 +877,8 @@ var render = function() {
                                                       "font-weight-bold",
                                                     attrs: {
                                                       cols: "5",
-                                                      md: "6",
-                                                      lg: "6"
+                                                      md: "5",
+                                                      lg: "5"
                                                     }
                                                   },
                                                   [
@@ -911,12 +917,60 @@ var render = function() {
                                               "v-container",
                                               {
                                                 key: item.id,
-                                                staticClass: "mb-0 pb-0"
+                                                staticClass:
+                                                  "mb-0 pb-0 pt-2 pb-3"
                                               },
                                               [
                                                 _c(
                                                   "v-row",
                                                   [
+                                                    _vm.classworkDetails
+                                                      .showAnswer == true
+                                                      ? _c(
+                                                          "v-col",
+                                                          {
+                                                            staticClass:
+                                                              "mb-1 pb-0 pt-0 mt-0",
+                                                            attrs: {
+                                                              cols: "2",
+                                                              md: "1",
+                                                              lg: "1"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("v-checkbox", {
+                                                              staticClass:
+                                                                "mt-5 pr-0 mr-0",
+                                                              attrs: {
+                                                                "hide-details":
+                                                                  "",
+                                                                color: "success"
+                                                              },
+                                                              model: {
+                                                                value:
+                                                                  _vm.Check[
+                                                                    index
+                                                                  ][i],
+                                                                callback: function(
+                                                                  $$v
+                                                                ) {
+                                                                  _vm.$set(
+                                                                    _vm.Check[
+                                                                      index
+                                                                    ],
+                                                                    i,
+                                                                    $$v
+                                                                  )
+                                                                },
+                                                                expression:
+                                                                  "Check[index][i]"
+                                                              }
+                                                            })
+                                                          ],
+                                                          1
+                                                        )
+                                                      : _vm._e(),
+                                                    _vm._v(" "),
                                                     _c(
                                                       "v-col",
                                                       {
@@ -962,8 +1016,8 @@ var render = function() {
                                                           "mb-1 pb-0 pt-0 mt-0",
                                                         attrs: {
                                                           cols: "5",
-                                                          md: "6",
-                                                          lg: "6"
+                                                          md: "5",
+                                                          lg: "5"
                                                         }
                                                       },
                                                       [

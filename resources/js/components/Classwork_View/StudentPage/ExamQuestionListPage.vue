@@ -1,8 +1,14 @@
 
 <template>
+
 <v-app >
+
+    <v-container fluid>
+
+   
 <v-dialog v-model="dialog" persistent max-width="550">
     <confirmDialog
+    :unAnsweredQuestion="unAnsweredQuestion"
     v-on:toggleCancelDialog="dialog = !dialog"
     v-on:toggleSubmit="StopTimer = true"
      v-if="dialog"></confirmDialog>
@@ -51,10 +57,10 @@
    
 
 
-<v-container  fluid :class="!$vuetify.breakpoint.mdAndUp ? 'pa-2 ' : ''" v-if="!isLoading || !isSubmitting" >
+<v-container  fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''" v-if="!isLoading || !isSubmitting" >
       <v-row justify="center" >
           <v-col cols="12" >
-               <v-card elevation="2" outlined class="pa-2">
+               <v-card elevation="2" outlined >
                <v-row v-if="!isLoading">
                 <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="8"  >
                     <v-list>
@@ -73,13 +79,12 @@
                         </v-list-item>
                     </v-list>
                 </v-col>
-                <v-col cols="12" md="4" :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-end' : ''">
+                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="4" :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-end' : ''">
                     <div >
                        
                         <div class="d-flex justify-space-between ">
                             
                              <div class="text-center mt-5">
-                                 
                                 <v-menu offset-y max-height="600" style="overflow-y:scroll;">
                                 <template v-slot:activator="{ on, attrs }">
                                     <v-btn icon
@@ -106,7 +111,6 @@
                                 </v-menu>
                             </div>
                               <div v-if="isReloadTime" style="margin-right:3rem">
-                                  
                                  <vue-element-loading :active="isReloadTime" 
                                     duration="0.7"
                                     spinner="line-scale" color="#EF6C00"  size="25"  />
@@ -122,17 +126,65 @@
             </v-row>
             </v-card>
           </v-col>
+          <v-col cols="12">
+              <div transition="slide-y-reverse-transition">
+                <v-app-bar 
+                flat
+                v-if="!$vuetify.breakpoint.mdAndUp"
+                    app  color="primary"  >
+                        <v-menu offset-y max-height="600" style="overflow-y:scroll;">
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn icon
+                                dark
+                                v-bind="attrs"
+                                v-on="on">
+                            <v-icon>mdi-format-list-numbered</v-icon> </v-btn>
+                        </template>
+                        <v-list  >
+                            <v-list-item class="ma-0 pa-0" v-for="(item, index) in getAll_questions.Question" :key="index">
+                            <v-list-item-title>  
+                                <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
+                                text rounded @click="updateAnswer(), questionIndex = index">
+                                <v-icon :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'" left>{{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
+                                {{index+1}}
+                                </v-btn>
+                                <v-btn @click="updateAnswer(), questionIndex = index" text rounded v-if="item.type == 'Matching type'">
+                                    <v-icon :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'" left>
+                                        {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
+                                    {{index+1}}
+                                </v-btn>
+                                </v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                        </v-menu>
+                  
+                    <v-divider vertical></v-divider>
+                    <div class="pl-2 mt-1 white--text">{{getAll_questions.Question[questionIndex].points}} points</div>
+                   
+                    <v-spacer></v-spacer>
+                    <div v-if="isReloadTime" style="margin-right:1.2rem">
+                            <vue-element-loading :active="isReloadTime" 
+                        duration="0.7"
+                        spinner="line-scale"  color="white" size="25"  />
+                    </div>
+                     <div v-else class="white--text mt-5 ml-0 font-weight-bold">
+                           <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
+                     </div>
+                  
+                </v-app-bar>
+            </div>
+          </v-col>
       </v-row>
  <!--      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn> -->
 </v-container>
 
-  <div v-if="!isLoading" class="mt-2 ma-2"  >
+  <div v-if="!isLoading" class="mt-10">
         <v-row  justify="center">
-            <v-col cols="12" sm="12" md="10" lg="8" xl="7">
-                <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-1'" :elevation="$vuetify.breakpoint.mdAndUp ? 2 : 0" :outlined="$vuetify.breakpoint.mdAndUp " >
+            <v-col  cols="12" sm="12" md="10" lg="8" xl="7">
+                <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-0'" :elevation="$vuetify.breakpoint.mdAndUp ? 2 : 0" :outlined="$vuetify.breakpoint.mdAndUp " >
                
                         <v-row>
-                            <v-col cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'" >
+                            <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'" >
                                 <div :class="$vuetify.breakpoint.mdAndUp  ? 'mb-3 mt-1' : 'd-flex mb-3 mt-1'">
                                     <v-btn :class="!$vuetify.breakpoint.mdAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
                                     :disabled="questionIndex <= 0">
@@ -162,7 +214,7 @@
                             <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
                             <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
                                 <div v-show="index === questionIndex">
-                                        <v-row ma-0 pa-0>
+                                        <v-row v-if="$vuetify.breakpoint.mdAndUp" ma-0 pa-0>
                                             <v-col class="mb-0 pb-0" cols="12">
                                                 <v-container class="pa-0 ma-0 d-flex flex-row justify-space-between">
                                                     <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{index+1}}</h3>
@@ -170,92 +222,99 @@
                                                     <p class="mr-5 primary--text">({{item.points}} Points)</p>
                                                 </v-container>
                                             </v-col>
-                                            <v-col class=" mt-0 pt-1" cols="12" md="11" lg="11">
-                                                <v-container ma-0 pa-0 class="ma-0 pa-0">
-                                                 
-                                                    <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="subtitle-1"><span v-html="item.question" class="post-content"></span><!-- {{item.question}} --></div>
-                                                </v-container> 
-                                            </v-col>
                                         </v-row>
                                         
-                                        <v-container  v-if="item.type == 'Multiple Choice'">
-                                            <v-row >
-                                                <v-col class="ma-0 pa-0" cols="12" >
-                                                <v-container >
-                                                    <v-container class="d-flex flex-row ma-0 pa-0 mb-1" v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
-                                                    <v-radio-group    :max="1" :name="'option'+index"  class="ma-0 pa-0" v-model="FinalAnswers[index].Answer">
-                                                        <v-radio
-                                                        color="primary"
-                                                        :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                        :name="'option'+index"
-                                                        @click="SelectAnswer()"
-                                                        
-                                                        :value="Ans.Choice"
-                                                        ></v-radio>
-                                                        </v-radio-group>
-                                                        <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0">
-                                                            <span style="user-select: none" v-html="Ans.Choice" class="post-content"></span>
-                                                        </div>
-                                                        </v-container>
-                                                       
-                                                    </v-container>
-                                                     <div class="ma-0 pa-0 text-right">
-                                                            <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
-                                                     </div>
-                                                </v-col>
-                                            </v-row>
-                                        </v-container>
+                                     
+                                        <v-row >
+                                            <v-col class="mt-0 pt-1 pl-3 mb-0 pb-0" cols="12" md="11" lg="11">
+                                                <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="font-weight-medium">
+                                                    <span v-html="item.question" class="post-content"></span>
+                                                </div>
+                                            </v-col>
+                                            <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'Multiple Choice'">
+                                                <div>
+                                                    <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'" >
+                                                        <v-list-item class="ma-0 pa-0"  v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
+                                                            <v-list-item-icon class="ma-0 pa-0">
+                                                                <v-radio-group hide-details :name="'option'+index"  class="ma-0 pa-0 mt-1" v-model="FinalAnswers[index].Answer">
+                                                                    <v-radio
+                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                        :name="'option'+index"
+                                                                    @click="FinalAnswers[index].answer_id = Ans.id"
+                                                                    :value="Ans.Choice">
+                                                                    </v-radio>
+                                                                </v-radio-group>
+                                                            </v-list-item-icon>
+                                                            <v-list-item-content class="ma-0 pa-0">
+                                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex mt-1">
+                                                                    <span v-html="Ans.Choice" class="post-content"></span>
+                                                                </div>
+                                                            </v-list-item-content>  
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </div>
+                                                <div class="ma-0 pa-0 text-right">
+                                                    <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
+                                                </div>
+                                            </v-col>
 
-                                        <v-container v-if="item.type == 'Identification'">
-                                            <v-row >
-                                                <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
-                                                    <v-card style="width:100%" class="mb-3">
-                                                        <editor 
-                                                            @focus="SetWarning()"
-                                                             @blur="SetWarning()"
-                                                            @change="SelectAnswer()"
-                                                            v-model="FinalAnswers[index].Answer" 
-                                                            id="editor-container" placeholder="Answer" 
-                                                            theme="snow" :options="options"></editor>
-                                                    </v-card>
-                                                        <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 d-flex flex-row-reverse">
-                                                        <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
-                                                    </v-container>
-                                                </v-col>
-                                            </v-row>
-                                        </v-container>
+                                            <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'Identification'">
+                                                 <div>
+                                                    <v-list class="pl-3" >
+                                                        <v-list-item class="ma-0 pa-0" >
+                                                            <v-list-item-content  class="ma-0 pa-0">
+                                                                   <editor 
+                                                                    @focus="SetWarning()"
+                                                                    @blur="SetWarning()"
+                                                                    @change="SelectAnswer()"
+                                                                    v-model="FinalAnswers[index].Answer" 
+                                                                    id="editor-container" placeholder="Answer" 
+                                                                    theme="snow" :options="options"></editor>
+                                                            </v-list-item-content>  
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </div>
+                                                  <div class="ma-0 pa-0 text-right">
+                                                    <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
+                                                </div>
+                                            </v-col>
 
-                                        <v-container v-if="item.type == 'True or False'">
-                                            <v-container ma-0 pa-0>
-                                                <v-container class="d-flex flex-row ma-0 pa-0" v-for="(x, n) in inputCheck" :key="n">
-                                                <v-radio-group :name="'option'+index"   class="ma-0 pa-0"  v-model="FinalAnswers[index].Answer">
-                                                    <v-radio
-                                                    color="primary"
-                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                    @click="SelectAnswer()"
-                                                    :key="index"
-                                                    :value="inputCheck[n]"
-                                                    ></v-radio>
-                                                    </v-radio-group>
-
-                                                    <div class="Subtitle 1">
-                                                        {{inputCheck[n]}}
-                                                    </div>
-                                                    </v-container>
-                                                    <div class="ma-0 pa-0 text-right">
-                                                        <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
-                                                    </div>
-                                            </v-container>
-                                        </v-container>
-                                    
-
-                                        <v-container class="mb-4" v-if="item.type == 'Matching type'">
+                                            <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'True or False'">
+                                                 <div>
+                                                    <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'" >
+                                                        <v-list-item class="ma-0 pa-0"  v-for="(x, n) in inputCheck" :key="n">
+                                                            <v-list-item-icon class="ma-0 pa-0">
+                                                                <v-radio-group hide-details class="ma-0 pa-0 mt-1" :name="'option'+index" v-model="FinalAnswers[index].Answer">
+                                                                    <v-radio
+                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                    color="primary"
+                                                                    @click="SelectAnswer()"
+                                                                    :key="index"
+                                                                    :value="inputCheck[n]"
+                                                                    ></v-radio>
+                                                                </v-radio-group>
+                                                            </v-list-item-icon>
+                                                            <v-list-item-content  class="ma-0 pa-0">
+                                                                <div  style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex mt-1">
+                                                                    <span v-html="TrueOrFalse[n]" class=""></span>
+                                                                </div>
+                                                            </v-list-item-content>  
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </div>
+                                                <div class="ma-0 pa-0 text-right">
+                                                    <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
+                                                </div>
+                                            </v-col>
+                                        </v-row>
+                                      
+                                        <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'mb-4' : 'mb-4 pa-0'" v-if="item.type == 'Matching type'">
                                             <v-row >
                                                     <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
-                                                        <v-container class="pl-5 pr-5">
-                                                            <v-container>
+                                                        <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'pl-5 pr-5' : 'ma-0 pa-0'">
+                                                            <v-container class="mb-0 pb-0">
                                                                 <v-row>
-                                                                    <v-col class="font-weight-bold" cols="1" md="1" lg="1">
+                                                                    <v-col class="font-weight-bold" cols="2" md="1" lg="1">
                                                                         
                                                                     </v-col>
                                                                     <v-col class="font-weight-bold" cols="5" md="6" lg="6">
@@ -267,16 +326,16 @@
                                                                 </v-row>
                                                             </v-container>
                                                             <v-divider></v-divider>
+                                                            
                                                             <v-container class="mb-0 pb-0" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id">
-                                                                
                                                                 <v-row>
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
                                                                         <v-text-field 
+                                                                        hide-details
                                                                         v-model="FinalAnswers[index].Answer[i].Ans_letter"
                                                                         @change="SelectMatch(item.id, index, i)"
-                                                                        class="centered-input"
-                                                                            
-                                                                        ></v-text-field>
+                                                                        class="centered-input">
+                                                                        </v-text-field>
                                                                     </v-col>
                                                                     <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
                                                                         <div class="d-flex mt-7">
@@ -293,9 +352,6 @@
                                                                 </v-row>
                                                             </v-container>
                                                         </v-container>
-                                                        <div class="ma-0 pa-0 text-right">
-                                                            <v-btn @click="reset(index, item.type)" text rounded small>Reset Answer</v-btn>
-                                                        </div>
                                                     </v-col>
                                                 </v-row>
                                         </v-container>
@@ -331,6 +387,45 @@
             </v-col>
         </v-row>
     </div>
+    
+    <div>
+       
+    <v-app-bar color="white" outlined elevation="0" 
+     v-if="!$vuetify.breakpoint.mdAndUp"
+        app :dense="$vuetify.breakpoint.mdAndUp" bottom flat  >
+        
+       <v-btn icon   @click="prev" 
+             :disabled="questionIndex <= 0">
+            <v-icon >mdi-arrow-left</v-icon>
+            </v-btn>
+
+            <v-spacer></v-spacer>
+            <div class="d-flex justify-center" >
+                <small>{{questionIndex+1 }} of {{getAll_questions.Question.length}}</small>
+            </div>
+            
+            <v-spacer></v-spacer>
+
+            <v-btn icon v-if="questionIndex != Qlength-1" 
+           
+            :loading="isSavingAnswer"
+             color="primary" @click="next">
+            <v-icon >mdi-arrow-right</v-icon>
+            </v-btn>
+
+            <v-btn 
+            text
+            :loading="isSavingAnswer"
+           
+                v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
+            Submit
+           
+            </v-btn>
+ 
+    </v-app-bar>
+</div>
+
+</v-container>
 </v-app>
 
 </template>
@@ -356,6 +451,7 @@ export default {
             dialog:false,
             warningDialog: false,
             inputCheck:['True','False'],
+            TrueOrFalse:['<p>True</p>','<p>False</p>'],
             isSubmitting:false,
             Qlength:'',
             isStart: false,
@@ -404,6 +500,8 @@ export default {
             CurrentTime: null,
             testDate: null,
             isReloadTime: false,
+            unAnsweredQuestion: 0,
+
         }
     },
     computed: 
@@ -416,6 +514,18 @@ export default {
             },1000)
         },
         SubmitPromp(){
+            this.unAnsweredQuestion = 0;
+            this.FinalAnswers.forEach(item => {
+                if(item.type != "Matching type"){
+                    if(item.Answer == null || item.Answer == ''){
+                        this.unAnsweredQuestion++;
+                    }
+                }
+                else{
+
+                }
+            });
+
             this.isRemoving = true;
             this.dialog = true;;
         },
@@ -543,6 +653,7 @@ export default {
                             this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 timeConsume: null
                             });
@@ -551,6 +662,7 @@ export default {
                              this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 check: false,
                                 timeConsume: null
@@ -594,6 +706,7 @@ export default {
                             this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                 answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 timeConsume: null
                             });
@@ -602,6 +715,7 @@ export default {
                              this.FinalAnswers.push({
                                 Answer: '',
                                 Question_id: this.getAll_questions.Question[index].id,
+                                answer_id: null,
                                 type:this.getAll_questions.Question[index].type,
                                 check: false,
                                 timeConsume: null
@@ -610,7 +724,8 @@ export default {
                          else if(this.getAll_questions.Question[index].type == 'Matching type'){
                             let Ans = new Array();
                             let Choices_id = new Array();
-                             this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
+
+                            this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
                                 Choices_id.push({
                                    choice_id: item.id
                                 })
@@ -648,12 +763,13 @@ export default {
                                     this.FinalAnswers.push({
                                         Answer: AnswersList[j].Answer,
                                         Question_id: AnswersList[j].Question_id,
+                                        answer_id: null,
                                         type: AnswersList[j].type,
                                         timeConsume: AnswersList[j].timeConsume
                                     });
                                  }
                                  else if(this.getAll_questions.Question[x].type == 'Matching type'){
-                                     let Ans = new Array();
+                                    let Ans = new Array();
                                     let Choices_id = new Array();
 
                                     this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
@@ -661,14 +777,29 @@ export default {
                                             choice_id: item.id
                                         })
                                     });
-                                     AnswersList[j].Answer.forEach(item => {
+
+                                     let counter = 0;
+                                     this.getAll_questions.Answer[x].SubQuestion.forEach(item => {
+                                        Ans.push({
+                                            Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
+                                            Ans_id: AnswersList[j].Answer[counter].Ans_id,
+                                            subquestion_id: item.id,
+                                            Answers: AnswersList[j].Answer[counter].Answers,
+                                        })
+                                        counter++;
+                                    });
+
+
+
+                                    
+                                 /*     AnswersList[j].Answer.forEach(item => {
                                         Ans.push({
                                             Ans_letter: item.Ans_letter,
                                             Ans_id: item.Ans_id,
                                             subquestion_id: item.subquestion_id,
                                             Answers: item.Answers
                                         })
-                                     });
+                                     }); */
                                      this.FinalAnswers.push({
                                         Answer: Ans,
                                         Choices_id: Choices_id,
@@ -746,14 +877,15 @@ export default {
         },
         SelectMatch(id, main_index, second_index){
             let Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
-             for (let i = 0; i < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; i++) {
-                for (let x = 0; x < this.getAll_questions.Answer[this.questionIndex].SubAnswer.length; x++) {
+             for (let i = 0; i < this.getAll_questions.Answer[main_index].SubAnswer.length; i++) {
+                for (let x = 0; x < this.getAll_questions.Answer[main_index].SubAnswer.length; x++) {
                     if(this.Alphabet[x].toUpperCase() == Answer.toUpperCase()){
-                        this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].Choice;
-                        this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[this.questionIndex].SubAnswer[x].id; 
+                        this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[main_index].SubAnswer[x].Choice;
+                        this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[main_index].SubAnswer[x].id; 
                     }
                 }   
             }
+            console.log(this.FinalAnswers[main_index]);
         },
         StartQuiz(){
             this.isStart = true;
@@ -816,9 +948,9 @@ export default {
         }
     },
     beforeMount() {
-        document.addEventListener('contextmenu', function(e) {
+      /*   document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
-        });
+        }); */
         window.addEventListener("onbeforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
@@ -826,7 +958,6 @@ export default {
         });
     },
      beforeRouteLeave(to, from, next) {
-   
         if (this.isExamStart) {
             if (!window.confirm("Leave without saving?")) {
            
@@ -838,6 +969,9 @@ export default {
     },
     async mounted() {
         this.CheckStatus();
+    },
+    beforeDestroy(){
+         window.removeEventListener('onbeforeunload', this.preventNav)
     },
     
 }

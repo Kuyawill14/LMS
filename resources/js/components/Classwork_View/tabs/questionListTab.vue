@@ -8,7 +8,7 @@
     </v-overlay>
 
 
-    <v-dialog v-model="dialog" persistent max-width="370">
+         <v-dialog v-model="dialog" persistent max-width="370">
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
             v-on:toggleDialog="dialog = !dialog, isRemoving = false"

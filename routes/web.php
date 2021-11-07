@@ -20,7 +20,12 @@ Route::get('/tutorial', function () {
     return view('tutorial');
 });
 
-Route::get('/{any}', function () {
+Route::get('/testView', function () {
+    return view('errors.429');
+});
+
+
+Route::middleware(['throttle:WebRouteLimiter'])->get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
 

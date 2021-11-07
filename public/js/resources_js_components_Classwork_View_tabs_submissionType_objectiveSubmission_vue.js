@@ -205,6 +205,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -257,6 +280,8 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       StatusType: ['Submitted', 'Taking', 'No Submission'],
       selectedStatus: 'Submitted',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
+      selectedShowNumber: 24,
+      ShowNumber: [24, 36, 48, 'all'],
       selectedSort: 'Name',
       isSavingScore: false,
       search: "",
@@ -266,10 +291,21 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       selected_user_id: null,
       isFiltered: false,
       Submitted_count: 0,
-      Over_total: 0
+      Over_total: 0,
+      pageNo: 1,
+      pageSize: 12,
+      currentPage: 1,
+      totalPage: 0,
+      currentTotalData: 0
     };
   },
   computed: {
+    indexStart: function indexStart() {
+      return (this.currentPage - 1) * this.pageSize;
+    },
+    indexEnd: function indexEnd() {
+      return this.indexStart + this.pageSize;
+    },
     studentSubmissionList: function studentSubmissionList() {
       var _this = this;
 
@@ -306,19 +342,38 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
           this.Submitted_count = Filterddata.length;
 
           if (this.selectedSort == "Name") {
-            return Filterddata.sort();
+            this.totalPage = Math.round((Filterddata.length - 1) / this.pageSize);
+
+            if (this.selectedShowNumber != 'all') {
+              var data2 = Filterddata.sort();
+              return data2.splice(0, this.selectedShowNumber);
+            } else {
+              return Filterddata.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
             var _data = Filterddata.sort(function (a, b) {
               return a.points - b.points;
-            });
+            }); //return data;
 
-            return _data;
+
+            if (this.selectedShowNumber != 'all') {
+              return _data.splice(0, this.selectedShowNumber);
+            } else {
+              return _data;
+            }
           } else if (this.selectedSort == "Highest Score") {
             var _data2 = Filterddata.sort(function (a, b) {
               return a.points - b.points;
-            });
+            }); //return data.reverse();
 
-            return _data2.reverse();
+
+            if (this.selectedShowNumber != 'all') {
+              var _data3 = _data2.reverse();
+
+              return _data3.splice(0, this.selectedShowNumber);
+            } else {
+              return _data2.reverse();
+            }
           }
         } else if (this.selectedStatus == "Taking") {
           var _Filterddata = this.ListData;
@@ -332,19 +387,38 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
           this.Submitted_count = _Filterddata.length;
 
           if (this.selectedSort == "Name") {
-            return _Filterddata.sort();
+            //return Filterddata.sort();
+            if (this.selectedShowNumber != 'all') {
+              var _data4 = _Filterddata.sort();
+
+              return _data4.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data3 = _Filterddata.sort(function (a, b) {
+            var _data5 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
-            });
+            }); //return data;
 
-            return _data3;
+
+            if (this.selectedShowNumber != 'all') {
+              return _data5.splice(0, this.selectedShowNumber);
+            } else {
+              return _data5;
+            }
           } else if (this.selectedSort == "Highest Score") {
-            var _data4 = _Filterddata.sort(function (a, b) {
+            var _data6 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
-            });
+            }); //return data.reverse();
 
-            return _data4.reverse();
+
+            if (this.selectedShowNumber != 'all') {
+              var _data7 = _data6.reverse();
+
+              return _data7.splice(0, this.selectedShowNumber);
+            } else {
+              return _data6.reverse();
+            }
           }
         } else if (this.selectedStatus == "No Submission") {
           var _Filterddata2 = this.ListData;
@@ -358,25 +432,47 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
           this.Submitted_count = _Filterddata2.length;
 
           if (this.selectedSort == "Name") {
-            return _Filterddata2.sort();
+            //return Filterddata.sort();
+            if (this.selectedShowNumber != 'all') {
+              var _data8 = _Filterddata2.sort();
+
+              return _data8.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata2.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data5 = _Filterddata2.sort(function (a, b) {
+            var _data9 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
-            });
+            }); //return data;
 
-            return _data5;
+
+            if (this.selectedShowNumber != 'all') {
+              return _data9.splice(0, this.selectedShowNumber);
+            } else {
+              return _data9;
+            }
           } else if (this.selectedSort == "Highest Score") {
-            var _data6 = _Filterddata2.sort(function (a, b) {
+            var _data10 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
-            });
+            }); //return data.reverse();
 
-            return _data6.reverse();
+
+            if (this.selectedShowNumber != 'all') {
+              var _data11 = _data10.reverse();
+
+              return _data11.splice(0, this.selectedShowNumber);
+            } else {
+              return _data10.reverse();
+            }
           }
         }
       }
     }
   },
   methods: {
+    setPage: function setPage() {
+      this.currentPage = this.pageNo - 1;
+    },
     ViewSubmision: function ViewSubmision(data, index) {
       this.ViewDetails = null; //this.isLoadingData = true;
       //if(data.status == 'Submitted'){
@@ -799,7 +895,7 @@ var render = function() {
                           attrs: {
                             cols: "12",
                             md: "2",
-                            sm: "6",
+                            sm: "12",
                             lg: "2",
                             xl: "2"
                           }
@@ -833,10 +929,45 @@ var render = function() {
                           staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
                           attrs: {
                             cols: "12",
+                            md: "1",
                             sm: "6",
-                            md: "6",
-                            lg: "6",
-                            xl: "6"
+                            lg: "1",
+                            xl: "1"
+                          }
+                        },
+                        [
+                          _c("v-select", {
+                            staticClass: "mb-0 pb-0",
+                            attrs: {
+                              outlined: "",
+                              "hide-details": "",
+                              dense: "",
+                              label: "Limit",
+                              items: _vm.ShowNumber
+                            },
+                            on: { change: _vm.ShowLoading },
+                            model: {
+                              value: _vm.selectedShowNumber,
+                              callback: function($$v) {
+                                _vm.selectedShowNumber = $$v
+                              },
+                              expression: "selectedShowNumber"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                          attrs: {
+                            cols: "12",
+                            sm: "6",
+                            md: "5",
+                            lg: "5",
+                            xl: "5"
                           }
                         },
                         [

@@ -263,6 +263,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -309,6 +322,8 @@ var checksubjective = function checksubjective() {
       StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
       selectedStatus: 'Submitted',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
+      selectedShowNumber: 24,
+      ShowNumber: [24, 36, 48, 'all'],
       selectedSort: 'Name',
       isStarting: false,
       isFiltered: false,
@@ -330,19 +345,34 @@ var checksubjective = function checksubjective() {
           var Filterddata = this.ListData; //this.Submitted_count = Filterddata.length;
 
           if (this.selectedSort == "Name") {
-            return Filterddata;
+            if (this.selectedShowNumber != 'all') {
+              var data2 = Filterddata.sort();
+              return data2.splice(0, this.selectedShowNumber);
+            } else {
+              return Filterddata.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
             var _data = Filterddata.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data;
+            if (this.selectedShowNumber != 'all') {
+              return _data.splice(0, this.selectedShowNumber);
+            } else {
+              return _data;
+            }
           } else if (this.selectedSort == "Highest Score") {
             var _data2 = Filterddata.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data2.reverse();
+            if (this.selectedShowNumber != 'all') {
+              var _data3 = _data2.reverse();
+
+              return _data3.splice(0, this.selectedShowNumber);
+            } else {
+              return _data2.reverse();
+            }
           }
         } else if (this.selectedStatus == "Submitted") {
           var _Filterddata = this.ListData;
@@ -355,19 +385,35 @@ var checksubjective = function checksubjective() {
           }); //this.Submitted_count = Filterddata.length;
 
           if (this.selectedSort == "Name") {
-            return _Filterddata.sort();
+            if (this.selectedShowNumber != 'all') {
+              var _data4 = _Filterddata.sort();
+
+              return _data4.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data3 = _Filterddata.sort(function (a, b) {
+            var _data5 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data3;
+            if (this.selectedShowNumber != 'all') {
+              return _data5.splice(0, this.selectedShowNumber);
+            } else {
+              return _data5;
+            }
           } else if (this.selectedSort == "Highest Score") {
-            var _data4 = _Filterddata.sort(function (a, b) {
+            var _data6 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data4.reverse();
+            if (this.selectedShowNumber != 'all') {
+              var _data7 = _data6.reverse();
+
+              return _data7.splice(0, this.selectedShowNumber);
+            } else {
+              return _data6.reverse();
+            }
           }
         } else if (this.selectedStatus == "Graded") {
           var _Filterddata2 = this.ListData;
@@ -381,19 +427,35 @@ var checksubjective = function checksubjective() {
           this.Submitted_count = _Filterddata2.length;
 
           if (this.selectedSort == "Name") {
-            return _Filterddata2.sort();
+            if (this.selectedShowNumber != 'all') {
+              var _data8 = _Filterddata2.sort();
+
+              return _data8.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata2.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data5 = _Filterddata2.sort(function (a, b) {
+            var _data9 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data5;
+            if (this.selectedShowNumber != 'all') {
+              return _data9.splice(0, this.selectedShowNumber);
+            } else {
+              return _data9;
+            }
           } else if (this.selectedSort == "Highest Score") {
-            var _data6 = _Filterddata2.sort(function (a, b) {
+            var _data10 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data6.reverse();
+            if (this.selectedShowNumber != 'all') {
+              var _data11 = _data10.reverse();
+
+              return _data11.splice(0, this.selectedShowNumber);
+            } else {
+              return _data10.reverse();
+            }
           }
         } else if (this.selectedStatus == "No Submission") {
           var _Filterddata3 = this.ListData;
@@ -407,19 +469,35 @@ var checksubjective = function checksubjective() {
           this.Submitted_count = _Filterddata3.length;
 
           if (this.selectedSort == "Name") {
-            return _Filterddata3.sort();
+            if (this.selectedShowNumber != 'all') {
+              var _data12 = _Filterddata3.sort();
+
+              return _data12.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata3.sort();
+            }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data7 = _Filterddata3.sort(function (a, b) {
+            var _data13 = _Filterddata3.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data7;
+            if (this.selectedShowNumber != 'all') {
+              return _data13.splice(0, this.selectedShowNumber);
+            } else {
+              return _data13;
+            }
           } else if (this.selectedSort == "Highest Score") {
-            var _data8 = _Filterddata3.sort(function (a, b) {
+            var _data14 = _Filterddata3.sort(function (a, b) {
               return a.points - b.points;
             });
 
-            return _data8.reverse();
+            if (this.selectedShowNumber != 'all') {
+              var _data15 = _data14.reverse();
+
+              return _data15.splice(0, this.selectedShowNumber);
+            } else {
+              return _data14.reverse();
+            }
           }
         }
       }
@@ -1521,6 +1599,7 @@ var render = function() {
             [
               _c(
                 "v-row",
+                { attrs: { "no-gutters": "" } },
                 [
                   _c(
                     "v-col",
@@ -1586,7 +1665,7 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3",
                       attrs: { cols: "6", sm: "6", lg: "2", xl: "2" }
                     },
                     [
@@ -1617,7 +1696,7 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3",
                       attrs: { cols: "6", md: "6", lg: "2", xl: "2" }
                     },
                     [
@@ -1646,7 +1725,7 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3",
                       attrs: { cols: "12", md: "4", lg: "2", xl: "2" }
                     },
                     [
@@ -1675,8 +1754,37 @@ var render = function() {
                   _c(
                     "v-col",
                     {
-                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-1 pb-3",
-                      attrs: { cols: "12", md: "8", lg: "6", xl: "6" }
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-3 pr-1 pb-3",
+                      attrs: { cols: "12", md: "1", sm: "6", lg: "1", xl: "1" }
+                    },
+                    [
+                      _c("v-select", {
+                        staticClass: "mb-0 pb-0",
+                        attrs: {
+                          outlined: "",
+                          "hide-details": "",
+                          dense: "",
+                          label: "Limit",
+                          items: _vm.ShowNumber
+                        },
+                        on: { change: _vm.ShowLoading },
+                        model: {
+                          value: _vm.selectedShowNumber,
+                          callback: function($$v) {
+                            _vm.selectedShowNumber = $$v
+                          },
+                          expression: "selectedShowNumber"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pt-0 mt-0 pb-0 mb-0 pt-3 pb-3",
+                      attrs: { cols: "12", sm: "6", md: "5", lg: "5", xl: "5" }
                     },
                     [
                       _c("v-text-field", {

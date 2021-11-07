@@ -145,6 +145,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['question', 'answer'],
   data: function data() {
@@ -385,6 +386,9 @@ var render = function() {
                                     [
                                       _c("v-radio", {
                                         key: Ans.id,
+                                        style: _vm.$vuetify.breakpoint.mdAndUp
+                                          ? "transform: scale(1.3)"
+                                          : "transform: scale(1.35)",
                                         attrs: {
                                           readonly: "",
                                           color: "primary",
@@ -532,6 +536,9 @@ var render = function() {
                                     [
                                       _c("v-radio", {
                                         key: n,
+                                        style: _vm.$vuetify.breakpoint.mdAndUp
+                                          ? "transform: scale(1.3)"
+                                          : "transform: scale(1.35)",
                                         attrs: {
                                           readonly: "",
                                           color: "primary",
@@ -627,7 +634,7 @@ var render = function() {
                       _vm._l(_vm.answer.SubQuestion, function(List, i) {
                         return _c(
                           "v-container",
-                          { key: List.id, staticClass: "mb-0 pb-0 pt-2" },
+                          { key: List.id, staticClass: "mb-0 pb-0 pt-2 pb-3" },
                           [
                             _c(
                               "v-row",
@@ -678,7 +685,7 @@ var render = function() {
                                         staticClass: "subchoices-content",
                                         domProps: {
                                           innerHTML: _vm._s(
-                                            _vm.answer.SubAnswer[i][0].Choice
+                                            _vm.answer.SubAnswer[i].Choice
                                           )
                                         }
                                       })
@@ -718,10 +725,7 @@ var render = function() {
                                   _c("quill-editor", {
                                     ref: "myTextEditor",
                                     staticClass: "Essayeditor",
-                                    attrs: {
-                                      disabled: _vm.quill_disabled,
-                                      options: _vm.editorOption
-                                    }
+                                    attrs: { options: _vm.editorOption }
                                   })
                                 ],
                                 1

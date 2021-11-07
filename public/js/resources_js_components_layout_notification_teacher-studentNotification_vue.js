@@ -247,6 +247,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1057,6 +1058,23 @@ var render = function() {
                                                       )
                                                     ]
                                                   )
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              item.notification_type == 5
+                                                ? _c(
+                                                    "v-icon",
+                                                    {
+                                                      attrs: {
+                                                        color: "red",
+                                                        large: ""
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        " mdi-comment-text"
+                                                      )
+                                                    ]
+                                                  )
                                                 : _vm._e()
                                             ],
                                             1
@@ -1095,7 +1113,9 @@ var render = function() {
                                                             : "new",
                                                         color:
                                                           item.notification_type ==
-                                                          1
+                                                            1 ||
+                                                          item.notification_type ==
+                                                            5
                                                             ? "red"
                                                             : item.notification_type ==
                                                                 3 ||

@@ -71,7 +71,7 @@
                     :items="StatusType">
                 </v-select>
             </v-col>
-             <v-col cols="12" md="2" sm="6" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+             <v-col cols="12" md="2" sm="12" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
                  <v-select
                     outlined
                     hide-details
@@ -84,7 +84,20 @@
                 </v-select>
             </v-col>
 
-            <v-col cols="12" sm="6"  md="6" lg="6" xl="6" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+             <v-col cols="12" md="1" sm="6" lg="1" xl="1" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
+                 <v-select
+                    outlined
+                    hide-details
+                    dense
+                    @change="ShowLoading"
+                    label="Limit"
+                    v-model="selectedShowNumber"
+                    class="mb-0 pb-0"
+                    :items="ShowNumber">
+                </v-select>
+            </v-col>
+
+            <v-col cols="12" sm="6"  md="5" lg="5" xl="5" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
                 <v-text-field 
                     class="mb-0 pb-0 mt-0 pt-0"
                     v-model="search"
@@ -94,7 +107,17 @@
                 </v-text-field>
             </v-col>
             <v-col cols="12" class="mt-0 pt-0">
+              <!--   <div class="d-flex justify-end mb-2">
+                    <v-pagination
+                    v-model="currentPage"
+                    @click="setPage"
+                    :length="totalPage"
+                   
+                    circle
+                    ></v-pagination>
+                </div> -->
                 <v-row>
+                    
                     <v-col v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)"   cols="12" md="6" lg="3" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                         <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
                             <v-list-item class="pt-1 pb-1" link  >
@@ -229,6 +252,8 @@ export default {
             StatusType: ['Submitted', 'Taking', 'No Submission'],
             selectedStatus:'Submitted',
             SortType: ['Name', 'Highest Score', 'Lowest Score'],
+            selectedShowNumber: 24,
+            ShowNumber:[24, 36, 48, 'all'],
             selectedSort: 'Name',
             isSavingScore: false,
             search: "",
@@ -239,9 +264,20 @@ export default {
             isFiltered: false,
             Submitted_count: 0,
             Over_total: 0,
+            pageNo: 1,
+            pageSize: 12,
+            currentPage: 1,
+            totalPage: 0,
+            currentTotalData:0,
         }
     },
      computed: {
+          indexStart() {
+                return (this.currentPage - 1) * this.pageSize;
+            },
+            indexEnd() {
+                return this.indexStart + this.pageSize;
+            },
             studentSubmissionList() {
                 /*  if(this.selectedStatus == "All"){
                     if (this.search) {
@@ -278,19 +314,40 @@ export default {
                             })
                             this.Submitted_count = Filterddata.length;
                             if(this.selectedSort == "Name"){
-                                return Filterddata.sort();
+                                
+                                this.totalPage =  Math.round((Filterddata.length-1) / this.pageSize);
+                                if(this.selectedShowNumber != 'all'){
+                                   let data2 = Filterddata.sort();
+                                   return data2.splice(0, this.selectedShowNumber)
+                               }
+                               else{
+                                   return Filterddata.sort();
+                               }
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data;
+                                //return data;
+                                if(this.selectedShowNumber != 'all'){
+                                   return data.splice(0, this.selectedShowNumber)
+                               }
+                               else{
+                                   return data;
+                               }
                             }
                             else if(this.selectedSort == "Highest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data.reverse();
+                                //return data.reverse();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = data.reverse();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data.reverse();
+                                }
                             }
                             
                         }
@@ -307,19 +364,39 @@ export default {
                             
                             this.Submitted_count = Filterddata.length;
                             if(this.selectedSort == "Name"){
-                                return Filterddata.sort();
+                                //return Filterddata.sort();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = Filterddata.sort();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return Filterddata.sort();
+                                }
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data;
+                                //return data;
+                                if(this.selectedShowNumber != 'all'){
+                                    return data.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data;
+                                }
                             }
                             else if(this.selectedSort == "Highest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data.reverse();
+                                //return data.reverse();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = data.reverse();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data.reverse();
+                                }
                             }
                         }
                         else if(this.selectedStatus == "No Submission"){
@@ -334,19 +411,39 @@ export default {
                             })
                             this.Submitted_count = Filterddata.length;
                             if(this.selectedSort == "Name"){
-                                return Filterddata.sort();
+                                //return Filterddata.sort();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = Filterddata.sort();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return Filterddata.sort();
+                                }
                             }
                             else if(this.selectedSort == "Lowest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data;
+                                //return data;
+                                if(this.selectedShowNumber != 'all'){
+                                    return data.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data;
+                                }
                             }
                             else if(this.selectedSort == "Highest Score"){
                                 let data = Filterddata.sort((a, b) => {
                                     return a.points - b.points; 
                                 })
-                                return data.reverse();
+                                //return data.reverse();
+                                if(this.selectedShowNumber != 'all'){
+                                    let data2 = data.reverse();
+                                    return data2.splice(0, this.selectedShowNumber)
+                                }
+                                else{
+                                    return data.reverse();
+                                }
                             }
                         
                         }
@@ -355,6 +452,9 @@ export default {
             }
         },
     methods:{
+        setPage(){
+            this.currentPage = this.pageNo - 1;
+        },
         ViewSubmision(data, index){
              this.ViewDetails = null;
              //this.isLoadingData = true;

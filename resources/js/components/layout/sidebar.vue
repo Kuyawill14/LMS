@@ -83,6 +83,15 @@
     
  <!--  ######### notifSiaebar ################ -->
 <!--   <mainBottomNavigation v-if="!$vuetify.breakpoint.lgAndUp && navBarType == 'selectedCourse' && role == 'Student'"></mainBottomNavigation> -->  
+
+ <v-row v-if="isLogout" align-content="center" justify="center">
+        <v-col cols="12" class="text-center">
+            <vue-element-loading :active="isLogout" 
+            duration="0.7"
+            :is-full-screen="true"
+            spinner="line-scale" color="#EF6C00"  size="60" />
+        </v-col>
+    </v-row>
 </div>
 </template>
 
@@ -105,7 +114,8 @@
             courseNavbar,
             adminNavbar,
             notifications,
-            mainBottomNavigation
+            mainBottomNavigation,
+           
         },
         data() {
             return {
@@ -114,7 +124,8 @@
                 navBarType: '',
                 completedSetup: '',
                 drawer: null,
-                Notifdrawer: null
+                Notifdrawer: null,
+                 isLogout: false
             }
         },
         watch: {
@@ -134,6 +145,7 @@
                 })
             },
             logout() {
+                this.isLogout = true;
                 axios.post('/api/logout')
                     .then(() => {
                         this.clear_current_user();

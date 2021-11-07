@@ -497,6 +497,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -1155,6 +1168,40 @@ var render = function() {
     "div",
     [
       _c(
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                { attrs: { elevation: "5", app: "", color: "primary" } },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-dialog",
         {
           attrs: { persistent: "", "max-width": "400" },
@@ -1396,105 +1443,6 @@ var render = function() {
           attrs: { justify: "center", "no-gutters": "" }
         },
         [
-          !_vm.$vuetify.breakpoint.mdAndUp
-            ? _c(
-                "v-col",
-                {
-                  staticClass: "mb-2 mt-0 pt-0",
-                  attrs: { cols: "12", md: "10" }
-                },
-                [
-                  _c(
-                    "v-card",
-                    {
-                      staticClass: "pa-1",
-                      attrs: { elevation: "1", outlined: "" }
-                    },
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "12" } },
-                            [
-                              _c(
-                                "v-tooltip",
-                                {
-                                  attrs: { top: "" },
-                                  scopedSlots: _vm._u(
-                                    [
-                                      {
-                                        key: "activator",
-                                        fn: function(ref) {
-                                          var on = ref.on
-                                          var attrs = ref.attrs
-                                          return [
-                                            _c(
-                                              "v-btn",
-                                              _vm._g(
-                                                _vm._b(
-                                                  {
-                                                    attrs: {
-                                                      rounded: "",
-                                                      icon: "",
-                                                      text: ""
-                                                    },
-                                                    on: {
-                                                      click: function($event) {
-                                                        return _vm.$router.push(
-                                                          { name: "classwork" }
-                                                        )
-                                                      }
-                                                    }
-                                                  },
-                                                  "v-btn",
-                                                  attrs,
-                                                  false
-                                                ),
-                                                on
-                                              ),
-                                              [
-                                                _c(
-                                                  "v-icon",
-                                                  { attrs: { dark: "" } },
-                                                  [
-                                                    _vm._v(
-                                                      "mdi-arrow-left-thick"
-                                                    )
-                                                  ]
-                                                )
-                                              ],
-                                              1
-                                            )
-                                          ]
-                                        }
-                                      }
-                                    ],
-                                    null,
-                                    false,
-                                    1749575868
-                                  )
-                                },
-                                [
-                                  _vm._v(" "),
-                                  _c("span", [_vm._v("Back to classworks")])
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
           (_vm.$vuetify.breakpoint.mdAndUp
           ? true
           : _vm.selected == 1 || _vm.selected == 2)
@@ -2778,9 +2726,9 @@ var render = function() {
                   _c(
                     "v-card",
                     {
-                      staticClass: "pa-5",
+                      class: _vm.$vuetify.breakpoint.mdAndUp ? "pa-5" : "pa-1",
                       attrs: {
-                        outlined: "",
+                        outlined: _vm.$vuetify.breakpoint.mdAndUp,
                         elevation: _vm.$vuetify.breakpoint.mdAndUp ? 1 : 0
                       }
                     },

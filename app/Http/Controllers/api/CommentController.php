@@ -7,8 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\tbl_comment;
 use App\Models\tbl_like;
 use App\Models\tbl_userDetails;
+use App\Models\tbl_userclass;
+use App\Models\tbl_notification;
 use App\Models\tbl_teacher_course;
 use Illuminate\Support\Facades\DB;
+use App\Events\NewNotification;
+use App\Models\UserNotification;
 
 class CommentController extends Controller
 {
@@ -23,8 +27,8 @@ class CommentController extends Controller
         ->select("tbl_comments.id","tbl_comments.post_id","tbl_comments.user_id as u_id","tbl_comments.content","tbl_comments.created_at",
         DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic", "tbl_comments.id")
         ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
-        ->orderBy("tbl_comments.created_at", "ASC")
-        ->get();
+        ->orderBy("tbl_comments.id", "DESC")
+        ->paginate(5);
         return $Comment;
     }
 
@@ -76,6 +80,52 @@ class CommentController extends Controller
         $NewComment->course_id =  $request->course_id;
         $NewComment->content = $request->content;
         $NewComment->save();
+
+        if(auth("sanctum")->user()->role == "Student"){
+            if($NewComment){
+                $user = tbl_userDetails::where('user_id', $userId)
+                ->select('firstName', 'lastName')
+                ->first();
+    
+                $checkClass = tbl_userclass::where('tbl_userclasses.user_id', $userId)->where('tbl_userclasses.course_id', $request->course_id)
+                ->select('tbl_userclasses.id','tbl_userclasses.course_id', 'tbl_subject_courses.course_name','tbl_userclasses.class_id')
+                ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+                ->first();
+    
+                $CheckNotification = tbl_notification::where('course_id', $checkClass->course_id)->where('class_id', $checkClass->class_id)
+                ->where('notification_attachments', $request->post_id)
+                ->where('notification_type', 5)->first();
+                $tmpCount = tbl_comment::where("tbl_comments.post_id", $request->post_id)->count();
+    
+                if($CheckNotification){
+                    $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotification->id)->first();
+                    if($CheckNotifIfRead){
+                        $CheckNotifIfRead->delete();
+                    }
+    
+                    $tmpCount = tbl_comment::where("tbl_comments.post_id", $request->post_id)->count();
+    
+                    if($tmpCount <= 2){
+                        $CheckNotification->message = $user->firstName." ".$user->lastName." replied to your post in ".$checkClass->course_name;
+                    }
+                    $CommentCount = $tmpCount - 1;
+                    $CheckNotification->message = $user->firstName." ".$user->lastName." and ".$CommentCount." others replied to your post in ".$checkClass->course_name;
+                    $CheckNotification->save();
+                }
+                else{
+                    $newNotification = new tbl_notification;
+                    $newNotification->course_id = $checkClass->course_id;
+                    $newNotification->class_id = $checkClass->class_id;
+                    $newNotification->from_id = $userId;
+                    $newNotification->notification_attachments =  $request->post_id;
+                    $newNotification->message = $user->firstName." ".$user->lastName." replied to your post in ".$checkClass->course_name;
+                    $newNotification->notification_type = 5;
+                    $newNotification->save();
+                    broadcast(new NewNotification($newNotification))->toOthers();
+                }
+            }
+        }
+       
         return $NewComment;
     }
 
