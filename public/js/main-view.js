@@ -704,8 +704,7 @@ var notifications = function notifications() {
     courseNavbar: courseNavbar,
     adminNavbar: adminNavbar,
     notifications: notifications,
-    mainBottomNavigation: mainBottomNavigation,
-    isLogout: false
+    mainBottomNavigation: mainBottomNavigation
   },
   data: function data() {
     return {
@@ -713,7 +712,8 @@ var notifications = function notifications() {
       navBarType: '',
       completedSetup: '',
       drawer: null,
-      Notifdrawer: null
+      Notifdrawer: null,
+      isLogout: false
     };
   },
   watch: {

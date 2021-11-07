@@ -115,7 +115,7 @@
             adminNavbar,
             notifications,
             mainBottomNavigation,
-            isLogout: false
+           
         },
         data() {
             return {
@@ -124,7 +124,8 @@
                 navBarType: '',
                 completedSetup: '',
                 drawer: null,
-                Notifdrawer: null
+                Notifdrawer: null,
+                 isLogout: false
             }
         },
         watch: {

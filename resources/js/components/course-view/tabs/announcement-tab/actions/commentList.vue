@@ -133,78 +133,6 @@
                     </v-col>
                 </v-row>
                 </p>
-
-
-
-
-           <!--  <v-container fluid class="d-flex flex-row pa-1" ma-0 pa-0>
-                <v-container fluid  class="d-flex flex-column" ma-0 pa-0>
-                    
-
-                  
-                <span v-if="!isEditing || idEditing_id != item.id" class="d-block name mb-0 pb-0 ml-4 font-weight-medium">{{item.name}}</span>
-                <small class="ml-4 mt-0 pt-0 mb-2" style="font-size:12px">{{format_date(item.created_at)}}</small>
-                 <v-lazy class="ml-0 pl-0" transition>
-                    <v-textarea 
-                   
-                    class="mt-0 pt-0 ml-0 pl-0 area-text text-field-transparent"
-                    :style="!$vuetify.breakpoint.mdAndUp  ? 'line-height:1.5;font-size:0.8rem;background-color:transparent' : 'line-height:1.5;font-size:0.9rem'"
-                    v-if="!isEditing || idEditing_id != item.id"
-
-                    rounded
-                    readonly
-                    hide-details
-                    
-                    flat
-                    rows="1"
-                    auto-grow
-                    type="text"
-                    v-model="item.content">
-                    </v-textarea>
-                </v-lazy>
-                <v-lazy transition>
-                    <v-textarea
-                    v-if="isEditing && idEditing_id == item.id"
-                    v-model="UpdateComment"
-                    append-outer-icon="mdi-send"
-                    prepend-avatar="mdi-emoticon-dead"
-                    filled
-                    rounded
-                        hide-details
-                    dense
-                    rows="1"
-                    auto-grow
-                    clear-icon="mdi-close-circle"
-                    clearable
-                    placeholder="Comment"
-                    :class="!$vuetify.breakpoint.mdAndUp ? 'text-caption' : ''"
-                    type="text"
-                    @click:append-outer="UpdateCommentData(index)"
-                    @click:clear="UpdateComment=''"
-                    ></v-textarea>
-                </v-lazy>
-                 
-                </v-container>
-                 
-                <div class="pr-1">
-                     <v-menu  v-if="(item.u_id == UserDetails.id || UserDetails.role == 'Teacher') && idEditing_id != item.id" offset-y >
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn icon v-bind="attrs" v-on="on">
-                            <v-icon >mdi-dots-vertical</v-icon>
-                        </v-btn> 
-                    </template>
-                    <v-list pa-0 ma-0>
-                        <v-list-item ma-0 pa-0>
-                            <v-list-item-title><v-btn @click="UpdateComment = item.content,isEditing = true, idEditing_id = item.id" text>Edit</v-btn></v-list-item-title>
-                         </v-list-item>
-                        <v-list-item ma-0 pa-0>
-                            <v-list-item-title><v-btn text @click="RemoveComment(item.id, index)">Remove</v-btn></v-list-item-title>
-                        </v-list-item>
-                    </v-list>
-                    </v-menu>
-                </div>
-                
-            </v-container> -->
              </v-alert >
      </div>
         </v-container>
@@ -324,26 +252,48 @@ export default {
            
         },
         singleCheck(ref, mainindex){
-            let element = this.$refs[ref][0].clientHeight; ;
-              if(element > 215){
-                    this.readMore[mainindex].IsreadMore = true;
+            let element = this.$refs[ref][0].clientHeight; 
+            if(this.$vuetify.breakpoint.mdAndUp){
+                 if(element > 215){
+                        this.readMore[mainindex].IsreadMore = true;
+                }
+                else{
+                    this.readMore[mainindex].IsreadMore = false;
+                }
             }
             else{
-                this.readMore[mainindex].IsreadMore = false;
+                 if(element > 160){
+                        this.readMore[mainindex].IsreadMore = true;
+                }
+                else{
+                    this.readMore[mainindex].IsreadMore = false;
+                }
             }
+             
         },
         checkContainerHeight(){
             let current_index = 0;
             this.readMore.forEach(item => {
                  let testData = this.postDetails.id+'commentContainer'+current_index;
                 let element = this.$refs[testData][0].clientHeight;
-                console.log(element);
-                if(element > 215){
-                        item.IsreadMore = true;
-                }
-                else{
-                    item.IsreadMore = false;
-                }
+
+                 if(this.$vuetify.breakpoint.mdAndUp){
+                        if(element > 215){
+                            item.IsreadMore = true;
+                    }
+                    else{
+                        item.IsreadMore = false;
+                    }
+                 }
+                 else{
+                      if(element > 160){
+                            item.IsreadMore = true;
+                    }
+                    else{
+                        item.IsreadMore = false;
+                    }
+                 }
+                
                 current_index++;
             });
         },
@@ -414,7 +364,7 @@ export default {
         async UpdateCommentData(Dataindex){
             axios.put('/api/post/comment/update/'+this.idEditing_id, {comment : this.UpdateComment})
             .then(()=>{
-                this.postDetails.comment[Dataindex].content = this.UpdateComment;
+                this.CommentList[Dataindex].content = this.UpdateComment;
                 this.UpdateComment = '';
                 this.idEditing_id = null;
             })

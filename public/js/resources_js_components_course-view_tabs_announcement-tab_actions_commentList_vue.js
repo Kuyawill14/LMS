@@ -200,78 +200,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'postDetails'],
@@ -392,12 +320,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     singleCheck: function singleCheck(ref, mainindex) {
       var element = this.$refs[ref][0].clientHeight;
-      ;
 
-      if (element > 215) {
-        this.readMore[mainindex].IsreadMore = true;
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        if (element > 215) {
+          this.readMore[mainindex].IsreadMore = true;
+        } else {
+          this.readMore[mainindex].IsreadMore = false;
+        }
       } else {
-        this.readMore[mainindex].IsreadMore = false;
+        if (element > 160) {
+          this.readMore[mainindex].IsreadMore = true;
+        } else {
+          this.readMore[mainindex].IsreadMore = false;
+        }
       }
     },
     checkContainerHeight: function checkContainerHeight() {
@@ -407,12 +342,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.readMore.forEach(function (item) {
         var testData = _this4.postDetails.id + 'commentContainer' + current_index;
         var element = _this4.$refs[testData][0].clientHeight;
-        console.log(element);
 
-        if (element > 215) {
-          item.IsreadMore = true;
+        if (_this4.$vuetify.breakpoint.mdAndUp) {
+          if (element > 215) {
+            item.IsreadMore = true;
+          } else {
+            item.IsreadMore = false;
+          }
         } else {
-          item.IsreadMore = false;
+          if (element > 160) {
+            item.IsreadMore = true;
+          } else {
+            item.IsreadMore = false;
+          }
         }
 
         current_index++;
@@ -560,7 +502,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios.put('/api/post/comment/update/' + _this9.idEditing_id, {
                   comment: _this9.UpdateComment
                 }).then(function () {
-                  _this9.postDetails.comment[Dataindex].content = _this9.UpdateComment;
+                  _this9.CommentList[Dataindex].content = _this9.UpdateComment;
                   _this9.UpdateComment = '';
                   _this9.idEditing_id = null;
                 });
