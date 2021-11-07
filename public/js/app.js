@@ -2015,7 +2015,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "b3ecbaa590cb9ca65930",
+  key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2194,6 +2194,12 @@ var teacher_studentProgress_tab = function teacher_studentProgress_tab() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_studentProgress-tab_teacher-studentProgressComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/studentProgress-tab/teacher-studentProgressComponent */ "./resources/js/components/course-view/tabs/studentProgress-tab/teacher-studentProgressComponent.vue"));
 };
 
+var teacher_course_dashboard = function teacher_course_dashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_dashboard-tab_teacher_course_dashboardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent */ "./resources/js/components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent.vue"));
+}; // let student_course_dashboard = () =>
+//     import ("./components/course-view/tabs/dashboard-tab/student_course_dashboardComponent");
+
+
 var studentListComponent = function studentListComponent() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_peopleListComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/people-list/peopleListComponent */ "./resources/js/components/course-view/tabs/people-list/peopleListComponent.vue"));
 }; //Quiz Page
@@ -2347,7 +2353,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       children: [{
         name: "coursePage",
         path: "",
-        component: classes_tab,
+        component: teacher_course_dashboard,
         beforeEnter: function beforeEnter(to, from, next) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
             if (res.status == 200) {
@@ -2430,6 +2436,37 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
                 });
               }
             });
+          });
+        }
+      }, {
+        name: "classses",
+        path: "my-class",
+        component: classes_tab,
+        beforeEnter: function beforeEnter(to, form, next) {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+            if (res.status == 200) {
+              _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function (response) {
+                if (response.exist == true) {
+                  if (response.status == 1) {
+                    next();
+                  } else {
+                    return next({
+                      name: "courseSetup",
+                      params: {
+                        id: to.params.id
+                      }
+                    });
+                  }
+                } else {
+                  return next({
+                    name: "course-not-found",
+                    params: {
+                      id: to.params.id
+                    }
+                  });
+                }
+              });
+            }
           });
         }
       }, {
@@ -13591,6 +13628,27 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+     * Listen for all events on the channel instance.
+     */
+
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+
+      this.subscription.bind_global(function (event, data) {
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+
+        var namespace = _this2.options.namespace.replace(/\./g, '\\');
+
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -13601,6 +13659,21 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
+      }
+
+      return this;
+    }
+    /**
+     * Stop listening for all events on the channel instance.
+     */
+
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
       }
 
       return this;
@@ -14895,7 +14968,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#nprogress .bar {\nbackground: #2196F3 !important;\nheight: 3px !important;\n}\n#nprogress .peg {\n  box-shadow: 0 0 10px #2196F3, 0 0 5px #2196F3 !important;\n}\n#nprogress .spinner{\n    border-radius: 60% !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#nprogress .bar {\n background: #2196F3 !important;\n height: 3px !important;\n}\n#nprogress .peg {\n   box-shadow: 0 0 10px #2196F3, 0 0 5px #2196F3 !important;\n}\n#nprogress .spinner{\n     border-radius: 60% !important;\n}\n:root {\n       --code-color: darkred;\n       --code-bg-color: #aaaaaa;\n       --code-font-size: 14px;\n       --code-line-height: 1.4;\n       --scroll-bar-color: #c5c5c5;\n       --scroll-bar-bg-color: #f6f6f6;\n}\n\n   /* pre {\n       color: var(--code-color);\n       font-size: var(--code-font-size);\n       line-height: var(--code-line-height);\n       background-color: var(--code-bg-color);\n   }\n\n   .code-block {\n       max-height: 100px;\n       overflow: auto;\n       padding: 8px 7px 5px 15px;\n       margin: 0px 0px 0px 0px;\n       border-radius: 7px;\n   } */\n::-webkit-scrollbar-corner { background: rgba(0,0,0,0.5);\n}\n* {\n       scrollbar-width: thin;\n       scrollbar-color: var(--scroll-bar-color) var(--scroll-bar-bg-color);\n}\n\n   /* Works on Chrome, Edge, and Safari */\n*::-webkit-scrollbar {\n       width: 12px;\n       height: 12px;\n}\n*::-webkit-scrollbar-track {\n       background: var(--scroll-bar-bg-color);\n}\n*::-webkit-scrollbar-thumb {\n       background-color: var(--scroll-bar-color);\n       border-radius: 20px;\n       border: 3px solid var(--scroll-bar-bg-color);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -30362,9 +30435,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
+  define(IteratorPrototype, iteratorSymbol, function () {
     return this;
-  };
+  });
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -30378,8 +30451,9 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -30493,9 +30567,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
     return this;
-  };
+  });
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -30688,13 +30762,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
+  define(Gp, iteratorSymbol, function() {
     return this;
-  };
+  });
 
-  Gp.toString = function() {
+  define(Gp, "toString", function() {
     return "[object Generator]";
-  };
+  });
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -31013,14 +31087,19 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
 }
 
 
@@ -37305,7 +37384,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

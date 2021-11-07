@@ -209,9 +209,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_editprofile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/admin/monitor-teachers/teacherProfile/editprofile.vue"));
 };
@@ -482,14 +479,7 @@ var render = function() {
                             [
                               _c(
                                 "v-avatar",
-                                {
-                                  attrs: { size: "80" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.TestUpload()
-                                    }
-                                  }
-                                },
+                                { attrs: { size: "80" } },
                                 [
                                   _c("v-hover", {
                                     scopedSlots: _vm._u(

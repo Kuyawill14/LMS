@@ -536,7 +536,7 @@
                 };
                 this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
                 this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
-                    this.loading = false;
+                    this.loading = false;``
                 });
 
             },

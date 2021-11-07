@@ -13,7 +13,21 @@
     <v-divider></v-divider>
     <v-list nav  v-if="role!= undefined">
         <template>
-            <v-list-item link :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
+
+
+            
+              <v-list-item link class="list-nav" :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
+                <v-list-item-action>
+                    <v-icon>mdi-view-dashboard-variant</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title class="font-weight-medium">
+                        Overview
+                    </v-list-item-title>
+                </v-list-item-content>
+
+            </v-list-item>
+            <v-list-item link class="list-nav" :to="{name: 'classses'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-google-classroom</v-icon>
                 </v-list-item-action>
@@ -25,7 +39,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'announcement'}" exact>
+            <v-list-item link class="list-nav" :to="{name: 'announcement'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-message-alert</v-icon>
                 </v-list-item-action>
@@ -37,7 +51,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'classwork'}" exact>
+            <v-list-item link class="list-nav" :to="{name: 'classwork'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-book-open-variant</v-icon>
                 </v-list-item-action>
@@ -50,7 +64,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'modules'}" exact v-if="role == 'Teacher'">
+            <v-list-item link class="list-nav" :to="{name: 'modules'}" exact v-if="role == 'Teacher'">
                 <v-list-item-action>
                     <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>
@@ -61,7 +75,7 @@
                 </v-list-item-content>
 
             </v-list-item>
-            <v-list-item link :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
+            <v-list-item link class="list-nav" :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
                 <v-list-item-action>
                     <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
@@ -73,7 +87,7 @@
             </v-list-item>
 
 
-            <v-list-item link :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
+            <v-list-item link class="list-nav" :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
                     <v-icon>mdi-book-variant-multiple</v-icon>
                 </v-list-item-action>
@@ -84,7 +98,7 @@
                 </v-list-item-content>
 
             </v-list-item>
-            <v-list-item link :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
+            <v-list-item link class="list-nav" :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
                     <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
@@ -95,7 +109,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item link :to="{name: 'studentGradebook'}" exact v-if="role == 'Student'">
+            <v-list-item link class="list-nav" :to="{name: 'studentGradebook'}" exact v-if="role == 'Student'">
                 <v-list-item-action>
                              <v-icon>mdi-book-open</v-icon>
                 </v-list-item-action>
@@ -108,7 +122,7 @@
 
 
 
-            <v-list-item link :to="{name: 'Student-list'}"  exact>
+            <v-list-item link class="list-nav" :to="{name: 'Student-list'}"  exact>
                 <v-list-item-action>
                     <v-icon>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -121,7 +135,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
+            <v-list-item link class="list-nav" :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
                 <v-list-item-action>
                     <v-icon>mdi-book-open</v-icon>
                 </v-list-item-action>
@@ -135,7 +149,7 @@
 
 
 
-            <v-list-item link :to="{name: 'gradingCriteria'}" v-if="role == 'Teacher'" exact>
+            <v-list-item link class="list-nav" :to="{name: 'gradingCriteria'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-chart-timeline-variant-shimmer
                     </v-icon>
@@ -149,7 +163,7 @@
             </v-list-item>
 
 
-            <v-list-item link :to="{name: 'about'}" exact>
+            <v-list-item link class="list-nav" :to="{name: 'about'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-information</v-icon>
                 </v-list-item-action>
@@ -161,7 +175,7 @@
 
             </v-list-item>
 
-            <v-list-item link :to="{name: 'settings'}" v-if="role == 'Teacher'" exact>
+            <v-list-item link class="list-nav" :to="{name: 'settings'}" v-if="role == 'Teacher'" exact>
                 <v-list-item-action>
                     <v-icon>mdi-tune-vertical-variant</v-icon>
                 </v-list-item-action>
@@ -235,3 +249,10 @@
     }
 
 </script>
+
+
+<style scoped>
+.list-nav {
+    margin-bottom: 0px !important;
+}
+</style>

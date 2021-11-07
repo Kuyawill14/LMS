@@ -530,6 +530,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       this.$store.dispatch('fetchAllStudentClassworkGrades', this.selectedClass);
       this.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
         _this3.loading = false;
+        "";
       });
     },
     _getFInalGradestTab: function _getFInalGradestTab() {

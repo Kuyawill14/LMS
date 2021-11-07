@@ -62,7 +62,7 @@
                                 <v-toolbar-title>
                                     <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
-                                            <div v-bind="attrs" v-on="on" style="overflow:hidden" class="text-center pl-2 pr-2">
+                                            <div v-bind="attrs" v-on="on" style="overflow:hidden" class="text-left pl-2 pr-2">
                                                 {{item.course_code +' - '+item.course_name}}
                                             </div>
                                         </template>

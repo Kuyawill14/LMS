@@ -50,10 +50,7 @@
                      <v-col cols="12" class="mb-0 pb-0 d-flex justify-center">
                   
                             <v-avatar
-                            
-                            size="80"
-                            @click="TestUpload()"
-                            >
+                            size="80">
                             <v-hover>
                                  <template v-slot:default="{ hover }">
                                      <div>

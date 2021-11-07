@@ -32,7 +32,7 @@ use App\Http\Controllers\api\VerificationController;
 use App\Http\Controllers\api\ForgotPasswordController;
 use App\Models\tbl_subjective_rubrics;
 use App\Http\Controllers\api\SubjectiveTypeRubrics;
-
+use App\Http\Controllers\api\CourseOverviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -397,6 +397,15 @@ Route::middleware('auth:sanctum')->prefix('/admin/department')->group(function()
     Route::post('/add', [DepartmentController::class, 'store']);
     Route::put('/update/{id}', [DepartmentController::class, 'update']);
     Route::delete('/delete/{id}', [DepartmentController::class, 'destroy']);
+   
+    
+});
+
+
+//Course overview
+Route::prefix('/course/overview')->group(function() {
+    Route::get('/all/{id}', [CourseOverviewController::class, 'overview']);
+   
    
     
 });

@@ -100,39 +100,7 @@
                 <v-col cols="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                        
-                          
-                               <!--  <v-img :src="'../images/'+item.course_picture" height="200px" link
-                                  >
-                                       <v-menu transition="slide-y-transition" bottom >
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white" >
-                                                <v-icon>
-                                                    mdi-dots-vertical
-                                                </v-icon>
-
-                                            </v-btn>
-                                        </template>
-                                        <v-list>
-                                            <v-list-item link :to="{name: 'settings', params: {id: item.id}}">
-                                                <v-list-item-title>Edit</v-list-item-title>
-
-                                            </v-list-item>
-                                            <v-list-item link @click="archiveConfirm(item.course_name,item.id)">
-                                                <v-list-item-title>Archive</v-list-item-title>
-
-                                            </v-list-item>
-                                            <v-list-item v-if="item.student_count == 0" link>
-                                                <v-list-item-title>Delete</v-list-item-title>
-
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                    <v-spacer></v-spacer>
-                                   
-                                </v-img> -->
-
-
+                    
                                  <v-img
                                :src="CheckBackgroundPath(item.course_picture)" height="200px" link
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text grey lighten-2"

@@ -15,7 +15,7 @@ let profile = () =>
     import ("./components/profile/profile");
 //Main Pages
 let mainApp = () =>
-    import (/* webpackChunkName: "main-view" */"./components/mainApp");
+    import ( /* webpackChunkName: "main-view" */ "./components/mainApp");
 let dashboard = () =>
     import ("./components/dashboard/dashboardComponent");
 // let myclass = () =>
@@ -77,6 +77,10 @@ let studentProgress_tab = () =>
     import ("./components/course-view/tabs/studentProgress-tab/studentProgressComponent");
 let teacher_studentProgress_tab = () =>
     import ("./components/course-view/tabs/studentProgress-tab/teacher-studentProgressComponent");
+let teacher_course_dashboard = () =>
+    import ("./components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent");
+// let student_course_dashboard = () =>
+//     import ("./components/course-view/tabs/dashboard-tab/student_course_dashboardComponent");
 
 
 
@@ -98,22 +102,22 @@ let courseView = () =>
 
 //View Classworks Details
 let classworkView = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/classworkDetailsView");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/classworkDetailsView");
 let addQuestionTab = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/addQuestionTab");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/addQuestionTab");
 let questionList = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/questionListTab");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/questionListTab");
 
 let questionnAnalyticstab = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/questionnAnalyticstab");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/questionnAnalyticstab");
 let submissionListTab = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/submissionListTab");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/submissionListTab");
 let publishClassworkTab = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/publishClassworkTab");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/publishClassworkTab");
 
 
 let classworkDetailsTab = () =>
-    import (/* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/classworkDetailsTab");
+    import ( /* webpackChunkName: "classworks-details-view" */ "./components/Classwork_View/tabs/classworkDetailsTab");
 
 let documentPreview = () =>
     import ("./components/course-view/tabs/classwork-tab/documentPreview");
@@ -148,15 +152,14 @@ const router = new Router({
                 store.dispatch('IsAuthenticated').then(() => {
                         if (store.state.CurrentUser.IsAuthenticated == true) {
                             store.dispatch('fetchCurrentUser').then(() => {
-                                if(store.state.CurrentUser.IsVerified == true){
+                                if (store.state.CurrentUser.IsVerified == true) {
                                     next();
-                                }
-                                else{
+                                } else {
                                     return next({
                                         path: "/EmailPending"
-                                    });  
+                                    });
                                 }
-                                
+
                             }).catch(() => {
                                 return next({
                                     path: "/login"
@@ -239,7 +242,7 @@ const router = new Router({
                     children: [{
                             name: "coursePage",
                             path: "",
-                            component: classes_tab,
+                            component: teacher_course_dashboard,
                             beforeEnter: (to, from, next) => {
                                 store.dispatch('fetchMyCoursesStatus').then((res) => {
 
@@ -320,6 +323,35 @@ const router = new Router({
                                 })
                             },
 
+                        },
+                        {
+                            name: "classses",
+                            path: "my-class",
+                            component: classes_tab,
+                            beforeEnter: (to, form, next) => {
+                                store.dispatch('fetchMyCoursesStatus').then((res) => {
+                                    if (res.status == 200) {
+                                        store.dispatch('CheckMyCourse', to.params.id).then(response => {
+
+                                            if (response.exist == true) {
+                                                if (response.status == 1) {
+                                                    next();
+                                                } else {
+                                                    return next({
+                                                        name: "courseSetup",
+                                                        params: { id: to.params.id }
+                                                    })
+                                                }
+                                            } else {
+                                                return next({
+                                                    name: "course-not-found",
+                                                    params: { id: to.params.id }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            }
                         },
                         {
                             name: "announcement",
@@ -701,35 +733,35 @@ const router = new Router({
                                 });
                             }); */
                         store.dispatch('IsAuthenticated').then(() => {
-                            store.dispatch('fetchMyCoursesStatus').then((res) => {
-                                    if (res.status == 200) {
-                                        store.dispatch('CheckMyCourse', to.params.id).then(response => {
-                                            if (response.exist == true) {
-                                                if (response.status == 1) {
-                                                    next();
+                                store.dispatch('fetchMyCoursesStatus').then((res) => {
+                                        if (res.status == 200) {
+                                            store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                                if (response.exist == true) {
+                                                    if (response.status == 1) {
+                                                        next();
+                                                    }
+                                                } else {
+                                                    return next({
+                                                        name: "course-not-found",
+                                                        params: { id: to.params.id }
+                                                    })
                                                 }
-                                            } else {
-                                                return next({
-                                                    name: "course-not-found",
-                                                    params: { id: to.params.id }
-                                                })
-                                            }
-                                        })
-                                    }
-                                })
-                                .catch(() => {
-                                    store.state.CurrentUser.IsAuthenticated = false;
-                                    return next({
-                                        path: "/login"
-                                    });
-                                })
-                        })
-                        .catch(()=>{
-                            store.state.CurrentUser.IsAuthenticated = false;
-                            return next({
-                                path: "/login"
-                            });
-                        })
+                                            })
+                                        }
+                                    })
+                                    .catch(() => {
+                                        store.state.CurrentUser.IsAuthenticated = false;
+                                        return next({
+                                            path: "/login"
+                                        });
+                                    })
+                            })
+                            .catch(() => {
+                                store.state.CurrentUser.IsAuthenticated = false;
+                                return next({
+                                    path: "/login"
+                                });
+                            })
                     },
                     props: true,
                     children: [{
@@ -809,7 +841,7 @@ const router = new Router({
             component: () =>
                 import ( /*webpackChunkName: "login"*/ "./components/login/test"),
             name: "testpicker",
-         
+
         },
         {
             path: "/register",
@@ -830,15 +862,17 @@ const router = new Router({
         {
             path: "/verify-email",
             name: "verifyEmail",
-            component: () => import ( /*webpackChunkName: "verifyEmail"*/ "./components/verify/verifyEmail.vue"),
-            
+            component: () =>
+                import ( /*webpackChunkName: "verifyEmail"*/ "./components/verify/verifyEmail.vue"),
+
         },
 
         {
             path: "/reset-password",
             name: "resetPassword",
-            component: () => import ( /*webpackChunkName: "ResetPassword"*/ "./components/ResetPassword/resetPassword.vue"),
-            
+            component: () =>
+                import ( /*webpackChunkName: "ResetPassword"*/ "./components/ResetPassword/resetPassword.vue"),
+
         },
 
         {
@@ -848,13 +882,12 @@ const router = new Router({
             beforeEnter: (to, form, next) => {
                 if (store.state.CurrentUser.IsAuthenticated == true) {
                     store.dispatch('fetchCurrentUser').then(() => {
-                        if(store.state.CurrentUser.IsVerified == false){
+                        if (store.state.CurrentUser.IsVerified == false) {
                             next();
-                        }
-                        else{
+                        } else {
                             return next({
                                 path: "/"
-                            });  
+                            });
                         }
                     }).catch(() => {
                         return next({
@@ -871,9 +904,9 @@ const router = new Router({
 
 
 
-        
-        
-       
+
+
+
 
 
         // {
