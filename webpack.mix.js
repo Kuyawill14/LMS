@@ -25,11 +25,11 @@ require('dotenv').config();
       ignored: /node_modules/
     }
 }); */
-module.exports = {
+/* module.exports = {
     watchOptions: {
       ignored: /node_modules/
     }
-  };
+  }; */
 
 // module.exports = {
 //     configureWebpack: {
