@@ -2,7 +2,7 @@
     <v-app>
         <v-container :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'fill-height'" fluid>
             <v-row align="center" justify="center">
-                <v-col class="ma-0 pa-0" cols="12" sm="12" md="12">
+                <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'ma-0 pa-0'" cols="12" sm="12" md="12">
                     <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''"
                         align="center" justify="center">
                         <v-col
@@ -30,7 +30,7 @@
 
 
 
-                            <v-container class="fill-height " fluid style="padding-top: 35px;">
+                            <v-container class="fill-height " fluid :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'padding-top: 35px;'">
                                 <v-card-text>
                                     <v-form class="text-center">
                                         <v-row align="center" justify="center">
@@ -72,7 +72,7 @@
                                         <v-form autocomplete="off" class="text-center " ref="RegisterForm"
                                             v-model="valid" lazy-validation>
                                             <v-row align="center" justify="center">
-                                                <v-col class=" text-left mt-5" cols="12" md="8">
+                                                <v-col class="mt-0 pt-0 text-left" cols="12" md="8">
                                                     <div class="text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">Sign
                                                         Up <span class="font-weight-regular">Now</span></div>
                                                     <p class="mt-2">Login Your Account <router-link class="blue--text"
@@ -80,44 +80,44 @@
                                                     </p>
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-2 " cols="12" md="8">
+                                                <v-col class="ma-0 pa-0 mt-2 " cols="12" md="8">
                                                     <HasError class="error--text" :form="form" field="student_id" />
-                                                    <v-text-field outlined dense :rules="StudentIdRules"
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp" :rules="StudentIdRules"
                                                         label="Student ID Number" name="student_id"
                                                         v-model="form.student_id" type="number" color="primary"
                                                         @keypress="isNumber" maxlength="6"/>
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8">
-                                                    <v-text-field outlined dense :rules="nameRules" label="First Name"
+                                                <v-col class="ma-0 pa-0 mt-0" cols="12" md="8">
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp" :rules="nameRules" label="First Name"
                                                         name="firstName" v-model="form.firstName" type="text"
                                                         color="primary" />
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-0 " cols="12" md="8">
+                                                <v-col class="ma-0 pa-0 mt-0 " cols="12" md="8">
                                                     <HasError class="error--text" :form="form" field="middleName" />
-                                                    <v-text-field outlined dense label="Middle Name" :rules="nameRules"
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp" label="Middle Name" :rules="nameRules"
                                                         name="middleName" v-model="form.middleName" type="text"
                                                         color="primary" />
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8">
+                                                <v-col class="ma-0 pa-0 mt-0" cols="12" md="8">
                                                     <HasError class="error--text" :form="form" field="lastName" />
-                                                    <v-text-field outlined dense label="Last Name" :rules="nameRules"
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp" label="Last Name" :rules="nameRules"
                                                         name="lastname" v-model="form.lastName" type="text"
                                                         color="primary" />
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-0 " cols="12" md="8">
+                                                <v-col class="ma-0 pa-0 mt-0 " cols="12" md="8">
                                                     <HasError class="error--text" :form="form" field="email" />
-                                                    <v-text-field outlined dense label="Email" name="Email"
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp" label="Email" name="Email"
                                                         :rules="loginEmailRules" v-model="form.email" type="email"
                                                         color="primary" />
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8">
+                                                <v-col class="ma-0 pa-0" cols="12" md="8">
                                                     <HasError class="error--text" :form="form" field="password" />
-                                                    <v-text-field outlined dense
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp"
                                                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
                                                         label="Password" name="password" v-model="form.password"
                                                         :type="show ? 'text' : 'password'" color="primary"
@@ -125,8 +125,8 @@
                                                         @click:append="show = !show" />
                                                 </v-col>
 
-                                                <v-col class="mb-0 pb-0 pt-0 mt-0 " cols="12" md="8">
-                                                    <v-text-field outlined dense
+                                                <v-col class="ma-0 pa-0 " cols="12" md="8">
+                                                    <v-text-field outlined :dense="$vuetify.breakpoint.mdAndUp"
                                                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                                         id="passwordConfirmation" label="Confirm Password"
                                                         name="password" v-model="form.password_confirmation"
@@ -151,8 +151,10 @@
                                                         label="Role"></v-select>
                                                     </v-col> -->
 
-                                                <v-col class="mb-0 pb-0 pt-0  text-left mt-2" cols="12" md="8">
+                                                <v-col class="ma-0 pa-0 text-left mt-2" cols="12" md="8">
                                                     <v-btn :loading="isRegistering" :disabled="!valid" @click="validate"
+                                                    :block="!$vuetify.breakpoint.mdAndUp"
+                                                    :rounded="!$vuetify.breakpoint.mdAndUp"
                                                         color="primary" class="mb-5">
                                                         <v-icon class="mr-3">mdi-login</v-icon>
                                                         Sign Up

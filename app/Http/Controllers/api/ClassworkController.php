@@ -385,6 +385,30 @@ class ClassworkController extends Controller
             }
         }
         else{
+
+            $fetchClass = tbl_userclass::where('course_id', $courseId)
+            ->where('user_id', $userId)->first();
+
+            if(!$fetchClass){
+                return response()->json([
+                    "message" => "You are not join this course!",
+                    "success" => false,
+                ]);
+            }
+
+        
+            $checkClassworkFirst = tbl_classClassworks::withTrashed()
+            ->where('classwork_id', $id)
+            ->where('class_id', $fetchClass->class_id)->first();
+
+            if(!$checkClassworkFirst){
+                return response()->json([
+                    "message" => "Classwork not found!",
+                    "success" => false,
+                ]);
+            }
+
+
             $classworkDetails = tbl_userclass::where(function ($query) use ($userId , $courseId) {
                 $query->where('tbl_userclasses.user_id',  $userId)
                       ->Where('tbl_userclasses.course_id', $courseId);
@@ -392,7 +416,7 @@ class ClassworkController extends Controller
             ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id',
             'tbl_class_classworks.availability','tbl_class_classworks.from_date','tbl_class_classworks.to_date','tbl_class_classworks.showAnswer','tbl_class_classworks.reviewAnswer',
             'tbl_class_classworks.showAnswerType','tbl_class_classworks.showDateFrom','tbl_class_classworks.showDateTo', 'tbl_class_classworks.response_late',
-            'tbl_submissions.id as Sub_id','tbl_submissions.status', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at as Submitted_at','tbl_userclasses.user_id',
+            'tbl_submissions.id as Sub_id','tbl_submissions.status','tbl_submissions.graded', 'tbl_submissions.points as score','tbl_submissions.Submitted_Answers', 'tbl_submissions.updated_at as Submitted_at','tbl_userclasses.user_id',
             'tbl_class_classworks.deleted_at as publish')
             ->leftJoin("tbl_classworks", function($join) use ($id){
                 $join->on('tbl_classworks.id','=',DB::raw("'".$id."'"));
@@ -428,7 +452,7 @@ class ClassworkController extends Controller
             if(!$classworkDetails){
                 return response()->json([
                     "message" => "Classwork not found!",
-                    "success" => false
+                    "success" => false,
                 ]);
             }
 
@@ -497,7 +521,9 @@ class ClassworkController extends Controller
                 "Details"=>$classworkDetails,
                 "ItemsCount"=>$count,
                 'totalpoints'=>$points,
-                "success" => true
+                "success" => true,
+                "is_Joined"=>true,
+                "is_Exist" => true,
             ]);
         }
         else if($classworkDetails->type == 'Subjective Type'){
@@ -505,7 +531,9 @@ class ClassworkController extends Controller
             $classworkDetails->rubrics = $rubrics;
             return response()->json([
                 'Details'=>$classworkDetails,
-                "success" => true
+                "success" => true,
+                "is_Joined"=>true,
+                "is_Exist" => true,
             ]);
         }
         

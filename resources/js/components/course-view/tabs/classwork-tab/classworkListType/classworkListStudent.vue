@@ -28,6 +28,8 @@
             </v-col>
             <v-col cols="12" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">
                   <v-select
+          
+                    @click="setFilterItems()"
                      :items="FilterItems"
                      item-text="title"
                     dense
@@ -228,18 +230,17 @@
                 Preview_details: [],
                 DateToday:'',
                 SelectedFilter: "All",
-                FilterItems:[],
+                FilterItems:[
+                    {
+                        title: 'All'
+                    }
+                ],
                 ClassworkLength: null,
                 isSearching: false,
                 search: "",
                 isLoading: false
             }
         },
-       /*  watch: { 
-            classworks: function(newVal, oldVal) { // watch it
-                this.setFilterItems();
-            }
-        }, */
         methods: {
             format_date(value) {
                 if (value) {
@@ -267,7 +268,7 @@
                         this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: details.classwork_id}})
                     }
                 }
-                else if(details.status == 'Submitting' || details.status == null || details.status == 'Taking'){
+                else if(details.status == 'Submitting' || details.status == null || details.status == '' || details.status == 'Taking'){
                     this.Previewdialog = !this.Previewdialog;
                     this.Preview_id = details.classwork_id;
                     this.Preview_details = details;
@@ -275,24 +276,17 @@
 
             },
             setFilterItems(){
-                
-                let datalength = this.classworks.ClassworkTitle.length+1;
-                for (let i = 0; i < datalength; i++) {
-                    if(i == 0){
-                        this.FilterItems.push({title : 'All'});
-                    }
-                    else{
-                        this.FilterItems.push({title : this.classworks.ClassworkTitle[i-1].title});
-                    }
+                if((this.FilterItems.length-1) != this.classworks.ClassworkTitle.length){
+                      this.classworks.ClassworkTitle.forEach(item => {
+                        this.FilterItems.push({title : item.title});
+                    });
                 }
-
+              
             },
         },
         mounted(){
-            this.setFilterItems();
             let newDate = new Date();
             this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-          
         },
         created(){
              this.$emit('ismounted');

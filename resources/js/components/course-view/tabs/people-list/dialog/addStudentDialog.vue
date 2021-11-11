@@ -3,7 +3,11 @@
 <v-card>
     <v-form class="text-center" ref="InviteForm" v-model="valid" lazy-validation>
         <v-card-title >
-            <span class="text-h5 mb-2">Add Student</span>
+            <v-btn large @click="$emit('toggleCancelDialog')" icon>
+                <v-icon >mdi-close</v-icon>
+            </v-btn>
+       
+            <span class="text-h5 mb-2 mt-2">Add Student</span>
         </v-card-title>
         <v-card-text>
             <v-container ma-0 pa-0>
@@ -36,8 +40,8 @@
             </v-container>
             <small>For unregistered users, type email account above to send invite link through their email.</small>
         </v-card-text>
-        <v-card-actions class="pb-3">
-            <v-spacer></v-spacer>
+        <v-card-actions class="pb-4">
+          <!--   <v-spacer></v-spacer>
             <v-btn
             color="primary"
             outlined
@@ -46,8 +50,9 @@
             @click="$emit('toggleCancelDialog')"
             >
             Cancel
-            </v-btn>
+            </v-btn> -->
             <v-btn
+            block
             color="primary"
             class="pl-12 pr-12"
             rounded

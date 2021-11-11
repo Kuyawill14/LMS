@@ -6,10 +6,12 @@ const state = {
     current_classwork_id: null,
     current_course_id: null,
     isFromOtherPage: false,
+    isViewing: false,
 };
 const getters = {
     get_Classworks: (state) => state.Classworks,
     get_classwork_show_details : (state) => state.classwork_show_details,
+    get_Viewing : (state) => state.isViewing,
 };
 
 const actions = {
@@ -37,6 +39,15 @@ const actions = {
             commit('FETCH_CLASSWORK_SHOW_DETAILS', res.data);
         //}
     },
+    async ClearClasswork(){
+        state.Classworks = [];
+    },
+    async isViewingSubmission(){
+        state.isViewing = true;
+    },
+    async isNotViewingSubmission(){
+        state.isViewing = false;
+    }
 
 };
 const mutations = {

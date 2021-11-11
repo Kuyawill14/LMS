@@ -285,18 +285,40 @@
 
                                 <v-container mb-0 pb-0 v-if="item.type == 'Identification'">
                                     <v-row ma-0 pa-0>
-                                        <div class="font-weight-medium">Answer</div>
-                                        <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
-                                              <div style="width:100%" class="mb-3">
-                                                 <quill-editor
-                                                    :disabled="quill_disabled"
-                                                     @change="isNewChanges = true"
-                                                    class="editor"
-                                                    placeholder="Answer"
-                                                    ref="myTextEditor"
-                                                    v-model="item.answer"
-                                                    :options="editorOption"/>
-                                            </div>
+                                        <div class="font-weight-medium">Answer(s)</div>
+                                        <v-col v-for="(Answer, i) in getAll_questions.Answer[mainIndex].options" :key="i"  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
+                                            <!--   <div style="width:100%" class="mb-3 d-flex flex-row"> -->
+                                                  <v-container  class="d-flex flex-row ma-0 pa-0">
+                                                      <div style="width:100%" class="mb-3">
+                                                        <quill-editor
+                                                        :disabled="quill_disabled"
+                                                        @change="isNewChanges = true"
+                                                        class="editor"
+                                                        placeholder="Answer"
+                                                        ref="myTextEditor"
+                                                        v-model="Answer.Choice"
+                                                        :options="editorOption"/>
+                                                      </div>
+
+                                                      <v-btn
+                                                    @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                    icon class="mt-2 pl-2 pr-2">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
+                                                  </v-container>
+                                      <!--       </div> -->
+                                        </v-col>
+                                          <v-col  class="pa-0 ma-0 pt-5" cols="12" md="12" lg="12">
+                                            <v-btn
+                                            rounded
+                                            outlined
+                                            block
+                                            class="mb-0 pb-0"
+                                            color="primary"
+                                            @click="AddAnswer(item.id, mainIndex)">
+                                            <v-icon dark left large>mdi-plus</v-icon>
+                                            Add Answer
+                                            </v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-container>
@@ -607,6 +629,16 @@ export default {
 
 
         },
+
+        async AddAnswer(id, Mainindex){
+            this.isNewChanges = true;
+            this.getAll_questions.Answer[Mainindex].options.push({
+                id : '',
+                Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                question_id : id,
+            })
+        },
+
         async AddNewOption(id, Mainindex){
             this.isNewChanges = true;
             this.getAll_questions.Answer[Mainindex].options.push({
@@ -908,9 +940,11 @@ export default {
         this.isLeaving = true;
         if (this.isNewChanges == true){
              if (!window.confirm("You have new changes! Do you want to save?")) {
+             
                next()
             }
             else{
+                this.SaveAllQuestion();
                  next()
             }
             

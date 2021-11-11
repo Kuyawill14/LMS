@@ -115,15 +115,19 @@ const actions = {
     },
 
     async LessNotificationCount({ commit }) {
-        state.notificationCount -= 1;
-        let text = document.title.substring( document.title.indexOf(' ') + 1);
-        if(state.notificationCount != 0){
-            let nunber = '('+state.notificationCount+') ';
-            document.title =  nunber+text;
+
+        if(state.notificationCount > 0){
+            state.notificationCount -= 1;
+            let text = document.title.substring( document.title.indexOf(' ') + 1);
+            if(state.notificationCount != 0){
+                let nunber = '('+state.notificationCount+') ';
+                document.title =  nunber+text;
+            }
+            else{
+                document.title = text;
+            }
         }
-        else{
-            document.title = text;
-        }
+       
     },
 
     async HideNotification({ commit }, id) {
@@ -145,8 +149,6 @@ const actions = {
     },
     async removeNotification({ commit }, id, index) {
         const res = await axios.delete(`/api/notification/delete/` + id);
-
-
 
     },
     async fetchNotificationCount({ commit }, id) {
@@ -173,8 +175,11 @@ const actions = {
 
         commit('FETCH_INVITE', res.data.data);
     },
-    LessInviteCount({ commit }) {
+    async LessInviteCount({ commit }) {
         state.inviteCount -= 1;
+    },
+    async ClearNotification({ commit }) {
+        state.class_notification = [];
     }
 
 

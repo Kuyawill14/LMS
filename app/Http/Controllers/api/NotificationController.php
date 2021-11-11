@@ -438,35 +438,62 @@ class NotificationController extends Controller
                     $list[] = $class->id;
                 }
             }
-            if($type != "all"){
-                $notifType[0] = $type;
-            }else{
-                $notifType[0] = 1;
-                $notifType[1] = 2;
-                $notifType[2] = 3;
-                $notifType[3] = 4;
-                $notifType[4] = 5;
-            }
 
-            $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
-            ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type",
-            "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
-            "tbl_classes.course_id as c_id",
-            DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.created_at")
-            ->leftJoin("user_notifications", function($join) use ($userId){
-                $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
-                $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
-            })
-            ->leftJoin("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
-            ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-            ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
-            ->orderBy("tbl_notifications.created_at", "DESC")
-            ->where(function ($query) {
-                $query->where('user_notifications.hide_notif', 0)->orWhere('user_notifications.hide_notif', null);
-            })
-            ->whereIn("tbl_notifications.notification_type", $notifType)
-            ->whereIn('tbl_notifications.class_id', $list)
-            ->paginate(10);  
+            if($type != "Hidden"){
+                if($type != "all"){
+                    $notifType[0] = $type;
+                }else{
+                    $notifType[0] = 1;
+                    $notifType[1] = 2;
+                    $notifType[2] = 3;
+                    $notifType[3] = 4;
+                    $notifType[4] = 5;
+                }
+
+                $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
+                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type",
+                "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
+                "tbl_classes.course_id as c_id",
+                DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.created_at")
+                ->leftJoin("user_notifications", function($join) use ($userId){
+                    $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
+                    $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
+                })
+                ->leftJoin("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
+                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
+                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+                ->orderBy("tbl_notifications.created_at", "DESC")
+                ->where(function ($query) {
+                    $query->where('user_notifications.hide_notif', 0)->orWhere('user_notifications.hide_notif', null);
+                })
+                
+                ->whereIn("tbl_notifications.notification_type", $notifType)
+                ->whereIn('tbl_notifications.class_id', $list)
+                ->paginate(10);  
+            }
+            else{
+                $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
+                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type",
+                "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
+                "tbl_classes.course_id as c_id",
+                DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.created_at")
+                ->leftJoin("user_notifications", function($join) use ($userId){
+                    $join->on("user_notifications.notification_id", "=", "tbl_notifications.id");
+                    $join->on('user_notifications.user_id','=',DB::raw("'".$userId."'"));
+                })
+                ->leftJoin("tbl_classes", "tbl_classes.id", "=", "tbl_notifications.class_id")
+                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
+                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
+                ->orderBy("tbl_notifications.created_at", "DESC")
+                ->where(function ($query) {
+                    $query->where('user_notifications.hide_notif', 1);
+                })
+                ->whereIn("tbl_notifications.notification_type", [1, 2,3,4,5])
+                ->whereIn('tbl_notifications.class_id', $list)
+                ->paginate(10);  
+            }
+            return $allNotification;
+
         }else{
 
             
@@ -511,15 +538,7 @@ class NotificationController extends Controller
                 ->whereIn("tbl_notifications.notification_type", $notifType)
                 ->paginate(10);
             }
-            else{
-                if($type != "all"){
-                    $notifType[0] = $type;
-                }
-                else{
-                    $notifType[0] = 1;
-                    $notifType[1] = 3;
-                    $notifType[2] = 4;
-                }
+            else{         
 
                 $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
                 ->where("tbl_userclasses.user_id", $userId)
@@ -550,9 +569,9 @@ class NotificationController extends Controller
                 ->paginate(10);
             }
             
-           
+            return $allNotification;
         }
 
-        return $allNotification;
+      
     }
 }

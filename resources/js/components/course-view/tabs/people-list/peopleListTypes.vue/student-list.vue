@@ -49,11 +49,12 @@
                 
                 <v-col cols="12" class="mt-0 pt-0" >
                     <v-row>
-                        <v-col class="mb-0 pb-0" cols="7"  md="10" lg="10">
+                        <v-col class="mb-0 pb-0 mt-1" cols="7"  md="10" lg="10">
                             <v-btn rounded @click="OpenaddStudentDialog(), course_name = getcourseInfo.course_name"  color="primary"> <v-icon left>mdi-plus</v-icon>Student</v-btn>
                         </v-col>
                         <v-col class="mb-0 pb-0" cols="5"  md="2" lg="2">
                              <v-select
+                           
                              v-model="Class_id"
                              :items="classNames"
                              :loading="isloading"
@@ -74,6 +75,7 @@
                      <div class="d-flex justify-end pr-3"  style="width: 30%">
                      <v-text-field
                         dense
+                        hide-details
                         transition="slide-x-transition"
                         v-if="isSearching"
                         label="Search"
@@ -159,7 +161,7 @@ const moveStudentDialog = () => import('../dialog/moveStudentDialog')
                 isGetting: true,
                 isClassNameLoaded:false,
                 classNames:[],
-                Class_id: this.$route.params.id,
+                Class_id: '',
                 RemoveDetails: {},
                 students: null,
                 classList: [],
@@ -213,9 +215,10 @@ const moveStudentDialog = () => import('../dialog/moveStudentDialog')
                     
                     this.getStudentList();
                     this.classNames = res.data;
+                    this.Class_id = res.data[0].class_id;
                     this.isloading = false;
                     this.isGetting = false;
-                    this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                    //this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
 
                    
                 })

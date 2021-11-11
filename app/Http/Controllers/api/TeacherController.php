@@ -198,7 +198,7 @@ class TeacherController extends Controller
     public function getStudentGradesInClass($id)
     {
         $StudentGradeList = tbl_userclass::where('tbl_userclasses.class_id', $id)
-        ->select('tbl_user_details.firstname', 'tbl_user_details.lastName',
+        ->select('tbl_user_details.firstname', 'tbl_user_details.lastName','tbl_user_details.user_id',
         'tbl_student_course_subject_grades.final_grade')
         ->leftJoin('tbl_subject_courses','tbl_subject_courses.id', '=','tbl_userclasses.course_id')
         ->leftJoin('tbl_student_course_subject_grades','tbl_student_course_subject_grades.student_id', '=','tbl_userclasses.user_id')
@@ -206,6 +206,31 @@ class TeacherController extends Controller
         ->leftJoin('tbl_user_details','users.id', '=','tbl_user_details.user_id')
         ->where('users.role', 'Student')
         ->get();
+
+
+        foreach($StudentGradeList as $item){
+            $Submission = tbl_Submission::where('tbl_submissions.user_id', $item->user_id)
+            ->select('tbl_submissions.points as score','tbl_classworks.points as total_points', 'tbl_main_grade_categories.percentage')
+            ->leftJoin('tbl_classworks', 'tbl_classworks.id','=','tbl_submissions.classwork_id')
+            ->leftJoin('tbl_class_classworks', 'tbl_class_classworks.id','=','tbl_submissions.class_classwork_id')
+            ->leftJoin('tbl_main_grade_categories', 'tbl_main_grade_categories.id','=', 'tbl_class_classworks.grading_criteria')
+            ->get();
+
+            //return $Submission;
+            
+            $temp = 0;
+            $grade = 0;
+            $counter = 1;
+            foreach($Submission as $sub){
+                $temp = $sub->score != null ? $temp + $sub->score : $temp;
+                //$grade += (((($sub->score /  $sub->total_points)*100) /2) +50 ) * ($sub->total_points / 100);
+           
+                //(($sub->score / $sub->total_points) * ($sub->total_points / 100));
+                $counter++;
+            }
+            $item->final_grade = ($temp / $counter);
+        }
+
         return $StudentGradeList;
     }
 

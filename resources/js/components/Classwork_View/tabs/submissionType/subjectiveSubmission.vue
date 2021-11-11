@@ -9,71 +9,36 @@
       ></v-progress-circular>
     </v-overlay>
 
-    <v-dialog v-model="dialog"
+   <!--  <v-dialog v-model="dialog"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition">
     <checksubjective v-show="!isStarting" v-if="dialog" v-on:SubmissionReset="ResetSubmission" v-on:isMounted="isStarting = false" :classworkDetails="classworkDetails" v-on:UpdateSubmission="MarkAsGraded" :CheckData="CheckData" v-on:closeDialog="dialog = !dialog"></checksubjective>
-    </v-dialog>
+    </v-dialog> -->
  </v-row> 
 
 <!-- <v-card elevation="2" class="pa-3"> -->
+<v-row v-if="dialog">
+     <v-col cols="12">
+         <checksubjective 
+         :currentIndex="selected_index"
+         :SubmittedLength="AllData.length" 
+         v-show="!isStarting" 
+         v-if="dialog" 
+         v-on:SubmissionReset="ResetSubmission" 
+         v-on:isMounted="isStarting = false" 
+         :classworkDetails="classworkDetails" 
+         v-on:UpdateSubmission="MarkAsGraded" 
+         :CheckData="CheckData" 
+         v-on:closeDialog="isNotViewing()"
+         v-on:nextStudent="GotoNextStudent()"
+         v-on:prevStudent="GotoPrevStudent()"
+         >
+         </checksubjective>
+     </v-col>
+ </v-row>
 
-
-<v-row >
-    <!-- <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'pl-5 d-none' : 'pl-5'" md="12" lg="4" xl="4" >
-        <v-row>
-            <v-col cols="12" class="mb-0 pb-0">
-                <h3>Students</h3>
-            </v-col>
-            <v-col cols="12" class="mb-0 pb-0">
-                <v-select
-                outlined
-                dense
-                @change="ShowLoading"
-                label="Class"
-                v-model="Class"
-                class="mb-0 pb-0"
-                :items="ClassList"
-                item-text="class_name"
-                item-value="class_id"
-                >
-                </v-select>
-            </v-col>
-            <v-col cols="12" >
-                  <v-list >
-                    <v-list-item-group >
-                        <template  v-for="(item,i) in studentSubmissionList" >
-                            <v-list-item v-if="((Class == $route.params.id || Class == item.class_id) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))))" :key="item.id">
-                                <v-list-item-avatar @click="CheckData = item ,dialog = !dialog, isStarting = true"  color="secondary">
-                                    <v-img alt="Profile"
-                                        :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
-                                    </v-img>
-                                </v-list-item-avatar>
-
-                                <v-list-item-content @click="CheckData = item ,dialog = !dialog, isStarting = true" >
-                                    <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
-                                    <v-list-item-subtitle class="success--text" ><v-icon v-if="item.graded == 1" small color="success">mdi-check</v-icon> {{item.graded == 1 ? 'Graded' : item.status == 'Submitted' ? 'Submitted' : ''}}</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action v-if="item.status == 'Submitted'" class="mt-7">
-                                    <v-text-field 
-                                        class="ma-0 pa-0"
-                                        :loading="isSavingScore" 
-                                        @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
-                                        dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
-                                </v-text-field>
-                                </v-list-item-action>
-                                </v-list-item>
-                                  <v-divider
-                                    v-if="i < ListData.length && ((Class == $route.params.id || Class == item.class_id) &&  (selectedStatus == 'All' || (selectedStatus == 'Submitted' && item.graded == 0) || (selectedStatus == 'Graded' && item.graded == 1) || (selectedStatus == 'No Submission' && (item.status == null || item.status == ''))))"
-                                    :key="i">
-                                </v-divider>
-                            </template>
-                    </v-list-item-group>
-                    </v-list>
-            </v-col>
-        </v-row>
-    </v-col> -->
+<v-row v-if="!dialog">
     <v-col cols="12" class="pa-3 pl-6">
         <v-row no-gutters>
             <v-col cols="12" class="mb-0 pb-0" >
@@ -161,50 +126,17 @@
             <v-col cols="12" class="mt-0 pt-0">
                 <v-row>
                     <v-col  v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)" link cols="12" md="6" lg="3" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
-                         <!--  <v-card
-                          style="cursor:pointer" 
-                          class="mx-auto"
-                        outlined> -->
-                      <!--   <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Submitting' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
-                        <v-list-item link @click="CheckData = item ,dialog = !dialog, isStarting = true" >
-                                <v-list-item-content>
-                                    <v-list-item-title  class="d-flex flex-column align-self-center">
-                                        <div class="d-flex justify-space-between">
-                                             <div class="mt-4 font-weight-medium" style="max-height:30px;overflow:hidden">{{item.firstName +' '+item.lastName}}</div>
-                                             <div style="margin-bottom: 0px">
-                                                <v-text-field 
-                                                    class="ma-0 pa-0"
-                                                    :loading="isSavingScore" 
-                                                    @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
-                                                    dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
-                                                </v-text-field>
-                                             </div>
-                                        </div>
-                                       
-                                        <v-divider></v-divider>
-                                        <v-icon 
-                                        class="mt-1"
-                                        :color="item.status == 'Submitted' ? CheckFileIcon(item.Submitted_Answers[0].fileExte)[1] : ''"
-                                         x-large>
-                                           {{item.status == 'Submitted' ? CheckFileIcon(item.Submitted_Answers[0].fileExte)[0] : 'mdi-file-question-outline'}}
-                                         </v-icon>
-                                        <small style="max-height:12px;overflow:hidden;"> {{ item.Submitted_Answers != null ? item.Submitted_Answers[0].name : 'No Submission'}}</small>
-                                    </v-list-item-title>
-                                   
-                                </v-list-item-content>
-                        </v-list-item>
-                        </v-alert> -->
 
                         <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
                             <v-list-item   class="pt-1 pb-1"  link  >
-                                    <v-list-item-avatar @click="CheckData = item ,dialog = !dialog, isStarting = true">
+                                    <v-list-item-avatar @click="ViewSubmission(item, i)">
                                         <v-avatar color="brown" size="40">
                                             <v-img alt="Profile"
                                                 :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
                                             </v-img>
                                         </v-avatar>
                                     </v-list-item-avatar>
-                                    <v-list-item-content @click="CheckData = item ,dialog = !dialog, isStarting = true" >
+                                    <v-list-item-content @click="ViewSubmission(item, i)">
                                         <v-list-item-title>
                                              {{item.firstName +' '+item.lastName}}
                                         </v-list-item-title>
@@ -294,6 +226,8 @@ export default {
             isFiltered: false,
             Over_total : 0,
             Submitted_count : 0,
+            selected_index: null,
+            AllData: null,
         }
     },
      computed: {
@@ -557,7 +491,7 @@ export default {
             }
             
         },
-        ResetSubmission(id){
+        async ResetSubmission(id){
             this.studentSubmissionList.forEach(item => {
                 if(item.id == id){
                     item.id = null;
@@ -572,7 +506,7 @@ export default {
                 }
             });
         },
-        MarkAsGraded(id){
+        async MarkAsGraded(id){
             this.studentSubmissionList.forEach(item => {
                     if(id == item.id){
                         item.graded = 1;
@@ -583,7 +517,7 @@ export default {
             this.isFiltered = true;
             setTimeout(() => (this.isFiltered = false), 400);
         },
-        FilteredClass(){
+        async FilteredClass(){
             this.Over_total = 0;
             this.Submitted_count = 0;
             this.ShowLoading();
@@ -597,7 +531,32 @@ export default {
                     }
                 });
             //}
-        }
+        },
+        async ViewSubmission(data, index){
+            this.AllData = this.studentSubmissionList;
+            this.CheckData = data;
+            this.selected_index = index;
+            this.dialog = true;
+            this.isStarting = true;
+            this.$store.dispatch("isViewingSubmission");
+        },
+        isNotViewing(){
+            this.CheckData = [];
+            this.selected_index = null;
+            this.dialog = false;
+            this.isStarting = false;
+            this.$store.dispatch("isNotViewingSubmission");
+        },
+           GotoNextStudent(){
+            this.CheckData = null;
+            this.selected_index = this.selected_index + 1;
+            this.CheckData = this.AllData[this.selected_index];
+        },
+        GotoPrevStudent(){
+            this.CheckData = null;
+            this.selected_index = this.selected_index - 1;;
+            this.CheckData = this.AllData[this.selected_index];
+        },
        
        
     },

@@ -13,6 +13,11 @@
             <v-icon >mdi-arrow-left-thick</v-icon>
         </v-btn>
         <v-divider   vertical></v-divider>
+        <v-spacer></v-spacer>
+          <div v-if="classworkDetails.graded" class="white--text Subtitle-1">
+            <span class="font-weight-bold">Score: </span>
+            <span class="">{{classworkDetails.score+' /'+classworkDetails.points}}</span> 
+        </div>
     </v-app-bar>
 </div>
   <v-dialog v-model="AttachLink" persistent max-width="400">
@@ -120,7 +125,8 @@
             </v-card>
         </v-col> -->
          <v-col v-if="$vuetify.breakpoint.mdAndUp ? true : selected == 1 || selected == 2"  cols="12" md="4" lg="4" xl="4" class="mb-0 pb-0">
-             <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 1" class="pa-7" outlined  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
+             <v-card  v-if="$vuetify.breakpoint.mdAndUp || selected == 1" :class="$vuetify.breakpoint.mdAndUp ? 'pa-7' : 'pa-4'" 
+             :outlined="$vuetify.breakpoint.mdAndUp"  :elevation="$vuetify.breakpoint.mdAndUp ? '1' : '0'">
                <v-row  >
                  <v-col v-if="$vuetify.breakpoint.mdAndUp"  cols="12" class="ma-0 pa-0">
                    <v-tooltip top>
@@ -142,7 +148,7 @@
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
                         <div v-if="classworkDetails.publish == null">
                             <v-btn v-if="classworkDetails.status == 'Submitted' && !classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
-                            <v-chip v-if="classworkDetails.graded"
+                            <v-chip v-if="classworkDetails.graded && $vuetify.breakpoint.mdAndUp"
                               class="ma-2" color="green" outlined>
                             Graded: {{classworkDetails.score}} /{{classworkDetails.points}}
                             </v-chip>

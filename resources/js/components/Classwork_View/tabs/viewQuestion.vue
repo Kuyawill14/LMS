@@ -40,15 +40,21 @@
                        <v-list class="pl-3" >
                             <v-list-item class="ma-0 pa-0"  >
                                 <v-list-item-content class="ma-0 pa-0 success--text">
-                                    <div>
-                                        Correct Answer:
+                                    <div class="mb-3 black--text">
+                                        Correct Answers:
                                     </div>
-                                    <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex pl-3">
+                                    <div v-if="answer.options.length == 0" style="line-height:1.4" class="d-flex Subtitle-1 ma-0 pa-0 pl-3">
                                         <span class="pr-2">&bull; </span>
-                                            <span v-html="question.answer" class="post-content"></span>
-                                     
+                                        <span v-html="question.answer" class="post-content"></span>
+                                    </div>
+                                    <div v-else style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 pl-3">
+                                        <div class="d-flex mb-0 pb-0 mt-0 pt-0" v-for="Answer in answer.options" :key="Answer.id">
+                                            <span class="pr-2">&bull; </span>
+                                            <span v-html="Answer.Choice" class="post-content"></span>
+                                        </div>
                                         
                                     </div>
+                                    
                                 </v-list-item-content>  
                             </v-list-item>
                         </v-list>

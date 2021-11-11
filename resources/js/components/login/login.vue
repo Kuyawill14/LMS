@@ -34,7 +34,7 @@
 
 
 
-                            <v-container class="fill-height " fluid style="padding-top: 35px;">
+                            <v-container class="fill-height " fluid :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'padding-top: 35px;'">
                                 <v-card-text>
                                     <v-form class="text-center">
                                         <v-row align="center" justify="center">
@@ -87,12 +87,12 @@
                                                 <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">
                                                     <v-text-field outlined label="Email" v-model="form.email"
                                                         :rules="loginEmailRules" name="Email" prepend-inner-icon="email"
-                                                        dense type="email" color="primary" required />
+                                                        :dense="$vuetify.breakpoint.mdAndUp" type="email" color="primary" required />
                                                     <!--   <HasError class="error--text" :form="form" field="email" /> -->
 
                                                 </v-col>
                                                 <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
-                                                    <v-text-field class="mb-0 pb-0" dense outlined
+                                                    <v-text-field class="mb-0 pb-0" :dense="$vuetify.breakpoint.mdAndUp" outlined
                                                         v-model="form.password"
                                                         :append-icon="show ?'mdi-eye':'mdi-eye-off'"
                                                         :rules="[rules.required, rules.min]"
@@ -116,8 +116,10 @@
                                                     <!--     </v-col>
                                                     </v-row> -->
                                                 </v-col>
-                                                <v-col class="ma-0 pa-0 text-left" cols="12" md="8">
+                                                <v-col :class="$vuetify.breakpoint.mdAndUp ? 'ma-0 pa-0 text-left' : 'ml-0 pl-0 pr-0 mr-0 mt-1'" cols="12" md="8">
                                                     <v-btn color="primary" class="mb-5" type="submit" :disabled="!valid"
+                                                    :block="!$vuetify.breakpoint.mdAndUp"
+                                                    :rounded="!$vuetify.breakpoint.mdAndUp"
                                                        :loading="isLoggin">
                                                         <v-icon class="mr-3">mdi-login</v-icon>
                                                         Login

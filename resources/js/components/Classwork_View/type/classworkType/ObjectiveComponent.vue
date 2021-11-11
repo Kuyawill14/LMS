@@ -12,7 +12,12 @@
             @click="$router.push({name: 'classwork'})" >
             <v-icon >mdi-arrow-left-thick</v-icon>
         </v-btn>
-        <v-divider   vertical></v-divider>
+        <v-divider  vertical></v-divider>
+        <v-spacer></v-spacer>
+        <div class="white--text Subtitle-1">
+            <span class="font-weight-bold">Score: </span>
+            <span class="">{{classworkDetails.score+' /'+classworkDetails.points}}</span> 
+        </div>
     </v-app-bar>
 </div>
 
@@ -126,7 +131,7 @@
                 <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-1'" :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0" :outlined="$vuetify.breakpoint.mdAndUp">
                     <v-row >
                         
-                        <v-col cols="12">
+                        <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12">
                             <div class="text-right pt-1">
                                 <v-chip v-if="classworkDetails.status == 'Submitted'" color="success"> <v-icon left>mdi-check</v-icon> Score: {{classworkDetails.score+'/'+classworkDetails.points}}</v-chip>
                             </div>
@@ -270,7 +275,7 @@
         
         <v-col v-else :class="!$vuetify.breakpoint.mdAndUp ? 'mt-1 pl-0 pt-1' : 'pt-0 pl-5'" cols="12" md="10" lg="8" xl="8" >
             <vue-element-loading  :active="isLoaded" spinner="bar-fade-scale" />
-            <v-card class="pa-3" elevation="1" outlined>
+            <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-3' : 'pa-1'" :elevation="!$vuetify.breakpoint.mdAndUp ? '0' : '1'" :outlined="$vuetify.breakpoint.mdAndUp ">
                 <viewSubmission v-on:closeViewing="isViewingSubmission = !isViewingSubmission" :classworkDetails="classworkDetails" :details="statusDetails"></viewSubmission>
             </v-card> 
         </v-col>
@@ -286,7 +291,7 @@
         <v-icon>mdi-book-information-variant</v-icon>
     </v-btn>
 
-    <v-btn @click="selected = 1">
+    <v-btn @click="selected = 1, isViewingSubmission =  isViewingSubmission ? isViewingSubmission = false  : isViewingSubmission">
         <span>Comment</span>
         <v-icon>mdi-comment</v-icon>
     </v-btn>

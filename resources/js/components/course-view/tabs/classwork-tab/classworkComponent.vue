@@ -132,6 +132,9 @@
                 vm.getGeneralClassworks();
             });
         },
+        beforeDestroy(){
+            this.$store.dispatch("ClearClasswork");
+        },
 
     }
 

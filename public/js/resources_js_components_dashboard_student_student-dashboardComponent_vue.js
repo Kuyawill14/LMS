@@ -106,7 +106,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var myCalendar = function myCalendar() {
@@ -495,8 +494,20 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        { attrs: { cols: "12" } },
-                        [_c("v-card", [_c("myTask")], 1)],
+                        {
+                          class: _vm.$vuetify.breakpoint.mdAndUp
+                            ? "mt-0 pt-0 "
+                            : "",
+                          attrs: { cols: "12" }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            { attrs: { outlined: "", elevation: "2" } },
+                            [_c("myTask")],
+                            1
+                          )
+                        ],
                         1
                       )
                     ],
@@ -519,6 +530,7 @@ var render = function() {
                         [
                           _c(
                             "v-card",
+                            { attrs: { elevation: "2" } },
                             [
                               _c("myCalendar", {
                                 attrs: { role: _vm.role },

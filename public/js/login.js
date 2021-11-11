@@ -183,6 +183,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };
@@ -22888,7 +22890,11 @@ var render = function() {
                             "v-container",
                             {
                               staticClass: "fill-height ",
-                              staticStyle: { "padding-top": "35px" },
+                              style:
+                                _vm.$vuetify.breakpoint.xs ||
+                                _vm.$vuetify.breakpoint.sm
+                                  ? ""
+                                  : "padding-top: 35px;",
                               attrs: { fluid: "" }
                             },
                             [
@@ -23182,7 +23188,10 @@ var render = function() {
                                                           name: "Email",
                                                           "prepend-inner-icon":
                                                             "email",
-                                                          dense: "",
+                                                          dense:
+                                                            _vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
                                                           type: "email",
                                                           color: "primary",
                                                           required: ""
@@ -23221,7 +23230,10 @@ var render = function() {
                                                         staticClass:
                                                           "mb-0 pb-0",
                                                         attrs: {
-                                                          dense: "",
+                                                          dense:
+                                                            _vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
                                                           outlined: "",
                                                           "append-icon": _vm.show
                                                             ? "mdi-eye"
@@ -23317,8 +23329,10 @@ var render = function() {
                                                   _c(
                                                     "v-col",
                                                     {
-                                                      staticClass:
-                                                        "ma-0 pa-0 text-left",
+                                                      class: _vm.$vuetify
+                                                        .breakpoint.mdAndUp
+                                                        ? "ma-0 pa-0 text-left"
+                                                        : "ml-0 pl-0 pr-0 mr-0 mt-1",
                                                       attrs: {
                                                         cols: "12",
                                                         md: "8"
@@ -23333,6 +23347,13 @@ var render = function() {
                                                             color: "primary",
                                                             type: "submit",
                                                             disabled: !_vm.valid,
+                                                            block: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
+                                                            rounded: !_vm
+                                                              .$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
                                                             loading:
                                                               _vm.isLoggin
                                                           }

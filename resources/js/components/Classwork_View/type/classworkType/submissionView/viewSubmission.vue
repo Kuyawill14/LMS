@@ -24,7 +24,7 @@
             </v-row>
         </v-container>
 
-           <v-container  v-if="!isLoading">
+           <div  v-if="!isLoading">
                <v-row class="mb-2">
                    <v-col cols="12">
                        <v-row>
@@ -34,15 +34,38 @@
                               </v-btn>
                            </v-col>
                            <v-col cols="6"  class="text-right">
-                                <v-chip color="success" class="ma-2">
+                                <v-chip v-if="$vuetify.breakpoint.mdAndUp" color="success" class="ma-2">
                                     <div class="body-2">Score: {{classworkDetails.score}} /{{classworkDetails.points}}</div>
                                 </v-chip>
                            </v-col>
+                           <v-col cols="12">
+                                <div class="d-flex">
+                                    <v-btn
+                                    :small="$vuetify.breakpoint.xs"
+                                    :disabled="question_index == 0"
+                                    @click="question_index--" 
+                                    color="primary" 
+                                    outlined rounded class="mr-2">
+                                        Previous
+                                    </v-btn>
+                                    <v-spacer v-if="!$vuetify.breakpoint.mdAndUp"  ></v-spacer>
+                                    <v-btn  
+                                     :small="$vuetify.breakpoint.xs"
+                                    :disabled="(question_index+1) == QuestionAndAnswer.Question.length"
+                                    @click="question_index++" 
+                                    class="pl-9 pr-9"
+                                    color="primary" rounded>
+                                        Next
+                                    </v-btn>
+                                </div>
+                            
+                           </v-col> 
                        </v-row>
                    </v-col>
                </v-row>
 
                 <v-container ma-0 pa-0 v-for="(item, index) in QuestionAndAnswer.Question" :key="index">
+                    <div v-if="question_index == index" class="ma-0 pa-0">
                     <v-container ma-0 pa-0>
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
                             <v-checkbox
@@ -78,7 +101,9 @@
                  </v-container>
 
                   <v-container ma-0 pa-0 v-if="item.type == 'Identification'">
-                      <v-container ma-0 pa-0 class="ml-7 mt-0 pt-0">
+                      <v-container ntainer ma-0 pa-0 class="pl-7 mt-0 pt-0">
+                          <div class="subtitle-2 font-weight-bold">Correct Answer(s)</div>
+
                         <div class="subtitle-2 font-weight-bold">Answer</div>
                         <div class="subtitle-1 d-flex item ml-4 mt-0 pt-0">
                             <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
@@ -127,7 +152,7 @@
                                     <v-container class="mb-0 pb-0 pt-2 pb-3" v-for="(item, i) in SubmittedAnswer[index]" :key="item.id">
                                         
                                         <v-row>
-                                             <v-col v-if="classworkDetails.showAnswer == true" class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
+                                             <v-col v-if="classworkDetails.showAnswer == true" class="mb-1 pb-0 pt-0 mt-0 mr-0 pr-0" cols="2" md="1" lg="1">
                                                <v-checkbox
                                                     hide-details
                                                     class="mt-5 pr-0 mr-0"
@@ -139,13 +164,13 @@
                                                 <v-text-field readonly class="centered-input" v-model="item.Ans_Letter">
                                                 </v-text-field>
                                             </v-col>
-                                            <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="5" lg="5">
+                                            <v-col class="mb-1 pb-0 pt-0 mt-0" cols="4" md="5" lg="5">
                                                 <div class="d-flex mt-7">
                                                     <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                     <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
                                                 </div>
                                             </v-col>
-                                            <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
+                                            <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="4" md="5" lg="5">
                                                 <div class="d-flex mt-7"> 
                                                     <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
                                                     <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubChoice" class="subchoices-content"></span>
@@ -168,9 +193,10 @@
                     </v-container>
                  </v-container>
 
-
-                </v-container>
-           </v-container>
+                </div>
+            </v-container>
+           
+           </div>
        </div>
 
 </template>
@@ -190,7 +216,8 @@ import moment from 'moment/src/moment';
             SubmittedAnswer:[],
             UpdateDetails:{},
             ViewSubmiisionConditions:{},
-            Alphabet: null
+            Alphabet: null,
+            question_index: 0,
           }
       },
       computed:mapGetters(["getAll_questions"]),
@@ -227,14 +254,37 @@ import moment from 'moment/src/moment';
                     }
                     for (let i = 0; i < this.QuestionAndAnswer.Question.length; i++) {
                         for (let j = 0; j < this.classworkDetails.Submitted_Answers.length; j++) {
+                            
                             if(this.QuestionAndAnswer.Question[i].id == this.classworkDetails.Submitted_Answers[j].Question_id){
                                 if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
+                                    let student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                    this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
                                      this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
                                     if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
                                         this.Check[i] = true;
                                     }
                                     else{
                                         this.Check[i] = false;
+                                    }
+                                     if(this.QuestionAndAnswer.Question[i].type == 'Identification'){
+                                        this.Check[i] = false;
+                                        this.QuestionAndAnswer.Answer[i].forEach(item => {
+                                            let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                                            if(student_ans == Question_answer){
+                                                this.Check[i] = true;
+                                            }
+            
+                                        });
+                                    }
+                                    else{
+                                        let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
+                                        this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
+                                        if(Question_answer == student_ans){
+                                            this.Check[i] = true;
+                                        }
+                                        else{
+                                            this.Check[i] = false;
+                                        }
                                     }
                                 }
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Essay'){

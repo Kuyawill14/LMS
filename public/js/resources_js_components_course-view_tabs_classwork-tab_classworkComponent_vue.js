@@ -167,6 +167,9 @@ var newClassworkModal = function newClassworkModal() {
         }
       }, _callee);
     }))();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$store.dispatch("ClearClasswork");
   }
 });
 

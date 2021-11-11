@@ -161,6 +161,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };
@@ -188,7 +190,7 @@ var moveStudentDialog = function moveStudentDialog() {
       isGetting: true,
       isClassNameLoaded: false,
       classNames: [],
-      Class_id: this.$route.params.id,
+      Class_id: '',
       RemoveDetails: {},
       students: null,
       classList: [],
@@ -277,14 +279,9 @@ var moveStudentDialog = function moveStudentDialog() {
                   _this4.getStudentList();
 
                   _this4.classNames = res.data;
+                  _this4.Class_id = res.data[0].class_id;
                   _this4.isloading = false;
-                  _this4.isGetting = false;
-
-                  _this4.classNames.push({
-                    class_id: _this4.$route.params.id,
-                    class_name: 'All Class',
-                    id: _this4.$route.params.id
-                  });
+                  _this4.isGetting = false; //this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
                 });
 
               case 1:
@@ -569,7 +566,7 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
-                                  staticClass: "mb-0 pb-0",
+                                  staticClass: "mb-0 pb-0 mt-1",
                                   attrs: { cols: "7", md: "10", lg: "10" }
                                 },
                                 [
@@ -659,6 +656,7 @@ var render = function() {
                                     staticClass: "mb-0 pb-0",
                                     attrs: {
                                       dense: "",
+                                      "hide-details": "",
                                       transition: "slide-x-transition",
                                       label: "Search",
                                       placeholder: "Name",

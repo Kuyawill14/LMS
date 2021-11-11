@@ -5,7 +5,7 @@
 
         <v-container fluid ma-0 pa-0>
             <v-row no-gutters>
-                <v-col cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'ma-0 pa-0 mt-0 pt-0' : 'ma-0 pa-0 mt-0 pt-0 pr-7 d-flex'">
+                <v-col  v-if="!get_Viewing" cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'ma-0 pa-0 mt-0 pt-0' : 'ma-0 pa-0 mt-0 pt-0 pr-7 d-flex'">
                      <v-tooltip v-if="$vuetify.breakpoint.mdAndUp" top>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn rounded
@@ -44,9 +44,6 @@
                         </v-tab>  
                  </v-tabs>
                 
-
-         
-
                  <v-tabs  rounded v-if="classworkDetails.type == 'Subjective Type' && $vuetify.breakpoint.mdAndUp "
                 next-icon="mdi-arrow-right-bold-box-outline"
                 prev-icon="mdi-arrow-left-bold-box-outline"
@@ -67,28 +64,15 @@
                 </v-tabs>
                   </v-col>
                   <v-col class="ma-0" cols="12">
-                       <v-divider></v-divider>
+                       <v-divider v-if="!get_Viewing"></v-divider>
                         <v-tabs-items :value="activeTab">
-                        <div class="mt-3" >
+                        <div :class="!get_Viewing ? 'mt-3' : 'mt-0 pt-0'" >
                             <router-view :totalPoints="totalPoints" :totalQuestion="totalQuestion" :classworkDetails="classworkDetails"></router-view>
                         </div>
                     </v-tabs-items>
                   </v-col>
             </v-row>
        </v-container>
-
-        <!--  <v-bottom-navigation app 
-         v-if="!$vuetify.breakpoint.mdAndUp && classworkDetails.type == 'Objective Type'"
-        :value="selected"
-        color="primary" >
-        <v-btn small @click="GotoRoute(item.name)" v-for="(item,index) in ObjectIveTabs" :key="index">
-            <span style="font-size: 8px">
-                
-            </span>
-            <v-icon small>{{item.icon}}</v-icon>
-        </v-btn>
-        </v-bottom-navigation> -->
-
 
          <v-bottom-navigation app grow
          v-if="!$vuetify.breakpoint.mdAndUp && classworkDetails.type == 'Subjective Type'"
@@ -107,6 +91,7 @@
 </template>
 
 <script>
+ import {mapGetters } from "vuex";
 export default {
     props:['classworkDetails','totalPoints','totalQuestion'],
     data(){
@@ -128,9 +113,11 @@ export default {
               
             ],
             tabs: null,
-            
         }
         
+    },
+    computed: {
+        ...mapGetters(["get_Viewing"]),
     },
     methods:{
         GotoRoute(Routename){

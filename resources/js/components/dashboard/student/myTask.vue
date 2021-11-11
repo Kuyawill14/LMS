@@ -2,8 +2,8 @@
 <div>
    
   
-    <v-card >
-        <h3 class="pl-2 pt-2">MyTasks</h3>
+   
+        <h3 class="pl-2 pt-2">My Tasks</h3>
         <v-divider></v-divider>
         <div :style="!$vuetify.breakpoint.mdAndUp ? 'height:64vh;overflow-y:scroll':'height:32.3vh;overflow-y:scroll'">
             <vue-element-loading :active="isGetting" 
@@ -12,7 +12,7 @@
             :textStyle="{fontSize: '15px'}"
             spinner="line-scale" color="#EF6C00"  size="30" />
        
-            <v-list >
+            <v-list class="pa-1">
                 <v-list-item v-if="mytask.length == 0 && !isGetting" :style="!$vuetify.breakpoint.mdAndUp ? 'margin-top:10rem' : 'margin-top:5rem'" >
                     <v-list-item-content>
                             <v-row align="center" class="mt-3" justify="center"  >
@@ -29,10 +29,11 @@
                
 
                   <template v-show="mytask.length != 0 && !isGetting" v-for="(item, index) in mytask">
-                    <v-list-item  :key="index">
+                    <v-list-item @click="$router.push({name: 'clwk',params: {id: item.course_id},query: {clwk: item.classwork_id}})"  
+                    :key="index">
                         <v-list-item-avatar >
                             <v-icon color="success" v-if="item.status == 'Submitted'" large>mdi-clipboard-check-outline</v-icon>
-                                <v-icon color="red" v-if="item.status != 'Submitted'" large> mdi-clipboard-edit-outline</v-icon>
+                            <v-icon color="red" v-if="item.status != 'Submitted'" large> mdi-clipboard-edit-outline</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title  class="font-weight-bold">
@@ -51,7 +52,7 @@
                   </template>
             </v-list>
         </div>
-        </v-card>
+      
    
     </div>
 </template>

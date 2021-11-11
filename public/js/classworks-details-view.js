@@ -2285,6 +2285,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -2425,7 +2447,7 @@ var viewQuestion = function viewQuestion() {
         }, _callee);
       }))();
     },
-    AddNewOption: function AddNewOption(id, Mainindex) {
+    AddAnswer: function AddAnswer(id, Mainindex) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -2437,7 +2459,7 @@ var viewQuestion = function viewQuestion() {
 
                 _this2.getAll_questions.Answer[Mainindex].options.push({
                   id: '',
-                  Choice: '<p>' + 'Option ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                  Choice: '<p>' + 'Answer ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
                   question_id: id
                 });
 
@@ -2449,7 +2471,7 @@ var viewQuestion = function viewQuestion() {
         }, _callee2);
       }))();
     },
-    AddNewMatch: function AddNewMatch(id, mainIndex) {
+    AddNewOption: function AddNewOption(id, Mainindex) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -2458,6 +2480,30 @@ var viewQuestion = function viewQuestion() {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _this3.isNewChanges = true;
+
+                _this3.getAll_questions.Answer[Mainindex].options.push({
+                  id: '',
+                  Choice: '<p>' + 'Option ' + (_this3.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                  question_id: id
+                });
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    AddNewMatch: function AddNewMatch(id, mainIndex) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this4.isNewChanges = true;
                 /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
                     
                     this.getAll_questions.Answer[mainIndex].SubQuestion = [{
@@ -2475,13 +2521,13 @@ var viewQuestion = function viewQuestion() {
                 }
                 else{ */
 
-                _this3.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                _this4.getAll_questions.Answer[mainIndex].SubQuestion.push({
                   id: null,
                   answer_id: null,
                   sub_question: ''
                 });
 
-                _this3.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                _this4.getAll_questions.Answer[mainIndex].SubAnswer.push({
                   id: null,
                   Choice: '',
                   question_id: id
@@ -2490,39 +2536,13 @@ var viewQuestion = function viewQuestion() {
 
               case 3:
               case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    RemoveOption: function RemoveOption(id, Mainindex, AnsIndex, type) {
-      var _this4 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                if (id == null || id == '') {
-                  _this4.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
-                } else {
-                  axios.put('/api/question/remove_question_option/' + id, {
-                    type: type
-                  }).then(function (res) {
-                    _this4.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
-                  });
-                }
-
-              case 1:
-              case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
       }))();
     },
-    RemoveMatch: function RemoveMatch(main_id, sub_quesId, answer_id, main_index, match_index) {
+    RemoveOption: function RemoveOption(id, Mainindex, AnsIndex, type) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -2530,14 +2550,15 @@ var viewQuestion = function viewQuestion() {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios.put('/api/question/remove_question_match/' + main_id, {
-                  sub_question_id: sub_quesId,
-                  answer_id: answer_id
-                }).then(function (res) {
-                  _this5.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
-
-                  _this5.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
-                });
+                if (id == null || id == '') {
+                  _this5.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                } else {
+                  axios.put('/api/question/remove_question_option/' + id, {
+                    type: type
+                  }).then(function (res) {
+                    _this5.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                  });
+                }
 
               case 1:
               case "end":
@@ -2547,7 +2568,7 @@ var viewQuestion = function viewQuestion() {
         }, _callee5);
       }))();
     },
-    UpdateQuestion: function UpdateQuestion(id, Mainindex) {
+    RemoveMatch: function RemoveMatch(main_id, sub_quesId, answer_id, main_index, match_index) {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
@@ -2555,10 +2576,14 @@ var viewQuestion = function viewQuestion() {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                axios.put('/api/question/update_question_details/' + id, {
-                  question: _this6.getAll_questions.Question[Mainindex],
-                  answer: _this6.getAll_questions.Answer[Mainindex]
-                }).then(function (res) {});
+                axios.put('/api/question/remove_question_match/' + main_id, {
+                  sub_question_id: sub_quesId,
+                  answer_id: answer_id
+                }).then(function (res) {
+                  _this6.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+
+                  _this6.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
+                });
 
               case 1:
               case "end":
@@ -2566,6 +2591,27 @@ var viewQuestion = function viewQuestion() {
             }
           }
         }, _callee6);
+      }))();
+    },
+    UpdateQuestion: function UpdateQuestion(id, Mainindex) {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                axios.put('/api/question/update_question_details/' + id, {
+                  question: _this7.getAll_questions.Question[Mainindex],
+                  answer: _this7.getAll_questions.Answer[Mainindex]
+                }).then(function (res) {});
+
+              case 1:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
       }))();
     },
     CheckType: function CheckType(id, type, mainIndex) {
@@ -2597,34 +2643,34 @@ var viewQuestion = function viewQuestion() {
       }
     },
     SaveAllQuestion: function SaveAllQuestion() {
-      var _this7 = this;
+      var _this8 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _this7.isAddingNewQuestion = true;
-                _this7.showSnackbar = true;
-                _this7.isSavingAllQuestion = true;
-                axios.put('/api/question/save_all_question/' + _this7.$route.query.clwk, _this7.getAll_questions).then(function (res) {
+                _this8.isAddingNewQuestion = true;
+                _this8.showSnackbar = true;
+                _this8.isSavingAllQuestion = true;
+                axios.put('/api/question/save_all_question/' + _this8.$route.query.clwk, _this8.getAll_questions).then(function (res) {
                   if (res.data.success == true) {
-                    _this7.isSavingAllQuestion = false;
-                    _this7.isNewChanges = false;
+                    _this8.isSavingAllQuestion = false;
+                    _this8.isNewChanges = false;
                     setTimeout(function () {
-                      _this7.showSnackbar = false;
+                      _this8.showSnackbar = false;
                     }, 3000);
                   }
 
-                  _this7.isAddingNewQuestion = false;
+                  _this8.isAddingNewQuestion = false;
                 });
 
               case 4:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7);
+        }, _callee8);
       }))();
     },
     CheckSelectedCount: function CheckSelectedCount(check) {
@@ -2635,7 +2681,7 @@ var viewQuestion = function viewQuestion() {
       }
     },
     SelectAll: function SelectAll() {
-      var _this8 = this;
+      var _this9 = this;
 
       if (this.selectedDataCount == this.getAll_questions.Question.length) {
         this.selectedData.forEach(function (item) {
@@ -2646,7 +2692,7 @@ var viewQuestion = function viewQuestion() {
         this.selectedDataCount = 0;
         this.selectedData.forEach(function (item) {
           item.selected = true;
-          _this8.selectedDataCount++;
+          _this9.selectedDataCount++;
         });
       }
     },
@@ -2657,7 +2703,7 @@ var viewQuestion = function viewQuestion() {
       this.selectedDataCount = 0;
     },
     DeleteSelected: function DeleteSelected() {
-      var _this9 = this;
+      var _this10 = this;
 
       this.isAddingNewQuestion = true;
       var question_id_list = [];
@@ -2675,34 +2721,34 @@ var viewQuestion = function viewQuestion() {
         question: question_id_list
       }).then(function (res) {
         if (res.data.success == true) {
-          _this9.Deletedialog = !_this9.Deletedialog;
+          _this10.Deletedialog = !_this10.Deletedialog;
           question_id_list.forEach(function (item) {
-            var tmp_question = _this9.getAll_questions.Question;
+            var tmp_question = _this10.getAll_questions.Question;
 
             for (var index = 0; index < tmp_question.length; index++) {
               if (item.question_id == tmp_question[index].id) {
-                _this9.getAll_questions.Question.splice(index, 1);
+                _this10.getAll_questions.Question.splice(index, 1);
 
-                _this9.getAll_questions.Answer.splice(index, 1);
+                _this10.getAll_questions.Answer.splice(index, 1);
 
-                _this9.selectedData.splice(index, 1);
+                _this10.selectedData.splice(index, 1);
               }
             }
           });
 
-          _this9.$toasted.show('Question has been deleted', {
+          _this10.$toasted.show('Question has been deleted', {
             theme: "toasted-primary",
             position: "top-center",
             duration: 5000
           });
 
-          _this9.selectedDataCount = 0;
+          _this10.selectedDataCount = 0;
 
-          if (_this9.getAll_questions.Question.length == 0) {
-            _this9.Qlength = 0;
+          if (_this10.getAll_questions.Question.length == 0) {
+            _this10.Qlength = 0;
           }
 
-          _this9.isAddingNewQuestion = false;
+          _this10.isAddingNewQuestion = false;
         }
       });
     },
@@ -2712,30 +2758,30 @@ var viewQuestion = function viewQuestion() {
       this.DeleteSingledialog = true;
     },
     deleteSingleQuestion: function deleteSingleQuestion() {
-      var _this10 = this;
+      var _this11 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                axios["delete"]('/api/question/remove/' + _this10.DeleteDetails.id).then(function (res) {
-                  _this10.getAll_questions.Question.splice(_this10.DeleteIndex, 1);
+                axios["delete"]('/api/question/remove/' + _this11.DeleteDetails.id).then(function (res) {
+                  _this11.getAll_questions.Question.splice(_this11.DeleteIndex, 1);
 
-                  _this10.getAll_questions.Answer.splice(_this10.DeleteIndex, 1);
+                  _this11.getAll_questions.Answer.splice(_this11.DeleteIndex, 1);
 
-                  _this10.selectedData.splice(_this10.DeleteIndex, 1);
+                  _this11.selectedData.splice(_this11.DeleteIndex, 1);
 
-                  _this10.DeleteSingledialog = false;
-                  _this10.DeleteDetails = null;
+                  _this11.DeleteSingledialog = false;
+                  _this11.DeleteDetails = null;
                 });
 
               case 1:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8);
+        }, _callee9);
       }))();
     },
     singleDuplicate: function singleDuplicate(question, answer) {
@@ -2761,77 +2807,77 @@ var viewQuestion = function viewQuestion() {
       this.DuplicateQuestionAction();
     },
     DuplicateQuestionAction: function DuplicateQuestionAction() {
-      var _this11 = this;
+      var _this12 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                axios.put('/api/question/store_duplicate_question/' + _this11.$route.query.clwk, {
-                  question: _this11.DuplicateQuestion,
-                  answer: _this11.DuplicateAnswers
+                axios.put('/api/question/store_duplicate_question/' + _this12.$route.query.clwk, {
+                  question: _this12.DuplicateQuestion,
+                  answer: _this12.DuplicateAnswers
                 }).then(function (res) {
-                  _this11.isNewChanges = false;
+                  _this12.isNewChanges = false;
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    _this11.getAll_questions.Question.push({
+                    _this12.getAll_questions.Question.push({
                       id: res.data.question_id[i],
-                      question: _this11.DuplicateQuestion[i].question,
-                      answer: _this11.DuplicateQuestion[i].answer,
-                      points: _this11.DuplicateQuestion[i].points,
-                      type: _this11.DuplicateQuestion[i].type,
-                      sensitivity: _this11.DuplicateQuestion[i].sensitivity
+                      question: _this12.DuplicateQuestion[i].question,
+                      answer: _this12.DuplicateQuestion[i].answer,
+                      points: _this12.DuplicateQuestion[i].points,
+                      type: _this12.DuplicateQuestion[i].type,
+                      sensitivity: _this12.DuplicateQuestion[i].sensitivity
                     });
 
-                    _this11.selectedData.push({
+                    _this12.selectedData.push({
                       id: res.data.question_id,
                       selected: false,
                       isEditing: true
                     });
 
-                    _this11.getAll_questions.Answer.push({
+                    _this12.getAll_questions.Answer.push({
                       options: [],
                       SubQuestion: [],
                       SubAnswer: []
                     });
 
-                    if (_this11.DuplicateQuestion[i].type == 'Multiple Choice') {
+                    if (_this12.DuplicateQuestion[i].type == 'Multiple Choice') {
                       for (var j = 0; j < res.data.answer_id[i].options_id.length; j++) {
-                        _this11.getAll_questions.Answer[_this11.getAll_questions.Answer.length - 1].options.push({
+                        _this12.getAll_questions.Answer[_this12.getAll_questions.Answer.length - 1].options.push({
                           id: res.data.answer_id[i].options_id[j],
-                          Choice: _this11.DuplicateAnswers[i].options[j].Choice,
+                          Choice: _this12.DuplicateAnswers[i].options[j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
-                    } else if (_this11.DuplicateQuestion[i].type == 'Matching type') {
+                    } else if (_this12.DuplicateQuestion[i].type == 'Matching type') {
                       for (var _j = 0; _j < res.data.answer_id[i].SubQuestion_id.length; _j++) {
-                        _this11.getAll_questions.Answer[_this11.getAll_questions.Answer.length - 1].SubQuestion.push({
+                        _this12.getAll_questions.Answer[_this12.getAll_questions.Answer.length - 1].SubQuestion.push({
                           id: res.data.answer_id[i].SubQuestion_id[_j],
-                          sub_question: _this11.DuplicateAnswers[i].SubQuestion[_j].sub_question,
+                          sub_question: _this12.DuplicateAnswers[i].SubQuestion[_j].sub_question,
                           answer_id: res.data.answer_id[i].SubAnswer_id[_j]
                         });
 
-                        _this11.getAll_questions.Answer[_this11.getAll_questions.Answer.length - 1].SubAnswer.push({
+                        _this12.getAll_questions.Answer[_this12.getAll_questions.Answer.length - 1].SubAnswer.push({
                           id: res.data.answer_id[i].SubAnswer_id[_j],
-                          Choice: _this11.DuplicateAnswers[i].SubAnswer[_j].Choice,
+                          Choice: _this12.DuplicateAnswers[i].SubAnswer[_j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
                     }
                   }
 
-                  _this11.isAddingNewQuestion = false;
+                  _this12.isAddingNewQuestion = false;
 
-                  _this11.UnselectAll();
+                  _this12.UnselectAll();
                 });
 
               case 1:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9);
+        }, _callee10);
       }))();
     },
     onScroll: function onScroll(e) {
@@ -2855,10 +2901,10 @@ var viewQuestion = function viewQuestion() {
     }
   },
   created: function created() {
-    var _this12 = this;
+    var _this13 = this;
 
     this.$nextTick(function () {
-      _this12.quill_disabled = false;
+      _this13.quill_disabled = false;
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -2868,6 +2914,7 @@ var viewQuestion = function viewQuestion() {
       if (!window.confirm("You have new changes! Do you want to save?")) {
         next();
       } else {
+        this.SaveAllQuestion();
         next();
       }
     } else {
@@ -2878,21 +2925,21 @@ var viewQuestion = function viewQuestion() {
     window.removeEventListener('beforeunload', this.beforeWindowUnload);
   },
   mounted: function mounted() {
-    var _this13 = this;
+    var _this14 = this;
 
     var top = window.pageYOffset || 0;
     this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
       if (res.status == 200) {
-        var tmp = _this13.getAll_questions.Question;
+        var tmp = _this14.getAll_questions.Question;
         tmp.forEach(function (item) {
-          _this13.selectedData.push({
+          _this14.selectedData.push({
             id: item.id,
             selected: false,
             isEditing: false
           });
         });
-        _this13.isloading = false;
-        _this13.Qlength = tmp.length;
+        _this14.isloading = false;
+        _this14.Qlength = tmp.length;
       }
     });
   },
@@ -4494,7 +4541,7 @@ var objectiveSubmission = function objectiveSubmission() {
 };
 
 var subjectiveSubmission = function subjectiveSubmission() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_subjectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_subjectiveSubmission_vue-_45360").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -45216,6 +45263,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -45366,9 +45414,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -45393,7 +45441,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -45483,6 +45531,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -57480,79 +57529,209 @@ var render = function() {
                                                               staticClass:
                                                                 "font-weight-medium"
                                                             },
-                                                            [_vm._v("Answer")]
+                                                            [
+                                                              _vm._v(
+                                                                "Answer(s)"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _vm._l(
+                                                            _vm.getAll_questions
+                                                              .Answer[mainIndex]
+                                                              .options,
+                                                            function(
+                                                              Answer,
+                                                              i
+                                                            ) {
+                                                              return _c(
+                                                                "v-col",
+                                                                {
+                                                                  key: i,
+                                                                  staticClass:
+                                                                    "ma-0 pa-0 mt-2",
+                                                                  attrs: {
+                                                                    "ma-0": "",
+                                                                    "pa-0": "",
+                                                                    cols: "12"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-container",
+                                                                    {
+                                                                      staticClass:
+                                                                        "d-flex flex-row ma-0 pa-0"
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "div",
+                                                                        {
+                                                                          staticClass:
+                                                                            "mb-3",
+                                                                          staticStyle: {
+                                                                            width:
+                                                                              "100%"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "quill-editor",
+                                                                            {
+                                                                              ref:
+                                                                                "myTextEditor",
+                                                                              refInFor: true,
+                                                                              staticClass:
+                                                                                "editor",
+                                                                              attrs: {
+                                                                                disabled:
+                                                                                  _vm.quill_disabled,
+                                                                                placeholder:
+                                                                                  "Answer",
+                                                                                options:
+                                                                                  _vm.editorOption
+                                                                              },
+                                                                              on: {
+                                                                                change: function(
+                                                                                  $event
+                                                                                ) {
+                                                                                  _vm.isNewChanges = true
+                                                                                }
+                                                                              },
+                                                                              model: {
+                                                                                value:
+                                                                                  Answer.Choice,
+                                                                                callback: function(
+                                                                                  $$v
+                                                                                ) {
+                                                                                  _vm.$set(
+                                                                                    Answer,
+                                                                                    "Choice",
+                                                                                    $$v
+                                                                                  )
+                                                                                },
+                                                                                expression:
+                                                                                  "Answer.Choice"
+                                                                              }
+                                                                            }
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "v-btn",
+                                                                        {
+                                                                          staticClass:
+                                                                            "mt-2 pl-2 pr-2",
+                                                                          attrs: {
+                                                                            icon:
+                                                                              ""
+                                                                          },
+                                                                          on: {
+                                                                            click: function(
+                                                                              $event
+                                                                            ) {
+                                                                              return _vm.RemoveOption(
+                                                                                _vm
+                                                                                  .Ans
+                                                                                  .id,
+                                                                                mainIndex,
+                                                                                i,
+                                                                                item.type
+                                                                              )
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            [
+                                                                              _vm._v(
+                                                                                "mdi-close"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            }
                                                           ),
                                                           _vm._v(" "),
                                                           _c(
                                                             "v-col",
                                                             {
                                                               staticClass:
-                                                                "ma-0 pa-0 mt-2",
+                                                                "pa-0 ma-0 pt-5",
                                                               attrs: {
-                                                                "ma-0": "",
-                                                                "pa-0": "",
-                                                                cols: "12"
+                                                                cols: "12",
+                                                                md: "12",
+                                                                lg: "12"
                                                               }
                                                             },
                                                             [
                                                               _c(
-                                                                "div",
+                                                                "v-btn",
                                                                 {
                                                                   staticClass:
-                                                                    "mb-3",
-                                                                  staticStyle: {
-                                                                    width:
-                                                                      "100%"
+                                                                    "mb-0 pb-0",
+                                                                  attrs: {
+                                                                    rounded: "",
+                                                                    outlined:
+                                                                      "",
+                                                                    block: "",
+                                                                    color:
+                                                                      "primary"
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.AddAnswer(
+                                                                        item.id,
+                                                                        mainIndex
+                                                                      )
+                                                                    }
                                                                   }
                                                                 },
                                                                 [
                                                                   _c(
-                                                                    "quill-editor",
+                                                                    "v-icon",
                                                                     {
-                                                                      ref:
-                                                                        "myTextEditor",
-                                                                      refInFor: true,
-                                                                      staticClass:
-                                                                        "editor",
                                                                       attrs: {
-                                                                        disabled:
-                                                                          _vm.quill_disabled,
-                                                                        placeholder:
-                                                                          "Answer",
-                                                                        options:
-                                                                          _vm.editorOption
-                                                                      },
-                                                                      on: {
-                                                                        change: function(
-                                                                          $event
-                                                                        ) {
-                                                                          _vm.isNewChanges = true
-                                                                        }
-                                                                      },
-                                                                      model: {
-                                                                        value:
-                                                                          item.answer,
-                                                                        callback: function(
-                                                                          $$v
-                                                                        ) {
-                                                                          _vm.$set(
-                                                                            item,
-                                                                            "answer",
-                                                                            $$v
-                                                                          )
-                                                                        },
-                                                                        expression:
-                                                                          "item.answer"
+                                                                        dark:
+                                                                          "",
+                                                                        left:
+                                                                          "",
+                                                                        large:
+                                                                          ""
                                                                       }
-                                                                    }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "mdi-plus"
+                                                                      )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(
+                                                                    "\r\n                                            Add Answer\r\n                                            "
                                                                   )
                                                                 ],
                                                                 1
                                                               )
-                                                            ]
+                                                            ],
+                                                            1
                                                           )
                                                         ],
-                                                        1
+                                                        2
                                                       )
                                                     ],
                                                     1

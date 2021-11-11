@@ -179,48 +179,52 @@
                             <!--  </v-hover> -->
                             <v-expansion-panel-content id="extend" class=" expand ma-0 pa-0 mt-3">
                                 <v-row no-gutters>
-                                    <v-col cols="8" class="pr-2">
-                                        <!-- <div  class="mb-5 text-caption"> {{item.instruction}}</div> -->
-                                         <span class="text-caption" v-html="item.instruction"></span>
+                                    <v-col cols="9" class="pr-2">
+                                        <!--  <span class="text-caption" v-html="item.instruction"></span> -->
+                                        
+                                    <v-row no-gutters class="pt-2" v-if="item.publish_in.length != 0" >
+                                        <v-col class="ml-0 pl-0" cols="12"  >
+                                            <div  class=" font-weight-bold ">Publish to class:</div>
+                                        </v-col>
+
+                                        <v-col class="ml-0 pl-0" cols="12"  >
+
+                                        <v-list class="pt-0 pb-0">
+                                            <v-list-item v-for="(item, i) in item.publish_in" :key="i">
+                                                <v-list-item-avatar >
+                                                    <v-icon>mdi-account-multiple</v-icon>
+                                                </v-list-item-avatar>
+                                                <v-list-item-content class="pl-0">
+                                                    <v-list-item-title class="font-weight-medium">
+                                                        {{item.class_name}} <span class="primary--text text-caption">(Submitted:{{' '+item.submission}})</span>
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle>
+                                                        <span class="font-weight-medium">Due:</span>
+                                                        {{item.availability == 1 ? format_date(item.to_date) : 'Always available'}}
+                                                    </v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-list>
+                                        </v-col>
+                                            
+                                    </v-row>
                                     </v-col>
-                                       <v-col cols="4">
+                                       <v-col cols="3">
                                            <div class="flex-column">
                                                <h1 class="mb-0 pb-0">{{item.submittion_count}}</h1>
                                                <small class="mt-0 pt-0">Submitted</small>
                                            </div>
                                     </v-col>
+                                    <v-col class="pt-3" cols="12">
+                                        <v-btn class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                            rounded color="primary" small text>View Submission
+                                        </v-btn>
+                                    </v-col>
                                 </v-row>
                                 
 
-                            <v-row no-gutters class="pt-2" v-if="item.publish_in.length != 0" >
-                                <v-col class="ml-0 pl-0" cols="12"  >
-                                    <div  class=" font-weight-bold ">Publish to class:</div>
-                                </v-col>
 
-                                <v-col class="ml-0 pl-0" cols="12"  >
-
-                                <v-list class="pt-0 pb-0">
-                                    <v-list-item v-for="(item, i) in item.publish_in" :key="i">
-                                        <v-list-item-avatar >
-                                            <v-icon>mdi-account-multiple</v-icon>
-                                        </v-list-item-avatar>
-                                        <v-list-item-content class="pl-0">
-                                            <v-list-item-title class="font-weight-medium">
-                                                {{item.class_name}} <span class="primary--text text-caption">(Submitted:{{' '+item.submission}})</span>
-                                            </v-list-item-title>
-                                            <v-list-item-subtitle>
-                                                <span class="font-weight-medium">Due:</span>
-                                                {{item.availability == 1 ? format_date(item.to_date) : 'Always available'}}
-                                            </v-list-item-subtitle>
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-list>
-                                </v-col>
-                                    
-                            </v-row>
-
-                            <v-btn class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
-                                rounded color="primary" small text>View Submission</v-btn>
+                          
                             </v-expansion-panel-content>
                             </v-expansion-panel>
                         </v-expansion-panels>
