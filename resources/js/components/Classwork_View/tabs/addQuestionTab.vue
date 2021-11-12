@@ -249,15 +249,15 @@
                                                                 :value="Ans.Choice">
                                                                 </v-radio>
                                                         </v-radio-group>
-                                                              <div style="width:100%" class="mb-3">
-                                                                 <quill-editor
+                                                          <div style="width:100%" class="mb-3">
+                                                                <quill-editor
                                                                 :disabled="quill_disabled"
-                                                                 @change="isNewChanges = true"
+                                                                @change="isNewChanges = true"
                                                                 class="editor"
                                                                 ref="myTextEditor"
                                                                 v-model="Ans.Choice"
                                                                 :options="editorOption"/>
-                                                            </div>
+                                                            </div>`
                                                     
                                                             <v-btn
                                                                 @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
@@ -286,7 +286,28 @@
                                 <v-container mb-0 pb-0 v-if="item.type == 'Identification'">
                                     <v-row ma-0 pa-0>
                                         <div class="font-weight-medium">Answer(s)</div>
-                                        <v-col v-for="(Answer, i) in getAll_questions.Answer[mainIndex].options" :key="i"  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
+                                        <v-col v-show="getAll_questions.Answer[mainIndex].options.length == 0" ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
+                                             <v-container  class="d-flex flex-row ma-0 pa-0">
+                                                      <div style="width:100%" class="mb-3">
+                                                        <quill-editor
+                                                        :disabled="quill_disabled"
+                                                        @change="isNewChanges = true"
+                                                        class="editor"
+                                                        placeholder="Answer"
+                                                        ref="myTextEditor"
+                                                        v-model="item.answer"
+                                                        :options="editorOption"/>
+                                                      </div>
+
+                                                      <v-btn
+                                                    @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                    icon class="mt-2 pl-2 pr-2">
+                                                    <v-icon>mdi-close</v-icon>
+                                                </v-btn>
+                                                  </v-container>
+                                        </v-col>
+
+                                        <v-col v-show="getAll_questions.Answer[mainIndex].options.length != 0" v-for="(Answer, i) in getAll_questions.Answer[mainIndex].options" :key="i"  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
                                             <!--   <div style="width:100%" class="mb-3 d-flex flex-row"> -->
                                                   <v-container  class="d-flex flex-row ma-0 pa-0">
                                                       <div style="width:100%" class="mb-3">
@@ -301,7 +322,7 @@
                                                       </div>
 
                                                       <v-btn
-                                                    @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                    @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
                                                     icon class="mt-2 pl-2 pr-2">
                                                     <v-icon>mdi-close</v-icon>
                                                 </v-btn>
@@ -632,11 +653,26 @@ export default {
 
         async AddAnswer(id, Mainindex){
             this.isNewChanges = true;
-            this.getAll_questions.Answer[Mainindex].options.push({
-                id : '',
-                Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
-                question_id : id,
-            })
+            if(this.getAll_questions.Answer[Mainindex].options.length == 0){
+                 this.getAll_questions.Answer[Mainindex].options.push({
+                    id : '',
+                    Choice : this.getAll_questions.Question[Mainindex].answer,
+                    question_id : id,
+                })
+                 this.getAll_questions.Answer[Mainindex].options.push({
+                    id : '',
+                    Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                    question_id : id,
+                })
+            }
+            else{
+                 this.getAll_questions.Answer[Mainindex].options.push({
+                    id : '',
+                    Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                    question_id : id,
+                })
+            }
+           
         },
 
         async AddNewOption(id, Mainindex){

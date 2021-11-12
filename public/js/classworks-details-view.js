@@ -2307,6 +2307,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -2457,11 +2478,25 @@ var viewQuestion = function viewQuestion() {
               case 0:
                 _this2.isNewChanges = true;
 
-                _this2.getAll_questions.Answer[Mainindex].options.push({
-                  id: '',
-                  Choice: '<p>' + 'Answer ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
-                  question_id: id
-                });
+                if (_this2.getAll_questions.Answer[Mainindex].options.length == 0) {
+                  _this2.getAll_questions.Answer[Mainindex].options.push({
+                    id: '',
+                    Choice: _this2.getAll_questions.Question[Mainindex].answer,
+                    question_id: id
+                  });
+
+                  _this2.getAll_questions.Answer[Mainindex].options.push({
+                    id: '',
+                    Choice: '<p>' + 'Answer ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    question_id: id
+                  });
+                } else {
+                  _this2.getAll_questions.Answer[Mainindex].options.push({
+                    id: '',
+                    Choice: '<p>' + 'Answer ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    question_id: id
+                  });
+                }
 
               case 2:
               case "end":
@@ -57381,7 +57416,7 @@ var render = function() {
                                                                                 1
                                                                               ),
                                                                               _vm._v(
-                                                                                " "
+                                                                                "`\r\n                                                    \r\n                                                            "
                                                                               ),
                                                                               _c(
                                                                                 "v-btn",
@@ -57536,6 +57571,139 @@ var render = function() {
                                                             ]
                                                           ),
                                                           _vm._v(" "),
+                                                          _c(
+                                                            "v-col",
+                                                            {
+                                                              directives: [
+                                                                {
+                                                                  name: "show",
+                                                                  rawName:
+                                                                    "v-show",
+                                                                  value:
+                                                                    _vm
+                                                                      .getAll_questions
+                                                                      .Answer[
+                                                                      mainIndex
+                                                                    ].options
+                                                                      .length ==
+                                                                    0,
+                                                                  expression:
+                                                                    "getAll_questions.Answer[mainIndex].options.length == 0"
+                                                                }
+                                                              ],
+                                                              staticClass:
+                                                                "ma-0 pa-0 mt-2",
+                                                              attrs: {
+                                                                "ma-0": "",
+                                                                "pa-0": "",
+                                                                cols: "12"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-container",
+                                                                {
+                                                                  staticClass:
+                                                                    "d-flex flex-row ma-0 pa-0"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "div",
+                                                                    {
+                                                                      staticClass:
+                                                                        "mb-3",
+                                                                      staticStyle: {
+                                                                        width:
+                                                                          "100%"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "quill-editor",
+                                                                        {
+                                                                          ref:
+                                                                            "myTextEditor",
+                                                                          refInFor: true,
+                                                                          staticClass:
+                                                                            "editor",
+                                                                          attrs: {
+                                                                            disabled:
+                                                                              _vm.quill_disabled,
+                                                                            placeholder:
+                                                                              "Answer",
+                                                                            options:
+                                                                              _vm.editorOption
+                                                                          },
+                                                                          on: {
+                                                                            change: function(
+                                                                              $event
+                                                                            ) {
+                                                                              _vm.isNewChanges = true
+                                                                            }
+                                                                          },
+                                                                          model: {
+                                                                            value:
+                                                                              item.answer,
+                                                                            callback: function(
+                                                                              $$v
+                                                                            ) {
+                                                                              _vm.$set(
+                                                                                item,
+                                                                                "answer",
+                                                                                $$v
+                                                                              )
+                                                                            },
+                                                                            expression:
+                                                                              "item.answer"
+                                                                          }
+                                                                        }
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      staticClass:
+                                                                        "mt-2 pl-2 pr-2",
+                                                                      attrs: {
+                                                                        icon: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.RemoveOption(
+                                                                            _vm
+                                                                              .Ans
+                                                                              .id,
+                                                                            mainIndex,
+                                                                            _vm.i,
+                                                                            item.type
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-close"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          ),
+                                                          _vm._v(" "),
                                                           _vm._l(
                                                             _vm.getAll_questions
                                                               .Answer[mainIndex]
@@ -57547,6 +57715,25 @@ var render = function() {
                                                               return _c(
                                                                 "v-col",
                                                                 {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "show",
+                                                                      rawName:
+                                                                        "v-show",
+                                                                      value:
+                                                                        _vm
+                                                                          .getAll_questions
+                                                                          .Answer[
+                                                                          mainIndex
+                                                                        ]
+                                                                          .options
+                                                                          .length !=
+                                                                        0,
+                                                                      expression:
+                                                                        "getAll_questions.Answer[mainIndex].options.length != 0"
+                                                                    }
+                                                                  ],
                                                                   key: i,
                                                                   staticClass:
                                                                     "ma-0 pa-0 mt-2",
@@ -57635,9 +57822,7 @@ var render = function() {
                                                                               $event
                                                                             ) {
                                                                               return _vm.RemoveOption(
-                                                                                _vm
-                                                                                  .Ans
-                                                                                  .id,
+                                                                                Answer.id,
                                                                                 mainIndex,
                                                                                 i,
                                                                                 item.type
