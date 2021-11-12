@@ -557,18 +557,30 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                 let student_ans = this.getAll_questions.Question[i].sensitivity ? this.ViewDetails.Submitted_Answers[j].Answer : 
                             this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j].Answer;
                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
-
                                
                                 if(this.getAll_questions.Question[i].type == 'Identification'){
-                                    this.Check[i] = false;
-                                    this.getAll_questions.Answer[i].options.forEach(item => {
-                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? item.Choice : 
-                                        item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() :  item.Choice;
-                                        if(student_ans == Question_answer){
+                                    if(this.getAll_questions.Answer[i].options.length == 0){
+                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
+                                        this.getAll_questions.Question[i].answer != null && this.getAll_questions.Question[i].answer != '' ? this.getAll_questions.Question[i].answer.toLowerCase() : this.getAll_questions.Question[i].answer;
+                                        if(Question_answer == student_ans){
                                             this.Check[i] = true;
                                         }
-        
-                                    });
+                                        else{
+                                            this.Check[i] = false;
+                                        }
+                                    }
+                                    else{
+                                        this.Check[i] = false;
+                                        this.getAll_questions.Answer[i].options.forEach(item => {
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ? item.Choice : 
+                                            item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() :  item.Choice;
+                                            if(student_ans == Question_answer){
+                                                this.Check[i] = true;
+                                            }
+            
+                                        });
+                                    }
+                                    
                                 }
                                 else{
                                     let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
@@ -711,15 +723,28 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
 
                                 if(this.getAll_questions.Question[i].type == 'Identification'){
-                                    this.Check[i] = false;
-                                    this.getAll_questions.Answer[i].options.forEach(item => {
-                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? item.Choice : 
-                                        item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() :  item.Choice;
-                                        if(student_ans == Question_answer){
+                                    if(this.getAll_questions.Answer[i].options.length == 0){
+                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
+                                        this.getAll_questions.Question[i].answer != null && this.getAll_questions.Question[i].answer != '' ? this.getAll_questions.Question[i].answer.toLowerCase() : this.getAll_questions.Question[i].answer;
+                                        if(Question_answer == student_ans){
                                             this.Check[i] = true;
                                         }
-        
-                                    });
+                                        else{
+                                            this.Check[i] = false;
+                                        }
+                                    }
+                                    else{
+                                        this.Check[i] = false;
+                                        this.getAll_questions.Answer[i].options.forEach(item => {
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ? item.Choice : 
+                                            item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() :  item.Choice;
+                                            if(student_ans == Question_answer){
+                                                this.Check[i] = true;
+                                            }
+            
+                                        });
+                                    }
+                                    
                                 }
                                 else{
                                     let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 

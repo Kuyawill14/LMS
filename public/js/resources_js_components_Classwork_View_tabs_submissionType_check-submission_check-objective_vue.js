@@ -588,19 +588,29 @@ var resetConfirmation = function resetConfirmation() {
                   _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
 
                   if (_this.getAll_questions.Question[i].type == 'Identification') {
-                    _this.Check[i] = false;
+                    if (_this.getAll_questions.Answer[i].options.length == 0) {
+                      var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
 
-                    _this.getAll_questions.Answer[i].options.forEach(function (item) {
-                      var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-
-                      if (student_ans == Question_answer) {
+                      if (Question_answer == student_ans) {
                         _this.Check[i] = true;
+                      } else {
+                        _this.Check[i] = false;
                       }
-                    });
-                  } else {
-                    var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+                    } else {
+                      _this.Check[i] = false;
 
-                    if (Question_answer == student_ans) {
+                      _this.getAll_questions.Answer[i].options.forEach(function (item) {
+                        var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                        if (student_ans == Question_answer) {
+                          _this.Check[i] = true;
+                        }
+                      });
+                    }
+                  } else {
+                    var _Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+
+                    if (_Question_answer == student_ans) {
                       _this.Check[i] = true;
                     } else {
                       _this.Check[i] = false;
@@ -747,19 +757,29 @@ var resetConfirmation = function resetConfirmation() {
                 _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
 
                 if (_this2.getAll_questions.Question[i].type == 'Identification') {
-                  _this2.Check[i] = false;
+                  if (_this2.getAll_questions.Answer[i].options.length == 0) {
+                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
 
-                  _this2.getAll_questions.Answer[i].options.forEach(function (item) {
-                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-
-                    if (student_ans == Question_answer) {
+                    if (Question_answer == student_ans) {
                       _this2.Check[i] = true;
+                    } else {
+                      _this2.Check[i] = false;
                     }
-                  });
-                } else {
-                  var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+                  } else {
+                    _this2.Check[i] = false;
 
-                  if (Question_answer == student_ans) {
+                    _this2.getAll_questions.Answer[i].options.forEach(function (item) {
+                      var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                      if (student_ans == Question_answer) {
+                        _this2.Check[i] = true;
+                      }
+                    });
+                  }
+                } else {
+                  var _Question_answer2 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+
+                  if (_Question_answer2 == student_ans) {
                     _this2.Check[i] = true;
                   } else {
                     _this2.Check[i] = false;
