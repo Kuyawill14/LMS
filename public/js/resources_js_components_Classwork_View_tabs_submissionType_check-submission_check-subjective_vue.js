@@ -372,6 +372,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -1269,7 +1271,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                                  " +
+                                                            "\n                                                             \n                                                                  " +
                                                               _vm._s(
                                                                 _vm.currentIndex +
                                                                   1 +
@@ -1397,37 +1399,65 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(" "),
-                                                  _c(
-                                                    "v-list-item-subtitle",
-                                                    {
-                                                      class:
-                                                        _vm.CheckData.status ==
-                                                        "Submitted"
-                                                          ? "success--text"
-                                                          : ""
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        " " +
-                                                          _vm._s(
+                                                  _vm.CheckData.graded == 0
+                                                    ? _c(
+                                                        "v-list-item-subtitle",
+                                                        {
+                                                          class:
                                                             _vm.CheckData
                                                               .status ==
-                                                              "Submitted"
-                                                              ? "Submitted: " +
-                                                                  _vm.format_date(
-                                                                    _vm
-                                                                      .CheckData
-                                                                      .updated_at
-                                                                  )
-                                                              : _vm.CheckData
-                                                                  .status ==
-                                                                "Submitting"
-                                                              ? "Submitting..."
+                                                            "Submitted"
+                                                              ? "success--text"
                                                               : ""
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            " " +
+                                                              _vm._s(
+                                                                _vm.CheckData
+                                                                  .status ==
+                                                                  "Submitted"
+                                                                  ? "Submitted: " +
+                                                                      _vm.format_date(
+                                                                        _vm
+                                                                          .CheckData
+                                                                          .updated_at
+                                                                      )
+                                                                  : _vm
+                                                                      .CheckData
+                                                                      .status ==
+                                                                    "Submitting"
+                                                                  ? "Submitting..."
+                                                                  : ""
+                                                              )
                                                           )
+                                                        ]
                                                       )
-                                                    ]
-                                                  )
+                                                    : _c(
+                                                        "v-list-item-subtitle",
+                                                        {
+                                                          staticClass:
+                                                            "success--text"
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                small: "",
+                                                                color: "success"
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-check"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" Graded ")
+                                                        ],
+                                                        1
+                                                      )
                                                 ],
                                                 1
                                               ),

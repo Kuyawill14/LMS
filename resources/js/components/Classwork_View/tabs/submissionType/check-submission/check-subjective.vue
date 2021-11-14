@@ -65,6 +65,7 @@
                                                             <v-spacer></v-spacer>
                                                                <div class="text-center">
                                                                     <div class="font-weight-medium">
+                                                                   
                                                                         {{(currentIndex+1)+'/'+SubmittedLength}}
                                                                     </div>
                                                                     <div>
@@ -91,7 +92,8 @@
                                                     
                                                         <v-list-item-content>
                                                             <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                            <v-list-item-subtitle :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle v-if="CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                             <v-list-item-subtitle v-else class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
                                                         <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
                                                             <v-text-field rounded hide-details :loading="isSavingScore" 
