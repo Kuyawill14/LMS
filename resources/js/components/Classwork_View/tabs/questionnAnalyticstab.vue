@@ -14,7 +14,7 @@
     </v-app-bar>
 </div>
 
-<!-- <v-container v-if="isMaintenance">
+<v-container v-if="isMaintenance">
     
 
 <v-row justify="center"  >
@@ -39,11 +39,11 @@
 </v-row>
    
 </v-container>
- -->
 
 
 
-<div v-if="isMaintenance" >
+
+<div v-if="!isMaintenance" >
 <v-overlay :value="isLeaving">
     <v-progress-circular
         indeterminate
@@ -320,7 +320,7 @@ export default {
         
     },
     mounted(){
-        if(this.isMaintenance){
+        if(!this.isMaintenance){
                 this.GetList();
         }
     

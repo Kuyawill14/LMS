@@ -4568,7 +4568,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   mounted: function mounted() {
-    if (this.isMaintenance) {
+    if (!this.isMaintenance) {
       this.GetList();
     }
   },
@@ -61170,248 +61170,201 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "pa-1" }, [
-    _c(
-      "div",
-      { attrs: { transition: "slide-y-reverse-transition" } },
-      [
-        !_vm.$vuetify.breakpoint.mdAndUp
-          ? _c(
-              "v-app-bar",
-              {
-                attrs: {
-                  elevation: "5",
-                  app: "",
-                  dense: _vm.$vuetify.breakpoint.mdAndUp,
-                  color: "primary"
-                }
-              },
-              [
-                !_vm.$vuetify.breakpoint.mdAndUp
-                  ? _c(
-                      "v-btn",
-                      {
-                        attrs: { dark: "", rounded: "", icon: "", text: "" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$router.push({ name: "classwork" })
+  return _c(
+    "div",
+    { staticClass: "pa-1" },
+    [
+      _c(
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                {
+                  attrs: {
+                    elevation: "5",
+                    app: "",
+                    dense: _vm.$vuetify.breakpoint.mdAndUp,
+                    color: "primary"
+                  }
+                },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
                           }
-                        }
-                      },
-                      [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("v-divider", { attrs: { vertical: "" } })
-              ],
-              1
-            )
-          : _vm._e()
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _vm.isMaintenance
-      ? _c(
-          "div",
-          [
-            _c(
-              "v-overlay",
-              { attrs: { value: _vm.isLeaving } },
-              [
-                _c("v-progress-circular", {
-                  attrs: { indeterminate: "", size: "64" }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _vm.isloading
-              ? _c(
-                  "v-container",
-                  {
-                    staticClass: "fill-height",
-                    staticStyle: { height: "570px" }
-                  },
-                  [
-                    _c(
-                      "v-row",
-                      {
-                        attrs: { "align-content": "center", justify: "center" }
-                      },
-                      [
-                        _c(
-                          "v-col",
-                          { staticClass: "text-center", attrs: { cols: "12" } },
-                          [
-                            _c("vue-element-loading", {
-                              attrs: {
-                                active: _vm.isloading,
-                                text: "Loading",
-                                duration: "0.7",
-                                textStyle: { fontSize: "20px" },
-                                spinner: "line-scale",
-                                color: "#EF6C00",
-                                size: "60"
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            !_vm.isloading
-              ? _c(
-                  "v-container",
-                  {
-                    staticClass: "pa-0 pa-0",
-                    attrs: { "pa-0": "", "ma-0": "", fluid: "" }
-                  },
-                  [
-                    _c(
-                      "v-row",
-                      [
-                        _c(
-                          "v-col",
-                          {
-                            staticStyle: {
-                              "max-height": "85vh",
-                              "overflow-y": "scroll",
-                              "overflow-x": "hidden"
-                            },
-                            attrs: { cols: "12" }
-                          },
-                          [
-                            _c("h3", [_vm._v("Questions")]),
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.isMaintenance
+        ? _c(
+            "v-container",
+            [
+              _c(
+                "v-row",
+                { attrs: { justify: "center" } },
+                [
+                  _c(
+                    "v-col",
+                    { staticClass: "text-center ", attrs: { cols: "12" } },
+                    [
+                      _c(
+                        "div",
+                        {
+                          staticClass: "centered",
+                          style: _vm.$vuetify.breakpoint.mdAndUp
+                            ? ""
+                            : "width:330px !important"
+                        },
+                        [
+                          _vm.$vuetify.breakpoint.mdAndUp
+                            ? _c("h1", [_vm._v("Page Maintenance!")])
+                            : _c("h2", [_vm._v("Page Maintenance!")]),
+                          _vm._v(" "),
+                          _c("div", [
+                            _c("p", [
+                              _vm._v(
+                                "Sorry for the inconvenience but we’re performing some maintenance in this page at the moment!"
+                              )
+                            ]),
                             _vm._v(" "),
-                            _c(
-                              "v-list",
-                              [
-                                _c(
-                                  "v-list-item",
-                                  {
-                                    class:
-                                      _vm.isSelected == "correct"
-                                        ? "grey lighten-2 rounded"
-                                        : "rounded",
-                                    attrs: { link: "" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setChartForAllQuestionCorrect()
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      { staticClass: "ma-0 pa-0" },
-                                      [
-                                        _c("div", { staticClass: "d-flex" }, [
-                                          _c(
-                                            "p",
-                                            {
-                                              staticClass:
-                                                "mb-0 pb-0 pl-1 font-weight-bold"
-                                            },
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                {
-                                                  attrs: {
-                                                    left: "",
-                                                    color: "success"
-                                                  }
-                                                },
-                                                [_vm._v("mdi-check")]
-                                              ),
-                                              _vm._v(
-                                                "Correct student per question"
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  {
-                                    class:
-                                      _vm.isSelected == "wrong"
-                                        ? "grey lighten-2 rounded"
-                                        : "rounded",
-                                    attrs: { link: "" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setChartForAllQuestionWrong()
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      { staticClass: "ma-0 pa-0" },
-                                      [
-                                        _c("div", { staticClass: "d-flex" }, [
-                                          _c(
-                                            "p",
-                                            {
-                                              staticClass:
-                                                "mb-0 pb-0 pl-1 font-weight-bold"
-                                            },
-                                            [
-                                              _c(
-                                                "v-icon",
-                                                {
-                                                  attrs: {
-                                                    left: "",
-                                                    color: "error"
-                                                  }
-                                                },
-                                                [_vm._v("mdi-close")]
-                                              ),
-                                              _vm._v(
-                                                "Wrong student per question"
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _vm._l(_vm.List, function(item, index) {
-                                  return _c(
+                            _c("p", [_vm._v("— Orange Team")])
+                          ])
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("v-col", {
+                    staticClass: "text-center",
+                    attrs: { cols: "12" }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isMaintenance
+        ? _c(
+            "div",
+            [
+              _c(
+                "v-overlay",
+                { attrs: { value: _vm.isLeaving } },
+                [
+                  _c("v-progress-circular", {
+                    attrs: { indeterminate: "", size: "64" }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm.isloading
+                ? _c(
+                    "v-container",
+                    {
+                      staticClass: "fill-height",
+                      staticStyle: { height: "570px" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        {
+                          attrs: {
+                            "align-content": "center",
+                            justify: "center"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "text-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("vue-element-loading", {
+                                attrs: {
+                                  active: _vm.isloading,
+                                  text: "Loading",
+                                  duration: "0.7",
+                                  textStyle: { fontSize: "20px" },
+                                  spinner: "line-scale",
+                                  color: "#EF6C00",
+                                  size: "60"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.isloading
+                ? _c(
+                    "v-container",
+                    {
+                      staticClass: "pa-0 pa-0",
+                      attrs: { "pa-0": "", "ma-0": "", fluid: "" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticStyle: {
+                                "max-height": "85vh",
+                                "overflow-y": "scroll",
+                                "overflow-x": "hidden"
+                              },
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("h3", [_vm._v("Questions")]),
+                              _vm._v(" "),
+                              _c(
+                                "v-list",
+                                [
+                                  _c(
                                     "v-list-item",
                                     {
-                                      key: index,
                                       class:
-                                        _vm.isSelected == index
+                                        _vm.isSelected == "correct"
                                           ? "grey lighten-2 rounded"
                                           : "rounded",
                                       attrs: { link: "" },
                                       on: {
                                         click: function($event) {
-                                          return _vm.setChartForThisQuestion(
-                                            item,
-                                            index
-                                          )
+                                          return _vm.setChartForAllQuestionCorrect()
                                         }
                                       }
                                     },
@@ -61421,68 +61374,187 @@ var render = function() {
                                         { staticClass: "ma-0 pa-0" },
                                         [
                                           _c("div", { staticClass: "d-flex" }, [
-                                            _c("h4", [
-                                              _vm._v(
-                                                _vm._s("Q" + (index + 1) + ". ")
-                                              )
-                                            ]),
-                                            _vm._v(" "),
                                             _c(
                                               "p",
-                                              { staticClass: "mb-0 pb-0 pl-1" },
+                                              {
+                                                staticClass:
+                                                  "mb-0 pb-0 pl-1 font-weight-bold"
+                                              },
                                               [
-                                                _c("span", {
-                                                  staticClass: "post-content",
-                                                  domProps: {
-                                                    innerHTML: _vm._s(
-                                                      item.question
-                                                    )
-                                                  }
-                                                })
-                                              ]
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      left: "",
+                                                      color: "success"
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-check")]
+                                                ),
+                                                _vm._v(
+                                                  "Correct student per question"
+                                                )
+                                              ],
+                                              1
                                             )
                                           ])
                                         ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-list-item-action", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "font-weigth-bold" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(item.correct_count) +
-                                                " / " +
-                                                _vm._s(
-                                                  item.correct_count +
-                                                    item.wrong_count
-                                                )
-                                            )
-                                          ]
-                                        )
-                                      ])
+                                      )
                                     ],
                                     1
-                                  )
-                                })
-                              ],
-                              2
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e()
-          ],
-          1
-        )
-      : _vm._e()
-  ])
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item",
+                                    {
+                                      class:
+                                        _vm.isSelected == "wrong"
+                                          ? "grey lighten-2 rounded"
+                                          : "rounded",
+                                      attrs: { link: "" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setChartForAllQuestionWrong()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-content",
+                                        { staticClass: "ma-0 pa-0" },
+                                        [
+                                          _c("div", { staticClass: "d-flex" }, [
+                                            _c(
+                                              "p",
+                                              {
+                                                staticClass:
+                                                  "mb-0 pb-0 pl-1 font-weight-bold"
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      left: "",
+                                                      color: "error"
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-close")]
+                                                ),
+                                                _vm._v(
+                                                  "Wrong student per question"
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ])
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-divider"),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.List, function(item, index) {
+                                    return _c(
+                                      "v-list-item",
+                                      {
+                                        key: index,
+                                        class:
+                                          _vm.isSelected == index
+                                            ? "grey lighten-2 rounded"
+                                            : "rounded",
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setChartForThisQuestion(
+                                              item,
+                                              index
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "v-list-item-content",
+                                          { staticClass: "ma-0 pa-0" },
+                                          [
+                                            _c(
+                                              "div",
+                                              { staticClass: "d-flex" },
+                                              [
+                                                _c("h4", [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      "Q" + (index + 1) + ". "
+                                                    )
+                                                  )
+                                                ]),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "p",
+                                                  {
+                                                    staticClass:
+                                                      "mb-0 pb-0 pl-1"
+                                                  },
+                                                  [
+                                                    _c("span", {
+                                                      staticClass:
+                                                        "post-content",
+                                                      domProps: {
+                                                        innerHTML: _vm._s(
+                                                          item.question
+                                                        )
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("v-list-item-action", [
+                                          _c(
+                                            "span",
+                                            { staticClass: "font-weigth-bold" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(item.correct_count) +
+                                                  " / " +
+                                                  _vm._s(
+                                                    item.correct_count +
+                                                      item.wrong_count
+                                                  )
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  })
+                                ],
+                                2
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
