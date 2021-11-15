@@ -1,12 +1,13 @@
 <template>
-<v-card >
+<div>
+
 
     
-    <v-toolbar  dense shaped class="fixed-bar" floating color="primary"  >
+    <!-- <v-toolbar  dense shaped class="fixed-bar" floating color="primary"  >
         <v-btn dark @click="$emit('closeDialog')" icon>
             <v-icon>mdi-close</v-icon>
         </v-btn>
-    </v-toolbar>
+    </v-toolbar> -->
 
 
     <v-dialog v-model="dialog" persistent max-width="400">
@@ -16,13 +17,80 @@
             :ViewDetails="ViewDetails"
             v-if="dialog"></resetConfirmation>
         </v-dialog>
-         <v-card-text  class="ma-0 pa-0 pr-1 pb-1 pl-1">
+ 
         
           
-               <v-row no-gutters> 
+               <v-row no-gutters align="center" justify="center"> 
+                   <v-col cols="12" class="mb-2 mt-0 pt-0">
+                       <v-card elevation="2" outlined class="pl-2 pr-4 pb-2">
+                           <v-list>
+                               <v-list-item>
+                                   <v-list-item-avatar size="52" color="primary">
+                                       <v-icon color="white" size="30"> 
+                                           mdi-book-open-variant
+                                       </v-icon>
+                                   </v-list-item-avatar>
+                                   <v-list-item-content>
+                                       <v-list-item-title style="font-size:22px" class="font-weight-bold">
+                                           {{classworkDetails.title}}
+                                       </v-list-item-title>
+                                       <v-list-item-subtitle class="font-weight-medium">
+                                           Due: {{ ViewDetails.availability == 1 ? format_date(ViewDetails.to_date) : 'No due date'}}
+                                       </v-list-item-subtitle>
+                                     
+                                   </v-list-item-content>
+                                     <v-list-item-action>
+                                            <v-list-item-action-text>
+                                                <v-btn  @click="$emit('closeDialog')" small text rounded >
+                                                    <v-icon small>mdi-close</v-icon> Close
+                                                </v-btn>  
+                                            </v-list-item-action-text>
+                                             <v-spacer></v-spacer>
+                                          
+                                       </v-list-item-action>
+                               </v-list-item>
+                           </v-list>
+                       </v-card>
+                   </v-col>
+                   <v-col  cols="12" md="12" lg="10">
+                    <v-row  no-gutters>
+
+                    
                    <v-col cols="12" md="4" lg="4" :class="!$vuetify.breakpoint.mdAndUp ? '' : 'pr-3'">
                        <v-container fluid ma-0 pa-0>
-                            <v-card class="pt-3 pl-4 pr-4 pb-2">
+                            <v-card elevation="2" outlined class="pt-1 mt-1 pl-4 pr-4 pb-2">
+                                    <v-row class="mb-0 pb-0">
+                                        <v-col cols="12" class="text-center">
+                                            
+                                        </v-col>
+                                        <v-col cols="12" class="mb-0 pb-0">
+                                            <div class="d-flex mb-2 ">
+                                                  
+                                                <v-btn :disabled="SubmittedLength == 1 || currentIndex == 0" icon @click="PrevStudent()">
+                                                   <v-icon>mdi-chevron-left</v-icon>
+                                                </v-btn>
+                                                <v-spacer></v-spacer>
+                                                <div class="text-center">
+                                                    <div class="font-weight-medium">
+                                                        {{(currentIndex+1)+'/'+SubmittedLength}}
+                                                    </div>
+                                                     <div>
+                                                        <small class="mt-3">Switch Student</small>
+                                                    </div>
+                                                  
+                                                </div>
+                                                   
+                                                <v-spacer></v-spacer>
+
+                                                <v-btn :disabled="currentIndex == SubmittedLength-1" icon @click="NextStudent()">
+                                                    <v-icon>mdi-chevron-right</v-icon>
+                                                </v-btn>
+                                                  
+                                            </div>
+                                            <v-divider></v-divider>
+                                        </v-col>
+                                    </v-row>
+
                                     <v-list class="pa-0 ma-0">
                                         <v-list-item class="ma-0 pa-0">
                                             <v-list-item-avatar color="secondary">
@@ -34,9 +102,11 @@
                                             <v-list-item-content>
                                                 <v-list-item-title class="font-weight-medium">{{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
                                                 <v-list-item-subtitle v-if="ViewDetails.status != null && ViewDetails.status != ''&&  ViewDetails.status != 'Taking'">Submitted: {{format_date(ViewDetails.updated_at)}}</v-list-item-subtitle>
-                                            </v-list-item-content>
+                                        </v-list-item-content>
                                             <v-list-item-action class="mt-8">
-                                                    <v-text-field  
+                                                    <v-text-field
+                                                    hide-details
+                                                    rounded
                                                     v-if="ViewDetails.status == 'Submitted'"
                                                     v-model="ViewDetails.points" 
                                                     dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
@@ -47,13 +117,13 @@
                                      
                                          <span class="font-weight-bold">Time Spent: </span><span>{{ViewDetails.timeSpent != null ? ViewDetails.timeSpent+' minutes': ''}}</span>
                                     </v-col>
-                                    <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                    <v-btn rounded v-if="ViewDetails.status == 'Submitted'"
+                                    <v-col  cols="12" class="ma-0 pa-0 pb-2 mt-1">
+                                    <v-btn block text rounded v-if="ViewDetails.status == 'Submitted'"
                                      :loading="isReseting" @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                     </v-col>
                                 </v-card>
 
-                            <v-card class="mt-2 " elevation="1" outlined>
+                            <v-card class="mt-2 mb-1" elevation="2" outlined>
                                     <div class="pt-3 pl-4 pr-4 pb-2">
                                         <v-icon left>mdi-comment</v-icon>Private Comments
                                     </div>
@@ -105,6 +175,7 @@
                                                     </v-textarea>
                                             </v-list-item-content>
                                             <v-list-item-action>
+                                             
                                                 <v-btn :loading="isCommenting" @click="addComment(ViewDetails)" icon>
                                                 <v-icon  color="primary">mdi-send</v-icon>
                                                 </v-btn>
@@ -116,7 +187,7 @@
                    </v-col>
                 <v-col cols="12" md="8" lg="8" class="">
 
-                <v-card style="height:50vh" outlined elevation="1" class=" pa-4 " v-if="!isLoaded">
+                <v-card style="height:50vh" outlined elevation="1" class=" pa-4 mt-1" v-if="!isLoaded">
                 <v-row class="mt-12 pt-12"  justify="center" align-content="center" >
                     <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
                         <div style="margin-top:8rem">
@@ -132,7 +203,7 @@
                 </v-card>
         
 
-                <v-card outlined elevation="1" class=" pa-4 " v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '' && isLoaded">
+                <v-card outlined elevation="2" class=" pa-4 " v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '' && isLoaded">
                 <v-row class="mt-12 pt-12"  justify="center" align-content="center" >
                     <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
                         <v-icon style="font-size:7rem">
@@ -144,9 +215,48 @@
                     </v-col>
                 </v-row>
                 </v-card>
-                <v-card elevation="1" outlined class="pa-5" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
+                <v-card elevation="2" outlined class="pa-5 mt-1" v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
+
+                    <div class="d-flex mb-2">
+                        <div class="d-flex">
+                            <v-menu offset-y max-height="600" style="overflow-y:scroll;">
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn icon
+                                    dark
+                                    v-bind="attrs"
+                                    v-on="on">
+                                <v-icon color="primary">mdi-format-list-numbered</v-icon> </v-btn>
+                            </template>
+                            <v-list  >
+                                <v-list-item class="ma-0 pa-0" v-for="(item, index) in getAll_questions.Question" :key="index">
+                                <v-list-item-title>  
+                                    <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
+                                    text rounded @click="questionIndex = index">
+                                    <v-icon :color="!Check[index]  ? '' : 'success'" left>{{!Check[index] ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
+                                    {{index+1}}
+                                    </v-btn>
+                                    
+                                    </v-list-item-title>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+
+                        <div class="pl-1 mt-2">Question {{questionIndex+1}}</div>
+                        </div>
+                        <v-spacer></v-spacer>
+                        <div>
+                            <v-btn :disabled="questionIndex == 0" @click="questionIndex--" color="primary" class="mr-1" outlined rounded>
+                                Previous
+                            </v-btn>
+                            <v-btn class="pl-9 pr-9" :disabled="questionIndex == getAll_questions.Question.length-1" @click="questionIndex++" color="primary" rounded>
+                                Next
+                            </v-btn>
+                        </div>
+                        
+                    </div>
+                   
                     <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
-                        <v-row>
+                        <v-row v-if="index === questionIndex">
                             <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0" >
                                     <v-list>
                                     <v-list-item class="ma-0 pa-0">
@@ -162,7 +272,6 @@
                                         </v-list-item-icon>
                                         <v-list-item-content class="subtitle-1 ">
                                             <div class="d-flex">
-                                                    <h3 class="font-weight-bold">{{index+1}}.</h3>
                                                     <div style="width:90%" v-html="item.question" class="post-content pl-1"></div>
                                             </div>
                                             
@@ -203,13 +312,20 @@
                                     <v-list class="pl-6" >
                                         <v-list-item class="ma-0 pa-0"  >
                                             <v-list-item-content class="ma-0 pa-0 ">
-                                                <div class="success--text">
-                                                    Correct Answer:
+                                                <div>
+                                                    Correct Answer(s):
                                                 </div>
-                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex pl-3 success--text">
+                                                <div v-if="getAll_questions.Answer[index].options.length == 0" class=" ma-0 pa-0 d-flex pl-3 success--text">
                                                     <span class="pr-2">&bull; </span>
-                                                        <span v-html="item.answer" class="post-content"></span>
+                                                    <span v-html="item.answer" class="post-content pa-0 ma-0"></span>
                                                 </div>
+                                                <div>
+                                                    <div v-for="(Ans, i) in getAll_questions.Answer[index].options" :key="i"  class=" ma-0 pa-0 d-flex pl-3 success--text">
+                                                        <span class="pr-2">&bull; </span>
+                                                        <span v-html="Ans.Choice" class="post-content pa-0 ma-0"></span>
+                                                    </div>
+                                                </div>
+                                               
 
                                                 <div class="primary--text">
                                                     Student Answer:
@@ -326,12 +442,12 @@
                 </v-container>
             </v-card>
         </v-col>
+        </v-row>
+    </v-col>
         
     </v-row>
-    </v-card-text>
- 
-</v-card>
 
+</div>
 </template>
 <script>
 import moment from 'moment-timezone';
@@ -339,7 +455,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
  import {mapGetters, mapActions } from "vuex";
  
   export default {
-      props:["classworkDetails", "ViewDetails"],
+      props:["classworkDetails", "ViewDetails","SubmittedLength", "currentIndex"],
       components:{
           resetConfirmation
       },
@@ -359,7 +475,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             isAlerting: false,
             isReseting: false,
             isScrolling: false,
-            isLoaded: false
+            isLoaded: false,
+            questionIndex: 0,
           }
       },
       computed:mapGetters(['get_CurrentUser','getAll_questions']),
@@ -433,13 +550,47 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
 
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
                         if(this.getAll_questions.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
+
+                            
+
                             if(this.getAll_questions.Question[i].type == 'Multiple Choice' || this.getAll_questions.Question[i].type == 'Identification' || this.getAll_questions.Question[i].type == 'True or False'){
+                                let student_ans = this.getAll_questions.Question[i].sensitivity ? this.ViewDetails.Submitted_Answers[j].Answer : 
+                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j].Answer;
                                 this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
-                                if(this.getAll_questions.Question[i].answer == this.ViewDetails.Submitted_Answers[j].Answer){
-                                    this.Check[i] = true;
+                               
+                                if(this.getAll_questions.Question[i].type == 'Identification'){
+                                    if(this.getAll_questions.Answer[i].options.length == 0){
+                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
+                                        this.getAll_questions.Question[i].answer != null && this.getAll_questions.Question[i].answer != '' ? this.getAll_questions.Question[i].answer.toLowerCase() : this.getAll_questions.Question[i].answer;
+                                        if(Question_answer == student_ans){
+                                            this.Check[i] = true;
+                                        }
+                                        else{
+                                            this.Check[i] = false;
+                                        }
+                                    }
+                                    else{
+                                        this.Check[i] = false;
+                                        this.getAll_questions.Answer[i].options.forEach(item => {
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ? item.Choice : 
+                                            item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() :  item.Choice;
+                                            if(student_ans == Question_answer){
+                                                this.Check[i] = true;
+                                            }
+            
+                                        });
+                                    }
+                                    
                                 }
                                 else{
-                                    this.Check[i] = false;
+                                    let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
+                                    this.getAll_questions.Question[i].answer != null && this.getAll_questions.Question[i].answer != '' ? this.getAll_questions.Question[i].answer.toLowerCase() : this.getAll_questions.Question[i].answer;
+                                     if(Question_answer == student_ans){
+                                        this.Check[i] = true;
+                                    }
+                                    else{
+                                        this.Check[i] = false;
+                                    }
                                 }
                             }
                             else if(this.getAll_questions.Question[i].type == 'Essay'){
@@ -467,7 +618,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                                                 }
                                                 else{
                                                     match_check[counter] = false;
-                                                     Ans[x].Correct_Answer = this.Alphabet[x]
+                                                    //Ans[x].Correct_Answer = this.Alphabet[x]
                                                 }
                                             }
                                                                 
@@ -503,6 +654,171 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                 this.isLoaded = true;
                 this.$emit('isMounted');
             });
+
+        },
+        ReMatchQuestions(){
+               
+                let Submitted_length = this.ViewDetails.Submitted_Answers.length;
+                let Question_length = this.getAll_questions.Question.length;
+                let diff = Question_length  - Submitted_length;
+                
+                 let counter;
+                for (let j = 0; j < Question_length; j++) {
+                    counter = 0;
+                   for (let k = 0; k < Submitted_length; k++) {
+                        if(this.getAll_questions.Question[j].id != this.ViewDetails.Submitted_Answers[k].Question_id){
+                            counter++;
+                        }
+                   }
+                   if(counter == Submitted_length){
+                        if(this.getAll_questions.Question[j].type == 'Multiple Choice' || this.getAll_questions.Question[j].type == 'Identification' || this.getAll_questions.Question[j].type == 'True or False'){
+                            this.ViewDetails.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.getAll_questions.Question[j].id,
+                                timeConsume: null,
+                                type: this.getAll_questions.Question[j].type
+                            })
+                        }
+                        else if(this.getAll_questions.Question[j].type == 'Essay'){
+                            this.ViewDetails.Submitted_Answers.push({
+                                Answer: null,
+                                Question_id: this.getAll_questions.Question[j].id,
+                                timeConsume: null,
+                                type: this.getAll_questions.Question[j].type,
+                                check: false
+                            })
+                        }
+                        else if(this.getAll_questions.Question[j].type == 'Matching type'){
+                             this.ViewDetails.Submitted_Answers.push({
+                                Answer:[], 
+                                type: 'Matching type',
+                                Question_id: this.getAll_questions.Question[j].id,
+                                Choices_id:[], 
+                            })
+                            let counter = 0;
+                             this.getAll_questions.Answer[j].SubQuestion.forEach(item => {
+                                 this.ViewDetails.Submitted_Answers[this.ViewDetails.Submitted_Answers.length-1].Choices_id.push({
+                                   choice_id: this.getAll_questions.Answer[j].SubAnswer[counter].id,
+                                })
+                                 this.ViewDetails.Submitted_Answers[this.ViewDetails.Submitted_Answers.length-1].Answer.push({
+                                    Ans_id: null,
+                                    Ans_letter: null,
+                                    Answers: null,
+                                    subquestion_id: item.id,
+                                })
+                                counter++;
+                            });
+                        }
+                   }
+                    
+                }
+               
+                for (let i = 0; i < this.getAll_questions.Question.length; i++) {
+
+                    for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
+                        if(this.getAll_questions.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id){
+                            let student_ans = this.getAll_questions.Question[i].sensitivity ? this.ViewDetails.Submitted_Answers[j].Answer : 
+                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j].Answer;
+                            if(this.getAll_questions.Question[i].type == 'Multiple Choice' || this.getAll_questions.Question[i].type == 'Identification' || this.getAll_questions.Question[i].type == 'True or False'){
+                                this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
+
+                                if(this.getAll_questions.Question[i].type == 'Identification'){
+                                    if(this.getAll_questions.Answer[i].options.length == 0){
+                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
+                                        this.getAll_questions.Question[i].answer != null && this.getAll_questions.Question[i].answer != '' ? this.getAll_questions.Question[i].answer.toLowerCase() : this.getAll_questions.Question[i].answer;
+                                        if(Question_answer == student_ans){
+                                            this.Check[i] = true;
+                                        }
+                                        else{
+                                            this.Check[i] = false;
+                                        }
+                                    }
+                                    else{
+                                        this.Check[i] = false;
+                                        this.getAll_questions.Answer[i].options.forEach(item => {
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ? item.Choice : 
+                                            item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() :  item.Choice;
+                                            if(student_ans == Question_answer){
+                                                this.Check[i] = true;
+                                            }
+            
+                                        });
+                                    }
+                                    
+                                }
+                                else{
+                                    let Question_answer = this.getAll_questions.Question[i].sensitivity ? this.getAll_questions.Question[i].answer : 
+                                    this.getAll_questions.Question[i].answer != null && this.getAll_questions.Question[i].answer != '' ? this.getAll_questions.Question[i].answer.toLowerCase() : this.getAll_questions.Question[i].answer;
+                                     if(Question_answer == student_ans){
+                                        this.Check[i] = true;
+                                    }
+                                    else{
+                                        this.Check[i] = false;
+                                    }
+                                }
+                               
+                            }
+                            else if(this.getAll_questions.Question[i].type == 'Essay'){
+                                this.SubmittedAnswer[i] =  this.ViewDetails.Submitted_Answers[j];
+                                this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
+                            }
+                            else if(this.getAll_questions.Question[i].type == 'Matching type'){
+                                    let Ans = new Array();
+                                    let match_check = new Array();
+                                    let counter = 0;
+                                    this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
+                                        for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion.length; x++) {
+                                            if(this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id){
+                                                Ans.push({
+                                                    Ans_Letter: item.Ans_letter,
+                                                    Answer: item.Answers,
+                                                    SubQuestion: this.getAll_questions.Answer[i].SubQuestion[x].sub_question,
+                                                    SubChoice: this.getAll_questions.Answer[i].SubAnswer[x].Choice,
+                                                    Correct_Answer: null
+                                                })
+
+                                                if(this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers){
+                                                    match_check[counter] = true;
+                                                   
+                                                }
+                                                else{
+                                                    match_check[counter] = false;
+                                                    //Ans[x].Correct_Answer = this.Alphabet[x]
+                                                }
+                                            }
+                                                                
+                                        }
+                                        counter+=1;   
+                                       
+                                    });  
+                                    let tmpChoices = new Array();
+                                    this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
+                                        this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
+                                            if(item.choice_id == choice.id){
+                                                tmpChoices.push({
+                                                    id: choice.id,
+                                                    choice: choice.Choice,
+                                                })
+                                            }
+                                        })
+                                    });
+
+                                    for (let a = 0; a < Ans.length; a++) {
+                                        Ans[a].SubChoice = tmpChoices[a].choice;
+                                    }
+
+                                    this.SubmittedAnswer[i] = Ans;
+                                    this.Check[i] = match_check;
+                                }
+                        }
+                        
+                    }
+                    
+                }
+                
+                this.isLoaded = true;
+            
+       
 
         },
         async UpdateScore(type, id, data, points,index,answer){
@@ -592,12 +908,30 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                   }
               })
           },
+          async NextStudent(){
+            this.questionIndex = 0;
+            this.SubmittedAnswer = [];
+            this.Check = [];
+            this.isLoaded = false;
+            this.$emit("nextStudent");
+            setTimeout(() => (this.ReMatchQuestions()),300);
+          },
+          async PrevStudent(){
+            this.questionIndex = 0;
+            this.SubmittedAnswer = [];
+            this.Check = [];
+            this.isLoaded = false;
+            this.$emit("prevStudent");
+            setTimeout(() => (this.ReMatchQuestions()),300);
+          }
           
      
       },
+      beforeDestroy(){
+          this.$emit('closeDialog');
+      },
     
       mounted(){
-    
             if(this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != ''){
                 this.fetchQuestions();
             }

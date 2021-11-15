@@ -45,18 +45,17 @@
 
             <v-col cols="12" lg="4" :class="$vuetify.breakpoint.mdAndUp ? 'pt-0' : 'pt-0 mt-0'" >
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 1">
-                    <v-col cols="12" >
-                       
-                           <v-card>
+                    <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'mt-0 pt-0 ' :''">
+                        <v-card outlined elevation="2">
                             <myTask> </myTask>
-                        </v-card>
+                         </v-card>
                     </v-col>
                 </v-row>
 
 
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 2">
                     <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pt-2 mt-2' :'pt-3 mt-3'">
-                         <v-card>
+                         <v-card  elevation="2">
                             <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
                         </v-card>
                     </v-col>

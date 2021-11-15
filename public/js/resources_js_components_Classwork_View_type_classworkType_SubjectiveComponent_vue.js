@@ -510,6 +510,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -1192,7 +1198,27 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("v-divider", { attrs: { vertical: "" } })
+                  _c("v-divider", { attrs: { vertical: "" } }),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _vm.classworkDetails.graded
+                    ? _c("div", { staticClass: "white--text Subtitle-1" }, [
+                        _c("span", { staticClass: "font-weight-bold" }, [
+                          _vm._v("Score: ")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", {}, [
+                          _vm._v(
+                            _vm._s(
+                              _vm.classworkDetails.score +
+                                " /" +
+                                _vm.classworkDetails.points
+                            )
+                          )
+                        ])
+                      ])
+                    : _vm._e()
                 ],
                 1
               )
@@ -1457,10 +1483,14 @@ var render = function() {
                     ? _c(
                         "v-card",
                         {
-                          staticClass: "pa-7",
+                          class: _vm.$vuetify.breakpoint.mdAndUp
+                            ? "pa-7"
+                            : "pa-4",
                           attrs: {
-                            outlined: "",
-                            elevation: _vm.$vuetify.breakpoint.mdAndUp ? 1 : 0
+                            outlined: _vm.$vuetify.breakpoint.mdAndUp,
+                            elevation: _vm.$vuetify.breakpoint.mdAndUp
+                              ? "1"
+                              : "0"
                           }
                         },
                         [
@@ -1609,7 +1639,8 @@ var render = function() {
                                               )
                                             : _vm._e(),
                                           _vm._v(" "),
-                                          _vm.classworkDetails.graded
+                                          _vm.classworkDetails.graded &&
+                                          _vm.$vuetify.breakpoint.mdAndUp
                                             ? _c(
                                                 "v-chip",
                                                 {

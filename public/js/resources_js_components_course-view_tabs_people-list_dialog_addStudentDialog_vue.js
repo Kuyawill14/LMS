@@ -83,6 +83,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_name'],
   data: function data() {
@@ -281,9 +286,29 @@ var render = function() {
           }
         },
         [
-          _c("v-card-title", [
-            _c("span", { staticClass: "text-h5 mb-2" }, [_vm._v("Add Student")])
-          ]),
+          _c(
+            "v-card-title",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { large: "", icon: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("toggleCancelDialog")
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-close")])],
+                1
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-h5 mb-2 mt-2" }, [
+                _vm._v("Add Student")
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
           _c(
             "v-card-text",
@@ -365,29 +390,14 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card-actions",
-            { staticClass: "pb-3" },
+            { staticClass: "pb-4" },
             [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "pl-8 pr-8",
-                  attrs: { color: "primary", outlined: "", rounded: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("toggleCancelDialog")
-                    }
-                  }
-                },
-                [_vm._v("\r\n            Cancel\r\n            ")]
-              ),
-              _vm._v(" "),
               _c(
                 "v-btn",
                 {
                   staticClass: "pl-12 pr-12",
                   attrs: {
+                    block: "",
                     color: "primary",
                     rounded: "",
                     loading: _vm.isAdding,

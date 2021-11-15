@@ -8,18 +8,37 @@
         size="64"
       ></v-progress-circular>
     </v-overlay>
-    <v-dialog v-model="dialog"
+ <!--    <v-dialog v-model="dialog"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition">
-    <checkobjective v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog, Viewdialog = !Viewdialog "></checkobjective>
-</v-dialog>
+   <checkobjective v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="dialog = !dialog, Viewdialog = !Viewdialog "></checkobjective>
+</v-dialog> -->
 
    
  </v-row> 
 
+ <v-row v-if="dialog">
+     <v-col cols="12">
+           <checkobjective
+           :currentIndex="selected_index"
+            :SubmittedLength="studentSubmissionList.length" 
+            v-show="!isStarting" v-if="dialog" 
+            v-on:isMounted="isStarting = false" 
+            v-on:RestSubmission="ResetSubmission()" 
+            :classworkDetails="classworkDetails" 
+            :ViewDetails="ViewDetails"  
+            v-on:UpdateSubmission="$emit('UpdateSubmission')" 
+            v-on:closeDialog="isNotViewing()"
+            v-on:nextStudent="GotoNextStudent()"
+            v-on:prevStudent="GotoPrevStudent()"
+            >
+            </checkobjective>
+     </v-col>
+ </v-row>
 
-<v-row class="pa-1">
+
+<v-row v-if="!dialog" class="pa-1">
     <v-col v-if="!isViewing" cols="12" md="12" lg="12" xl="12" class="pl-6">
         <v-row>
             <v-col cols="12" class="mb-0 pb-0" >
@@ -466,8 +485,26 @@ export default {
                 this.ViewDetails = data;
                 this.selected_index = index;
                 this.selected_id = data.id;
+                this.$store.dispatch("isViewingSubmission");
             //}
        
+        },
+        GotoNextStudent(){
+            this.ViewDetails = null;
+            this.selected_index = this.selected_index + 1;
+            this.ViewDetails = this.studentSubmissionList[this.selected_index];
+        },
+        GotoPrevStudent(){
+            this.ViewDetails = null;
+            this.selected_index = this.selected_index - 1;;
+            this.ViewDetails = this.studentSubmissionList[this.selected_index];
+        },
+        isNotViewing(){
+            this.ViewDetails = null;
+            this.selected_index = null;
+            this.dialog = false;
+            this.Viewdialog = false;
+            this.$store.dispatch("isNotViewingSubmission");
         },
         ResetSubmission(){
 

@@ -68,12 +68,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var objectiveSubmission = function objectiveSubmission() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_objectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/objectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/objectiveSubmission.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_objectiveSubmissioncopy_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/objectiveSubmissioncopy */ "./resources/js/components/Classwork_View/tabs/submissionType/objectiveSubmissioncopy.vue"));
 };
 
 var subjectiveSubmission = function subjectiveSubmission() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_subjectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_subjectiveSubmissioncopy_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmissioncopy */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmissioncopy.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -196,6 +216,58 @@ var subjectiveSubmission = function subjectiveSubmission() {
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered[data-v-38d36a53]{\n    position: fixed;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n}\n        \n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue":
 /*!***************************************************************************!*\
   !*** ./resources/js/components/Classwork_View/tabs/submissionListTab.vue ***!
@@ -208,15 +280,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _submissionListTab_vue_vue_type_template_id_38d36a53_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./submissionListTab.vue?vue&type=template&id=38d36a53&scoped=true& */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=template&id=38d36a53&scoped=true&");
 /* harmony import */ var _submissionListTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./submissionListTab.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _submissionListTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _submissionListTab_vue_vue_type_template_id_38d36a53_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
   _submissionListTab_vue_vue_type_template_id_38d36a53_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -246,6 +320,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./submissionListTab.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&":
+/*!************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_submissionListTab_vue_vue_type_style_index_0_id_38d36a53_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionListTab.vue?vue&type=style&index=0&id=38d36a53&scoped=true&lang=css&");
+
 
 /***/ }),
 
@@ -285,6 +371,47 @@ var render = function() {
     { staticClass: "pa-1" },
     [
       _c(
+        "div",
+        { attrs: { transition: "slide-y-reverse-transition" } },
+        [
+          !_vm.$vuetify.breakpoint.mdAndUp
+            ? _c(
+                "v-app-bar",
+                {
+                  attrs: {
+                    elevation: "5",
+                    app: "",
+                    dense: _vm.$vuetify.breakpoint.mdAndUp,
+                    color: "primary"
+                  }
+                },
+                [
+                  !_vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-btn",
+                        {
+                          attrs: { dark: "", rounded: "", icon: "", text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push({ name: "classwork" })
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-arrow-left-thick")])],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-divider", { attrs: { vertical: "" } })
+                ],
+                1
+              )
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-overlay",
         { attrs: { value: _vm.isLeaving } },
         [
@@ -298,7 +425,7 @@ var render = function() {
       _vm.isloading
         ? _c(
             "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "400px" } },
+            { staticClass: "fill-height", staticStyle: { height: "570px" } },
             [
               _c(
                 "v-row",
@@ -308,8 +435,16 @@ var render = function() {
                     "v-col",
                     { staticClass: "text-center", attrs: { cols: "12" } },
                     [
-                      _c("v-progress-circular", {
-                        attrs: { size: 40, color: "primary", indeterminate: "" }
+                      _c("vue-element-loading", {
+                        attrs: {
+                          active: _vm.isloading,
+                          text: "Loading",
+                          duration: "0.7",
+                          textStyle: { fontSize: "20px" },
+                          spinner: "line-scale",
+                          color: "#EF6C00",
+                          size: "60"
+                        }
                       })
                     ],
                     1
@@ -325,14 +460,17 @@ var render = function() {
       _vm.List.length == 0 && !_vm.isloading
         ? _c(
             "v-row",
-            { attrs: { justify: "center" } },
+            {
+              staticClass: "centered",
+              style: _vm.$vuetify.breakpoint.mdAndUp
+                ? ""
+                : "width:330px !important",
+              attrs: { justify: "center" }
+            },
             [
               _c(
                 "v-col",
-                {
-                  staticClass: "text-center",
-                  attrs: { cols: "12", sm: "8", md: "4" }
-                },
+                { staticClass: "text-center", attrs: { cols: "12" } },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
                     _vm._v(
@@ -340,7 +478,9 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("h1", [_vm._v(" Empty Submission ")]),
+                  _vm.$vuetify.breakpoint.mdAndUp
+                    ? _c("h1", [_vm._v(" Empty Submission ")])
+                    : _c("h2", [_vm._v(" Empty Submission ")]),
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(" Your classwork is not publish to any class yet!")

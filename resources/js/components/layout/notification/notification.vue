@@ -366,8 +366,12 @@
                     })
                 }
                 else{
+                  
                     if(this.get_notification_count != 0){
                         this.markAllasRead();
+                    }
+                    else{
+                         this.$store.dispatch("ClearNotification");
                     }
                     
                 }            
@@ -383,6 +387,8 @@
                     for (let i = 0; i < res.data; i++) {
                         this.$store.dispatch("LessNotificationCount");
                     }
+                     this.$store.dispatch("ClearNotification");
+
                 })
             },
           

@@ -175,7 +175,7 @@
                                         <v-tooltip  top>
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
-                                                    @click="NotificationHide(item.n_id, index)">
+                                                    @click="NotificationHide(item.n_id, index, item.status)">
                                                     <v-icon small>mdi-close</v-icon>
                                                 </v-btn>
                                             </template>
@@ -270,17 +270,15 @@ export default {
       }
     
     },
-    NotificationHide(id, index) {
+    NotificationHide(id, index, status) {
        this.$store.dispatch("HideNotification", id)
        .then(res=>{
           if(res == 200){
             this.get_notification.splice(index, 1);
-            this.$store.dispatch("LessNotificationCount");
-            /* this.get_notification.forEach(item => {
-                  if(item.n_id == id){
-                      item.hide_notif = 1;
-                  }
-              }); */
+            if(status != 1){
+                this.$store.dispatch("LessNotificationCount");
+            }
+          
           }
        })
       },

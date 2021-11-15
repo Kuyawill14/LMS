@@ -1,7 +1,7 @@
 <template>
 <div>
     <!--  ######### header ################ -->
-       <v-app-bar  v-if="navBarType != 'classwork-preview' " elevate-on-scroll :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
+       <v-app-bar  v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'" elevate-on-scroll :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
         <v-app-bar-nav-icon  @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''"></v-app-bar-nav-icon>
         <router-link to="/">
          <v-toolbar-title class="ml-0 white--text" >
@@ -23,9 +23,9 @@
                 <template v-slot:activator="{ on }">
                     <v-btn icon x-large v-on="on">
                       <!--   <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="12" offset-y="12" color="red darken-4"> -->
-                        <v-avatar style="border: 2px solid #FAFAFA" color="brown" size="40">
+                        <v-avatar  color="brown" size="40">
                             <v-img alt="Proflie"
-                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                             </v-img>
                         </v-avatar>
                       <!--   </v-badge> -->
@@ -36,7 +36,7 @@
                         <div class="mx-auto text-center">
                             <v-avatar color="brown" size="40">
                                 <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                 </v-img>
                             </v-avatar>
 
@@ -72,7 +72,7 @@
 
     <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
    <!--  ######### sidebar ################ -->
-   <div v-if="navBarType != 'classwork-preview' ">
+   <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'">
         <v-navigation-drawer  :expand-on-hover="$vuetify.breakpoint.lgAndUp"  v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>
             <mainNavbar :role="role" :drawer="drawer"  v-if="navBarType != 'selectedCourse'  && (role == 'Student' || role == 'Teacher')" > </mainNavbar>
             <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>

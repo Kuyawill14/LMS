@@ -146,6 +146,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['question', 'answer'],
   data: function data() {
@@ -464,32 +470,76 @@ var render = function() {
                                 "v-list-item-content",
                                 { staticClass: "ma-0 pa-0 success--text" },
                                 [
-                                  _c("div", [
-                                    _vm._v(
-                                      "\n                                    Correct Answer:\n                                "
-                                    )
-                                  ]),
-                                  _vm._v(" "),
                                   _c(
                                     "div",
-                                    {
-                                      staticClass:
-                                        "Subtitle-1 ma-0 pa-0 d-flex pl-3",
-                                      staticStyle: { "line-height": "1.4" }
-                                    },
+                                    { staticClass: "mb-3 black--text" },
                                     [
-                                      _c("span", { staticClass: "pr-2" }, [
-                                        _vm._v("• ")
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        staticClass: "post-content",
-                                        domProps: {
-                                          innerHTML: _vm._s(_vm.question.answer)
-                                        }
-                                      })
+                                      _vm._v(
+                                        "\n                                    Correct Answers:\n                                "
+                                      )
                                     ]
-                                  )
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.answer.options.length == 0
+                                    ? _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex Subtitle-1 ma-0 pa-0 pl-3",
+                                          staticStyle: { "line-height": "1.4" }
+                                        },
+                                        [
+                                          _c("span", { staticClass: "pr-2" }, [
+                                            _vm._v("• ")
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("span", {
+                                            staticClass: "post-content",
+                                            domProps: {
+                                              innerHTML: _vm._s(
+                                                _vm.question.answer
+                                              )
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    : _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "Subtitle-1 ma-0 pa-0 pl-3",
+                                          staticStyle: { "line-height": "1.4" }
+                                        },
+                                        _vm._l(_vm.answer.options, function(
+                                          Answer
+                                        ) {
+                                          return _c(
+                                            "div",
+                                            {
+                                              key: Answer.id,
+                                              staticClass:
+                                                "d-flex mb-0 pb-0 mt-0 pt-0"
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                { staticClass: "pr-2" },
+                                                [_vm._v("• ")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass: "post-content",
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    Answer.Choice
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        }),
+                                        0
+                                      )
                                 ]
                               )
                             ],

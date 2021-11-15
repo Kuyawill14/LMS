@@ -228,6 +228,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var previewClassworkModal = function previewClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_previewClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/previewClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/previewClassworkModal.vue"));
 };
@@ -245,19 +247,15 @@ var previewClassworkModal = function previewClassworkModal() {
       Preview_details: [],
       DateToday: '',
       SelectedFilter: "All",
-      FilterItems: [],
+      FilterItems: [{
+        title: 'All'
+      }],
       ClassworkLength: null,
       isSearching: false,
       search: "",
       isLoading: false
     };
   },
-
-  /*  watch: { 
-       classworks: function(newVal, oldVal) { // watch it
-           this.setFilterItems();
-       }
-   }, */
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -307,30 +305,25 @@ var previewClassworkModal = function previewClassworkModal() {
             }
           });
         }
-      } else if (details.status == 'Submitting' || details.status == null || details.status == 'Taking') {
+      } else if (details.status == 'Submitting' || details.status == null || details.status == '' || details.status == 'Taking') {
         this.Previewdialog = !this.Previewdialog;
         this.Preview_id = details.classwork_id;
         this.Preview_details = details;
       }
     },
     setFilterItems: function setFilterItems() {
-      var datalength = this.classworks.ClassworkTitle.length + 1;
+      var _this = this;
 
-      for (var i = 0; i < datalength; i++) {
-        if (i == 0) {
-          this.FilterItems.push({
-            title: 'All'
+      if (this.FilterItems.length - 1 != this.classworks.ClassworkTitle.length) {
+        this.classworks.ClassworkTitle.forEach(function (item) {
+          _this.FilterItems.push({
+            title: item.title
           });
-        } else {
-          this.FilterItems.push({
-            title: this.classworks.ClassworkTitle[i - 1].title
-          });
-        }
+        });
       }
     }
   },
   mounted: function mounted() {
-    this.setFilterItems();
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
   },
@@ -22698,6 +22691,11 @@ var render = function() {
                           "item-text": "title",
                           dense: "",
                           outlined: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            return _vm.setFilterItems()
+                          }
                         },
                         model: {
                           value: _vm.SelectedFilter,

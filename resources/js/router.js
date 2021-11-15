@@ -715,6 +715,45 @@ const router = new Router({
                     name: "invites"
                 },
 
+                {
+                    path: "/classwork-overview/:id",
+                    component: () => import ("./components/Classwork_View/classworkSubmission-Overview.vue"),
+                    name: "classwork_overview",
+                    beforeEnter: (to, form, next) => {
+                        store.dispatch('IsAuthenticated').then(() => {
+                                store.dispatch('fetchMyCoursesStatus').then((res) => {
+                                        if (res.status == 200) {
+                                            store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                                if (response.exist == true) {
+                                                    if (response.status == 1) {
+                                                        next();
+                                                    }
+                                                } else {
+                                                    return next({
+                                                        name: "course-not-found",
+                                                        params: { id: to.params.id }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                    .catch(() => {
+                                        store.state.CurrentUser.IsAuthenticated = false;
+                                        return next({
+                                            path: "/login"
+                                        });
+                                    })
+                            })
+                            .catch(() => {
+                                store.state.CurrentUser.IsAuthenticated = false;
+                                return next({
+                                    path: "/login"
+                                });
+                            })
+                    },
+                },
+                
+
 
 
                 {

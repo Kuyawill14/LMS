@@ -351,6 +351,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -769,7 +774,25 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _c("v-divider", { attrs: { vertical: "" } })
+                  _c("v-divider", { attrs: { vertical: "" } }),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "white--text Subtitle-1" }, [
+                    _c("span", { staticClass: "font-weight-bold" }, [
+                      _vm._v("Score: ")
+                    ]),
+                    _vm._v(" "),
+                    _c("span", {}, [
+                      _vm._v(
+                        _vm._s(
+                          _vm.classworkDetails.score +
+                            " /" +
+                            _vm.classworkDetails.points
+                        )
+                      )
+                    ])
+                  ])
                 ],
                 1
               )
@@ -1235,53 +1258,61 @@ var render = function() {
                               _c(
                                 "v-row",
                                 [
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12" } },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "text-right pt-1" },
+                                  _vm.$vuetify.breakpoint.mdAndUp
+                                    ? _c(
+                                        "v-col",
+                                        { attrs: { cols: "12" } },
                                         [
+                                          _c(
+                                            "div",
+                                            { staticClass: "text-right pt-1" },
+                                            [
+                                              _vm.classworkDetails.status ==
+                                              "Submitted"
+                                                ? _c(
+                                                    "v-chip",
+                                                    {
+                                                      attrs: {
+                                                        color: "success"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [_vm._v("mdi-check")]
+                                                      ),
+                                                      _vm._v(
+                                                        " Score: " +
+                                                          _vm._s(
+                                                            _vm.classworkDetails
+                                                              .score +
+                                                              "/" +
+                                                              _vm
+                                                                .classworkDetails
+                                                                .points
+                                                          )
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-row", {
+                                            staticStyle: { height: "4vh" }
+                                          }),
+                                          _vm._v(" "),
                                           _vm.classworkDetails.status ==
                                           "Submitted"
-                                            ? _c(
-                                                "v-chip",
-                                                { attrs: { color: "success" } },
-                                                [
-                                                  _c(
-                                                    "v-icon",
-                                                    { attrs: { left: "" } },
-                                                    [_vm._v("mdi-check")]
-                                                  ),
-                                                  _vm._v(
-                                                    " Score: " +
-                                                      _vm._s(
-                                                        _vm.classworkDetails
-                                                          .score +
-                                                          "/" +
-                                                          _vm.classworkDetails
-                                                            .points
-                                                      )
-                                                  )
-                                                ],
-                                                1
-                                              )
+                                            ? _c("v-divider")
                                             : _vm._e()
                                         ],
                                         1
-                                      ),
-                                      _vm._v(" "),
-                                      _c("v-row", {
-                                        staticStyle: { height: "4vh" }
-                                      }),
-                                      _vm._v(" "),
-                                      _vm.classworkDetails.status == "Submitted"
-                                        ? _c("v-divider")
-                                        : _vm._e()
-                                    ],
-                                    1
-                                  ),
+                                      )
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
@@ -2046,8 +2077,11 @@ var render = function() {
                   _c(
                     "v-card",
                     {
-                      staticClass: "pa-3",
-                      attrs: { elevation: "1", outlined: "" }
+                      class: _vm.$vuetify.breakpoint.mdAndUp ? "pa-3" : "pa-1",
+                      attrs: {
+                        elevation: !_vm.$vuetify.breakpoint.mdAndUp ? "0" : "1",
+                        outlined: _vm.$vuetify.breakpoint.mdAndUp
+                      }
                     },
                     [
                       _c("viewSubmission", {
@@ -2106,7 +2140,10 @@ var render = function() {
                 {
                   on: {
                     click: function($event) {
-                      _vm.selected = 1
+                      ;(_vm.selected = 1),
+                        (_vm.isViewingSubmission = _vm.isViewingSubmission
+                          ? (_vm.isViewingSubmission = false)
+                          : _vm.isViewingSubmission)
                     }
                   }
                 },

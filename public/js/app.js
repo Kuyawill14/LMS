@@ -2857,6 +2857,44 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       component: invites,
       name: "invites"
     }, {
+      path: "/classwork-overview/:id",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_classworkSubmission-Overview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Classwork_View/classworkSubmission-Overview.vue */ "./resources/js/components/Classwork_View/classworkSubmission-Overview.vue"));
+      },
+      name: "classwork_overview",
+      beforeEnter: function beforeEnter(to, form, next) {
+        _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+            if (res.status == 200) {
+              _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function (response) {
+                if (response.exist == true) {
+                  if (response.status == 1) {
+                    next();
+                  }
+                } else {
+                  return next({
+                    name: "course-not-found",
+                    params: {
+                      id: to.params.id
+                    }
+                  });
+                }
+              });
+            }
+          })["catch"](function () {
+            _store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated = false;
+            return next({
+              path: "/login"
+            });
+          });
+        })["catch"](function () {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated = false;
+          return next({
+            path: "/login"
+          });
+        });
+      }
+    }, {
       path: "/classwork/:id",
       name: "classwork-preview",
       component: classworkView,
@@ -3932,7 +3970,8 @@ var state = {
   classwork_show_details: {},
   current_classwork_id: null,
   current_course_id: null,
-  isFromOtherPage: false
+  isFromOtherPage: false,
+  isViewing: false
 };
 var getters = {
   get_Classworks: function get_Classworks(state) {
@@ -3940,6 +3979,9 @@ var getters = {
   },
   get_classwork_show_details: function get_classwork_show_details(state) {
     return state.classwork_show_details;
+  },
+  get_Viewing: function get_Viewing(state) {
+    return state.isViewing;
   }
 };
 var actions = {
@@ -4016,6 +4058,54 @@ var actions = {
           }
         }
       }, _callee3);
+    }))();
+  },
+  ClearClasswork: function ClearClasswork() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              state.Classworks = [];
+
+            case 1:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  },
+  isViewingSubmission: function isViewingSubmission() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              state.isViewing = true;
+
+            case 1:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }))();
+  },
+  isNotViewingSubmission: function isNotViewingSubmission() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              state.isViewing = false;
+
+            case 1:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
     }))();
   }
 };
@@ -5012,17 +5102,20 @@ var actions = {
           switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref4.commit;
-              state.notificationCount -= 1;
-              text = document.title.substring(document.title.indexOf(' ') + 1);
 
-              if (state.notificationCount != 0) {
-                nunber = '(' + state.notificationCount + ') ';
-                document.title = nunber + text;
-              } else {
-                document.title = text;
+              if (state.notificationCount > 0) {
+                state.notificationCount -= 1;
+                text = document.title.substring(document.title.indexOf(' ') + 1);
+
+                if (state.notificationCount != 0) {
+                  nunber = '(' + state.notificationCount + ') ';
+                  document.title = nunber + text;
+                } else {
+                  document.title = text;
+                }
               }
 
-            case 4:
+            case 2:
             case "end":
               return _context4.stop();
           }
@@ -5164,8 +5257,40 @@ var actions = {
     }))();
   },
   LessInviteCount: function LessInviteCount(_ref10) {
-    var commit = _ref10.commit;
-    state.inviteCount -= 1;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+        while (1) {
+          switch (_context10.prev = _context10.next) {
+            case 0:
+              commit = _ref10.commit;
+              state.inviteCount -= 1;
+
+            case 2:
+            case "end":
+              return _context10.stop();
+          }
+        }
+      }, _callee10);
+    }))();
+  },
+  ClearNotification: function ClearNotification(_ref11) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              commit = _ref11.commit;
+              state.class_notification = [];
+
+            case 2:
+            case "end":
+              return _context11.stop();
+          }
+        }
+      }, _callee11);
+    }))();
   }
 };
 var mutations = {

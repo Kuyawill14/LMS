@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-require('dotenv').config();
+//require('dotenv').config();
 
 /*
  |--------------------------------------------------------------------------
@@ -12,15 +12,24 @@ require('dotenv').config();
  |
  */
 
-require('laravel-mix-bundle-analyzer');
+//require('laravel-mix-bundle-analyzer');
 
-if (mix.isWatching()) {
+/* if (mix.isWatching()) {
     mix.bundleAnalyzer();
-}
+} */
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-
+/* mix.webpackConfig( {
+    watchOptions: {
+      ignored: /node_modules/
+    }
+}); */
+/* module.exports = {
+    watchOptions: {
+      ignored: /node_modules/
+    }
+  }; */
 
 // module.exports = {
 //     configureWebpack: {

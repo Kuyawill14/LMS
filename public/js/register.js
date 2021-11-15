@@ -204,6 +204,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -423,7 +425,10 @@ var render = function() {
               _c(
                 "v-col",
                 {
-                  staticClass: "ma-0 pa-0",
+                  class:
+                    _vm.$vuetify.breakpoint.xs || _vm.$vuetify.breakpoint.sm
+                      ? ""
+                      : "ma-0 pa-0",
                   attrs: { cols: "12", sm: "12", md: "12" }
                 },
                 [
@@ -526,7 +531,11 @@ var render = function() {
                             "v-container",
                             {
                               staticClass: "fill-height ",
-                              staticStyle: { "padding-top": "35px" },
+                              style:
+                                _vm.$vuetify.breakpoint.xs ||
+                                _vm.$vuetify.breakpoint.sm
+                                  ? ""
+                                  : "padding-top: 35px;",
                               attrs: { fluid: "" }
                             },
                             [
@@ -734,7 +743,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    " text-left mt-5",
+                                                    "mt-0 pt-0 text-left",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -789,7 +798,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-2 ",
+                                                    "ma-0 pa-0 mt-2 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -804,7 +813,9 @@ var render = function() {
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       rules: _vm.StudentIdRules,
                                                       label:
                                                         "Student ID Number",
@@ -837,15 +848,16 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0",
+                                                  staticClass: "ma-0 pa-0 mt-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       rules: _vm.nameRules,
                                                       label: "First Name",
                                                       name: "firstName",
@@ -873,7 +885,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0 ",
+                                                    "ma-0 pa-0 mt-0 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -888,7 +900,9 @@ var render = function() {
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       label: "Middle Name",
                                                       rules: _vm.nameRules,
                                                       name: "middleName",
@@ -916,8 +930,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0",
+                                                  staticClass: "ma-0 pa-0 mt-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -932,7 +945,9 @@ var render = function() {
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       label: "Last Name",
                                                       rules: _vm.nameRules,
                                                       name: "lastname",
@@ -960,7 +975,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0 ",
+                                                    "ma-0 pa-0 mt-0 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -975,7 +990,9 @@ var render = function() {
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       label: "Email",
                                                       name: "Email",
                                                       rules:
@@ -1002,8 +1019,7 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0",
+                                                  staticClass: "ma-0 pa-0",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -1018,7 +1034,9 @@ var render = function() {
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       "append-icon": _vm.show
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
@@ -1062,15 +1080,16 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  staticClass:
-                                                    "mb-0 pb-0 pt-0 mt-0 ",
+                                                  staticClass: "ma-0 pa-0 ",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       outlined: "",
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       "append-icon": _vm.show1
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
@@ -1118,7 +1137,7 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass:
-                                                    "mb-0 pb-0 pt-0  text-left mt-2",
+                                                    "ma-0 pa-0 text-left mt-2",
                                                   attrs: { cols: "12", md: "8" }
                                                 },
                                                 [
@@ -1130,6 +1149,10 @@ var render = function() {
                                                         loading:
                                                           _vm.isRegistering,
                                                         disabled: !_vm.valid,
+                                                        block: !_vm.$vuetify
+                                                          .breakpoint.mdAndUp,
+                                                        rounded: !_vm.$vuetify
+                                                          .breakpoint.mdAndUp,
                                                         color: "primary"
                                                       },
                                                       on: {

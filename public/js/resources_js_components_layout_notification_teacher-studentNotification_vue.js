@@ -307,20 +307,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee);
       }))();
     },
-    NotificationHide: function NotificationHide(id, index) {
+    NotificationHide: function NotificationHide(id, index, status) {
       var _this2 = this;
 
       this.$store.dispatch("HideNotification", id).then(function (res) {
         if (res == 200) {
           _this2.get_notification.splice(index, 1);
 
-          _this2.$store.dispatch("LessNotificationCount");
-          /* this.get_notification.forEach(item => {
-                if(item.n_id == id){
-                    item.hide_notif = 1;
-                }
-            }); */
-
+          if (status != 1) {
+            _this2.$store.dispatch("LessNotificationCount");
+          }
         }
       });
     },
@@ -1211,7 +1207,8 @@ var render = function() {
                                                                           ) {
                                                                             return _vm.NotificationHide(
                                                                               item.n_id,
-                                                                              index
+                                                                              index,
+                                                                              item.status
                                                                             )
                                                                           }
                                                                         }

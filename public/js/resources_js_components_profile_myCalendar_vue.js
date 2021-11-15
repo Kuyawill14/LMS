@@ -2959,6 +2959,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3108,9 +3109,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3135,7 +3136,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3225,6 +3226,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 

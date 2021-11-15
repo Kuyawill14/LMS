@@ -86,6 +86,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8567,86 +8568,81 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("h3", { staticClass: "pl-2 pt-2" }, [_vm._v("My Tasks")]),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
       _c(
-        "v-card",
+        "div",
+        {
+          style: !_vm.$vuetify.breakpoint.mdAndUp
+            ? "height:64vh;overflow-y:scroll"
+            : "height:32.3vh;overflow-y:scroll"
+        },
         [
-          _c("h3", { staticClass: "pl-2 pt-2" }, [_vm._v("MyTasks")]),
-          _vm._v(" "),
-          _c("v-divider"),
+          _c("vue-element-loading", {
+            attrs: {
+              active: _vm.isGetting,
+              text: "Loading",
+              duration: "0.7",
+              textStyle: { fontSize: "15px" },
+              spinner: "line-scale",
+              color: "#EF6C00",
+              size: "30"
+            }
+          }),
           _vm._v(" "),
           _c(
-            "div",
-            {
-              style: !_vm.$vuetify.breakpoint.mdAndUp
-                ? "height:64vh;overflow-y:scroll"
-                : "height:32.3vh;overflow-y:scroll"
-            },
+            "v-list",
+            { staticClass: "pa-1" },
             [
-              _c("vue-element-loading", {
-                attrs: {
-                  active: _vm.isGetting,
-                  text: "Loading",
-                  duration: "0.7",
-                  textStyle: { fontSize: "15px" },
-                  spinner: "line-scale",
-                  color: "#EF6C00",
-                  size: "30"
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "v-list",
-                [
-                  _vm.mytask.length == 0 && !_vm.isGetting
-                    ? _c(
-                        "v-list-item",
-                        {
-                          style: !_vm.$vuetify.breakpoint.mdAndUp
-                            ? "margin-top:10rem"
-                            : "margin-top:5rem"
-                        },
+              _vm.mytask.length == 0 && !_vm.isGetting
+                ? _c(
+                    "v-list-item",
+                    {
+                      style: !_vm.$vuetify.breakpoint.mdAndUp
+                        ? "margin-top:10rem"
+                        : "margin-top:5rem"
+                    },
+                    [
+                      _c(
+                        "v-list-item-content",
                         [
                           _c(
-                            "v-list-item-content",
+                            "v-row",
+                            {
+                              staticClass: "mt-3",
+                              attrs: { align: "center", justify: "center" }
+                            },
                             [
                               _c(
-                                "v-row",
+                                "v-col",
                                 {
-                                  staticClass: "mt-3",
-                                  attrs: { align: "center", justify: "center" }
+                                  staticClass: "text-center",
+                                  attrs: { cols: "12" }
                                 },
                                 [
                                   _c(
-                                    "v-col",
+                                    "v-icon",
                                     {
-                                      staticClass: "text-center",
-                                      attrs: { cols: "12" }
+                                      staticStyle: { "font-size": "3rem" },
+                                      attrs: { color: "primary" }
                                     },
                                     [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          staticStyle: { "font-size": "3rem" },
-                                          attrs: { color: "primary" }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n                                    mdi-clipboard-remove-outline\r\n                                "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("p", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "font-weight-medium" },
-                                          [_vm._v("Yahoo!")]
-                                        ),
-                                        _vm._v(", You have no task today")
-                                      ])
-                                    ],
-                                    1
-                                  )
+                                      _vm._v(
+                                        "\r\n                                    mdi-clipboard-remove-outline\r\n                                "
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _c(
+                                      "span",
+                                      { staticClass: "font-weight-medium" },
+                                      [_vm._v("Yahoo!")]
+                                    ),
+                                    _vm._v(", You have no task today")
+                                  ])
                                 ],
                                 1
                               )
@@ -8656,81 +8652,90 @@ var render = function() {
                         ],
                         1
                       )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm._l(_vm.mytask, function(item, index) {
-                    return [
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._l(_vm.mytask, function(item, index) {
+                return [
+                  _c(
+                    "v-list-item",
+                    {
+                      key: index,
+                      on: {
+                        click: function($event) {
+                          return _vm.$router.push({
+                            name: "clwk",
+                            params: { id: item.course_id },
+                            query: { clwk: item.classwork_id }
+                          })
+                        }
+                      }
+                    },
+                    [
                       _c(
-                        "v-list-item",
-                        { key: index },
+                        "v-list-item-avatar",
+                        [
+                          item.status == "Submitted"
+                            ? _c(
+                                "v-icon",
+                                { attrs: { color: "success", large: "" } },
+                                [_vm._v("mdi-clipboard-check-outline")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          item.status != "Submitted"
+                            ? _c(
+                                "v-icon",
+                                { attrs: { color: "red", large: "" } },
+                                [_vm._v(" mdi-clipboard-edit-outline")]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-list-item-content",
                         [
                           _c(
-                            "v-list-item-avatar",
+                            "v-list-item-title",
+                            { staticClass: "font-weight-bold" },
                             [
-                              item.status == "Submitted"
-                                ? _c(
-                                    "v-icon",
-                                    { attrs: { color: "success", large: "" } },
-                                    [_vm._v("mdi-clipboard-check-outline")]
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              item.status != "Submitted"
-                                ? _c(
-                                    "v-icon",
-                                    { attrs: { color: "red", large: "" } },
-                                    [_vm._v(" mdi-clipboard-edit-outline")]
-                                  )
-                                : _vm._e()
-                            ],
-                            1
+                              _vm._v(
+                                "\r\n                                " +
+                                  _vm._s(item.title) +
+                                  "   \r\n                            "
+                              )
+                            ]
                           ),
                           _vm._v(" "),
-                          _c(
-                            "v-list-item-content",
-                            [
-                              _c(
-                                "v-list-item-title",
-                                { staticClass: "font-weight-bold" },
-                                [
-                                  _vm._v(
-                                    "\r\n                                " +
-                                      _vm._s(item.title) +
-                                      "   \r\n                            "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("v-list-item-subtitle", [
-                                _c(
-                                  "span",
-                                  { staticClass: "font-weight-medium" },
-                                  [_vm._v("Due: ")]
-                                ),
-                                _vm._v(" "),
-                                _c("small", [
-                                  _vm._v(
-                                    _vm._s(
-                                      item.availability == 1
-                                        ? _vm.format_date(item.to_date)
-                                        : "No due"
-                                    )
-                                  )
-                                ])
-                              ])
-                            ],
-                            1
-                          )
+                          _c("v-list-item-subtitle", [
+                            _c("span", { staticClass: "font-weight-medium" }, [
+                              _vm._v("Due: ")
+                            ]),
+                            _vm._v(" "),
+                            _c("small", [
+                              _vm._v(
+                                _vm._s(
+                                  item.availability == 1
+                                    ? _vm.format_date(item.to_date)
+                                    : "No due"
+                                )
+                              )
+                            ])
+                          ])
                         ],
                         1
                       )
-                    ]
-                  })
-                ],
-                2
-              )
+                    ],
+                    1
+                  )
+                ]
+              })
             ],
-            1
+            2
           )
         ],
         1
