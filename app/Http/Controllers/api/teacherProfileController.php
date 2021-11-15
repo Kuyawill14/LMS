@@ -91,30 +91,6 @@ class TeacherProfileController extends Controller
         $i = [];
         $totalProgress = 0;
         $userId = $id;
-     
-            // $allClass = tbl_userclass::select('tbl_subject_courses.course_name',
-            // 'tbl_subject_courses.course_code',
-            // 'tbl_subject_courses.id as course_id',
-            // )
-            // ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
-            // ->selectRaw('count(tbl_class_classworks.class_id ) as classwork_count')
-            // ->selectRaw('count(tbl_userclasses.class_id ) as classes_count')
-
-            // ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-            // ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-            // ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_classes.id')
-           
-            // ->where('user_id',$userId)
-            // ->get();
-
-            // foreach($allClass as $key => $value) {
-                
-            //     $StudentCount = tbl_userclass::where('course_id', $value ->course_id)
-            //     ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
-            //     ->where('users.role','Student')
-            //     ->count();
-            //     $value->student_count = $StudentCount;
-            // }
 
                     
             $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id = users.id) AS course_count';

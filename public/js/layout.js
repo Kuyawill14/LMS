@@ -79,6 +79,153 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {
+    console.log(this.$route);
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/course-navbar.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/course-navbar.vue?vue&type=script&lang=js& ***!
@@ -486,15 +633,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _admin_navbar_vue_vue_type_template_id_9da770e2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin-navbar.vue?vue&type=template&id=9da770e2& */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=template&id=9da770e2&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _admin_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin-navbar.vue?vue&type=script&lang=js& */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 /* normalize component */
 ;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__.default)(
-  script,
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _admin_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _admin_navbar_vue_vue_type_template_id_9da770e2___WEBPACK_IMPORTED_MODULE_0__.render,
   _admin_navbar_vue_vue_type_template_id_9da770e2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
@@ -601,6 +750,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_course_bottom_navigation_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./course-bottom-navigation.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/bottom-navigation/course-bottom-navigation.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_course_bottom_navigation_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_admin_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./admin-navbar.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/layout/navigation/admin/admin-navbar.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_admin_navbar_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -853,60 +1017,197 @@ var render = function() {
     "v-list",
     { attrs: { nav: "" } },
     [
-      [
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
-          [
+      _vm.$route.name == "teacherProfile"
+        ? [
             _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
+              "v-list-item",
+              {
+                attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" }
+              },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v("\n                    Go back\n                ")
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("v-divider")
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.$route.name != "teacherProfile"
+        ? [
+            _c(
+              "v-list-item",
+              { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-view-dashboard")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v(
+                        "\n                    Dashboard\n                "
+                      )
+                    ])
+                  ],
+                  1
+                )
+              ],
               1
             ),
             _vm._v(" "),
             _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Dashboard\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-group",
-          {
-            attrs: {
-              color: "none",
-              value: "false",
-              link: "",
-              "prepend-icon": "mdi-contacts"
-            },
-            scopedSlots: _vm._u([
+              "v-list-group",
               {
-                key: "activator",
-                fn: function() {
-                  return [_c("v-list-item-title", [_vm._v("Manage Users")])]
+                attrs: {
+                  color: "none",
+                  value: "false",
+                  link: "",
+                  "prepend-icon": "mdi-contacts"
                 },
-                proxy: true
-              }
-            ])
-          },
-          [
+                scopedSlots: _vm._u(
+                  [
+                    {
+                      key: "activator",
+                      fn: function() {
+                        return [
+                          _c("v-list-item-title", [_vm._v("Manage Users")])
+                        ]
+                      },
+                      proxy: true
+                    }
+                  ],
+                  null,
+                  false,
+                  303006852
+                )
+              },
+              [
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: {
+                      link: "",
+                      to: { name: "manageteachers" },
+                      exact: ""
+                    }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                        Instructors\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: {
+                      link: "",
+                      to: { name: "managestudents" },
+                      exact: ""
+                    }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                        Students\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: {
+                      link: "",
+                      to: { name: "managestudents" },
+                      exact: ""
+                    }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                        Program Chair\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
             _vm._v(" "),
             _c(
               "v-list-item",
               {
-                attrs: { link: "", to: { name: "manageteachers" }, exact: "" }
+                attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" }
               },
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
+                  [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
                   1
                 ),
                 _vm._v(" "),
@@ -915,7 +1216,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Instructors\n                    "
+                        "\n                    Monitor Teachers\n                "
                       )
                     ])
                   ],
@@ -928,12 +1229,16 @@ var render = function() {
             _c(
               "v-list-item",
               {
-                attrs: { link: "", to: { name: "managestudents" }, exact: "" }
+                attrs: {
+                  link: "",
+                  to: { name: "schoolyear_semester" },
+                  exact: ""
+                }
               },
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                  [_c("v-icon", [_vm._v("mdi-account-group")])],
                   1
                 ),
                 _vm._v(" "),
@@ -942,7 +1247,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Students\n                    "
+                        "\n                    School Year / Semester\n                "
                       )
                     ])
                   ],
@@ -954,13 +1259,11 @@ var render = function() {
             _vm._v(" "),
             _c(
               "v-list-item",
-              {
-                attrs: { link: "", to: { name: "managestudents" }, exact: "" }
-              },
+              { attrs: { link: "", to: { name: "department" }, exact: "" } },
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                  [_c("v-icon", [_vm._v("mdi-office-building-outline")])],
                   1
                 ),
                 _vm._v(" "),
@@ -969,7 +1272,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                        Program Chair\n                    "
+                        "\n                    Department\n                "
                       )
                     ])
                   ],
@@ -978,85 +1281,8 @@ var render = function() {
               ],
               1
             )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v(
-                    "\n                    Monitor Teachers\n                "
-                  )
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          {
-            attrs: { link: "", to: { name: "schoolyear_semester" }, exact: "" }
-          },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-account-group")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v(
-                    "\n                    School Year / Semester\n                "
-                  )
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "department" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-office-building-outline")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Department\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        )
-      ]
+          ]
+        : _vm._e()
     ],
     2
   )

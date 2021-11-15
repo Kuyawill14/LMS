@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\tbl_userDetails;
+use App\Models\tbl_userclass;
 use Illuminate\Support\Facades\DB;
+use App\Models\tbl_subject_course;
+
+
 class MonitorTeacherController extends Controller
 {
     /**
@@ -57,6 +61,129 @@ class MonitorTeacherController extends Controller
     //     ->get();
 
         return $teachers;
+    }
+
+
+
+
+    public function getSpecificTeacherSumarryData($teacher_id, $school_year,$semester) {
+        $Summary_data = [];
+        
+
+        $Summary_data['teacher_sumarry_data'] = $this->teacher_sumarry_data($teacher_id,$school_year,$semester);
+        $Summary_data['course_summary'] = [];
+        $Summary_data['sumarry_data'] = [];
+
+    }
+
+
+    public function teacher_sumarry_data(Request $request){
+        $userId = $request->teacher_id;
+        $school_year_id = $request->school_year_id;
+        $semester_id = $request->semester_id;
+        $fileter_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
+        
+        $overview = [
+            'total_courses' => 0,
+            'total_students' => 0,
+            'total_classes'  => 0,
+            'total_classwork'=> 0,
+            'total_modules'  => 0,
+        ];
+
+
+
+                    
+            $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id =  '.$userId.' and  course_id = tbl_teacher_courses.course_id ) AS course_count';
+            $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = '.$userId.' and  course_id = tbl_teacher_courses.course_id) AS total_classes';
+            $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = '.$userId.' and  course_id = tbl_teacher_courses.course_id) AS total_classworks';
+            $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
+            LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = '.$userId.' and  course_id = tbl_teacher_courses.course_id) AS sub_modules_count';
+          /*   $student_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE  course_id = tbl_teacher_courses.course_id ) AS total_students'; */
+
+
+            $teacher_course_list =   tbl_subject_course::select('tbl_subject_courses.id as course_id')
+            ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
+            ->where('tbl_teacher_courses.user_id',$userId)
+            ->where($fileter_query)
+            ->get();
+
+
+            $allCourses = [];
+
+
+            foreach( $teacher_course_list as $course) {
+                $tmp = tbl_subject_course::select('tbl_subject_courses.course_name',
+                'tbl_subject_courses.course_code',
+                'tbl_subject_courses.id as course_id',
+                'tbl_subject_courses.school_year_id',
+                'tbl_subject_courses.semester_id'
+                )
+                ->selectRaw($class_count)
+                ->selectRaw($classwork_count)
+                ->selectRaw($sub_module_count)
+    
+                ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
+                ->where('tbl_teacher_courses.user_id',$userId)
+                ->where($fileter_query)
+                ->where('tbl_teacher_courses.id',$course->course_id)
+                ->get();
+                $allCourses[] = $tmp[0];
+            }
+
+            $counter = 0;
+            foreach($allCourses as $item){
+                $counter ++;
+                $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id)
+                ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+                ->where('users.role','Student')
+                ->count();
+                    
+                $item->total_students = $StudentCount;
+               
+
+           
+                $overview['total_students'] +=   $item->total_students;
+
+                $overview['total_courses'] =    $counter ;
+                $overview['total_classes'] +=  $item->total_classes;
+                $overview['total_classwork'] +=  $item->total_classworks;
+                $overview['total_modules'] +=  $item->sub_modules_count;
+            }
+
+
+       
+
+
+
+
+            return ['overview' => $overview, 'courses' => $allCourses , ];    
+
+    }
+
+    public function filterSchoolyearSemester ($school_year_id,  $semester_id) {
+        
+        $query = [];
+
+
+     
+        if($school_year_id != null && $school_year_id != null && $semester_id != null  ) {
+            $query = [
+                'tbl_subject_courses.school_year_id' => $school_year_id ,
+                'tbl_subject_courses.semester_id' => $semester_id,
+            ];
+        } else if($school_year_id != null) {
+            $query = [
+                'tbl_subject_courses.school_year_id' => $school_year_id ,
+            ];
+        } else if($semester_id != null) {
+            $query = [
+                'tbl_subject_courses.semester_id' => $semester_id,
+            ];
+        } else {
+            $query = [];
+        }
+        return $query;
     }
 
 

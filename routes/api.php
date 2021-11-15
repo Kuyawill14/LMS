@@ -375,6 +375,9 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
     Route::get('/teachers/studentList/{id}', [TeacherProfileController::class, 'getCourseStudentList']);
     Route::get('/teachers/classworkList/{id}', [TeacherProfileController::class, 'getCourseClassworkList']);
+
+
+    Route::get('/teacher/summarry', [MonitorTeacherController::class, 'teacher_sumarry_data']);
     
 });
 
