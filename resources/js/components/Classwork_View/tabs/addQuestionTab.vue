@@ -1,5 +1,11 @@
 <template>
-<div class="pa-1">
+<div>
+
+<div class="pa-0 ma-0" v-if="isStudentView">
+    <studentViewForTeacher v-on:closeDialog="isStudentView = false, $store.dispatch('isNotViewingSubmission')" :classworkDetails="classworkDetails"  :Question="getAll_questions" v-if="isStudentView"></studentViewForTeacher>
+</div>
+
+<div class="pa-1" v-else>
 
 <v-hover v-slot="{ hover }">
     <div>
@@ -8,19 +14,17 @@
         @click="AddNewQuestion"
         :elevation="hover ? '10' : '2'"
         :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 0.5em !important;cursor:pointer;' : 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : 
         $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top: 5.5em !important;margin-left: 0.5em !important;cursor:pointer;' : ''"
+        'position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : ''"
         dense clipped-right shaped class="fixed-bar" floating  color="blue"  >
             <v-chip
+            small
             style="cursor:pointer;"
-            class="ma-4"
             color="blue"
             text-color="white">
-            <v-avatar left size="50" tile>
                 <v-icon style="font-size:1.5rem" left>mdi-plus</v-icon>
-            </v-avatar>
-            <span class="font-weight-bold">
+            <span class="font-weight-bold pl-2">
                 ADD
             </span>
             </v-chip>
@@ -31,26 +35,77 @@
 
 <v-hover v-slot="{ hover }">
     <div>
+        <v-app-bar
+       v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
+        @click="studenView()"
+        :elevation="hover ? '10' : '2'"
+        :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 12em !important;margin-left: 1em !important;cursor:pointer;' : 
+        $vuetify.breakpoint.mdAndUp && fab ?
+        'position: fixed !important;width: 130px !important;z-index: 2;top:12em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        dense clipped-right shaped class="fixed-bar" floating  color="success"  >
+            <v-chip
+            small
+            style="cursor:pointer;"
+            color="success"
+            text-color="white">
+            <v-icon style="font-size:1.5rem" left>mdi-eye</v-icon>
+            <span class="font-weight-bold pl-2">
+                PREVIEW
+            </span>
+            </v-chip>
+        </v-app-bar>
+    </div>
+</v-hover>
+
+<v-hover v-slot="{ hover }">
+    <div>
+        <v-app-bar
+       v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
+     
+        :elevation="hover ? '10' : '2'"
+        :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 18em !important;margin-left: 1em !important;cursor:pointer;' : 
+        $vuetify.breakpoint.mdAndUp && fab ?
+        'position: fixed !important;width: 130px !important;z-index: 2;top:16em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        dense clipped-right shaped class="fixed-bar" floating  color="red"  >
+            <v-chip
+            small
+            style="cursor:pointer;"
+            color="red"
+            text-color="white">
+            <v-icon style="font-size:1.3rem" left>mdi-poll</v-icon>
+            <span class="font-weight-bold pl-2">
+                ANALYTICS
+            </span>
+            </v-chip>
+        </v-app-bar>
+    </div>
+</v-hover>
+
+
+<v-hover v-slot="{ hover }">
+    <div>
     <v-app-bar  
+    flat
+    :light="!isNewChanges"
     :elevation="hover ? '10' : '2'"
-    @click="SaveAllQuestion()"
+    @click="isNewChanges ? SaveAllQuestion() : ''"
     v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
     :style="$vuetify.breakpoint.mdAndUp && !fab ? 
-    'position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 0.5em !important;cursor:pointer;' : 
+    'position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : 
     $vuetify.breakpoint.mdAndUp && fab ?
-    'position: fixed !important;width: 130px !important;z-index: 2;top: 1.5em !important;margin-left: 0.5em !important;cursor:pointer;' : ''"
+    'position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : ''"
     
-    dense clipped-right shaped class="fixed-bar" floating  color="primary"  >
+    dense clipped-right shaped class="fixed-bar" floating  :color="isNewChanges ? 'primary' : '#EEEEEE'"  >
         <v-chip
+  
+        small
         style="cursor:pointer;"
-        class="ma-2"
-        color="primary"
+        :color="isNewChanges ? 'primary' : '#EEEEEE'"
         text-color="white">
-        <v-avatar left size="50" tile>
-            <v-icon style="font-size:1.5rem" left>mdi-content-save-all-outline</v-icon>
-        </v-avatar>
-        <span class="font-weight-bold">
-
+        <v-icon style="font-size:1.5rem" left>mdi-content-save-all-outline</v-icon>
+        <span class="font-weight-bold pl-2">
             {{isSavingAllQuestion ? 'SAVING..' : 'SAVE'}}
         </span>
         </v-chip>
@@ -479,18 +534,7 @@
       </v-container>
 
        <v-scale-transition>
-       <!--  <v-btn
-            fab
-            v-show="fab"
-            v-scroll="onScroll"
-            fixed
-            bottom
-            right
-            color="primary"
-            @click="toTop"
-        >
-            <v-icon>mdi-arrow-up</v-icon>
-        </v-btn> -->
+
 
         <v-btn fab fixed bottom right color="primary"
              v-if="!$vuetify.breakpoint.mdAndUp"
@@ -498,6 +542,51 @@
             <v-icon>mdi-plus</v-icon>
         </v-btn>
     </v-scale-transition>
+<!-- 
+    <div style="height: 100px; position: relative">
+          <v-scale-transition>
+        <v-btn fab absolute top right color="primary"
+            @click="AddNewQuestion">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        </v-scale-transition>
+
+         <v-scale-transition>
+        <v-btn fab absolute top right color="primary"
+            @click="AddNewQuestion">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        </v-scale-transition>
+    </div> -->
+
+ 
+   
+
+   
+     
+
+    <!-- <v-speed-dial v-model="fab" bottom  right direction="top" fixed transition="slide-y-reverse-transition">
+      <template v-slot:activator>
+        <v-btn @click="fab ? SaveAllQuestion() : ''" color="primary" dark fab>
+          <v-icon v-if="fab">
+            mdi-content-save-all-outline
+          </v-icon>
+          <v-icon v-else>
+            mdi-cog-outline
+          </v-icon>
+        </v-btn>
+      </template>
+      <v-btn @click="AddNewQuestion" fab dark  color="blue">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+      <v-btn fab dark  color="green">
+        <v-icon>mdi-eye</v-icon>
+      </v-btn>
+      <v-btn fab dark small color="red">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+    </v-speed-dial> -->
+    
 
     <div>
     <v-snackbar  bottom left v-model="showSnackbar">
@@ -522,7 +611,7 @@
             v-if="DeleteSingledialog">
             </deleteDialogQuestion>
     </v-dialog>
-
+</div>
     
 </div>
 </template>
@@ -532,13 +621,14 @@ import {mapGetters, mapActions} from "vuex";
 const deleteDialog = () => import('./dialogs/deleteDialog')
 const deleteDialogQuestion = () => import('./dialogs/deleteDialogQuestion')
 const viewQuestion = () => import('./viewQuestion')
-
-
+const studentViewForTeacher = () => import('./TeacherQuizPreview/StudentViewForTeacher')
 export default {
+    props:['classworkDetails'],
     components:{
         deleteDialog,
         viewQuestion,
-        deleteDialogQuestion
+        deleteDialogQuestion,
+        studentViewForTeacher
     },
     data(){
         return{
@@ -568,7 +658,7 @@ export default {
                     }
                 }
             },
-            fab: null,
+            fab: true,
             quill_disabled: true,
             Qlength: null,
             selectedData: [],
@@ -583,6 +673,7 @@ export default {
             DuplicateQuestion:[],
             DuplicateAnswers:[],
             isAddingNewQuestion: false,
+            isStudentView: false,
         }
     },
     watch: {
@@ -946,6 +1037,10 @@ export default {
                 
             })
         },
+        studenView(){
+            this.isStudentView = true;
+            this.$store.dispatch("isViewingSubmission");
+        },
         onScroll(e) {
         if (typeof window === "undefined") return;
             const top = window.pageYOffset || e.target.scrollTop || 0;
@@ -1041,7 +1136,6 @@ export default {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
-
 
 
  /* .ql-toolbar.ql-snow {

@@ -14,15 +14,12 @@
     </v-app-bar>
 </div>
 
-<v-container v-if="isMaintenance">
+<!-- <v-container v-if="isMaintenance">
     
 
 <v-row justify="center"  >
     <v-col cols="12" class="text-center ">
             <div class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'">
-                <!--  <v-img  class="Image_centered" height="150" width="150"
-                src="https://cdn-icons.flaticon.com/png/512/1163/premium/1163796.png?token=exp=1635049821~hmac=ec85b4268657c5c7e6755b2a4c5e6fa5">
-                </v-img> -->
 
                 <h1 v-if="$vuetify.breakpoint.mdAndUp ">Page Maintenance!</h1>
                 <h2 v-else >Page Maintenance!</h2>
@@ -42,11 +39,11 @@
 </v-row>
    
 </v-container>
+ -->
 
 
 
-
-<div v-if="!isMaintenance" >
+<div v-if="isMaintenance" >
 <v-overlay :value="isLeaving">
     <v-progress-circular
         indeterminate
@@ -72,7 +69,7 @@
 
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
       <v-row>
-          <v-col cols="5" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;">
+          <v-col cols="12" style="max-height:85vh;overflow-y:scroll;overflow-x: hidden;">
               <h3>Questions</h3>
                 <v-list>
                       <v-list-item @click="setChartForAllQuestionCorrect()" link :class="isSelected == 'correct' ? 'grey lighten-2 rounded' : 'rounded'"  >
@@ -109,7 +106,7 @@
                     </v-list-item>
                 </v-list>
           </v-col>
-          <v-col cols="7">
+        <!--   <v-col cols="7">
               
 
 
@@ -137,7 +134,7 @@
             </v-container>
 
             
-          </v-col>
+          </v-col> -->
       </v-row>
     </v-container>
     </div>
@@ -323,7 +320,7 @@ export default {
         
     },
     mounted(){
-        if(!this.isMaintenance){
+        if(this.isMaintenance){
                 this.GetList();
         }
     
