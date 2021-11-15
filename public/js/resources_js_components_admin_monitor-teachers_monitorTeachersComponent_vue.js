@@ -83,6 +83,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -114,7 +119,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         value: 'total_classes',
         align: 'center'
       }, {
-        text: ' Total Lesson Created',
+        text: ' Total Modules Created',
         value: 'sub_modules_count',
         align: 'center'
       }, {
@@ -125,7 +130,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: 'Actions',
         sortable: false
       }],
-      teacherSummary: []
+      teacherSummary: [],
+      loading: true
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getTeachersSumarry"])), {}, {
@@ -149,6 +155,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.$store.dispatch('teacherSummarryData').then(function () {
       _this2.teacherSummary = _this2.getTeachersSumarry;
+      _this2.loading = false;
     });
   }
 });
@@ -318,152 +325,199 @@ var render = function() {
           _c(
             "v-col",
             [
-              _c(
-                "v-card",
-                { attrs: { elevation: "2" } },
-                [
-                  _c(
-                    "v-card-title",
+              _vm.loading
+                ? _c(
+                    "v-card",
                     [
-                      _vm._v(
-                        "\n                    Teachers\n\n                    "
-                      ),
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c("v-text-field", {
-                        attrs: {
-                          "append-icon": "mdi-magnify",
-                          label: "Search",
-                          "single-line": "",
-                          "hide-details": ""
-                        },
-                        model: {
-                          value: _vm.search,
-                          callback: function($$v) {
-                            _vm.search = $$v
-                          },
-                          expression: "search"
-                        }
+                      _c("v-skeleton-loader", {
+                        attrs: { loading: _vm.loading, type: "table" }
                       })
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c("v-data-table", {
-                    staticClass: "elevation-1",
-                    attrs: {
-                      headers: _vm.headers,
-                      items: _vm.filteredItems,
-                      "items-per-page": 10
-                    },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "body",
-                        fn: function(ref) {
-                          var items = ref.items
-                          return [
-                            _c(
-                              "tbody",
-                              [
-                                _vm._l(items, function(item) {
-                                  return _c("tr", { key: item.id }, [
-                                    _c("td", [
-                                      _vm._v(" " + _vm._s(item.user_id) + " ")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", [
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(
-                                            item.lastName +
-                                              ", " +
-                                              item.firstName +
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              !_vm.loading
+                ? _c(
+                    "v-card",
+                    { attrs: { elevation: "2" } },
+                    [
+                      _c(
+                        "v-card-title",
+                        [
+                          _vm._v(
+                            "\n                    Teachers\n\n                    "
+                          ),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c("v-text-field", {
+                            attrs: {
+                              "append-icon": "mdi-magnify",
+                              label: "Search",
+                              "single-line": "",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.search,
+                              callback: function($$v) {
+                                _vm.search = $$v
+                              },
+                              expression: "search"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-data-table", {
+                        staticClass: "elevation-1",
+                        attrs: {
+                          headers: _vm.headers,
+                          items: _vm.filteredItems,
+                          "items-per-page": 10
+                        },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "body",
+                              fn: function(ref) {
+                                var items = ref.items
+                                return [
+                                  _c(
+                                    "tbody",
+                                    [
+                                      _vm._l(items, function(item) {
+                                        return _c("tr", { key: item.id }, [
+                                          _c("td", [
+                                            _vm._v(
+                                              " " + _vm._s(item.user_id) + " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
                                               " " +
-                                              item.middleName
-                                          ) +
-                                          " "
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _vm._v(" " + _vm._s(item.course_count))
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _vm._v(
-                                        " " + _vm._s(item.class_count) + " "
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _vm._v(
-                                        " " + _vm._s(item.classwork_count) + " "
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("td", { staticClass: "text-center" }, [
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(item.sub_modules_count) +
-                                          " "
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "text-center" },
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: {
-                                              icon: "",
-                                              color: "success",
-                                              link: "",
-                                              to: {
-                                                name: "teacherProfile",
-                                                params: { id: item.user_id }
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("v-icon", [
+                                                _vm._s(
+                                                  item.lastName +
+                                                    ", " +
+                                                    item.firstName +
+                                                    " " +
+                                                    item.middleName
+                                                ) +
+                                                " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
                                               _vm._v(
-                                                "\n                                            mdi-eye\n                                        "
+                                                " " + _vm._s(item.course_count)
                                               )
-                                            ])
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                }),
-                                _vm._v(" "),
-                                items.length == 0
-                                  ? _c("tr", [
-                                      _c(
-                                        "td",
-                                        {
-                                          staticClass: "text-center",
-                                          attrs: { colspan: "42" }
-                                        },
-                                        [_vm._v(" No data available")]
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ],
-                              2
-                            )
-                          ]
-                        }
-                      }
-                    ])
-                  })
-                ],
-                1
-              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                " " +
+                                                  _vm._s(item.class_count) +
+                                                  " "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                " " +
+                                                  _vm._s(
+                                                    item.sub_modules_count
+                                                  ) +
+                                                  " "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _vm._v(
+                                                " " +
+                                                  _vm._s(item.classwork_count) +
+                                                  " "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "td",
+                                            { staticClass: "text-center" },
+                                            [
+                                              _c(
+                                                "v-btn",
+                                                {
+                                                  attrs: {
+                                                    icon: "",
+                                                    color: "success",
+                                                    link: "",
+                                                    to: {
+                                                      name: "teacherProfile",
+                                                      params: {
+                                                        id: item.user_id
+                                                      }
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-icon", [
+                                                    _vm._v(
+                                                      "\n                                            mdi-eye\n                                        "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ])
+                                      }),
+                                      _vm._v(" "),
+                                      items.length == 0
+                                        ? _c("tr", [
+                                            _c(
+                                              "td",
+                                              {
+                                                staticClass: "text-center",
+                                                attrs: { colspan: "42" }
+                                              },
+                                              [_vm._v(" No data available")]
+                                            )
+                                          ])
+                                        : _vm._e()
+                                    ],
+                                    2
+                                  )
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          1006105585
+                        )
+                      })
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           )

@@ -117,9 +117,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -144,27 +141,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isGetting: true
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])), {}, {
-    dragOptions: function dragOptions() {
-      return {
-        animation: 0,
-        group: "description",
-        disabled: false,
-        ghostClass: "ghost"
-      };
-    }
-  }),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])),
   methods: (_methods = {
-    onEnd: function onEnd() {
-      var _this = this;
-
-      this.isDrag = true;
-      axios.post("/api/main_module/arrange", {
-        mainModules: this.mainModule
-      }).then(function (res) {
-        _this.isDrag = false;
-      });
-    },
     getdata: function getdata() {
       this.mainModule = this.getmain_module;
     },
@@ -203,24 +181,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return check;
   }), _defineProperty(_methods, "fetchAllModule", function fetchAllModule() {
-    var _this2 = this;
+    var _this = this;
 
     this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(function () {
-      _this2.isGetting = false;
-      _this2.moduleLength = _this2.getmain_module.length;
-      _this2.mainModule = _this2.getmain_module;
+      _this.isGetting = false;
+      _this.moduleLength = _this.getmain_module.length;
+      _this.mainModule = _this.getmain_module;
     });
     this.$store.dispatch('fetchSubModule', this.course_details.course_id);
   }), _methods),
   beforeMount: function beforeMount() {
-    var _this3 = this;
+    var _this2 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this3.fetchAllModule();
+              _this2.fetchAllModule();
 
             case 1:
             case "end":
@@ -460,262 +438,205 @@ var render = function() {
               _c(
                 "v-expansion-panels",
                 { attrs: { focusable: "" } },
-                [
-                  _c(
-                    "draggable",
-                    _vm._b(
-                      {
-                        staticStyle: { width: "100%" },
-                        on: {
-                          change: _vm.onEnd,
-                          start: function($event) {
-                            _vm.isDragging = true
-                          },
-                          end: function($event) {
-                            _vm.isDragging = false
-                          }
-                        },
-                        model: {
-                          value: _vm.mainModule,
-                          callback: function($$v) {
-                            _vm.mainModule = $$v
-                          },
-                          expression: "mainModule"
-                        }
-                      },
-                      "draggable",
-                      _vm.dragOptions,
-                      false
-                    ),
+                _vm._l(_vm.mainModule, function(itemModule, i) {
+                  return _c(
+                    "v-expansion-panel",
+                    { key: "module" + i, attrs: { draggable: "true" } },
                     [
-                      _c(
-                        "transition-group",
-                        { attrs: { type: "transition", name: "flip-list" } },
-                        _vm._l(_vm.mainModule, function(itemModule, i) {
-                          return _c(
-                            "v-expansion-panel",
-                            { key: "module" + i, attrs: { draggable: "true" } },
-                            [
-                              _c("span", {
-                                staticClass: "text-right pannel-btn"
-                              }),
-                              _vm._v(" "),
-                              _c("v-expansion-panel-header", [
-                                _c(
-                                  "span",
-                                  { staticStyle: { "font-size": "1.5rem" } },
-                                  [
-                                    _c(
-                                      "v-icon",
-                                      {
-                                        staticStyle: { "font-size": "2.25rem" }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    mdi-folder\n                                "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(
-                                      "\n                                " +
-                                        _vm._s(itemModule.module_name) +
-                                        "\n\n                            "
-                                    )
-                                  ],
-                                  1
+                      _c("span", { staticClass: "text-right pannel-btn" }),
+                      _vm._v(" "),
+                      _c("v-expansion-panel-header", [
+                        _c(
+                          "span",
+                          { staticStyle: { "font-size": "1.5rem" } },
+                          [
+                            _c(
+                              "v-icon",
+                              { staticStyle: { "font-size": "2.25rem" } },
+                              [
+                                _vm._v(
+                                  "\n                                    mdi-folder\n                                "
                                 )
-                              ]),
+                              ]
+                            ),
+                            _vm._v(
+                              "\n                                " +
+                                _vm._s(itemModule.module_name) +
+                                "\n\n                            "
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-expansion-panel-content",
+                        { staticClass: "pa-0" },
+                        _vm._l(_vm.getSub_module(itemModule.id), function(
+                          itemSubModule,
+                          i
+                        ) {
+                          return _c(
+                            "v-list-item",
+                            {
+                              key: "Submodule" + i,
+                              staticClass: "pl-8",
+                              attrs: { link: "" }
+                            },
+                            [
+                              _c(
+                                "v-list-item-avatar",
+                                [
+                                  _c(
+                                    "v-icon",
+                                    {
+                                      staticClass: "grey lighten-1",
+                                      attrs: { dark: "" }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                        mdi-folder\n                                    "
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
                               _vm._v(" "),
                               _c(
-                                "v-expansion-panel-content",
-                                { staticClass: "pa-0" },
-                                _vm._l(
-                                  _vm.getSub_module(itemModule.id),
-                                  function(itemSubModule, i) {
-                                    return _c(
-                                      "v-list-item",
-                                      {
-                                        key: "Submodule" + i,
-                                        staticClass: "pl-8",
-                                        attrs: { link: "" }
+                                "v-list-item-content",
+                                [
+                                  _c("v-list-item-title", [
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(itemSubModule.sub_module_name)
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-list-item-subtitle", [
+                                    _vm._v(" " + _vm._s(itemSubModule.type))
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-item-action",
+                                [
+                                  _c(
+                                    "v-menu",
+                                    {
+                                      attrs: {
+                                        transition: "slide-y-transition",
+                                        bottom: ""
                                       },
-                                      [
-                                        _c(
-                                          "v-list-item-avatar",
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                staticClass: "grey lighten-1",
-                                                attrs: { dark: "" }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                        mdi-folder\n                                    "
-                                                )
-                                              ]
-                                            )
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-item-content",
-                                          [
-                                            _c("v-list-item-title", [
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(
-                                                    itemSubModule.sub_module_name
-                                                  )
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("v-list-item-subtitle", [
-                                              _vm._v(
-                                                " " + _vm._s(itemSubModule.type)
-                                              )
-                                            ])
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-list-item-action",
-                                          [
-                                            _c(
-                                              "v-menu",
-                                              {
-                                                attrs: {
-                                                  transition:
-                                                    "slide-y-transition",
-                                                  bottom: ""
-                                                },
-                                                scopedSlots: _vm._u(
-                                                  [
-                                                    {
-                                                      key: "activator",
-                                                      fn: function(ref) {
-                                                        var on = ref.on
-                                                        var attrs = ref.attrs
-                                                        return [
-                                                          _c(
-                                                            "v-btn",
-                                                            _vm._g(
-                                                              _vm._b(
-                                                                {
-                                                                  attrs: {
-                                                                    icon: ""
-                                                                  }
-                                                                },
-                                                                "v-btn",
-                                                                attrs,
-                                                                false
-                                                              ),
-                                                              on
-                                                            ),
-                                                            [
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  attrs: {
-                                                                    color:
-                                                                      "grey lighten-1"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "mdi-dots-vertical"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ]
-                                                      }
-                                                    }
-                                                  ],
-                                                  null,
-                                                  true
-                                                )
-                                              },
-                                              [
-                                                _vm._v(" "),
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
                                                 _c(
-                                                  "v-list",
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      { attrs: { icon: "" } },
+                                                      "v-btn",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
                                                   [
                                                     _c(
-                                                      "v-list-item",
+                                                      "v-icon",
                                                       {
-                                                        attrs: { link: "" },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.editFileBtn(
-                                                              itemModule.id
-                                                            )
-                                                          }
+                                                        attrs: {
+                                                          color:
+                                                            "grey lighten-1"
                                                         }
                                                       },
                                                       [
-                                                        _c(
-                                                          "v-list-item-title",
-                                                          [_vm._v("Edit")]
+                                                        _vm._v(
+                                                          "mdi-dots-vertical"
                                                         )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "v-list-item",
-                                                      {
-                                                        attrs: { link: "" },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.editLinkBtn(
-                                                              itemModule.id
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      [
-                                                        _c(
-                                                          "v-list-item-title",
-                                                          [_vm._v("Delete")]
-                                                        )
-                                                      ],
-                                                      1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "v-list-item",
-                                                      { attrs: { link: "" } },
-                                                      [
-                                                        _c(
-                                                          "v-list-item-title",
-                                                          [_vm._v("Archive")]
-                                                        )
-                                                      ],
-                                                      1
+                                                      ]
                                                     )
                                                   ],
                                                   1
                                                 )
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  }
-                                ),
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list",
+                                        [
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              attrs: { link: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.editFileBtn(
+                                                    itemModule.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Edit")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              attrs: { link: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.editLinkBtn(
+                                                    itemModule.id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Delete")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            { attrs: { link: "" } },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Archive")
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
                                 1
                               )
                             ],
@@ -727,7 +648,7 @@ var render = function() {
                     ],
                     1
                   )
-                ],
+                }),
                 1
               )
             ],
