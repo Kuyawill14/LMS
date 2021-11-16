@@ -46,6 +46,17 @@
                     <v-list-item-title>Manage Users</v-list-item-title>
                 </template>
 
+                <v-list-item link :to="{name: 'manageProgramChair'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-human-greeting</v-icon>
+                    </v-list-item-action>
+
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Program Chair
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item link :to="{name: 'manageteachers'}" exact>
                     <v-list-item-action>
                         <v-icon>mdi-account-supervisor</v-icon>
@@ -57,6 +68,8 @@
                     </v-list-item-content>
                 </v-list-item>
 
+
+
                 <v-list-item link :to="{name: 'managestudents'}" exact>
                     <v-list-item-action>
                         <v-icon>mdi-human-greeting</v-icon>
@@ -65,18 +78,6 @@
                     <v-list-item-content>
                         <v-list-item-title>
                             Students
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-
-                <v-list-item link :to="{name: 'managestudents'}" exact>
-                    <v-list-item-action>
-                        <v-icon>mdi-human-greeting</v-icon>
-                    </v-list-item-action>
-
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Program Chair
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -128,9 +129,10 @@
 
 
 <script>
-export default {
-    mounted() {
-        console.log(this.$route);
+    export default {
+        mounted() {
+            console.log(this.$route);
+        }
     }
-}
+
 </script>

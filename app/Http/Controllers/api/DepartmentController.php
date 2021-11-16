@@ -40,8 +40,8 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         $newDepartment  = new tbl_department;
+        $newDepartment->short_name = $request->short_name;
         $newDepartment->name = $request->name;
-        $newDepartment->description = $request->description;
         $newDepartment->save();
         return $newDepartment;
        
@@ -81,7 +81,7 @@ class DepartmentController extends Controller
         $Department = tbl_department::find($id);
         if($Department){
             $Department->name = $request->name;
-            $Department->description = $request->description;
+            $Department->short_name = $request->short_name;
             $Department->save();
             return response()->json([
                 "message" => "Department successfully updated!",

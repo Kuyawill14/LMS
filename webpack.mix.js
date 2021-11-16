@@ -20,12 +20,21 @@ const mix = require('laravel-mix');
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+<<<<<<< HEAD
 /* mix.webpackConfig({
+=======
+mix.webpackConfig({
+>>>>>>> fe70072cc9013e00104e06631d1b981df2c127fd
     watchOptions: {
-      ignored: /node_modules/
+        ignored: /node_modules/
     }
+<<<<<<< HEAD
 }); */
 module.exports = {
+=======
+});
+/* module.exports = {
+>>>>>>> fe70072cc9013e00104e06631d1b981df2c127fd
     watchOptions: {
       ignored: /node_modules/
     }
@@ -59,6 +68,5 @@ mix.js('resources/js/app.js', 'public/js')
 
 
 if (mix.inProduction()) {
-        mix.version();
-    }
-    
+    mix.version();
+}

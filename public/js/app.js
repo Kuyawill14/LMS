@@ -2251,9 +2251,10 @@ var documentPreview = function documentPreview() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_documentPreview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/course-view/tabs/classwork-tab/documentPreview */ "./resources/js/components/course-view/tabs/classwork-tab/documentPreview.vue"));
 }; //admin
 
-/* let manageUsers = () =>
-    import ("./components/admin/manage-users/manage-usersComponent"); */
 
+var manageProgramChair = function manageProgramChair() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-programChairComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/manage-users/manage-programChairComponent */ "./resources/js/components/admin/manage-users/manage-programChairComponent.vue"));
+};
 
 var manageteachers = function manageteachers() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-teachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/manage-users/manage-teachersComponent */ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue"));
@@ -2318,6 +2319,10 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       path: "",
       component: dashboard,
       name: "dashboard"
+    }, {
+      path: "/manage-users/program-chair",
+      component: manageProgramChair,
+      name: "manageProgramChair"
     }, {
       path: "/manage-users/teachers",
       component: manageteachers,
@@ -3300,6 +3305,91 @@ var mutations = {
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/allProgramChair.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/modules/allProgramChair.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  allProgramChair: []
+};
+var getters = {
+  getProgramChair: function getProgramChair(state) {
+    return state.allProgramChair;
+  },
+  filterProgramChair: function filterProgramChair(state) {
+    return function (user_id) {
+      return state.allProgramChair.filter(function (allProgramChair) {
+        return allProgramChair.user_id == user_id;
+      })[0];
+    };
+  }
+};
+var actions = {
+  fetchAllProgramChair: function fetchAllProgramChair(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, user_type, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              user_type = 'ProgramChair';
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/users/all/".concat(user_type));
+
+            case 4:
+              res = _context.sent;
+              ////console.log(res.data);
+              commit('FETCH_PROGRAMCHAIR', res.data);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  } // async createMainModule({ commit }, moduleForm) {
+  //     var res = await axios.post(`/api/main_module/insert`, { moduleForm: moduleForm });
+  //     var newMainModule = res.data;
+  //     // commit("CREATE_MAIN_MODULE", newMainModule);
+  //     state.main_module.push({...newMainModule })
+  //     return res;
+  // },
+
+};
+var mutations = {
+  FETCH_PROGRAMCHAIR: function FETCH_PROGRAMCHAIR(state, allProgramChair) {
+    return state.allProgramChair = allProgramChair;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/allTeachers.js":
 /*!***************************************************!*\
   !*** ./resources/js/store/modules/allTeachers.js ***!
@@ -3340,21 +3430,22 @@ var getters = {
 var actions = {
   fetchAllTeachers: function fetchAllTeachers(_ref, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res;
+      var commit, user_type, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/teachers/all");
+              user_type = 'Teacher';
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/users/all/".concat(user_type));
 
-            case 3:
+            case 4:
               res = _context.sent;
               ////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
-            case 5:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -6129,9 +6220,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_teacherSummary__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./modules/teacherSummary */ "./resources/js/store/modules/teacherSummary.js");
 /* harmony import */ var _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./modules/verifyEmail */ "./resources/js/store/modules/verifyEmail.js");
 /* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
+/* harmony import */ var _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/allProgramChair */ "./resources/js/store/modules/allProgramChair.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
+
 
 
 
@@ -6175,7 +6268,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     allTeachers: _modules_allTeachers__WEBPACK_IMPORTED_MODULE_19__.default,
     teacherSummary: _modules_teacherSummary__WEBPACK_IMPORTED_MODULE_20__.default,
     verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default,
-    classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default
+    classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default,
+    allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default
   }
 }));
 

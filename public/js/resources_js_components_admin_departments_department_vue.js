@@ -163,6 +163,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -170,11 +174,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       departmentsList: [],
       header: [{
-        text: 'Department Name',
+        text: 'Department Short Name',
         value: 'name',
         align: 'start'
       }, {
-        text: 'Description',
+        text: 'Department Name',
         value: 'description',
         align: 'start'
       }, {
@@ -189,8 +193,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || "Field is required";
       }],
       form: new Form({
-        name: "",
-        description: ""
+        short_name: "",
+        name: ""
       }),
       IsDeleting: false,
       deleteIndex: null,
@@ -274,7 +278,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     OpendepartmentDialog: function OpendepartmentDialog(data, index) {
       this.form.name = data.name;
-      this.form.description = data.description;
+      this.form.short_name = data.short_name;
       this.isUpdateId = data.id;
       this.isUpdateIndex = index;
       this.type = 'edit';
@@ -291,7 +295,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/department/update/' + _this4.isUpdateId, _this4.form).then(function (res) {
                   if (res.data.success == true) {
                     _this4.departmentsList[_this4.isUpdateIndex].name = _this4.form.name;
-                    _this4.departmentsList[_this4.isUpdateIndex].description = _this4.form.description;
+                    _this4.departmentsList[_this4.isUpdateIndex].short_name = _this4.form.short_name;
                     _this4.isAdding = false;
                     _this4.dialog = false;
 
@@ -537,9 +541,9 @@ var render = function() {
                               "tbody",
                               _vm._l(items, function(item, index) {
                                 return _c("tr", { key: item.id }, [
-                                  _c("td", [_vm._v(_vm._s(item.name))]),
+                                  _c("td", [_vm._v(_vm._s(item.short_name))]),
                                   _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(item.description))]),
+                                  _c("td", [_vm._v(_vm._s(item.name))]),
                                   _vm._v(" "),
                                   _c(
                                     "td",
@@ -748,6 +752,42 @@ var render = function() {
                             [
                               _c("HasError", {
                                 staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "short_name" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-textarea", {
+                                staticClass: "mb-0 pb-0",
+                                attrs: {
+                                  type: "text",
+                                  rows: "1",
+                                  name: "name",
+                                  rules: _vm.Rules,
+                                  label: "Short Name",
+                                  placeholder: "Eg. CCSICT, COC, COE , etc",
+                                  "auto-grow": "",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.short_name,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "short_name", $$v)
+                                  },
+                                  expression: "form.short_name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
                                 attrs: { form: _vm.form, field: "name" }
                               }),
                               _vm._v(" "),
@@ -768,40 +808,6 @@ var render = function() {
                                     _vm.$set(_vm.form, "name", $$v)
                                   },
                                   expression: "form.name"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "ma-0 pa-0 mb-1",
-                              attrs: { cols: "12", md: "12" }
-                            },
-                            [
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "middleName" }
-                              }),
-                              _vm._v(" "),
-                              _c("v-textarea", {
-                                staticClass: "mb-0 pb-0",
-                                attrs: {
-                                  type: "text",
-                                  name: "description",
-                                  rules: _vm.Rules,
-                                  label: "Description",
-                                  "auto-grow": "",
-                                  outlined: ""
-                                },
-                                model: {
-                                  value: _vm.form.description,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.form, "description", $$v)
-                                  },
-                                  expression: "form.description"
                                 }
                               })
                             ],

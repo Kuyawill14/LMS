@@ -218,6 +218,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     console.log(this.$route);
@@ -1108,6 +1109,37 @@ var render = function() {
                   {
                     attrs: {
                       link: "",
+                      to: { name: "manageProgramChair" },
+                      exact: ""
+                    }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                        Program Chair\n                    "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: {
+                      link: "",
                       to: { name: "manageteachers" },
                       exact: ""
                     }
@@ -1156,37 +1188,6 @@ var render = function() {
                         _c("v-list-item-title", [
                           _vm._v(
                             "\n                        Students\n                    "
-                          )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item",
-                  {
-                    attrs: {
-                      link: "",
-                      to: { name: "managestudents" },
-                      exact: ""
-                    }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
-                      [
-                        _c("v-list-item-title", [
-                          _vm._v(
-                            "\n                        Program Chair\n                    "
                           )
                         ])
                       ],

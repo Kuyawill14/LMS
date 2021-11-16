@@ -125,8 +125,8 @@ let documentPreview = () =>
 
 //admin
 
-/* let manageUsers = () =>
-    import ("./components/admin/manage-users/manage-usersComponent"); */
+let manageProgramChair = () =>
+    import ("./components/admin/manage-users/manage-programChairComponent");
 let manageteachers = () =>
     import ("./components/admin/manage-users/manage-teachersComponent");
 let managestudents = () =>
@@ -184,6 +184,14 @@ const router = new Router({
                     path: "",
                     component: dashboard,
                     name: "dashboard"
+                },
+
+                {
+                    path: "/manage-users/program-chair",
+                    component: manageProgramChair,
+                    name: "manageProgramChair",
+
+
                 },
                 {
                     path: "/manage-users/teachers",
@@ -717,7 +725,8 @@ const router = new Router({
 
                 {
                     path: "/classwork-overview/:id",
-                    component: () => import ("./components/Classwork_View/classworkSubmission-Overview.vue"),
+                    component: () =>
+                        import ("./components/Classwork_View/classworkSubmission-Overview.vue"),
                     name: "classwork_overview",
                     beforeEnter: (to, form, next) => {
                         store.dispatch('IsAuthenticated').then(() => {
@@ -752,7 +761,7 @@ const router = new Router({
                             })
                     },
                 },
-                
+
 
 
 

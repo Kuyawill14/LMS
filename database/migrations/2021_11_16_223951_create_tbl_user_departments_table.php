@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblDepartmentsTable extends Migration
+class CreateTblUserDepartmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateTblDepartmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_departments', function (Blueprint $table) {
+        Schema::create('tbl_user_departments', function (Blueprint $table) {
             $table->id();
-            $table->string('short_name');
-            $table->string('name');
+            $table->integer('user_id');
+            $table->integer('department_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateTblDepartmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_departments');
+        Schema::dropIfExists('tbl_user_departments');
     }
 }

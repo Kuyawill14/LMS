@@ -25,8 +25,8 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="item.id">
+                                    <td>{{item.short_name}}</td>
                                     <td>{{item.name}}</td>
-                                    <td>{{item.description}}</td>
                                     <td style="width:8%">
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
@@ -69,6 +69,25 @@
 
                     <v-form class="text-center " ref="form" v-model="valid" lazy-validation>
                         <v-row class="pa-5">
+
+                              <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="short_name" />
+                              <!--   <v-text-field :rules="Rules" label="Department Name" name="name"
+                                    v-model="form.name" type="text" color="primary" outlined /> -->
+                                     <v-textarea
+                                    class="mb-0 pb-0"
+                                   v-model="form.short_name" 
+                                    type="text" 
+                                    rows="1"
+                                        name="name"
+                                         :rules="Rules"
+                                        label="Short Name"
+                                        placeholder="Eg. CCSICT, COC, COE , etc"
+                                        auto-grow
+                                      outlined
+                                        ></v-textarea>
+                            </v-col>
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="name" />
                               <!--   <v-text-field :rules="Rules" label="Department Name" name="name"
@@ -86,22 +105,7 @@
                                         ></v-textarea>
                             </v-col>
 
-                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="middleName" />
-                               <!--  <v-text-field label="Middle Name" :rules="Rules" name="middleName"
-                                    v-model="form.description" type="text" color="primary" outlined /> -->
-
-                                    <v-textarea
-                                    class="mb-0 pb-0"
-                                    v-model="form.description"
-                                    type="text" 
-                                        name="description"
-                                         :rules="Rules"
-                                        label="Description"
-                                        auto-grow
-                                      outlined
-                                        ></v-textarea>
-                            </v-col>
+                           
 
                            
                         </v-row>
@@ -153,12 +157,12 @@
                 departmentsList:[],
                 header: [
                     {
-                        text: 'Department Name',
+                        text: 'Department Short Name',
                         value: 'name',
                         align: 'start',
                     },
                       {
-                        text: 'Description',
+                        text: 'Department Name',
                         value: 'description',
                         align: 'start',
                     },
@@ -175,8 +179,8 @@
                     v => !!v || "Field is required",
                 ],
                  form: new Form({
+                    short_name: "",
                     name: "",
-                    description: "",
                   
                 }),
                 IsDeleting: false,
@@ -233,7 +237,7 @@
             },
             OpendepartmentDialog(data, index){
                 this.form.name = data.name;
-                this.form.description = data.description;
+                this.form.short_name = data.short_name;
                 this.isUpdateId = data.id;
                 this.isUpdateIndex = index;
                 this.type = 'edit';
@@ -244,7 +248,7 @@
                 .then(res=>{
                     if(res.data.success == true){
                         this.departmentsList[ this.isUpdateIndex].name = this.form.name;
-                        this.departmentsList[ this.isUpdateIndex].description = this.form.description;
+                        this.departmentsList[ this.isUpdateIndex].short_name = this.form.short_name;
                          this.isAdding = false;
                         this.dialog = false;
                          this.$refs.form.reset();
