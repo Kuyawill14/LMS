@@ -894,6 +894,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -24487,6 +24494,7 @@ var render = function() {
             ? _c(
                 "v-container",
                 {
+                  staticClass: "ma-0 pa-0",
                   class: !_vm.$vuetify.breakpoint.mdAndUp ? "" : "",
                   attrs: { fluid: "" }
                 },
@@ -24501,7 +24509,10 @@ var render = function() {
                         [
                           _c(
                             "v-card",
-                            { attrs: { elevation: "2", outlined: "" } },
+                            {
+                              staticClass: "pr-4 pt-3",
+                              attrs: { elevation: "2", outlined: "" }
+                            },
                             [
                               !_vm.isLoading
                                 ? _c(
@@ -25001,224 +25012,207 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-col", { attrs: { cols: "12" } }, [
-                        _c(
-                          "div",
-                          {
-                            attrs: { transition: "slide-y-reverse-transition" }
-                          },
-                          [
-                            !_vm.$vuetify.breakpoint.mdAndUp
-                              ? _c(
-                                  "v-app-bar",
-                                  {
-                                    attrs: {
-                                      flat: "",
-                                      app: "",
-                                      color: "primary"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "v-menu",
+                      !_vm.$vuetify.breakpoint.mdAndUp
+                        ? _c("v-col", { attrs: { cols: "12" } }, [
+                            _c(
+                              "div",
+                              {
+                                attrs: {
+                                  transition: "slide-y-reverse-transition"
+                                }
+                              },
+                              [
+                                !_vm.$vuetify.breakpoint.mdAndUp
+                                  ? _c(
+                                      "v-app-bar",
                                       {
-                                        staticStyle: { "overflow-y": "scroll" },
                                         attrs: {
-                                          "offset-y": "",
-                                          "max-height": "600"
-                                        },
-                                        scopedSlots: _vm._u(
-                                          [
-                                            {
-                                              key: "activator",
-                                              fn: function(ref) {
-                                                var on = ref.on
-                                                var attrs = ref.attrs
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: {
-                                                            icon: "",
-                                                            dark: ""
-                                                          }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "mdi-format-list-numbered"
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                ]
-                                              }
-                                            }
-                                          ],
-                                          null,
-                                          false,
-                                          1426707468
-                                        )
+                                          flat: "",
+                                          app: "",
+                                          color: "primary"
+                                        }
                                       },
                                       [
-                                        _vm._v(" "),
                                         _c(
-                                          "v-list",
-                                          _vm._l(
-                                            _vm.getAll_questions.Question,
-                                            function(item, index) {
-                                              return _c(
-                                                "v-list-item",
+                                          "v-menu",
+                                          {
+                                            staticStyle: {
+                                              "overflow-y": "scroll"
+                                            },
+                                            attrs: {
+                                              "offset-y": "",
+                                              "max-height": "600"
+                                            },
+                                            scopedSlots: _vm._u(
+                                              [
                                                 {
-                                                  key: index,
-                                                  staticClass: "ma-0 pa-0"
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-list-item-title",
+                                                  key: "activator",
+                                                  fn: function(ref) {
+                                                    var on = ref.on
+                                                    var attrs = ref.attrs
+                                                    return [
+                                                      _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                icon: "",
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c("v-icon", [
+                                                            _vm._v(
+                                                              "mdi-format-list-numbered"
+                                                            )
+                                                          ])
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              false,
+                                              1426707468
+                                            )
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list",
+                                              _vm._l(
+                                                _vm.getAll_questions.Question,
+                                                function(item, index) {
+                                                  return _c(
+                                                    "v-list-item",
+                                                    {
+                                                      key: index,
+                                                      staticClass: "ma-0 pa-0"
+                                                    },
                                                     [
-                                                      item.type ==
-                                                        "Multiple Choice" ||
-                                                      item.type ==
-                                                        "Identification" ||
-                                                      item.type ==
-                                                        "True or False" ||
-                                                      item.type == "Essay"
-                                                        ? _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                text: "",
-                                                                rounded: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  _vm.updateAnswer(),
-                                                                    (_vm.questionIndex = index)
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-icon",
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        [
+                                                          item.type ==
+                                                            "Multiple Choice" ||
+                                                          item.type ==
+                                                            "Identification" ||
+                                                          item.type ==
+                                                            "True or False" ||
+                                                          item.type == "Essay"
+                                                            ? _c(
+                                                                "v-btn",
                                                                 {
                                                                   attrs: {
-                                                                    color:
-                                                                      _vm
-                                                                        .FinalAnswers[
-                                                                        index
-                                                                      ]
-                                                                        .Answer ==
-                                                                        null ||
-                                                                      _vm
-                                                                        .FinalAnswers[
-                                                                        index
-                                                                      ]
-                                                                        .Answer ==
-                                                                        ""
-                                                                        ? ""
-                                                                        : "primary",
-                                                                    left: ""
+                                                                    text: "",
+                                                                    rounded: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.updateAnswer(),
+                                                                        (_vm.questionIndex = index)
+                                                                    }
                                                                   }
                                                                 },
                                                                 [
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        color:
+                                                                          _vm
+                                                                            .FinalAnswers[
+                                                                            index
+                                                                          ]
+                                                                            .Answer ==
+                                                                            null ||
+                                                                          _vm
+                                                                            .FinalAnswers[
+                                                                            index
+                                                                          ]
+                                                                            .Answer ==
+                                                                            ""
+                                                                            ? ""
+                                                                            : "primary",
+                                                                        left: ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          _vm
+                                                                            .FinalAnswers[
+                                                                            index
+                                                                          ]
+                                                                            .Answer ==
+                                                                            null ||
+                                                                            _vm
+                                                                              .FinalAnswers[
+                                                                              index
+                                                                            ]
+                                                                              .Answer ==
+                                                                              ""
+                                                                            ? "mdi-checkbox-blank-outline"
+                                                                            : "mdi-checkbox-marked"
+                                                                        )
+                                                                      )
+                                                                    ]
+                                                                  ),
                                                                   _vm._v(
-                                                                    _vm._s(
-                                                                      _vm
-                                                                        .FinalAnswers[
-                                                                        index
-                                                                      ]
-                                                                        .Answer ==
-                                                                        null ||
-                                                                        _vm
-                                                                          .FinalAnswers[
-                                                                          index
-                                                                        ]
-                                                                          .Answer ==
-                                                                          ""
-                                                                        ? "mdi-checkbox-blank-outline"
-                                                                        : "mdi-checkbox-marked"
-                                                                    )
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(
-                                                                "\r\n                                " +
-                                                                  _vm._s(
-                                                                    index + 1
-                                                                  ) +
-                                                                  "\r\n                                "
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      item.type ==
-                                                      "Matching type"
-                                                        ? _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                text: "",
-                                                                rounded: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  _vm.updateAnswer(),
-                                                                    (_vm.questionIndex = index)
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  attrs: {
-                                                                    color:
-                                                                      _vm
-                                                                        .FinalAnswers[
-                                                                        index
-                                                                      ]
-                                                                        .Answer[0]
-                                                                        .Ans_letter ==
-                                                                        null ||
-                                                                      _vm
-                                                                        .FinalAnswers[
-                                                                        index
-                                                                      ]
-                                                                        .Answer[0]
-                                                                        .Ans_letter ==
-                                                                        ""
-                                                                        ? ""
-                                                                        : "primary",
-                                                                    left: ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "\r\n                                        " +
+                                                                    "\r\n                                " +
                                                                       _vm._s(
-                                                                        _vm
-                                                                          .FinalAnswers[
-                                                                          index
-                                                                        ]
-                                                                          .Answer[0]
-                                                                          .Ans_letter ==
-                                                                          null ||
+                                                                        index +
+                                                                          1
+                                                                      ) +
+                                                                      "\r\n                                "
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          item.type ==
+                                                          "Matching type"
+                                                            ? _c(
+                                                                "v-btn",
+                                                                {
+                                                                  attrs: {
+                                                                    text: "",
+                                                                    rounded: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.updateAnswer(),
+                                                                        (_vm.questionIndex = index)
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        color:
+                                                                          _vm
+                                                                            .FinalAnswers[
+                                                                            index
+                                                                          ]
+                                                                            .Answer[0]
+                                                                            .Ans_letter ==
+                                                                            null ||
                                                                           _vm
                                                                             .FinalAnswers[
                                                                             index
@@ -25226,114 +25220,145 @@ var render = function() {
                                                                             .Answer[0]
                                                                             .Ans_letter ==
                                                                             ""
-                                                                          ? "mdi-checkbox-blank-outline"
-                                                                          : "mdi-checkbox-marked"
+                                                                            ? ""
+                                                                            : "primary",
+                                                                        left: ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\r\n                                        " +
+                                                                          _vm._s(
+                                                                            _vm
+                                                                              .FinalAnswers[
+                                                                              index
+                                                                            ]
+                                                                              .Answer[0]
+                                                                              .Ans_letter ==
+                                                                              null ||
+                                                                              _vm
+                                                                                .FinalAnswers[
+                                                                                index
+                                                                              ]
+                                                                                .Answer[0]
+                                                                                .Ans_letter ==
+                                                                                ""
+                                                                              ? "mdi-checkbox-blank-outline"
+                                                                              : "mdi-checkbox-marked"
+                                                                          )
                                                                       )
+                                                                    ]
+                                                                  ),
+                                                                  _vm._v(
+                                                                    "\r\n                                    " +
+                                                                      _vm._s(
+                                                                        index +
+                                                                          1
+                                                                      ) +
+                                                                      "\r\n                                "
                                                                   )
-                                                                ]
-                                                              ),
-                                                              _vm._v(
-                                                                "\r\n                                    " +
-                                                                  _vm._s(
-                                                                    index + 1
-                                                                  ) +
-                                                                  "\r\n                                "
+                                                                ],
+                                                                1
                                                               )
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e()
+                                                            : _vm._e()
+                                                        ],
+                                                        1
+                                                      )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              )
-                                            }
-                                          ),
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("v-divider", {
-                                      attrs: { vertical: "" }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      { staticClass: "pl-2 mt-1 white--text" },
-                                      [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.getAll_questions.Question[
-                                              _vm.questionIndex
-                                            ].points
-                                          ) + " points"
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("v-spacer"),
-                                    _vm._v(" "),
-                                    _vm.isReloadTime
-                                      ? _c(
-                                          "div",
-                                          {
-                                            staticStyle: {
-                                              "margin-right": "1.2rem"
-                                            }
-                                          },
-                                          [
-                                            _c("vue-element-loading", {
-                                              attrs: {
-                                                active: _vm.isReloadTime,
-                                                duration: "0.7",
-                                                spinner: "line-scale",
-                                                color: "white",
-                                                size: "25"
-                                              }
-                                            })
+                                                }
+                                              ),
+                                              1
+                                            )
                                           ],
                                           1
-                                        )
-                                      : _c(
+                                        ),
+                                        _vm._v(" "),
+                                        _c("v-divider", {
+                                          attrs: { vertical: "" }
+                                        }),
+                                        _vm._v(" "),
+                                        _c(
                                           "div",
                                           {
-                                            staticClass:
-                                              "white--text mt-5 ml-0 font-weight-bold"
+                                            staticClass: "pl-2 mt-1 white--text"
                                           },
                                           [
-                                            !_vm.isLoading &&
-                                            _vm.questionIsLoaded &&
-                                            _vm.duration != null
-                                              ? _c("quizTimer", {
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.getAll_questions.Question[
+                                                  _vm.questionIndex
+                                                ].points
+                                              ) + " points"
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("v-spacer"),
+                                        _vm._v(" "),
+                                        _vm.isReloadTime
+                                          ? _c(
+                                              "div",
+                                              {
+                                                staticStyle: {
+                                                  "margin-right": "1.2rem"
+                                                }
+                                              },
+                                              [
+                                                _c("vue-element-loading", {
                                                   attrs: {
-                                                    bus: _vm.bus,
-                                                    CurrentTime:
-                                                      _vm.CurrentTime,
-                                                    StartTime: _vm.StartTime,
-                                                    StopTimer: _vm.StopTimer,
-                                                    duration: _vm.duration
-                                                  },
-                                                  on: {
-                                                    TimerStop: _vm.SubmitAnswer,
-                                                    TimesUp: _vm.TimesUpSubmit
+                                                    active: _vm.isReloadTime,
+                                                    duration: "0.7",
+                                                    spinner: "line-scale",
+                                                    color: "white",
+                                                    size: "25"
                                                   }
                                                 })
-                                              : _vm._e()
-                                          ],
-                                          1
-                                        )
-                                  ],
-                                  1
-                                )
-                              : _vm._e()
-                          ],
-                          1
-                        )
-                      ])
+                                              ],
+                                              1
+                                            )
+                                          : _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "white--text mt-5 ml-0 font-weight-bold"
+                                              },
+                                              [
+                                                !_vm.isLoading &&
+                                                _vm.questionIsLoaded &&
+                                                _vm.duration != null
+                                                  ? _c("quizTimer", {
+                                                      attrs: {
+                                                        bus: _vm.bus,
+                                                        CurrentTime:
+                                                          _vm.CurrentTime,
+                                                        StartTime:
+                                                          _vm.StartTime,
+                                                        StopTimer:
+                                                          _vm.StopTimer,
+                                                        duration: _vm.duration
+                                                      },
+                                                      on: {
+                                                        TimerStop:
+                                                          _vm.SubmitAnswer,
+                                                        TimesUp:
+                                                          _vm.TimesUpSubmit
+                                                      }
+                                                    })
+                                                  : _vm._e()
+                                              ],
+                                              1
+                                            )
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e()
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e()
                     ],
                     1
                   )
@@ -25345,7 +25370,7 @@ var render = function() {
           !_vm.isLoading
             ? _c(
                 "div",
-                { staticClass: "mt-10" },
+                { class: !_vm.$vuetify.breakpoint.mdAndUp ? "mt-10" : "mt-5" },
                 [
                   _c(
                     "v-row",
@@ -25396,117 +25421,167 @@ var render = function() {
                                         [
                                           _c(
                                             "div",
-                                            {
-                                              class: _vm.$vuetify.breakpoint
-                                                .mdAndUp
-                                                ? "mb-3 mt-1"
-                                                : "d-flex mb-3 mt-1"
-                                            },
+                                            { staticClass: "d-flex pt-2 pb-2" },
                                             [
                                               _c(
-                                                "v-btn",
-                                                {
-                                                  class: !_vm.$vuetify
-                                                    .breakpoint.mdAndUp
-                                                    ? "pl-5"
-                                                    : "",
-                                                  attrs: {
-                                                    rounded: "",
-                                                    color: "primary",
-                                                    outlined: "",
-                                                    disabled:
-                                                      _vm.questionIndex <= 0
-                                                  },
-                                                  on: { click: _vm.prev }
-                                                },
+                                                "div",
+                                                { staticClass: "mt-2" },
                                                 [
-                                                  _c(
-                                                    "v-icon",
-                                                    { attrs: { left: "" } },
-                                                    [_vm._v("mdi-arrow-left")]
-                                                  ),
-                                                  _vm._v(
-                                                    "\r\n                                        Previous\r\n                                        "
-                                                  )
-                                                ],
-                                                1
+                                                  _vm.$vuetify.breakpoint
+                                                    .mdAndUp
+                                                    ? _c("h3", [
+                                                        _vm._v(
+                                                          "Question #" +
+                                                            _vm._s(
+                                                              _vm.questionIndex +
+                                                                1
+                                                            )
+                                                        )
+                                                      ])
+                                                    : _c("h4", [
+                                                        _vm._v(
+                                                          "Question #" +
+                                                            _vm._s(
+                                                              _vm.questionIndex +
+                                                                1
+                                                            )
+                                                        )
+                                                      ])
+                                                ]
                                               ),
                                               _vm._v(" "),
-                                              !_vm.$vuetify.breakpoint.mdAndUp
+                                              _vm.$vuetify.breakpoint.mdAndUp
                                                 ? _c("v-spacer")
                                                 : _vm._e(),
                                               _vm._v(" "),
-                                              _vm.questionIndex !=
-                                              _vm.Qlength - 1
-                                                ? _c(
+                                              _c(
+                                                "div",
+                                                {
+                                                  class: _vm.$vuetify.breakpoint
+                                                    .mdAndUp
+                                                    ? "mb-3 mt-0 pt-0"
+                                                    : "d-flex mb-3 mt-0 pt-0"
+                                                },
+                                                [
+                                                  _c(
                                                     "v-btn",
                                                     {
                                                       class: !_vm.$vuetify
                                                         .breakpoint.mdAndUp
-                                                        ? "pr-5"
+                                                        ? "pl-5"
                                                         : "",
                                                       attrs: {
-                                                        loading:
-                                                          _vm.isSavingAnswer,
                                                         rounded: "",
-                                                        color: "primary"
+                                                        color: "primary",
+                                                        outlined: "",
+                                                        disabled:
+                                                          _vm.questionIndex <= 0
                                                       },
-                                                      on: { click: _vm.next }
+                                                      on: { click: _vm.prev }
                                                     },
                                                     [
-                                                      _vm._v(
-                                                        "\r\n                                        Next\r\n                                        "
-                                                      ),
                                                       _c(
                                                         "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-arrow-left"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(
+                                                        "\r\n                                            Previous\r\n                                            "
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  !_vm.$vuetify.breakpoint
+                                                    .mdAndUp
+                                                    ? _c("v-spacer")
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.questionIndex !=
+                                                  _vm.Qlength - 1
+                                                    ? _c(
+                                                        "v-btn",
                                                         {
-                                                          attrs: { right: "" }
+                                                          class: !_vm.$vuetify
+                                                            .breakpoint.mdAndUp
+                                                            ? "pr-5"
+                                                            : "",
+                                                          attrs: {
+                                                            loading:
+                                                              _vm.isSavingAnswer,
+                                                            rounded: "",
+                                                            color: "primary"
+                                                          },
+                                                          on: {
+                                                            click: _vm.next
+                                                          }
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "mdi-arrow-right"
+                                                            "\r\n                                            Next\r\n                                            "
+                                                          ),
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                right: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-arrow-right"
+                                                              )
+                                                            ]
                                                           )
-                                                        ]
+                                                        ],
+                                                        1
                                                       )
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              _vm.questionIndex ==
-                                              _vm.Qlength - 1
-                                                ? _c(
-                                                    "v-btn",
-                                                    {
-                                                      class: !_vm.$vuetify
-                                                        .breakpoint.mdAndUp
-                                                        ? "pr-5"
-                                                        : "",
-                                                      attrs: {
-                                                        loading:
-                                                          _vm.isSavingAnswer,
-                                                        rounded: "",
-                                                        color: "success"
-                                                      },
-                                                      on: {
-                                                        click: _vm.SubmitPromp
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                        Submit\r\n                                        "
-                                                      ),
-                                                      _c(
-                                                        "v-icon",
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.questionIndex ==
+                                                  _vm.Qlength - 1
+                                                    ? _c(
+                                                        "v-btn",
                                                         {
-                                                          attrs: { right: "" }
+                                                          class: !_vm.$vuetify
+                                                            .breakpoint.mdAndUp
+                                                            ? "pr-5"
+                                                            : "",
+                                                          attrs: {
+                                                            loading:
+                                                              _vm.isSavingAnswer,
+                                                            rounded: "",
+                                                            color: "success"
+                                                          },
+                                                          on: {
+                                                            click:
+                                                              _vm.SubmitPromp
+                                                          }
                                                         },
-                                                        [_vm._v("mdi-lock")]
+                                                        [
+                                                          _vm._v(
+                                                            "\r\n                                            Submit\r\n                                            "
+                                                          ),
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                right: ""
+                                                              }
+                                                            },
+                                                            [_vm._v("mdi-lock")]
+                                                          )
+                                                        ],
+                                                        1
                                                       )
-                                                    ],
-                                                    1
-                                                  )
-                                                : _vm._e()
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              )
                                             ],
                                             1
                                           ),
@@ -25575,31 +25650,9 @@ var render = function() {
                                                               "v-container",
                                                               {
                                                                 staticClass:
-                                                                  "pa-0 ma-0 d-flex flex-row justify-space-between"
+                                                                  "pa-0 ma-0 d-flex flex-row justify-end"
                                                               },
                                                               [
-                                                                _vm.$vuetify
-                                                                  .breakpoint
-                                                                  .mdAndUp
-                                                                  ? _c("h3", [
-                                                                      _vm._v(
-                                                                        "Question #" +
-                                                                          _vm._s(
-                                                                            index +
-                                                                              1
-                                                                          )
-                                                                      )
-                                                                    ])
-                                                                  : _c("h4", [
-                                                                      _vm._v(
-                                                                        "Question #" +
-                                                                          _vm._s(
-                                                                            index +
-                                                                              1
-                                                                          )
-                                                                      )
-                                                                    ]),
-                                                                _vm._v(" "),
                                                                 _c(
                                                                   "p",
                                                                   {

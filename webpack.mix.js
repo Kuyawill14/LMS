@@ -20,16 +20,16 @@ const mix = require('laravel-mix');
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-/* mix.webpackConfig( {
+/* mix.webpackConfig({
     watchOptions: {
       ignored: /node_modules/
     }
 }); */
-/* module.exports = {
+module.exports = {
     watchOptions: {
       ignored: /node_modules/
     }
-  }; */
+  };
 
 // module.exports = {
 //     configureWebpack: {

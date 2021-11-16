@@ -36,7 +36,7 @@
             <v-col cols="12" class="mt-2">
                 <v-row align="center" justify="center">
                     <v-col cols="12" class="pb-10"  md="8">
-                         <v-card min-height="400"  class="pa-2 pt-5" elevation="5" outlined>
+                         <v-card min-height="400"  class="pa-3 pt-8" elevation="5" outlined>
                             <div class="d-flex mb-2">
                                 <div class="d-flex">
                                     <v-menu offset-y max-height="600" style="overflow-y:scroll;">
@@ -86,7 +86,7 @@
                                             </v-col>
                                             <v-col cols="12" v-if="item.type == 'Multiple Choice'">
                                                 <div>
-                                                    <v-list class="pl-3" >
+                                                    <v-list class="pl-8" >
                                                         <v-list-item class="ma-0 pa-0"  v-for="(Ans, i) in Question.Answer[index].options" :key="i">
                                                             <v-list-item-icon class="ma-0 pa-0">
                                                                 <v-radio-group hide-details :name="'option'+item.id" v-model="TempAnswers[index].answer"  class="ma-0 pa-0 mt-1" >
@@ -121,14 +121,93 @@
                                                                 </v-list-item-content>
                                                             </v-list-item>
                                                         </v-list>
-                                                       <!--  <v-list class="pl-3" >
-                                                            <v-list-item class="ma-0 pa-0"  >
-                                                                <v-list-item-content class="ma-0 pa-0 success--text">
-                                                                  <v-list class="pl-3" >
-                                                             
+                                                    </div>
+                                                </v-col>
+
+                                                <v-col cols="12" v-if="item.type == 'True or False'">
+                                                    <div>
+                                                        <v-list class="pl-8" >
+                                                            <v-list-item class="ma-0 pa-0"  v-for="(x, n) in inputCheck" :key="n">
+                                                                <v-list-item-icon class="ma-0 pa-0">
+                                                                    <v-radio-group hide-details  v-model="TempAnswers[index].answer">
+                                                                        <v-radio
+                                                                        :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                        readonly
+                                                                        color="primary"
+                                                                        :key="n"
+                                                                        name="Answer" 
+                                                                        :value="inputCheck[n]"
+                                                                        ></v-radio>
+                                                                    </v-radio-group>
+                                                                </v-list-item-icon>
+                                                                <v-list-item-content  class="ma-0 pa-0">
+                                                                    <div  style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
+                                                                        <span class="mt-4">{{inputCheck[n]}}</span>
+                                                                    </div>
                                                                 </v-list-item-content>  
                                                             </v-list-item>
-                                                        </v-list> -->
+                                                        </v-list>
+                                                    </div>
+                                                </v-col>
+                                                <v-col cols="12" v-if="item.type == 'Matching type'">
+                                                    <div>
+                                                        <v-container>
+                                                            <v-row>
+                                                                 <v-col class="font-weight-bold" cols="2" md="1">
+                                                                   
+                                                                </v-col>
+                                                                <v-col class="font-weight-bold" cols="5">
+                                                                    Column A<small>(question)</small>
+                                                                </v-col>
+                                                                <v-col class="font-weight-bold" cols="5">
+                                                                    Column B<small>(answers)</small>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-container>
+                                                        <div class="mb-5">
+                                                                <v-divider></v-divider>
+                                                        </div>
+                                                        <v-container class="mb-0 pb-0 " v-for="(List, i) in Question.Answer[index].SubQuestion" :key="List.id">
+                                                            <v-row>
+                                                                <v-col class="mb-0 pb-0 pt-0 mt-0"  cols="2" md="1">
+                                                                    <div class="d-flex">
+                                                                         <v-text-field 
+                                                                    hide-details
+                                                                    class="centered-input">
+                                                                    </v-text-field>
+                                                                    </div>
+                                                                   
+                                                                </v-col>
+
+                                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
+                                                                    <div class="d-flex mt-7"> 
+                                                                        <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                        <span v-html="List.sub_question" class="subquestion-content"></span>
+                                                                    </div>
+                                                                </v-col>
+                                                                <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5">
+                                                                    <div class="d-flex mt-7"> 
+                                                                        <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                        <span v-html="Question.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                                    </div>
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-container>
+                                                    </div>
+                                                </v-col>
+                                                 <v-col cols="12" v-if="item.type == 'Essay'">
+                                                    <div>
+                                                        <v-list class="pl-3" >
+                                                            <v-list-item class="ma-0 pa-0" >
+                                                                <v-list-item-content  class="ma-0 pa-0">
+                                                                        <quill-editor
+                                                                        v-model="TempAnswers[index].answer" 
+                                                                        class="Essayeditor"
+                                                                        ref="myTextEditor"
+                                                                        :options="editorOption"/>
+                                                                </v-list-item-content>  
+                                                            </v-list-item>
+                                                        </v-list>
                                                     </div>
                                                 </v-col>
                                           </v-row>
@@ -174,6 +253,37 @@ export default {
                     }
                 }
             },
+            inputCheck:['True','False'],
+            Alphabet: [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F",
+                "G",
+                "H",
+                "I",
+                "J",
+                "K",
+                "L",
+                "M",
+                "N",
+                "O",
+                "P",
+                "q",
+                "r",
+                "s",
+                "t",
+                "u",
+                "v",
+                "w",
+                "x",
+                "y",
+                "z"
+            ],
+            QuestionList:[],
+            AnswerList:[],
 
         }
     },
@@ -185,6 +295,28 @@ export default {
                 this.TempAnswers.push({answer: null})
           });
          
+      },
+      SuffleQuestion(){
+
+          this.QuestionList  = this.Shuffle(this.Question.Question);
+         
+      },
+      Shuffle(array){
+           let currentIndex = array.length,  randomIndex;
+
+        // While there remain elements to shuffle...
+        while (currentIndex != 0) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+
+            // And swap it with the current element.
+            [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+        }
+
+        return array;
       }
     },
     created(){
@@ -195,8 +327,27 @@ export default {
           });
            this.isloaded = true;
     },
+    mounted(){
+        //this.SuffleQuestion();
+    },
     beforeDestroy(){
           this.$emit('closeDialog');
       },
 }
 </script>
+<style scoped>
+.centered-input input {
+        text-align: center
+    }
+.post-content  img{
+        max-height: 15rem !important;
+    }
+.Essayeditor{
+        height: 10rem !important;
+     
+    }
+</style>
+
+<style >
+  
+</style>

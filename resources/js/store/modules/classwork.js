@@ -7,15 +7,18 @@ const state = {
     current_course_id: null,
     isFromOtherPage: false,
     isViewing: false,
+    isDataLoaded: false
 };
 const getters = {
     get_Classworks: (state) => state.Classworks,
     get_classwork_show_details : (state) => state.classwork_show_details,
     get_Viewing : (state) => state.isViewing,
+    get_isDataLoaded : (state) => state.isDataLoaded,
 };
 
 const actions = {
     async fetchClassworks({ commit }, id) {
+        state.isDataLoaded = false;
         const res = await axios.get(
             `/api/classwork/all/${id}`
         );
@@ -47,7 +50,14 @@ const actions = {
     },
     async isNotViewingSubmission(){
         state.isViewing = false;
+    },
+    async SetDataisLoaded(){
+        state.isDataLoaded = true;
+    },
+    async SetDataisNotLoaded(){
+        state.isDataLoaded = false;
     }
+    
 
 };
 const mutations = {

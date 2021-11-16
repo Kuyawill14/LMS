@@ -492,7 +492,6 @@ __webpack_require__.r(__webpack_exports__);
     startTimer: function startTimer() {
       var due = this.duration * 60 * 1000;
       this.EndDate = this.StartTime + due - this.CurrentTime;
-      console.log(this.CurrentTime);
     }
   },
   mounted: function mounted() {

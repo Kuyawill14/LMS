@@ -324,11 +324,13 @@ var previewClassworkModal = function previewClassworkModal() {
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_0___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-  },
-  created: function created() {
-    this.$emit('ismounted');
+    setTimeout(function () {
+      return _this2.$store.dispatch('SetDataisLoaded');
+    }, 300);
   }
 });
 

@@ -2417,6 +2417,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -4599,6 +4607,36 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -45395,6 +45433,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -45545,9 +45584,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -45572,7 +45611,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -45662,6 +45701,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -57058,37 +57098,6 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm.isloading
-              ? _c(
-                  "v-row",
-                  {
-                    staticClass: "centered",
-                    attrs: { "align-content": "center", justify: "center" }
-                  },
-                  [
-                    _c(
-                      "v-col",
-                      { staticClass: "text-center", attrs: { cols: "12" } },
-                      [
-                        _c("vue-element-loading", {
-                          attrs: {
-                            active: _vm.isloading,
-                            text: "Loading",
-                            duration: "0.7",
-                            textStyle: { fontSize: "20px" },
-                            spinner: "line-scale",
-                            color: "#EF6C00",
-                            size: "60"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
             _vm.isAddingNewQuestion
               ? _c(
                   "v-row",
@@ -57155,6 +57164,34 @@ var render = function() {
                           [_vm._v(" Add Question ")]
                         )
                       ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.isloading
+              ? _c(
+                  "v-row",
+                  { attrs: { align: "center", justify: "center" } },
+                  [
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12", md: "8", lg: "9", xl: "9" } },
+                      _vm._l(3, function(i) {
+                        return _c(
+                          "v-card",
+                          { key: i, staticClass: "mb-6 pl-4 pr-4 pb-10 pt-10" },
+                          [
+                            _c("v-skeleton-loader", {
+                              staticClass: "mx-auto",
+                              attrs: { type: "article" }
+                            })
+                          ],
+                          1
+                        )
+                      }),
                       1
                     )
                   ],
@@ -61635,36 +61672,130 @@ var render = function() {
       _vm._v(" "),
       _vm.isloading
         ? _c(
-            "v-container",
-            { staticClass: "fill-height", staticStyle: { height: "570px" } },
+            "v-row",
+            { attrs: { align: "center", justify: "center" } },
             [
               _c(
-                "v-row",
-                { attrs: { "align-content": "center", justify: "center" } },
+                "v-col",
+                { staticClass: "mb-5", attrs: { cols: "12" } },
                 [
                   _c(
-                    "v-col",
-                    { staticClass: "text-center", attrs: { cols: "12" } },
+                    "v-row",
                     [
-                      _c("vue-element-loading", {
-                        attrs: {
-                          active: _vm.isloading,
-                          text: "Loading",
-                          duration: "0.7",
-                          textStyle: { fontSize: "20px" },
-                          spinner: "line-scale",
-                          color: "#EF6C00",
-                          size: "60"
-                        }
-                      })
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left",
+                          attrs: { cols: "6", md: "2" }
+                        },
+                        [
+                          _vm.isloading
+                            ? _c(
+                                "v-card",
+                                {
+                                  staticClass: "pl-2 pr-2 pt-3 pb-3 ",
+                                  attrs: { elevation: "0" }
+                                },
+                                [
+                                  _c("v-skeleton-loader", {
+                                    staticClass: "mx-auto",
+                                    attrs: { type: "heading list-item" }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _vm._l(5, function(i) {
+                return _c(
+                  "v-col",
+                  { key: i, attrs: { cols: "12", md: "2" } },
+                  [
+                    _vm.isloading
+                      ? _c(
+                          "v-card",
+                          { attrs: { elevation: "0" } },
+                          [
+                            _c("v-skeleton-loader", {
+                              staticClass: "mx-auto",
+                              attrs: { type: "button" }
+                            })
+                          ],
+                          1
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              }),
+              _vm._v(" "),
+              _vm._l(20, function(i) {
+                return _c(
+                  "v-col",
+                  { key: i, attrs: { cols: "12", md: "6", lg: "3", xl: "3" } },
+                  [
+                    _vm.isloading
+                      ? _c(
+                          "v-card",
+                          {
+                            staticClass: "pl-2 pr-2 pt-3 pb-3",
+                            attrs: { elevation: "0" }
+                          },
+                          [
+                            _c(
+                              "v-list",
+                              [
+                                _c(
+                                  "v-list-item",
+                                  [
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c("v-skeleton-loader", {
+                                          staticClass: "mx-auto",
+                                          attrs: {
+                                            type: "list-item-avatar-two-line"
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item-action",
+                                      [
+                                        _c("v-skeleton-loader", {
+                                          staticClass: "mx-auto",
+                                          attrs: { type: "chip" }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      : _vm._e()
+                  ],
+                  1
+                )
+              })
             ],
-            1
+            2
           )
         : _vm._e(),
       _vm._v(" "),

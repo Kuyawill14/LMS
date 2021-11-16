@@ -103,6 +103,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
@@ -136,14 +162,11 @@ var newClassworkModal = function newClassworkModal() {
       }]
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['get_Classworks']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['get_Classworks', 'get_isDataLoaded']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassworks'])), {}, {
     getGeneralClassworks: function getGeneralClassworks() {
-      //this.isGetting = true;
-      this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function (res) {
-        if (res == 200) {//this.isGetting = false;
-        }
-      });
+      this.$store.dispatch('SetDataisNotLoaded');
+      this.$store.dispatch('fetchClassworks', this.$route.params.id);
     }
   }),
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -308,8 +331,8 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: !_vm.isGetting && _vm.ClassworkLength != 0,
-              expression: "!isGetting && ClassworkLength != 0"
+              value: _vm.get_isDataLoaded && _vm.ClassworkLength != 0,
+              expression: "get_isDataLoaded && ClassworkLength != 0"
             }
           ],
           staticClass: "ml-0 mr-0"
@@ -321,9 +344,6 @@ var render = function() {
               ToggleRefresh: function($event) {
                 return _vm.getGeneralClassworks()
               },
-              isMouted: function($event) {
-                _vm.isGetting = false
-              },
               reloadClassworks: function($event) {
                 return _vm.getGeneralClassworks()
               }
@@ -333,53 +353,102 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.isGetting
+      !_vm.get_isDataLoaded
         ? _c(
             "v-container",
-            { staticStyle: { height: "400px" } },
+            { attrs: { fluid: "" } },
             [
               _c(
                 "v-row",
-                {
-                  staticClass: "fill-height",
-                  attrs: { "align-content": "center", justify: "center" }
-                },
+                { staticClass: "mb-5" },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v(
-                      "\n                mdi-book-open-variant\n            "
-                    )
-                  ]),
-                  _vm._v(" "),
                   _c(
                     "v-col",
                     {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
+                      staticClass: "text-left mb-0 pb-0",
+                      attrs: { cols: "12", md: "9", lg: "9" }
                     },
-                    [_c("h2", [_vm._v(" Getting your Classworks ")])]
+                    [_c("v-skeleton-loader", { attrs: { type: "heading" } })],
+                    1
                   ),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { attrs: { cols: "6" } },
+                    {
+                      staticClass: "text-right mb-0 pb-0",
+                      attrs: { cols: "12", md: "3", lg: "3" }
+                    },
                     [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
+                      _c("v-skeleton-loader", {
+                        attrs: { "min-width": "400", type: "button" }
                       })
                     ],
                     1
                   )
                 ],
                 1
-              )
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.role == "Teacher" ? 2 : 3, function(i) {
+                return _c(
+                  "v-row",
+                  { key: i },
+                  [
+                    _c(
+                      "v-col",
+                      { attrs: { cols: "12" } },
+                      [
+                        _c(
+                          "v-row",
+                          [
+                            _c(
+                              "v-col",
+                              { attrs: { cols: "5" } },
+                              [
+                                _c("v-skeleton-loader", {
+                                  staticClass: "mx-atuo",
+                                  attrs: { "max-width": "350", type: "heading" }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm._l(3, function(i) {
+                      return _c(
+                        "v-col",
+                        {
+                          key: i,
+                          staticClass: "mt-0 pt-0",
+                          attrs: { cols: "12", md: "6", lg: "4", xl: "4" }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            { staticClass: "pa-4" },
+                            [
+                              _c("v-skeleton-loader", {
+                                staticClass: "mx-atuo",
+                                attrs: { type: "list-item-avatar-two-line" }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  ],
+                  2
+                )
+              })
             ],
-            1
+            2
           )
         : _vm._e()
     ],

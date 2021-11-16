@@ -47,16 +47,16 @@
 
 
 
-        <div class="ml-0 mr-0" v-show="!isGetting && ClassworkLength != 0" >
+        <div class="ml-0 mr-0" v-show="get_isDataLoaded && ClassworkLength != 0" >
             <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
            
-            v-on:isMouted="isGetting = false"
+     
             v-on:reloadClassworks="getGeneralClassworks()"
             :classworks="get_Classworks" :role="role"></classworkList>
         </div>
       
         
-        <v-container v-if="isGetting" style="height: 400px;">
+        <!-- <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                  <v-icon style="font-size:10rem">
                     mdi-book-open-variant
@@ -68,7 +68,33 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-container> -->
+  
+    <v-container v-if="!get_isDataLoaded" fluid>
+         <v-row class="mb-5">
+             <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
+                  <v-skeleton-loader  type="heading"></v-skeleton-loader>
+            </v-col>
+            <v-col cols="12" md="3" lg="3" class="text-right mb-0 pb-0">
+                 <v-skeleton-loader min-width="400" type="button"></v-skeleton-loader>
+            </v-col>
+        </v-row>
+        <v-row v-for="i in (role == 'Teacher' ? 2 : 3)" :key="i" >
+              <v-col  cols="12" class="">
+                <v-row>
+                    <v-col cols="5" >
+                        <v-skeleton-loader max-width="350" class="mx-atuo" type="heading"></v-skeleton-loader>
+                    </v-col>
+                </v-row>
+              </v-col>
+                <v-col class="mt-0 pt-0" cols="12" v-for="i in 3" :key="i"  md="6" lg="4" xl="4">
+                <v-card class="pa-4">
+                    <v-skeleton-loader class="mx-atuo" type="list-item-avatar-two-line"></v-skeleton-loader>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+        
 
     
 
@@ -109,18 +135,12 @@
                 ],
             }
         },
-        computed: mapGetters(['get_Classworks']),
+        computed: mapGetters(['get_Classworks','get_isDataLoaded']),
         methods: {
             ...mapActions(['fetchClassworks']),
             getGeneralClassworks() {
-                //this.isGetting = true;
-                this.$store.dispatch('fetchClassworks', this.$route.params.id)
-                .then(res => {
-                    if (res == 200) {
-                        //this.isGetting = false;
-                    }
-                   
-                })
+                this.$store.dispatch('SetDataisNotLoaded');
+                this.$store.dispatch('fetchClassworks', this.$route.params.id);
             },
         },
         beforeRouteLeave(to, from, next) {

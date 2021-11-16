@@ -364,14 +364,15 @@ var newClassworkModal = function newClassworkModal() {
     }
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     //this.CheckClassworkCount();
     var newDate = new Date(); //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
 
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-    this.$emit('ismounted');
-  },
-  created: function created() {
-    this.$emit('ismounted');
+    setTimeout(function () {
+      return _this3.$store.dispatch('SetDataisLoaded');
+    }, 300);
   }
 });
 

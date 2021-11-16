@@ -57,10 +57,10 @@
    
 
 
-<v-container  fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''" v-if="!isLoading || !isSubmitting" >
+<v-container class="ma-0 pa-0"  fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''" v-if="!isLoading || !isSubmitting" >
       <v-row justify="center" >
           <v-col cols="12" >
-               <v-card elevation="2" outlined >
+               <v-card class="pr-4 pt-3" elevation="2" outlined >
                <v-row v-if="!isLoading">
                 <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="8"  >
                     <v-list>
@@ -126,7 +126,7 @@
             </v-row>
             </v-card>
           </v-col>
-          <v-col cols="12">
+          <v-col v-if="!$vuetify.breakpoint.mdAndUp" cols="12">
               <div transition="slide-y-reverse-transition">
                 <v-app-bar 
                 flat
@@ -178,36 +178,45 @@
  <!--      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn> -->
 </v-container>
 
-  <div v-if="!isLoading" class="mt-10">
+  <div v-if="!isLoading" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-10' : 'mt-5'">
         <v-row  justify="center">
             <v-col  cols="12" sm="12" md="10" lg="8" xl="7">
                 <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-0'" :elevation="$vuetify.breakpoint.mdAndUp ? 2 : 0" :outlined="$vuetify.breakpoint.mdAndUp " >
                
                         <v-row>
                             <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'" >
-                                <div :class="$vuetify.breakpoint.mdAndUp  ? 'mb-3 mt-1' : 'd-flex mb-3 mt-1'">
-                                    <v-btn :class="!$vuetify.breakpoint.mdAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
-                                    :disabled="questionIndex <= 0">
-                                        <v-icon left>mdi-arrow-left</v-icon>
-                                        Previous
-                                        </v-btn>
-                                       
-                                        <v-spacer v-if="!$vuetify.breakpoint.mdAndUp"></v-spacer>
-                                        <v-btn v-if="questionIndex != Qlength-1" 
-                                        :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
-                                        :loading="isSavingAnswer"
-                                        rounded color="primary" @click="next">
-                                        Next
-                                        <v-icon right>mdi-arrow-right</v-icon>
-                                        </v-btn>
+                                
+                            
+                                <div class="d-flex pt-2 pb-2">
+                                    <div class="mt-2">
+                                         <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{questionIndex+1}}</h3>
+                                         <h4 v-else >Question #{{questionIndex+1}}</h4>
+                                    </div>
+                                    <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
+                                    <div :class="$vuetify.breakpoint.mdAndUp  ? 'mb-3 mt-0 pt-0' : 'd-flex mb-3 mt-0 pt-0'">
+                                        <v-btn :class="!$vuetify.breakpoint.mdAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
+                                        :disabled="questionIndex <= 0">
+                                            <v-icon left>mdi-arrow-left</v-icon>
+                                            Previous
+                                            </v-btn>
+                                        
+                                            <v-spacer v-if="!$vuetify.breakpoint.mdAndUp"></v-spacer>
+                                            <v-btn v-if="questionIndex != Qlength-1" 
+                                            :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
+                                            :loading="isSavingAnswer"
+                                            rounded color="primary" @click="next">
+                                            Next
+                                            <v-icon right>mdi-arrow-right</v-icon>
+                                            </v-btn>
 
-                                        <v-btn 
-                                        :loading="isSavingAnswer"
-                                        :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
-                                         v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
-                                        Submit
-                                        <v-icon right>mdi-lock</v-icon>
-                                        </v-btn>
+                                            <v-btn 
+                                            :loading="isSavingAnswer"
+                                            :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
+                                            v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
+                                            Submit
+                                            <v-icon right>mdi-lock</v-icon>
+                                            </v-btn>
+                                        </div>
                                     </div>
                                 <v-divider></v-divider>
                             </v-col>
@@ -216,9 +225,7 @@
                                 <div v-show="index === questionIndex">
                                         <v-row v-if="$vuetify.breakpoint.mdAndUp" ma-0 pa-0>
                                             <v-col class="mb-0 pb-0" cols="12">
-                                                <v-container class="pa-0 ma-0 d-flex flex-row justify-space-between">
-                                                    <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{index+1}}</h3>
-                                                    <h4 v-else >Question #{{index+1}}</h4>
+                                                <v-container class="pa-0 ma-0 d-flex flex-row justify-end">
                                                     <p class="mr-5 primary--text">({{item.points}} Points)</p>
                                                 </v-container>
                                             </v-col>

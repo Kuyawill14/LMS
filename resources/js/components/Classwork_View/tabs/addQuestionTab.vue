@@ -177,7 +177,7 @@
 </v-overlay>
 
 <!-- <v-container class="fill-height" v-if="isloading" style="height: 570px;"> -->
-    <v-row class="centered" v-if="isloading" align-content="center" justify="center">
+    <!-- <v-row class="centered" v-if="isloading" align-content="center" justify="center">
         <v-col cols="12" class="text-center">
             <vue-element-loading :active="isloading" 
             text="Loading"
@@ -186,7 +186,7 @@
             spinner="line-scale" color="#EF6C00"  size="60" />
         </v-col>
     </v-row>
-
+ -->
     <v-row v-if="isAddingNewQuestion" align-content="center" justify="center">
         <v-col cols="12" class="text-center">
             <vue-element-loading :active="isAddingNewQuestion" 
@@ -207,6 +207,14 @@
         <h2 v-else> Empty Question </h2>
         <p> Start adding question for this classwork.</p>
         <v-btn color="primary" @click="AddNewQuestion"> Add Question </v-btn>
+    </v-col>
+</v-row>
+
+<v-row v-if="isloading" align="center" justify="center">
+    <v-col cols="12" md="8" lg="9" xl="9" >
+        <v-card v-for="i in 3" :key="i" class="mb-6 pl-4 pr-4 pb-10 pt-10" >
+            <v-skeleton-loader class="mx-auto"  type="article"></v-skeleton-loader>
+        </v-card>
     </v-col>
 </v-row>
 

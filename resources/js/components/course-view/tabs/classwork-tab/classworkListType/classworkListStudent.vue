@@ -287,10 +287,9 @@
         mounted(){
             let newDate = new Date();
             this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            setTimeout(() => (this.$store.dispatch('SetDataisLoaded')), 300);
         },
-        created(){
-             this.$emit('ismounted');
-        }
+       
        
        
     }

@@ -161,6 +161,85 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewTimer = function previewTimer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_TeacherQuizPreview_previewTimer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewTimer */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/previewTimer.vue"));
 };
@@ -188,7 +267,11 @@ var previewTimer = function previewTimer() {
             }
           }
         }
-      }
+      },
+      inputCheck: ['True', 'False'],
+      Alphabet: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],
+      QuestionList: [],
+      AnswerList: []
     };
   },
   methods: {
@@ -200,6 +283,25 @@ var previewTimer = function previewTimer() {
           answer: null
         });
       });
+    },
+    SuffleQuestion: function SuffleQuestion() {
+      this.QuestionList = this.Shuffle(this.Question.Question);
+    },
+    Shuffle: function Shuffle(array) {
+      var currentIndex = array.length,
+          randomIndex; // While there remain elements to shuffle...
+
+      while (currentIndex != 0) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--; // And swap it with the current element.
+
+        var _ref = [array[randomIndex], array[currentIndex]];
+        array[currentIndex] = _ref[0];
+        array[randomIndex] = _ref[1];
+      }
+
+      return array;
     }
   },
   created: function created() {
@@ -213,10 +315,64 @@ var previewTimer = function previewTimer() {
     });
     this.isloaded = true;
   },
+  mounted: function mounted() {//this.SuffleQuestion();
+  },
   beforeDestroy: function beforeDestroy() {
     this.$emit('closeDialog');
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input input[data-v-2f61b063] {\r\n        text-align: center\n}\n.post-content  img[data-v-2f61b063]{\r\n        max-height: 15rem !important;\n}\n.Essayeditor[data-v-2f61b063]{\r\n        height: 10rem !important;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_style_index_0_id_2f61b063_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_style_index_0_id_2f61b063_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_style_index_0_id_2f61b063_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -230,23 +386,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _StudentViewForTeacher_vue_vue_type_template_id_2f61b063___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StudentViewForTeacher.vue?vue&type=template&id=2f61b063& */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&");
+/* harmony import */ var _StudentViewForTeacher_vue_vue_type_template_id_2f61b063_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true& */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true&");
 /* harmony import */ var _StudentViewForTeacher_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StudentViewForTeacher.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _StudentViewForTeacher_vue_vue_type_style_index_0_id_2f61b063_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _StudentViewForTeacher_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _StudentViewForTeacher_vue_vue_type_template_id_2f61b063___WEBPACK_IMPORTED_MODULE_0__.render,
-  _StudentViewForTeacher_vue_vue_type_template_id_2f61b063___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _StudentViewForTeacher_vue_vue_type_template_id_2f61b063_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _StudentViewForTeacher_vue_vue_type_template_id_2f61b063_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "2f61b063",
   null
   
 )
@@ -273,26 +431,38 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&":
-/*!*********************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063& ***!
-  \*********************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_template_id_2f61b063___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_template_id_2f61b063___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_template_id_2f61b063___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StudentViewForTeacher.vue?vue&type=template&id=2f61b063& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_style_index_0_id_2f61b063_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=style&index=0&id=2f61b063&scoped=true&lang=css&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&":
-/*!************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true&":
+/*!*********************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true& ***!
+  \*********************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_template_id_2f61b063_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_template_id_2f61b063_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StudentViewForTeacher_vue_vue_type_template_id_2f61b063_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/StudentViewForTeacher.vue?vue&type=template&id=2f61b063&scoped=true& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -456,7 +626,7 @@ var render = function() {
                           _c(
                             "v-card",
                             {
-                              staticClass: "pa-2 pt-5",
+                              staticClass: "pa-3 pt-8",
                               attrs: {
                                 "min-height": "400",
                                 elevation: "5",
@@ -756,7 +926,7 @@ var render = function() {
                                                                 "v-list",
                                                                 {
                                                                   staticClass:
-                                                                    "pl-3"
+                                                                    "pl-8"
                                                                 },
                                                                 _vm._l(
                                                                   _vm.Question
@@ -921,6 +1091,541 @@ var render = function() {
                                                                               ref:
                                                                                 "myTextEditor",
                                                                               refInFor: true,
+                                                                              attrs: {
+                                                                                options:
+                                                                                  _vm.editorOption
+                                                                              },
+                                                                              model: {
+                                                                                value:
+                                                                                  _vm
+                                                                                    .TempAnswers[
+                                                                                    index
+                                                                                  ]
+                                                                                    .answer,
+                                                                                callback: function(
+                                                                                  $$v
+                                                                                ) {
+                                                                                  _vm.$set(
+                                                                                    _vm
+                                                                                      .TempAnswers[
+                                                                                      index
+                                                                                    ],
+                                                                                    "answer",
+                                                                                    $$v
+                                                                                  )
+                                                                                },
+                                                                                expression:
+                                                                                  "TempAnswers[index].answer"
+                                                                              }
+                                                                            }
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  item.type == "True or False"
+                                                    ? _c(
+                                                        "v-col",
+                                                        {
+                                                          attrs: { cols: "12" }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            [
+                                                              _c(
+                                                                "v-list",
+                                                                {
+                                                                  staticClass:
+                                                                    "pl-8"
+                                                                },
+                                                                _vm._l(
+                                                                  _vm.inputCheck,
+                                                                  function(
+                                                                    x,
+                                                                    n
+                                                                  ) {
+                                                                    return _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        key: n,
+                                                                        staticClass:
+                                                                          "ma-0 pa-0"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-list-item-icon",
+                                                                          {
+                                                                            staticClass:
+                                                                              "ma-0 pa-0"
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-radio-group",
+                                                                              {
+                                                                                attrs: {
+                                                                                  "hide-details":
+                                                                                    ""
+                                                                                },
+                                                                                model: {
+                                                                                  value:
+                                                                                    _vm
+                                                                                      .TempAnswers[
+                                                                                      index
+                                                                                    ]
+                                                                                      .answer,
+                                                                                  callback: function(
+                                                                                    $$v
+                                                                                  ) {
+                                                                                    _vm.$set(
+                                                                                      _vm
+                                                                                        .TempAnswers[
+                                                                                        index
+                                                                                      ],
+                                                                                      "answer",
+                                                                                      $$v
+                                                                                    )
+                                                                                  },
+                                                                                  expression:
+                                                                                    "TempAnswers[index].answer"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _c(
+                                                                                  "v-radio",
+                                                                                  {
+                                                                                    key: n,
+                                                                                    style: _vm
+                                                                                      .$vuetify
+                                                                                      .breakpoint
+                                                                                      .mdAndUp
+                                                                                      ? "transform: scale(1.3)"
+                                                                                      : "transform: scale(1.35)",
+                                                                                    attrs: {
+                                                                                      readonly:
+                                                                                        "",
+                                                                                      color:
+                                                                                        "primary",
+                                                                                      name:
+                                                                                        "Answer",
+                                                                                      value:
+                                                                                        _vm
+                                                                                          .inputCheck[
+                                                                                          n
+                                                                                        ]
+                                                                                    }
+                                                                                  }
+                                                                                )
+                                                                              ],
+                                                                              1
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "v-list-item-content",
+                                                                          {
+                                                                            staticClass:
+                                                                              "ma-0 pa-0"
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "div",
+                                                                              {
+                                                                                staticClass:
+                                                                                  "Subtitle-1 ma-0 pa-0 d-flex",
+                                                                                staticStyle: {
+                                                                                  "line-height":
+                                                                                    "1.4"
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _c(
+                                                                                  "span",
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "mt-4"
+                                                                                  },
+                                                                                  [
+                                                                                    _vm._v(
+                                                                                      _vm._s(
+                                                                                        _vm
+                                                                                          .inputCheck[
+                                                                                          n
+                                                                                        ]
+                                                                                      )
+                                                                                    )
+                                                                                  ]
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  }
+                                                                ),
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  item.type == "Matching type"
+                                                    ? _c(
+                                                        "v-col",
+                                                        {
+                                                          attrs: { cols: "12" }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            [
+                                                              _c(
+                                                                "v-container",
+                                                                [
+                                                                  _c(
+                                                                    "v-row",
+                                                                    [
+                                                                      _c(
+                                                                        "v-col",
+                                                                        {
+                                                                          staticClass:
+                                                                            "font-weight-bold",
+                                                                          attrs: {
+                                                                            cols:
+                                                                              "2",
+                                                                            md:
+                                                                              "1"
+                                                                          }
+                                                                        }
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "v-col",
+                                                                        {
+                                                                          staticClass:
+                                                                            "font-weight-bold",
+                                                                          attrs: {
+                                                                            cols:
+                                                                              "5"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "\n                                                                Column A"
+                                                                          ),
+                                                                          _c(
+                                                                            "small",
+                                                                            [
+                                                                              _vm._v(
+                                                                                "(question)"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "v-col",
+                                                                        {
+                                                                          staticClass:
+                                                                            "font-weight-bold",
+                                                                          attrs: {
+                                                                            cols:
+                                                                              "5"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "\n                                                                Column B"
+                                                                          ),
+                                                                          _c(
+                                                                            "small",
+                                                                            [
+                                                                              _vm._v(
+                                                                                "(answers)"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "mb-5"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-divider"
+                                                                  )
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _vm._l(
+                                                                _vm.Question
+                                                                  .Answer[index]
+                                                                  .SubQuestion,
+                                                                function(
+                                                                  List,
+                                                                  i
+                                                                ) {
+                                                                  return _c(
+                                                                    "v-container",
+                                                                    {
+                                                                      key:
+                                                                        List.id,
+                                                                      staticClass:
+                                                                        "mb-0 pb-0 "
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-row",
+                                                                        [
+                                                                          _c(
+                                                                            "v-col",
+                                                                            {
+                                                                              staticClass:
+                                                                                "mb-0 pb-0 pt-0 mt-0",
+                                                                              attrs: {
+                                                                                cols:
+                                                                                  "2",
+                                                                                md:
+                                                                                  "1"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "d-flex"
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-text-field",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "centered-input",
+                                                                                      attrs: {
+                                                                                        "hide-details":
+                                                                                          ""
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-col",
+                                                                            {
+                                                                              staticClass:
+                                                                                "mb-1 pb-0 pt-0 mt-0",
+                                                                              attrs: {
+                                                                                cols:
+                                                                                  "5"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "d-flex mt-7"
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "font-weight-medium mr-1"
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        _vm._s(
+                                                                                          i +
+                                                                                            1 +
+                                                                                            ". "
+                                                                                        )
+                                                                                      )
+                                                                                    ]
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "subquestion-content",
+                                                                                      domProps: {
+                                                                                        innerHTML: _vm._s(
+                                                                                          List.sub_question
+                                                                                        )
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            " "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-col",
+                                                                            {
+                                                                              staticClass:
+                                                                                "mb-1 pb-0 pt-0 mt-0",
+                                                                              attrs: {
+                                                                                cols:
+                                                                                  "5"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "d-flex mt-7"
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "font-weight-medium mr-1"
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        _vm._s(
+                                                                                          _vm
+                                                                                            .Alphabet[
+                                                                                            i
+                                                                                          ] +
+                                                                                            ". "
+                                                                                        )
+                                                                                      )
+                                                                                    ]
+                                                                                  ),
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "subchoices-content",
+                                                                                      domProps: {
+                                                                                        innerHTML: _vm._s(
+                                                                                          _vm
+                                                                                            .Question
+                                                                                            .Answer[
+                                                                                            index
+                                                                                          ]
+                                                                                            .SubAnswer[
+                                                                                            i
+                                                                                          ]
+                                                                                            .Choice
+                                                                                        )
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                }
+                                                              )
+                                                            ],
+                                                            2
+                                                          )
+                                                        ]
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  item.type == "Essay"
+                                                    ? _c(
+                                                        "v-col",
+                                                        {
+                                                          attrs: { cols: "12" }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "div",
+                                                            [
+                                                              _c(
+                                                                "v-list",
+                                                                {
+                                                                  staticClass:
+                                                                    "pl-3"
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-list-item",
+                                                                    {
+                                                                      staticClass:
+                                                                        "ma-0 pa-0"
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-item-content",
+                                                                        {
+                                                                          staticClass:
+                                                                            "ma-0 pa-0"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "quill-editor",
+                                                                            {
+                                                                              ref:
+                                                                                "myTextEditor",
+                                                                              refInFor: true,
+                                                                              staticClass:
+                                                                                "Essayeditor",
                                                                               attrs: {
                                                                                 options:
                                                                                   _vm.editorOption

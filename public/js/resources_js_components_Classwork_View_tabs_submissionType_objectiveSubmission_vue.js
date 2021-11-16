@@ -247,6 +247,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -1333,50 +1348,86 @@ var render = function() {
                                         { attrs: { cols: "12" } },
                                         [
                                           _c(
-                                            "v-container",
-                                            {
-                                              staticClass: "fill-height",
-                                              staticStyle: { height: "500px" }
-                                            },
-                                            [
-                                              _c(
-                                                "v-row",
+                                            "v-row",
+                                            _vm._l(20, function(i) {
+                                              return _c(
+                                                "v-col",
                                                 {
+                                                  key: i,
                                                   attrs: {
-                                                    "align-content": "center",
-                                                    justify: "center"
+                                                    cols: "12",
+                                                    md: "6",
+                                                    lg: "3",
+                                                    xl: "3"
                                                   }
                                                 },
                                                 [
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass:
-                                                        "text-center",
-                                                      attrs: { cols: "12" }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "vue-element-loading",
+                                                  _vm.isFiltered
+                                                    ? _c(
+                                                        "v-card",
                                                         {
+                                                          staticClass:
+                                                            "pl-2 pr-2 pt-3 pb-3",
                                                           attrs: {
-                                                            active:
-                                                              _vm.isFiltered,
-                                                            duration: "0.7",
-                                                            spinner:
-                                                              "line-scale",
-                                                            color: "#EF6C00",
-                                                            size: "40"
+                                                            elevation: "0"
                                                           }
-                                                        }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-list",
+                                                            [
+                                                              _c(
+                                                                "v-list-item",
+                                                                [
+                                                                  _c(
+                                                                    "v-list-item-content",
+                                                                    [
+                                                                      _c(
+                                                                        "v-skeleton-loader",
+                                                                        {
+                                                                          staticClass:
+                                                                            "mx-auto",
+                                                                          attrs: {
+                                                                            type:
+                                                                              "list-item-avatar-two-line"
+                                                                          }
+                                                                        }
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  ),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-list-item-action",
+                                                                    [
+                                                                      _c(
+                                                                        "v-skeleton-loader",
+                                                                        {
+                                                                          staticClass:
+                                                                            "mx-auto",
+                                                                          attrs: {
+                                                                            type:
+                                                                              "chip"
+                                                                          }
+                                                                        }
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
                                                       )
-                                                    ],
-                                                    1
-                                                  )
+                                                    : _vm._e()
                                                 ],
                                                 1
                                               )
-                                            ],
+                                            }),
                                             1
                                           )
                                         ],

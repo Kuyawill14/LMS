@@ -242,6 +242,7 @@
     const archiveClassworkDialog = () => import('../dialogs/archiveClassworkDialog');
     const newClassworkModal = () => import('../newClassworkModal')
     import moment from 'moment-timezone';
+
     export default {
         props: ['classworks'],
         components: {
@@ -307,12 +308,8 @@
             let newDate = new Date();
             //this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
             this.DateToday =  moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-            this.$emit('ismounted');
+             setTimeout(() => (this.$store.dispatch('SetDataisLoaded')), 300);
         },
-        created(){
-            this.$emit('ismounted');
-        }
-       
     }
 </script>
 <style >

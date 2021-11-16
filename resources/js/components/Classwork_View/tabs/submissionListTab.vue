@@ -20,14 +20,10 @@
         size="64"
     ></v-progress-circular>
 </v-overlay>
-<v-container class="fill-height" v-if="isloading" style="height: 570px;">
+<!-- <v-container class="fill-height" v-if="isloading" style="height: 570px;">
     <v-row  align-content="center" justify="center">
         <v-col cols="12" class="text-center">
-         <!--    <v-progress-circular
-            :size="40"
-            color="primary"
-            indeterminate
-            ></v-progress-circular> -->
+
 
             <vue-element-loading :active="isloading" 
             text="Loading"
@@ -36,7 +32,41 @@
             spinner="line-scale" color="#EF6C00"  size="60" />
         </v-col>
     </v-row>
-</v-container>
+</v-container> -->
+<v-row v-if="isloading" align="center" justify="center">
+    <v-col  cols="12" class="mb-5" >
+    <v-row>
+        <v-col class="text-left"  cols="6" md="2">
+                <v-card class="pl-2 pr-2 pt-3 pb-3 " elevation="0"  v-if="isloading">
+                    <v-skeleton-loader class="mx-auto"  type="heading list-item"></v-skeleton-loader>
+                </v-card>
+        </v-col>
+    </v-row>
+       
+    </v-col>
+     <v-col  cols="12" md="2" v-for="i in 5" :key="i" >
+        <v-card  elevation="0"  v-if="isloading">
+            <v-skeleton-loader class="mx-auto"  type="button"></v-skeleton-loader>
+        </v-card>
+    </v-col>
+    
+
+    <v-col v-for="i in 20" :key="i" cols="12" md="6" lg="3" xl="3">
+        <v-card class="pl-2 pr-2 pt-3 pb-3" elevation="0"  v-if="isloading">
+            <v-list>
+                <v-list-item>
+                    <v-list-item-content>
+                         <v-skeleton-loader class="mx-auto"  type="list-item-avatar-two-line"></v-skeleton-loader>
+                    </v-list-item-content>
+                    <v-list-item-action>
+                        <v-skeleton-loader class="mx-auto"  type="chip"></v-skeleton-loader>
+                    </v-list-item-action>
+                </v-list-item>
+            </v-list>
+           
+        </v-card>
+    </v-col>
+</v-row>
 
  <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'"  justify="center" v-if="List.length == 0 && !isloading">
     <v-col cols="12" class="text-center">

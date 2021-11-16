@@ -189,7 +189,7 @@
                     </v-col>
 
                     <v-col cols="12" v-if="isFiltered">
-                        <v-container class="fill-height" style="height: 500px;">
+                      <!--   <v-container class="fill-height" style="height: 500px;">
                         <v-row  align-content="center" justify="center">
                                 <v-col cols="12" class="text-center">
                                     <vue-element-loading :active="isFiltered" 
@@ -197,8 +197,23 @@
                                     spinner="line-scale" color="#EF6C00"  size="40" />
                                 </v-col>
                             </v-row>
-                        </v-container>
-
+                        </v-container> -->
+                        <v-row>
+                            <v-col v-for="i in 20" :key="i" cols="12" md="6" lg="3" xl="3">
+                                <v-card class="pl-2 pr-2 pt-3 pb-3" elevation="0"  v-if="isFiltered">
+                                    <v-list>
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-skeleton-loader class="mx-auto"  type="list-item-avatar-two-line"></v-skeleton-loader>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                <v-skeleton-loader class="mx-auto"  type="chip"></v-skeleton-loader>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-card>
+                            </v-col>      
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-col>

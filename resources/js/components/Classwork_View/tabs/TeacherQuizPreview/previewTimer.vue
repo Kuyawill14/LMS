@@ -45,7 +45,6 @@ export default {
         startTimer(){
             let due = (this.duration*60) * 1000;
             this.EndDate = (this.StartTime+due) - this.CurrentTime;
-            console.log(this.CurrentTime );
         },
       
     },
