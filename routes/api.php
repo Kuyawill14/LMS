@@ -33,7 +33,7 @@ use App\Http\Controllers\api\ForgotPasswordController;
 use App\Models\tbl_subjective_rubrics;
 use App\Http\Controllers\api\SubjectiveTypeRubrics;
 use App\Http\Controllers\api\CourseOverviewController;
-
+use App\Http\Controllers\api\admin\ManageUserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -353,22 +353,27 @@ Route::middleware('auth:sanctum')->prefix('/student-course')->group(function () 
 
 //Get all teachers
 Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
-    Route::get('teachers/all', [AdminController::class, 'getAllTeacher']);
-    Route::get('/students/all', [AdminController::class, 'getAllStudent']);
+
+    Route::get('/users/all/{user_type}', [ManageUserController::class, 'getAllusers']);
+    Route::post('/users/add/{user_type}', [ManageUserController::class, 'adduser']);
+    Route::post('/users/update/{id}', [ManageUserController::class, 'updateUser']);
+    Route::delete('/users/remove/{id}', [ManageUserController::class, 'removeUser']);
+    Route::post('/users/reset-password/{id}', [ManageUserController::class, 'resetUserPassword']);
+
+
+
+
+
+
     Route::get('/studentAndteacher/count', [AdminController::class, 'getAllStudentAndTeacherCount']);
-
-    Route::post('/add/teacher', [AdminController::class, 'AddTeacher']);
-    Route::post('/add/student', [AdminController::class, 'AddStudent']);
-
+   
+   
+    
     Route::put('/verifyUser/{id}', [AdminController::class, 'ManualVerifyUser']);
     
-    
-    
+   
     Route::get('/teachers/all/progress', [AdminController::class, 'getAllTeacherProgress']);
-    Route::post('/teachers/update/{id}', [AdminController::class, 'update']);
-    Route::post('/teachers/reset-password/{id}', [AdminController::class, 'resetTeacherPassword']);
-    Route::delete('/teachers/remove/{id}', [AdminController::class, 'removeUser']);
-
+  
     Route::get('/teachers/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
     Route::get('/teachers/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
     Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);

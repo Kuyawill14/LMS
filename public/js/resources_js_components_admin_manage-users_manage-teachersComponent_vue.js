@@ -201,11 +201,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      user_type: 'Teacher',
       Deldialog: false,
       dialog: false,
       temp_id: '',
@@ -225,7 +241,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         email: "",
         password: "",
         password_confirmation: "",
-        verified: null
+        verified: null,
+        department: null
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -271,6 +288,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Email',
         value: 'email',
+        align: 'start'
+      }, {
+        text: 'Deparment',
         align: 'start'
       }, {
         text: 'Verified',
@@ -321,6 +341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.lastName = currentTeacher.lastName;
       this.form.email = currentTeacher.email;
       this.form.verified = currentTeacher.isVerified;
+      this.form.department = currentTeacher.department;
     },
     openDelete: function openDelete(id, index) {
       this.deleteIndex = index;
@@ -332,7 +353,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.IsResetting_id = id;
       this.IsResetting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + id).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/users/reset-password/' + id).then(function (res) {
         _this2.toastSuccess(res.data);
 
         _this2.IsResetting = false;
@@ -342,7 +363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       this.IsDeleting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/users/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
           _this3.getTeachers.splice(_this3.deleteIndex, 1);
 
@@ -388,14 +409,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'add') {
           this.form.password_confirmation = this.form.password;
-          axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/add/teacher', this.form).then(function (response) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/admin/users/add/".concat(this.user_type), this.form).then(function (response) {
             if (response.status == 200) {
               _this4.$refs.RegisterForm.reset();
 
               _this4.valid = true;
               _this4.dialog = false; //this.$store.dispatch('fetchAllTeachers');
 
-              _this4.teacherList.push(response.data);
+              _this4.teacherList.unshift(response.data);
 
               _this4.toastSuccess('User successfully Added!');
 
@@ -411,7 +432,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this4.toastError('Something went wrong!');
           });
         } else if (this.type == 'edit') {
-          this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function (res) {
+          this.form.post('/api/admin/users/update/' + this.form.user_id).then(function (res) {
             if (res.status == 200) {
               _this4.$refs.RegisterForm.reset();
 
@@ -439,14 +460,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.IsAddUpdating = false;
         this.valid = false;
       }
+    },
+    fetchDeparmentList: function fetchDeparmentList() {
+      var _this5 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/department/all').then(function (res) {
+        _this5.department = res.data;
+      });
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this6 = this;
 
+    this.fetchDeparmentList();
     this.$store.dispatch('fetchAllTeachers').then(function () {
-      _this5.teacherList = _this5.getTeachers;
-      _this5.loading = false;
+      _this6.teacherList = _this6.getTeachers;
+      _this6.loading = false;
     });
   }
 });
@@ -759,6 +788,16 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  item.department_short_name
+                                                ) +
+                                                " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
                                           _c(
                                             "td",
                                             [
@@ -774,11 +813,12 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    _vm._s(
-                                                      item.isVerified
-                                                        ? "mdi-check"
-                                                        : ""
-                                                    )
+                                                    "\n                                        " +
+                                                      _vm._s(
+                                                        item.isVerified
+                                                          ? "mdi-check"
+                                                          : ""
+                                                      )
                                                   )
                                                 ]
                                               )
@@ -905,7 +945,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1689151036
+                          1751047877
                         )
                       })
                     ],
@@ -1137,7 +1177,7 @@ var render = function() {
                                         _vm._v("mdi-account-check-outline")
                                       ]),
                                       _vm._v(
-                                        "\n                                Verify user"
+                                        "\n                                Verify user\n                            "
                                       )
                                     ],
                                     1
@@ -1193,7 +1233,40 @@ var render = function() {
                                 ],
                                 1
                               )
-                            : _vm._e()
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "department" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-select", {
+                                attrs: {
+                                  items: _vm.department,
+                                  "item-text": "name",
+                                  "return-object": "",
+                                  label: "Department",
+                                  dense: "",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.department,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "department", $$v)
+                                  },
+                                  expression: "form.department"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )

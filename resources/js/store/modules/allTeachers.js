@@ -16,11 +16,10 @@ const getters = {
 };
 
 const actions = {
-    async fetchAllTeachers({
-        commit
-    }, id) {
+    async fetchAllTeachers({ commit }, id) {
+        let user_type = 'Teacher';
         const res = await axios.get(
-            `/api/admin/teachers/all`
+            `/api/admin/users/all/${user_type}`
         );
         ////console.log(res.data);
         commit('FETCH_TEACHERS', res.data);

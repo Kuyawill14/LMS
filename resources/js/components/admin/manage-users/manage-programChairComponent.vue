@@ -1,7 +1,7 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage Instructors
+            Manage Program Chair
         </h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
@@ -27,7 +27,7 @@
 
                     </v-card-title>
 
-                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                    <v-data-table :headers="headers" :items="getProgramChair" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
@@ -39,12 +39,8 @@
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                     <td> {{ item.department_short_name}} </td>
-                                    <td>
-                                        <v-icon :color="item.isVerified != null ? 'success' : ''">
-                                            {{item.isVerified ? 'mdi-check' : ''}}</v-icon>
-                                    </td>
-                                   
+                                    <td> {{ item.department_short_name}} </td>
+
                                     <td>
                                         <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
                                             @click="updatePass(item.user_id)">
@@ -92,7 +88,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    {{this.type == "add" ? 'Add Teacher' :  'Update Teacher'}}
+                    {{this.type == "add" ? 'Add ProgramChair' :  'Update ProgramChair'}}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
@@ -123,13 +119,7 @@
                                 <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules"
                                     v-model="form.email" type="email" color="primary" outlined />
                             </v-col>
-                            <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12"
-                                md="12">
-                                <v-btn @click="VerifyUser(form.user_id)" block rounded large color="primary">
-                                    <v-icon left>mdi-account-check-outline</v-icon>
-                                    Verify user
-                                </v-btn>
-                            </v-col>
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
                                 <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -139,12 +129,13 @@
                                     outlined />
                             </v-col>
 
-                            
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" v-model="form.department" item-text="name" return-object
-                                    label="Department" dense outlined></v-select>
+                                <v-select :items="department" v-model="form.department" item-text="name" return-object label="Department" dense outlined></v-select>
                             </v-col>
+
+
                         </v-row>
                     </v-form>
                 </v-container>
@@ -195,7 +186,7 @@
     export default {
         data: function () {
             return {
-                user_type: 'Teacher',
+                user_type: 'ProgramChair',
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -207,7 +198,7 @@
                 type: '',
                 search: "",
                 valid: true,
-                role: ['Teacher', 'Student'],
+                role: ['ProgramChair', 'Student'],
                 form: new Form({
                     firstName: "",
                     middleName: "",
@@ -265,12 +256,8 @@
                         value: 'email',
                         align: 'start',
                     },
-                     {
-                        text: 'Deparment',
-                        align: 'start',
-                    },
                     {
-                        text: 'Verified',
+                        text: 'Deparment',
                         align: 'start',
                     },
                     {
@@ -283,31 +270,38 @@
                         sortable: false
                     },
                 ],
-                teacherList: [],
+                ProgramChairList: [],
                 loading: true,
+                department: [],
 
             }
 
         },
         computed: {
-            ...mapGetters(["getTeachers", "filterTeacher"]),
-            filteredItems() {
-                if (this.search) {
-                    return this.teacherList.filter((item) => {
-                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
-                            .includes(v) || item.lastName.toLowerCase()
-                            .includes(v) || item.middleName.toLowerCase()
-                            .includes(v) || item.user_id.toString()
-                            .includes(v))
-                    })
-                } else {
-                    return this.teacherList;
-                }
+            ...mapGetters(["getProgramChair", "filterProgramChair"]),
+            // filteredItems() {
+            //     if (this.search) {
+            //         return this.ProgramChairList.filter((item) => {
+            //             return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+            //                 .includes(v) || item.lastName.toLowerCase()
+            //                 .includes(v) || item.middleName.toLowerCase()
+            //                 .includes(v) || item.user_id.toString()
+            //                 .includes(v))
+            //         })
+            //     } else {
+            //         return this.ProgramChairList;
+            //     }
 
-            }
+            // }
         },
 
         methods: {
+           fetchDeparmentList() {
+                axios.get('/api/admin/department/all')
+                .then((res) => {
+                    this.department = res.data;
+                })
+            },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'ISU-' + tmpLastname;
@@ -317,19 +311,20 @@
             openAdd() {
                 this.type = 'add'
                 this.dialog = true;
+                   
             },
             openEdit(user_id) {
-
+   
                 this.type = 'edit'
                 this.dialog = true;
-                var currentTeacher = this.filterTeacher(user_id);
-                this.form.user_id = currentTeacher.user_id;
-                this.form.firstName = currentTeacher.firstName;
-                this.form.middleName = currentTeacher.middleName;
-                this.form.lastName = currentTeacher.lastName;
-                this.form.email = currentTeacher.email;
-                this.form.verified = currentTeacher.isVerified;
-                   this.form.department = currentTeacher.department;
+                var currentProgramChair = this.filterProgramChair(user_id);
+                this.form.user_id = currentProgramChair.user_id;
+                this.form.firstName = currentProgramChair.firstName;
+                this.form.middleName = currentProgramChair.middleName;
+                this.form.lastName = currentProgramChair.lastName;
+                this.form.email = currentProgramChair.email;
+                this.form.verified = currentProgramChair.isVerified;
+                this.form.deparment = currentProgramChair.deparment;
             },
             openDelete(id, index) {
                 this.deleteIndex = index;
@@ -350,7 +345,7 @@
                 axios.delete('/api/admin/users/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
-                            this.getTeachers.splice(this.deleteIndex, 1);
+                            this.getProgramChair.splice(this.deleteIndex, 1);
                             this.toastSuccess('User successfully removed!')
                             this.IsDeleting = false;
                             this.deleteIndex = null;
@@ -359,17 +354,11 @@
                             this.IsDeleting = false;
                         }
                         this.Deldialog = false;
-                        this.$store.dispatch('fetchAllTeachers');
+                        this.$store.dispatch('fetchAllProgramChair');
                     })
             },
-            updateTeacherDetails() {
-                this.$store.dispatch('updateTeacher', this.form);
-            },
-            async VerifyUser(id) {
-                axios.put('/api/admin/verifyUser/' + id).then((res) => {
+          
 
-                })
-            },
             validate() {
 
                 if (this.$refs.RegisterForm.validate()) {
@@ -384,8 +373,9 @@
                                     this.$refs.RegisterForm.reset()
                                     this.valid = true;
                                     this.dialog = false;
-                                    //this.$store.dispatch('fetchAllTeachers');
-                                    this.teacherList.unshift(response.data);
+                                    //this.$store.dispatch('fetchAllProgramChair');
+                                    
+                                    this.ProgramChairList.unshift(response.data);
                                     this.toastSuccess('User successfully Added!')
                                     this.IsAddUpdating = false;
                                 } else {
@@ -410,8 +400,8 @@
                                     this.valid = true;
                                     this.dialog = false;
                                     this.IsAddUpdating = false;
-                                    this.$store.dispatch('fetchAllTeachers').then(() => {
-                                        this.teacherList = this.getTeachers;
+                                    this.$store.dispatch('fetchAllProgramChair').then(() => {
+                                        this.ProgramChairList = this.getProgramChair;
                                     });
                                     this.toastSuccess('User Successfully Updated!')
 
@@ -438,18 +428,13 @@
 
 
             },
-                fetchDeparmentList() {
-                axios.get('/api/admin/department/all')
-                .then((res) => {
-                    this.department = res.data;
-                })
-            },
         },
 
         mounted() {
        this.fetchDeparmentList();
-            this.$store.dispatch('fetchAllTeachers').then(() => {
-                this.teacherList = this.getTeachers;
+            this.$store.dispatch('fetchAllProgramChair').then(() => {
+                console.log('progrram cahir data', this.getProgramChair);
+                this.ProgramChairList = this.getProgramChair;
                 this.loading = false;
             });
         }
