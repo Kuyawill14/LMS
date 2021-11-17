@@ -228,6 +228,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 //const activeOfline = () => import('./ActiveOfflineView/ActiveOfline');
 
 
@@ -38493,6 +38498,8 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
+      _vm._v(" "),
       _c(
         "v-row",
         [

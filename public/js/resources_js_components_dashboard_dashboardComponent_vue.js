@@ -21,15 +21,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 var studentDashboard = function studentDashboard() {
@@ -44,13 +35,18 @@ var adminDashboard = function adminDashboard() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_admin_admin-dashboardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./admin/admin-dashboardComponent */ "./resources/js/components/dashboard/admin/admin-dashboardComponent.vue"));
 };
 
+var programChairDashboard = function programChairDashboard() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_dashboard_programChair-dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../.program-chair/dashboard/programChair-dashboard */ "./resources/js/components/.program-chair/dashboard/programChair-dashboard.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   name: "HelloWorld",
   components: {
     teacherDashboard: teacherDashboard,
     studentDashboard: studentDashboard,
-    adminDashboard: adminDashboard
+    adminDashboard: adminDashboard,
+    programChairDashboard: programChairDashboard
   },
   provide: {},
   data: function data() {
@@ -228,26 +224,21 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
+      _vm.role == "Student"
+        ? _c("studentDashboard", { attrs: { role: _vm.role } })
+        : _vm._e(),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "mt-4" },
-        [
-          _vm.role == "Student"
-            ? _c("studentDashboard", { attrs: { role: _vm.role } })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.role == "Teacher"
-            ? _c("teacherDashboard", { attrs: { role: _vm.role } })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.role == "Admin"
-            ? _c("adminDashboard", { attrs: { role: _vm.role } })
-            : _vm._e()
-        ],
-        1
-      )
+      _vm.role == "Teacher"
+        ? _c("teacherDashboard", { attrs: { role: _vm.role } })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.role == "Admin"
+        ? _c("adminDashboard", { attrs: { role: _vm.role } })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.role == "ProgramChair"
+        ? _c("programChairDashboard", { attrs: { role: _vm.role } })
+        : _vm._e()
     ],
     1
   )

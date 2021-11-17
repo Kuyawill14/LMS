@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_admin_manage-users_manage-teachersComponent_vue"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_program-chair_manage-users_manage-teachersComponent_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -201,28 +201,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      department: [],
-      user_type: 'Teacher',
       Deldialog: false,
       dialog: false,
       temp_id: '',
@@ -242,8 +225,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         email: "",
         password: "",
         password_confirmation: "",
-        verified: null,
-        department: null
+        verified: null
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -289,9 +271,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Email',
         value: 'email',
-        align: 'start'
-      }, {
-        text: 'Deparment',
         align: 'start'
       }, {
         text: 'Verified',
@@ -342,7 +321,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.lastName = currentTeacher.lastName;
       this.form.email = currentTeacher.email;
       this.form.verified = currentTeacher.isVerified;
-      this.form.department = currentTeacher.department_id;
     },
     openDelete: function openDelete(id, index) {
       this.deleteIndex = index;
@@ -354,7 +332,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.IsResetting_id = id;
       this.IsResetting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/users/reset-password/' + id).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + id).then(function (res) {
         _this2.toastSuccess(res.data);
 
         _this2.IsResetting = false;
@@ -364,7 +342,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       this.IsDeleting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/users/remove/' + this.delId).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
           _this3.getTeachers.splice(_this3.deleteIndex, 1);
 
@@ -410,14 +388,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'add') {
           this.form.password_confirmation = this.form.password;
-          axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/admin/users/add/".concat(this.user_type), this.form).then(function (response) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/add/teacher', this.form).then(function (response) {
             if (response.status == 200) {
               _this4.$refs.RegisterForm.reset();
 
               _this4.valid = true;
               _this4.dialog = false; //this.$store.dispatch('fetchAllTeachers');
 
-              _this4.teacherList.unshift(response.data);
+              _this4.teacherList.push(response.data);
 
               _this4.toastSuccess('User successfully Added!');
 
@@ -433,7 +411,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this4.toastError('Something went wrong!');
           });
         } else if (this.type == 'edit') {
-          this.form.post('/api/admin/users/update/' + this.form.user_id).then(function (res) {
+          this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function (res) {
             if (res.status == 200) {
               _this4.$refs.RegisterForm.reset();
 
@@ -461,32 +439,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.IsAddUpdating = false;
         this.valid = false;
       }
-    },
-    fetchDeparmentList: function fetchDeparmentList() {
-      var _this5 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/department/all').then(function (res) {
-        _this5.department = res.data;
-      });
     }
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this5 = this;
 
-    this.fetchDeparmentList();
     this.$store.dispatch('fetchAllTeachers').then(function () {
-      _this6.teacherList = _this6.getTeachers;
-      _this6.loading = false;
+      _this5.teacherList = _this5.getTeachers;
+      _this5.loading = false;
     });
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&":
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css& ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -506,10 +476,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.v-input__slot {\n    margin-bottom:
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&":
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css& ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -518,7 +488,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&");
 
             
 
@@ -535,19 +505,19 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 /***/ }),
 
-/***/ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue":
-/*!*********************************************************************************!*\
-  !*** ./resources/js/components/admin/manage-users/manage-teachersComponent.vue ***!
-  \*********************************************************************************/
+/***/ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue":
+/*!******************************************************************************************!*\
+  !*** ./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue ***!
+  \******************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _manage_teachersComponent_vue_vue_type_template_id_853a69d0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true& */ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true&");
-/* harmony import */ var _manage_teachersComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./manage-teachersComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _manage_teachersComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./manage-teachersComponent.vue?vue&type=style&index=1&lang=css& */ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&");
+/* harmony import */ var _manage_teachersComponent_vue_vue_type_template_id_f02588c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true& */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true&");
+/* harmony import */ var _manage_teachersComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./manage-teachersComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _manage_teachersComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./manage-teachersComponent.vue?vue&type=style&index=1&lang=css& */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -559,69 +529,69 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _manage_teachersComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _manage_teachersComponent_vue_vue_type_template_id_853a69d0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _manage_teachersComponent_vue_vue_type_template_id_853a69d0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _manage_teachersComponent_vue_vue_type_template_id_f02588c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _manage_teachersComponent_vue_vue_type_template_id_f02588c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "853a69d0",
+  "f02588c6",
   null
   
 )
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/admin/manage-users/manage-teachersComponent.vue"
+component.options.__file = "resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************************************!*\
-  !*** ./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************************************/
+/***/ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
-/***/ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&":
-/*!******************************************************************************************************************!*\
-  !*** ./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css& ***!
-  \******************************************************************************************************************/
+/***/ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&":
+/*!***************************************************************************************************************************!*\
+  !*** ./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css& ***!
+  \***************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=style&index=1&lang=css&");
 
 
 /***/ }),
 
-/***/ "./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true&":
-/*!****************************************************************************************************************************!*\
-  !*** ./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true& ***!
-  \****************************************************************************************************************************/
+/***/ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true&":
+/*!*************************************************************************************************************************************!*\
+  !*** ./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true& ***!
+  \*************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_template_id_853a69d0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_template_id_853a69d0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_template_id_f02588c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_template_id_f02588c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_template_id_853a69d0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_manage_teachersComponent_vue_vue_type_template_id_f02588c6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true&":
-/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/admin/manage-users/manage-teachersComponent.vue?vue&type=template&id=853a69d0&scoped=true& ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue?vue&type=template&id=f02588c6&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -789,16 +759,6 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(
-                                              " " +
-                                                _vm._s(
-                                                  item.department_short_name
-                                                ) +
-                                                " "
-                                            )
-                                          ]),
-                                          _vm._v(" "),
                                           _c(
                                             "td",
                                             [
@@ -814,12 +774,11 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(
-                                                        item.isVerified
-                                                          ? "mdi-check"
-                                                          : ""
-                                                      )
+                                                    _vm._s(
+                                                      item.isVerified
+                                                        ? "mdi-check"
+                                                        : ""
+                                                    )
                                                   )
                                                 ]
                                               )
@@ -946,7 +905,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1751047877
+                          1689151036
                         )
                       })
                     ],
@@ -1178,7 +1137,7 @@ var render = function() {
                                         _vm._v("mdi-account-check-outline")
                                       ]),
                                       _vm._v(
-                                        "\n                                Verify user\n                            "
+                                        "\n                                Verify user"
                                       )
                                     ],
                                     1
@@ -1234,41 +1193,7 @@ var render = function() {
                                 ],
                                 1
                               )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "ma-0 pa-0 mb-1",
-                              attrs: { cols: "12", md: "12" }
-                            },
-                            [
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "department" }
-                              }),
-                              _vm._v(" "),
-                              _c("v-select", {
-                                attrs: {
-                                  items: _vm.department,
-                                  "item-value": "id",
-                                  "item-text": "name",
-                                  "return-object": "",
-                                  label: "Department",
-                                  dense: "",
-                                  outlined: ""
-                                },
-                                model: {
-                                  value: _vm.form.department,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.form, "department", $$v)
-                                  },
-                                  expression: "form.department"
-                                }
-                              })
-                            ],
-                            1
-                          )
+                            : _vm._e()
                         ],
                         1
                       )

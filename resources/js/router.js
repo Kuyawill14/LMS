@@ -241,7 +241,6 @@ const router = new Router({
                     component: mycourse,
                     name: "courses",
 
-
                 },
                 {
                     path: "course/:id",
@@ -762,24 +761,11 @@ const router = new Router({
                     },
                 },
 
-
-
-
                 {
                     path: "/classwork/:id",
                     name: "classwork-preview",
                     component: classworkView,
                     beforeEnter: (to, form, next) => {
-                        /* axios
-                            .get("/api/authenticated")
-                            .then(() => {
-                                next();
-                            })
-                            .catch(() => {
-                                return next({
-                                    path: "/login"
-                                });
-                            }); */
                         store.dispatch('IsAuthenticated').then(() => {
                                 store.dispatch('fetchMyCoursesStatus').then((res) => {
                                         if (res.status == 200) {
@@ -851,6 +837,32 @@ const router = new Router({
                     name: "course-not-found"
                 },
 
+                {
+                    path: "/program_chair-announcement",
+                    component: () =>  import ("./components/.program-chair/announcement/programChair-announcement"),
+                    name: "program_chair-announcement"
+                },
+
+                {
+                    path: "/program_chair-monitor_teachers",
+                    component: () =>  import ("./components/.program-chair/monitor-teachers/monitorTeachersComponent"),
+                    name: "program_chair-monitor_teachers"
+                },
+
+                {
+                    path: "/program_chair-manage_teachers",
+                    component: () =>  import ("./components/.program-chair/manage-users/manage-teachersComponent"),
+                    name: "program_chair-manage_teachers"
+                },
+
+                {
+                    path: "/program_chair-manage_students",
+                    component: () =>  import ("./components/.program-chair/manage-users/manage-studentsComponent"),
+                    name: "program_chair-manage_students"
+                },
+
+
+                
             ],
         },
 

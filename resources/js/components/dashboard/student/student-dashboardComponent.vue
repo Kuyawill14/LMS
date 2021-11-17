@@ -1,6 +1,10 @@
 <template>
     <div>
-
+        <v-row>
+            <v-col>
+                <h2>Dashboard</h2>
+            </v-col>
+        </v-row>
         <v-row>
             <v-col cols="12" lg="8" class="pt-0">
                 <v-row>
@@ -59,7 +63,7 @@
                             <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
                         </v-card>
                     </v-col>
-                </v-row>
+            </v-row>
             </v-col>
         </v-row>
 

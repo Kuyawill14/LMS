@@ -245,6 +245,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      department: [],
       user_type: 'Student',
       isVerifying: false,
       Deldialog: false,
@@ -381,7 +382,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.form.email = details.email;
       this.form.student_id = details.student_id;
       this.form.verified = details.isVerified;
-      this.form.deparment = details.deparment;
+      this.form.department = details.department_id;
 
       if (!this.valid) {
         this.$refs.RegisterForm.resetValidation();
@@ -1353,6 +1354,7 @@ var render = function() {
                               _c("v-select", {
                                 attrs: {
                                   items: _vm.department,
+                                  "item-value": "id",
                                   "item-text": "name",
                                   "return-object": "",
                                   label: "Department",

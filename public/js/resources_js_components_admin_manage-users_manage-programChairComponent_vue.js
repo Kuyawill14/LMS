@@ -315,7 +315,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.form.lastName = currentProgramChair.lastName;
       this.form.email = currentProgramChair.email;
       this.form.verified = currentProgramChair.isVerified;
-      this.form.deparment = currentProgramChair.deparment;
+      this.form.department = currentProgramChair.department_id;
     },
     openDelete: function openDelete(id, index) {
       this.deleteIndex = index;
@@ -1133,6 +1133,7 @@ var render = function() {
                               _c("v-select", {
                                 attrs: {
                                   items: _vm.department,
+                                  "item-value": "id",
                                   "item-text": "name",
                                   "return-object": "",
                                   label: "Department",

@@ -23,7 +23,7 @@ class ManageUserController extends Controller
             $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
             $users = tbl_userDetails::where("role","ProgramChair")
             ->select("users.role","users.email","users.email_verified_at as isVerified",
-            "tbl_user_details.*","tbl_departments.short_name as department_short_name","tbl_departments.name as department_name")
+            "tbl_user_details.*","tbl_departments.short_name as department_short_name","tbl_departments.name as department_name","tbl_departments.id as department_id")
             ->selectRaw($isActive)
             ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
             ->leftJoin("tbl_user_departments", "tbl_user_departments.user_id", "=", "users.id")
@@ -42,7 +42,7 @@ class ManageUserController extends Controller
         $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
         $users = tbl_userDetails::where("role","Teacher")
         ->select("users.role","users.email","users.email_verified_at as isVerified",
-        "tbl_user_details.*","tbl_departments.short_name as department_short_name","tbl_departments.name as department_name")
+        "tbl_user_details.*","tbl_departments.short_name as department_short_name","tbl_departments.name as department_name","tbl_departments.id as department_id")
         ->selectRaw($isActive)
         ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
         ->leftJoin("tbl_user_departments", "tbl_user_departments.user_id", "=", "users.id")
@@ -58,7 +58,7 @@ class ManageUserController extends Controller
             $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
             $users = tbl_userDetails::where("role","Student")
             ->select("users.role","users.email","users.email_verified_at as isVerified",
-            "tbl_user_details.*","tbl_departments.short_name as department_short_name","tbl_departments.name as department_name")
+            "tbl_user_details.*","tbl_departments.short_name as department_short_name","tbl_departments.name as department_name","tbl_departments.id as department_id")
             ->selectRaw($isActive)
             ->leftJoin("users", "users.id", "=", "tbl_user_details.user_id")
             ->leftJoin("tbl_user_departments", "tbl_user_departments.user_id", "=", "users.id")

@@ -1,6 +1,11 @@
 <template>
     <div>
-
+        <v-row>
+            <v-col>
+                <h2>Dashboard</h2>
+            </v-col>
+        </v-row>
+        
         <v-row>
 
             <v-col lg="6" class="pt-0">

@@ -132,7 +132,7 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" v-model="form.department" item-text="name" return-object label="Department" dense outlined></v-select>
+                                <v-select :items="department" v-model="form.department" item-value="id" item-text="name" return-object label="Department" dense outlined></v-select>
                             </v-col>
 
 
@@ -324,7 +324,7 @@
                 this.form.lastName = currentProgramChair.lastName;
                 this.form.email = currentProgramChair.email;
                 this.form.verified = currentProgramChair.isVerified;
-                this.form.deparment = currentProgramChair.deparment;
+                this.form.department = currentProgramChair.department_id;
             },
             openDelete(id, index) {
                 this.deleteIndex = index;

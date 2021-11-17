@@ -2904,16 +2904,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       name: "classwork-preview",
       component: classworkView,
       beforeEnter: function beforeEnter(to, form, next) {
-        /* axios
-            .get("/api/authenticated")
-            .then(() => {
-                next();
-            })
-            .catch(() => {
-                return next({
-                    path: "/login"
-                });
-            }); */
         _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
             if (res.status == 200) {
@@ -2975,6 +2965,30 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       path: "/course-not-found/:id",
       component: ClassNotFound,
       name: "course-not-found"
+    }, {
+      path: "/program_chair-announcement",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_announcement_programChair-announcement_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/announcement/programChair-announcement */ "./resources/js/components/.program-chair/announcement/programChair-announcement.vue"));
+      },
+      name: "program_chair-announcement"
+    }, {
+      path: "/program_chair-monitor_teachers",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.program-chair/monitor-teachers/monitorTeachersComponent.vue"));
+      },
+      name: "program_chair-monitor_teachers"
+    }, {
+      path: "/program_chair-manage_teachers",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-teachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-teachersComponent */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue"));
+      },
+      name: "program_chair-manage_teachers"
+    }, {
+      path: "/program_chair-manage_students",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-studentsComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-studentsComponent */ "./resources/js/components/.program-chair/manage-users/manage-studentsComponent.vue"));
+      },
+      name: "program_chair-manage_students"
     }]
   }, {
     path: "/quiz/:id",
@@ -37598,7 +37612,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

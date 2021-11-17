@@ -1,19 +1,10 @@
 <template>
-    <div>
-        <v-row>
-            <v-col>
-                <h2>Dashboard</h2>
-            </v-col>
-        </v-row>
-        <div class="mt-4">
-            <studentDashboard v-if="role == 'Student'" :role="role" />
-            <teacherDashboard v-if="role == 'Teacher'" :role="role" />
-              <adminDashboard v-if="role == 'Admin'" :role="role" />
-        </div>
-    </div>
-
-
-
+<div>
+    <studentDashboard v-if="role == 'Student'" :role="role" />
+    <teacherDashboard v-if="role == 'Teacher'" :role="role" />
+    <adminDashboard v-if="role == 'Admin'" :role="role" />
+    <programChairDashboard v-if="role == 'ProgramChair'" :role="role" />
+</div>
 </template>
 
 <script>
@@ -24,6 +15,7 @@
     const studentDashboard = () => import('./student/student-dashboardComponent');
     const teacherDashboard = () => import('./teacher/teacher-dashboardComponent');
     const adminDashboard = () => import('./admin/admin-dashboardComponent');
+    const programChairDashboard = () => import('../.program-chair/dashboard/programChair-dashboard');
 
  
 
@@ -33,7 +25,8 @@
         components: {
             teacherDashboard,
             studentDashboard,
-            adminDashboard
+            adminDashboard,
+            programChairDashboard
 
         },
         provide: {

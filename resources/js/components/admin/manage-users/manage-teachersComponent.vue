@@ -142,7 +142,7 @@
                             
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" v-model="form.department" item-text="name" return-object
+                                <v-select :items="department" v-model="form.department" item-value="id" item-text="name" return-object
                                     label="Department" dense outlined></v-select>
                             </v-col>
                         </v-row>
@@ -195,6 +195,7 @@
     export default {
         data: function () {
             return {
+                department:[],
                 user_type: 'Teacher',
                 Deldialog: false,
                 dialog: false,
@@ -329,7 +330,7 @@
                 this.form.lastName = currentTeacher.lastName;
                 this.form.email = currentTeacher.email;
                 this.form.verified = currentTeacher.isVerified;
-                   this.form.department = currentTeacher.department;
+                this.form.department = currentTeacher.department_id;
             },
             openDelete(id, index) {
                 this.deleteIndex = index;

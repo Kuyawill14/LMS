@@ -148,7 +148,7 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" v-model="form.department" item-text="name" return-object
+                                <v-select :items="department" item-value="id"  v-model="form.department" item-text="name" return-object
                                     label="Department" dense outlined></v-select>
                             </v-col>
 
@@ -226,6 +226,7 @@
     export default {
         data: function () {
             return {
+                department: [],
                 user_type: 'Student',
                 isVerifying: false,
                 Deldialog: false,
@@ -376,8 +377,8 @@
                 this.form.email = details.email;
                 this.form.student_id = details.student_id;
                 this.form.verified = details.isVerified;
-                this.form.deparment = details.deparment;
-
+                this.form.department = details.department_id;
+        
                 if (!this.valid) {
                     this.$refs.RegisterForm.resetValidation();
                 }

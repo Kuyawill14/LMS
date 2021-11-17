@@ -111,6 +111,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var myNotification = function myNotification() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
@@ -379,6 +383,8 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("v-row", [_c("v-col", [_c("h2", [_vm._v("Dashboard")])])], 1),
+      _vm._v(" "),
       _c(
         "v-row",
         [

@@ -680,6 +680,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
@@ -696,6 +697,10 @@ var adminNavbar = function adminNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/admin/admin-navbar */ "./resources/js/components/layout/navigation/admin/admin-navbar.vue"));
 };
 
+var programChairNavbar = function programChairNavbar() {
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/programChair/programChair-navbar */ "./resources/js/components/layout/navigation/programChair/programChair-navbar.vue"));
+};
+
 var notifications = function notifications() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/notification */ "./resources/js/components/layout/notification/notification.vue"));
 };
@@ -708,7 +713,8 @@ var notifications = function notifications() {
     courseNavbar: courseNavbar,
     adminNavbar: adminNavbar,
     notifications: notifications,
-    mainBottomNavigation: mainBottomNavigation
+    mainBottomNavigation: mainBottomNavigation,
+    programChairNavbar: programChairNavbar
   },
   data: function data() {
     return {
@@ -10868,6 +10874,12 @@ var render = function() {
                       _vm._v(" "),
                       _vm.role == "Admin"
                         ? _c("adminNavbar", { attrs: { role: _vm.role } })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.role == "ProgramChair"
+                        ? _c("programChairNavbar", {
+                            attrs: { role: _vm.role }
+                          })
                         : _vm._e()
                     ],
                     1

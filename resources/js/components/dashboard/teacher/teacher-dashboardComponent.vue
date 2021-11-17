@@ -3,7 +3,11 @@
 
 
     <div>
-
+         <v-row>
+            <v-col>
+                <h2>Dashboard</h2>
+            </v-col>
+        </v-row>
         <v-row>
             <v-col lg="8" class="pt-0">
                 <v-row>
