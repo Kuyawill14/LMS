@@ -79,7 +79,7 @@
         methods: {
             test() {
                 $('.img-fluid').click(function () {
-                    //console.log($('.img-fluid').attr('src'))
+                    ////console.log($('.img-fluid').attr('src'))
                 })
             },
             format_date(value){

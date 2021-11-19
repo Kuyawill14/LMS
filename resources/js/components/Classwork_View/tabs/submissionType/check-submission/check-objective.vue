@@ -853,7 +853,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             })
         },
          async ResetSubmission(){
-            ////console.log(this.ListData[this.resetIndex].points)
+            //////console.log(this.ListData[this.resetIndex].points)
             this.isReseting = true;
             if(this.ViewDetails.status != null && this.ViewDetails.status != ''){
                 axios.put('/api/teacher/reset-obj/'+this.ViewDetails.id)

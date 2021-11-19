@@ -208,8 +208,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     RemoveFile: function RemoveFile(index) {
       this.file_name.splice(index, 1);
-      this.file.splice(index, 1);
-      console.log(this.file);
+      this.file.splice(index, 1); //console.log(this.file);
     },
     validate: function validate() {
       var _this = this;

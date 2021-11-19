@@ -76,8 +76,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     scrapeDocID: function scrapeDocID() {
-      var d = this.link.replace(/.*\/d\//, '').replace(/\/.*/, '');
-      console.log(this.link);
+      var d = this.link.replace(/.*\/d\//, '').replace(/\/.*/, ''); //console.log(this.link);
+
       var path = "https://drive.google.com/file/d/" + d + "/preview"; //window.open(path,'_blank');
     }
   }

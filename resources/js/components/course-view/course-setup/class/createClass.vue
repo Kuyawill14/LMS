@@ -76,7 +76,7 @@
                     this.toastSuccess();
 
                     this.form.course_id = this.$route.params.id;
-                    //console.log(this.form);
+                    ////console.log(this.form);
                     this.$store.dispatch('createClass', this.form).then(()=> {
                          this.fetchSubjectCourseClassList(this.$route.params.id);
                     });

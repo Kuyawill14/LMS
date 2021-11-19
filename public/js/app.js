@@ -2015,7 +2015,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "b3ecbaa590cb9ca65930",
+  key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2966,25 +2966,25 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       component: ClassNotFound,
       name: "course-not-found"
     }, {
-      path: "/program_chair-announcement",
+      path: "/program_chair/announcement",
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_announcement_programChair-announcement_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/announcement/programChair-announcement */ "./resources/js/components/.program-chair/announcement/programChair-announcement.vue"));
       },
       name: "program_chair-announcement"
     }, {
-      path: "/program_chair-monitor_teachers",
+      path: "/program_chair/monitor-teachers",
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.program-chair/monitor-teachers/monitorTeachersComponent.vue"));
       },
       name: "program_chair-monitor_teachers"
     }, {
-      path: "/program_chair-manage_teachers",
+      path: "/program_chair/manage-teachers",
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-teachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-teachersComponent */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue"));
       },
       name: "program_chair-manage_teachers"
     }, {
-      path: "/program_chair-manage_students",
+      path: "/program_chair/manage-students",
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-studentsComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-studentsComponent */ "./resources/js/components/.program-chair/manage-users/manage-studentsComponent.vue"));
       },
@@ -3207,7 +3207,7 @@ var actions = {
 
             case 4:
               res = _context2.sent;
-              //console.log(res.data.photo_url);
+              ////console.log(res.data.photo_url);
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
               state.IsVerified = res.data.verified;
@@ -3270,7 +3270,7 @@ var actions = {
   },
   setCourseStatus: function setCourseStatus(_ref5, id) {
     var commit = _ref5.commit;
-    //console.log(id);
+    ////console.log(id);
     state.MyCourses.forEach(function (item) {
       if (item.id == id) {
         item.status = 1;
@@ -3279,7 +3279,7 @@ var actions = {
   },
   CheckMyCourse: function CheckMyCourse(_ref6, course_id) {
     var commit = _ref6.commit;
-    ////console.log(course_id);
+    //////console.log(course_id);
     var exist = false;
     var status = 0;
     state.MyCourses.forEach(function (item) {
@@ -3371,7 +3371,7 @@ var actions = {
 
             case 4:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_PROGRAMCHAIR', res.data);
 
             case 6:
@@ -3456,7 +3456,7 @@ var actions = {
 
             case 4:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 6:
@@ -3470,7 +3470,7 @@ var actions = {
   //     let res = await axios.post(`/api/announcement/insert`, { announcement: postItem });
   //     let newCLassPost = res.data;
   //     // commit('ADD_CLASSPOST', newCLassPost);
-  //     //console.log(state.class_post);
+  //     ////console.log(state.class_post);
   //     state.class_post.push({...newCLassPost });
   //     return res;
   // },
@@ -3613,7 +3613,7 @@ var actions = {
             case 3:
               res = _context3.sent;
               newCLassPost = res.data; // commit('ADD_CLASSPOST', newCLassPost);
-              //console.log(state.class_post);
+              ////console.log(state.class_post);
 
               state.class_post.push(_objectSpread({}, newCLassPost));
               return _context3.abrupt("return", res);
@@ -3787,7 +3787,7 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/class/ShowClass/".concat(id)).then(function (res) {
-                commit('setClassInfo', res.data[0]); //console.log(res.data);
+                commit('setClassInfo', res.data[0]); ////console.log(res.data);
               });
 
             case 3:
@@ -4899,8 +4899,8 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/main_module/all-module/' + id).then(function (res) {
-                // console.log(res.data);
-                // console.log(res.data.main_module.length);
+                // //console.log(res.data);
+                // //console.log(res.data.main_module.length);
                 commit('FETCH_MAIN_MODULE', res.data.main_module);
                 commit('FETCH_SUB_MODULE', res.data.sub_module);
               })["catch"](function (e) {// this.toatError('Something went wrong');
@@ -5174,9 +5174,9 @@ var actions = {
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/notification/all/' + data.type + '?page=' + nextPage).then(function (response) {
                 status = response.status;
                 state.beforeLastPageCount = state.lastPageCount;
-                state.lastPageCount = response.data.data.length; //console.log(state.beforeLastPageCount);
+                state.lastPageCount = response.data.data.length; ////console.log(state.beforeLastPageCount);
 
-                //console.log(state.beforeLastPageCount);
+                ////console.log(state.beforeLastPageCount);
                 response.data.data.forEach(function (data) {
                   state.class_notification.push(data);
                 });
@@ -5217,7 +5217,7 @@ var actions = {
 
               for (j = 0; j < count; j++) {
                 state.class_notification.splice(state.class_notification.length - 1, 1);
-              } //console.log(nextpage);
+              } ////console.log(nextpage);
 
 
               if (nextpage != state.lastPage) {
@@ -5506,7 +5506,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res);
+              ////console.log(res);
               commit('FETCH_QUESTIONS', res.data);
               return _context.abrupt("return", res);
 
@@ -5831,7 +5831,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_STUDENT_MAIN_PROGRESS', res.data);
 
             case 5:
@@ -5855,7 +5855,7 @@ var actions = {
 
             case 3:
               res = _context2.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_STUDENT_SUB_PROGRESS', res.data);
 
             case 5:
@@ -5935,7 +5935,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('SET_STUDENT_PROGRESS', res.data);
 
             case 5:
@@ -6034,7 +6034,7 @@ var mutations = {
 //         const res = await axios.get(
 //             `/api/sub_module/all/${id}`
 //         );
-//         ////console.log(res.data);
+//         //////console.log(res.data);
 //         commit('FETCH_SUB_MODULE', res.data);
 //     },
 //     async createSubModule({ commit }, SubmoduleForm) {
@@ -6113,7 +6113,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 5:
@@ -6137,7 +6137,7 @@ var actions = {
 
             case 3:
               res = _context2.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 5:
@@ -13898,6 +13898,27 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+     * Listen for all events on the channel instance.
+     */
+
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+
+      this.subscription.bind_global(function (event, data) {
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+
+        var namespace = _this2.options.namespace.replace(/\./g, '\\');
+
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -13908,6 +13929,21 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
+      }
+
+      return this;
+    }
+    /**
+     * Stop listening for all events on the channel instance.
+     */
+
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
       }
 
       return this;
@@ -30669,9 +30705,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
+  define(IteratorPrototype, iteratorSymbol, function () {
     return this;
-  };
+  });
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -30685,8 +30721,9 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -30800,9 +30837,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
     return this;
-  };
+  });
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -30995,13 +31032,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
+  define(Gp, iteratorSymbol, function() {
     return this;
-  };
+  });
 
-  Gp.toString = function() {
+  define(Gp, "toString", function() {
     return "[object Generator]";
-  };
+  });
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -31320,14 +31357,19 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
 }
 
 
@@ -37612,7 +37654,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

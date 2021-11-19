@@ -272,8 +272,8 @@ var coursesProgress = function coursesProgress() {
 
       axios.get('/api/admin/teachers/profile/' + this.$route.params.id).then(function (res) {
         _this3.UserDetails = res.data;
-        _this3.isloading = !_this3.isloading; //console.log(res.data);
-      })["catch"](function (e) {//console.log(e);
+        _this3.isloading = !_this3.isloading; ////console.log(res.data);
+      })["catch"](function (e) {////console.log(e);
       });
     }
   }),

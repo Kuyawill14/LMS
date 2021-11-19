@@ -91,7 +91,7 @@
         computed: mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
         methods: {
             onFileChange(file) {
-                //console.log('selected file', file);
+                ////console.log('selected file', file);
                 this.file = file;
             },
             toastSuccess() {

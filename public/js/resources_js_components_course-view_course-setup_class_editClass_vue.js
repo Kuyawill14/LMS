@@ -100,8 +100,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
-    //console.log(this.form);
-    this.className = this.getClassName; //console.log(this.form);
+    ////console.log(this.form);
+    this.className = this.getClassName; ////console.log(this.form);
   }
 });
 

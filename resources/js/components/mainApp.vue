@@ -76,7 +76,7 @@
                 .then(x => x.json())
                 .then(({ ip }) => {
                     this.ipAdd = ip;
-                    console.log(this.ipAdd);
+                    //console.log(this.ipAdd);
                 }); */
 
                   

@@ -192,7 +192,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     val: function val() {
       this.value = "This's new value";
     },
-    onChange: function onChange(html, text) {//console.log(html);
+    onChange: function onChange(html, text) {////console.log(html);
     },
     createPost: function createPost() {
       var _this = this;
@@ -297,7 +297,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }));
     }
-  }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {//console.log(this.announcement.content);
+  }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {////console.log(this.announcement.content);
   }), _defineProperty(_methods, "fetchClassnames", function fetchClassnames() {
     var _this3 = this;
 

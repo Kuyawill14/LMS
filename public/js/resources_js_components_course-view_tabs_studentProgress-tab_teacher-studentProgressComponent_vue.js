@@ -275,8 +275,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         value: 'lastName',
         align: 'start'
       });
-      var subModule = this.getSub_module(main_module_id);
-      console.log(subModule);
+      var subModule = this.getSub_module(main_module_id); //console.log(subModule);
 
       for (var i = 0; i < subModule.length; i++) {
         submodule_header.push({
@@ -346,7 +345,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (isNaN(result)) {
         result = 0;
-      } //console.log('NAN bf' , result)
+      } ////console.log('NAN bf' , result)
 
 
       return parseFloat(result.toFixed(2));
@@ -357,7 +356,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i = 0; i < allsubmodules.length; i++) {
         total += parseFloat(allsubmodules[i].required_time);
-      } //   //console.log('time', allsubmodules)
+      } //   ////console.log('time', allsubmodules)
 
 
       return total;
@@ -368,18 +367,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i = 0; i < allsubmodules.length; i++) {
         total += parseFloat(allsubmodules[i].required_time);
-      } // //console.log('time', allsubmodules)
+      } // ////console.log('time', allsubmodules)
 
 
       return this.convertTime(total);
     },
     _totalRequiredTime: function _totalRequiredTime(mainModule_id) {
       var total = 0;
-      var subModules_arr = this.getSub_module(mainModule_id); //   //console.log(subModules_arr);
+      var subModules_arr = this.getSub_module(mainModule_id); //   ////console.log(subModules_arr);
 
       for (var i = 0; i < subModules_arr.length; i++) {
         total += parseFloat(subModules_arr[i].required_time);
-      } //  //console.log('time', subModules_arr)
+      } //  ////console.log('time', subModules_arr)
 
 
       return this.convertTime(total);
@@ -387,7 +386,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     _totalTimeSpent: function _totalTimeSpent(data) {
       var total = 0;
       data.forEach(function (val) {
-        total += parseFloat(val.time_spent); //    //console.log(total);
+        total += parseFloat(val.time_spent); //    ////console.log(total);
       });
       return total;
     },
@@ -413,7 +412,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.loading = true;
       axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
         _this3.students = res.data;
-      })["catch"](function (error) {//console.log(error)
+      })["catch"](function (error) {////console.log(error)
       });
       this.$store.dispatch('studentMainProgress', this.selectedClass).then(function () {
         _this3.loading = false;

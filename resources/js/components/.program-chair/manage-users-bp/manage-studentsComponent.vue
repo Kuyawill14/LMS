@@ -1,7 +1,7 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage Instructors
+            Manage Students
         </h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
@@ -10,50 +10,43 @@
             <v-col>
 
 
-                <v-card v-if="loading">
+
+                 <v-card v-if="loading">
                     <v-skeleton-loader :loading="loading" type="table"></v-skeleton-loader>
                 </v-card>
 
-                <v-card elevation="2" v-if="!loading">
+
+                <v-card elevation="2"  v-if="!loading">
                     <v-card-title>
-                        Instructors
+                        Students
 
                         <v-spacer></v-spacer>
-                        <div width="30%">
-                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                                hide-details>
-                            </v-text-field>
-                        </div>
-
+                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                            hide-details>
+                        </v-text-field>
                     </v-card-title>
 
                     <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
-                                    <td style="width:1%">
-                                        <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
-                                    </td>
-                                    <td> {{item.user_id}} </td>
+                                     <td style="width:1%"> <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon> </td>
+                                    <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                     <td> {{ item.department_short_name}} </td>
+                                     <td> <v-icon :color="item.isVerified != null ? 'success' : ''">{{item.isVerified ? 'mdi-check' : ''}}</v-icon> </td>
+                                
                                     <td>
-                                        <v-icon :color="item.isVerified != null ? 'success' : ''">
-                                            {{item.isVerified ? 'mdi-check' : ''}}</v-icon>
-                                    </td>
-                                   
-                                    <td>
-                                        <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
-                                            @click="updatePass(item.user_id)">
-                                            {{IsResetting && IsResetting_id == item.user_id ? 'Reseting...' : ' Reset Password'}}
+                                        <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id"
+                                            @click="OpenupdatePassDialog(item.user_id)">
+                                            Reset Password
                                         </v-btn>
                                     </td>
                                     <td>
 
-                                        <v-btn icon color="success" @click="openEdit(item.user_id)">
+                                        <v-btn icon color="success" @click="openEdit(item, index)">
                                             <v-icon>
                                                 mdi-pencil
                                             </v-icon>
@@ -68,10 +61,9 @@
                                     </td>
 
                                 </tr>
-                                <tr v-if="items.length == 0">
+                                <tr v-if="StudentList.length == 0">
                                     <td colspan="42" class="text-center"> No data available</td>
                                 </tr>
-
 
 
 
@@ -85,20 +77,25 @@
 
 
             </v-col>
-
-
         </v-row>
 
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    {{this.type == "add" ? 'Add Teacher' :  'Update Teacher'}}
+                    {{this.type == "add" ? 'Add Student' :  'Update Student'}}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
 
-                    <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                    <v-form autocomplete="off" class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+
+
                         <v-row class="pa-5">
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="student_id" />
+                                <v-text-field :rules="studenIdRule" label="Student ID Number" name="student_id"
+                                    v-model="form.student_id" type="number" color="primary" outlined />
+                            </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="firstName" />
                                 <v-text-field :rules="nameRules" label="First Name" name="firstName"
@@ -120,39 +117,38 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
-                                <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules"
-                                    v-model="form.email" type="email" color="primary" outlined />
+                                <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
+                                    type="email" color="primary" outlined />
                             </v-col>
-                            <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12"
-                                md="12">
-                                <v-btn @click="VerifyUser(form.user_id)" block rounded large color="primary">
-                                    <v-icon left>mdi-account-check-outline</v-icon>
-                                    Verify user
-                                </v-btn>
+                           
+                            <v-col v-if="form.verified == null && type == 'edit'"  class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large color="primary">
+                                    <v-icon left>{{isVerifying  ? '' : 'mdi-account-check-outline'}}</v-icon>
+                                    {{isVerifying ? 'Verifying...' : 'Verify user'}} </v-btn>
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
-                                <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                                <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
                                     label="Password" name="password" v-model="form.password"
                                     :type="show ? 'text' : 'password'" color="primary"
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
                                     outlined />
                             </v-col>
 
-                            
-                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" v-model="form.department" item-value="id" item-text="name" return-object
-                                    label="Department" dense outlined></v-select>
-                            </v-col>
+
+
+
                         </v-row>
+
+
+
                     </v-form>
                 </v-container>
                 <v-card-actions>
 
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
-                    <v-btn text @click="validate()" :loading="IsAddUpdating" :disabled="IsAddUpdating">
+                    <v-btn text @click="dialog = false;$refs.RegisterForm.reset()">Cancel</v-btn>
+                    <v-btn text color="primary" @click="validate()" :loading="IsAddUpdating">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
             </v-card>
@@ -161,6 +157,7 @@
 
 
         <v-dialog v-model="Deldialog" persistent max-width="290">
+
             <v-card>
                 <v-card-title class="headline">
                     Are you sure you want to delete this?
@@ -177,6 +174,26 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+          <v-dialog v-model="ResetPassworddialog" persistent max-width="290">
+
+            <v-card>
+                <v-card-title class="headline">
+                    Are you sure you want to reset this user password?
+                </v-card-title>
+                <!-- <v-card-text>{some message} </v-card-text> -->
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text @click="ResetPassworddialog = false, IsResetting = false">
+                        No
+                    </v-btn>
+                    <v-btn :loading="isConfirmReset" @click="updatePass()" color="primary" text >
+                        Yes
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </div>
 
 
@@ -195,20 +212,22 @@
     export default {
         data: function () {
             return {
-                department:[],
-                user_type: 'Teacher',
+                isVerifying: false,
                 Deldialog: false,
+                ResetPassworddialog: false,
                 dialog: false,
                 temp_id: '',
                 IsDeleting: false,
                 IsAddUpdating: false,
                 IsResetting: false,
                 IsResetting_id: null,
-                deleteIndex: null,
+                isConfirmReset: false,
                 type: '',
                 search: "",
                 valid: true,
                 role: ['Teacher', 'Student'],
+                updateIndex: null,
+                deleteIndex: null,
                 form: new Form({
                     firstName: "",
                     middleName: "",
@@ -216,10 +235,12 @@
                     email: "",
                     password: "",
                     password_confirmation: "",
-                    verified: null,
-                    department: null
+                    student_id: "",
+                    verified: null
                 }),
-
+                studenIdRule: [
+                    v => !!v || 'Student Id is required',
+                ],
                 nameRules: [
                     v => !!v || 'Field is required',
                     v => (v && v.length <= 20) || 'Name must be less than 20 characters',
@@ -238,12 +259,15 @@
                     required: value => !!value || "Field is required.",
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
-                headers: [{
+                StudentList: [],
+                headers: [
+                     {
+                 
                         sortable: false
                     },
                     {
-                        text: 'ID',
-                        value: 'user_id',
+                        text: 'Student ID',
+                        value: 'student_id',
                         align: 'start',
                     },
                     {
@@ -267,13 +291,10 @@
                         align: 'start',
                     },
                      {
-                        text: 'Deparment',
-                        align: 'start',
-                    },
-                    {
                         text: 'Verified',
                         align: 'start',
                     },
+
                     {
                         text: 'Password Reset',
                         sortable: false
@@ -284,34 +305,34 @@
                         sortable: false
                     },
                 ],
-                teacherList: [],
-                loading: true,
+
+    loading: true,
 
             }
 
         },
         computed: {
-            ...mapGetters(["getTeachers", "filterTeacher"]),
             filteredItems() {
                 if (this.search) {
-                    return this.teacherList.filter((item) => {
+                    return this.StudentList.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
                             .includes(v) || item.lastName.toLowerCase()
                             .includes(v) || item.middleName.toLowerCase()
-                            .includes(v) || item.user_id.toString()
-                            .includes(v))
+                            .includes(v) || item.student_id == null ? item.lastName.toLowerCase()
+                            .includes(v) :item.student_id.toString().includes(v))
                     })
                 } else {
-                    return this.teacherList;
+                    return this.StudentList;
                 }
 
             }
+
         },
 
         methods: {
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
-                this.form.password = 'ISU-' + tmpLastname;
+                this.form.password = 'LMS-' + tmpLastname;
                 this.show = true;
             },
 
@@ -319,42 +340,55 @@
                 this.type = 'add'
                 this.dialog = true;
             },
-            openEdit(user_id) {
-
+            openEdit(details, index) {
+                this.updateIndex = index;
                 this.type = 'edit'
                 this.dialog = true;
-                var currentTeacher = this.filterTeacher(user_id);
-                this.form.user_id = currentTeacher.user_id;
-                this.form.firstName = currentTeacher.firstName;
-                this.form.middleName = currentTeacher.middleName;
-                this.form.lastName = currentTeacher.lastName;
-                this.form.email = currentTeacher.email;
-                this.form.verified = currentTeacher.isVerified;
-                this.form.department = currentTeacher.department_id;
+                this.form.user_id = details.user_id;
+                this.form.firstName = details.firstName;
+                this.form.middleName = details.middleName;
+                this.form.lastName = details.lastName;
+                this.form.email = details.email;
+                this.form.student_id = details.student_id;
+                this.form.verified = details.isVerified;
+                
+                if (!this.valid) {
+                    this.$refs.RegisterForm.resetValidation();
+                }
             },
             openDelete(id, index) {
                 this.deleteIndex = index;
                 this.delId = id;
                 this.Deldialog = true;
             },
-            updatePass(id) {
-                this.IsResetting_id = id;
-                this.IsResetting = true;
-                axios.post('/api/admin/users/reset-password/' + id)
+            updatePass() {
+                this.isConfirmReset = true;
+                axios.post('/api/admin/teachers/reset-password/' + this.IsResetting_id)
                     .then(res => {
                         this.toastSuccess(res.data);
+                        this.isConfirmReset = false;
                         this.IsResetting = false;
+                         this.ResetPassworddialog = false;
                     })
             },
+
+             OpenupdatePassDialog(id) {
+                this.IsResetting_id = id;
+                this.ResetPassworddialog = true;
+                this.IsResetting = true;
+               
+            },
+
             deleteUser() {
                 this.IsDeleting = true;
-                axios.delete('/api/admin/users/remove/' + this.delId)
+                axios.delete('/api/admin/teachers/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
-                            this.getTeachers.splice(this.deleteIndex, 1);
-                            this.toastSuccess('User successfully removed!')
+                            this.StudentList.splice(this.deleteIndex, 1);
+                            this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
-                            this.deleteIndex = null;
+                            
+
                         } else {
                             this.toastError('Something went wrong!')
                             this.IsDeleting = false;
@@ -366,93 +400,81 @@
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
             },
-            async VerifyUser(id) {
-                axios.put('/api/admin/verifyUser/' + id).then((res) => {
+            async VerifyUser(id){
+                this.isVerifying = true;
+                axios.put('/api/admin/verifyUser/'+id).then((res)=>{
+                    if(res.data.success == true){
+                        this.form.verified = 'Verified';
+                        this.StudentList[this.updateIndex].isVerified = 'Verified';
+                        this.toastSuccess('User Successfully Verified!');
+                        this.isVerifying = false;
 
+                    }
+                    else{
+                        this.toastError('Something went wrong!');
+                        this.isVerifying = false;
+                    }
+                })
+                .catch(e=>{
+                     this.toastError('Something went wrong!');
+                     this.isVerifying = false;
                 })
             },
             validate() {
-
+                this.IsAddUpdating = true;
                 if (this.$refs.RegisterForm.validate()) {
-                    this.IsAddUpdating = true;
                     if (this.type == 'add') {
+                        this.form.role = 'Student';
                         this.form.password_confirmation = this.form.password
-                        axios.post(`/api/admin/users/add/${this.user_type}`, this.form)
-                            .then((response) => {
-
-                                if (response.status == 200) {
-
-                                    this.$refs.RegisterForm.reset()
-                                    this.valid = true;
-                                    this.dialog = false;
-                                    //this.$store.dispatch('fetchAllTeachers');
-                                    this.teacherList.unshift(response.data);
-                                    this.toastSuccess('User successfully Added!')
-                                    this.IsAddUpdating = false;
-                                } else {
-                                    this.IsAddUpdating = false;
-                                    this.toastError('Something went wrong!')
-
-                                }
-                            })
-                            .catch((err) => {
-                                this.IsAddUpdating = false;
-                                this.toastError('Something went wrong!');
-                            })
-
-
-                    } else if (this.type == 'edit') {
-                        this.form.post('/api/admin/users/update/' + this.form.user_id)
+                        this.form.post('/api/admin/add/student')
                             .then((res) => {
-
-
-                                if (res.status == 200) {
-                                    this.$refs.RegisterForm.reset()
-                                    this.valid = true;
-                                    this.dialog = false;
-                                    this.IsAddUpdating = false;
-                                    this.$store.dispatch('fetchAllTeachers').then(() => {
-                                        this.teacherList = this.getTeachers;
-                                    });
-                                    this.toastSuccess('User Successfully Updated!')
-
-                                } else {
-                                    this.IsAddUpdating = false;
-                                    this.toastError('Something went wrong!')
-
-                                }
-                            }).catch((err) => {
+                                this.$refs.RegisterForm.reset()
+                                this.valid = true;
+                                this.dialog = false;
                                 this.IsAddUpdating = false;
-                                this.toastError('Something went wrong!')
+                                this.StudentList.push(res.data);
                             })
-
                     }
-
-
-
-
-
+                    if (this.type == 'edit') {
+                        this.form.post('/api/admin/teachers/update/' + this.form.user_id)
+                            .then(() => {
+                                //////console.log(this.StudentList[this.updateIndex])
+                                this.updateDataInfrontEnd(this.form)
+                                this.valid = true;
+                                this.dialog = false;
+                                this.IsAddUpdating = false;
+                                //
+                            })
+                        this.toastSuccess('User Successfully Updated!');
+                    }
                 } else {
                     this.IsAddUpdating = false;
-                    this.valid = false;
+
                 }
-
-
+                this.valid = false;
+                this.IsAddUpdating = false;
             },
-                fetchDeparmentList() {
-                axios.get('/api/admin/department/all')
-                .then((res) => {
-                    this.department = res.data;
-                })
+            async getStudent() {
+                axios.get('/api/admin/students/all')
+                    .then(res => {
+                        this.StudentList = res.data;
+                        this.loading = false;
+                    })
             },
+            updateDataInfrontEnd(data) {
+                this.StudentList[this.updateIndex].user_id = data.user_id;
+                this.StudentList[this.updateIndex].firstName = data.firstName;
+                this.StudentList[this.updateIndex].middleName = data.middleName;
+                this.StudentList[this.updateIndex].lastName = data.lastName;
+                this.StudentList[this.updateIndex].email = data.email;
+                this.StudentList[this.updateIndex].student_id = data.student_id;
+                this.$refs.RegisterForm.reset();
+            }
         },
 
         mounted() {
-       this.fetchDeparmentList();
-            this.$store.dispatch('fetchAllTeachers').then(() => {
-                this.teacherList = this.getTeachers;
-                this.loading = false;
-            });
+            this.getStudent();
+            //this.$store.dispatch('fetchAllTeachers');
         }
     }
 

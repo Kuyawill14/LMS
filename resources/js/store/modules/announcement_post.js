@@ -54,7 +54,7 @@ const actions = {
 
         let newCLassPost = res.data;
         // commit('ADD_CLASSPOST', newCLassPost);
-        //console.log(state.class_post);
+        ////console.log(state.class_post);
         state.class_post.push({...newCLassPost });
         return res;
     },

@@ -211,7 +211,7 @@ export default {
          async UpdateClasswork(){
              this.isUpdatingSnackBar = true;
              this.isUpdating = true;
-            //console.log(this.Details);
+            ////console.log(this.Details);
              let fd = new FormData;
              fd.append('course_id', this.Details.course_id);
              fd.append('duration', this.Details.duration);
@@ -282,7 +282,7 @@ export default {
             window.open(file,'_blank');
         },
         addFile(){
-            console.log(this.Details.attachment.length);
+            //console.log(this.Details.attachment.length);
             this.uploadIndex = this.Details.attachment.length-1;
             let fd = new FormData;
             fd.append('file', this.file[this.counter]);

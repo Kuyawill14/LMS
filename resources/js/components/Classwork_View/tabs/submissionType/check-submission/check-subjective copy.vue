@@ -540,7 +540,7 @@ import {mapGetters} from "vuex";
               }
           },
         async ResetSubmission(data){
-            console.log(data);
+            //console.log(data);
             axios.put('/api/teacher/reset-sbj/'+data.id, {files : data.Submitted_Answers})
             .then(()=>{
                 this.$emit('SubmissionReset', data.id);
@@ -582,7 +582,7 @@ import {mapGetters} from "vuex";
                   this.isOpening = false
               }
             //var host = window.location.protocol + "//" + window.location.host;
-               //console.log(host)
+               ////console.log(host)
             //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
             //this.pdf_path = path;
         }

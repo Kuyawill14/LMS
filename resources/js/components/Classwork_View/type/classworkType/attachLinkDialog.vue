@@ -65,7 +65,7 @@ export default {
   methods:{
     scrapeDocID() {
               var d = this.link.replace(/.*\/d\//, '').replace(/\/.*/, '');
-              console.log(this.link);
+              //console.log(this.link);
               var path = "https://drive.google.com/file/d/" + d + "/preview";
              
               //window.open(path,'_blank');

@@ -156,7 +156,7 @@ export default {
     mounted(){
         this.fetchCourseList();
         //this.fetchClassnames();
-        console.log(this.MoveDetails);
+        //console.log(this.MoveDetails);
         
     }
 }

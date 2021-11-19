@@ -232,7 +232,7 @@ import moment from 'moment/src/moment';
                this.ViewSubmiisionConditions.showAnswerType = this.classworkDetails.showAnswerType;
               axios.get('/api/question/question-answer/'+this.classworkDetails.id+'/'+this.classworkDetails.class_classwork_id)
               .then(res=>{
-                  ////console.log(res.data)
+                  //////console.log(res.data)
                    this.QuestionAndAnswer = res.data;
 
                     let Submitted_length = this.classworkDetails.Submitted_Answers.length;

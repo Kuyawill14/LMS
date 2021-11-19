@@ -450,7 +450,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       return total;
     },
     totalPercentage: function totalPercentage(arr, grading_percentage, totalPoints) {
-      // //console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
+      // ////console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
       var total = 0;
       var result;
 
@@ -471,7 +471,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
       axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
         _this2.students = res.data;
-      })["catch"](function (error) {//console.log(error)
+      })["catch"](function (error) {////console.log(error)
       });
     },
     getClassworkList: function getClassworkList(isSelected) {
@@ -505,7 +505,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
         if (_this3.allclasswork == null) {
           _this3.allclasswork = res.data;
-        } //console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
+        } ////console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
 
 
         for (var i = 0; i < _this3.classworkList.length; i++) {
@@ -519,7 +519,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
 
             total += _this3.classworkList[i]['points'];
           }
-        } //    //console.log(grading_criteria_id)
+        } //    ////console.log(grading_criteria_id)
         // this.totalPercentHeader();
 
       });

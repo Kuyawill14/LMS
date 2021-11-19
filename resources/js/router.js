@@ -838,31 +838,35 @@ const router = new Router({
                 },
 
                 {
-                    path: "/program_chair-announcement",
-                    component: () =>  import ("./components/.program-chair/announcement/programChair-announcement"),
+                    path: "/program_chair/announcement",
+                    component: () =>
+                        import ("./components/.program-chair/announcement/programChair-announcement"),
                     name: "program_chair-announcement"
                 },
 
                 {
-                    path: "/program_chair-monitor_teachers",
-                    component: () =>  import ("./components/.program-chair/monitor-teachers/monitorTeachersComponent"),
+                    path: "/program_chair/monitor-teachers",
+                    component: () =>
+                        import ("./components/.program-chair/monitor-teachers/monitorTeachersComponent"),
                     name: "program_chair-monitor_teachers"
                 },
 
                 {
-                    path: "/program_chair-manage_teachers",
-                    component: () =>  import ("./components/.program-chair/manage-users/manage-teachersComponent"),
+                    path: "/program_chair/manage-teachers",
+                    component: () =>
+                        import ("./components/.program-chair/manage-users/manage-teachersComponent"),
                     name: "program_chair-manage_teachers"
                 },
 
                 {
-                    path: "/program_chair-manage_students",
-                    component: () =>  import ("./components/.program-chair/manage-users/manage-studentsComponent"),
+                    path: "/program_chair/manage-students",
+                    component: () =>
+                        import ("./components/.program-chair/manage-users/manage-studentsComponent"),
                     name: "program_chair-manage_students"
                 },
 
 
-                
+
             ],
         },
 

@@ -102,7 +102,7 @@ var latestModules = function latestModules() {
 
       //this.isGetting = true;
       axios.get("/api/course/overview/all/".concat(this.$route.params.id)).then(function (res) {
-        console.log(res.data);
+        //console.log(res.data);
         _this.classwork_list = res.data.classworks_list;
 
         _this.courseSummaryheader(res.data.course_summary);

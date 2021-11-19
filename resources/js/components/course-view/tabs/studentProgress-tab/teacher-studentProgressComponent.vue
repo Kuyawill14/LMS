@@ -289,7 +289,7 @@
                     align: 'start',
                 }, )
                 let subModule = this.getSub_module(main_module_id);
-                console.log(subModule);
+                //console.log(subModule);
                 for (let i = 0; i < subModule.length; i++) {
                     submodule_header.push({
                         text: subModule[i].sub_module_name + '<br>(' + this.convertTime(subModule[i]
@@ -371,7 +371,7 @@
                 if (isNaN(result)) {
                     result = 0;
                 }
-                //console.log('NAN bf' , result)
+                ////console.log('NAN bf' , result)
                 return parseFloat(result.toFixed(2));
             },
             _mainTotalRequiredTimeSeconds() {
@@ -380,7 +380,7 @@
                 for (var i = 0; i < allsubmodules.length; i++) {
                     total += parseFloat(allsubmodules[i].required_time);
                 }
-                //   //console.log('time', allsubmodules)
+                //   ////console.log('time', allsubmodules)
                 return total;
 
             },
@@ -390,7 +390,7 @@
                 for (var i = 0; i < allsubmodules.length; i++) {
                     total += parseFloat(allsubmodules[i].required_time);
                 }
-                // //console.log('time', allsubmodules)
+                // ////console.log('time', allsubmodules)
                 return this.convertTime(total);
 
             },
@@ -399,11 +399,11 @@
 
                 var total = 0;
                 var subModules_arr = this.getSub_module(mainModule_id);
-                //   //console.log(subModules_arr);
+                //   ////console.log(subModules_arr);
                 for (var i = 0; i < subModules_arr.length; i++) {
                     total += parseFloat(subModules_arr[i].required_time);
                 }
-                //  //console.log('time', subModules_arr)
+                //  ////console.log('time', subModules_arr)
                 return this.convertTime(total);
             },
             _totalTimeSpent(data) {
@@ -412,7 +412,7 @@
                 data.forEach(function (val) {
 
                     total += parseFloat(val.time_spent);
-                    //    //console.log(total);
+                    //    ////console.log(total);
 
                 })
                 return total;
@@ -448,7 +448,7 @@
 
 
                     }).catch((error) => {
-                        //console.log(error)
+                        ////console.log(error)
                     })
                 this.$store.dispatch('studentMainProgress', this.selectedClass).then(() => {
                     this.loading = false;

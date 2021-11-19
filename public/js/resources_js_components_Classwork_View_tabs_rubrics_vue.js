@@ -190,8 +190,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.$emit('CriteriaSave');
       })["catch"](function (err) {
-        console.log(err);
-
+        //console.log(err);
         _this2.toastError('Something went wrong');
 
         _this2.loading = false;
@@ -219,7 +218,7 @@ __webpack_require__.r(__webpack_exports__);
                  this.criteria = res.data;
                  this.loading = false;
              }).catch((err) => {
-                 console.log(err);
+                 //console.log(err);
                  this.toastError('Something went wrong');
                  this.loading = false;
              })
@@ -234,8 +233,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this3.criteria.splice(_this3.deleteIndex, 1);
       })["catch"](function (err) {
-        console.log(err);
-
+        //console.log(err);
         _this3.toastError('Something went wrong');
 
         _this3.loading = false;

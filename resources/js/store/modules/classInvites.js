@@ -74,7 +74,7 @@ const actions = {
                 status = response.status;
                 state.beforeLastPageCount = state.lastPageCount;
                 state.lastPageCount = response.data.data.length;
-                //console.log(state.beforeLastPageCount);
+                ////console.log(state.beforeLastPageCount);
                 response.data.data.forEach(data => {
                     state.class_notification.push(data);
                 });
@@ -98,7 +98,7 @@ const actions = {
         for (let j = 0; j < count; j++) {
             state.class_notification.splice(state.class_notification.length - 1, 1);
         }
-        //console.log(nextpage);
+        ////console.log(nextpage);
         if (nextpage != state.lastPage) {
             state.loadMore = true;
             state.page = nextpage;

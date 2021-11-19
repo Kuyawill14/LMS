@@ -219,7 +219,7 @@ export default {
                     this.toastSuccess(class_name)
                     this.fetchClassnames();
                 }).catch(e => {
-                    //console.log(e);
+                    ////console.log(e);
                 })
         },
         closeDiaglog(){
@@ -231,7 +231,7 @@ export default {
                 this.classNames = res.data;
                 this.isloading = false;
             }).catch(e => {
-                //console.log(e)
+                ////console.log(e)
             })
         },
           async fetchClassFornotify(data) {
@@ -243,7 +243,7 @@ export default {
                 this.isloading = false;
                 this.NewNotification(data)
             }).catch(e => {
-                //console.log(e)
+                ////console.log(e)
             })
         },
         async SuccessPublishNotify(data){
@@ -251,7 +251,7 @@ export default {
             this.fetchClassFornotify(data)
         },
         async NewNotification(data){
-            //console.log(data);
+            ////console.log(data);
             this.notifyDetails.from_date = data.from_date;
             this.notifyDetails.classwork_id = data.classwork_id;
             this.notifyDetails.class_id = data.class_id;

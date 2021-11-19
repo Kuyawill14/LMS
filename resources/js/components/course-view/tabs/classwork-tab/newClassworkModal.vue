@@ -188,7 +188,7 @@ export default {
         RemoveFile(index){
             this.file_name.splice(index,1);
             this.file.splice(index,1);
-            console.log(this.file);
+            //console.log(this.file);
 
         },
          validate() {

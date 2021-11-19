@@ -133,13 +133,12 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     expandRow: function expandRow(item) {
-      console.log('row expanded: ' + item);
-
+      //console.log('row expanded: ' + item);
       if (this.expandedItem == item) {
-        console.log('the same');
+        //console.log('the same')
         $('.expandeddata').css('display', 'none');
       } else {
-        console.log("not the same");
+        //console.log("not the same");
         $('.expandeddata').css('display', 'block');
         this.expanded = item === this.expanded[0] ? [] : [item];
       }

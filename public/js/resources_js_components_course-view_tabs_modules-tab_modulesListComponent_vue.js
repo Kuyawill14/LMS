@@ -174,11 +174,10 @@ __webpack_require__.r(__webpack_exports__);
       return split[split.length - 1];
     },
     onFileChange: function onFileChange(file) {
-      console.log('selected file', file);
-
+      //console.log('selected file', file);
       if (file != null) {
-        this.ext = this.getFileExt(file.name);
-        console.log(this.ext);
+        this.ext = this.getFileExt(file.name); //console.log(this.ext);
+
         this.isInvalidFileSize = false;
         this.isInvalidFileType = false;
 
@@ -208,8 +207,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.put('/api/sub_module/file-remove/' + id, {
         file: this.submodule.file_attachment
       }).then(function (res) {
-        _this.oldFileInput = false;
-        console.log(res);
+        _this.oldFileInput = false; //console.log(res);
+
         _this.isDeleting = false;
         _this.isRemove = true;
       });
@@ -223,9 +222,8 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addFile: function addFile() {
-      console.log(this.file);
-      console.log('this.isInvalidFileType', this.isInvalidFileType);
-
+      //console.log(this.file);
+      //console.log('this.isInvalidFileType', this.isInvalidFileType);
       if (this.type_action == 'edit_file') {
         if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this.subModuleForm.required_time == '') {
           this.toastError('Please Complete all the fields');
@@ -347,8 +345,7 @@ __webpack_require__.r(__webpack_exports__);
       var newfile = new File([""], window.location.origin + '/' + this.submodule.file_attachment);
       ;
       var name = newfile.name.split('/');
-      this.oldFIle.file_name = name[name.length - 1];
-      console.log(this.oldFIle.file_name);
+      this.oldFIle.file_name = name[name.length - 1]; //console.log(this.oldFIle.file_name);
 
       if (this.oldFIle.file_name == -1) {
         this.oldFileInput = false;
@@ -468,7 +465,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"]),
   methods: {
     onFileChange: function onFileChange(file) {
-      //console.log('selected file', file);
+      ////console.log('selected file', file);
       this.file = file;
     },
     toastSuccess: function toastSuccess() {
@@ -614,7 +611,7 @@ __webpack_require__.r(__webpack_exports__);
             timer: 1500
           });
         }
-      })["catch"](function (e) {//console.log(e);
+      })["catch"](function (e) {////console.log(e);
       });
       this.isSaving = false;
     }
@@ -1085,7 +1082,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.toastInfo("Unable to edit this module. Please unpublished the module to proceed");
       } else {
         this.itemDialog = !this.itemDialog;
-        this.propModule = itemModule; //console.log(this.propModule);
+        this.propModule = itemModule; ////console.log(this.propModule);
 
         this.mainModule_id = module_id;
         this.itemType = 'edit_module';
@@ -1140,7 +1137,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return count;
   }), _defineProperty(_methods, "checkSubModule", function checkSubModule(arr, sub_module_id) {
-    var check = false; ////console.log(arr);
+    var check = false; //////console.log(arr);
 
     for (var i = 0; i < arr.length; i++) {
       if (arr[i].sub_module_id == sub_module_id) {

@@ -449,7 +449,7 @@
                 return total;
             },
             totalPercentage(arr, grading_percentage, totalPoints) {
-                // //console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
+                // ////console.log(totalPoints, 'this.classworkTotalPointsthis.classworkTotalPoints')
                 var total = 0;
                 let result;
                 for (var i = 0; i < arr.length; i++) {
@@ -469,7 +469,7 @@
                         this.students = res.data
 
                     }).catch((error) => {
-                        //console.log(error)
+                        ////console.log(error)
                     })
             },
 
@@ -506,7 +506,7 @@
                         this.allclasswork = res.data;
                     }
 
-                    //console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
+                    ////console.log(this.allclasswork, 'sadfasdfasdfasdfasd fallclasswork');
                     for (var i = 0; i < this.classworkList.length; i++) {
 
                         // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -523,7 +523,7 @@
 
                     }
 
-                    //    //console.log(grading_criteria_id)
+                    //    ////console.log(grading_criteria_id)
 
 
 

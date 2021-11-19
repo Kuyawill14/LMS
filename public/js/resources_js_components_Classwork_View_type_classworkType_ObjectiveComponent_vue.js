@@ -517,7 +517,7 @@ var viewSubmission = function viewSubmission() {
                 data.course_id = _this3.$route.params.id;
                 data.comment = _this3.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  //console.log(res.data);
+                  ////console.log(res.data);
                   if (res.status == 200) {
                     _this3.classworkDetails.comments.push({
                       content: res.data.comment,

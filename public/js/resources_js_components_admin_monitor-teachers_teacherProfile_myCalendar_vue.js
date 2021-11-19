@@ -224,7 +224,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                       if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitted') {
                         name = _this.CalendarSched[index].title + '(submitted)';
-                        color = "success"; //console.log(this.CalendarSched[index].status);
+                        color = "success"; ////console.log(this.CalendarSched[index].status);
                       } else if (_this.role == 'Student' && _this.CalendarSched[index].status != 'Submitted' && _this.CalendarSched[index].availability == 1 && _this.CheckFormatDue(_this.CalendarSched[index].to_date) < _this.DateToday) {
                         name = _this.CalendarSched[index].title + '(missing)';
                         color = "error";
@@ -233,7 +233,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
                       } else if (_this.role == 'Student' && _this.CalendarSched[index].status == 'Submitting' || _this.CalendarSched[index].status == 'Taking') {
                         name = _this.CalendarSched[index].title + _this.CalendarSched[index].status;
-                        color = "info"; //console.log(this.CalendarSched[index].status);
+                        color = "info"; ////console.log(this.CalendarSched[index].status);
                       } else {
                         name = _this.CalendarSched[index].title;
                         color = _this.colors[_this.rnd(0, _this.colors.length - 1)];
@@ -289,7 +289,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           event = _ref2.event;
 
       var open = function open() {
-        _this2.selectedEvent = event; //console.log(event);
+        _this2.selectedEvent = event; ////console.log(event);
 
         _this2.selectedElement = nativeEvent.target;
         requestAnimationFrame(function () {

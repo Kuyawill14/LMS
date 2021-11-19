@@ -246,7 +246,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ViewSubmiisionConditions.showAnswer = this.classworkDetails.showAnswer;
       this.ViewSubmiisionConditions.showAnswerType = this.classworkDetails.showAnswerType;
       axios.get('/api/question/question-answer/' + this.classworkDetails.id + '/' + this.classworkDetails.class_classwork_id).then(function (res) {
-        ////console.log(res.data)
+        //////console.log(res.data)
         _this.QuestionAndAnswer = res.data;
         var Submitted_length = _this.classworkDetails.Submitted_Answers.length;
         var Question_length = _this.QuestionAndAnswer.Question.length;

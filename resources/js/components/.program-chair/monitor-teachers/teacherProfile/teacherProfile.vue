@@ -268,10 +268,10 @@
                 axios.get('/api/admin/teachers/profile/' + this.$route.params.id).then((res) => {
                     this.UserDetails = res.data;
                     this.isloading = !this.isloading;
-                    //console.log(res.data);
+                    ////console.log(res.data);
 
                 }).catch((e) => {
-                    //console.log(e);
+                    ////console.log(e);
                 })
             },
 

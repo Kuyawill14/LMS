@@ -81,7 +81,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.form.class_name != "") {
         this.toastSuccess();
-        this.form.course_id = this.$route.params.id; //console.log(this.form);
+        this.form.course_id = this.$route.params.id; ////console.log(this.form);
 
         this.$store.dispatch('createClass', this.form).then(function () {
           _this.fetchSubjectCourseClassList(_this.$route.params.id);

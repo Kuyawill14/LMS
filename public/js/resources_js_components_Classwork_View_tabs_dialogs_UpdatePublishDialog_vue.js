@@ -306,7 +306,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 axios.get('/api/classwork/publishClassworkDetails/' + _this4.Details.classwork_id).then(function (res) {
-                  //console.log(res.data);
+                  ////console.log(res.data);
                   _this4.PublishDetails = res.data;
                   _this4.availability = _this4.PublishDetails.availability == 1 ? 'Set Date' : _this4.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
                   _this4.showAnsType = _this4.PublishDetails.showAnswerType != null ? _this4.showAnsType = _this4.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : _this4.showAnsType = '';

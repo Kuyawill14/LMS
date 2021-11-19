@@ -40,7 +40,7 @@ const actions = {
             const res = await axios.get(
                 `/api/profile/details`
             );
-            //console.log(res.data.photo_url);
+            ////console.log(res.data.photo_url);
             state.CurrentUser = res.data;
             state.UserRole = res.data.role;
             state.IsVerified = res.data.verified;
@@ -71,7 +71,7 @@ const actions = {
         }
     },
     setCourseStatus({ commit }, id) {
-        //console.log(id);
+        ////console.log(id);
         state.MyCourses.forEach(item => {
             if (item.id == id) {
                 item.status = 1;
@@ -79,7 +79,7 @@ const actions = {
         });
     },
     CheckMyCourse({ commit }, course_id) {
-        ////console.log(course_id);
+        //////console.log(course_id);
         let exist = false;
         let status = 0;
         state.MyCourses.forEach(item => {

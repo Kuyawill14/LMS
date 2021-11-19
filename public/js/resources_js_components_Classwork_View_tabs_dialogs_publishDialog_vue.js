@@ -363,7 +363,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   } else {
                     _this2.$emit('UnPublish');
                   }
-                })["catch"](function (e) {//console.log(e);
+                })["catch"](function (e) {////console.log(e);
                 });
 
               case 15:

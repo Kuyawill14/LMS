@@ -27,7 +27,7 @@ const actions = {
         const res = await axios.get(
             `/api/student_sub_module/all/${id}`
         );
-        ////console.log(res.data);
+        //////console.log(res.data);
         commit('SET_STUDENT_PROGRESS', res.data);
 
     },

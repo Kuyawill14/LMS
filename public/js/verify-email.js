@@ -316,9 +316,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                     _this4.toastError(res.data.message);
                   }
                 })["catch"](function (err) {
-                  _this4.toastError(err.response.data.errors.email[0]);
+                  _this4.toastError(err.response.data.errors.email[0]); //console.log(err.response.data.errors.email[0]);
 
-                  console.log(err.response.data.errors.email[0]);
                 });
 
               case 1:

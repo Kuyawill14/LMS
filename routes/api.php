@@ -34,6 +34,8 @@ use App\Models\tbl_subjective_rubrics;
 use App\Http\Controllers\api\SubjectiveTypeRubrics;
 use App\Http\Controllers\api\CourseOverviewController;
 use App\Http\Controllers\api\admin\ManageUserController;
+
+use App\Http\Controllers\api\sms\testSmscontroller;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -440,3 +442,5 @@ Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::cl
 Route::put('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
 Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 
+
+Route::post('/testingSMS', [testSmscontroller::class, 'index']);

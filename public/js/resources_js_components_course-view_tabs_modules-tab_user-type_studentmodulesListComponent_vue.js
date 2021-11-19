@@ -194,7 +194,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
     },
     getCount: function getCount(arr, mainModule_id) {
       var count = 0;
-      var subModules_arr = this.getSub_module(mainModule_id); //   //console.log(subModules_arr);
+      var subModules_arr = this.getSub_module(mainModule_id); //   ////console.log(subModules_arr);
 
       for (var i = 0; i < subModules_arr.length; i++) {
         for (var j = 0; j < arr.length; j++) {
@@ -252,7 +252,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
       return check;
     },
     fetchClass: function fetchClass() {
-      this.$store.dispatch('fetchClassList').then(function () {//console.log('fetching class');
+      this.$store.dispatch('fetchClassList').then(function () {////console.log('fetching class');
       });
     },
     getTimeSpent: function getTimeSpent(arr, sub_module_id) {
@@ -332,7 +332,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
       this.warningDialog = !this.warningDialog;
 
       if (this.confirmWarning = true) {
-        console.log('continue the timer');
+        //console.log('continue the timer');
         this.warningDialog = false;
         this.setTimeSpent(this._mainModule_id, this._subModule_id);
         this.confirmWarning = false;
@@ -410,14 +410,14 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
       var iframeElement = document.querySelector('iframe');
 
       if (activeElement === iframeElement) {
-        console.log(document.activeElement.tagName); //execute your code here
+        //console.log(document.activeElement.tagName);
+        //execute your code here
         //we only want to listen for the first time we click into the iframe
-
         setInterval(function () {
           document.activeElement.blur();
         }, 1000); // clearInterval(blurTimer);
       } else {
-        console.log(document.activeElement.tagName);
+        //console.log(document.activeElement.tagName);
         self.triggerWarning();
       } // }, 0);
 

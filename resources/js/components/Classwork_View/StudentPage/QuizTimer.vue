@@ -68,7 +68,7 @@ export default {
         getTimeSpent(){
             let totalSeconds = (((this.CurrentUserTime.hours*60)*60)*1000)+((this.CurrentUserTime.minutes*60)*1000);
             this.timeSpent = Math.floor((totalSeconds / 1000)/60);
-            console.log((this.duration - this.timeSpent));
+            //console.log((this.duration - this.timeSpent));
             let data = {};
             data.time = this.duration - this.timeSpent;
             data.istime = this.isTimesUps;

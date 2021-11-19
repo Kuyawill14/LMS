@@ -207,7 +207,7 @@ const moveStudentDialog = () => import('../dialog/moveStudentDialog')
                 .then((res)=>{
                     this.students = res.data.StudentList;
                 }).catch((error)=>{
-                    //console.log(error)
+                    ////console.log(error)
                 })
             },
             async fetchClassnames() {

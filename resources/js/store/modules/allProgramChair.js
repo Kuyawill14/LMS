@@ -21,7 +21,7 @@ const actions = {
         const res = await axios.get(
             `/api/admin/users/all/${user_type}`
         );
-        ////console.log(res.data);
+        //////console.log(res.data);
         commit('FETCH_PROGRAMCHAIR', res.data);
 
 

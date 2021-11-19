@@ -11,12 +11,12 @@
 
 
 
-                 <v-card v-if="loading">
+                <v-card v-if="loading">
                     <v-skeleton-loader :loading="loading" type="table"></v-skeleton-loader>
                 </v-card>
 
 
-                <v-card elevation="2"  v-if="!loading">
+                <v-card elevation="2" v-if="!loading">
                     <v-card-title>
                         Students
 
@@ -30,14 +30,20 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
-                                     <td style="width:1%"> <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon> </td>
+                                    <td style="width:1%">
+                                        <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
+                                    </td>
                                     <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                     <td> <v-icon :color="item.isVerified != null ? 'success' : ''">{{item.isVerified ? 'mdi-check' : ''}}</v-icon> </td>
-                                
+                                     <td> {{ item.department_short_name}} </td>
+                                    <td>
+                                        <v-icon :color="item.isVerified != null ? 'success' : ''">
+                                            {{item.isVerified ? 'mdi-check' : ''}}</v-icon>
+                                    </td>
+                                   
                                     <td>
                                         <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id"
                                             @click="OpenupdatePassDialog(item.user_id)">
@@ -120,11 +126,14 @@
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
                             </v-col>
-                           
-                            <v-col v-if="form.verified == null && type == 'edit'"  class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large color="primary">
+
+                            <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12"
+                                md="12">
+                                <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large
+                                    color="primary">
                                     <v-icon left>{{isVerifying  ? '' : 'mdi-account-check-outline'}}</v-icon>
-                                    {{isVerifying ? 'Verifying...' : 'Verify user'}} </v-btn>
+                                    {{isVerifying ? 'Verifying...' : 'Verify user'}}
+                                </v-btn>
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
@@ -137,6 +146,11 @@
 
 
 
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="department" />
+                                <v-select :items="department" item-value="id"  v-model="form.department" item-text="name" return-object
+                                    label="Department" dense outlined></v-select>
+                            </v-col>
 
                         </v-row>
 
@@ -175,7 +189,7 @@
             </v-card>
         </v-dialog>
 
-          <v-dialog v-model="ResetPassworddialog" persistent max-width="290">
+        <v-dialog v-model="ResetPassworddialog" persistent max-width="290">
 
             <v-card>
                 <v-card-title class="headline">
@@ -187,7 +201,7 @@
                     <v-btn text @click="ResetPassworddialog = false, IsResetting = false">
                         No
                     </v-btn>
-                    <v-btn :loading="isConfirmReset" @click="updatePass()" color="primary" text >
+                    <v-btn :loading="isConfirmReset" @click="updatePass()" color="primary" text>
                         Yes
                     </v-btn>
                 </v-card-actions>
@@ -212,6 +226,8 @@
     export default {
         data: function () {
             return {
+                department: [],
+                user_type: 'Student',
                 isVerifying: false,
                 Deldialog: false,
                 ResetPassworddialog: false,
@@ -236,7 +252,8 @@
                     password: "",
                     password_confirmation: "",
                     student_id: "",
-                    verified: null
+                    verified: null,
+                    department: null
                 }),
                 studenIdRule: [
                     v => !!v || 'Student Id is required',
@@ -260,9 +277,8 @@
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
                 StudentList: [],
-                headers: [
-                     {
-                 
+                headers: [{
+
                         sortable: false
                     },
                     {
@@ -291,10 +307,14 @@
                         align: 'start',
                     },
                      {
+                        text: 'Deparment',
+                        align: 'start',
+                    },
+                    {
                         text: 'Verified',
                         align: 'start',
                     },
-
+                   
                     {
                         text: 'Password Reset',
                         sortable: false
@@ -306,7 +326,7 @@
                     },
                 ],
 
-    loading: true,
+                loading: true,
 
             }
 
@@ -319,7 +339,7 @@
                             .includes(v) || item.lastName.toLowerCase()
                             .includes(v) || item.middleName.toLowerCase()
                             .includes(v) || item.student_id == null ? item.lastName.toLowerCase()
-                            .includes(v) :item.student_id.toString().includes(v))
+                            .includes(v) : item.student_id.toString().includes(v))
                     })
                 } else {
                     return this.StudentList;
@@ -330,6 +350,12 @@
         },
 
         methods: {
+                fetchDeparmentList() {
+                axios.get('/api/admin/department/all')
+                .then((res) => {
+                    this.department = res.data;
+                })
+            },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'LMS-' + tmpLastname;
@@ -351,7 +377,8 @@
                 this.form.email = details.email;
                 this.form.student_id = details.student_id;
                 this.form.verified = details.isVerified;
-                
+                this.form.department = details.department_id;
+        
                 if (!this.valid) {
                     this.$refs.RegisterForm.resetValidation();
                 }
@@ -363,31 +390,31 @@
             },
             updatePass() {
                 this.isConfirmReset = true;
-                axios.post('/api/admin/teachers/reset-password/' + this.IsResetting_id)
+                axios.post('/api/admin/users/reset-password/' + this.IsResetting_id)
                     .then(res => {
                         this.toastSuccess(res.data);
                         this.isConfirmReset = false;
                         this.IsResetting = false;
-                         this.ResetPassworddialog = false;
+                        this.ResetPassworddialog = false;
                     })
             },
 
-             OpenupdatePassDialog(id) {
+            OpenupdatePassDialog(id) {
                 this.IsResetting_id = id;
                 this.ResetPassworddialog = true;
                 this.IsResetting = true;
-               
+
             },
 
             deleteUser() {
                 this.IsDeleting = true;
-                axios.delete('/api/admin/teachers/remove/' + this.delId)
+                axios.delete('/api/admin/users/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
                             this.StudentList.splice(this.deleteIndex, 1);
                             this.toastSuccess('User Successfully removed!')
                             this.IsDeleting = false;
-                            
+
 
                         } else {
                             this.toastError('Something went wrong!')
@@ -400,25 +427,24 @@
             updateTeacherDetails() {
                 this.$store.dispatch('updateTeacher', this.form);
             },
-            async VerifyUser(id){
+            async VerifyUser(id) {
                 this.isVerifying = true;
-                axios.put('/api/admin/verifyUser/'+id).then((res)=>{
-                    if(res.data.success == true){
-                        this.form.verified = 'Verified';
-                        this.StudentList[this.updateIndex].isVerified = 'Verified';
-                        this.toastSuccess('User Successfully Verified!');
-                        this.isVerifying = false;
+                axios.put('/api/admin/verifyUser/' + id).then((res) => {
+                        if (res.data.success == true) {
+                            this.form.verified = 'Verified';
+                            this.StudentList[this.updateIndex].isVerified = 'Verified';
+                            this.toastSuccess('User Successfully Verified!');
+                            this.isVerifying = false;
 
-                    }
-                    else{
+                        } else {
+                            this.toastError('Something went wrong!');
+                            this.isVerifying = false;
+                        }
+                    })
+                    .catch(e => {
                         this.toastError('Something went wrong!');
                         this.isVerifying = false;
-                    }
-                })
-                .catch(e=>{
-                     this.toastError('Something went wrong!');
-                     this.isVerifying = false;
-                })
+                    })
             },
             validate() {
                 this.IsAddUpdating = true;
@@ -426,26 +452,32 @@
                     if (this.type == 'add') {
                         this.form.role = 'Student';
                         this.form.password_confirmation = this.form.password
-                        this.form.post('/api/admin/add/student')
+                        this.form.post('/api/admin/users/add/' + this.user_type)
                             .then((res) => {
                                 this.$refs.RegisterForm.reset()
                                 this.valid = true;
                                 this.dialog = false;
                                 this.IsAddUpdating = false;
-                                this.StudentList.push(res.data);
+
+                                this.StudentList.unshift(res.data);
+                                this.toastSuccess('User Successfully Added!');
+
+
                             })
                     }
                     if (this.type == 'edit') {
-                        this.form.post('/api/admin/teachers/update/' + this.form.user_id)
+                        this.form.post('/api/admin/users/update/' + this.form.user_id)
                             .then(() => {
-                                ////console.log(this.StudentList[this.updateIndex])
+                                //////console.log(this.StudentList[this.updateIndex])
                                 this.updateDataInfrontEnd(this.form)
                                 this.valid = true;
                                 this.dialog = false;
                                 this.IsAddUpdating = false;
-                                //
+
+                                
+                                this.toastSuccess('User Successfully Updated!');
                             })
-                        this.toastSuccess('User Successfully Updated!');
+
                     }
                 } else {
                     this.IsAddUpdating = false;
@@ -455,7 +487,7 @@
                 this.IsAddUpdating = false;
             },
             async getStudent() {
-                axios.get('/api/admin/students/all')
+                axios.get('/api/admin/users/all/' + this.user_type)
                     .then(res => {
                         this.StudentList = res.data;
                         this.loading = false;
@@ -468,11 +500,14 @@
                 this.StudentList[this.updateIndex].lastName = data.lastName;
                 this.StudentList[this.updateIndex].email = data.email;
                 this.StudentList[this.updateIndex].student_id = data.student_id;
+                   this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
+                   this.StudentList[this.updateIndex].department_name = data.department.name;
                 this.$refs.RegisterForm.reset();
             }
         },
 
         mounted() {
+               this.fetchDeparmentList();
             this.getStudent();
             //this.$store.dispatch('fetchAllTeachers');
         }

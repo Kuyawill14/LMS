@@ -62,15 +62,15 @@
                 .then(res=>{
                     this.ArchiveClasses = res.data;
                     this.classLength = res.data.length;
-                    //console.log(res.data);
-                    ////console.log( this.$store.state.CurrentUser.MyCourses)
+                    ////console.log(res.data);
+                    //////console.log( this.$store.state.CurrentUser.MyCourses)
                     res.data.forEach(item => {
                          this.$store.state.CurrentUser.MyCourses.push({
                         id: item.course_id,
                         status: item.status
                     })
                     });
-                   //console.log( this.$store.state.CurrentUser.MyCourses)
+                   ////console.log( this.$store.state.CurrentUser.MyCourses)
                     this.isGetting = false;
                 })
                 

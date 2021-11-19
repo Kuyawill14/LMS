@@ -661,12 +661,12 @@ export default {
               })
           },
         UploadFile(){
-          //console.log('test123');
+          ////console.log('test123');
           //this.$refs.UploadAttachFile.click();
           this.$refs.UploadAttachFile.$refs.input.click()
         },
          UploadMoreFile(){
-           console.log('test');
+           //console.log('test');
            if(this.file.length <= 4){
                this.$refs.AttAchMoreFile.click();
            }
@@ -693,7 +693,7 @@ export default {
         },
         onChange(file) {
         
-            /* console.log(this.FileList.length);
+            /* //console.log(this.FileList.length);
             if(this.FileList.length > 1){
               let count = 0;
                this.FileList.forEach(item => {
@@ -769,7 +769,7 @@ export default {
             },
             test(){
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
-              //console.log(data);
+              ////console.log(data);
             },
            /*  async checkStatus(type){
               axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
@@ -869,7 +869,7 @@ export default {
               data.comment = this.comment;
               axios.post('/api/post/classwork/comment/insert', data)
               .then((res)=>{
-                //console.log(res.data);
+                ////console.log(res.data);
                   if(res.status == 200 ){
                     this.classworkDetails.comments.push({
                       content : res.data.comment,

@@ -21,7 +21,7 @@ const actions = {
         const res = await axios.get(
             `/api/admin/users/all/${user_type}`
         );
-        ////console.log(res.data);
+        //////console.log(res.data);
         commit('FETCH_TEACHERS', res.data);
 
 
@@ -35,7 +35,7 @@ const actions = {
 
     //     let newCLassPost = res.data;
     //     // commit('ADD_CLASSPOST', newCLassPost);
-    //     //console.log(state.class_post);
+    //     ////console.log(state.class_post);
     //     state.class_post.push({...newCLassPost });
     //     return res;
     // },
