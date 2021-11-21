@@ -132,10 +132,13 @@ let manageteachers = () =>
 let managestudents = () =>
     import ("./components/admin/manage-users/manage-studentsComponent");
 
+
+let manageCampusDirector = () =>
+    import ("./components/admin/manage-users/manage-campusDirectorComponent");
 let monitorTeachers = () =>
-    import ("./components/admin/monitor-teachers/monitorTeachersComponent");
+    import ("./components/.monitor-teachers/monitorTeachersComponent");
 let teacherProfile = () =>
-    import ("./components/admin/monitor-teachers/teacherProfile/teacherProfile");
+    import ("./components/.monitor-teachers/teacherProfile/teacherProfile");
 let schoolyear_semester = () =>
     import ("./components/admin/schoolyear-semester/schoolyear-semesterComponent");
 let department = () =>
@@ -207,18 +210,26 @@ const router = new Router({
 
 
                 },
+                {
+                    path: "/manage-users/campus-director",
+                    component: manageCampusDirector,
+                    name: "manageCampusDirector",
 
+
+                },
+
+                //program chair
                 {
                     path: "/monitor-teachers",
                     component: monitorTeachers,
                     name: "monitorTeachers",
-
-
                 },
+
+
                 {
-                    path: "/teacher-profile/:id",
+                    path: "/monitor-teacher/:id/",
                     component: teacherProfile,
-                    name: "teacherProfile",
+                    name: "monitorTeacher_id",
 
 
                 },
@@ -230,11 +241,9 @@ const router = new Router({
 
                 },
                 {
-                    path: "/department",
+                    path: "/manage-departments",
                     component: department,
-                    name: "department",
-
-
+                    name: "manage_departments",
                 },
                 {
                     path: "/courses",
@@ -837,6 +846,39 @@ const router = new Router({
                     name: "course-not-found"
                 },
 
+
+                //Campus Director
+
+                {
+                    path: "/departments",
+                    component: () =>
+                        import ("./components/.campus-director/monitor-departments/monitorDepartmentComponent"),
+                    name: "campus_director-monitor_deparments"
+                },
+                {
+                    path: "/department/:id",
+                    component: () =>
+                        import ("./components/.campus-director/monitor-departments/department_page"),
+
+                    children: [{
+                            path: "",
+                            component: () =>
+                                import ("./components/.campus-director/monitor-departments/overview"),
+                            name: "campus_director-monitor_deparments-id",
+                        },
+                        {
+                            path: "teacher",
+                            component: teacherProfile,
+                            name: "departmentMonitorTeacher_id",
+
+
+                        },
+
+                    ]
+                },
+
+
+                //Program Chair
                 {
                     path: "/program_chair/announcement",
                     component: () =>
@@ -844,26 +886,9 @@ const router = new Router({
                     name: "program_chair-announcement"
                 },
 
-                {
-                    path: "/program_chair/monitor-teachers",
-                    component: () =>
-                        import ("./components/.program-chair/monitor-teachers/monitorTeachersComponent"),
-                    name: "program_chair-monitor_teachers"
-                },
 
-                {
-                    path: "/program_chair/manage-teachers",
-                    component: () =>
-                        import ("./components/.program-chair/manage-users/manage-teachersComponent"),
-                    name: "program_chair-manage_teachers"
-                },
 
-                {
-                    path: "/program_chair/manage-students",
-                    component: () =>
-                        import ("./components/.program-chair/manage-users/manage-studentsComponent"),
-                    name: "program_chair-manage_students"
-                },
+
 
 
 

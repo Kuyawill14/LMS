@@ -34,33 +34,72 @@ class MonitorTeacherController extends Controller
     }
 
 
-    public function getAllTeacherSummarryData() {
+    public function getAllTeacherSummarryData(Request $request) {
 
-        $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id = users.id AND tbl_teacher_courses.deleted_at IS NULL) AS course_count ';
-        $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = users.id  AND tbl_userclasses.deleted_at IS NULL) AS class_count';
-        $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = users.id) AS classwork_count';
-        $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
-        LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = users.id) AS sub_modules_count';
-     
-     
-        $teachers = DB::table('users')
-        ->select('users.id as user_id','users.role','tbl_user_details.firstName','tbl_user_details.middleName','tbl_user_details.lastName','users.email')
-        ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-        ->selectRaw( $course_count)
-        ->selectRaw( $class_count)
-        ->selectRaw( $classwork_count)
-        ->selectRaw( $sub_module_count)
-        ->where('role','Teacher')
-        // ->whereNull("tbl_teacher_courses.deleted_at")
-        ->get();
 
-    //     $teachers = DB::table('users')
-    //     ->select('users.role','users.firstName','users.middleName','users.lastName','users.email',
-    //    $course_count, $class_count,  $classwork_count, $sub_module_count)
-    //    ->where('role','Teacher')
-    //     ->get();
+    $school_year_id = $request->school_year_id;
+    $semester_id = $request->semester_id;
 
+
+    $inFilter = $this->filterAllSummarry($school_year_id, $semester_id) ;
+
+
+    $filetr_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
+    
+    $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses 
+    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_teacher_courses.course_id 
+    WHERE user_id = users.id AND tbl_teacher_courses.course_id = tbl_subject_courses.id AND tbl_teacher_courses.deleted_at IS NULL
+     '. $inFilter .') AS course_count';
+   
+    $class_count = '(SELECT COUNT(*) FROM tbl_userclasses
+    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_userclasses.course_id
+    WHERE user_id = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id  AND tbl_userclasses.deleted_at IS NULL
+     '. $inFilter.') AS class_count';
+   
+    $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks
+    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_classworks.course_id
+    WHERE user_id = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id
+     '. $inFilter.' ) AS classwork_count';
+
+
+    $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
+    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_main_modules.course_id
+    LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id
+    WHERE tbl_main_modules.created_by = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id
+     '. $inFilter.'
+    ) AS sub_modules_count';
+ 
+ 
+    $teachers = DB::table('users')
+    ->select('users.id as user_id','users.role','tbl_user_details.firstName','tbl_user_details.middleName','tbl_user_details.lastName','users.email')
+    ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+    ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.user_id','=','users.id')
+    ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_teacher_courses.course_id')
+
+    ->selectRaw( $course_count)
+    ->selectRaw( $class_count)
+    ->selectRaw( $classwork_count)
+    ->selectRaw( $sub_module_count)
+    ->where('role','Teacher')
+    ->whereNull("tbl_teacher_courses.deleted_at")
+    ->groupBy('users.id')
+    ->get();
         return $teachers;
+    }
+
+
+    public function filterAllSummarry($school_year_id, $semester_id) {
+        $inFilter = '';
+
+        if($school_year_id != null && $semester_id != null) {
+            $inFilter = 'AND tbl_subject_courses.semester_id = ' . $semester_id . ' AND tbl_subject_courses.school_year_id = ' .$school_year_id ;
+        } else if ($school_year_id != null) {
+            $inFilter = 'AND tbl_subject_courses.school_year_id = ' .$school_year_id;
+        } else if( $semester_id != null) {
+            $inFilter = 'AND tbl_subject_courses.semester_id = ' . $semester_id;
+        }
+
+        return $inFilter;
     }
 
 
@@ -81,7 +120,7 @@ class MonitorTeacherController extends Controller
         $userId = $request->teacher_id;
         $school_year_id = $request->school_year_id;
         $semester_id = $request->semester_id;
-        $fileter_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
+        $filter_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
         
         $overview = [
             'total_courses' => 0,
@@ -105,7 +144,7 @@ class MonitorTeacherController extends Controller
             $teacher_course_list =   tbl_subject_course::select('tbl_subject_courses.id as course_id')
             ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
             ->where('tbl_teacher_courses.user_id',$userId)
-            ->where($fileter_query)
+            ->where($filter_query)
             ->get();
 
 
@@ -125,7 +164,7 @@ class MonitorTeacherController extends Controller
     
                 ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
                 ->where('tbl_teacher_courses.user_id',$userId)
-                ->where($fileter_query)
+                ->where($filter_query)
                 ->where('tbl_teacher_courses.id',$course->course_id)
                 ->get();
                 $allCourses[] = $tmp[0];
@@ -167,7 +206,7 @@ class MonitorTeacherController extends Controller
 
 
      
-        if($school_year_id != null && $school_year_id != null && $semester_id != null  ) {
+        if( $school_year_id != null && $semester_id != null  ) {
             $query = [
                 'tbl_subject_courses.school_year_id' => $school_year_id ,
                 'tbl_subject_courses.semester_id' => $semester_id,

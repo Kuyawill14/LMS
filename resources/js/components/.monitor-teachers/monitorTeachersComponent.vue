@@ -1,19 +1,48 @@
 <template>
     <div class="pt-4">
-        <h2>
-            Monitor Teachers
-        </h2>
 
-        <v-row class="pt-2">
+
+        <v-row style="margin-bottom: -35px;">
+            <v-col>
+                <h2>
+                    Monitor Teachers
+                </h2>
+            </v-col>
+
+            <v-spacer></v-spacer>
+
+            <v-col lg="1" class="text-right mt-2">
+                 <v-btn hidden icon @click="getTeacherSummary(true);summarryLoading =true"
+                    v-if="school_year_id != null || semester_id != null  ">
+                    <v-icon>
+                        mdi-close
+                    </v-icon>
+                </v-btn>
+            </v-col>
+            <v-col lg="2" class="text-right">
+                <v-select class="mr-2 my-1" dense :items="school_year" item-text="schoolyear" item-value="id"
+                    label="School Year" v-model="school_year_id" outlined small @change=" getTeacherSummary()">
+                </v-select>
+            </v-col>
+            <v-col class="text-right" lg="2">
+                <v-select class="mr-2 my-1" dense :items="semester" item-text="semester" item-value="id"
+                    :disabled="school_year_id == null" label="Semester" v-model="semester_id" outlined small
+                    @change="getTeacherSummary()"></v-select>
+
+
+            </v-col>
+        </v-row>
+
+        <v-row>
 
 
             <v-col>
 
-                 <v-card v-if="loading">
+                <v-card v-if="loading">
                     <v-skeleton-loader :loading="loading" type="table"></v-skeleton-loader>
                 </v-card>
 
-                <v-card elevation="2"  v-if="!loading">
+                <v-card elevation="2" v-if="!loading">
                     <v-card-title>
                         Teachers
 
@@ -23,7 +52,7 @@
                         </v-text-field>
                     </v-card-title>
 
-                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                    <v-data-table :headers="headers" :items="filteredItems"   v-if="!loading" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="item in items" :key="item.id">
@@ -35,8 +64,15 @@
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center">
-                                        <v-btn icon color="success" link
-                                            :to="{name: 'teacherProfile', params: {id: item.user_id}}">
+                                        <v-btn icon color="success" link v-if="rol"
+                                            :to="{name: 'monitorTeacher_id', params: {id: item.user_id}}">
+                                            <v-icon>
+                                                mdi-eye
+                                            </v-icon>
+                                        </v-btn>
+
+                                         <v-btn icon color="success" link
+                                            :to="{name: 'monitorTeacher_id', params: {id: item.user_id}}">
                                             <v-icon>
                                                 mdi-eye
                                             </v-icon>
@@ -75,6 +111,11 @@
     export default {
         data: function () {
             return {
+                semester_id: null,
+                school_year: [],
+                semester: [],
+                school_year_id: null,
+                semester_id: null,
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -126,40 +167,75 @@
                     },
                 ],
                 teacherSummary: [],
-                loading:true,
+                loading: true,
             }
 
 
         },
         computed: {
-            ...mapGetters(["getTeachersSumarry"]),
+          
             filteredItems() {
                 if (this.search) {
-                  return this.teacherSummary.filter((item) => {
+                    return this.teacherSummary.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
                             .includes(v) || item.lastName.toLowerCase()
-                            .includes(v)|| item.middleName.toLowerCase()
-                            .includes(v)|| item.user_id.toString()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.user_id.toString()
                             .includes(v))
                     })
                 } else {
                     return this.teacherSummary;
                 }
 
-            }
+            },
+
+
 
         },
 
         methods: {
+            fetchAllSchoolyear_semester() {
+                axios.get('/api/admin/schoolyears_semesters/all')
+                    .then((res) => {
+                        this.school_year = res.data.school_year;
+                        this.semester = res.data.semester;
+                    })
+            },
+            getTeacherSummary(clear) {
 
+                if (clear) {
+                    this.school_year_id = null;
+                    this.semester_id = null;
+                }
+                axios.get(`/api/admin/teachers/all/summarry`, {
+                        params: {
+                            school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
+                            semester_id: this.semester_id ? this.semester_id : null,
+                        }
+                    })
+                    .then((res) => {
+
+                        if (res.status == 200) {
+
+                            this.teacherSummary = res.data;
+                        console.log(res.data);
+
+                        } else {
+                            this.toastError('Oops! Something went wrong, please reload the page')
+                        }
+                        this.loading = false;
+
+                    })
+            },
         },
 
         mounted() {
-
-            this.$store.dispatch('teacherSummarryData').then(() => {
-                this.teacherSummary = this.getTeachersSumarry;
-                this.loading = false;
-            });
+            this.fetchAllSchoolyear_semester();
+            this.getTeacherSummary();
+            // this.$store.dispatch('teacherSummarryData').then(() => {
+            //     this.teacherSummary = this.getTeachersSumarry;
+            //     this.loading = false;
+            // });
 
 
 

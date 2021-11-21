@@ -77,6 +77,19 @@
 
 
         <v-row class="custom-five-row">
+
+            
+            <v-col v-for="i in 5" :key="i" cols="12" lg="3" md="6" sm="12" xs="12"
+                class="my-1" v-if="summarryLoading">
+
+                <v-card>
+                    <v-skeleton-loader  :loading="summarryLoading"
+                        type="list-item-avatar-three-line"></v-skeleton-loader>
+                </v-card>
+            </v-col>
+
+
+
             <v-col v-for="(item, index) in cardheaders" :key="index" cols="12" lg="3" md="6" sm="12" xs="12"
                 class="my-1">
 
@@ -198,11 +211,14 @@
                 courses: [],
                 summarryLoading: true,
                 componentKey: 0,
+                teacher_id: this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id
 
             }
         },
-        computed: mapGetters(['getTeacherDetails']),
+        
+        computed: mapGetters(['getTeacherDetails','get_UserRole']),
         methods: {
+            
             forceRerender() {
                 this.componentKey += 1;
             },
@@ -221,7 +237,7 @@
                 }
                 axios.get(`/api/admin/teacher/summarry`, {
                         params: {
-                            teacher_id: this.$route.params.id,
+                            teacher_id: this.teacher_id,
                             school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
                             semester_id: this.semester_id ? this.semester_id : null,
                         }
@@ -239,12 +255,12 @@
                             this.toastError('Oops! Something went wrong, please reload the page')
                         }
 
-                        setTimeout(() => {
+                        
                             this.summarryLoading = false;
                             this.firstLoad = false;
-                        }, 1000);
+                       
 
-                        this.forceRerender();
+                        // this.forceRerender();
                     })
             },
 
@@ -265,7 +281,7 @@
                 });
             },
             getUserDetails() {
-                axios.get('/api/admin/teachers/profile/' + this.$route.params.id).then((res) => {
+                axios.get('/api/admin/teachers/profile/' + this.teacher_id).then((res) => {
                     this.UserDetails = res.data;
                     this.isloading = !this.isloading;
                     ////console.log(res.data);
@@ -279,9 +295,13 @@
 
         },
         mounted() {
+            this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id
+            console.log(this.$route)
             this.getTeacherSummary();
             this.getUserDetails();
             this.fetchAllSchoolyear_semester();
+
+            console.log(this.get_UserRole);
             // this.isloading = !this.isloading;
         }
     }

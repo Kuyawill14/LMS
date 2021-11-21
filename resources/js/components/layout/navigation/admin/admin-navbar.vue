@@ -46,6 +46,17 @@
                     <v-list-item-title>Manage Users</v-list-item-title>
                 </template>
 
+                <v-list-item link :to="{name: 'manageCampusDirector'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-human-greeting</v-icon>
+                    </v-list-item-action>
+
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Campus Director
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item link :to="{name: 'manageProgramChair'}" exact>
                     <v-list-item-action>
                         <v-icon>mdi-human-greeting</v-icon>
@@ -106,7 +117,7 @@
             </v-list-item>
 
 
-            <v-list-item link :to="{name: 'department'}" exact>
+            <v-list-item link :to="{name: 'manage_departments'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-office-building-outline</v-icon>
                 </v-list-item-action>
@@ -116,6 +127,8 @@
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
+
+           
 
         </template>
 

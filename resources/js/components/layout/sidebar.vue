@@ -78,6 +78,7 @@
             <courseNavbar :role="role" v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
             <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
             <programChairNavbar :role="role" v-if="role == 'ProgramChair'"></programChairNavbar>
+            <campusDirectorNavbar :role="role" v-if="role == 'CampusDirector'"></campusDirectorNavbar>
         </v-navigation-drawer>
     </div>
     <!--  ######### end sidebar ################ -->
@@ -103,6 +104,7 @@
     const mainBottomNavigation = () => import(/* webpackChunkName: "layout" */"./bottom-navigation/course-bottom-navigation")
     const adminNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/admin/admin-navbar")
     const programChairNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/programChair/programChair-navbar")
+    const campusDirectorNavbar = () => import(/* webpackChunkName: "layout" */"./navigation/campusDirector/campusDirector-navbar")
     const notifications = () => import(/* webpackChunkName: "layout" */"./notification/notification")
 
     import {
@@ -117,7 +119,8 @@
             adminNavbar,
             notifications,
             mainBottomNavigation,
-            programChairNavbar
+            programChairNavbar,
+            campusDirectorNavbar
            
         },
         data() {

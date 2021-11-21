@@ -2264,12 +2264,16 @@ var managestudents = function managestudents() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-studentsComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/manage-users/manage-studentsComponent */ "./resources/js/components/admin/manage-users/manage-studentsComponent.vue"));
 };
 
+var manageCampusDirector = function manageCampusDirector() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-campusDirectorComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/manage-users/manage-campusDirectorComponent */ "./resources/js/components/admin/manage-users/manage-campusDirectorComponent.vue"));
+};
+
 var monitorTeachers = function monitorTeachers() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/monitor-teachers/monitorTeachersComponent */ "./resources/js/components/admin/monitor-teachers/monitorTeachersComponent.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.monitor-teachers/monitorTeachersComponent.vue"));
 };
 
 var teacherProfile = function teacherProfile() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_teacherProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/monitor-teachers/teacherProfile/teacherProfile */ "./resources/js/components/admin/monitor-teachers/teacherProfile/teacherProfile.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_teacherProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.monitor-teachers/teacherProfile/teacherProfile */ "./resources/js/components/.monitor-teachers/teacherProfile/teacherProfile.vue"));
 };
 
 var schoolyear_semester = function schoolyear_semester() {
@@ -2332,21 +2336,26 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       component: managestudents,
       name: "managestudents"
     }, {
+      path: "/manage-users/campus-director",
+      component: manageCampusDirector,
+      name: "manageCampusDirector"
+    }, //program chair
+    {
       path: "/monitor-teachers",
       component: monitorTeachers,
       name: "monitorTeachers"
     }, {
-      path: "/teacher-profile/:id",
+      path: "/monitor-teacher/:id/",
       component: teacherProfile,
-      name: "teacherProfile"
+      name: "monitorTeacher_id"
     }, {
       path: "/schoolyear-semester",
       component: schoolyear_semester,
       name: "schoolyear_semester"
     }, {
-      path: "/department",
+      path: "/manage-departments",
       component: department,
-      name: "department"
+      name: "manage_departments"
     }, {
       path: "/courses",
       component: mycourse,
@@ -2965,30 +2974,36 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       path: "/course-not-found/:id",
       component: ClassNotFound,
       name: "course-not-found"
+    }, //Campus Director
+    {
+      path: "/departments",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_monitorDepartmentComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.campus-director/monitor-departments/monitorDepartmentComponent */ "./resources/js/components/.campus-director/monitor-departments/monitorDepartmentComponent.vue"));
+      },
+      name: "campus_director-monitor_deparments"
     }, {
+      path: "/department/:id",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_department_page_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.campus-director/monitor-departments/department_page */ "./resources/js/components/.campus-director/monitor-departments/department_page.vue"));
+      },
+      children: [{
+        path: "",
+        component: function component() {
+          return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_overview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.campus-director/monitor-departments/overview */ "./resources/js/components/.campus-director/monitor-departments/overview.vue"));
+        },
+        name: "campus_director-monitor_deparments-id"
+      }, {
+        path: "teacher",
+        component: teacherProfile,
+        name: "departmentMonitorTeacher_id"
+      }]
+    }, //Program Chair
+    {
       path: "/program_chair/announcement",
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_announcement_programChair-announcement_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/announcement/programChair-announcement */ "./resources/js/components/.program-chair/announcement/programChair-announcement.vue"));
       },
       name: "program_chair-announcement"
-    }, {
-      path: "/program_chair/monitor-teachers",
-      component: function component() {
-        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.program-chair/monitor-teachers/monitorTeachersComponent.vue"));
-      },
-      name: "program_chair-monitor_teachers"
-    }, {
-      path: "/program_chair/manage-teachers",
-      component: function component() {
-        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-teachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-teachersComponent */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue"));
-      },
-      name: "program_chair-manage_teachers"
-    }, {
-      path: "/program_chair/manage-students",
-      component: function component() {
-        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-studentsComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-studentsComponent */ "./resources/js/components/.program-chair/manage-users/manage-studentsComponent.vue"));
-      },
-      name: "program_chair-manage_students"
     }]
   }, {
     path: "/quiz/:id",
@@ -3308,6 +3323,91 @@ var mutations = {
   },
   SET_AUTHENTICATED: function SET_AUTHENTICATED(state, IsAuthenticated) {
     return state.IsAuthenticated = IsAuthenticated;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/allCampusDirector.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/allCampusDirector.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  allCampusDirector: []
+};
+var getters = {
+  getCampusDirector: function getCampusDirector(state) {
+    return state.allCampusDirector;
+  },
+  filterCampusDirector: function filterCampusDirector(state) {
+    return function (user_id) {
+      return state.allCampusDirector.filter(function (allCampusDirector) {
+        return allCampusDirector.user_id == user_id;
+      })[0];
+    };
+  }
+};
+var actions = {
+  fetchAllCampusDirector: function fetchAllCampusDirector(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, user_type, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              user_type = 'CampusDirector';
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/users/all/".concat(user_type));
+
+            case 4:
+              res = _context.sent;
+              //////console.log(res.data);
+              commit('FETCH_CampusDirector', res.data);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  } // async createMainModule({ commit }, moduleForm) {
+  //     var res = await axios.post(`/api/main_module/insert`, { moduleForm: moduleForm });
+  //     var newMainModule = res.data;
+  //     // commit("CREATE_MAIN_MODULE", newMainModule);
+  //     state.main_module.push({...newMainModule })
+  //     return res;
+  // },
+
+};
+var mutations = {
+  FETCH_CampusDirector: function FETCH_CampusDirector(state, allCampusDirector) {
+    return state.allCampusDirector = allCampusDirector;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6235,9 +6335,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./modules/verifyEmail */ "./resources/js/store/modules/verifyEmail.js");
 /* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
 /* harmony import */ var _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/allProgramChair */ "./resources/js/store/modules/allProgramChair.js");
+/* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
+
 
 
 
@@ -6283,7 +6385,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     teacherSummary: _modules_teacherSummary__WEBPACK_IMPORTED_MODULE_20__.default,
     verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default,
     classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default,
-    allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default
+    allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default,
+    allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__.default
   }
 }));
 

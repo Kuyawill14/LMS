@@ -15,25 +15,14 @@
                 </v-list-item-content>
             </v-list-item>
 
-             <v-list-item link  :to="{name: 'program_chair-announcement'}" exact>
+           
+            <v-list-item link :to="{name: 'campus_director-monitor_deparments'}" exact>
                 <v-list-item-action>
-                    <v-icon>mdi-message-alert</v-icon>
+                    <v-icon>mdi-office-building-outline</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
-                        Announcement
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-
-            <v-list-item link :to="{name: 'monitorTeachers'}" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-chart-box-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>
-                        Monitor Teachers
+                        Monitor Department
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>

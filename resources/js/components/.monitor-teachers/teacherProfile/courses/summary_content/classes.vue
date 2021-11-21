@@ -50,12 +50,15 @@ export default {
         return{
             ClassList: [],
             isGetting: true,
+            teacher_id: '',
         }
     },
  
     methods:{
          async getClasslist(){
-             axios.get('/api/admin/teachers/classes/'+this.course_details.course_id+'/'+this.$route.params.id)
+
+          
+             axios.get('/api/admin/teachers/classes/'+this.course_details.course_id+'/'+this.teacher_id)
              .then(res=>{
                  this.ClassList = res.data.data;
                  //this.isGetting = false;
@@ -65,6 +68,7 @@ export default {
 
     },
     beforeMount(){
+           this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id
         this.getClasslist();
     },
 
