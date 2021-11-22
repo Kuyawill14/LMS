@@ -56,6 +56,9 @@
                                     <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
                                     <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                    <v-list-item-subtitle> Created: {{format_date(itemSubModule.created_at)}}
+                                    </v-list-item-subtitle>
+
                                 </v-list-item-content>
 
                                 <v-list-item-action>
@@ -149,6 +152,7 @@
 </template>
 
 <script>
+    import moment from 'moment/src/moment';
     import draggable from "vuedraggable";
     import fileForm from './Forms/FileForm'
     import linkForm from './Forms/LinkForm'
@@ -208,6 +212,11 @@
 
         },
         methods: {
+            format_date(value) {
+                if (value) {
+                    return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+                }
+            },
             publishModule(module_name, id, isPublished) {
                 this.isPublishing = true;
                 isPublished = isPublished ? 1 : 0;
@@ -299,7 +308,7 @@
                 this.mainModule_id = module_id;
                 this.itemType = 'add_link';
             },
-            editItemBtn(itemModule, sub_module_id, type,isPublished) {
+            editItemBtn(itemModule, sub_module_id, type, isPublished) {
                 if (isPublished == 1) {
                     this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
                 } else {

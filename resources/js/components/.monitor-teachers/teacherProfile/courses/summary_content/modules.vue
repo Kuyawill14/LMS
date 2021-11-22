@@ -24,7 +24,7 @@
         <div  v-if="!isGetting && getmain_module.length != 0">
             <v-expansion-panels  focusable>
               
-                        <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" draggable="true">
+                        <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" >
                             <span class="text-right pannel-btn">
 
                             
@@ -51,6 +51,8 @@
                                         <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
                                         <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                        <v-list-item-subtitle> Created: {{format_date(itemSubModule.created_at)}}</v-list-item-subtitle>
+
                                     </v-list-item-content>
 
                                     <v-list-item-action>
@@ -86,8 +88,7 @@
     </div>
 </template>
 <script>
-    import draggable from "vuedraggable";
-
+ import moment from 'moment/src/moment';
     import {
         mapGetters,
         mapActions
@@ -121,7 +122,11 @@
 
         },
         methods: {
-          
+             format_date(value) {
+            if (value) {
+                return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+            }
+        },
             getdata() {
                 this.mainModule = this.getmain_module;
             },

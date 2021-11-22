@@ -65,6 +65,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
@@ -319,6 +324,22 @@ var render = function() {
                             _vm._v(
                               "\n                        Publish Classwork: " +
                                 _vm._s(item.classwork_count) +
+                                "\n                    "
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-body-2" },
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("mdi-book-open-variant")
+                            ]),
+                            _vm._v(
+                              "\n                        Class Date Created: " +
+                                _vm._s(item.created_at) +
                                 "\n                    "
                             )
                           ],
