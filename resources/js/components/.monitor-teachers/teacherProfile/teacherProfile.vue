@@ -3,8 +3,22 @@
 
         <v-row>
             <v-col cols="12" md="12">
-                <v-card elevation="1" outlined class="pt-5">
-                    <v-row>
+                <v-card v-if="UserDetails == null" class="py-3">
+                    <div style="width: 30%;margin:auto">
+                        <v-skeleton-loader :loading="true" type="text">
+                        </v-skeleton-loader>
+                        <v-skeleton-loader :loading="true" type="text">
+                        </v-skeleton-loader>
+                    </div>
+
+
+                </v-card>
+
+
+
+
+                <v-card elevation="1" outlined class="pt-5" v-if="UserDetails != null">
+                    <v-row >
 
 
                         <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
@@ -14,9 +28,7 @@
                         <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
                             <div class="grey--text font-italic">{{UserDetails.email}}</div>
                         </v-col>
-                        <v-col cols="12" class="mb-0 pb-0 mt-1 pt-0 d-flex justify-center">
 
-                        </v-col>
                     </v-row>
 
                     <v-row>
@@ -59,43 +71,28 @@
             </v-col>
         </v-row>
 
-        <v-container v-if="isloading" style="height: 400px;">
-            <v-row class="fill-height" align-content="center" justify="center">
-                <v-icon style="font-size:10rem">
-                    mdi-account
-                </v-icon>
-                <v-col class="text-subtitle-1 text-center" cols="12">
-                    <h3> Loading Profile </h3>
-                </v-col>
-                <v-col cols="6">
-                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-                </v-col>
-            </v-row>
-        </v-container>
 
 
 
 
         <v-row class="custom-five-row">
 
-            
-            <v-col v-for="i in 5" :key="i" cols="12" lg="3" md="6" sm="12" xs="12"
-                class="my-1" v-if="summarryLoading">
+
+            <v-col v-for="i in 5" :key="i" cols="12" lg="3" md="6" sm="12" xs="12" class="my-1" v-if="summarryLoading">
 
                 <v-card>
-                    <v-skeleton-loader  :loading="summarryLoading"
-                        type="list-item-avatar-three-line"></v-skeleton-loader>
+                    <v-skeleton-loader :loading="summarryLoading" type="list-item-avatar-three-line">
+                    </v-skeleton-loader>
                 </v-card>
             </v-col>
 
 
 
-            <v-col v-for="(item, index) in cardheaders" :key="index" cols="12" lg="3" md="6" sm="12" xs="12"
+            <v-col v-for="(item, index) in cardheaders" :key="item.title" cols="12" lg="3" md="6" sm="12" xs="12"
                 class="my-1">
 
                 <v-card>
-                    <v-skeleton-loader v-if="summarryLoading" :loading="summarryLoading"
-                        type="list-item-avatar-three-line"></v-skeleton-loader>
+
                     <v-row class="pa-3" v-if="!summarryLoading">
 
                         <v-col cols="4">
@@ -215,10 +212,10 @@
 
             }
         },
-        
-        computed: mapGetters(['getTeacherDetails','get_UserRole']),
+
+        computed: mapGetters(['getTeacherDetails', 'get_UserRole']),
         methods: {
-            
+
             forceRerender() {
                 this.componentKey += 1;
             },
@@ -255,10 +252,10 @@
                             this.toastError('Oops! Something went wrong, please reload the page')
                         }
 
-                        
-                            this.summarryLoading = false;
-                            this.firstLoad = false;
-                       
+
+                        this.summarryLoading = false;
+                        this.firstLoad = false;
+
 
                         // this.forceRerender();
                     })
@@ -318,7 +315,7 @@
     }
 
     .cardTitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 500;
     }
 

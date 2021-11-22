@@ -39,6 +39,9 @@ class MonitorTeacherController extends Controller
 
     $school_year_id = $request->school_year_id;
     $semester_id = $request->semester_id;
+    $department_id  =  $request->department_id;
+    $department_id_query = $department_id != null ? ['tbl_user_departments.department_id' =>  $department_id] : [] ;
+
 
 
     $inFilter = $this->filterAllSummarry($school_year_id, $semester_id) ;
@@ -75,7 +78,8 @@ class MonitorTeacherController extends Controller
     ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
     ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.user_id','=','users.id')
     ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_teacher_courses.course_id')
-
+    ->leftjoin('tbl_user_departments', 'tbl_user_departments.user_id','=','users.id')
+    ->where($department_id_query)
     ->selectRaw( $course_count)
     ->selectRaw( $class_count)
     ->selectRaw( $classwork_count)

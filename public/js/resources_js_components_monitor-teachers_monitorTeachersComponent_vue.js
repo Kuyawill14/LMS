@@ -11,16 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -159,7 +158,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       sortable: false
     }]), _defineProperty(_ref, "teacherSummary", []), _defineProperty(_ref, "loading", true), _ref;
   },
-  computed: {
+  computed: _objectSpread({
     filteredItems: function filteredItems() {
       var _this = this;
 
@@ -173,7 +172,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return this.teacherSummary;
       }
     }
-  },
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_UserRole", "get_CurrentUser"])),
   methods: {
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
       var _this2 = this;
@@ -194,7 +193,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/admin/teachers/all/summarry", {
         params: {
           school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
-          semester_id: this.semester_id ? this.semester_id : null
+          semester_id: this.semester_id ? this.semester_id : null,
+          department_id: this.get_CurrentUser.department_id
         }
       }).then(function (res) {
         if (res.status == 200) {
@@ -630,34 +630,6 @@ var render = function() {
                                                 "td",
                                                 { staticClass: "text-center" },
                                                 [
-                                                  _vm.rol
-                                                    ? _c(
-                                                        "v-btn",
-                                                        {
-                                                          attrs: {
-                                                            icon: "",
-                                                            color: "success",
-                                                            link: "",
-                                                            to: {
-                                                              name:
-                                                                "monitorTeacher_id",
-                                                              params: {
-                                                                id: item.user_id
-                                                              }
-                                                            }
-                                                          }
-                                                        },
-                                                        [
-                                                          _c("v-icon", [
-                                                            _vm._v(
-                                                              "\n                                            mdi-eye\n                                        "
-                                                            )
-                                                          ])
-                                                        ],
-                                                        1
-                                                      )
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
                                                   _c(
                                                     "v-btn",
                                                     {
@@ -710,7 +682,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              2890581198
+                              2112978852
                             )
                           })
                         : _vm._e()

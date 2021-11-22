@@ -285,7 +285,6 @@ var render = function() {
                 attrs: {
                   headers: _vm.headers,
                   items: _vm.allCoursesData,
-                  loading: _vm.isLoading,
                   "items-per-page": 10
                 },
                 scopedSlots: _vm._u([
@@ -297,8 +296,8 @@ var render = function() {
                         _c(
                           "tbody",
                           [
-                            _vm._l(items, function(item) {
-                              return _c("tr", { key: item.id }, [
+                            _vm._l(items, function(item, index) {
+                              return _c("tr", { key: index }, [
                                 _c("td", [
                                   _vm._v(" " + _vm._s(item.course_code) + " ")
                                 ]),

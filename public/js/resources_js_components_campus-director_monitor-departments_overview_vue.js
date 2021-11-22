@@ -74,54 +74,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     var _ref;
 
     return _ref = {
-      summarryLoading: true,
-      cardheaders: [{
-        title: 'Total student',
-        count: 250,
-        icon: ''
-      }, {
-        title: 'Total Teacher',
-        count: 24,
-        icon: ''
-      }],
       semester_id: null,
       school_year: [],
       semester: [],
@@ -206,7 +163,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.get("/api/admin/teachers/all/summarry", {
         params: {
           school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
-          semester_id: this.semester_id ? this.semester_id : null
+          semester_id: this.semester_id != 0 ? this.semester_id : null,
+          department_id: this.$route.params.id
         }
       }).then(function (res) {
         if (res.status == 200) {
@@ -386,99 +344,6 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "v-row",
-        _vm._l(_vm.cardheaders, function(item, index) {
-          return _c(
-            "v-col",
-            {
-              key: index,
-              attrs: { cols: "12", lg: "6", md: "6", sm: "12", xs: "12" }
-            },
-            [
-              _c(
-                "v-card",
-                [
-                  _vm.summarryLoading
-                    ? _c("v-skeleton-loader", {
-                        attrs: {
-                          loading: _vm.summarryLoading,
-                          type: "list-item-avatar-two-line"
-                        }
-                      })
-                    : _vm._e(),
-                  _vm._v(" "),
-                  !_vm.summarryLoading
-                    ? _c(
-                        "v-row",
-                        { staticClass: "pa-3" },
-                        [
-                          _c(
-                            "v-col",
-                            { attrs: { cols: "4" } },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  staticClass: "text-h2",
-                                  staticStyle: { "font-size": "2.5 rem" }
-                                },
-                                [_vm._v(_vm._s(item.icon))]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            [
-                              _c(
-                                "v-row",
-                                [
-                                  _c(
-                                    "v-col",
-                                    { staticClass: "py-0 text-right" },
-                                    [
-                                      _c("span", { staticClass: "cardTitle" }, [
-                                        _vm._v(_vm._s(item.title))
-                                      ])
-                                    ]
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-row",
-                                [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass:
-                                        "text-h3 py-0 primary--text text-right"
-                                    },
-                                    [_vm._v(_vm._s(item.count))]
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ],
-            1
-          )
-        }),
-        1
-      ),
-      _vm._v(" "),
       _c(
         "v-row",
         [

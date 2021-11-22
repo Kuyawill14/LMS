@@ -1,40 +1,7 @@
 <template>
     <div>
         
-        <v-row>
-            <v-col v-for="(item, index) in cardheaders" :key="index" cols="12" lg="6" md="6" sm="12" xs="12"
-               >
-
-                <v-card>
-                    <v-skeleton-loader v-if="summarryLoading" :loading="summarryLoading"
-                        type="list-item-avatar-two-line"></v-skeleton-loader>
-                    <v-row class="pa-3" v-if="!summarryLoading">
-
-                        <v-col cols="4">
-                            <v-icon class="text-h2" style="font-size:2.5 rem">{{item.icon}}</v-icon>
-                        </v-col>
-
-                        <v-col>
-                            <v-row>
-                                <v-col class="py-0 text-right">
-                                    <span class="cardTitle">{{item.title}}</span>
-                                </v-col>
-
-                            </v-row>
-                            <v-row>
-                                <v-col class="text-h3 py-0 primary--text text-right">{{item.count}}</v-col>
-                            </v-row>
-
-                        </v-col>
-
-                    </v-row>
-
-                </v-card>
-            </v-col>
-
-
-
-        </v-row>
+       
 
 
         <v-row>
@@ -96,18 +63,7 @@
     export default {
         data() {
             return {
-                summarryLoading: true,
-                cardheaders: [{
-                        title: 'Total student',
-                        count: 250,
-                        icon: ''
-                    },
-                    {
-                        title: 'Total Teacher',
-                        count: 24,
-                        icon: ''
-                    },
-                ],
+             
                    semester_id: null,
                 school_year: [],
                 semester: [],
@@ -209,6 +165,7 @@
                     .then((res) => {
                         this.school_year = res.data.school_year;
                         this.semester = res.data.semester;
+                
                     })
             },
             getTeacherSummary(clear) {
@@ -220,7 +177,8 @@
                 axios.get(`/api/admin/teachers/all/summarry`, {
                         params: {
                             school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
-                            semester_id: this.semester_id ? this.semester_id : null,
+                            semester_id: this.semester_id != 0  ? this.semester_id : null,
+                            department_id: this.$route.params.id,
                         }
                     })
                     .then((res) => {

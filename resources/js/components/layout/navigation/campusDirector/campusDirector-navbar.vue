@@ -1,8 +1,23 @@
 <template>
 
     <v-list nav>
-       
-        <template >
+
+        <template>
+            <v-list-item link :to="{name: 'campus_director-monitor_deparments-id'}"
+                v-if="$route.name == 'departmentMonitorTeacher_id'" exact>
+                <v-list-item-action>
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Go Back
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider  v-if="$route.name == 'departmentMonitorTeacher_id'"></v-divider>
+
+
+
 
             <v-list-item link :to="{name: 'dashboard'}" exact>
                 <v-list-item-action>
@@ -15,7 +30,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-           
+
             <v-list-item link :to="{name: 'campus_director-monitor_deparments'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-office-building-outline</v-icon>
@@ -55,7 +70,7 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list-group> -->
-            
+
         </template>
 
 

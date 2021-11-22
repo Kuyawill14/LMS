@@ -44,7 +44,11 @@
     </div>
 </template>
 <script>
+import {
+        mapGetters
+    } from "vuex";
 export default {
+    
     props: ['course_details'],
     data(){
         return{
@@ -53,7 +57,7 @@ export default {
             teacher_id: '',
         }
     },
- 
+  computed: mapGetters(["get_UserRole"]),
     methods:{
          async getClasslist(){
 
@@ -67,8 +71,10 @@ export default {
         },
 
     },
-    beforeMount(){
-           this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id
+    mounted(){
+        this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id
+        // console.log(this.$route)
+        
         this.getClasslist();
     },
 

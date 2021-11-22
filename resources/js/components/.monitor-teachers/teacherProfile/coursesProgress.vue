@@ -40,10 +40,10 @@
             <v-col  cols="12">
 
  
-                <v-data-table :headers="headers" :items="allCoursesData" :loading="isLoading" :items-per-page="10"  class="elevation-1">
+                <v-data-table :headers="headers" :items="allCoursesData" :items-per-page="10"  class="elevation-1">
                     <template v-slot:body="{ items }">
                         <tbody>
-                            <tr v-for="item in items" :key="item.id">
+                            <tr v-for="(item,index ) in items" :key="index">
 
                                 <td > {{item.course_code}} </td>
                                 <td > {{item.course_name}} </td>
@@ -144,7 +144,6 @@
         },
        mounted() {
 
-       
 
        }
        

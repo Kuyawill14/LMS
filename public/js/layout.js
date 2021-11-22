@@ -318,6 +318,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {//console.log(this.$route);
   }
@@ -641,32 +656,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1685,6 +1674,41 @@ var render = function() {
     { attrs: { nav: "" } },
     [
       [
+        _vm.$route.name == "departmentMonitorTeacher_id"
+          ? _c(
+              "v-list-item",
+              {
+                attrs: {
+                  link: "",
+                  to: { name: "campus_director-monitor_deparments-id" },
+                  exact: ""
+                }
+              },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v("\n                    Go Back\n                ")
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.$route.name == "departmentMonitorTeacher_id"
+          ? _c("v-divider")
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "v-list-item",
           { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
@@ -2431,6 +2455,35 @@ var render = function() {
     { attrs: { nav: "" } },
     [
       [
+        _vm.$route.name == "monitorTeacher_id"
+          ? _c(
+              "v-list-item",
+              {
+                attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" }
+              },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v("\n                    Go Back\n                ")
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.$route.name == "monitorTeacher_id" ? _c("v-divider") : _vm._e(),
+        _vm._v(" "),
         _c(
           "v-list-item",
           { attrs: { link: "", to: { name: "dashboard" }, exact: "" } },
@@ -2446,35 +2499,6 @@ var render = function() {
               [
                 _c("v-list-item-title", [
                   _vm._v("\n                    Dashboard\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          {
-            attrs: {
-              link: "",
-              to: { name: "program_chair-announcement" },
-              exact: ""
-            }
-          },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-message-alert")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v("\n                    Announcement\n                ")
                 ])
               ],
               1

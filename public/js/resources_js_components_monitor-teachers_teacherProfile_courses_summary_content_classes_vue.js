@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -64,6 +65,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
   data: function data() {
@@ -73,6 +75,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       teacher_id: ''
     };
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_UserRole"]),
   methods: {
     getClasslist: function getClasslist() {
       var _this = this;
@@ -99,8 +102,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
-  beforeMount: function beforeMount() {
-    this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id;
+  mounted: function mounted() {
+    this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id; // console.log(this.$route)
+
     this.getClasslist();
   }
 });

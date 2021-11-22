@@ -158,9 +158,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 var coursesProgress = function coursesProgress() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_coursesProgress_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./coursesProgress */ "./resources/js/components/.monitor-teachers/teacherProfile/coursesProgress.vue"));
 };
@@ -314,7 +311,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 1264px) {\n.custom-five-row>.col-lg-3[data-v-b23a5552] {\n        flex: 0 0 20% !important;\n        max-width: 20% !important;\n}\n}\n.cardTitle[data-v-b23a5552] {\n    font-size: 1rem;\n    font-weight: 500;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media (min-width: 1264px) {\n.custom-five-row>.col-lg-3[data-v-b23a5552] {\n        flex: 0 0 20% !important;\n        max-width: 20% !important;\n}\n}\n.cardTitle[data-v-b23a5552] {\n    font-size: 0.9rem;\n    font-weight: 500;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -458,72 +455,89 @@ var render = function() {
             "v-col",
             { attrs: { cols: "12", md: "12" } },
             [
-              _c(
-                "v-card",
-                {
-                  staticClass: "pt-5",
-                  attrs: { elevation: "1", outlined: "" }
-                },
-                [
-                  _c(
-                    "v-row",
+              _vm.UserDetails == null
+                ? _c("v-card", { staticClass: "py-3" }, [
+                    _c(
+                      "div",
+                      { staticStyle: { width: "30%", margin: "auto" } },
+                      [
+                        _c("v-skeleton-loader", {
+                          attrs: { loading: true, type: "text" }
+                        }),
+                        _vm._v(" "),
+                        _c("v-skeleton-loader", {
+                          attrs: { loading: true, type: "text" }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.UserDetails != null
+                ? _c(
+                    "v-card",
+                    {
+                      staticClass: "pt-5",
+                      attrs: { elevation: "1", outlined: "" }
+                    },
                     [
                       _c(
-                        "v-col",
-                        {
-                          staticClass:
-                            "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
-                          attrs: { cols: "12" }
-                        },
+                        "v-row",
                         [
-                          _c("h2", { staticClass: "font-weight-bold" }, [
-                            _vm._v(
-                              _vm._s(
-                                _vm.UserDetails.firstName +
-                                  " " +
-                                  _vm.UserDetails.lastName
+                          _c(
+                            "v-col",
+                            {
+                              staticClass:
+                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("h2", { staticClass: "font-weight-bold" }, [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.UserDetails.firstName +
+                                      " " +
+                                      _vm.UserDetails.lastName
+                                  )
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass:
+                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "grey--text font-italic" },
+                                [_vm._v(_vm._s(_vm.UserDetails.email))]
                               )
-                            )
-                          ])
-                        ]
+                            ]
+                          )
+                        ],
+                        1
                       ),
                       _vm._v(" "),
                       _c(
-                        "v-col",
-                        {
-                          staticClass:
-                            "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
-                          attrs: { cols: "12" }
-                        },
+                        "v-row",
                         [
-                          _c("div", { staticClass: "grey--text font-italic" }, [
-                            _vm._v(_vm._s(_vm.UserDetails.email))
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("v-col", {
-                        staticClass:
-                          "mb-0 pb-0 mt-1 pt-0 d-flex justify-center",
-                        attrs: { cols: "12" }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-row",
-                    [
-                      _c("v-col", {
-                        staticClass: "pl-5 pr-5 pb-0",
-                        attrs: { cols: "12" }
-                      })
+                          _c("v-col", {
+                            staticClass: "pl-5 pr-5 pb-0",
+                            attrs: { cols: "12" }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              )
+                : _vm._e()
             ],
             1
           )
@@ -637,54 +651,6 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.isloading
-        ? _c(
-            "v-container",
-            { staticStyle: { height: "400px" } },
-            [
-              _c(
-                "v-row",
-                {
-                  staticClass: "fill-height",
-                  attrs: { "align-content": "center", justify: "center" }
-                },
-                [
-                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v("\n                mdi-account\n            ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_c("h3", [_vm._v(" Loading Profile ")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
       _c(
         "v-row",
         { staticClass: "custom-five-row" },
@@ -721,7 +687,7 @@ var render = function() {
             return _c(
               "v-col",
               {
-                key: index,
+                key: item.title,
                 staticClass: "my-1",
                 attrs: { cols: "12", lg: "3", md: "6", sm: "12", xs: "12" }
               },
@@ -729,15 +695,6 @@ var render = function() {
                 _c(
                   "v-card",
                   [
-                    _vm.summarryLoading
-                      ? _c("v-skeleton-loader", {
-                          attrs: {
-                            loading: _vm.summarryLoading,
-                            type: "list-item-avatar-three-line"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(" "),
                     !_vm.summarryLoading
                       ? _c(
                           "v-row",

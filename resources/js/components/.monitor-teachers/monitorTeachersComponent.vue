@@ -64,13 +64,7 @@
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center">
-                                        <v-btn icon color="success" link v-if="rol"
-                                            :to="{name: 'monitorTeacher_id', params: {id: item.user_id}}">
-                                            <v-icon>
-                                                mdi-eye
-                                            </v-icon>
-                                        </v-btn>
-
+                                      
                                          <v-btn icon color="success" link
                                             :to="{name: 'monitorTeacher_id', params: {id: item.user_id}}">
                                             <v-icon>
@@ -188,6 +182,8 @@
                 }
 
             },
+            ...mapGetters(["get_UserRole", "get_CurrentUser"]),
+
 
 
 
@@ -211,6 +207,7 @@
                         params: {
                             school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
                             semester_id: this.semester_id ? this.semester_id : null,
+                            department_id: this.get_CurrentUser.department_id
                         }
                     })
                     .then((res) => {
