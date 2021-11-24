@@ -901,7 +901,6 @@ const router = new Router({
             component: () =>
                 import ( /*webpackChunkName: "login"*/ "./components/login/test"),
             name: "testpicker",
-
         },
         {
             path: "/register",

@@ -121,10 +121,15 @@
             </v-list-item>
 
 
-
+           
+                                 
+                            
             <v-list-item link class="list-nav" :to="{name: 'Student-list'}"  exact>
                 <v-list-item-action>
-                    <v-icon>mdi-account-group</v-icon>
+                    <v-badge offset-x="8" offset-y="18" :color="getcourseInfo.join_request_count != 0 && role == 'Teacher' ? 'red' : ''" 
+                    :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
+                        <v-icon>mdi-account-group</v-icon>
+                    </v-badge>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title class="font-weight-medium">
@@ -132,8 +137,9 @@
                         <small class="font-weight-regular">Instructors & Students</small>
                     </v-list-item-title>
                 </v-list-item-content>
-
             </v-list-item>
+
+            
 
             <v-list-item link class="list-nav" :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
                 <v-list-item-action>
@@ -243,10 +249,12 @@
 
 
 <script>
-
+    import { mapGetters } from 'vuex'
     export default {
-        props: ['role']
+        props: ['role'],
+        computed: mapGetters(["getcourseInfo"]),
     }
+
 
 </script>
 

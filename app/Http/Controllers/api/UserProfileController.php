@@ -292,7 +292,19 @@ class UserProfileController extends Controller
                 }
             }
         }
-        return $SubmitSubj;
+
+
+        $user_class = tbl_userclass::where('tbl_userclasses.user_id', $userId)
+        ->select('tbl_userclasses.class_id','tbl_userclasses.course_id','tbl_classes.schedule')
+        ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_userclasses.class_id')
+        ->get();
+
+        foreach($user_class as $class){
+            $class->schedule = unserialize($class->schedule);
+        }
+
+
+        return ['Classwork_sched'=> $SubmitSubj , 'class_sched'=> $user_class];
     }
 
     

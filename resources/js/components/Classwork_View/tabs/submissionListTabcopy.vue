@@ -67,8 +67,8 @@
 </div>
 </template>
 <script>
-const objectiveSubmission = () => import('./submissionType/objectiveSubmission')
-const subjectiveSubmission = () => import('./submissionType/subjectiveSubmission')
+const objectiveSubmission = () => import('./submissionType/objectiveSubmissioncopy')
+const subjectiveSubmission = () => import('./submissionType/subjectiveSubmissioncopy')
 
 export default {
     props:['classworkDetails', 'List', 'class_id'],

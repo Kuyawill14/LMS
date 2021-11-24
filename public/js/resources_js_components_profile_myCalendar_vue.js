@@ -214,11 +214,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 axios.get('/api/profile/mycalendar').then(function (res) {
-                  _this.CalendarSched = res.data;
+                  _this.CalendarSched = res.data.Classwork_sched;
                   var events = [];
                   var nowDate = new Date();
 
-                  if (res.data.length != 0) {
+                  if (res.data.Classwork_sched.length != 0) {
                     var data = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.CalendarSched[0].from_date)._d;
 
                     for (var index = 0; index < _this.CalendarSched.length; index++) {

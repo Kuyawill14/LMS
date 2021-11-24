@@ -10,25 +10,38 @@
                 <v-btn color="primary" @click="openAddmodal()"> CREATE CLASS </v-btn>
             </v-col>
         </v-row>
-
-        <v-container v-if="isGetting" style="height: 400px;">
-            <v-row class="fill-height" align-content="center" justify="center">
-                <v-icon style="font-size:10rem">
-                    mdi-google-classroom
-                </v-icon>
-                <v-col class="text-subtitle-1 text-center" cols="12">
-                    <h2> Loading your Classes </h2>
-                </v-col>
-                <v-col cols="6">
-                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+        <div v-if="isGetting">
+            <v-row>
+                <v-col cols="12" v-for="n in 3" :key="n">
+                    <v-card>
+                        <v-list>
+                            <v-list-item >
+                                <v-list-item-avatar >
+                                        <v-skeleton-loader
+                                        class="mx-auto"
+                                        tile
+                                        type="avatar"
+                                        ></v-skeleton-loader>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                        <v-skeleton-loader
+                                        
+                                        max-width="500"
+                                        tile
+                                        type="list-item-three-line"
+                                        ></v-skeleton-loader>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </v-card>
                 </v-col>
             </v-row>
-        </v-container>
+       </div>
 
-        <v-dialog v-model="showModal" width="400px">
-            <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'"
+        <v-dialog v-model="showModal" width="500px">
+            <createClassForm v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
-            <editClassForm v-on:closeModal="closeModal()" :class_name="form.class_name" :class_id="form.class_id"
+            <editClassForm v-on:closeModal="closeModal()" :class_details="class_details" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
 
             <archiveClass v-on:toggleconfirm="SuccessArchive()"
@@ -37,65 +50,78 @@
         <div v-if="!isGetting && classLength > 0">
 
 
-            <v-row>
-                <v-col>
-                    <h2>My Class</h2>
-                </v-col>
+        <v-row>
+            <v-col cols="6">
+                <h2>My Class</h2>
+            </v-col>
 
-                <v-col class="text-right">
-                    <v-btn color="rounded primary" @click="openAddmodal()">
-                        Create Class
-                    </v-btn>
-                </v-col>
-            </v-row>
+            <v-col cols="6" class="text-right">
+                <v-btn color="rounded primary" @click="openAddmodal()">
+                    Create Class
+                </v-btn>
+            </v-col>
+        </v-row>
 
 
 
-            <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
-                <v-list-item>
-                        <v-list-item-avatar>
-                            <v-icon>mdi-account-multiple</v-icon>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                            <v-list-item-subtitle>Class code: {{item.class_code}}  
-                                    <v-tooltip top small>
-                                        <template v-slot:activator="{ on, attrs }">
-                                        
-                                            <v-btn  v-on="on" v-bind="attrs" @click="CopyClassCode(item.class_code)" small icon><v-icon color="blue" small>mdi-content-copy</v-icon></v-btn>
-                                        </template>
-                                        <small>Copy class code</small>
-                                    </v-tooltip>
+        <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
+            <v-list-item>
+                    <v-list-item-avatar>
+                        <v-icon>mdi-account-multiple</v-icon>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title class="title">{{item.class_name}} </v-list-item-title>
+                            <v-list-item-subtitle class="mb-0 pb-0"><span class="font-weight-medium">Class code: </span> {{item.class_code}}  
+                                <v-tooltip top small>
+                                    <template v-slot:activator="{ on, attrs }">
+                                    
+                                        <v-btn  v-on="on" v-bind="attrs" @click="CopyClassCode(item.class_code)" small icon><v-icon color="blue" small>mdi-content-copy</v-icon></v-btn>
+                                    </template>
+                                    <small>Copy class code</small>
+                                </v-tooltip>
+                            
+                            
+                            
+                                </v-list-item-subtitle >
+
+                                <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">
+                                    <span class="font-weight-medium">Schedule: </span>
+                                    <div  v-for="(data, index) in item.schedule" :key="index">
+                                        <span class="pr-1">&bull; </span>
+                                        {{data.day+' - '+data.display_start}} <span class="font-weight-medium">to</span> {{data.display_end}}</div>
+                                </v-list-item-subtitle>
                                 
-                                
-                                
-                                  </v-list-item-subtitle>
-                            <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    <v-list-item-action>
-                        <v-menu transition="slide-y-transition" bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-                            </template>
-                            <v-list nav>
-                               
-                                <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
-                                    <v-list-item-title>Edit</v-list-item-title>
+                                <v-list-item-subtitle v-else>
+                                    <span class="font-weight-medium">Schedule: </span> N/A
+                                </v-list-item-subtitle>
+                            
+                            
+                        <v-list-item-subtitle><span class="font-weight-medium">Students: </span> {{item.student_count}}</v-list-item-subtitle>
+                    </v-list-item-content>
+                <v-list-item-action>
+                    <v-menu transition="slide-y-transition" bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+                        </template>
+                        <v-list nav>
+                            
+                            <v-list-item link @click="openEditmodal(item, item.class_name, item.class_id)">
+                                <v-list-item-title>Edit</v-list-item-title>
 
-                                </v-list-item>
-                                 <v-list-item link @click="archiveClass(item, index)">
-                                    <v-list-item-title>Archive</v-list-item-title>
+                            </v-list-item>
+                                <v-list-item link @click="archiveClass(item, index)">
+                                <v-list-item-title>Archive</v-list-item-title>
 
-                                </v-list-item>
-                                <v-list-item link v-if="item.student_count == 0">
-                                    <v-list-item-title>Remove</v-list-item-title>
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </v-list-item-action>
-                </v-list-item>
-            </v-card>
-        </div>
+                            </v-list-item>
+                            <v-list-item link @click="removeClass(item.class_id,index, item.student_count)" v-if="item.student_count == 0">
+                                <v-list-item-title>Remove</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-list-item-action>
+            </v-list-item>
+        </v-card>
+    </div>
 
       <v-snackbar
        absolute
@@ -120,6 +146,7 @@
         </template>
         </v-snackbar>
 
+    
     </div>
 </template>
 
@@ -153,10 +180,19 @@
                 id: '',
                 class_name: '',
                 course_id: null,
+               
             },
             ArchiveDetails:null,
             removeIndex: null,
-            copied: false
+            copied: false,
+            items: ['Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday','Sunday'],
+            start_time: null,
+            end_time: null,
+            menu: false,
+            menu1: false,
+            addScheduleDialog: false,
+            day: null,
+            class_details:[],
         }),
 
 
@@ -171,13 +207,14 @@
                 this.modalType = "add";
                 this.showModal = true;
             },
-            openEditmodal(class_name, class_id) {
+            openEditmodal(details,class_name, class_id) {
                 this.showModal = true;
                 this.modalType = "edit";
                 this.form.class_id = class_id;
                 this.form.class_name = class_name;
+                this.class_details = details;
             },
-            getTeacherClasses() {
+            async getTeacherClasses() {
                 this.isGetting = true;
                 this.fetchSubjectCourseClassList(this.$route.params.id)
                     .then(() => {
@@ -187,22 +224,30 @@
                         //}, 1000);
                     })
             },
-            archiveClass(data,index){
+            async archiveClass(data,index){
                 this.removeIndex = index;
                 this.ArchiveDetails = data;
                 this.showModal = true;
                 this.modalType = "archive";
             },
-            SuccessArchive(){
+            async SuccessArchive(){
                 this.showModal = false;
                 this.allClass.splice(this.removeIndex, 1);
             },
-            CopyClassCode(code){
+           async CopyClassCode(code){
                 let CodeText = code;
                 navigator.clipboard.writeText(CodeText);
                 //this.copied = true;
                 this.toastNormal('Class code copied');
-            }
+            },
+           async removeClass(id, index, count){
+               if(count == 0){
+                    await axios.delete('/api/class/delete/'+id)
+                    .then(()=>{
+                        this.allClass.splice(index, 1);
+                    })
+               }
+            }   
         },
         computed: mapGetters(['allClass']),
         mounted() {

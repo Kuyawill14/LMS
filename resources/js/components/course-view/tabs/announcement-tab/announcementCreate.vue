@@ -83,7 +83,7 @@
   
     <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
      
-     <editor class="AnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)" :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
+     <editor class="AnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)"   placeholder="Announce something in your class!" 
       v-model="announcement.content" @change="onChange" theme="snow" :options="options"></editor>
 
         <!-- <editor style="outline:none;"  :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
@@ -273,23 +273,23 @@ export default {
 
 <style>
 
-.AnnoumentEditor .quill-editor {
+.AnnoumentEditor > .quill-editor {
         position: relative;
         background: #d0cece;
 
     }
 
-    .AnnoumentEditor .ql-container.ql-snow {
+    .AnnoumentEditor >  .ql-container.ql-snow {
         border: none !important;
     }
 
-    .AnnoumentEditor .ql-toolbar.ql-snow {
+    .AnnoumentEditor >  .ql-toolbar.ql-snow {
         background: #f2f2f2;
         border: none;
 
     }
 
-    .AnnoumentEditor
+    .AnnoumentEditor > 
     .ql-bold,.ql-italic,.ql-underline, .ql-strike
     ,.ql-picker-label,.ql-align,.ql-list,.ql-link
     ,.ql-image,.ql-video
@@ -297,18 +297,18 @@ export default {
         outline: none !important;
         border:none !important;
     } 
-        .AnnoumentEditor .ql-tooltip, .ql-editing{
+        .AnnoumentEditor >  .ql-tooltip, .ql-editing{
         z-index: 1;
     }
-        .AnnoumentEditor iframe{
+        .AnnoumentEditor >  iframe{
             width: 100% !important;
         height: 20rem !important;
         }
-        .AnnoumentEditor .ql-editor img{
+        .AnnoumentEditor >  .ql-editor img{
 
             max-height: 25rem !important;
         }
-        .AnnoumentEditor .ql-container{
+        .AnnoumentEditor >  .ql-container{
             max-height: 70rem;
         }
         

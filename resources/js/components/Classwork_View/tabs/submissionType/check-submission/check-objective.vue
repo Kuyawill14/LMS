@@ -138,7 +138,9 @@
                                             </v-list-item-avatar>
                                             <v-list-item-content>
                                                 <v-list-item-title v-html="item.name"></v-list-item-title>
-                                                <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                                                <div class="commentContent">
+                                                    <span v-html="item.content"></span>
+                                                </div>
                                             </v-list-item-content>
                                             <v-list-item-action>
                                                 <v-btn icon>
@@ -157,7 +159,7 @@
                                                 </v-img>
                                             </v-list-item-avatar>
                                             <v-list-item-content class="ma-0 pa-0">
-                                                <v-textarea
+                                               <!--  <v-textarea
                                                     :loading="isCommenting"
                                                     v-model="comment"
                                                     prepend-avatar="mdi-emoticon-dead"
@@ -172,7 +174,11 @@
                                                     class="pa-0 mt-7"
                                                     type="text"
                                                     >
-                                                    </v-textarea>
+                                                    </v-textarea> -->
+
+                                                    <editor class="CommentEditor"   placeholder="Comment" 
+                                                    v-model="comment"  theme="bubble" ></editor>
+
                                             </v-list-item-content>
                                             <v-list-item-action>
                                              
@@ -471,7 +477,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             dialog: false,
             Alphabet: null,
             isCommenting:false,
-            comment: null,
+            comment: '',
             isAlerting: false,
             isReseting: false,
             isScrolling: false,
@@ -885,7 +891,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                         name : this.get_CurrentUser.firstName+' '+this.get_CurrentUser.lastName,
                         profile_pic : this.get_CurrentUser.profile_pic
                         })
-                    this.comment = null;
+                    this.comment = '';
                   }
                   
               })
@@ -1032,6 +1038,27 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
+}
+
+.CommentEditor >  iframe{
+    width: 100% !important;
+height: 20rem !important;
+}
+.CommentEditor >  .ql-editor img{
+
+    max-height: 25rem !important;
+}
+.CommentEditor >  .ql-container{
+    max-height: 70rem;
+}
+
+
+        
+</style>
+<style >
+    .commentContent  img{
+    max-width: 100% !important;
+    max-height: 20rem !important;
 }
 </style>
 

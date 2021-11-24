@@ -215,16 +215,6 @@
             validate() {
                 if (this.$refs.loginForm.validate()) {
                     this.login();
-                    /* this.$store.dispatch('login', this.form)
-                    .then(res=>{
-                      //console.log(res);
-                       if(res == 200){
-                           this.toastSuccess("Login success");
-                       }
-                       else if(res == 203){
-                            this.toastError('Login failed!');
-                       }
-                    }) */
                 }
             },
             reset() {

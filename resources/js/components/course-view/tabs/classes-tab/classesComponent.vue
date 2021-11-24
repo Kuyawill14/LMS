@@ -10,7 +10,6 @@
             </v-breadcrumbs-item>
             </template>
         </v-breadcrumbs>
-        <!-- <studentClassPage v-if="role == 'Student'"></studentClassPage> -->
         <teacherClassPage></teacherClassPage>
     </div>
 </template>

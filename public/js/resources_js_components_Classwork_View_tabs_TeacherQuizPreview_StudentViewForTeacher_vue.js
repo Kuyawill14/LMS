@@ -285,17 +285,44 @@ var previewTimer = function previewTimer() {
       });
     },
     SuffleQuestion: function SuffleQuestion() {
-      this.QuestionList = this.Shuffle(this.Question.Question);
+      var _this2 = this;
+
+      var tmpquestion = this.Question.Question;
+      this.QuestionList = this.Shuffle(tmpquestion);
+      this.QuestionList.forEach(function (item) {
+        if (item.type == 'Multiple Choice' || item.type == 'Matching type') {
+          _this2.Question.Answer.forEach(function (element) {
+            if (item.type == 'Multiple Choice') {
+              if (element.options.length != 0) {
+                if (element.options[0].question_id == item.id) {
+                  _this2.AnswerList.push(element);
+                }
+              }
+            } else if (item.type == 'Matching type') {
+              if (element.SubAnswer.length != 0) {
+                if (element.SubAnswer[0].question_id == item.id) {
+                  _this2.AnswerList.push(element);
+                }
+              }
+            }
+          });
+        } else {
+          _this2.AnswerList.push({
+            options: [],
+            SubQuestion: [],
+            SubAnswer: []
+          });
+        }
+      });
+      console.log(this.Shuffle(this.Question.Question));
     },
     Shuffle: function Shuffle(array) {
       var currentIndex = array.length,
-          randomIndex; // While there remain elements to shuffle...
+          randomIndex;
 
       while (currentIndex != 0) {
-        // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--; // And swap it with the current element.
-
+        currentIndex--;
         var _ref = [array[randomIndex], array[currentIndex]];
         array[currentIndex] = _ref[0];
         array[randomIndex] = _ref[1];
@@ -305,11 +332,11 @@ var previewTimer = function previewTimer() {
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     //this.MakeTempAnswer();
     this.Question.Question.forEach(function (item) {
-      _this2.TempAnswers.push({
+      _this3.TempAnswers.push({
         answer: null
       });
     });

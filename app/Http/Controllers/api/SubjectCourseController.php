@@ -13,6 +13,7 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_subject_course;
 use App\Models\tbl_userDetails;
+use App\Models\tbl_join_request;
 use Carbon\Carbon;
 use Validator,Redirect,Response,File;
 use Illuminate\Support\Facades\Storage;
@@ -100,6 +101,9 @@ class SubjectCourseController extends Controller
             "tbl_subject_courses.course_guide",
             "completed")
             ->first();
+
+            $join_request = tbl_join_request::where('tbl_join_requests.course_id',$id)->count();
+            $ShowCourseDetails->join_request_count = $join_request;
 
             $name = tbl_userDetails::where("user_id",  $userId)->first();
             $UserFullName = $name->firstName." ". $name ->lastName;

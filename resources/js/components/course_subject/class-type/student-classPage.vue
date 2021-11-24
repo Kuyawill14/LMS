@@ -213,7 +213,7 @@
             joinClass() {
                 this.isJoining = true
                 this.$store.dispatch("joinClass", this.form).then((res) => {
-                    if (res.status == 200) {
+                    if (res.status == 200 && res.data.status == 1) {
                         this.toastSuccess(res.data.message);
                         this.dialog = false;
                         this.isLeaving = true
@@ -223,13 +223,26 @@
                         
                         //this.fetchClasses();
                         this.form.class_code = '';
-                    } else if (res.status == 202) {
+                    } else if (res.status == 202 && res.data.status == 1) {
                         this.toastError(res.data.message);
                         this.dialog = false;
                         this.isLeaving = true
                         this.$router.push({
                             path: '/course/' + res.data.course_id + '/announcement'
                         })
+                    } else if (res.status == 200 && res.data.status == 2) {
+                        this.toastSuccess(res.data.message);
+                        this.dialog = false;
+                        this.form.class_code = '';
+                        this.isJoining = false
+                        
+                    }
+                     else if (res.status == 200 && res.data.status == 3) {
+                        this.toastInfo(res.data.message);
+                        this.dialog = false;
+                        this.form.class_code = '';
+                        this.isJoining = false
+                        
                     } else {
                         this.toastError('Something went wrong while joining the class!');
                     }

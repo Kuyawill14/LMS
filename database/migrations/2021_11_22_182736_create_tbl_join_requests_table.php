@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblClassesTable extends Migration
+class CreateTblJoinRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateTblClassesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_classes', function (Blueprint $table) {
-            $table->id()->startingValue(2);
-            $table->string('class_name');
-            $table->string('class_code');
+        Schema::create('tbl_join_requests', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
             $table->integer('course_id');
-            $table->mediumtext('schedule')->nullable();
-            $table->boolean('is_auto_accept')->nullable();
-            $table->softDeletes();
+            $table->integer('class_id');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateTblClassesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_classes');
+        Schema::dropIfExists('tbl_join_requests');
     }
 }

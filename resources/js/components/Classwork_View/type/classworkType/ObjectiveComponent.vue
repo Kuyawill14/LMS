@@ -62,7 +62,9 @@
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title v-html="item.name"></v-list-item-title>
-                                <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                                <div class="commentContent">
+                                    <span v-html="item.content"></span>
+                                </div>
                             </v-list-item-content>
                             <v-list-item-action>
     
@@ -340,7 +342,7 @@ export default {
             status: null,
             updateDetails:{},
             isCommenting: false,
-            comment: null,
+            comment: '',
             isLoaded: true,
             selected: 0,
             //statusDetails: [],
@@ -466,7 +468,7 @@ export default {
                       name : res.data.name,
                       profile_pic : res.data.profile_pic
                     })
-                    this.comment = null;
+                    this.comment = '';
                   }
                   
               })
@@ -526,5 +528,11 @@ export default {
     ::-webkit-scrollbar-thumb:hover {
     background: #555; 
     }
+
+    .commentContent  img{
+        max-width: 100% !important;
+        max-height: 20rem !important;
+    }
+
 
 </style>

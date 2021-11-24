@@ -356,6 +356,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -372,7 +374,7 @@ var viewSubmission = function viewSubmission() {
       status: null,
       updateDetails: {},
       isCommenting: false,
-      comment: null,
+      comment: '',
       isLoaded: true,
       selected: 0,
       //statusDetails: [],
@@ -526,7 +528,7 @@ var viewSubmission = function viewSubmission() {
                       profile_pic: res.data.profile_pic
                     });
 
-                    _this3.comment = null;
+                    _this3.comment = '';
                   }
                 });
                 _this3.isCommenting = false;
@@ -612,7 +614,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n/* width */\n::-webkit-scrollbar {\nwidth: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\nbackground: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\nbackground: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\nbackground: #555;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n/* width */\n::-webkit-scrollbar {\nwidth: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\nbackground: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\nbackground: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\nbackground: #555;\n}\n.commentContent  img{\n    max-width: 100% !important;\n    max-height: 20rem !important;\n}\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -994,11 +996,19 @@ var render = function() {
                                             }
                                           }),
                                           _vm._v(" "),
-                                          _c("v-list-item-subtitle", {
-                                            domProps: {
-                                              innerHTML: _vm._s(item.content)
-                                            }
-                                          })
+                                          _c(
+                                            "div",
+                                            { staticClass: "commentContent" },
+                                            [
+                                              _c("span", {
+                                                domProps: {
+                                                  innerHTML: _vm._s(
+                                                    item.content
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          )
                                         ],
                                         1
                                       ),

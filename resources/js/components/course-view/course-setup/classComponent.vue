@@ -32,7 +32,7 @@
         <v-dialog v-model="showModal" width="400px">
             <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
-            <editClassForm v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
+            <editClassForm :class_details="class_details" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
                 v-if="modalType == 'edit'" />
 
             <deleteClass :class_id="class_id" v-on:closeModal="closeModal()" v-if="modalType == 'delete'" />
@@ -66,7 +66,18 @@
                     <v-list-item-content>
                         <v-list-item-title>{{item.class_name}} </v-list-item-title>
                         <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                          <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">
+                            <span class="font-weight-medium">Schedule: </span>
+                            <div  v-for="(data, index) in item.schedule" :key="index">
+                                <span class="pr-1">&bull; </span>
+                                {{data.day+' - '+data.display_start}} <span class="font-weight-medium">to</span> {{data.display_end}}</div>
+                        </v-list-item-subtitle>
+                        
+                        <v-list-item-subtitle v-else>
+                            <span class="font-weight-medium">Schedule: </span> N/A
+                        </v-list-item-subtitle>
                         <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
+                        
                     </v-list-item-content>
                     <v-list-item-action>
                         <v-menu transition="slide-y-transition" bottom>
@@ -75,7 +86,7 @@
                             </template>
                             <v-list>
                             
-                                <v-list-item link @click="openEditmodal(item.class_name, item.class_id)">
+                                <v-list-item link @click="openEditmodal(item,item.class_name, item.class_id)">
                                     <v-list-item-title>Edit</v-list-item-title>
 
                                 </v-list-item>
@@ -150,7 +161,8 @@
                 id: '',
                 class_name: '',
                 course_id: null,
-            }
+            },
+            class_details:[]
         }),
 
 
@@ -184,11 +196,12 @@
                 this.modalType = "add";
                 this.showModal = true;
             },
-            openEditmodal(class_name, class_id) {
+            openEditmodal(details, class_name, class_id) {
                 this.showModal = true;
                 this.modalType = "edit";
                 this.class_id = class_id;
                 this.class_name = class_name;
+                this.class_details = details;
 
             },
             openDeleteModal(class_id) {

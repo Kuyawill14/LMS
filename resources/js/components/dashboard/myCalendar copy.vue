@@ -1,5 +1,19 @@
 <template>
   <v-row class="fill-height">
+
+      <!-- <v-col cols="12" v-if="isloading">
+            <v-container class="fill-height" v-if="isloading" style="height:30vh">
+            <v-row  align-content="center" justify="center">
+                <v-col class="text-subtitle-1 text-center" cols="12">
+                    Loading
+                </v-col>
+                <v-col cols="6">
+                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+                </v-col>
+            </v-row>
+            </v-container>
+        </v-col> -->
+
      <v-col cols="12"  style="height:40vh" v-if="isloading">
           <v-container class="fill-height" v-if="isloading" >
               <vue-element-loading :active="isloading" 
@@ -14,16 +28,35 @@
        <h3 class="pt-2 pl-2">My Calendar</h3>
         <v-divider></v-divider>
       <v-sheet height="64">
-        <v-toolbar flat>
-          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
+        <v-toolbar
+          flat
+        >
+          <v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="setToday"
+          >
             Today
           </v-btn>
-          <v-btn fab text small color="grey darken-2" @click="prev">
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="prev"
+          >
             <v-icon small>
               mdi-chevron-left
             </v-icon>
           </v-btn>
-          <v-btn fab text small color="grey darken-2" @click="next">
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="next"
+          >
             <v-icon small>
               mdi-chevron-right
             </v-icon>
@@ -32,7 +65,10 @@
             {{ $refs.calendar.title }}
           </v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-menu bottom right>
+          <v-menu
+            bottom
+            right
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 outlined
@@ -65,8 +101,9 @@
       </v-sheet>
       <v-sheet :height="$vuetify.breakpoint.mdAndUp ? '350' : role == 'Student' ? '500' : '350'">
         <v-calendar
+        :now="today"
+        :value="today"
           ref="calendar"
-          v-model="focus"
           color="primary"
           :events="events"
           :event-color="getEventColor"
@@ -92,6 +129,9 @@
            
               <v-toolbar-title style="width:100%" v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
+            <!--   <v-btn icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-btn> -->
               <v-btn  @click="selectedOpen = false" icon>
                 <v-icon>mdi-close</v-icon>
               </v-btn>
@@ -130,13 +170,14 @@ import moment from 'moment-timezone';
   export default {
     props:['role'],
     data: () => ({
-      CalendarSched:[],
+    CalendarSched:[],
       focus: '',
       type: 'week',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
         day: 'Day',
+        '4day': '4 Days',
       },
       selectedEvent: {},
       selectedElement: null,
@@ -152,7 +193,6 @@ import moment from 'moment-timezone';
       this.getGeneralClassworks();
       const newDate = new Date();
       this.DateToday = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
-
     },
     methods: {
     format_date(value) {
@@ -168,7 +208,7 @@ import moment from 'moment-timezone';
             const events = [];
             const nowDate = new Date();
                
-            if(res.data.Classwork_sched.length != 0){
+            if(res.data.length != 0){
                 const data = moment(this.CalendarSched[0].from_date)._d
                 for (let index = 0; index < this.CalendarSched.length; index++) {
       
@@ -199,11 +239,7 @@ import moment from 'moment-timezone';
                     color = this.colors[this.rnd(0, this.colors.length - 1)];
                     this.unfinishCount++;
                   }
-            
-                  let check = moment(this.CalendarSched[index].to_date).format('YYYY-MM-DD HH:mm');
-          
-                  if(check != 'Invalid date'){
-                     events.push({
+                  events.push({
                       type:'classwork',
                       name: name,
                       start: moment(this.CalendarSched[index].to_date)._d,
@@ -214,8 +250,6 @@ import moment from 'moment-timezone';
                       class_id: this.CalendarSched[index].class_id
 
                     })
-                  }
-                 
                  
                 this.$emit('RecieveTotalClasswork', this.unfinishCount)
               }
@@ -225,6 +259,10 @@ import moment from 'moment-timezone';
             this.events = events;
           
             this.setClassSched(res.data.class_sched);
+      /*       setTimeout(() => {
+                this.isloading = !this.isloading;
+        }, 1000); */
+            //this.$refs.calendar.checkChange()
         })
     },
     setClassSched(data){
@@ -237,14 +275,12 @@ import moment from 'moment-timezone';
                 let tmpday = element.day.toLowerCase();
                 let tmp_start = Date.parse('next '+tmpday).at(element.start_time);
                 let tmp_end = Date.parse('next '+tmpday).at(element.end_time);
-                let start = moment(tmp_start).format('YYYY-MM-DD HH:mm');
-                let end = moment(tmp_end).format('YYYY-MM-DD HH:mm');
-                
+        
                 this.events.push({
                   type:'class_sched',
                   name: 'Class Schedule',
-                  start: start,
-                  end: end,
+                  start: tmp_start,
+                  end: tmp_end,
                   day:element.day,
                   display_start:element.display_start,
                   display_end:element.display_end,
@@ -305,4 +341,27 @@ import moment from 'moment-timezone';
 </script>
 
 
+<style >
+.my-event {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 2px;
+  background-color: #1867c0;
+  color: #ffffff;
+  border: 1px solid #1867c0;
+  font-size: 12px;
+  padding: 3px;
+  cursor: pointer;
+  margin-bottom: 1px;
+  left: 4px;
+  margin-right: 8px;
+  position: relative;
+}
 
+.my-event.with-time {
+  position: absolute;
+  right: 4px;
+  margin-right: 0px;
+}
+</style>

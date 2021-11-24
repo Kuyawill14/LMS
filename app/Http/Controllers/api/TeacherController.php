@@ -15,6 +15,7 @@ use App\Models\tbl_userclass;
 use App\Models\tbl_classwork;
 use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_userDetails;
+use App\Models\tbl_join_request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
@@ -36,16 +37,7 @@ class TeacherController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -59,10 +51,6 @@ class TeacherController extends Controller
         $UserFullName = $name->firstName.' '. $name->lastName;
         $FindUser = User::where('users.email', $request->email)
         ->first();
-
-    
-
-
 
         if($FindUser){
             $course = tbl_subject_course::find($request->course_id);
@@ -113,8 +101,6 @@ class TeacherController extends Controller
      */
     public function MoveStudent(Request $request)
     {
-        //return $request;
-
         $StudentClass = tbl_userclass::where('user_id', $request->user_id)
         ->where('class_id', $request->old_class_id)
         ->where('course_id', $request->old_course_id)
@@ -234,16 +220,6 @@ class TeacherController extends Controller
         return $StudentGradeList;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -253,7 +229,6 @@ class TeacherController extends Controller
      */
     public function updateScoreObj(Request $request, $id)
     {   
-        //return $request;
         $userId = auth('sanctum')->id();
         $updateObj = tbl_Submission::where('id', $id)->first();
         if($updateObj){
@@ -339,13 +314,9 @@ class TeacherController extends Controller
                     $submitted_Answer->save();
                     $updateObj->save();
                     return;
-
                 }
-                
-
-            }
-
             
+            }
         }
        
     }
@@ -396,19 +367,7 @@ class TeacherController extends Controller
         }
         return "Submission Not found";
        
-        
-        
-      /*   $ResetSubmission = tbl_Submission::find($id);
-           if($ResetSubmission){
-                $ResetSubmission->status = null;
-                $ResetSubmission->points = null;
-                $ResetSubmission->Submitted_Answers = null;
-                $ResetSubmission->created_at = null;
-                $ResetSubmission->updated_at = null;
-                $ResetSubmission->save();
-                return "Reset Success";
-           }
-           return "Submission Not found"; */
+
     }
 
      /**
@@ -458,20 +417,62 @@ class TeacherController extends Controller
             $course->save();
             return $course->course_picture;
         }
-
-
-      
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function FetchClassJoinRequest($id)
     {
-        //
+        $join_request = tbl_join_request::where('tbl_join_requests.course_id',$id)
+        ->select('tbl_join_requests.id','tbl_join_requests.user_id','tbl_join_requests.course_id','tbl_join_requests.class_id',
+        'tbl_user_details.firstName','tbl_user_details.lastName','tbl_user_details.profile_pic','tbl_user_details.student_id','users.email')
+        ->leftJoin('users', 'users.id', '=','tbl_join_requests.user_id')
+        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=','tbl_join_requests.user_id')
+        ->get();
+        if($join_request){
+            return $join_request;
+        }
     }
+
+    public function AcceptJoinRequest($id)
+    {
+        $checkJoinRequest = tbl_join_request::find($id);
+        if($checkJoinRequest){
+
+            $checkUserClass = tbl_userclass::where('class_id', $checkJoinRequest->class_id)
+            ->where('user_id', $checkJoinRequest->user_id)->where('course_id', $checkJoinRequest->course_id)
+            ->first();
+
+            if($checkUserClass){
+                return response()->json([
+                'course_id'=>$checkJoinRequest->course_id, 
+                'status'=> 2, 
+                'message'=>"This student is already in the class!"],200);
+            }
+
+            
+            $JoinClass = new tbl_userclass;
+            $JoinClass->class_id = $checkJoinRequest->class_id;
+            $JoinClass->user_id = $checkJoinRequest->user_id;
+            $JoinClass->course_id = $checkJoinRequest->course_id;
+            $JoinClass->save();
+            $checkJoinRequest->delete();
+
+            return response()->json([
+            'course_id'=>$JoinClass->course_id, 
+            'status'=> 1, 
+            'message'=>"Student successfully added in class!"],200);
+        }
+        return response()->json([
+            'status'=> 1, 
+            'message'=>"Something went wrong!"],201);
+    }
+
+    public function rejectJoinRequest($id){
+        $checkJoinRequest = tbl_join_request::find($id);
+        if($checkJoinRequest){
+            $checkJoinRequest->delete();
+        }
+    }
+
+    
 }

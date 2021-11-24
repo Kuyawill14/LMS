@@ -2,7 +2,7 @@
 <div>
 
 <div class="pa-0 ma-0" v-if="isStudentView">
-    <studentViewForTeacher v-on:closeDialog="isStudentView = false, $store.dispatch('isNotViewingSubmission')" :classworkDetails="classworkDetails"  :Question="getAll_questions" v-if="isStudentView"></studentViewForTeacher>
+    <studentViewForTeacher v-on:closeDialog="isStudentView = false, $store.dispatch('isNotViewingSubmission')" :classworkDetails="classworkDetails"  :Question="studentViewData" v-if="isStudentView"></studentViewForTeacher>
 </div>
 
 <div class="pa-1" v-else>
@@ -682,6 +682,7 @@ export default {
             DuplicateAnswers:[],
             isAddingNewQuestion: false,
             isStudentView: false,
+            studentViewData:null
         }
     },
     watch: {
@@ -1046,6 +1047,7 @@ export default {
             })
         },
         studenView(){
+            this.studentViewData = this.getAll_questions;
             this.isStudentView = true;
             this.$store.dispatch("isViewingSubmission");
         },

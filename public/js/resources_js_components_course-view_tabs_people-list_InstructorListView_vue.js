@@ -244,102 +244,14 @@ var render = function() {
                     [
                       _c(
                         "v-col",
-                        { staticClass: "pl-3", attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "v-tabs",
-                            {
-                              staticClass: "mt-2",
-                              model: {
-                                value: _vm.tab,
-                                callback: function($$v) {
-                                  _vm.tab = $$v
-                                },
-                                expression: "tab"
-                              }
-                            },
-                            [
-                              _c(
-                                "v-tab",
-                                {
-                                  staticClass:
-                                    "d-flex justify-start font-weight-bold"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                            Student\n                        "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-tab",
-                                {
-                                  staticClass:
-                                    "d-flex justify-start font-weight-bold"
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                            Instructor\n                        "
-                                  )
-                                ]
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
-                [
-                  _c(
-                    "v-row",
-                    [
-                      _c(
-                        "v-col",
                         { attrs: { cols: "12" } },
                         [
-                          _c(
-                            "v-tabs-items",
-                            { attrs: { value: _vm.tab } },
-                            [
-                              _c(
-                                "v-tab-item",
-                                [
-                                  _c("studentList", {
-                                    attrs: {
-                                      getcourseInfo: _vm.getcourseInfo,
-                                      role: _vm.role
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-tab-item",
-                                [
-                                  _c("instructorList", {
-                                    attrs: {
-                                      getcourseInfo: _vm.getcourseInfo,
-                                      UserDetails: _vm.UserDetails
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
+                          _c("studentList", {
+                            attrs: {
+                              getcourseInfo: _vm.getcourseInfo,
+                              role: _vm.role
+                            }
+                          })
                         ],
                         1
                       )

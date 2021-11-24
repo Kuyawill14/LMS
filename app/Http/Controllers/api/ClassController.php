@@ -23,23 +23,7 @@ class ClassController extends Controller
         $i = [];
         $totalProgress = 0;
         $userId = auth('sanctum')->id();
-        $allClass = tbl_userclass::where('user_id',$userId)
-      
-        ->select('tbl_userclasses.id as useClass_id',
-        'tbl_classes.class_name',
-        'tbl_classes.class_code',
-        'tbl_subject_courses.course_picture',
-        'tbl_subject_courses.course_name',
-        'tbl_subject_courses.course_code',
-        'tbl_subject_courses.course_picture',
-        'tbl_subject_courses.id as course_id',
-        'tbl_classes.id as class_id',
-        'tbl_userclasses.progress'
-
-        )
-        ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-        ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-        ->get();
+        
         
         if(auth('sanctum')->user()->role == "Student") {
             $allClass = tbl_userclass::whereNull('tbl_userclasses.deleted_at')
@@ -100,6 +84,31 @@ class ClassController extends Controller
                 ->update(['progress' =>   $totalProgress]);
             }
         }
+
+        if(auth('sanctum')->user()->role == "Teacher"){
+            $allClass = tbl_userclass::where('user_id',$userId)
+            ->select('tbl_userclasses.id as useClass_id',
+            'tbl_classes.class_name',
+            'tbl_classes.class_code',
+            'tbl_classes.is_auto_accept',
+            'tbl_classes.schedule',
+            'tbl_subject_courses.course_picture',
+            'tbl_subject_courses.course_name',
+            'tbl_subject_courses.course_code',
+            'tbl_subject_courses.course_picture',
+            'tbl_subject_courses.id as course_id',
+            'tbl_classes.id as class_id',
+            'tbl_userclasses.progress'
+
+            )
+            ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+            ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+            ->get();
+
+            foreach($allClass as $item){
+                $item->schedule = unserialize($item->schedule);
+            }
+        }
         
         return $allClass;
     }
@@ -111,6 +120,8 @@ class ClassController extends Controller
         ->whereNull('tbl_classes.deleted_at')
         ->select('tbl_classes.class_name',
         'tbl_classes.class_code',
+        'tbl_classes.is_auto_accept',
+        'tbl_classes.schedule',
         'tbl_subject_courses.course_name',
         'tbl_subject_courses.course_code',
         'tbl_classes.id as class_id',
@@ -124,6 +135,7 @@ class ClassController extends Controller
         ->get();
 
         foreach($allClass as $key => $value) {
+            $value->schedule = unserialize($value->schedule);
             $StudentCount = tbl_userclass::where('class_id', $value ->class_id)
             ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
             ->where('users.role','Student')
@@ -227,11 +239,13 @@ class ClassController extends Controller
     }
 
    
-    public function deleteClass($class_id){
-        $class = Tbl_class::find($class_id);
+    public function deleteClass($id){
+        $userId = auth('sanctum')->id();
+        $class = Tbl_class::find($id);
         if($class) {
+            $userClass = tbl_userclass::where('class_id', $id)->where('user_id', $userId)->where('course_id',$class->course_id)->delete();
             $class->delete();
-            return 'Successfully Deleted';
+            return 'Successfully Removed';
         }
     }
 
@@ -266,6 +280,8 @@ class ClassController extends Controller
     public function store(Request $request)
     {
   
+        //return  $request;
+
         $isExist = '';
         $gen_class_code ='';
         $code_length = 6;
@@ -285,6 +301,8 @@ class ClassController extends Controller
         $NewClass->class_name = $request->class['class_name'];
         $NewClass->course_id =  $request->class['course_id'];
         $NewClass->class_code =  $gen_class_code;
+        $NewClass->schedule =  serialize($request->class['schedule']);
+        $NewClass->is_auto_accept =  $request->class['auto_accept'];
         $NewClass->save();
 
 
@@ -334,7 +352,8 @@ class ClassController extends Controller
         $existingClass = Tbl_class::find($id);
         if($existingClass) {
             $existingClass->class_name = $request->class['class_name'];
-        
+            $existingClass->schedule = serialize($request->class['schedule']);
+            $existingClass->is_auto_accept =  $request->class['auto_accept'];
             $existingClass->save();
             return $existingClass;
         }

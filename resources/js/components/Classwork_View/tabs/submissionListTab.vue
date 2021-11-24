@@ -44,14 +44,18 @@
     </v-row>
        
     </v-col>
-     <v-col  cols="12" md="2" v-for="i in 5" :key="i" >
-        <v-card  elevation="0"  v-if="isloading">
-            <v-skeleton-loader class="mx-auto"  type="button"></v-skeleton-loader>
-        </v-card>
+     <v-col v-if="isloading" cols="12" >
+         <v-row>
+             <v-col cols="12" md="2"  v-for="(ii, k) in 5" :key="k">
+                   <v-card  elevation="0"  v-if="isloading">
+                    <v-skeleton-loader class="mx-auto"  type="button"></v-skeleton-loader>
+                </v-card>
+             </v-col>
+         </v-row>
+      
     </v-col>
     
-
-    <v-col v-for="i in 20" :key="i" cols="12" md="6" lg="3" xl="3">
+    <v-col v-for="(i, index) in 20" :key="index" cols="12" md="6" lg="3" xl="3">
         <v-card class="pl-2 pr-2 pt-3 pb-3" elevation="0"  v-if="isloading">
             <v-list>
                 <v-list-item>

@@ -23,8 +23,13 @@ const actions = {
                 commit('setcourseInfo', res.data);
             });
         }
-       
+    },
+    async UpdateJoinCount() {
+        if(state.courseInfo.join_request_count != 0){
+            state.courseInfo.join_request_count--;
+        }
     }
+
 };
 const mutations = {
     setcourseInfo: (state, courseInfo) => (state.courseInfo = courseInfo),

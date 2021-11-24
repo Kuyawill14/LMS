@@ -237,6 +237,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -481,8 +482,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role']
+  props: ['role'],
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"])
 });
 
 /***/ }),
@@ -1850,7 +1859,28 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-account-group")])],
+                      [
+                        _c(
+                          "v-badge",
+                          {
+                            attrs: {
+                              "offset-x": "8",
+                              "offset-y": "18",
+                              color:
+                                _vm.getcourseInfo.join_request_count != 0 &&
+                                _vm.role == "Teacher"
+                                  ? "red"
+                                  : "",
+                              content:
+                                _vm.getcourseInfo.join_request_count != 0
+                                  ? _vm.getcourseInfo.join_request_count
+                                  : ""
+                            }
+                          },
+                          [_c("v-icon", [_vm._v("mdi-account-group")])],
+                          1
+                        )
+                      ],
                       1
                     ),
                     _vm._v(" "),

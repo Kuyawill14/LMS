@@ -13,11 +13,13 @@ use App\Models\tbl_notification;
 use App\Models\UserNotification;
 use App\Models\tbl_Submission;
 use App\Events\NewNotification;
+use App\Events\JoinRequest;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_userDetails;
 use App\Models\tbl_Submitted_Answer;
+use App\Models\tbl_join_request;
 use Carbon\Carbon;
 
 
@@ -563,6 +565,102 @@ class StudentController extends Controller
        
     }
 
+    public function NotifyTeacher($class_id, $type, $userId, $course_id){
+        $userInClass = tbl_userclass::select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 
+        'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')
+        ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
+        ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+        ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
+        ->where('users.role', 'Teacher')
+        ->where('tbl_userclasses.class_id', $class_id)
+        ->first();
+
+        $userCount;
+        if($type == 'joined'){
+            $userCount = tbl_userclass::whereNull('deleted_at')
+            ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
+            ->orderBy('tbl_userclasses.id', 'DESC')
+            ->where('users.role', 'Student')
+            ->where('tbl_userclasses.class_id', $class_id)
+            ->count();
+        }
+        else{
+            $userCount = tbl_join_request::where('course_id', $course_id)->count();
+        }
+       
+
+        $CheckNotif = tbl_notification::where('course_id', $userInClass->course_id)
+        ->where('class_id', $class_id)->where('notification_type', 2)
+        ->first();
+
+        $user = tbl_userDetails::where('user_id', $userId)
+        ->select('firstName', 'lastName')
+        ->first();
+
+        if($CheckNotif){
+            $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
+
+            if($CheckNotifIfRead){
+                $CheckNotifIfRead->delete();
+            }
+
+            if($userCount <= 2){
+                if($type == 'joined'){
+                    $CheckNotif->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+                else if($type == 'request'){
+                    $CheckNotif->message = $user->firstName." ".$user->lastName." ask to join your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+                
+            }   
+            else{
+                $userCount = $userCount - 1;
+                
+                if($type == 'joined'){
+                    $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+                else if($type == 'request'){
+                    $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$userCount." others ask to join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+            }
+            $CheckNotif->from_id =  $userId;
+            $CheckNotif->save();
+            broadcast(new NewNotification($CheckNotif))->toOthers();
+
+        }
+        else{
+            $newNotification = new tbl_notification;
+            $newNotification->course_id = $userInClass->course_id;
+            $newNotification->class_id = $class_id;
+            $newNotification->from_id =  $userId;
+
+            if($userCount <= 2){
+                if($type == 'joined'){
+                    $newNotification->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+                else if($type == 'request'){
+                    $newNotification->message = $user->firstName." ".$user->lastName." ask to join your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+            }   
+            else{
+                $userCount = $userCount - 1;
+                if($type == 'joined'){
+                    $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+                else if($type == 'request'){
+                    $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others ask to join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                }
+                
+            }
+            $newNotification->notification_type = 2;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+            return $userInClass->status;
+        }
+        
+    }
+    
+
     /**
      * Display the specified resource.
      *
@@ -582,7 +680,7 @@ class StudentController extends Controller
         ->where('course_id','=', $Class->course_id)
         ->where('user_id','=',$userId)
         ->first();
-        
+
         if($Check){
             if($Check->deleted_at == null){
                 return response()->json([
@@ -603,16 +701,41 @@ class StudentController extends Controller
                     $Check->class_id = $Class->id;
                     $Check->save();
                     return response()->json([
-                        'course_id'=>$Check->course_id, 
-                        'status'=>1, 
-                        'message'=>"Join class success"],200);
+                    'course_id'=>$Check->course_id, 
+                    'status'=>1, 
+                    'message'=>"Join class success"],200);
                 }
                
             }
             
         }
-            
         
+        if(!$Class->is_auto_accept){
+            
+            $Checkrequest = tbl_join_request::where('user_id', $userId)
+            ->where('class_id',$Class->id )->where('course_id',$Class->course_id)
+            ->first();
+
+            if($Checkrequest){
+                return response()->json([
+                'course_id'=>$Checkrequest->course_id, 
+                'status'=> 3, 
+                'message'=>"Please wait for your instructor to accept your join request!"],200);
+            }
+            else{
+                $new_request = new tbl_join_request;
+                $new_request->user_id = $userId;
+                $new_request->course_id = $Class->course_id;
+                $new_request->class_id = $Class->id;
+                $new_request->save();
+
+                $this->NotifyTeacher($Class->id, 'request', $userId, $Class->course_id);
+                return response()->json([
+                'course_id'=>$new_request->course_id, 
+                'status'=> 2, 
+                'message'=>"Please wait for your instructor to accept you in the class!"],200);
+            }
+        }
            
         $JoinClass = new tbl_userclass;
         $JoinClass->class_id = $Class->id;
@@ -622,8 +745,10 @@ class StudentController extends Controller
 
 
         
+        $course_status = $this->NotifyTeacher($Class->id, 'joined', $userId, $Class->course_id);
 
-        $userInClass = DB::table('tbl_userclasses')
+
+       /*  $userInClass = DB::table('tbl_userclasses')
         ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
@@ -680,18 +805,27 @@ class StudentController extends Controller
                 $userCount = $userCount - 1;
                 $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
             }
-        /*     $newNotification->message = $userCount." Student join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class"; */
             $newNotification->notification_type = 2;
             $newNotification->save();
-            broadcast(new NewNotification($newNotification))->toOthers();
-        }
+            broadcast(new NewNotification($newNotification))->toOthers(); */
+        //}
 
-        
+       /*  $userInClass = tbl_userclass::select('tbl_subject_courses.completed as status')
+        ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
+        ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
+        ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
+        ->where('users.role', 'Teacher')
+        ->where('tbl_userclasses.class_id', $JoinClass->class_id)
+        ->first(); */
+
+
         return response()->json([
-            'course_id'=>$userInClass->course_id, 
-            'status'=>$userInClass->status, 
+            'course_id'=>$Class->course_id, 
+            'status'=>$course_status, 
             'message'=>"Join class success"],200);
     }
+
+   
 
     /**
      * Show the form for editing the specified resource.

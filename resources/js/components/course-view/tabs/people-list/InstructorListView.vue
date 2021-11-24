@@ -15,7 +15,7 @@
             </v-row>
         </v-container>
         <v-row v-if="!isloading" >
-            <v-col cols="12" class="ma-0 pa-0">
+            <!-- <v-col cols="12" class="ma-0 pa-0">
                 <v-row>
                     <v-col cols="12" class="pl-3">
                         <v-tabs v-model="tab"  class="mt-2">
@@ -28,19 +28,19 @@
                         </v-tabs>
                     </v-col>
                 </v-row>
-            </v-col>
+            </v-col> -->
 
             <v-col cols="12" class="ma-0 pa-0">
                <v-row>
                    <v-col cols="12">
-                       <v-tabs-items :value="tab">
-                             <v-tab-item>
+                      <!--  <v-tabs-items :value="tab">
+                             <v-tab-item> -->
                                 <studentList :getcourseInfo="getcourseInfo" :role="role"></studentList>
-                            </v-tab-item>
+                   <!--          </v-tab-item>
                             <v-tab-item>
                                 <instructorList :getcourseInfo="getcourseInfo"  :UserDetails="UserDetails"></instructorList>
                             </v-tab-item>
-                       </v-tabs-items>
+                       </v-tabs-items> -->
                    </v-col>
                </v-row>
       

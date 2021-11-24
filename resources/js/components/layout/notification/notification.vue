@@ -218,48 +218,16 @@
             ...mapActions(['ShowLess']),
             ...mapActions(['LessNotificationCount']),
             ...mapActions(['UnreadMessage']),
-            connect() {
+           async connect() {
                 let newVm = this;
-              /*   this.fetchNotification(); */
                 this.fetchNotificationCount();
-                //document.title = '('+1+')ORANGE'; 
-                   
                 window.Echo.private("notification")
-                    .listen('NewNotification', e => {
-                         newVm.$store.dispatch("fetchNotification", this.notifType )
-                        newVm.fetchNotificationCount();
-                     
-                    })
-                    
-                 /*    Echo.channel('notification')
-                     .listen('NewNotification', e => {
-                         newVm.$store.dispatch("fetchNotification", this.notifType )
-                        newVm.fetchNotificationCount();
-                    }) */
+                .listen('NewNotification', e => {
+                    newVm.fetchNotificationCount();
+                }) 
+
+               
             },
-          /*   UnreadNotification(id) {
-                axios.post('/api/notification/'+id, {accepted: this.isAccepted}).then((res) => {
-                    this.get_notification.forEach(item => {
-                        if(item.n_id == id){
-                            item.status = 1;
-                            if(this.isAccepted){
-                                 item.notification_accepted = 1;
-                            }
-                        }
-                    });
-                    this.$store.dispatch("LessNotificationCount");
-                })
-            },
-            DeleteNotification(id) {
-                axios.delete('/api/notification/' + id).then((res) => {
-                     this.get_notification.forEach(item => {
-                        if(item.n_id == id){
-                            item.hide_notif = 1;
-                        }
-                    });
-                })
-            },
- */
              NotificationHide(id) {
                     this.$store.dispatch("HideNotification", id)
                     .then(res=>{
@@ -338,6 +306,11 @@
                         this.$router.push({path: path});
                     }
                     
+                }
+                else if(data.notification_type == 2){
+                    let path = '/course/'+data.c_id+'/people';
+                    this.$router.push({path: path});
+                 
                 }
                 else if(data.notification_type == 4 ){
                     let startPath = '/classwork/'+data.c_id+'/classwork-details';

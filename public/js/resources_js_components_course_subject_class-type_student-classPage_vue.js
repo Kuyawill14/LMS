@@ -228,7 +228,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.isJoining = true;
       this.$store.dispatch("joinClass", this.form).then(function (res) {
-        if (res.status == 200) {
+        if (res.status == 200 && res.data.status == 1) {
           _this.toastSuccess(res.data.message);
 
           _this.dialog = false;
@@ -240,7 +240,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
           _this.form.class_code = '';
-        } else if (res.status == 202) {
+        } else if (res.status == 202 && res.data.status == 1) {
           _this.toastError(res.data.message);
 
           _this.dialog = false;
@@ -249,6 +249,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this.$router.push({
             path: '/course/' + res.data.course_id + '/announcement'
           });
+        } else if (res.status == 200 && res.data.status == 2) {
+          _this.toastSuccess(res.data.message);
+
+          _this.dialog = false;
+          _this.form.class_code = '';
+          _this.isJoining = false;
+        } else if (res.status == 200 && res.data.status == 3) {
+          _this.toastInfo(res.data.message);
+
+          _this.dialog = false;
+          _this.form.class_code = '';
+          _this.isJoining = false;
         } else {
           _this.toastError('Something went wrong while joining the class!');
         }

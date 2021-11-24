@@ -137,6 +137,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -175,7 +186,8 @@ var deleteClass = function deleteClass() {
         id: '',
         class_name: '',
         course_id: null
-      }
+      },
+      class_details: []
     };
   },
   methods: _objectSpread(_objectSpread({
@@ -210,11 +222,12 @@ var deleteClass = function deleteClass() {
       this.modalType = "add";
       this.showModal = true;
     },
-    openEditmodal: function openEditmodal(class_name, class_id) {
+    openEditmodal: function openEditmodal(details, class_name, class_id) {
       this.showModal = true;
       this.modalType = "edit";
       this.class_id = class_id;
       this.class_name = class_name;
+      this.class_details = details;
     },
     openDeleteModal: function openDeleteModal(class_id) {
       this.showModal = true;
@@ -530,7 +543,11 @@ var render = function() {
           _vm._v(" "),
           _vm.modalType == "edit"
             ? _c("editClassForm", {
-                attrs: { class_name: _vm.class_name, class_id: _vm.class_id },
+                attrs: {
+                  class_details: _vm.class_details,
+                  class_name: _vm.class_name,
+                  class_id: _vm.class_id
+                },
                 on: {
                   closeModal: function($event) {
                     return _vm.closeModal()
@@ -623,6 +640,53 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
+                            item.schedule != false && item.schedule != null
+                              ? _c(
+                                  "v-list-item-subtitle",
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "font-weight-medium" },
+                                      [_vm._v("Schedule: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._l(item.schedule, function(
+                                      data,
+                                      index
+                                    ) {
+                                      return _c("div", { key: index }, [
+                                        _c("span", { staticClass: "pr-1" }, [
+                                          _vm._v("• ")
+                                        ]),
+                                        _vm._v(
+                                          "\n                            " +
+                                            _vm._s(
+                                              data.day +
+                                                " - " +
+                                                data.display_start
+                                            ) +
+                                            " "
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "font-weight-medium" },
+                                          [_vm._v("to")]
+                                        ),
+                                        _vm._v(" " + _vm._s(data.display_end))
+                                      ])
+                                    })
+                                  ],
+                                  2
+                                )
+                              : _c("v-list-item-subtitle", [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-medium" },
+                                    [_vm._v("Schedule: ")]
+                                  ),
+                                  _vm._v(" N/A\n                    ")
+                                ]),
+                            _vm._v(" "),
                             _c("v-list-item-subtitle", [
                               _vm._v("Students: " + _vm._s(item.student_count))
                             ])
@@ -683,6 +747,7 @@ var render = function() {
                                         on: {
                                           click: function($event) {
                                             return _vm.openEditmodal(
+                                              item,
                                               item.class_name,
                                               item.class_id
                                             )

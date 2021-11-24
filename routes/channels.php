@@ -26,3 +26,8 @@ Broadcast::channel('notification', function ($user) {
     return ['id' => $user->id];
 });
 
+Broadcast::channel('join_request', function ($user) {
+    return ['id' => $user->id];
+});
+
+

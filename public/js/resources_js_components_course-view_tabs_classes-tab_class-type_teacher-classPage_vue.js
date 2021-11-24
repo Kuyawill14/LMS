@@ -11,13 +11,48 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -183,10 +218,18 @@ var archiveClass = function archiveClass() {
       },
       ArchiveDetails: null,
       removeIndex: null,
-      copied: false
+      copied: false,
+      items: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      start_time: null,
+      end_time: null,
+      menu: false,
+      menu1: false,
+      addScheduleDialog: false,
+      day: null,
+      class_details: []
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
     closeModal: function closeModal() {
       this.showModal = false;
     },
@@ -195,40 +238,128 @@ var archiveClass = function archiveClass() {
       this.modalType = "add";
       this.showModal = true;
     },
-    openEditmodal: function openEditmodal(class_name, class_id) {
+    openEditmodal: function openEditmodal(details, class_name, class_id) {
       this.showModal = true;
       this.modalType = "edit";
       this.form.class_id = class_id;
       this.form.class_name = class_name;
+      this.class_details = details;
     },
     getTeacherClasses: function getTeacherClasses() {
       var _this = this;
 
-      this.isGetting = true;
-      this.fetchSubjectCourseClassList(this.$route.params.id).then(function () {
-        //setTimeout(() => {
-        _this.isGetting = false;
-        _this.classLength = _this.allClass.length; //}, 1000);
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.isGetting = true;
+
+                _this.fetchSubjectCourseClassList(_this.$route.params.id).then(function () {
+                  //setTimeout(() => {
+                  _this.isGetting = false;
+                  _this.classLength = _this.allClass.length; //}, 1000);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     archiveClass: function archiveClass(data, index) {
-      this.removeIndex = index;
-      this.ArchiveDetails = data;
-      this.showModal = true;
-      this.modalType = "archive";
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this2.removeIndex = index;
+                _this2.ArchiveDetails = data;
+                _this2.showModal = true;
+                _this2.modalType = "archive";
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     },
     SuccessArchive: function SuccessArchive() {
-      this.showModal = false;
-      this.allClass.splice(this.removeIndex, 1);
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this3.showModal = false;
+
+                _this3.allClass.splice(_this3.removeIndex, 1);
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     },
     CopyClassCode: function CopyClassCode(code) {
-      var CodeText = code;
-      navigator.clipboard.writeText(CodeText); //this.copied = true;
+      var _this4 = this;
 
-      this.toastNormal('Class code copied');
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var CodeText;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                CodeText = code;
+                navigator.clipboard.writeText(CodeText); //this.copied = true;
+
+                _this4.toastNormal('Class code copied');
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    removeClass: function removeClass(id, index, count) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!(count == 0)) {
+                  _context5.next = 3;
+                  break;
+                }
+
+                _context5.next = 3;
+                return axios["delete"]('/api/class/delete/' + id).then(function () {
+                  _this5.allClass.splice(index, 1);
+                });
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allClass']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
   mounted: function mounted() {
     this.getTeacherClasses();
   }
@@ -441,47 +572,61 @@ var render = function() {
       _vm._v(" "),
       _vm.isGetting
         ? _c(
-            "v-container",
-            { staticStyle: { height: "400px" } },
+            "div",
             [
               _c(
                 "v-row",
-                {
-                  staticClass: "fill-height",
-                  attrs: { "align-content": "center", justify: "center" }
-                },
-                [
-                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v(
-                      "\n                mdi-google-classroom\n            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
+                _vm._l(3, function(n) {
+                  return _c(
                     "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_c("h2", [_vm._v(" Loading your Classes ")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
+                    { key: n, attrs: { cols: "12" } },
                     [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
-                      })
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-list",
+                            [
+                              _c(
+                                "v-list-item",
+                                [
+                                  _c(
+                                    "v-list-item-avatar",
+                                    [
+                                      _c("v-skeleton-loader", {
+                                        staticClass: "mx-auto",
+                                        attrs: { tile: "", type: "avatar" }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item-content",
+                                    [
+                                      _c("v-skeleton-loader", {
+                                        attrs: {
+                                          "max-width": "500",
+                                          tile: "",
+                                          type: "list-item-three-line"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
+                }),
                 1
               )
             ],
@@ -492,7 +637,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "400px" },
+          attrs: { width: "500px" },
           model: {
             value: _vm.showModal,
             callback: function($$v) {
@@ -505,6 +650,9 @@ var render = function() {
           _vm.modalType == "add"
             ? _c("createClassForm", {
                 on: {
+                  OpenNewSched: function($event) {
+                    _vm.addScheduleDialog = !_vm.addScheduleDialog
+                  },
                   closeModal: function($event) {
                     return _vm.closeModal()
                   },
@@ -518,6 +666,7 @@ var render = function() {
           _vm.modalType == "edit"
             ? _c("editClassForm", {
                 attrs: {
+                  class_details: _vm.class_details,
                   class_name: _vm.form.class_name,
                   class_id: _vm.form.class_id
                 },
@@ -553,11 +702,13 @@ var render = function() {
               _c(
                 "v-row",
                 [
-                  _c("v-col", [_c("h2", [_vm._v("My Class")])]),
+                  _c("v-col", { attrs: { cols: "6" } }, [
+                    _c("h2", [_vm._v("My Class")])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "text-right" },
+                    { staticClass: "text-right", attrs: { cols: "6" } },
                     [
                       _c(
                         "v-btn",
@@ -569,11 +720,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n                    Create Class\n                "
-                          )
-                        ]
+                        [_vm._v("\n                Create Class\n            ")]
                       )
                     ],
                     1
@@ -599,17 +746,23 @@ var render = function() {
                         _c(
                           "v-list-item-content",
                           [
-                            _c("v-list-item-title", [
+                            _c("v-list-item-title", { staticClass: "title" }, [
                               _vm._v(_vm._s(item.class_name) + " ")
                             ]),
                             _vm._v(" "),
                             _c(
                               "v-list-item-subtitle",
+                              { staticClass: "mb-0 pb-0" },
                               [
+                                _c(
+                                  "span",
+                                  { staticClass: "font-weight-medium" },
+                                  [_vm._v("Class code: ")]
+                                ),
                                 _vm._v(
-                                  "Class code: " +
+                                  " " +
                                     _vm._s(item.class_code) +
-                                    "  \n                                "
+                                    "  \n                            "
                                 ),
                                 _c(
                                   "v-tooltip",
@@ -679,8 +832,60 @@ var render = function() {
                               1
                             ),
                             _vm._v(" "),
+                            item.schedule != false && item.schedule != null
+                              ? _c(
+                                  "v-list-item-subtitle",
+                                  [
+                                    _c(
+                                      "span",
+                                      { staticClass: "font-weight-medium" },
+                                      [_vm._v("Schedule: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm._l(item.schedule, function(
+                                      data,
+                                      index
+                                    ) {
+                                      return _c("div", { key: index }, [
+                                        _c("span", { staticClass: "pr-1" }, [
+                                          _vm._v("• ")
+                                        ]),
+                                        _vm._v(
+                                          "\n                                    " +
+                                            _vm._s(
+                                              data.day +
+                                                " - " +
+                                                data.display_start
+                                            ) +
+                                            " "
+                                        ),
+                                        _c(
+                                          "span",
+                                          { staticClass: "font-weight-medium" },
+                                          [_vm._v("to")]
+                                        ),
+                                        _vm._v(" " + _vm._s(data.display_end))
+                                      ])
+                                    })
+                                  ],
+                                  2
+                                )
+                              : _c("v-list-item-subtitle", [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-medium" },
+                                    [_vm._v("Schedule: ")]
+                                  ),
+                                  _vm._v(" N/A\n                            ")
+                                ]),
+                            _vm._v(" "),
                             _c("v-list-item-subtitle", [
-                              _vm._v("Students: " + _vm._s(item.student_count))
+                              _c(
+                                "span",
+                                { staticClass: "font-weight-medium" },
+                                [_vm._v("Students: ")]
+                              ),
+                              _vm._v(" " + _vm._s(item.student_count))
                             ])
                           ],
                           1
@@ -740,6 +945,7 @@ var render = function() {
                                         on: {
                                           click: function($event) {
                                             return _vm.openEditmodal(
+                                              item,
                                               item.class_name,
                                               item.class_id
                                             )
@@ -775,7 +981,18 @@ var render = function() {
                                     item.student_count == 0
                                       ? _c(
                                           "v-list-item",
-                                          { attrs: { link: "" } },
+                                          {
+                                            attrs: { link: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.removeClass(
+                                                  item.class_id,
+                                                  index,
+                                                  item.student_count
+                                                )
+                                              }
+                                            }
+                                          },
                                           [
                                             _c("v-list-item-title", [
                                               _vm._v("Remove")

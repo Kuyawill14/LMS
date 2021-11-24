@@ -186,11 +186,11 @@ import moment from 'moment/src/moment';
         axios.get('/api/profile/mycalendar')
         .then(res=>{
           
-            this.CalendarSched = res.data;
+            this.CalendarSched = res.data.Classwork_sched;
             const events = [];
             const nowDate = new Date();
                
-            if(res.data.length != 0){
+            if(res.data.Classwork_sched.length != 0){
                 const data = moment(this.CalendarSched[0].from_date)._d
 
                 for (let index = 0; index < this.CalendarSched.length; index++) {

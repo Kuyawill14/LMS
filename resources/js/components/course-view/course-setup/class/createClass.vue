@@ -8,11 +8,36 @@
             <v-row class="mx-2">
 
                 <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field required v-model="form.class_name" filled color="primary" label="Class Name">
+                    <v-text-field  required v-model="form.class_name"  hide-details outlined color="primary" label="Class Name">
                     </v-text-field>
                 </v-col>
+                 <v-col cols="12" class="pa-0 ma-0">
+                    <v-switch
+                        v-model="form.auto_accept"
+                        label="Auto accept"
+                        hide-details
+                        ></v-switch>
+                </v-col>
 
-
+                 <v-col cols="12" class="pa-0 ma-0 mt-5">
+                     <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
+                         Add Schedule <v-icon>mdi-plus</v-icon>
+                     </v-btn>
+                </v-col>
+                <v-col cols="12" class="pa-0 ma-0 mt-2">
+                    <v-row>
+                        <v-col cols="12" v-for="(item , index) in form.schedule" :key="index">
+                            <div class="d-flex">
+                                <v-icon color="red" class="pr-1">mdi-calendar</v-icon>
+                                <span>{{item.day}},- </span>
+                                <span>{{item.display_start+' to '+item.display_end}}</span>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </v-col>
+                
+                 
+                
             </v-row>
         </v-container>
         <v-card-actions>
@@ -21,28 +46,53 @@
             <v-btn text @click="$emit('closeModal');">Cancel</v-btn>
             <v-btn text color="primary" :disabled="sending" @click="createClass">Create</v-btn>
         </v-card-actions>
+
+        <div>
+              <v-dialog persistent v-model="addScheduleDialog"  width="400px">
+                <v-card >
+                    <v-card-title class="">
+                        <v-btn @click="addScheduleDialog = !addScheduleDialog" icon>
+                            <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                        New Schedule
+                    </v-card-title>
+                    <v-container>
+                        <v-row class="mx-2">
+                            <v-col cols="12" class="pa-0 ma-0 mb-2">
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-select
+                                        dense
+                                        :items="items"
+                                        v-model="day"
+                                        hide-details
+                                        outlined
+                                        label="Day"
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-text-field outlined dense hide-details type="time" v-model="start_time" label="End time"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-text-field outlined dense hide-details v-model="end_time" type="time" label="End time"></v-text-field>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                     <v-card-actions >
+                        <v-btn rounded @click="AddSchedule" block color="primary" >Add</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </div>
+
     </v-card>
 </template>
 
 <script>
-    import {
-        validationMixin
-    } from 'vuelidate'
-    import {
-        required,
-        email,
-        minLength,
-        maxLength
-    } from 'vuelidate/lib/validators'
-
-    import {
-        mapGetters,
-        mapActions
-    } from "vuex";
-
+import moment from 'moment-timezone';
     export default {
-
-        name: 'ErrorsMessages',
         data: () => ({
             noError: null,
             required: null,
@@ -51,15 +101,20 @@
             sending: false,
             form: {
                 class_name: '',
-                course_id: null
+                course_id: null,
+                auto_accept: false,
+                schedule:[]
             },
-
+            items: ['Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday','Sunday'],
+            start_time: null,
+            end_time: null,
+            menu: false,
+            menu1: false,
+            addScheduleDialog: false,
+            day: null
+           
         }),
-        computed: {
-
-        },
         methods: {
-            ...mapActions(['fetchSubjectCourseClassList']),
             toastSuccess() {
                 return this.$toasted.success("Class Successfully Created", {
                     theme: "toasted-primary",
@@ -74,16 +129,36 @@
                 this.sending = true;
                 if (this.form.class_name != "") {
                     this.toastSuccess();
-
                     this.form.course_id = this.$route.params.id;
-                    //console.log(this.form);
-                    this.$store.dispatch('createClass', this.form).then(()=> {
-                         this.fetchSubjectCourseClassList(this.$route.params.id);
-                    });
-                   
-
+                    this.$store.dispatch('createClass', this.form);
+                    this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
                     this.sending = false;
                 }
+            },
+            AddSchedule(){
+              
+               
+                let tmpday = this.day.toLowerCase();
+                let tmp_start = Date.parse('next '+tmpday).at(this.start_time);
+                let tmp_end = Date.parse('next '+tmpday).at(this.end_time);
+                let display_start = moment(tmp_start).tz("Asia/Manila").format('LT');
+                let display_end = moment(tmp_end).tz("Asia/Manila").format('LT');
+
+                  this.form.schedule.push({
+                    day: this.day,
+                    display_start:display_start,
+                    display_end:display_end,
+                    start_time: this.start_time,
+                    end_time:this.end_time
+                })
+
+                this.addScheduleDialog = !this.addScheduleDialog;
+                this.clearInputs();
+            },
+            clearInputs(){
+                this.day = null;
+                this.start_time = null;
+                this.end_time = null;
             }
         }
     }

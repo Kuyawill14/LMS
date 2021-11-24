@@ -297,21 +297,49 @@ export default {
          
       },
       SuffleQuestion(){
+          let tmpquestion = this.Question.Question;
 
-          this.QuestionList  = this.Shuffle(this.Question.Question);
+        this.QuestionList = this.Shuffle(tmpquestion);
+
+        this.QuestionList.forEach(item => {
+            if(item.type == 'Multiple Choice' || item.type == 'Matching type'){
+                this.Question.Answer.forEach(element => {
+                    if(item.type == 'Multiple Choice'){
+                        if(element.options.length != 0){
+                            if(element.options[0].question_id == item.id){
+                                this.AnswerList.push(element);
+                            }
+                        }
+                        
+                    }
+                    else if(item.type == 'Matching type'){
+                        if(element.SubAnswer.length != 0){
+                            if(element.SubAnswer[0].question_id == item.id){
+                                this.AnswerList.push(element);
+                            }
+                        }
+                         
+                    }
+                });     
+            }
+            else{
+                this.AnswerList.push({options:[], SubQuestion:[], SubAnswer:[]});
+            }
+
+            
+           
+        });
+          
+        console.log(this.Shuffle(this.Question.Question));
          
       },
       Shuffle(array){
-           let currentIndex = array.length,  randomIndex;
-
-        // While there remain elements to shuffle...
+        let currentIndex = array.length,  randomIndex;
         while (currentIndex != 0) {
 
-            // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex--;
 
-            // And swap it with the current element.
             [array[currentIndex], array[randomIndex]] = [
             array[randomIndex], array[currentIndex]];
         }
