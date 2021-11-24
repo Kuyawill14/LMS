@@ -104,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.$router.push({
           path: "/login"
         });
-      })["catch"](function (e) {//console.log(e);
+      })["catch"](function (e) {////console.log(e);
       });
     }
   }
@@ -670,6 +670,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
@@ -690,6 +691,10 @@ var programChairNavbar = function programChairNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/programChair/programChair-navbar */ "./resources/js/components/layout/navigation/programChair/programChair-navbar.vue"));
 };
 
+var campusDirectorNavbar = function campusDirectorNavbar() {
+  return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/campusDirector/campusDirector-navbar */ "./resources/js/components/layout/navigation/campusDirector/campusDirector-navbar.vue"));
+};
+
 var notifications = function notifications() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./notification/notification */ "./resources/js/components/layout/notification/notification.vue"));
 };
@@ -703,7 +708,8 @@ var notifications = function notifications() {
     adminNavbar: adminNavbar,
     notifications: notifications,
     mainBottomNavigation: mainBottomNavigation,
-    programChairNavbar: programChairNavbar
+    programChairNavbar: programChairNavbar,
+    campusDirectorNavbar: campusDirectorNavbar
   },
   data: function data() {
     return {
@@ -737,7 +743,7 @@ var notifications = function notifications() {
         _this.$router.push({
           path: "/login"
         });
-      })["catch"](function (e) {//console.log(e);
+      })["catch"](function (e) {////console.log(e);
       });
     }
   }),
@@ -745,7 +751,7 @@ var notifications = function notifications() {
     this.navBarType = this.$route.matched[1].name;
   } // watch: {
   //     $route(to, from) {
-  //         //console.log(this.$route.matched);
+  //         ////console.log(this.$route.matched);
   //         this.navBarType = this.$route.matched[1].name;
   //     }
   // },
@@ -846,7 +852,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
        .then(x => x.json())
        .then(({ ip }) => {
            this.ipAdd = ip;
-           console.log(this.ipAdd);
+           //console.log(this.ipAdd);
        }); */
     }
   }),
@@ -3639,7 +3645,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3789,9 +3794,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                    'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
-                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3816,7 +3821,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function (x) {
+            localeFamilies[name].forEach(function(x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3906,7 +3911,6 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
-
 
 /***/ }),
 
@@ -10867,6 +10871,12 @@ var render = function() {
                       _vm._v(" "),
                       _vm.role == "ProgramChair"
                         ? _c("programChairNavbar", {
+                            attrs: { role: _vm.role }
+                          })
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.role == "CampusDirector"
+                        ? _c("campusDirectorNavbar", {
                             attrs: { role: _vm.role }
                           })
                         : _vm._e()

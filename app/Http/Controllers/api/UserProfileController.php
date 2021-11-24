@@ -39,7 +39,8 @@ class UserProfileController extends Controller
 
         $userDetails = User::where('users.id' ,$userId)
         ->select('users.role','users.email','users.email_verified_at as verified',
-        'tbl_user_details.*')
+        'tbl_user_details.*','department_id')
+        ->leftjoin('tbl_user_departments', 'tbl_user_departments.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
         ->first();
         

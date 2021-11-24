@@ -1,19 +1,19 @@
 <template>
-    <div class="pt-4">
-        <h2>
-            Monitor Teachers
-        </h2>
+    <div>
+        
+       
 
-        <v-row class="pt-2">
+
+        <v-row>
 
 
             <v-col>
 
-                 <v-card v-if="loading">
+                <v-card v-if="loading">
                     <v-skeleton-loader :loading="loading" type="table"></v-skeleton-loader>
                 </v-card>
 
-                <v-card elevation="2"  v-if="!loading">
+                <v-card elevation="2" v-if="!loading">
                     <v-card-title>
                         Teachers
 
@@ -23,7 +23,7 @@
                         </v-text-field>
                     </v-card-title>
 
-                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                    <v-data-table :headers="headers" :items="filteredItems"   v-if="!loading" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="item in items" :key="item.id">
@@ -36,7 +36,7 @@
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center">
                                         <v-btn icon color="success" link
-                                            :to="{name: 'teacherProfile', params: {id: item.user_id}}">
+                                            :to="{name: 'departmentMonitorTeacher_id', query: {id: item.user_id}}">
                                             <v-icon>
                                                 mdi-eye
                                             </v-icon>
@@ -55,26 +55,20 @@
                 </v-card>
             </v-col>
         </v-row>
-
-
     </div>
-
-
-
 </template>
-<style scoped>
 
-</style>
 
 <script>
-    import {
-        mapGetters,
-        mapActions
-    } from "vuex";
-    import axios from 'axios';
     export default {
-        data: function () {
+        data() {
             return {
+             
+                   semester_id: null,
+                school_year: [],
+                semester: [],
+                school_year_id: null,
+                semester_id: null,
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -126,55 +120,97 @@
                     },
                 ],
                 teacherSummary: [],
-                loading:true,
+                loading: true,
             }
-
-
         },
-        computed: {
-            ...mapGetters(["getTeachersSumarry"]),
+          computed: {
+          
             filteredItems() {
                 if (this.search) {
-                  return this.teacherSummary.filter((item) => {
+                    return this.teacherSummary.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
                             .includes(v) || item.lastName.toLowerCase()
-                            .includes(v)|| item.middleName.toLowerCase()
-                            .includes(v)|| item.user_id.toString()
+                            .includes(v) || item.middleName.toLowerCase()
+                            .includes(v) || item.user_id.toString()
                             .includes(v))
                     })
                 } else {
                     return this.teacherSummary;
                 }
 
-            }
+            },
+
+
 
         },
 
         methods: {
+            limitChar(title) {
+                if (title.length > 40) {
+                    return title.substring(0, 40) + '...';
+                } else {
+                    return title;
+                }
+            },
+            getDeparmentsData() {
+                axios.get('/api/department/data/all')
+                    .then((res) => {
+                        if (res.status == 200) {
+                            this.departments = res.data;
+                        }
+                    })
+            },
+          fetchAllSchoolyear_semester() {
+                axios.get('/api/admin/schoolyears_semesters/all')
+                    .then((res) => {
+                        this.school_year = res.data.school_year;
+                        this.semester = res.data.semester;
+                
+                    })
+            },
+            getTeacherSummary(clear) {
 
+                if (clear) {
+                    this.school_year_id = null;
+                    this.semester_id = null;
+                }
+                axios.get(`/api/admin/teachers/all/summarry`, {
+                        params: {
+                            school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
+                            semester_id: this.semester_id != 0  ? this.semester_id : null,
+                            department_id: this.$route.params.id,
+                        }
+                    })
+                    .then((res) => {
+
+                        if (res.status == 200) {
+
+                            this.teacherSummary = res.data;
+                        console.log(res.data);
+
+                        } else {
+                            this.toastError('Oops! Something went wrong, please reload the page')
+                        }
+                        this.loading = false;
+
+                    })
+            },
         },
-
         mounted() {
-
-            this.$store.dispatch('teacherSummarryData').then(() => {
-                this.teacherSummary = this.getTeachersSumarry;
-                this.loading = false;
-            });
-
-
-
-
+                    this.fetchAllSchoolyear_semester();
+            this.getTeacherSummary();
+            setTimeout(() => {
+                this.summarryLoading = false;
+            }, 1000);
         }
-
-
-
     }
 
 </script>
 
-<style>
-    .v-input__slot {
-        margin-bottom: 0 !important;
+
+<style scoped>
+    #department_logo>div.v-image.v-responsive.white--text.align-end.theme--light>div.v-image__image.v-image__image--cover {
+        background-size: contain !important;
     }
 
 </style>

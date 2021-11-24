@@ -375,8 +375,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _this5.CommentList.push(item);
                     });
                     _this5.last_page = res.data.last_page;
-                    _this5.current_count = _this5.CommentList.length;
-                    console.log(_this5.current_page);
+                    _this5.current_count = _this5.CommentList.length; //console.log(this.current_page);
 
                     _this5.CommentList.sort(function (a, b) {
                       return a.id - b.id;

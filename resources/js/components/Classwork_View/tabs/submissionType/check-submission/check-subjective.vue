@@ -642,7 +642,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                   this.isOpening = false
               }
             //var host = window.location.protocol + "//" + window.location.host;
-               //console.log(host)
+               ////console.log(host)
             //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
             //this.pdf_path = path;
         }

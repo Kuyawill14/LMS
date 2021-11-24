@@ -11,15 +11,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -92,49 +116,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {
-      Deldialog: false,
-      dialog: false,
-      temp_id: '',
-      IsDeleting: false,
-      IsAddUpdating: false,
-      IsResetting: false,
-      type: '',
-      search: "",
-      valid: true,
-      headers: [{
-        text: 'ID',
-        value: 'user_id',
-        align: 'start'
-      }, {
-        text: 'Name',
-        value: 'firstName',
-        align: 'start'
-      }, {
-        text: 'Total Courses',
-        value: 'course_count',
-        align: 'center'
-      }, {
-        text: 'Total Classes',
-        value: 'total_classes',
-        align: 'center'
-      }, {
-        text: ' Total Modules Created',
-        value: 'sub_modules_count',
-        align: 'center'
-      }, {
-        text: 'Total Classwork Created',
-        value: 'classwork_count',
-        align: 'center'
-      }, {
-        text: 'Actions',
-        sortable: false
-      }],
-      teacherSummary: [],
-      loading: true
-    };
+    var _ref;
+
+    return _ref = {
+      semester_id: null,
+      school_year: [],
+      semester: [],
+      school_year_id: null
+    }, _defineProperty(_ref, "semester_id", null), _defineProperty(_ref, "Deldialog", false), _defineProperty(_ref, "dialog", false), _defineProperty(_ref, "temp_id", ''), _defineProperty(_ref, "IsDeleting", false), _defineProperty(_ref, "IsAddUpdating", false), _defineProperty(_ref, "IsResetting", false), _defineProperty(_ref, "type", ''), _defineProperty(_ref, "search", ""), _defineProperty(_ref, "valid", true), _defineProperty(_ref, "headers", [{
+      text: 'ID',
+      value: 'user_id',
+      align: 'start'
+    }, {
+      text: 'Name',
+      value: 'firstName',
+      align: 'start'
+    }, {
+      text: 'Total Courses',
+      value: 'course_count',
+      align: 'center'
+    }, {
+      text: 'Total Classes',
+      value: 'total_classes',
+      align: 'center'
+    }, {
+      text: ' Total Modules Created',
+      value: 'sub_modules_count',
+      align: 'center'
+    }, {
+      text: 'Total Classwork Created',
+      value: 'classwork_count',
+      align: 'center'
+    }, {
+      text: 'Actions',
+      sortable: false
+    }]), _defineProperty(_ref, "teacherSummary", []), _defineProperty(_ref, "loading", true), _ref;
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getTeachersSumarry"])), {}, {
+  computed: {
     filteredItems: function filteredItems() {
       var _this = this;
 
@@ -148,15 +166,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return this.teacherSummary;
       }
     }
-  }),
-  methods: {},
-  mounted: function mounted() {
-    var _this2 = this;
+  },
+  methods: {
+    fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
+      var _this2 = this;
 
-    this.$store.dispatch('teacherSummarryData').then(function () {
-      _this2.teacherSummary = _this2.getTeachersSumarry;
-      _this2.loading = false;
-    });
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/admin/schoolyears_semesters/all').then(function (res) {
+        _this2.school_year = res.data.school_year;
+        _this2.semester = res.data.semester;
+      });
+    },
+    getTeacherSummary: function getTeacherSummary(clear) {
+      var _this3 = this;
+
+      if (clear) {
+        this.school_year_id = null;
+        this.semester_id = null;
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/admin/teachers/all/summarry", {
+        params: {
+          school_year_id: this.school_year_id != 0 ? this.school_year_id : null,
+          semester_id: this.semester_id ? this.semester_id : null
+        }
+      }).then(function (res) {
+        if (res.status == 200) {
+          _this3.teacherSummary = res.data;
+          console.log(res.data);
+        } else {
+          _this3.toastError('Oops! Something went wrong, please reload the page');
+        }
+
+        _this3.loading = false;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchAllSchoolyear_semester();
+    this.getTeacherSummary(); // this.$store.dispatch('teacherSummarryData').then(() => {
+    //     this.teacherSummary = this.getTeachersSumarry;
+    //     this.loading = false;
+    // });
   }
 });
 
@@ -316,11 +366,118 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Monitor Teachers\n    ")]),
+      _c(
+        "v-row",
+        { staticStyle: { "margin-bottom": "-35px" } },
+        [
+          _c("v-col", [
+            _c("h2", [
+              _vm._v("\n                Monitor Teachers\n            ")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "text-right mt-2", attrs: { lg: "1" } },
+            [
+              _vm.school_year_id != null || _vm.semester_id != null
+                ? _c(
+                    "v-btn",
+                    {
+                      attrs: { hidden: "", icon: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.getTeacherSummary(true)
+                          _vm.summarryLoading = true
+                        }
+                      }
+                    },
+                    [
+                      _c("v-icon", [
+                        _vm._v(
+                          "\n                    mdi-close\n                "
+                        )
+                      ])
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "text-right", attrs: { lg: "2" } },
+            [
+              _c("v-select", {
+                staticClass: "mr-2 my-1",
+                attrs: {
+                  dense: "",
+                  items: _vm.school_year,
+                  "item-text": "schoolyear",
+                  "item-value": "id",
+                  label: "School Year",
+                  outlined: "",
+                  small: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getTeacherSummary()
+                  }
+                },
+                model: {
+                  value: _vm.school_year_id,
+                  callback: function($$v) {
+                    _vm.school_year_id = $$v
+                  },
+                  expression: "school_year_id"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "text-right", attrs: { lg: "2" } },
+            [
+              _c("v-select", {
+                staticClass: "mr-2 my-1",
+                attrs: {
+                  dense: "",
+                  items: _vm.semester,
+                  "item-text": "semester",
+                  "item-value": "id",
+                  disabled: _vm.school_year_id == null,
+                  label: "Semester",
+                  outlined: "",
+                  small: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.getTeacherSummary()
+                  }
+                },
+                model: {
+                  value: _vm.semester_id,
+                  callback: function($$v) {
+                    _vm.semester_id = $$v
+                  },
+                  expression: "semester_id"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pt-2" },
         [
           _c(
             "v-col",
@@ -369,151 +526,159 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-data-table", {
-                        staticClass: "elevation-1",
-                        attrs: {
-                          headers: _vm.headers,
-                          items: _vm.filteredItems,
-                          "items-per-page": 10
-                        },
-                        scopedSlots: _vm._u(
-                          [
-                            {
-                              key: "body",
-                              fn: function(ref) {
-                                var items = ref.items
-                                return [
-                                  _c(
-                                    "tbody",
-                                    [
-                                      _vm._l(items, function(item) {
-                                        return _c("tr", { key: item.id }, [
-                                          _c("td", [
-                                            _vm._v(
-                                              " " + _vm._s(item.user_id) + " "
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(
-                                              " " +
-                                                _vm._s(
-                                                  item.lastName +
-                                                    ", " +
-                                                    item.firstName +
-                                                    " " +
-                                                    item.middleName
-                                                ) +
-                                                " "
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-center" },
-                                            [
-                                              _vm._v(
-                                                " " + _vm._s(item.course_count)
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-center" },
-                                            [
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(item.class_count) +
-                                                  " "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-center" },
-                                            [
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(
-                                                    item.sub_modules_count
-                                                  ) +
-                                                  " "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-center" },
-                                            [
-                                              _vm._v(
-                                                " " +
-                                                  _vm._s(item.classwork_count) +
-                                                  " "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "td",
-                                            { staticClass: "text-center" },
-                                            [
+                      !_vm.loading
+                        ? _c("v-data-table", {
+                            staticClass: "elevation-1",
+                            attrs: {
+                              headers: _vm.headers,
+                              items: _vm.filteredItems,
+                              "items-per-page": 10
+                            },
+                            scopedSlots: _vm._u(
+                              [
+                                {
+                                  key: "body",
+                                  fn: function(ref) {
+                                    var items = ref.items
+                                    return [
+                                      _c(
+                                        "tbody",
+                                        [
+                                          _vm._l(items, function(item) {
+                                            return _c("tr", { key: item.id }, [
+                                              _c("td", [
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(item.user_id) +
+                                                    " "
+                                                )
+                                              ]),
+                                              _vm._v(" "),
+                                              _c("td", [
+                                                _vm._v(
+                                                  " " +
+                                                    _vm._s(
+                                                      item.lastName +
+                                                        ", " +
+                                                        item.firstName +
+                                                        " " +
+                                                        item.middleName
+                                                    ) +
+                                                    " "
+                                                )
+                                              ]),
+                                              _vm._v(" "),
                                               _c(
-                                                "v-btn",
-                                                {
-                                                  attrs: {
-                                                    icon: "",
-                                                    color: "success",
-                                                    link: "",
-                                                    to: {
-                                                      name: "teacherProfile",
-                                                      params: {
-                                                        id: item.user_id
-                                                      }
-                                                    }
-                                                  }
-                                                },
+                                                "td",
+                                                { staticClass: "text-center" },
                                                 [
-                                                  _c("v-icon", [
-                                                    _vm._v(
-                                                      "\n                                            mdi-eye\n                                        "
-                                                    )
-                                                  ])
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(item.course_count)
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(item.class_count) +
+                                                      " "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        item.sub_modules_count
+                                                      ) +
+                                                      " "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        item.classwork_count
+                                                      ) +
+                                                      " "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _c(
+                                                    "v-btn",
+                                                    {
+                                                      attrs: {
+                                                        icon: "",
+                                                        color: "success",
+                                                        link: "",
+                                                        to: {
+                                                          name:
+                                                            "teacherProfile",
+                                                          params: {
+                                                            id: item.user_id
+                                                          }
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("v-icon", [
+                                                        _vm._v(
+                                                          "\n                                            mdi-eye\n                                        "
+                                                        )
+                                                      ])
+                                                    ],
+                                                    1
+                                                  )
                                                 ],
                                                 1
                                               )
-                                            ],
-                                            1
-                                          )
-                                        ])
-                                      }),
-                                      _vm._v(" "),
-                                      items.length == 0
-                                        ? _c("tr", [
-                                            _c(
-                                              "td",
-                                              {
-                                                staticClass: "text-center",
-                                                attrs: { colspan: "42" }
-                                              },
-                                              [_vm._v(" No data available")]
-                                            )
-                                          ])
-                                        : _vm._e()
-                                    ],
-                                    2
-                                  )
-                                ]
-                              }
-                            }
-                          ],
-                          null,
-                          false,
-                          1006105585
-                        )
-                      })
+                                            ])
+                                          }),
+                                          _vm._v(" "),
+                                          items.length == 0
+                                            ? _c("tr", [
+                                                _c(
+                                                  "td",
+                                                  {
+                                                    staticClass: "text-center",
+                                                    attrs: { colspan: "42" }
+                                                  },
+                                                  [_vm._v(" No data available")]
+                                                )
+                                              ])
+                                            : _vm._e()
+                                        ],
+                                        2
+                                      )
+                                    ]
+                                  }
+                                }
+                              ],
+                              null,
+                              false,
+                              1006105585
+                            )
+                          })
+                        : _vm._e()
                     ],
                     1
                   )

@@ -170,10 +170,10 @@
 
             },
             onFileChange(file) {
-                console.log('selected file', file);
+                //console.log('selected file', file);
                 if (file != null) {
                     this.ext = this.getFileExt(file.name);
-                    console.log(this.ext);
+                    //console.log(this.ext);
                     this.isInvalidFileSize = false;
                     this.isInvalidFileType = false;
                     if (file.size >= 10000000) {
@@ -214,7 +214,7 @@
                     file: this.submodule.file_attachment
                 }).then(res => {
                     this.oldFileInput = false;
-                    console.log(res);
+                    //console.log(res);
                     this.isDeleting = false;
                     this.isRemove = true;
                 })
@@ -230,8 +230,8 @@
                 });
             },
             addFile() {
-                console.log(this.file);
-                console.log('this.isInvalidFileType', this.isInvalidFileType);
+                //console.log(this.file);
+                //console.log('this.isInvalidFileType', this.isInvalidFileType);
 
 
                 if (this.type_action == 'edit_file') {
@@ -373,7 +373,7 @@
 
                 var name = newfile.name.split('/');
                 this.oldFIle.file_name = name[name.length - 1];
-                console.log(this.oldFIle.file_name);
+                //console.log(this.oldFIle.file_name);
                 if (this.oldFIle.file_name == -1) {
                     this.oldFileInput = false;
                 } else {

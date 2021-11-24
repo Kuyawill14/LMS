@@ -495,7 +495,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/users/update/' + this.form.user_id).then(function () {
-            ////console.log(this.StudentList[this.updateIndex])
+            //////console.log(this.StudentList[this.updateIndex])
             _this6.updateDataInfrontEnd(_this6.form);
 
             _this6.valid = true;

@@ -239,6 +239,19 @@ var forgotPassword = function forgotPassword() {
     validate: function validate() {
       if (this.$refs.loginForm.validate()) {
         this.login();
+<<<<<<< HEAD
+=======
+        /* this.$store.dispatch('login', this.form)
+        .then(res=>{
+          ////console.log(res);
+           if(res == 200){
+               this.toastSuccess("Login success");
+           }
+           else if(res == 203){
+                this.toastError('Login failed!');
+           }
+        }) */
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
       }
     },
     reset: function reset() {
@@ -347,10 +360,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("Clicked");
-                _context.next = 3;
+                _context.next = 2;
                 return gapi.load("auth2", function () {
-                  console.log("Auth2 Loaded");
+                  //console.log("Auth2 Loaded");
                   gapi.auth2.authorize({
                     client_id: _this.clientId,
                     scope: _this.scope,
@@ -358,15 +370,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }, _this.handleAuthResult);
                 });
 
-              case 3:
+              case 2:
                 gapi.load("picker", function () {
-                  console.log("Picker Loaded");
+                  //console.log("Picker Loaded");
                   _this.pickerApiLoaded = true;
 
                   _this.createPicker();
                 });
 
-              case 4:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -375,15 +387,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     handleAuthResult: function handleAuthResult(authResult) {
-      console.log("Handle Auth result", authResult);
-
+      //console.log("Handle Auth result", authResult);
       if (authResult && !authResult.error) {
         this.oauthToken = authResult.access_token;
         this.createPicker();
       }
     },
     createPicker: function createPicker() {
-      console.log("Create Picker", google.picker);
+      //console.log("Create Picker", google.picker);
       var docsView = new google.picker.DocsView(google.picker.ViewId.DOCS).setIncludeFolders(true).setSelectFolderEnabled(true);
 
       if (this.pickerApiLoaded && this.oauthToken) {
@@ -398,7 +409,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log("PickerCallback", data);
+                //console.log("PickerCallback", data);
                 url = "nothing";
                 name = "nothing";
                 doc = "";
@@ -407,12 +418,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 type = "anyone";
                 role = "reader";
 
-                if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
-                  // Array of Picked Files
-                  console.log(data.docs[0].url);
+                if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {// Array of Picked Files
+                  //console.log(data.docs[0].url);   
                 }
 
-              case 9:
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -429,11 +439,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     gDrive.setAttribute("src", "https://apis.google.com/js/api.js");
     document.head.appendChild(gDrive);
     var timdate = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(new Date()).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
-    var dd = Date.now();
-    console.log(this.endAt);
-    console.log(this.momentDate);
+    var dd = Date.now(); //console.log(this.endAt);
+    //console.log(this.momentDate);
+
     axios.get('/api/profile/datetoday').then(function (res) {
-      //console.log(res.data);
+      ////console.log(res.data);
       _this2.testTime = res.data;
     });
   }

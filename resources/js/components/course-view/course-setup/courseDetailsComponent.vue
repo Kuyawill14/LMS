@@ -180,10 +180,10 @@
 
             },
             onFileChange(file) {
-                console.log('selected file', file);
+                //console.log('selected file', file);
                 if (file != null) {
                     this.ext = this.getFileExt(file.name);
-                    console.log(this.ext);
+                    //console.log(this.ext);
                     this.isInvalidFileSize = false;
                     this.isInvalidFileType = false;
                     if (file.size >= 10000000) {
@@ -211,7 +211,7 @@
                 this.isDeleting = true;
                 axios.put('/api/course/file-remove/' + this.$route.params.id,{course_guide: this.getcourseInfo.course_guide} ).then(res => {
                     this.oldFileInput = false;
-                    console.log(res);
+                    //console.log(res);
                     this.isDeleting = false;
                     this.isRemove = true;
                     this.getcourseInfo.course_guide = null
@@ -231,7 +231,7 @@
                     })
             },
             updateCourseDetails() {
-                ////console.log(this.getcourseInfo.semester_id);
+                //////console.log(this.getcourseInfo.semester_id);
                 if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this
                     .course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo
                     .school_year_id === undefined) {

@@ -165,7 +165,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this3.instructor = res.data.InstructorList;
                   _this3.students = res.data.StudentList;
                   _this3.isGetting = false;
-                })["catch"](function (error) {//console.log(error)
+                })["catch"](function (error) {////console.log(error)
                 });
 
               case 1:

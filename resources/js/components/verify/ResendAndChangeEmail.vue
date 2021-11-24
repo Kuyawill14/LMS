@@ -153,7 +153,7 @@ export default {
             })
             .catch(err=>{
                  this.toastError(err.response.data.errors.email[0]);
-                 console.log(err.response.data.errors.email[0]);
+                 //console.log(err.response.data.errors.email[0]);
             })
         }
     }

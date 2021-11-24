@@ -254,7 +254,7 @@ var modulesListComponent = function modulesListComponent() {
   created: function created() {
     var _this = this;
 
-    //console.log(this.role);
+    ////console.log(this.role);
     if (this.subModuleData) {
       this.loading = true;
     }

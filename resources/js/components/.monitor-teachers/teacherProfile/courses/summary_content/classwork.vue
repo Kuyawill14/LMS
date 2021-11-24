@@ -132,6 +132,7 @@ export default {
         return{
             classworkList:[],
             isGetting: true,
+              teacher_id: '',
         }
     },
  

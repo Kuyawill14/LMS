@@ -191,7 +191,7 @@ import moment from 'moment-timezone';
                   else if(this.role == 'Student' &&  this.CalendarSched[index].status == 'Submitting' || this.CalendarSched[index].status == 'Taking'){
                      name = this.CalendarSched[index].title+(this.CalendarSched[index].status);
                      color = "info";
-                     //console.log(this.CalendarSched[index].status);
+                     ////console.log(this.CalendarSched[index].status);
                   }
                   
                   else{
@@ -278,7 +278,7 @@ import moment from 'moment-timezone';
       showEvent ({ nativeEvent, event }) {
         const open = () => {
           this.selectedEvent = event
-          //console.log(event);
+          ////console.log(event);
           this.selectedElement = nativeEvent.target
           requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
         }

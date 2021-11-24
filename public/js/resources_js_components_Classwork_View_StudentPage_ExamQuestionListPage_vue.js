@@ -1032,7 +1032,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
        this.tempCounter = 0;
        this.CountTime(); */
       this.isSavingAnswer = true;
-      this.updateAnswer(); //console.log(this.FinalAnswers);
+      this.updateAnswer(); ////console.log(this.FinalAnswers);
 
       this.Questype = "";
       this.PickAnswers.ans = "";
@@ -1413,9 +1413,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[main_index].SubAnswer[x].id;
           }
         }
-      }
+      } //console.log(this.FinalAnswers[main_index]);
 
-      console.log(this.FinalAnswers[main_index]);
     },
     StartQuiz: function StartQuiz() {
       var _this10 = this;
@@ -1590,8 +1589,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     getTimeSpent: function getTimeSpent() {
       var totalSeconds = this.CurrentUserTime.hours * 60 * 60 * 1000 + this.CurrentUserTime.minutes * 60 * 1000;
-      this.timeSpent = Math.floor(totalSeconds / 1000 / 60);
-      console.log(this.duration - this.timeSpent);
+      this.timeSpent = Math.floor(totalSeconds / 1000 / 60); //console.log((this.duration - this.timeSpent));
+
       var data = {};
       data.time = this.duration - this.timeSpent;
       data.istime = this.isTimesUps;

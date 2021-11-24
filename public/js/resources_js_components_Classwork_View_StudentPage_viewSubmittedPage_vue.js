@@ -220,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ViewSubmiisionConditions.showAnswer = this.details.showAnswer;
       this.ViewSubmiisionConditions.showAnswerType = this.details.showAnswerType;
       axios.get('/api/question/question-answer/' + this.$route.params.id + '/' + this.details.class_classwork_id).then(function (res) {
-        ////console.log(res.data)
+        //////console.log(res.data)
         _this.QuestionAndAnswer = res.data;
         var Submitted_length = _this.details.Submitted_Answers.length;
         var Question_length = _this.QuestionAndAnswer.Question.length;
@@ -280,7 +280,7 @@ __webpack_require__.r(__webpack_exports__);
                   });
 
                   for (var a = 0; a < Ans.length; a++) {
-                    Ans[a].SubChoice = tmpChoices[a].choice; //console.log(tmpChoices[a].choice);
+                    Ans[a].SubChoice = tmpChoices[a].choice; ////console.log(tmpChoices[a].choice);
                   }
 
                   _this.SubmittedAnswer[_i] = Ans;
@@ -297,7 +297,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.isLoading = false;
       });
       /* this.$store.dispatch('fetchQuestions', this.$route.params.id).then(res=>{
-          ////console.log(res);
+          //////console.log(res);
           this.Details = res[0];
           for (let i = 0; i < this.Details.Question.length; i++) {
               for (let j = 0; j < this.details.Submitted_Answers.length; j++) {
@@ -315,7 +315,7 @@ __webpack_require__.r(__webpack_exports__);
               }
               
           }
-          ////console.log(this.details.Submitted_Answers);
+          //////console.log(this.details.Submitted_Answers);
           this.isLoading = false;
       });
       */
@@ -324,9 +324,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.fetchQuestions();
     var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-    this.Alphabet = alphabet; ////console.log(this.details);
-    ////console.log(this.classworkDetails);
-    ////console.log(this.details)
+    this.Alphabet = alphabet; //////console.log(this.details);
+    //////console.log(this.classworkDetails);
+    //////console.log(this.details)
   }
 });
 

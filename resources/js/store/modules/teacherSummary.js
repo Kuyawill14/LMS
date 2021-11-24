@@ -23,7 +23,7 @@ const actions = {
         const res = await axios.get(
             `/api/admin/teachers/all/summarry`
         );
-        ////console.log(res.data);
+        //////console.log(res.data);
         commit('FETCH_TEACHERS', res.data);
     },
 
@@ -33,7 +33,7 @@ const actions = {
         const res = await axios.get(
             '/api/admin/teachers/profile/' + id
         );
-        //console.log(res.data);
+        ////console.log(res.data);
         commit('FETCH_TEACHERS', res.data);
     },
 };

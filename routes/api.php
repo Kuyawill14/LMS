@@ -34,6 +34,9 @@ use App\Models\tbl_subjective_rubrics;
 use App\Http\Controllers\api\SubjectiveTypeRubrics;
 use App\Http\Controllers\api\CourseOverviewController;
 use App\Http\Controllers\api\admin\ManageUserController;
+use App\Http\Controllers\api\CampusDirector\CampusDirectorController;
+
+use App\Http\Controllers\api\sms\testSmscontroller;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -380,7 +383,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
    
     Route::get('/teachers/all/progress', [AdminController::class, 'getAllTeacherProgress']);
   
-    Route::get('/teachers/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
+
     Route::get('/teachers/profile/{id}', [TeacherProfileController::class, 'teacherProfile']);
     Route::get('/teachers/profile/ClassesList/{id}', [TeacherProfileController::class, 'getCourseAndClassesList']);
     Route::get('/teachers/classes/{id}/{user_id}', [TeacherProfileController::class, 'getCourseClassList']);
@@ -388,6 +391,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
     Route::get('/teachers/classworkList/{id}', [TeacherProfileController::class, 'getCourseClassworkList']);
 
 
+    Route::get('/teachers/all/summarry', [MonitorTeacherController::class, 'getAllTeacherSummarryData']);
     Route::get('/teacher/summarry', [MonitorTeacherController::class, 'teacher_sumarry_data']);
     
 });
@@ -413,8 +417,29 @@ Route::middleware('auth:sanctum')->prefix('/admin/department')->group(function()
     Route::put('/update/{id}', [DepartmentController::class, 'update']);
     Route::delete('/delete/{id}', [DepartmentController::class, 'destroy']);
    
+
+
+   
     
 });
+
+
+
+//Campus Director
+Route::middleware('auth:sanctum')->prefix('/department')->group(function() {
+   //department Data from campus director
+   Route::get('/data/all', [CampusDirectorController::class, 'getDepartmentsData']);
+   Route::get('/data/{id}', [CampusDirectorController::class, 'selectedDeparment']);
+   
+    
+    
+});
+
+
+
+
+
+
 
 
 //Course overview
@@ -446,3 +471,5 @@ Route::middleware('auth:sanctum')->post('/confirm-password', [AuthController::cl
 Route::put('/send_reset_password', [ForgotPasswordController::class, 'SendResetPassword']);
 Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'ConfirmResetPassword']);
 
+
+Route::post('/testingSMS', [testSmscontroller::class, 'index']);

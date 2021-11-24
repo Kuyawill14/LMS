@@ -221,8 +221,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       for (var i = 0; i < arr.length; i++) {
         total += arr[i]['points'];
       }
-      /*  //console.log('tota;', total);
-       //console.log('classworktoal', this.classworkTotalPoints) */
+      /*  ////console.log('tota;', total);
+       ////console.log('classworktoal', this.classworkTotalPoints) */
 
 
       var result = total / this.classworkTotalPoints * total_percent;
@@ -233,7 +233,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/student/all_by_class/' + this.selectedClass).then(function (res) {
         _this.students = res.data;
-      })["catch"](function (error) {//console.log(error)
+      })["catch"](function (error) {////console.log(error)
       });
     },
     getAllGradeCriteria: function getAllGradeCriteria() {
@@ -246,7 +246,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.headers = [];
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
-        _this2.classworkList = res.data; //console.log(res.data);
+        _this2.classworkList = res.data; ////console.log(res.data);
 
         for (var i = 0; i < _this2.classworkList.length; i++) {
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -259,7 +259,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             total += _this2.classworkList[i]['points'];
           }
-        } //    //console.log(grading_criteria_id)
+        } //    ////console.log(grading_criteria_id)
 
 
         _this2.classworkTotalPoints = total;
@@ -274,7 +274,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       this.headers = [];
       axios.get('/api/grade-book/classworks/' + this.selectedClass).then(function (res) {
-        _this3.classworkList = res.data; //console.log(res.data);
+        _this3.classworkList = res.data; ////console.log(res.data);
 
         for (var i = 0; i < _this3.classworkList.length; i++) {
           // this.headers[i+1] = {text: this.classworkList[i]['title'], value: this.classworkList[i]['title']};
@@ -299,7 +299,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       axios.get('/api/grade-book/classworkGrades/' + this.selectedClass).then(function (res) {
         _this4.classworkList = res.data;
-        /* //console.log(res.data); */
+        /* ////console.log(res.data); */
 
         for (var i = 0; i < _this4.classworkList.length; i++) {
           if (_this4.classworkList[i]['grading_criteria_id'] == grading_criteria_id) {}
@@ -310,7 +310,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var total = 0;
       percentage_data.forEach(function (val) {
         total += parseFloat(val.percentage);
-        /* //console.log(total); */
+        /* ////console.log(total); */
       });
       return total;
     },
@@ -324,7 +324,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this5.getClassworkList(); // this.getStudentList();
 
 
-        _this5.getfinalGrades(); //console.log('class Liost: ', this.classList);
+        _this5.getfinalGrades(); ////console.log('class Liost: ', this.classList);
 
       });
     },

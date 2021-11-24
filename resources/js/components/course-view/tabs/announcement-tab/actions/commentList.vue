@@ -307,7 +307,7 @@ export default {
                     });
                     this.last_page = res.data.last_page;
                     this.current_count =  this.CommentList.length;
-                    console.log(this.current_page);
+                    //console.log(this.current_page);
                     this.CommentList.sort(function(a, b){return a.id - b.id});
                      this.CommentList.forEach(item => {
                         this.readMore.push({id: item.id , isLongText: false, IsreadMore: false})

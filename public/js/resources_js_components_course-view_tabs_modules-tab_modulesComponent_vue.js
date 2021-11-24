@@ -108,7 +108,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
         this.$store.dispatch('createMainModule', this.moduleForm).then(function (res) {
-          // //console.log(res);
+          // ////console.log(res);
           _this.moduleForm.reset();
 
           _this.isSubmitting = false;
@@ -133,7 +133,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
         this.$store.dispatch('updateMainModule', this.moduleForm).then(function (res) {
-          // //console.log(res);
+          // ////console.log(res);
           _this2.isSubmitting = false;
 
           _this2.$emit('closeModal');

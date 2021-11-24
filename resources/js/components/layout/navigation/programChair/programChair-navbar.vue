@@ -1,8 +1,21 @@
 <template>
 
     <v-list nav>
-       
-        <template >
+
+        <template>
+
+
+            <v-list-item link :to="{name: 'monitorTeachers'}" v-if="$route.name == 'monitorTeacher_id'" exact>
+                <v-list-item-action>
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Go Back
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+            <v-divider v-if="$route.name == 'monitorTeacher_id'"></v-divider>
 
             <v-list-item link :to="{name: 'dashboard'}" exact>
                 <v-list-item-action>
@@ -15,19 +28,8 @@
                 </v-list-item-content>
             </v-list-item>
 
-             <v-list-item link  :to="{name: 'program_chair-announcement'}" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-message-alert</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>
-                        Announcement
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
 
-
-            <v-list-item link :to="{name: 'program_chair-monitor_teachers'}" exact>
+            <v-list-item link :to="{name: 'monitorTeachers'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-chart-box-outline</v-icon>
                 </v-list-item-action>
@@ -38,34 +40,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-group color="none" value="false" link prepend-icon="mdi-contacts">
-                <template v-slot:activator>
-                    <v-list-item-title>Manage Users</v-list-item-title>
-                </template>
-                <v-list-item link :to="{name: 'program_chair-manage_teachers'}" exact>
-                    <v-list-item-action>
-                        <v-icon>mdi-account-supervisor</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Teacher Accounts
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
 
-
-                <v-list-item link :to="{name: 'program_chair-manage_students'}" exact>
-                    <v-list-item-action>
-                        <v-icon>mdi-human-greeting</v-icon>
-                    </v-list-item-action>
-
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Student Accounts
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list-group>
         </template>
 
 
@@ -80,7 +55,7 @@
 <script>
     export default {
         mounted() {
-            console.log(this.$route);
+            //console.log(this.$route);
         }
     }
 

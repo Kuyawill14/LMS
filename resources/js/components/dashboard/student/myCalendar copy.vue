@@ -239,7 +239,7 @@ import moment from 'moment/src/moment';
       showEvent ({ nativeEvent, event }) {
         const open = () => {
           this.selectedEvent = event
-          //console.log(event);
+          ////console.log(event);
           this.selectedElement = nativeEvent.target
           requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
         }

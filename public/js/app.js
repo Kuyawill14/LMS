@@ -2015,7 +2015,11 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
+<<<<<<< HEAD
   key: "865de026959fe9de27a8",
+=======
+  key: "05597b24c42e8d5d33ef",
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
   cluster: "ap1",
   forceTLS: true
 });
@@ -2264,12 +2268,16 @@ var managestudents = function managestudents() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-studentsComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/manage-users/manage-studentsComponent */ "./resources/js/components/admin/manage-users/manage-studentsComponent.vue"));
 };
 
+var manageCampusDirector = function manageCampusDirector() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-campusDirectorComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/manage-users/manage-campusDirectorComponent */ "./resources/js/components/admin/manage-users/manage-campusDirectorComponent.vue"));
+};
+
 var monitorTeachers = function monitorTeachers() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/monitor-teachers/monitorTeachersComponent */ "./resources/js/components/admin/monitor-teachers/monitorTeachersComponent.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.monitor-teachers/monitorTeachersComponent.vue"));
 };
 
 var teacherProfile = function teacherProfile() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_admin_monitor-teachers_teacherProfile_teacherProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/monitor-teachers/teacherProfile/teacherProfile */ "./resources/js/components/admin/monitor-teachers/teacherProfile/teacherProfile.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_teacherProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.monitor-teachers/teacherProfile/teacherProfile */ "./resources/js/components/.monitor-teachers/teacherProfile/teacherProfile.vue"));
 };
 
 var schoolyear_semester = function schoolyear_semester() {
@@ -2332,21 +2340,26 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       component: managestudents,
       name: "managestudents"
     }, {
+      path: "/manage-users/campus-director",
+      component: manageCampusDirector,
+      name: "manageCampusDirector"
+    }, //program chair
+    {
       path: "/monitor-teachers",
       component: monitorTeachers,
       name: "monitorTeachers"
     }, {
-      path: "/teacher-profile/:id",
+      path: "/monitor-teacher/:id/",
       component: teacherProfile,
-      name: "teacherProfile"
+      name: "monitorTeacher_id"
     }, {
       path: "/schoolyear-semester",
       component: schoolyear_semester,
       name: "schoolyear_semester"
     }, {
-      path: "/department",
+      path: "/manage-departments",
       component: department,
-      name: "department"
+      name: "manage_departments"
     }, {
       path: "/courses",
       component: mycourse,
@@ -2965,30 +2978,36 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       path: "/course-not-found/:id",
       component: ClassNotFound,
       name: "course-not-found"
+    }, //Campus Director
+    {
+      path: "/departments",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_monitorDepartmentComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.campus-director/monitor-departments/monitorDepartmentComponent */ "./resources/js/components/.campus-director/monitor-departments/monitorDepartmentComponent.vue"));
+      },
+      name: "campus_director-monitor_deparments"
     }, {
-      path: "/program_chair-announcement",
+      path: "/department/:id",
+      component: function component() {
+        return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_department_page_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.campus-director/monitor-departments/department_page */ "./resources/js/components/.campus-director/monitor-departments/department_page.vue"));
+      },
+      children: [{
+        path: "",
+        component: function component() {
+          return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_overview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.campus-director/monitor-departments/overview */ "./resources/js/components/.campus-director/monitor-departments/overview.vue"));
+        },
+        name: "campus_director-monitor_deparments-id"
+      }, {
+        path: "teacher",
+        component: teacherProfile,
+        name: "departmentMonitorTeacher_id"
+      }]
+    }, //Program Chair
+    {
+      path: "/program_chair/announcement",
       component: function component() {
         return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_announcement_programChair-announcement_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/announcement/programChair-announcement */ "./resources/js/components/.program-chair/announcement/programChair-announcement.vue"));
       },
       name: "program_chair-announcement"
-    }, {
-      path: "/program_chair-monitor_teachers",
-      component: function component() {
-        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.program-chair/monitor-teachers/monitorTeachersComponent.vue"));
-      },
-      name: "program_chair-monitor_teachers"
-    }, {
-      path: "/program_chair-manage_teachers",
-      component: function component() {
-        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-teachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-teachersComponent */ "./resources/js/components/.program-chair/manage-users/manage-teachersComponent.vue"));
-      },
-      name: "program_chair-manage_teachers"
-    }, {
-      path: "/program_chair-manage_students",
-      component: function component() {
-        return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_manage-users_manage-studentsComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/.program-chair/manage-users/manage-studentsComponent */ "./resources/js/components/.program-chair/manage-users/manage-studentsComponent.vue"));
-      },
-      name: "program_chair-manage_students"
     }]
   }, {
     path: "/quiz/:id",
@@ -3207,7 +3226,7 @@ var actions = {
 
             case 4:
               res = _context2.sent;
-              //console.log(res.data.photo_url);
+              ////console.log(res.data.photo_url);
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
               state.IsVerified = res.data.verified;
@@ -3270,7 +3289,7 @@ var actions = {
   },
   setCourseStatus: function setCourseStatus(_ref5, id) {
     var commit = _ref5.commit;
-    //console.log(id);
+    ////console.log(id);
     state.MyCourses.forEach(function (item) {
       if (item.id == id) {
         item.status = 1;
@@ -3279,7 +3298,7 @@ var actions = {
   },
   CheckMyCourse: function CheckMyCourse(_ref6, course_id) {
     var commit = _ref6.commit;
-    ////console.log(course_id);
+    //////console.log(course_id);
     var exist = false;
     var status = 0;
     state.MyCourses.forEach(function (item) {
@@ -3319,10 +3338,17 @@ var mutations = {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./resources/js/store/modules/StudentsList.js":
 /*!****************************************************!*\
   !*** ./resources/js/store/modules/StudentsList.js ***!
   \****************************************************/
+=======
+/***/ "./resources/js/store/modules/allCampusDirector.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/allCampusDirector.js ***!
+  \*********************************************************/
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3342,6 +3368,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
+<<<<<<< HEAD
   allStudents: []
 };
 var getters = {
@@ -3353,11 +3380,32 @@ var actions = {
   fetchAllStudents: function fetchAllStudents(_ref, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var commit, res;
+=======
+  allCampusDirector: []
+};
+var getters = {
+  getCampusDirector: function getCampusDirector(state) {
+    return state.allCampusDirector;
+  },
+  filterCampusDirector: function filterCampusDirector(state) {
+    return function (user_id) {
+      return state.allCampusDirector.filter(function (allCampusDirector) {
+        return allCampusDirector.user_id == user_id;
+      })[0];
+    };
+  }
+};
+var actions = {
+  fetchAllCampusDirector: function fetchAllCampusDirector(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, user_type, res;
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
+<<<<<<< HEAD
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/all/".concat(id));
 
@@ -3366,17 +3414,44 @@ var actions = {
               commit('FETCH_STUDENTS', res.data.StudentList);
 
             case 5:
+=======
+              user_type = 'CampusDirector';
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/users/all/".concat(user_type));
+
+            case 4:
+              res = _context.sent;
+              //////console.log(res.data);
+              commit('FETCH_CampusDirector', res.data);
+
+            case 6:
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
     }))();
+<<<<<<< HEAD
   }
 };
 var mutations = {
   FETCH_STUDENTS: function FETCH_STUDENTS(state, allStudents) {
     return state.allStudents = allStudents;
+=======
+  } // async createMainModule({ commit }, moduleForm) {
+  //     var res = await axios.post(`/api/main_module/insert`, { moduleForm: moduleForm });
+  //     var newMainModule = res.data;
+  //     // commit("CREATE_MAIN_MODULE", newMainModule);
+  //     state.main_module.push({...newMainModule })
+  //     return res;
+  // },
+
+};
+var mutations = {
+  FETCH_CampusDirector: function FETCH_CampusDirector(state, allCampusDirector) {
+    return state.allCampusDirector = allCampusDirector;
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3440,7 +3515,7 @@ var actions = {
 
             case 4:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_PROGRAMCHAIR', res.data);
 
             case 6:
@@ -3525,7 +3600,7 @@ var actions = {
 
             case 4:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 6:
@@ -3539,7 +3614,7 @@ var actions = {
   //     let res = await axios.post(`/api/announcement/insert`, { announcement: postItem });
   //     let newCLassPost = res.data;
   //     // commit('ADD_CLASSPOST', newCLassPost);
-  //     //console.log(state.class_post);
+  //     ////console.log(state.class_post);
   //     state.class_post.push({...newCLassPost });
   //     return res;
   // },
@@ -3682,7 +3757,7 @@ var actions = {
             case 3:
               res = _context3.sent;
               newCLassPost = res.data; // commit('ADD_CLASSPOST', newCLassPost);
-              //console.log(state.class_post);
+              ////console.log(state.class_post);
 
               state.class_post.push(_objectSpread({}, newCLassPost));
               return _context3.abrupt("return", res);
@@ -3856,7 +3931,7 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/class/ShowClass/".concat(id)).then(function (res) {
-                commit('setClassInfo', res.data[0]); //console.log(res.data);
+                commit('setClassInfo', res.data[0]); ////console.log(res.data);
               });
 
             case 3:
@@ -4986,8 +5061,8 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/main_module/all-module/' + id).then(function (res) {
-                // console.log(res.data);
-                // console.log(res.data.main_module.length);
+                // //console.log(res.data);
+                // //console.log(res.data.main_module.length);
                 commit('FETCH_MAIN_MODULE', res.data.main_module);
                 commit('FETCH_SUB_MODULE', res.data.sub_module);
               })["catch"](function (e) {// this.toatError('Something went wrong');
@@ -5261,9 +5336,9 @@ var actions = {
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/notification/all/' + data.type + '?page=' + nextPage).then(function (response) {
                 status = response.status;
                 state.beforeLastPageCount = state.lastPageCount;
-                state.lastPageCount = response.data.data.length; //console.log(state.beforeLastPageCount);
+                state.lastPageCount = response.data.data.length; ////console.log(state.beforeLastPageCount);
 
-                //console.log(state.beforeLastPageCount);
+                ////console.log(state.beforeLastPageCount);
                 response.data.data.forEach(function (data) {
                   state.class_notification.push(data);
                 });
@@ -5304,7 +5379,7 @@ var actions = {
 
               for (j = 0; j < count; j++) {
                 state.class_notification.splice(state.class_notification.length - 1, 1);
-              } //console.log(nextpage);
+              } ////console.log(nextpage);
 
 
               if (nextpage != state.lastPage) {
@@ -5593,7 +5668,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res);
+              ////console.log(res);
               commit('FETCH_QUESTIONS', res.data);
               return _context.abrupt("return", res);
 
@@ -5918,7 +5993,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_STUDENT_MAIN_PROGRESS', res.data);
 
             case 5:
@@ -5942,7 +6017,7 @@ var actions = {
 
             case 3:
               res = _context2.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_STUDENT_SUB_PROGRESS', res.data);
 
             case 5:
@@ -6022,7 +6097,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('SET_STUDENT_PROGRESS', res.data);
 
             case 5:
@@ -6121,7 +6196,7 @@ var mutations = {
 //         const res = await axios.get(
 //             `/api/sub_module/all/${id}`
 //         );
-//         ////console.log(res.data);
+//         //////console.log(res.data);
 //         commit('FETCH_SUB_MODULE', res.data);
 //     },
 //     async createSubModule({ commit }, SubmoduleForm) {
@@ -6200,7 +6275,7 @@ var actions = {
 
             case 3:
               res = _context.sent;
-              ////console.log(res.data);
+              //////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 5:
@@ -6224,7 +6299,7 @@ var actions = {
 
             case 3:
               res = _context2.sent;
-              //console.log(res.data);
+              ////console.log(res.data);
               commit('FETCH_TEACHERS', res.data);
 
             case 5:
@@ -6322,7 +6397,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./modules/verifyEmail */ "./resources/js/store/modules/verifyEmail.js");
 /* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
 /* harmony import */ var _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/allProgramChair */ "./resources/js/store/modules/allProgramChair.js");
+<<<<<<< HEAD
 /* harmony import */ var _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/StudentsList */ "./resources/js/store/modules/StudentsList.js");
+=======
+/* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
@@ -6373,7 +6452,11 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default,
     classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default,
     allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default,
+<<<<<<< HEAD
     studentsList: _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__.default
+=======
+    allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__.default
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
   }
 }));
 
@@ -13988,6 +14071,27 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
+     * Listen for all events on the channel instance.
+     */
+
+  }, {
+    key: "listenToAll",
+    value: function listenToAll(callback) {
+      var _this2 = this;
+
+      this.subscription.bind_global(function (event, data) {
+        if (event.startsWith('pusher:')) {
+          return;
+        }
+
+        var namespace = _this2.options.namespace.replace(/\./g, '\\');
+
+        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
+        callback(formattedEvent, data);
+      });
+      return this;
+    }
+    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -13998,6 +14102,21 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
+      }
+
+      return this;
+    }
+    /**
+     * Stop listening for all events on the channel instance.
+     */
+
+  }, {
+    key: "stopListeningToAll",
+    value: function stopListeningToAll(callback) {
+      if (callback) {
+        this.subscription.unbind_global(callback);
+      } else {
+        this.subscription.unbind_global();
       }
 
       return this;
@@ -30759,9 +30878,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  IteratorPrototype[iteratorSymbol] = function () {
+  define(IteratorPrototype, iteratorSymbol, function () {
     return this;
-  };
+  });
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -30775,8 +30894,9 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
-  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.prototype = GeneratorFunctionPrototype;
+  define(Gp, "constructor", GeneratorFunctionPrototype);
+  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -30890,9 +31010,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
     return this;
-  };
+  });
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -31085,13 +31205,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  Gp[iteratorSymbol] = function() {
+  define(Gp, iteratorSymbol, function() {
     return this;
-  };
+  });
 
-  Gp.toString = function() {
+  define(Gp, "toString", function() {
     return "[object Generator]";
-  };
+  });
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -31410,14 +31530,19 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, we can escape
+  // in case runtime.js accidentally runs in strict mode, in modern engines
+  // we can explicitly access globalThis. In older engines we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  Function("r", "regeneratorRuntime = r")(runtime);
+  if (typeof globalThis === "object") {
+    globalThis.regeneratorRuntime = runtime;
+  } else {
+    Function("r", "regeneratorRuntime = r")(runtime);
+  }
 }
 
 
@@ -37702,7 +37827,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

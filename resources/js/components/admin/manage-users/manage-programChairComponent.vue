@@ -433,7 +433,7 @@
         mounted() {
        this.fetchDeparmentList();
             this.$store.dispatch('fetchAllProgramChair').then(() => {
-                console.log('progrram cahir data', this.getProgramChair);
+                //console.log('progrram cahir data', this.getProgramChair);
                 this.ProgramChairList = this.getProgramChair;
                 this.loading = false;
             });

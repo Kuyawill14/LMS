@@ -97,7 +97,7 @@
                 //this.isGetting = true;
                 axios.get(`/api/course/overview/all/${this.$route.params.id}`)
                     .then((res) => {
-                        console.log(res.data);
+                        //console.log(res.data);
                         this.classwork_list = res.data.classworks_list;
                         this.courseSummaryheader(res.data.course_summary);
                         this.modules_list = res.data.modules_list;

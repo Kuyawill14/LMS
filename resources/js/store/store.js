@@ -24,8 +24,12 @@ import teacherSummary from './modules/teacherSummary'
 import verifyEmail from './modules/verifyEmail'
 import classworkStatusCheck from './modules/classworkStatusCheck'
 import allProgramChair from './modules/allProgramChair'
+<<<<<<< HEAD
 import studentsList from './modules/StudentsList'
 
+=======
+import allCampusDirector from './modules/allCampusDirector'
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 export default new Vuex.Store({
     modules: {
         auth,
@@ -50,7 +54,11 @@ export default new Vuex.Store({
         verifyEmail,
         classworkStatusCheck,
         allProgramChair,
+<<<<<<< HEAD
         studentsList
+=======
+        allCampusDirector
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 
 
     },

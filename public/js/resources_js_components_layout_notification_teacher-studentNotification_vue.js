@@ -326,7 +326,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.AttachData.id = id;
       this.AttachData.accepted = this.isAccepted;
       this.$store.dispatch("markAsReadNotification", this.AttachData).then(function (res) {
-        //console.log(res);
+        ////console.log(res);
         if (res == 200) {
           _this3.get_notification.forEach(function (item) {
             if (item.n_id == id) {

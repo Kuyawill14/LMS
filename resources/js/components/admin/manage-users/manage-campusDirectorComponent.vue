@@ -1,7 +1,7 @@
 <template>
     <div class="pt-4">
         <h2>
-            Manage Instructors
+            Manage Campus Director
         </h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
@@ -9,12 +9,12 @@
         <v-row class="pt-2">
             <v-col>
 
-                
-                 <v-card v-if="loading">
+
+                <v-card v-if="loading">
                     <v-skeleton-loader :loading="loading" type="table"></v-skeleton-loader>
                 </v-card>
 
-                <v-card elevation="2"  v-if="!loading">
+                <v-card elevation="2" v-if="!loading">
                     <v-card-title>
                         Instructors
 
@@ -27,17 +27,19 @@
 
                     </v-card-title>
 
-                    <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
+                    <v-data-table :headers="headers" :items="getCampusDirector" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
-                                    <td style="width:1%"> <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon> </td>
+                                    <td style="width:1%">
+                                        <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
+                                    </td>
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                    <td> <v-icon :color="item.isVerified != null ? 'success' : ''">{{item.isVerified ? 'mdi-check' : ''}}</v-icon> </td>
+                                    <!-- <td> {{ item.department_short_name}} </td> -->
 
                                     <td>
                                         <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
@@ -86,7 +88,7 @@
         <v-dialog v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    {{this.type == "add" ? 'Add Teacher' :  'Update Teacher'}}
+                    {{this.type == "add" ? 'Add CampusDirector' :  'Update CampusDirector'}}
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-container>
@@ -117,11 +119,7 @@
                                 <v-text-field autocomplete="false" label="Email" name="Email" :rules="loginEmailRules"
                                     v-model="form.email" type="email" color="primary" outlined />
                             </v-col>
-                             <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <v-btn @click="VerifyUser(form.user_id)" block rounded large color="primary">
-                                    <v-icon left>mdi-account-check-outline</v-icon>
-                                    Verify user</v-btn>
-                            </v-col>
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
                                 <v-text-field autocomplete="off" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -130,6 +128,14 @@
                                     :rules="[rules.required, rules.min]" counter @click:append="show = !show"
                                     outlined />
                             </v-col>
+
+<!-- 
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="department" />
+                                <v-select :items="department" v-model="form.department" item-value="id" item-text="name" return-object label="Department" dense outlined></v-select>
+                            </v-col> -->
+
+
                         </v-row>
                     </v-form>
                 </v-container>
@@ -180,7 +186,7 @@
     export default {
         data: function () {
             return {
-
+                user_type: 'CampusDirector',
                 Deldialog: false,
                 dialog: false,
                 temp_id: '',
@@ -192,7 +198,7 @@
                 type: '',
                 search: "",
                 valid: true,
-                role: ['Teacher', 'Student'],
+                role: ['CampusDirector', 'Student'],
                 form: new Form({
                     firstName: "",
                     middleName: "",
@@ -200,7 +206,8 @@
                     email: "",
                     password: "",
                     password_confirmation: "",
-                    verified: null
+                    verified: null,
+                    department: null
                 }),
 
                 nameRules: [
@@ -221,8 +228,7 @@
                     required: value => !!value || "Field is required.",
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
-                headers: [
-                    {
+                headers: [{
                         sortable: false
                     },
                     {
@@ -250,10 +256,10 @@
                         value: 'email',
                         align: 'start',
                     },
-                    {
-                        text: 'Verified',
-                        align: 'start',
-                    },
+                    // {
+                    //     text: 'Deparment',
+                    //     align: 'start',
+                    // },
                     {
                         text: 'Password Reset',
                         sortable: false
@@ -264,31 +270,38 @@
                         sortable: false
                     },
                 ],
-                teacherList: [],
+                CampusDirectorList: [],
                 loading: true,
+                department: [],
 
             }
 
         },
         computed: {
-            ...mapGetters(["getTeachers", "filterTeacher"]),
-            filteredItems() {
-                if (this.search) {
-                    return this.teacherList.filter((item) => {
-                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
-                            .includes(v) || item.lastName.toLowerCase()
-                            .includes(v) || item.middleName.toLowerCase()
-                            .includes(v) || item.user_id.toString()
-                            .includes(v))
-                    })
-                } else {
-                    return this.teacherList;
-                }
+            ...mapGetters(["getCampusDirector", "filterCampusDirector"]),
+            // filteredItems() {
+            //     if (this.search) {
+            //         return this.CampusDirectorList.filter((item) => {
+            //             return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+            //                 .includes(v) || item.lastName.toLowerCase()
+            //                 .includes(v) || item.middleName.toLowerCase()
+            //                 .includes(v) || item.user_id.toString()
+            //                 .includes(v))
+            //         })
+            //     } else {
+            //         return this.CampusDirectorList;
+            //     }
 
-            }
+            // }
         },
 
         methods: {
+           fetchDeparmentList() {
+                axios.get('/api/admin/department/all')
+                .then((res) => {
+                    this.department = res.data;
+                })
+            },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'ISU-' + tmpLastname;
@@ -298,18 +311,20 @@
             openAdd() {
                 this.type = 'add'
                 this.dialog = true;
+                   
             },
             openEdit(user_id) {
-
+   
                 this.type = 'edit'
                 this.dialog = true;
-                var currentTeacher = this.filterTeacher(user_id);
-                this.form.user_id = currentTeacher.user_id;
-                this.form.firstName = currentTeacher.firstName;
-                this.form.middleName = currentTeacher.middleName;
-                this.form.lastName = currentTeacher.lastName;
-                this.form.email = currentTeacher.email;
-                this.form.verified = currentTeacher.isVerified;
+                var currentCampusDirector = this.filterCampusDirector(user_id);
+                this.form.user_id = currentCampusDirector.user_id;
+                this.form.firstName = currentCampusDirector.firstName;
+                this.form.middleName = currentCampusDirector.middleName;
+                this.form.lastName = currentCampusDirector.lastName;
+                this.form.email = currentCampusDirector.email;
+                this.form.verified = currentCampusDirector.isVerified;
+                this.form.department = currentCampusDirector.department_id;
             },
             openDelete(id, index) {
                 this.deleteIndex = index;
@@ -319,7 +334,7 @@
             updatePass(id) {
                 this.IsResetting_id = id;
                 this.IsResetting = true;
-                axios.post('/api/admin/teachers/reset-password/' + id)
+                axios.post('/api/admin/users/reset-password/' + id)
                     .then(res => {
                         this.toastSuccess(res.data);
                         this.IsResetting = false;
@@ -327,10 +342,10 @@
             },
             deleteUser() {
                 this.IsDeleting = true;
-                axios.delete('/api/admin/teachers/remove/' + this.delId)
+                axios.delete('/api/admin/users/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
-                            this.getTeachers.splice(this.deleteIndex, 1);
+                            this.getCampusDirector.splice(this.deleteIndex, 1);
                             this.toastSuccess('User successfully removed!')
                             this.IsDeleting = false;
                             this.deleteIndex = null;
@@ -339,33 +354,28 @@
                             this.IsDeleting = false;
                         }
                         this.Deldialog = false;
-                        this.$store.dispatch('fetchAllTeachers');
+                        this.$store.dispatch('fetchAllCampusDirector');
                     })
             },
-            updateTeacherDetails() {
-                this.$store.dispatch('updateTeacher', this.form);
-            },
-            async VerifyUser(id){
-                axios.put('/api/admin/verifyUser/'+id).then((res)=>{
+          
 
-                })
-            },
             validate() {
 
                 if (this.$refs.RegisterForm.validate()) {
                     this.IsAddUpdating = true;
                     if (this.type == 'add') {
                         this.form.password_confirmation = this.form.password
-                         axios.post('/api/admin/add/teacher', this.form)
+                        axios.post(`/api/admin/users/add/${this.user_type}`, this.form)
                             .then((response) => {
-                           
-                                if(response.status == 200) {
-                                
+
+                                if (response.status == 200) {
+
                                     this.$refs.RegisterForm.reset()
                                     this.valid = true;
                                     this.dialog = false;
-                                    //this.$store.dispatch('fetchAllTeachers');
-                                    this.teacherList.push(response.data);
+                                    //this.$store.dispatch('fetchAllCampusDirector');
+                                    
+                                    this.CampusDirectorList.unshift(response.data);
                                     this.toastSuccess('User successfully Added!')
                                     this.IsAddUpdating = false;
                                 } else {
@@ -378,13 +388,10 @@
                                 this.IsAddUpdating = false;
                                 this.toastError('Something went wrong!');
                             })
-                            
-
-                    }
 
 
-                    else if (this.type == 'edit') {
-                        this.form.post('/api/admin/teachers/update/' + this.form.user_id)
+                    } else if (this.type == 'edit') {
+                        this.form.post('/api/admin/users/update/' + this.form.user_id)
                             .then((res) => {
 
 
@@ -393,8 +400,8 @@
                                     this.valid = true;
                                     this.dialog = false;
                                     this.IsAddUpdating = false;
-                                    this.$store.dispatch('fetchAllTeachers').then(() => {
-                                        this.teacherList = this.getTeachers;
+                                    this.$store.dispatch('fetchAllCampusDirector').then(() => {
+                                        this.CampusDirectorList = this.getCampusDirector;
                                     });
                                     this.toastSuccess('User Successfully Updated!')
 
@@ -424,9 +431,10 @@
         },
 
         mounted() {
-
-            this.$store.dispatch('fetchAllTeachers').then(() => {
-                this.teacherList = this.getTeachers;
+    //    this.fetchDeparmentList();
+            this.$store.dispatch('fetchAllCampusDirector').then(() => {
+                //console.log('progrram cahir data', this.getCampusDirector);
+                this.CampusDirectorList = this.getCampusDirector;
                 this.loading = false;
             });
         }

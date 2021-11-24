@@ -215,7 +215,7 @@
                     if (data[0] == 'error') {
                         for (var i = 1; i < data.length; i++) {
                             errors = data[i] + "<br>" + errors;
-                            //console.log(data[i]);
+                            ////console.log(data[i]);
                         }
                         this.loading = false;
 

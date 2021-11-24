@@ -171,7 +171,7 @@ export default {
             },
 
             onChange(html, text) {
-                //console.log(html);
+                ////console.log(html);
             },
              createPost() {
                 if (this.announcement.content != '') {
@@ -247,7 +247,7 @@ export default {
                 }
             },
             onChange(quill,html, text){
-                //console.log(this.announcement.content);
+                ////console.log(this.announcement.content);
             },
              fetchClassnames() {
                 if(this.UserDetails.role == 'Teacher'){

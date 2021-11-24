@@ -295,7 +295,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     openEdit: function openEdit(user_id) {
       this.type = 'edit';
       this.dialog = true;
-      var currentTeacher = this.filterTeacher(user_id); //console.log(currentTeacher);
+      var currentTeacher = this.filterTeacher(user_id); ////console.log(currentTeacher);
 
       this.form.user_id = currentTeacher.user_id;
       this.form.firstName = currentTeacher.firstName;
@@ -361,7 +361,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
-            //console.log("Success");
+            ////console.log("Success");
             _this3.$refs.RegisterForm.reset();
 
             _this3.valid = true;

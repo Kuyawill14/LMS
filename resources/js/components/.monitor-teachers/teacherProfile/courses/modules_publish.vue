@@ -1,29 +1,23 @@
 <template>
-    <div>
 
-       
-        <v-row style="margin-top: 13rem"  v-if="isGetting" align-content="center" justify="center">
-            <v-col class="text-subtitle-1 text-center" cols="12">
-                Loading Modules
-            </v-col>
-            <v-col cols="6">
-                <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
-            </v-col>
-        </v-row>
-           
+    <v-card>
+        <v-toolbar dark color="primary">
+            <v-btn icon dark @click="$emit('closeDialog')">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
 
-        <v-row style="margin-top: 7rem" align="center" justify="center" class="pt-10" v-if="getmain_module.length == 0 && !isGetting">
-            <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:7rem">
-                    mdi-folder
-                </v-icon>
-                <h2> Empty Modules </h2>
-            </v-col>
-        </v-row>
+        <v-toolbar-title>{{course_details.course_name}}</v-toolbar-title>
 
-        <div  v-if="!isGetting && getmain_module.length != 0">
-            <v-expansion-panels  focusable>
-              
+        </v-toolbar>
+        
+            <vue-element-loading :active="isDrag" spinner="bar-fade-scale" color="#FF6700" />
+
+            <v-container>
+                
+            <v-expansion-panels focusable>
+                <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
+                    @end="isDragging = false" v-bind="dragOptions">
+                    <transition-group type="transition" name="flip-list">
                         <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" draggable="true">
                             <span class="text-right pannel-btn">
 
@@ -77,17 +71,20 @@
                                         </v-menu>
                                     </v-list-item-action>
                                 </v-list-item>
-                            
+                               
                             </v-expansion-panel-content>
                         </v-expansion-panel>
-           
+                    </transition-group>
+                </draggable>
             </v-expansion-panels>
-        </div>
-    </div>
+</v-container>
+
+
+    </v-card>
 </template>
+
 <script>
     import draggable from "vuedraggable";
-
     import {
         mapGetters,
         mapActions
@@ -97,31 +94,45 @@
         props: ['course_details'],
         data() {
             return {
-                    moduleName: '',
-                    isEdit: false,
-                    itemType: '',
-                    isDrag: false,
-                    itemDialog: false,
-                    temp_id: null,
-                    showLecture: false,
-                    addLink: false,
-                    showClasswork: false,
-                    subModuleForm: {},
-                    mainModule_id: '',
-                    mainModule: [],
-                    propModule: [],
-                    studentSubModuleProgress: [],
-                    studentSubModuleProgressForm: {},
-                    isGetting: true,
-                    }
-                },
+                moduleName: '',
+                isEdit: false,
+                itemType: '',
+                isDrag: false,
+                itemDialog: false,
+                temp_id: null,
+                showLecture: false,
+                addLink: false,
+                showClasswork: false,
+                subModuleForm: {},
+                mainModule_id: '',
+                mainModule: [],
+                propModule: [],
+                studentSubModuleProgress: [],
+                studentSubModuleProgressForm: {},
+            }
+        },
         computed: {
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
-         
+            dragOptions() {
+                return {
+                    animation: 0,
+                    group: "description",
+                    disabled: false,
+                    ghostClass: "ghost"
+                };
+            },
 
         },
         methods: {
-          
+            onEnd() {
+                this.isDrag = true;
+                axios.post(`/api/main_module/arrange`, {
+                        mainModules: this.mainModule
+                    })
+                    .then((res) => {
+                        this.isDrag = false;
+                    })
+            },
             getdata() {
                 this.mainModule = this.getmain_module;
             },
@@ -151,7 +162,7 @@
            
             checkSubModule(arr, sub_module_id) {
                 var check = false;
-                ////console.log(arr);
+                //////console.log(arr);
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i].sub_module_id == sub_module_id) {
                         check = true;
@@ -159,20 +170,45 @@
                 }
                 return check;
             },
-            fetchAllModule() {
-                this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(() => {
-                    this.isGetting = false;
-                    this.moduleLength = this.getmain_module.length;
-                    this.mainModule = this.getmain_module;
-                });
-                this.$store.dispatch('fetchSubModule', this.course_details.course_id);
+               fetchAllModule() {
+                 this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(() => {
+                      
+                        this.isGetting = false;
+                        this.moduleLength = this.getmain_module.length;
+                           this.mainModule = this.getmain_module;
+                        
+                    });
+                    this.$store.dispatch('fetchSubModule', this.course_details.course_id);
+
+
             },
             
+
+
         },
-        async beforeMount(){
-            this.fetchAllModule();
+        async mounted() {
+                this.fetchAllModule();
+            // axios.get(
+            //     `/api/student_sub_module/all/${this.$route.params.id}`
+            // ).then((res) => {
+            //     this.studentSubModuleProgress = res.data;
+
+            //     this.getCount(this.studentSubModuleProgress, 23);
+            //     this.$store.dispatch('fetchMainModule', this.$route.params.id);
+            //     this.$store.dispatch('fetchSubModule', this.$route.params.id);
+            // }).catch((error) => {
+            //     ////console.log(error)
+            // })
+
+
+
+
+
+
+        },
+        created() {
+
         }
-        
 
     }
 

@@ -468,7 +468,7 @@
                     if (this.type == 'edit') {
                         this.form.post('/api/admin/users/update/' + this.form.user_id)
                             .then(() => {
-                                ////console.log(this.StudentList[this.updateIndex])
+                                //////console.log(this.StudentList[this.updateIndex])
                                 this.updateDataInfrontEnd(this.form)
                                 this.valid = true;
                                 this.dialog = false;

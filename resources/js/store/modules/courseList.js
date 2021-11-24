@@ -28,7 +28,7 @@ const actions = {
     },
 
     async updateCourse({ commit }, courseItem) {
-        //console.log('course_item', courseItem);
+        ////console.log('course_item', courseItem);
         let response = await axios
             .post(`/api/course/update/${courseItem.id}`, { courseItem: courseItem })
             .then(res => {

@@ -288,7 +288,7 @@ export default {
        this.AttachData.accepted = this.isAccepted;
        this.$store.dispatch("markAsReadNotification", this.AttachData)
        .then(res=>{
-         //console.log(res);
+         ////console.log(res);
          if(res == 200){
               this.get_notification.forEach(item => {
                   if(item.n_id == id){

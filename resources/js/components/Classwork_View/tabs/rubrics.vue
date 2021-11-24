@@ -176,7 +176,7 @@
                     this.$emit('CriteriaSave');
                 })
                 .catch((err) => {
-                    console.log(err);
+                    //console.log(err);
                     this.toastError('Something went wrong');
                     this.loading = false;
                 })
@@ -201,7 +201,7 @@
                         this.criteria = res.data;
                         this.loading = false;
                     }).catch((err) => {
-                        console.log(err);
+                        //console.log(err);
                         this.toastError('Something went wrong');
                         this.loading = false;
                     })
@@ -214,7 +214,7 @@
                         this.deleteDialog = false;
                         this.criteria.splice(this.deleteIndex, 1);
                     }).catch((err) => {
-                        console.log(err);
+                        //console.log(err);
                         this.toastError('Something went wrong');
                         this.loading = false;
                     })

@@ -226,11 +226,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      department: [],
+      user_type: 'Student',
       isVerifying: false,
       Deldialog: false,
       ResetPassworddialog: false,
@@ -255,7 +271,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: "",
         password_confirmation: "",
         student_id: "",
-        verified: null
+        verified: null,
+        department: null
       }),
       studenIdRule: [function (v) {
         return !!v || 'Student Id is required';
@@ -307,6 +324,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'email',
         align: 'start'
       }, {
+        text: 'Deparment',
+        align: 'start'
+      }, {
         text: 'Verified',
         align: 'start'
       }, {
@@ -335,6 +355,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    fetchDeparmentList: function fetchDeparmentList() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/department/all').then(function (res) {
+        _this2.department = res.data;
+      });
+    },
     SetPassword: function SetPassword(lastname) {
       var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
       this.form.password = 'LMS-' + tmpLastname;
@@ -355,6 +382,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.form.email = details.email;
       this.form.student_id = details.student_id;
       this.form.verified = details.isVerified;
+      this.form.department = details.department_id;
 
       if (!this.valid) {
         this.$refs.RegisterForm.resetValidation();
@@ -366,15 +394,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.Deldialog = true;
     },
     updatePass: function updatePass() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isConfirmReset = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/teachers/reset-password/' + this.IsResetting_id).then(function (res) {
-        _this2.toastSuccess(res.data);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/users/reset-password/' + this.IsResetting_id).then(function (res) {
+        _this3.toastSuccess(res.data);
 
-        _this2.isConfirmReset = false;
-        _this2.IsResetting = false;
-        _this2.ResetPassworddialog = false;
+        _this3.isConfirmReset = false;
+        _this3.IsResetting = false;
+        _this3.ResetPassworddialog = false;
       });
     },
     OpenupdatePassDialog: function OpenupdatePassDialog(id) {
@@ -383,56 +411,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsResetting = true;
     },
     deleteUser: function deleteUser() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.IsDeleting = true;
-      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/teachers/remove/' + this.delId).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/users/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
-          _this3.StudentList.splice(_this3.deleteIndex, 1);
+          _this4.StudentList.splice(_this4.deleteIndex, 1);
 
-          _this3.toastSuccess('User Successfully removed!');
+          _this4.toastSuccess('User Successfully removed!');
 
-          _this3.IsDeleting = false;
+          _this4.IsDeleting = false;
         } else {
-          _this3.toastError('Something went wrong!');
+          _this4.toastError('Something went wrong!');
 
-          _this3.IsDeleting = false;
+          _this4.IsDeleting = false;
         }
 
-        _this3.Deldialog = false;
+        _this4.Deldialog = false;
 
-        _this3.$store.dispatch('fetchAllTeachers');
+        _this4.$store.dispatch('fetchAllTeachers');
       });
     },
     updateTeacherDetails: function updateTeacherDetails() {
       this.$store.dispatch('updateTeacher', this.form);
     },
     VerifyUser: function VerifyUser(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this4.isVerifying = true;
+                _this5.isVerifying = true;
                 axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/verifyUser/' + id).then(function (res) {
                   if (res.data.success == true) {
-                    _this4.form.verified = 'Verified';
-                    _this4.StudentList[_this4.updateIndex].isVerified = 'Verified';
+                    _this5.form.verified = 'Verified';
+                    _this5.StudentList[_this5.updateIndex].isVerified = 'Verified';
 
-                    _this4.toastSuccess('User Successfully Verified!');
+                    _this5.toastSuccess('User Successfully Verified!');
 
-                    _this4.isVerifying = false;
+                    _this5.isVerifying = false;
                   } else {
-                    _this4.toastError('Something went wrong!');
+                    _this5.toastError('Something went wrong!');
 
-                    _this4.isVerifying = false;
+                    _this5.isVerifying = false;
                   }
                 })["catch"](function (e) {
-                  _this4.toastError('Something went wrong!');
+                  _this5.toastError('Something went wrong!');
 
-                  _this4.isVerifying = false;
+                  _this5.isVerifying = false;
                 });
 
               case 2:
@@ -444,7 +472,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     validate: function validate() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.IsAddUpdating = true;
 
@@ -452,27 +480,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (this.type == 'add') {
           this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
-          this.form.post('/api/admin/add/student').then(function (res) {
-            _this5.$refs.RegisterForm.reset();
+          this.form.post('/api/admin/users/add/' + this.user_type).then(function (res) {
+            _this6.$refs.RegisterForm.reset();
 
-            _this5.valid = true;
-            _this5.dialog = false;
-            _this5.IsAddUpdating = false;
+            _this6.valid = true;
+            _this6.dialog = false;
+            _this6.IsAddUpdating = false;
 
-            _this5.StudentList.push(res.data);
+            _this6.StudentList.unshift(res.data);
+
+            _this6.toastSuccess('User Successfully Added!');
           });
         }
 
         if (this.type == 'edit') {
-          this.form.post('/api/admin/teachers/update/' + this.form.user_id).then(function () {
-            ////console.log(this.StudentList[this.updateIndex])
-            _this5.updateDataInfrontEnd(_this5.form);
+          this.form.post('/api/admin/users/update/' + this.form.user_id).then(function () {
+            //////console.log(this.StudentList[this.updateIndex])
+            _this6.updateDataInfrontEnd(_this6.form);
 
-            _this5.valid = true;
-            _this5.dialog = false;
-            _this5.IsAddUpdating = false; //
+            _this6.valid = true;
+            _this6.dialog = false;
+            _this6.IsAddUpdating = false;
+
+            _this6.toastSuccess('User Successfully Updated!');
           });
-          this.toastSuccess('User Successfully Updated!');
         }
       } else {
         this.IsAddUpdating = false;
@@ -482,16 +513,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsAddUpdating = false;
     },
     getStudent: function getStudent() {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/students/all').then(function (res) {
-                  _this6.StudentList = res.data;
-                  _this6.loading = false;
+                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/users/all/' + _this7.user_type).then(function (res) {
+                  _this7.StudentList = res.data;
+                  _this7.loading = false;
                 });
 
               case 1:
@@ -509,10 +540,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.StudentList[this.updateIndex].lastName = data.lastName;
       this.StudentList[this.updateIndex].email = data.email;
       this.StudentList[this.updateIndex].student_id = data.student_id;
+      this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
+      this.StudentList[this.updateIndex].department_name = data.department.name;
       this.$refs.RegisterForm.reset();
     }
   },
   mounted: function mounted() {
+    this.fetchDeparmentList();
     this.getStudent(); //this.$store.dispatch('fetchAllTeachers');
   }
 });
@@ -820,6 +854,16 @@ var render = function() {
                                             )
                                           ]),
                                           _vm._v(" "),
+                                          _c("td", [
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  item.department_short_name
+                                                ) +
+                                                " "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
                                           _c(
                                             "td",
                                             [
@@ -835,11 +879,12 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    _vm._s(
-                                                      item.isVerified
-                                                        ? "mdi-check"
-                                                        : ""
-                                                    )
+                                                    "\n                                        " +
+                                                      _vm._s(
+                                                        item.isVerified
+                                                          ? "mdi-check"
+                                                          : ""
+                                                      )
                                                   )
                                                 ]
                                               )
@@ -959,7 +1004,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          2992225285
+                          3481323900
                         )
                       })
                     ],
@@ -1236,7 +1281,7 @@ var render = function() {
                                               ? "Verifying..."
                                               : "Verify user"
                                           ) +
-                                          " "
+                                          "\n                            "
                                       )
                                     ],
                                     1
@@ -1292,7 +1337,41 @@ var render = function() {
                                 ],
                                 1
                               )
-                            : _vm._e()
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "department" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-select", {
+                                attrs: {
+                                  items: _vm.department,
+                                  "item-value": "id",
+                                  "item-text": "name",
+                                  "return-object": "",
+                                  label: "Department",
+                                  dense: "",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.department,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "department", $$v)
+                                  },
+                                  expression: "form.department"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )

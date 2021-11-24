@@ -682,13 +682,12 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       });
     },
     UploadFile: function UploadFile() {
-      //console.log('test123');
+      ////console.log('test123');
       //this.$refs.UploadAttachFile.click();
       this.$refs.UploadAttachFile.$refs.input.click();
     },
     UploadMoreFile: function UploadMoreFile() {
-      console.log('test');
-
+      //console.log('test');
       if (this.file.length <= 4) {
         this.$refs.AttAchMoreFile.click();
       } else {}
@@ -713,7 +712,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
     onChange: function onChange(file) {
       var _this3 = this;
 
-      /* console.log(this.FileList.length);
+      /* //console.log(this.FileList.length);
       if(this.FileList.length > 1){
         let count = 0;
          this.FileList.forEach(item => {
@@ -797,7 +796,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
       });
     },
     test: function test() {
-      var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; //console.log(data);
+      var data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="' + this.link + '"></iframe><div><br></div>'; ////console.log(data);
     },
 
     /*  async checkStatus(type){
@@ -926,7 +925,7 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
                 data.course_id = _this9.$route.params.id;
                 data.comment = _this9.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  //console.log(res.data);
+                  ////console.log(res.data);
                   if (res.status == 200) {
                     _this9.classworkDetails.comments.push({
                       content: res.data.comment,

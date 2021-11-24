@@ -17,7 +17,7 @@ const actions = {
             `/api/class/ShowClass/${id}`
         ).then((res) => {
             commit('setClassInfo', res.data[0]);
-            //console.log(res.data);
+            ////console.log(res.data);
         });
 
     }

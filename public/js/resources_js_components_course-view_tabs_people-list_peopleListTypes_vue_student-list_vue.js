@@ -297,6 +297,7 @@ var classJoinRequest = function classJoinRequest() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+<<<<<<< HEAD
                 /*  axios.get('/api/student/all/'+this.$route.params.id)
                  .then((res)=>{
                      this.students = res.data.StudentList;
@@ -305,6 +306,11 @@ var classJoinRequest = function classJoinRequest() {
                  }) */
                 _this3.$store.dispatch('fetchAllStudents', _this3.$route.params.id).then(function () {
                   _this3.isGetting = false;
+=======
+                axios.get('/api/student/all/' + _this3.$route.params.id).then(function (res) {
+                  _this3.students = res.data.StudentList;
+                })["catch"](function (error) {////console.log(error)
+>>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
                 });
 
               case 1:

@@ -208,11 +208,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return split[split.length - 1];
     },
     onFileChange: function onFileChange(file) {
-      console.log('selected file', file);
-
+      //console.log('selected file', file);
       if (file != null) {
-        this.ext = this.getFileExt(file.name);
-        console.log(this.ext);
+        this.ext = this.getFileExt(file.name); //console.log(this.ext);
+
         this.isInvalidFileSize = false;
         this.isInvalidFileType = false;
 
@@ -238,8 +237,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       axios.put('/api/course/file-remove/' + this.$route.params.id, {
         course_guide: this.getcourseInfo.course_guide
       }).then(function (res) {
-        _this.oldFileInput = false;
-        console.log(res);
+        _this.oldFileInput = false; //console.log(res);
+
         _this.isDeleting = false;
         _this.isRemove = true;
         _this.getcourseInfo.course_guide = null;
@@ -259,7 +258,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     updateCourseDetails: function updateCourseDetails() {
       var _this3 = this;
 
-      ////console.log(this.getcourseInfo.semester_id);
+      //////console.log(this.getcourseInfo.semester_id);
       if (this.getcourseInfo.course_description.trim() == '' || this.getcourseInfo.course_name == '' || this.course_code == '' || this.getcourseInfo.semester_id === undefined || this.getcourseInfo.school_year_id === undefined) {
         this.toastError('Please complete all the field to proceed to the next step');
       } else {

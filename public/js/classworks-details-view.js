@@ -3386,7 +3386,7 @@ var rubrics = function rubrics() {
             switch (_context.prev = _context.next) {
               case 0:
                 _this.isUpdatingSnackBar = true;
-                _this.isUpdating = true; //console.log(this.Details);
+                _this.isUpdating = true; ////console.log(this.Details);
 
                 fd = new FormData();
                 fd.append('course_id', _this.Details.course_id);
@@ -3463,7 +3463,7 @@ var rubrics = function rubrics() {
     addFile: function addFile() {
       var _this2 = this;
 
-      console.log(this.Details.attachment.length);
+      //console.log(this.Details.attachment.length);
       this.uploadIndex = this.Details.attachment.length - 1;
       var fd = new FormData();
       fd.append('file', this.file[this.counter]);
@@ -3758,7 +3758,7 @@ var updatePublishDialog = function updatePublishDialog() {
         _this.toastSuccess(class_name);
 
         _this.fetchClassnames();
-      })["catch"](function (e) {//console.log(e);
+      })["catch"](function (e) {////console.log(e);
       });
     },
     closeDiaglog: function closeDiaglog() {
@@ -3776,7 +3776,7 @@ var updatePublishDialog = function updatePublishDialog() {
                 axios.get('/api/class/allnames/' + _this2.$route.params.id + '/' + _this2.$route.query.clwk).then(function (res) {
                   _this2.classNames = res.data;
                   _this2.isloading = false;
-                })["catch"](function (e) {//console.log(e)
+                })["catch"](function (e) {////console.log(e)
                 });
 
               case 1:
@@ -3803,7 +3803,7 @@ var updatePublishDialog = function updatePublishDialog() {
                   _this3.isloading = false;
 
                   _this3.NewNotification(data);
-                })["catch"](function (e) {//console.log(e)
+                })["catch"](function (e) {////console.log(e)
                 });
 
               case 4:
@@ -3840,7 +3840,7 @@ var updatePublishDialog = function updatePublishDialog() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                //console.log(data);
+                ////console.log(data);
                 _this5.notifyDetails.from_date = data.from_date;
                 _this5.notifyDetails.classwork_id = data.classwork_id;
                 _this5.notifyDetails.class_id = data.class_id;
@@ -7499,7 +7499,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -7649,9 +7648,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                    'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
-                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -7676,7 +7675,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function (x) {
+            localeFamilies[name].forEach(function(x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -7766,7 +7765,6 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
-
 
 /***/ }),
 

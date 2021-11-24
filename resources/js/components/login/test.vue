@@ -31,9 +31,9 @@ data() {
 },
 methods:{
     async driveIconClicked() {
-      console.log("Clicked");
+      //console.log("Clicked");
       await gapi.load("auth2", () => {
-        console.log("Auth2 Loaded");
+        //console.log("Auth2 Loaded");
         gapi.auth2.authorize(
           {
             client_id: this.clientId,
@@ -44,20 +44,20 @@ methods:{
         );
       });
       gapi.load("picker", () => {
-        console.log("Picker Loaded");
+        //console.log("Picker Loaded");
         this.pickerApiLoaded = true;
         this.createPicker();
       });
     },
     handleAuthResult(authResult) {
-      console.log("Handle Auth result", authResult);
+      //console.log("Handle Auth result", authResult);
       if (authResult && !authResult.error) {
         this.oauthToken = authResult.access_token;
         this.createPicker();
       }
     },
      createPicker() {
-      console.log("Create Picker", google.picker);
+      //console.log("Create Picker", google.picker);
       const docsView = new google.picker.DocsView(google.picker.ViewId.DOCS)
               .setIncludeFolders(true)
               .setSelectFolderEnabled(true);
@@ -76,7 +76,7 @@ methods:{
       }
     },
      async pickerCallback(data) {
-      console.log("PickerCallback", data);
+      //console.log("PickerCallback", data);
       var url = "nothing";
       var name = "nothing";
       var doc = "";
@@ -88,7 +88,7 @@ methods:{
    
       if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
         // Array of Picked Files
-        console.log(data.docs[0].url);   
+        //console.log(data.docs[0].url);   
       }
     }
 },
@@ -101,11 +101,11 @@ mounted() {
     const timdate = moment(new Date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
     
     let dd = Date.now();
-    console.log(this.endAt);
-    console.log(this.momentDate);
+    //console.log(this.endAt);
+    //console.log(this.momentDate);
     axios.get('/api/profile/datetoday')
     .then(res=>{
-      //console.log(res.data);
+      ////console.log(res.data);
       this.testTime = res.data;
     })
 

@@ -12,7 +12,7 @@ const actions = {
         const res = await axios.get(
             `/api/question/all/${id}`
         );
-        //console.log(res);
+        ////console.log(res);
 
         commit('FETCH_QUESTIONS', res.data);
         return res;
@@ -52,10 +52,10 @@ const actions = {
         /*   let newQuestions = res.data.Answer;
           let newAnswer = res.data.Answer; */
         /* state.question_data.Question.push({...newQuestions });
-        //console.log(res.data.Answer.length);
+        ////console.log(res.data.Answer.length);
         for (let i = 0; i < res.data.Answer.length; i++) {
             let newAnswer = res.data.Answer;
-            //console.log(newAnswer);
+            ////console.log(newAnswer);
             state.question_data.Answer.push({...newAnswer });
         }
  */

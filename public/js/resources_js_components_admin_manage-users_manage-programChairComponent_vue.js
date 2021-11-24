@@ -422,7 +422,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.fetchDeparmentList();
     this.$store.dispatch('fetchAllProgramChair').then(function () {
-      console.log('progrram cahir data', _this5.getProgramChair);
+      //console.log('progrram cahir data', this.getProgramChair);
       _this5.ProgramChairList = _this5.getProgramChair;
       _this5.loading = false;
     });

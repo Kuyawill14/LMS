@@ -250,7 +250,7 @@ export default {
         async getPublishDetails(){
             axios.get('/api/classwork/publishClassworkDetails/'+this.Details.classwork_id)
             .then(res=>{
-                //console.log(res.data);
+                ////console.log(res.data);
                 this.PublishDetails = res.data;
                 this.availability = this.PublishDetails.availability == 1 ? 'Set Date' : this.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 

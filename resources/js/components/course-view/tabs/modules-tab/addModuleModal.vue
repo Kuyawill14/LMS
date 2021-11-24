@@ -81,7 +81,7 @@
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('createMainModule', this.moduleForm)
                         .then((res) => {
-                            //console.log(res);
+                            ////console.log(res);
                             if (res.status == 201) {
                                 this.moduleForm.reset()
                                 this.isSubmitting = false;

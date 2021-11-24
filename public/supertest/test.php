@@ -137,7 +137,7 @@
                         }
                     });
                     request1.execute(function (resp) {
-                        console.log(resp);
+                        //console.log(resp);
                     });
                 }
                 // Form and display the message with hyperlinks included
