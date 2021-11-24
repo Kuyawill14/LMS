@@ -257,9 +257,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 formData.append('file', file);
                 formData.append('type', 'Announcement'); // Save current cursor state
 
-                range = editor.getSelection(true); //editor.insertEmbed(range.index, 'image', 'https://cdn.dribbble.com/users/1341307/screenshots/5377324/morph_dribbble.gif'); 
-                // Move cursor to right side of image (easier to continue typing)
-
+                range = editor.getSelection(true);
                 editor.setSelection(range.index + 1);
                 _context2.next = 8;
                 return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {

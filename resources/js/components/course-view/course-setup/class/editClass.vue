@@ -224,17 +224,9 @@ import moment from 'moment-timezone';
         
         },
         mounted() {
-<<<<<<< HEAD
             this.className = this.class_name;
 
 
-=======
-            ////console.log(this.form);
-            this.className = this.getClassName;
-        
-              ////console.log(this.form);
-          
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
         }
     }
 

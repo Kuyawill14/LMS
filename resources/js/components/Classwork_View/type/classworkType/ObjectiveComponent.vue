@@ -14,9 +14,9 @@
         </v-btn>
         <v-divider  vertical></v-divider>
         <v-spacer></v-spacer>
-        <div class="white--text Subtitle-1">
+        <div v-if="classworkDetails.status == 'Submitted'" class="white--text Subtitle-1">
             <span class="font-weight-bold">Score: </span>
-            <span class="">{{classworkDetails.score+' /'+classworkDetails.points}}</span> 
+            <span class="">{{classworkDetails.score+' / '+classworkDetails.points}}</span> 
         </div>
     </v-app-bar>
 </div>

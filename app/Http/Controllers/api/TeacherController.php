@@ -160,12 +160,13 @@ class TeacherController extends Controller
 
             $ResetSubmission = tbl_Submission::find($request[0]['id']);
             if($ResetSubmission){
-                $ResetSubmission->status = null;
+                $ResetSubmission->forceDelete();
+              /*   $ResetSubmission->status = null;
                 $ResetSubmission->points = null;
                 $ResetSubmission->Submitted_Answers = null;
                 $ResetSubmission->created_at = null;
                 $ResetSubmission->updated_at = null;
-                $ResetSubmission->save();
+                $ResetSubmission->save(); */
             }
          
         }
@@ -334,12 +335,14 @@ class TeacherController extends Controller
         //return $id;
         $ResetSubmission = tbl_Submission::find($id);
            if($ResetSubmission){
-                $ResetSubmission->status = null;
+                $ResetSubmission->forceDelete();
+
+                /* $ResetSubmission->status = null;
                 $ResetSubmission->points = null;
                 $ResetSubmission->Submitted_Answers = null;
                 $ResetSubmission->created_at = null;
                 $ResetSubmission->updated_at = null;
-                $ResetSubmission->save();
+                $ResetSubmission->save(); */
                 return "Reset Success";
            }
            return "Submission Not found";

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Questions;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
+use App\Models\tbl_Submitted_Answer;
+use App\Models\tbl_Submission;
 
 class AnalyticsController extends Controller
 {
@@ -18,27 +20,77 @@ class AnalyticsController extends Controller
      */
     public function index($id)
     {
-        $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
-        ->select("tbl_questions.id","tbl_questions.question", 
-        "tbl_question_analytics.correct_count","tbl_question_analytics.wrong_count","tbl_question_analytics.average_time")
-        ->leftJoin("tbl_question_analytics", "tbl_question_analytics.question_id", "=", "tbl_questions.id")
-        ->orderBy("tbl_questions.created_at","DESC")
-        ->get();
-        
+
+        $checkCLasswork = tbl_classwork::find($id);
+
+        if($checkCLasswork->isNew){
+            $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
+            ->select("tbl_questions.id","tbl_questions.question")
+            ->orderBy("tbl_questions.created_at","ASC")
+            ->get();
+
+            foreach($analytics as $item){
+                $checkCount = tbl_Submitted_Answer::where('question_id',$item->id)
+                ->where('isCorrect', true)->count();
+
+                $wrongCount = tbl_Submitted_Answer::where('question_id',$item->id)
+                ->where('isCorrect', false)->count();
+
+                $item->correct_count = $checkCount;
+                $item->wrong_count = $wrongCount;
+            }
 
 
+            return ["analytics"=>  $analytics];
+        }
+        else{
+           /*  $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
+            ->select("tbl_questions.id","tbl_questions.question", 
+            "tbl_question_analytics.correct_count","tbl_question_analytics.wrong_count","tbl_question_analytics.average_time")
+            ->leftJoin("tbl_question_analytics", "tbl_question_analytics.question_id", "=", "tbl_questions.id")
+            ->orderBy("tbl_questions.created_at","ASC")
+            ->get(); */
 
-        $SubmissionCount = tbl_classClassworks::where("tbl_class_classworks.classwork_id", $id)
-        ->select("tbl_class_classworks.classwork_id", "tbl_class_classworks.class_id", "tbl_userclasses.user_id","tbl_user_details.profile_pic","tbl_user_details.firstName", "tbl_user_details.lastName")
-        ->leftJoin("tbl_userclasses", "tbl_userclasses.class_id","=","tbl_class_classworks.class_id")
-        ->leftJoin("users", "users.id","=","tbl_userclasses.user_id")
-        ->leftjoin("tbl_user_details","tbl_user_details.user_id","=","users.id")
-        ->where("users.role","Student")
-        ->count();
+            $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
+            ->select("tbl_questions.id","tbl_questions.question", "tbl_questions.answer","tbl_questions.type")
+            ->orderBy("tbl_questions.created_at","ASC")
+            ->where("tbl_questions.type","!=",'Matching type')
+            ->get();
 
-        return ["analytics"=>  $analytics, "totalSubmission"=> $SubmissionCount];
-   /*      return $analytics;
-        return $SubmissionCount; */
+            foreach($analytics as $item){
+                $submission = tbl_Submission::where('classwork_id', $id)->get();
+                $checkCount = 0;
+                $wrongCount = 0;
+                foreach($submission as $sub){
+                    if($sub->Submitted_Answers != null && $sub->Submitted_Answers != ''){
+                        foreach(unserialize($sub->Submitted_Answers)  as $sub_answers){
+                            if($item->id == $sub_answers['Question_id']){
+                                
+                                if($sub_answers['Answer'] == $item->answer){
+                                    $checkCount++;
+                                }
+                                else{
+                                    $wrongCount++;
+                                }
+                            }
+                        }
+                    }
+                }
+                $item->correct_count = $checkCount;
+                $item->wrong_count = $wrongCount;
+            }
+            
+            $SubmissionCount = tbl_classClassworks::where("tbl_class_classworks.classwork_id", $id)
+            ->select("tbl_class_classworks.classwork_id", "tbl_class_classworks.class_id", "tbl_userclasses.user_id","tbl_user_details.profile_pic","tbl_user_details.firstName", "tbl_user_details.lastName")
+            ->leftJoin("tbl_userclasses", "tbl_userclasses.class_id","=","tbl_class_classworks.class_id")
+            ->leftJoin("users", "users.id","=","tbl_userclasses.user_id")
+            ->leftjoin("tbl_user_details","tbl_user_details.user_id","=","users.id")
+            ->where("users.role","Student")
+            ->count();
+
+            return ["analytics"=>  $analytics, "totalSubmission"=> $SubmissionCount];
+        }
+
 
     }
 

@@ -21797,16 +21797,10 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
             format = format || '';
         }
 
-<<<<<<< HEAD
         var locale = getLocale(),
             shift = localeSorted ? locale._week.dow : 0,
             i,
             out = [];
-=======
-      if (this.form.class_name != "") {
-        this.toastSuccess();
-        this.form.course_id = this.$route.params.id; ////console.log(this.form);
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 
         if (index != null) {
             return get$1(format, (index + shift) % 7, field, 'day');

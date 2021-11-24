@@ -901,6 +901,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -970,7 +974,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)(['fetchClassworkShowDetails'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapActions)(['fetchClassworkShowDetails', 'setAsOffline'])), {}, {
     CountTime: function CountTime() {
       var _this = this;
 
@@ -1017,22 +1021,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     SetWarning: function SetWarning() {
       this.preventWarning = !this.preventWarning;
     },
-    next: function next() {
+    next: function next(index) {
       var _this3 = this;
 
-      /*  let name = btoa('CurrentAnswers');
-        localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
-       if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
-           this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
-       }
-       else{
-           this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
-       }
-       clearInterval(this.timeCount);
-       this.tempCounter = 0;
-       this.CountTime(); */
       this.isSavingAnswer = true;
-      this.updateAnswer(); ////console.log(this.FinalAnswers);
+
+      if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+        this.updateAnswer();
+      }
 
       this.Questype = "";
       this.PickAnswers.ans = "";
@@ -1459,12 +1455,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReloadTime: function ReloadTime() {
       this.ReloadStatus();
       this.isReloadTime = true; //setTimeout(() => (this.isReloadTime = false), 300);
+    },
+    isOffline: function isOffline(event) {
+      this.setAsOffline();
+      location.reload();
     }
   }),
   beforeMount: function beforeMount() {
-    /*   document.addEventListener('contextmenu', function(e) {
-          e.preventDefault();
-      }); */
+    window.addEventListener("offline", this.isOffline);
     window.addEventListener("onbeforeunload", this.preventNav);
     var self = this;
     $(window).blur(function () {
@@ -25516,7 +25514,13 @@ var render = function() {
                                                             color: "primary"
                                                           },
                                                           on: {
-                                                            click: _vm.next
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.next(
+                                                                _vm.questionIndex
+                                                              )
+                                                            }
                                                           }
                                                         },
                                                         [
@@ -26853,7 +26857,11 @@ var render = function() {
                                 loading: _vm.isSavingAnswer,
                                 color: "primary"
                               },
-                              on: { click: _vm.next }
+                              on: {
+                                click: function($event) {
+                                  return _vm.next(_vm.questionIndex)
+                                }
+                              }
                             },
                             [_c("v-icon", [_vm._v("mdi-arrow-right")])],
                             1

@@ -409,7 +409,7 @@
                                                             <div class="d-flex mt-7">
                                                                 <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                                 <span :style="$vuetify.breakpoint.xs ? 'line-height:1.1':'line-height:1.5'" v-html="item.SubQuestion" class="subquestion-content"></span>
-                                                                <small v-if="!Check[index][i]" class="primary--text">(correct answer: {{item.Correct_Answer}})</small>
+                                                                <small v-if="!Check[index][i]" class="primary--text"><!-- (correct answer: {{item.Correct_Answer}}) --></small>
                                                             </div>
                                                         </v-col>
                                                         <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="4" md="4" lg="5">

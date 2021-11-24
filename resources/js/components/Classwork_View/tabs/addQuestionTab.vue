@@ -62,7 +62,7 @@
     <div>
         <v-app-bar
        v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
-     
+        @click="$router.push({name: 'question-analytics',query: {clwk: $route.query.clwk} })"
         :elevation="hover ? '10' : '2'"
         :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
         'position: fixed !important;z-index: 2;width: 130px !important;top: 18em !important;margin-left: 1em !important;cursor:pointer;' : 
@@ -273,7 +273,7 @@
                                     </v-col>
                                 </v-row>
 
-                                <v-container class="pa-0 ma-0" ma-0 pa-0> 
+                                <v-container fluid class="pa-0 ma-0" ma-0 pa-0> 
                                     <div class="font-weight-medium">{{item.type != 'Matching type' ? 'Question' : 'Instuction'}}</div>
                                     <v-row class="pa-0 ma-0">
                                         <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
@@ -281,6 +281,7 @@
                                                     <quill-editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
+                                                    @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)" 
                                                      @change="isNewChanges = true"
                                                     ref="myTextEditor"
                                                     placeholder="Question" 
@@ -292,13 +293,13 @@
                                     </v-row>
                                 </v-container>
 
-                                <v-container  v-if="item.type == 'Multiple Choice'"> 
+                                <v-container fluid v-if="item.type == 'Multiple Choice'"> 
                                     <v-row>
                                         <div class="font-weight-medium">Options</div>
                                         <v-col class="ma-0 pa-0 ml-2 mt-1" cols="12" lg="12" md="12" v-for="(Ans, i) in getAll_questions.Answer[mainIndex].options" :key="Ans.id">
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
-                                                        <v-container  class="d-flex flex-row ma-0 pa-0">
+                                                        <v-container fluid  class="d-flex flex-row ma-0 pa-0">
                                                         <v-radio-group  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
@@ -321,12 +322,22 @@
                                                                 v-model="Ans.Choice"
                                                                 :options="editorOption"/>
                                                             </div>`
-                                                    
-                                                            <v-btn
+
+                                                            <div class="d-flex">
+                                                               <!--  <v-file-input :ref="'uploader'+mainIndex+''+i" accept="image/png, image/jpeg, image/bmp" class="d-none"></v-file-input>
+                                                                  <v-btn
+                                                                    @click="ImageUploader(mainIndex,i)"
+                                                                    icon class="mt-3 pl-2 pr-2">
+                                                                    <v-icon>mdi-image</v-icon>
+                                                                </v-btn> -->
+
+                                                                 <v-btn
                                                                 @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
-                                                                icon class="mt-2 pl-2 pr-2">
+                                                                icon class="mt-3 pl-2 pr-2">
                                                                 <v-icon>mdi-close</v-icon>
                                                             </v-btn>
+                                                            </div>
+                                                           
                                                         </v-container>
                                                     </v-col>
                                                 </v-row>
@@ -346,11 +357,11 @@
                                     </v-row>
                                 </v-container>
 
-                                <v-container mb-0 pb-0 v-if="item.type == 'Identification'">
+                                <v-container fluid mb-0 pb-0 v-if="item.type == 'Identification'">
                                     <v-row ma-0 pa-0>
                                         <div class="font-weight-medium">Answer(s)</div>
                                         <v-col v-show="getAll_questions.Answer[mainIndex].options.length == 0" ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
-                                             <v-container  class="d-flex flex-row ma-0 pa-0">
+                                             <v-container fluid  class="d-flex flex-row ma-0 pa-0">
                                                       <div style="width:100%" class="mb-3">
                                                         <quill-editor
                                                         :disabled="quill_disabled"
@@ -364,15 +375,15 @@
 
                                                       <v-btn
                                                     @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
-                                                    icon class="mt-2 pl-2 pr-2">
+                                                    icon class="mt-3 pl-2 pr-2">
                                                     <v-icon>mdi-close</v-icon>
                                                 </v-btn>
-                                                  </v-container>
+                                            </v-container>
                                         </v-col>
 
                                         <v-col v-show="getAll_questions.Answer[mainIndex].options.length != 0" v-for="(Answer, i) in getAll_questions.Answer[mainIndex].options" :key="i"  ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
                                             <!--   <div style="width:100%" class="mb-3 d-flex flex-row"> -->
-                                                  <v-container  class="d-flex flex-row ma-0 pa-0">
+                                                  <v-container fluid class="d-flex flex-row ma-0 pa-0">
                                                       <div style="width:100%" class="mb-3">
                                                         <quill-editor
                                                         :disabled="quill_disabled"
@@ -384,11 +395,20 @@
                                                         :options="editorOption"/>
                                                       </div>
 
-                                                      <v-btn
-                                                    @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
-                                                    icon class="mt-2 pl-2 pr-2">
-                                                    <v-icon>mdi-close</v-icon>
-                                                </v-btn>
+                                                    <div class="d-flex">
+                                                         <!--  <v-btn
+                                                            @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
+                                                            icon class="mt-3 pl-2 pr-2">
+                                                            <v-icon>mdi-image</v-icon>
+                                                        </v-btn> -->
+
+                                                         <v-btn
+                                                            @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
+                                                            icon class="mt-3 pl-2 pr-2">
+                                                            <v-icon>mdi-close</v-icon>
+                                                        </v-btn>
+                                                    </div>
+                                                     
                                                   </v-container>
                                       <!--       </div> -->
                                         </v-col>
@@ -441,13 +461,13 @@
                                     </v-row>
                                 </v-container>
 
-                                 <v-container mb-0 pb-0 v-if="item.type == 'Matching type'">
+                                 <v-container fluid mb-0 pb-0 v-if="item.type == 'Matching type'">
                                     <v-row ma-0 pa-0>
                                         <v-col  v-for="(SubQues, sub_index) in getAll_questions.Answer[mainIndex].SubQuestion" :key="SubQues.id" ma-0 pa-0 class="ma-0 pa-0" cols="12">
                                            <v-row>
                                                <v-col  cols="12">
                                                     <div class="font-weight-medium">{{'Pair '}}{{sub_index+1}}</div>
-                                                   <v-container  class="d-flex flex-row ma-0 pa-0">                                                                              
+                                                   <v-container fluid class="d-flex flex-row ma-0 pa-0">                                                                              
                                                     <div style="width:100%"  class=" pr-2 mb-3">
                                                           <quill-editor
                                                             :disabled="quill_disabled"
@@ -471,7 +491,7 @@
 
                                                      <v-btn
                                                         @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index][0].id, mainIndex,  sub_index)"
-                                                        icon class="mt-12 pl-2 pr-2">
+                                                        icon class="mt-3 pl-2 pr-2">
                                                         <v-icon>mdi-close</v-icon>
                                                     </v-btn>
                                                     </v-container>
@@ -494,10 +514,6 @@
                                     </v-row>
                                 </v-container>
 
-                                 <!-- <v-container mb-0 pb-0  v-if="item.type == 'Essay'">
-                                    <v-row ma-0 pa-0>
-                                    </v-row>
-                                </v-container> -->
                                 <v-container class="pt-0 mt-0">
                                      <v-switch
                                      v-if="item.type == 'Identification'"
@@ -654,16 +670,24 @@ export default {
             ],
             editorOption: {
                 placeholder: 'type here ...',
+                theme:'bubble',
                 blur: true,
+                editorData:null,
                 modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                        [{ 'list': 'bullet' }],
-                        ['image']
-                    ],
+                     toolbar: {
+                            container:[
+                               ['bold', 'italic', 'underline'],
+                               [{ 'list': 'bullet' }],
+                               ['image']
+                            ],
+                            handlers: {
+                                image: this.imageHandler
+                            }
+                        },
                     syntax: {
                         highlight: text => hljs.highlightAuto(text).value
-                    }
+                    },
+                    
                 }
             },
             fab: true,
@@ -698,6 +722,44 @@ export default {
     },
     computed: mapGetters(["getAll_questions"]),
     methods:{
+        ImageUploader(main_index, sub_index){
+            this.$refs['uploader'+main_index+''+sub_index][0].$refs.input.click()
+        },
+         onEditorBlur(editor) {
+            this.editorData = editor;
+        },
+        onEditorFocus(editor) {
+                this.editorData = editor;
+        },
+        onEditorReady(editor) {
+            this.editorData = editor;
+        },
+        imageHandler() {
+            const editor = this.editorData;
+            const input = document.createElement('input');
+
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+            input.click();
+
+      
+
+            input.onchange = async () => {
+                const file = input.files[0];
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('type', 'Announcement');
+
+
+                const range = editor.getSelection(true);
+                editor.setSelection(range.index + 1);
+                await axios.post('/api/classwork/newAttachment', formData)
+                    .then(async ({data}) => {
+                        await editor.insertEmbed(range.index, 'image', data.link);
+                    })
+            }
+        },
        async AddNewQuestion(){
            this.isAddingNewQuestion = true;
            axios.post('/api/question/add_new_question', {
@@ -1163,11 +1225,18 @@ export default {
     text-align: center
 }
 .editor .ql-editor img{
-
+  
     max-height: 10rem !important;
 }
 .editor .ql-container{
     max-height: 50rem;
 }
+.editor .ql-editor{
+      min-height: 60px !important;
+}
+
+
+ 
+
 </style>
 

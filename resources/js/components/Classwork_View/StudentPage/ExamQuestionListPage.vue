@@ -188,7 +188,8 @@
                                 
                             
                                 <div class="d-flex pt-2 pb-2">
-                                    <div class="mt-2">
+                                  
+                                    <div  class="mt-2">
                                          <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{questionIndex+1}}</h3>
                                          <h4 v-else >Question #{{questionIndex+1}}</h4>
                                     </div>
@@ -204,7 +205,7 @@
                                             <v-btn v-if="questionIndex != Qlength-1" 
                                             :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
                                             :loading="isSavingAnswer"
-                                            rounded color="primary" @click="next">
+                                            rounded color="primary" @click="next(questionIndex)">
                                             Next
                                             <v-icon right>mdi-arrow-right</v-icon>
                                             </v-btn>
@@ -234,6 +235,9 @@
                                      
                                         <v-row >
                                             <v-col class="mt-0 pt-1 pl-3 mb-0 pb-0" cols="12" md="11" lg="11">
+                                                
+                                               <!--  <v-skeleton-loader v-if="isSavingAnswer" type="heading"></v-skeleton-loader> -->
+                                          
                                                 <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="font-weight-medium">
                                                     <span v-html="item.question" class="post-content"></span>
                                                 </div>
@@ -416,7 +420,7 @@
             <v-btn icon v-if="questionIndex != Qlength-1" 
            
             :loading="isSavingAnswer"
-             color="primary" @click="next">
+             color="primary" @click="next(questionIndex)">
             <v-icon >mdi-arrow-right</v-icon>
             </v-btn>
 
@@ -514,7 +518,7 @@ export default {
     computed: 
     mapGetters(["getAll_questions", "get_classwork_show_details"]),
     methods:{
-        ...mapActions(['fetchClassworkShowDetails']),
+        ...mapActions(['fetchClassworkShowDetails','setAsOffline']),
         CountTime(){
             this.timeCount = setInterval(()=>{
                 this.tempCounter = this.tempCounter +1
@@ -564,33 +568,19 @@ export default {
         SetWarning(){
             this.preventWarning = !this.preventWarning;
         },
-        next: function() {
-           
-           /*  let name = btoa('CurrentAnswers');
-             localStorage.setItem(name, JSON.stringify(this.FinalAnswers));
-            if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
-                this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
-            }
-            else{
-                this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
-            }
-            clearInterval(this.timeCount);
-            this.tempCounter = 0;
-            this.CountTime(); */
-                this.isSavingAnswer = true;
-               
+        next(index){
+            
+            this.isSavingAnswer = true;
+            if(this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null){
                 this.updateAnswer();
-
-
-              ////console.log(this.FinalAnswers);
-
-               this.Questype = "";
-                this.PickAnswers.ans = "";
-                this.PickAnswers_id.quesId = "";
-                if(this.questionIndex != this.Qlength-1){
-                    this.questionIndex++;
-                }
-                setTimeout(() => (this.isSavingAnswer = false), 700);
+            }
+            this.Questype = "";
+            this.PickAnswers.ans = "";
+            this.PickAnswers_id.quesId = "";
+            if(this.questionIndex != this.Qlength-1){
+                this.questionIndex++;
+            }
+            setTimeout(() => (this.isSavingAnswer = false), 700);
             
         },
         async updateAnswer(){
@@ -952,12 +942,14 @@ export default {
             this.ReloadStatus();
             this.isReloadTime = true;
             //setTimeout(() => (this.isReloadTime = false), 300);
-        }
+        },
+         isOffline(event) {
+            this.setAsOffline();
+            location.reload();
+        },
     },
     beforeMount() {
-      /*   document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        }); */
+        window.addEventListener("offline", this.isOffline);
         window.addEventListener("onbeforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){

@@ -11,7 +11,7 @@
 
 
         <v-row>
-            <v-col lg="3" v-for="(department, index) in departments">
+            <v-col lg="3" v-for="(department, index) in departments" :key="index">
                 <v-card class="mx-auto" max-width="400"  >
                 
                     <v-img id="department_logo" class="white--text align-end" height="200px" :src="department.logo"

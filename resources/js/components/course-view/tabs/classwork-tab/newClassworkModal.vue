@@ -41,7 +41,7 @@
                                 auto-grow
                                 >
                             </v-textarea> -->
-                            <editor v-model="form.instruction" placeholder="Instruction" theme="snow"></editor>
+                            <editor class="intruction" v-model="form.instruction" placeholder="Instruction" theme="snow" :options="options"  ></editor>
                         </v-col>
 
                         <v-col v-if="form.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
@@ -175,7 +175,30 @@ export default {
             counter: 0,
             tmpName:[],
             uploadPercentage: 0,
-            uploadIndex: null
+            uploadIndex: null,
+            options: {
+                placeholder: 'type here ...',
+                blur: true,
+                editorData:null,
+                modules: {
+                     toolbar: {
+                            container:[
+                               ['bold', 'italic', 'underline'],
+                                [{ 'header': [1, 2, 3, 4, 5, false] }],
+                                [{ 'color': [] }],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                ['link', 'image', 'video'],
+                            ],
+                           /*  handlers: {
+                                image: this.imageHandler
+                            } */
+                        },
+                    syntax: {
+                        highlight: text => hljs.highlightAuto(text).value
+                    },
+                    
+                }
+            },
             
         }
     },
@@ -318,14 +341,18 @@ export default {
 <style  >
     iframe{
         width: 100% !important;
-    height: 20rem !important;
+        height: 20rem !important;
     }
-    .ql-editor img{
+    .intruction .ql-editor img{
 
         max-height: 25rem !important;
     }
-    .ql-container{
+    .intruction ql-container{
         max-height: 70rem;
     }
+
+    /* .intruction .ql-editor{
+        min-height: 55px !important;
+    } */
         
 </style>

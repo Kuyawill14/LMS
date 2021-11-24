@@ -59,11 +59,17 @@
 
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 2">
                     <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pt-2 mt-2' :'pt-3 mt-3'">
-                         <v-card  elevation="2">
+                         <v-card @click="calendarDialog = true" elevation="2">
+                                <v-dialog transition="dialog-bottom-transition" max-width="1000"  v-model="calendarDialog" id="calendar_modal">
+                                    <v-card class="pa-3">
+                                        <myCalendar :role="role"></myCalendar>
+                                         <br> 
+                                    </v-card>
+                                </v-dialog>
                             <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
                         </v-card>
                     </v-col>
-            </v-row>
+                </v-row>
             </v-col>
         </v-row>
 
@@ -112,6 +118,7 @@
                 class_count: 0,
                 unfinishCount: 0,
                 selected: 0,
+                calendarDialog: false
             };
         },
         computed: mapGetters(["allClass"]),

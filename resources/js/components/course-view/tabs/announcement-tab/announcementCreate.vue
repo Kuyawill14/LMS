@@ -232,9 +232,6 @@ export default {
                     // Save current cursor state
                     const range = editor.getSelection(true);
 
-                     //editor.insertEmbed(range.index, 'image', 'https://cdn.dribbble.com/users/1341307/screenshots/5377324/morph_dribbble.gif'); 
-
-    // Move cursor to right side of image (easier to continue typing)
                     editor.setSelection(range.index + 1);
                     await axios.post('/api/classwork/newAttachment', formData)
                         .then(async ({data}) => {

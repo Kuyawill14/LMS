@@ -110,6 +110,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 var myCalendar = function myCalendar() {
@@ -145,7 +151,8 @@ var myTask = function myTask() {
     return {
       class_count: 0,
       unfinishCount: 0,
-      selected: 0
+      selected: 0,
+      calendarDialog: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["allClass"]),
@@ -536,8 +543,48 @@ var render = function() {
                         [
                           _c(
                             "v-card",
-                            { attrs: { elevation: "2" } },
+                            {
+                              attrs: { elevation: "2" },
+                              on: {
+                                click: function($event) {
+                                  _vm.calendarDialog = true
+                                }
+                              }
+                            },
                             [
+                              _c(
+                                "v-dialog",
+                                {
+                                  attrs: {
+                                    transition: "dialog-bottom-transition",
+                                    "max-width": "1000",
+                                    id: "calendar_modal"
+                                  },
+                                  model: {
+                                    value: _vm.calendarDialog,
+                                    callback: function($$v) {
+                                      _vm.calendarDialog = $$v
+                                    },
+                                    expression: "calendarDialog"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-card",
+                                    { staticClass: "pa-3" },
+                                    [
+                                      _c("myCalendar", {
+                                        attrs: { role: _vm.role }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("br")
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
                               _c("myCalendar", {
                                 attrs: { role: _vm.role },
                                 on: {
