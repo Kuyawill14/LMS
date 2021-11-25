@@ -191,12 +191,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details'],
   data: function data() {
     return {
-      InputAvailability: ['Always Available', 'Set Date', 'Unavailable'],
+      InputAvailability: ['Always available', 'Set date & time', 'Unavailable'],
       InputShowAnswer: ['After Classwork Done', 'Set Date'],
       valid: false,
       ClassDetails: {},
@@ -308,7 +317,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios.get('/api/classwork/publishClassworkDetails/' + _this4.Details.classwork_id).then(function (res) {
                   ////console.log(res.data);
                   _this4.PublishDetails = res.data;
-                  _this4.availability = _this4.PublishDetails.availability == 1 ? 'Set Date' : _this4.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
+                  _this4.availability = _this4.PublishDetails.availability == 1 ? 'Set date & time' : _this4.PublishDetails.availability == 2 ? 'Unavailable' : 'Always available';
                   _this4.showAnsType = _this4.PublishDetails.showAnswerType != null ? _this4.showAnsType = _this4.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : _this4.showAnsType = '';
                   _this4.PublishDetails.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                   _this4.PublishDetails.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
@@ -22674,6 +22683,7 @@ var render = function() {
                 [
                   _c(
                     "v-container",
+                    { attrs: { "mb-0": "", "pb-0": "" } },
                     [
                       _c(
                         "v-row",
@@ -22688,6 +22698,7 @@ var render = function() {
                               _c("v-select", {
                                 attrs: {
                                   dense: "",
+                                  "hide-details": "",
                                   rules: _vm.FieldRules,
                                   items: _vm.GradingItems,
                                   "item-text": "value",
@@ -22773,7 +22784,8 @@ var render = function() {
                               _c(
                                 "v-radio-group",
                                 {
-                                  staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                                  staticClass: "ml-2 mt-0 pt-0 mb-0 pb-0",
+                                  attrs: { "hide-details": "" },
                                   model: {
                                     value: _vm.availability,
                                     callback: function($$v) {
@@ -22800,7 +22812,7 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.availability == "Set Date"
+                          _vm.availability == "Set date & time"
                             ? _c(
                                 "v-col",
                                 {
@@ -22810,7 +22822,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-row",
-                                    { staticClass: "mt-0 pt-0" },
+                                    { staticClass: "mt-0 pt-0 mb-0 pb-0" },
                                     [
                                       _c(
                                         "v-col",
@@ -22886,7 +22898,7 @@ var render = function() {
                                           _c("v-checkbox", {
                                             staticClass: "pa-0 ma-0",
                                             attrs: {
-                                              label: "Accept Late Response"
+                                              label: "Allow late submission"
                                             },
                                             model: {
                                               value:
@@ -22917,14 +22929,16 @@ var render = function() {
                           _c(
                             "v-col",
                             {
-                              staticClass: "text-left pb-0 mb-0",
+                              staticClass: "text-left pb-0 mb-0 pt-2 mt-0",
                               attrs: { cols: "12" }
                             },
                             [
-                              _c("v-checkbox", {
-                                staticClass: "pa-0 ma-0",
+                              _c("v-divider"),
+                              _vm._v(" "),
+                              _c("v-switch", {
                                 attrs: {
-                                  label: "Enable Review Answer After Submit"
+                                  "hide-details": "",
+                                  label: "Review answer after submit"
                                 },
                                 model: {
                                   value: _vm.PublishDetails.reviewAnswer,
@@ -22946,13 +22960,17 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left mb-0 pb-0 mt-0 pt-0",
+                                  staticClass:
+                                    "text-left mb-0 pb-0 mt-0 pt-0 mt-2",
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
                                   _c("v-checkbox", {
-                                    staticClass: "pa-0 ma-0",
-                                    attrs: { label: "Show Correct Answer" },
+                                    staticClass: "pa-0 ma-0 ml-11",
+                                    attrs: {
+                                      "hide-details": "",
+                                      label: "Show Correct Answer"
+                                    },
                                     model: {
                                       value: _vm.PublishDetails.showAnswer,
                                       callback: function($$v) {
@@ -22974,14 +22992,16 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left mb-0 pb-0 ",
+                                  staticClass:
+                                    "text-left pl-8 mb-0 pb-0 mt-0 pt-0 ",
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
                                   _c(
                                     "v-radio-group",
                                     {
-                                      staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                                      staticClass: "ml-12 mt-1 pt-0 mb-0 pb-0",
+                                      attrs: { "hide-details": "" },
                                       model: {
                                         value: _vm.showAnsType,
                                         callback: function($$v) {
@@ -23013,16 +23033,20 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left mb-0 pb-0",
+                                  staticClass: "text-left mb-0 pb-0 mt-0 pt-0",
                                   attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                                 },
                                 [
                                   _c(
                                     "v-row",
+                                    { staticClass: "mt-0 pt-0" },
                                     [
                                       _c(
                                         "v-col",
-                                        { attrs: { cols: "6" } },
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: { cols: "6" }
+                                        },
                                         [
                                           _c("v-datetime-picker", {
                                             staticClass: "mt-0 pt-0",
@@ -23058,7 +23082,10 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "v-col",
-                                        { attrs: { cols: "6" } },
+                                        {
+                                          staticClass: "mt-0 pt-0",
+                                          attrs: { cols: "6" }
+                                        },
                                         [
                                           _c("v-datetime-picker", {
                                             staticClass: "mt-0 pt-0",

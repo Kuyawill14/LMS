@@ -15,19 +15,20 @@ class SendClassworkNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
-    public $class_id, $user_id, $classwork_id, $mesage, $type;
+    public $class_id, $user_id, $classwork_id, $mesage, $type, $dispatchType;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($class_id, $user_id, $classwork_id, $mesage, $type)
+    public function __construct($class_id, $user_id, $classwork_id, $mesage, $type, $dispatchType)
     {
         $this->class_id = $class_id;
         $this->user_id = $user_id;
         $this->classwork_id = $classwork_id;
         $this->mesage = $mesage;
         $this->type = $type;
+        $this->dispatchType = $dispatchType;
     }
 
     /**

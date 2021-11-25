@@ -247,7 +247,7 @@ class ClassworkController extends Controller
         
         if($Check){
             $Check->restore();
-            $Check->availability = $request->availability== 'Set Date' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+            $Check->availability = $request->availability== 'Set date & time' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
             $Check->from_date = $request->from_date;
             $Check->to_date = $request->to_date;
             $Check->reviewAnswer =  $request->ReviewAnswer == true ? 1 : 0;
@@ -266,7 +266,7 @@ class ClassworkController extends Controller
         $shareClasswork = new tbl_classClassworks;
         $shareClasswork->class_id = $request->class_id;
         $shareClasswork->classwork_id = $request->classwork_id;
-        $shareClasswork->availability = $request->availability == 'Set Date' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+        $shareClasswork->availability = $request->availability == 'Set date & time' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
         $shareClasswork->from_date = $request->from_date;
         $shareClasswork->to_date = $request->to_date;
         $shareClasswork->reviewAnswer =  $request->ReviewAnswer == true ? 1 : 0;
@@ -330,13 +330,13 @@ class ClassworkController extends Controller
      */
     public function UpdatePublishClassworkDetails(Request $request,$id)
     {
-        //return $request;
+
         $UpdatePublishDetails = tbl_classClassworks::find($id);
         if($UpdatePublishDetails){
             //$UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1: 0;
-            $UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
-            $UpdatePublishDetails->from_date = $request->availability == 'Set Date' ? $request->from_date : '';
-            $UpdatePublishDetails->to_date = $request->availability == 'Set Date' ? $request->to_date : '';
+            $UpdatePublishDetails->availability = $request->availability == 'Set date & time' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+            $UpdatePublishDetails->from_date = $request->availability == 'Set date & time' ? $request->from_date : '';
+            $UpdatePublishDetails->to_date = $request->availability == 'Set date & time' ? $request->to_date : '';
             $UpdatePublishDetails->reviewAnswer =  $request->reviewAnswer == true ? 1 : 0;
             $UpdatePublishDetails->showAnswer =  $request->showAnswer == true ? 1 : 0;
            
@@ -349,9 +349,38 @@ class ClassworkController extends Controller
             $UpdatePublishDetails->response_late = $request->response_late == true ? 1 : 0;
             $UpdatePublishDetails->grading_criteria = $request->grading_criteria;
             $UpdatePublishDetails->save();
-            //return $UpdatePublishDetails;
+
+           
+            if($request->availability == 'Set date & time'){
+                $checkJobs = DB::table('jobs')->get();
+                if($checkJobs){
+                    $count = 0;
+                    foreach($checkJobs as $item){
+                        $payload = json_decode( $item->payload);
+                        $tempPayload =  unserialize($payload->data->command);
+                        try {
+                            if($tempPayload->class_id == $UpdatePublishDetails->class_id && $tempPayload->classwork_id == $UpdatePublishDetails->classwork_id){
+                                DB::table('jobs')->where('id', $item->id)->update(['available_at' => Carbon::parse($request->from_date)->timestamp]);
+                                $count++;
+                            }
+                         }
+                        catch (Exception $e) {
+                            continue;
+                        }    
+
+                        if($count == 2){
+                            goto StopLoop;
+                        }
+                    }
+                }
+            }
+            StopLoop:
             return 'Publish details Updated!';
-        }   
+
+        } 
+
+
+
         
         return 'Classwork not found!';
     }

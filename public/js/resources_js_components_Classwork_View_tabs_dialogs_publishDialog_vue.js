@@ -240,12 +240,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details', 'datetoday'],
   data: function data() {
     return {
-      InputAvailability: ['Always Available', 'Set Date', 'Unavailable'],
+      InputAvailability: ['Always available', 'Set date & time', 'Unavailable'],
       InputShowAnswer: ['After Classwork Done', 'Set Date'],
       valid: false,
       ClassDetails: {},
@@ -261,7 +278,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         appendIcon: 'event'
       },
       dateProps: {
-        headerColor: 'primary'
+        headerColor: 'primary',
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
       },
       timeProps: {
         useSeconds: true,
@@ -280,7 +298,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return !!v || 'Field is required';
       }],
       isPublishing: false,
-      test: ''
+      test: '',
+      disabledDates: {
+        to: new Date(Date.now() - 8640000)
+      }
     };
   },
   methods: {
@@ -316,6 +337,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     shareClasswork: function shareClasswork() {
+      if (this.availability == 'Set date & time') {
+        var from_date = new Date(this.from_date).getTime();
+        var to_date = new Date(this.to_date).getTime();
+
+        if (from_date < to_date) {
+          this.startSharing();
+        } else {
+          this.isPublishing = !this.isPublishing;
+          this.toastError('Ivalid due date');
+        }
+      } else {
+        this.startSharing();
+      }
+    },
+    startSharing: function startSharing() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -386,9 +422,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 newDate = new Date();
                 _this3.duedate = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).format('YYYY-MM-DD HH:mm:ss');
                 _this3.ClassDetails = _this3.Details;
-                /*  this.ShowAnswerDate =  this.duedate;
-                 this.from_date =  this.duedate;
-                 this.to_date =  this.duedate; */
 
               case 3:
               case "end":
@@ -22797,6 +22830,7 @@ var render = function() {
             [
               _c(
                 "v-container",
+                { attrs: { "mb-0": "", "pb-0": "" } },
                 [
                   _c(
                     "v-row",
@@ -22812,6 +22846,7 @@ var render = function() {
                             staticClass: "mb-0 pb-0",
                             attrs: {
                               dense: "",
+                              "hide-details": "",
                               rules: _vm.FieldRules,
                               items: _vm.GradingItems,
                               "item-text": "value",
@@ -22864,11 +22899,11 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "text-left pb-0 mb-",
+                          staticClass: "text-left pb-0 mb-0",
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
-                          _c("div", { staticClass: "subtitle-1 mb-1" }, [
+                          _c("div", { staticClass: "subtitle-1" }, [
                             _vm._v("Availability:")
                           ])
                         ]
@@ -22877,14 +22912,15 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "text-left pb-0 mb-",
+                          staticClass: "text-left pb-0 mb-0",
                           attrs: { "ma-0": "", "pa-0": "", cols: "12" }
                         },
                         [
                           _c(
                             "v-radio-group",
                             {
-                              staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                              staticClass: "ml-2 mt-0 pt-0 mb-0 pb-0",
+                              attrs: { "hide-details": "" },
                               model: {
                                 value: _vm.availability,
                                 callback: function($$v) {
@@ -22908,14 +22944,14 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _vm.availability == "Set Date"
+                      _vm.availability == "Set date & time"
                         ? _c(
                             "v-col",
-                            { staticClass: "pb-0 mb-", attrs: { cols: "12" } },
+                            { staticClass: "pb-0 mb-0", attrs: { cols: "12" } },
                             [
                               _c(
                                 "v-row",
-                                { staticClass: "mt-0 pt-0" },
+                                { staticClass: "mt-0 pt-0 mb-0 pb-0" },
                                 [
                                   _c(
                                     "v-col",
@@ -22930,6 +22966,10 @@ var render = function() {
                                           staticClass: "mt-0 pt-0",
                                           attrs: {
                                             label: "From",
+                                            "text-field-props":
+                                              _vm.textFieldProps,
+                                            "date-picker-props": _vm.dateProps,
+                                            "time-picker-props": _vm.timeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
@@ -22983,6 +23023,10 @@ var render = function() {
                                           staticClass: "Datetimepicker",
                                           attrs: {
                                             label: "To",
+                                            "text-field-props":
+                                              _vm.textFieldProps,
+                                            "date-picker-props": _vm.dateProps,
+                                            "time-picker-props": _vm.timeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },
@@ -23026,14 +23070,15 @@ var render = function() {
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "mt-0 pt-0",
+                                      staticClass: "mt-0 pt-0 ",
                                       attrs: { cols: "12" }
                                     },
                                     [
                                       _c("v-checkbox", {
                                         staticClass: "pa-0 ma-0",
                                         attrs: {
-                                          label: "Accept late response"
+                                          "hide-details": "",
+                                          label: "Allow late submission"
                                         },
                                         model: {
                                           value: _vm.response_late,
@@ -23057,14 +23102,16 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          staticClass: "text-left pb-0 mb-0",
+                          staticClass: "text-left pb-0 mb-0 mt-0 pt-2",
                           attrs: { cols: "12" }
                         },
                         [
-                          _c("v-checkbox", {
-                            staticClass: "pa-0 ma-0",
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c("v-switch", {
                             attrs: {
-                              label: "Enable Review Answer After Submit"
+                              "hide-details": "",
+                              label: "Review answer after submit"
                             },
                             model: {
                               value: _vm.ReviewAnswer,
@@ -23082,13 +23129,16 @@ var render = function() {
                         ? _c(
                             "v-col",
                             {
-                              staticClass: "text-left pb-0 mb-0 mt-0 pt-0",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                              staticClass: "text-left  pb-0 mb-0 mt-0 pt-0",
+                              attrs: { cols: "12" }
                             },
                             [
                               _c("v-checkbox", {
-                                staticClass: "pa-0 ma-0",
-                                attrs: { label: "Show Correct Answer" },
+                                staticClass: "pa-0 ma-0 ml-10",
+                                attrs: {
+                                  "hide-details": "",
+                                  label: "Show Correct Answer"
+                                },
                                 model: {
                                   value: _vm.showAns,
                                   callback: function($$v) {
@@ -23106,14 +23156,14 @@ var render = function() {
                         ? _c(
                             "v-col",
                             {
-                              staticClass: "text-left pa-0 ma-0",
+                              staticClass: "text-left pl-7 pa-0 ma-0",
                               attrs: { cols: "12" }
                             },
                             [
                               _c(
                                 "v-radio-group",
                                 {
-                                  staticClass: "ml-3 mt-0 pt-0 mb-0 pb-0",
+                                  staticClass: "ml-12 mt-0 pt-0 mb-0 pb-0",
                                   model: {
                                     value: _vm.showAnsType,
                                     callback: function($$v) {

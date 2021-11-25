@@ -200,6 +200,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };
@@ -249,13 +254,13 @@ var classJoinRequest = function classJoinRequest() {
       var _this = this;
 
       if (this.search) {
-        return this.students.filter(function (item) {
+        return this.getStudentList.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
             return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v);
           });
         });
       } else {
-        return this.students;
+        return this.getStudentList;
       }
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo", "getcourseInfo", "getStudentList"])),
@@ -783,11 +788,10 @@ var render = function() {
                   { staticClass: "mb-0 pb-0 mt-0 pt-0", attrs: { cols: "12" } },
                   [
                     _c(
-                      "v-list",
-                      { staticClass: "mb-0 pb-0" },
-                      _vm._l(_vm.getStudentList, function(item) {
+                      "v-row",
+                      _vm._l(_vm.getAllStudents, function(item) {
                         return _c(
-                          "v-list-item",
+                          "v-col",
                           {
                             directives: [
                               {
@@ -801,168 +805,206 @@ var render = function() {
                               }
                             ],
                             key: item.user_id,
-                            staticClass: "mb-0 pb-0"
+                            staticClass: "mb-0 pb-0 mt-0 pt-0",
+                            attrs: { cols: "3" }
                           },
                           [
                             _c(
-                              "v-list-item-avatar",
-                              { attrs: { color: "secondary" } },
-                              [
-                                _c("v-img", {
-                                  attrs: {
-                                    src:
-                                      item.profile_pic == null ||
-                                      item.profile_pic == ""
-                                        ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
-                                          (item.firstName + " " + item.lastName)
-                                        : item.profile_pic
-                                  }
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-list-item-content",
-                              [
-                                _c("v-list-item-title", [
-                                  _vm._v(
-                                    _vm._s(item.firstName) +
-                                      " " +
-                                      _vm._s(item.lastName)
-                                  )
-                                ]),
-                                _vm._v(" "),
-                                _c("v-list-item-subtitle", [
-                                  _vm._v(_vm._s(item.email))
-                                ])
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-list-item-action",
-                              { staticClass: "pa-0 ma-0" },
+                              "v-list",
+                              { staticClass: "mb-0 pb-0" },
                               [
                                 _c(
-                                  "v-app-bar",
-                                  {
-                                    attrs: {
-                                      flat: "",
-                                      color: "rgba(0, 0, 0, 0)"
-                                    }
-                                  },
+                                  "v-list-item",
+                                  { staticClass: "mb-0 pb-0" },
                                   [
-                                    _c("v-spacer"),
+                                    _c(
+                                      "v-list-item-avatar",
+                                      { attrs: { color: "secondary" } },
+                                      [
+                                        _c("v-img", {
+                                          attrs: {
+                                            src:
+                                              item.profile_pic == null ||
+                                              item.profile_pic == ""
+                                                ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
+                                                  (item.firstName +
+                                                    " " +
+                                                    item.lastName)
+                                                : item.profile_pic
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
                                     _vm._v(" "),
                                     _c(
-                                      "v-menu",
-                                      {
-                                        attrs: {
-                                          transition: "slide-y-transition",
-                                          bottom: "",
-                                          left: ""
-                                        },
-                                        scopedSlots: _vm._u(
-                                          [
-                                            {
-                                              key: "activator",
-                                              fn: function(ref) {
-                                                var on = ref.on
-                                                var attrs = ref.attrs
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          staticClass:
-                                                            "float-right",
-                                                          attrs: {
-                                                            icon: "",
-                                                            color: "black"
-                                                          }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "\n                                                mdi-dots-vertical\n                                            "
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                ]
-                                              }
-                                            }
-                                          ],
-                                          null,
-                                          true
-                                        )
-                                      },
+                                      "v-list-item-content",
                                       [
+                                        _c("v-list-item-title", [
+                                          _vm._v(
+                                            _vm._s(item.firstName) +
+                                              " " +
+                                              _vm._s(item.lastName)
+                                          )
+                                        ]),
                                         _vm._v(" "),
+                                        _c("v-list-item-subtitle", [
+                                          _vm._v(_vm._s(item.email))
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item-action",
+                                      { staticClass: "pa-0 ma-0" },
+                                      [
                                         _c(
-                                          "v-list",
-                                          { attrs: { nav: "" } },
+                                          "v-app-bar",
+                                          {
+                                            attrs: {
+                                              flat: "",
+                                              color: "rgba(0, 0, 0, 0)"
+                                            }
+                                          },
                                           [
-                                            _c(
-                                              "v-list-item",
-                                              {
-                                                attrs: { link: "" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.OpenmoveStudentDialog(
-                                                      item
-                                                    )
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c("v-list-item-title", [
-                                                  _vm._v("Move Student")
-                                                ])
-                                              ],
-                                              1
-                                            ),
+                                            _c("v-spacer"),
                                             _vm._v(" "),
                                             _c(
-                                              "v-list-item",
+                                              "v-menu",
                                               {
-                                                attrs: { link: "" },
-                                                on: {
-                                                  click: function($event) {
-                                                    return _vm.RemoveConfirm(
-                                                      item.firstName,
-                                                      item.lastName,
-                                                      item.class_name,
-                                                      item.class_id,
-                                                      item.user_id
-                                                    )
-                                                  }
-                                                }
+                                                attrs: {
+                                                  transition:
+                                                    "slide-y-transition",
+                                                  bottom: "",
+                                                  left: ""
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key: "activator",
+                                                      fn: function(ref) {
+                                                        var on = ref.on
+                                                        var attrs = ref.attrs
+                                                        return [
+                                                          _c(
+                                                            "v-btn",
+                                                            _vm._g(
+                                                              _vm._b(
+                                                                {
+                                                                  staticClass:
+                                                                    "float-right",
+                                                                  attrs: {
+                                                                    icon: "",
+                                                                    color:
+                                                                      "black"
+                                                                  }
+                                                                },
+                                                                "v-btn",
+                                                                attrs,
+                                                                false
+                                                              ),
+                                                              on
+                                                            ),
+                                                            [
+                                                              _c("v-icon", [
+                                                                _vm._v(
+                                                                  "\n                                                        mdi-dots-vertical\n                                                    "
+                                                                )
+                                                              ])
+                                                            ],
+                                                            1
+                                                          )
+                                                        ]
+                                                      }
+                                                    }
+                                                  ],
+                                                  null,
+                                                  true
+                                                )
                                               },
                                               [
-                                                _c("v-list-item-title", [
-                                                  _vm._v("Remove student")
-                                                ])
-                                              ],
-                                              1
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "v-list-item",
-                                              { attrs: { link: "" } },
-                                              [
-                                                _c("v-list-item-title", [
-                                                  _vm._v("View Student")
-                                                ])
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-list",
+                                                  { attrs: { nav: "" } },
+                                                  [
+                                                    _c(
+                                                      "v-list-item",
+                                                      {
+                                                        attrs: { link: "" },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.OpenmoveStudentDialog(
+                                                              item
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-title",
+                                                          [
+                                                            _vm._v(
+                                                              "Move Student"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-list-item",
+                                                      {
+                                                        attrs: { link: "" },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.RemoveConfirm(
+                                                              item.firstName,
+                                                              item.lastName,
+                                                              item.class_name,
+                                                              item.class_id,
+                                                              item.user_id
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-title",
+                                                          [
+                                                            _vm._v(
+                                                              "Remove student"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-list-item",
+                                                      { attrs: { link: "" } },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-title",
+                                                          [
+                                                            _vm._v(
+                                                              "View Student"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
                                               ],
                                               1
                                             )
