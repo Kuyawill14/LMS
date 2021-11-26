@@ -2015,7 +2015,11 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
+<<<<<<< HEAD
   key: "05597b24c42e8d5d33ef",
+=======
+  key: "865de026959fe9de27a8",
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
   cluster: "ap1",
   forceTLS: true
 });
@@ -2295,12 +2299,16 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_6__.default({
       _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
         if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
-            if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == true) {
-              next();
+            if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.isSuccess) {
+              if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == true) {
+                next();
+              } else {
+                return next({
+                  path: "/EmailPending"
+                });
+              }
             } else {
-              return next({
-                path: "/EmailPending"
-              });
+              next(false);
             }
           })["catch"](function () {
             return next({
@@ -3148,7 +3156,8 @@ var state = {
   CurrentStatus: {},
   IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
   IsVerified: null,
-  AccessToken: window.localStorage.getItem('personal_access_token')
+  AccessToken: window.localStorage.getItem('personal_access_token'),
+  isSuccess: null
 };
 var getters = {
   get_CurrentUser: function get_CurrentUser(state) {
@@ -3213,22 +3222,33 @@ var actions = {
               commit = _ref2.commit;
 
               if (!(state.CurrentUser.length == 0)) {
-                _context2.next = 9;
+                _context2.next = 11;
                 break;
               }
 
               _context2.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/profile/details");
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/profile/details")["catch"](function (e) {
+                commit('SET_AUTHENTICATED', false);
+                window.localStorage.removeItem('IsAuthenticated');
+                window.localStorage.removeItem('personal_access_token');
+                state.isSuccess = false;
+              });
 
             case 4:
               res = _context2.sent;
-              ////console.log(res.data.photo_url);
+
+              if (!res) {
+                _context2.next = 11;
+                break;
+              }
+
+              state.isSuccess = true;
               state.CurrentUser = res.data;
               state.UserRole = res.data.role;
               state.IsVerified = res.data.verified;
               return _context2.abrupt("return", res.status);
 
-            case 9:
+            case 11:
             case "end":
               return _context2.stop();
           }
@@ -3284,34 +3304,83 @@ var actions = {
     }))();
   },
   setCourseStatus: function setCourseStatus(_ref5, id) {
-    var commit = _ref5.commit;
-    ////console.log(id);
-    state.MyCourses.forEach(function (item) {
-      if (item.id == id) {
-        item.status = 1;
-      }
-    });
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref5.commit;
+              ////console.log(id);
+              state.MyCourses.forEach(function (item) {
+                if (item.id == id) {
+                  item.status = 1;
+                }
+              });
+
+            case 2:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
   },
   CheckMyCourse: function CheckMyCourse(_ref6, course_id) {
-    var commit = _ref6.commit;
-    //////console.log(course_id);
-    var exist = false;
-    var status = 0;
-    state.MyCourses.forEach(function (item) {
-      if (item.id == course_id) {
-        exist = true;
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      var commit, exist, status;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref6.commit;
+              //////console.log(course_id);
+              exist = false;
+              status = 0;
+              state.MyCourses.forEach(function (item) {
+                if (item.id == course_id) {
+                  exist = true;
 
-        if (item.status == 1) {
-          status = item.status;
+                  if (item.status == 1) {
+                    status = item.status;
+                  }
+                }
+              });
+              state.CurrentStatus.exist = exist;
+              state.CurrentStatus.status = status;
+              return _context5.abrupt("return", {
+                'exist': exist,
+                'status': status
+              });
+
+            case 7:
+            case "end":
+              return _context5.stop();
+          }
         }
-      }
-    });
-    state.CurrentStatus.exist = exist;
-    state.CurrentStatus.status = status;
-    return {
-      'exist': exist,
-      'status': status
-    };
+      }, _callee5);
+    }))();
+  },
+  setAsOffline: function setAsOffline(_ref7) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              commit = _ref7.commit;
+              axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/logout').then(function () {})["catch"](function (e) {});
+              commit('SET_AUTHENTICATED', false);
+              window.localStorage.removeItem('IsAuthenticated');
+              window.localStorage.removeItem('personal_access_token');
+
+            case 5:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }))();
   }
 };
 var mutations = {
@@ -3323,6 +3392,84 @@ var mutations = {
   },
   SET_AUTHENTICATED: function SET_AUTHENTICATED(state, IsAuthenticated) {
     return state.IsAuthenticated = IsAuthenticated;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+<<<<<<< HEAD
+/***/ "./resources/js/store/modules/allCampusDirector.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/allCampusDirector.js ***!
+  \*********************************************************/
+=======
+/***/ "./resources/js/store/modules/StudentsList.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/StudentsList.js ***!
+  \****************************************************/
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+<<<<<<< HEAD
+=======
+  allStudents: []
+};
+var getters = {
+  getStudentList: function getStudentList(state) {
+    return state.allStudents;
+  }
+};
+var actions = {
+  fetchAllStudents: function fetchAllStudents(_ref, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              _context.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/all/".concat(id));
+
+            case 3:
+              res = _context.sent;
+              commit('FETCH_STUDENTS', res.data.StudentList);
+
+            case 5:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  }
+};
+var mutations = {
+  FETCH_STUDENTS: function FETCH_STUDENTS(state, allStudents) {
+    return state.allStudents = allStudents;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3357,6 +3504,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
   allCampusDirector: []
 };
 var getters = {
@@ -6353,10 +6501,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./modules/verifyEmail */ "./resources/js/store/modules/verifyEmail.js");
 /* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
 /* harmony import */ var _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/allProgramChair */ "./resources/js/store/modules/allProgramChair.js");
+<<<<<<< HEAD
 /* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
+=======
+/* harmony import */ var _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/StudentsList */ "./resources/js/store/modules/StudentsList.js");
+/* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
+
 
 
 
@@ -6404,7 +6558,12 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default,
     classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default,
     allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default,
+<<<<<<< HEAD
     allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__.default
+=======
+    studentsList: _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__.default,
+    allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_25__.default
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
   }
 }));
 
@@ -14019,27 +14178,6 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
-     * Listen for all events on the channel instance.
-     */
-
-  }, {
-    key: "listenToAll",
-    value: function listenToAll(callback) {
-      var _this2 = this;
-
-      this.subscription.bind_global(function (event, data) {
-        if (event.startsWith('pusher:')) {
-          return;
-        }
-
-        var namespace = _this2.options.namespace.replace(/\./g, '\\');
-
-        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
-        callback(formattedEvent, data);
-      });
-      return this;
-    }
-    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -14050,21 +14188,6 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
-      }
-
-      return this;
-    }
-    /**
-     * Stop listening for all events on the channel instance.
-     */
-
-  }, {
-    key: "stopListeningToAll",
-    value: function stopListeningToAll(callback) {
-      if (callback) {
-        this.subscription.unbind_global(callback);
-      } else {
-        this.subscription.unbind_global();
       }
 
       return this;
@@ -30826,9 +30949,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
+  IteratorPrototype[iteratorSymbol] = function () {
     return this;
-  });
+  };
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -30842,9 +30965,8 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = GeneratorFunctionPrototype;
-  define(Gp, "constructor", GeneratorFunctionPrototype);
-  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -30958,9 +31080,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
     return this;
-  });
+  };
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -31153,13 +31275,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  define(Gp, iteratorSymbol, function() {
+  Gp[iteratorSymbol] = function() {
     return this;
-  });
+  };
 
-  define(Gp, "toString", function() {
+  Gp.toString = function() {
     return "[object Generator]";
-  });
+  };
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -31478,19 +31600,14 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, in modern engines
-  // we can explicitly access globalThis. In older engines we can escape
+  // in case runtime.js accidentally runs in strict mode, we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  if (typeof globalThis === "object") {
-    globalThis.regeneratorRuntime = runtime;
-  } else {
-    Function("r", "regeneratorRuntime = r")(runtime);
-  }
+  Function("r", "regeneratorRuntime = r")(runtime);
 }
 
 
@@ -37775,7 +37892,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-4","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-4","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

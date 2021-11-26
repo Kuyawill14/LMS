@@ -62,12 +62,13 @@ class NotificationController extends Controller
             else{
                 $seconds =  $diff_in_minutes * 60;
             }
-            SendClassworkNotification::dispatch($request->class_id, $userId, $request->classwork_id, $message, $type)->delay(Carbon::now()->addSeconds($seconds));
+
+            SendClassworkNotification::dispatch($request->class_id, $userId, $request->classwork_id, $message, $type, 'notification')->delay(Carbon::now()->addSeconds($seconds));
 
             $ClassName = Tbl_class::where('tbl_classes.id',$request->class_id)->first();
             $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$request->classwork_id;
             $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
-            SendNotificationMailToClass::dispatch($request->class_id, $clsssworkTitle->title, $clsssworkTitle->instruction, $request->due, $CourseClassName, $clsssworkTitle->lastName, $url)->delay(Carbon::now()->addSeconds(30));
+            SendNotificationMailToClass::dispatch($request->class_id, $request->classwork_id, $clsssworkTitle->title, $clsssworkTitle->instruction, $request->due, $CourseClassName, $clsssworkTitle->lastName, $url, 'email')->delay(Carbon::now()->addSeconds($seconds));
             return;
         }
         elseif($request->type == "announcement"){

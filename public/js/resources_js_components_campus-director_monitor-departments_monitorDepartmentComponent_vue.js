@@ -262,7 +262,7 @@ var render = function() {
         _vm._l(_vm.departments, function(department, index) {
           return _c(
             "v-col",
-            { attrs: { lg: "3" } },
+            { key: index, attrs: { lg: "3" } },
             [
               _c(
                 "v-card",

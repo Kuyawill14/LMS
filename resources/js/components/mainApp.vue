@@ -1,21 +1,11 @@
 <template>
     <v-app >
-
-
         <!-- <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader> -->
-
-        
         <sidebar  :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
-
-        <v-main >
-
+        <v-main>
             <v-container fluid width="100%">
-               
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
-                
-              
             </v-container>
-    
         </v-main>
     </v-app>
 
@@ -58,7 +48,7 @@
         },
         computed: mapGetters(["get_UserRole", "get_CurrentUser"]),
         methods: {
-            ...mapActions(['setUserRole']),
+            ...mapActions(['setUserRole','setAsOffline']),
             getUserDetails(){
                 axios.get('/api/profile/details').then((res) => {
                     this.role = res.data.role;
@@ -79,16 +69,29 @@
                     //console.log(this.ipAdd);
                 }); */
 
-                  
 
-                   
-                    
-         
-            }
+            },
+             isOffline(event) {
+        
+                this.setAsOffline();
+                location.reload();
+            },
         },
         mounted(){
             this.getIp();
+        },
+        beforeMount(){
+           //window.addEventListener("offline", this.isOffline);
+           /*  window.addEventListener('online',  function(){
+
+            });
+
+            */
+        },
+        beforeDestroy(){
+            window.removeEventListener('offline', this.isOffline)
         }
+     
     }
 
 </script>

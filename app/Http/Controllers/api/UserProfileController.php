@@ -331,6 +331,7 @@ class UserProfileController extends Controller
             $join->on('tbl_submissions.user_id','=',DB::raw("'".$userId."'"));
                
         })
+       ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
        ->where('tbl_submissions.status' , null)
        ->get();
 

@@ -8,6 +8,7 @@ const state = {
     IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
     IsVerified: null,
     AccessToken: window.localStorage.getItem('personal_access_token'),
+    isSuccess: null,
 
 };
 const getters = {
@@ -37,17 +38,24 @@ const actions = {
     },
     async fetchCurrentUser({ commit }) {
         if (state.CurrentUser.length == 0) {
-            const res = await axios.get(
+          /*   const res = await axios.get(
                 `/api/profile/details`
-            );
-            ////console.log(res.data.photo_url);
-            state.CurrentUser = res.data;
-            state.UserRole = res.data.role;
-            state.IsVerified = res.data.verified;
-            return res.status;
-            /*   commit('FETCH_USER', res.data);
-              commit('SET_USER_ROLE', res.data.role); */
+            ); */
+            const res = await axios.get(`/api/profile/details`)
+            .catch((e) => {
+                commit('SET_AUTHENTICATED', false);
+                window.localStorage.removeItem('IsAuthenticated');
+                window.localStorage.removeItem('personal_access_token');
+                state.isSuccess = false;
+            })
 
+            if(res){
+                state.isSuccess = true;
+                state.CurrentUser = res.data;
+                state.UserRole = res.data.role;
+                state.IsVerified = res.data.verified;
+                return res.status;
+            }
         }
     },
     clear_current_user({ rootState  }) {
@@ -70,7 +78,7 @@ const actions = {
             return { 'status': 200 };
         }
     },
-    setCourseStatus({ commit }, id) {
+    async setCourseStatus({ commit }, id) {
         ////console.log(id);
         state.MyCourses.forEach(item => {
             if (item.id == id) {
@@ -78,7 +86,7 @@ const actions = {
             }
         });
     },
-    CheckMyCourse({ commit }, course_id) {
+    async CheckMyCourse({ commit }, course_id) {
         //////console.log(course_id);
         let exist = false;
         let status = 0;
@@ -95,6 +103,17 @@ const actions = {
         state.CurrentStatus.status = status;
         return { 'exist': exist, 'status': status };
     },
+    async setAsOffline({ commit }){
+        axios.post('/api/logout')
+        .then(() => {
+           
+        })
+        .catch((e) => {
+        })
+        commit('SET_AUTHENTICATED', false);
+        window.localStorage.removeItem('IsAuthenticated');
+        window.localStorage.removeItem('personal_access_token');
+    }
 
 };
 const mutations = {

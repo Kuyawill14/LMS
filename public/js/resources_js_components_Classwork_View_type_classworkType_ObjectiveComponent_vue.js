@@ -780,21 +780,23 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-spacer"),
                   _vm._v(" "),
-                  _c("div", { staticClass: "white--text Subtitle-1" }, [
-                    _c("span", { staticClass: "font-weight-bold" }, [
-                      _vm._v("Score: ")
-                    ]),
-                    _vm._v(" "),
-                    _c("span", {}, [
-                      _vm._v(
-                        _vm._s(
-                          _vm.classworkDetails.score +
-                            " /" +
-                            _vm.classworkDetails.points
-                        )
-                      )
-                    ])
-                  ])
+                  _vm.classworkDetails.status == "Submitted"
+                    ? _c("div", { staticClass: "white--text Subtitle-1" }, [
+                        _c("span", { staticClass: "font-weight-bold" }, [
+                          _vm._v("Score: ")
+                        ]),
+                        _vm._v(" "),
+                        _c("span", {}, [
+                          _vm._v(
+                            _vm._s(
+                              _vm.classworkDetails.score +
+                                " / " +
+                                _vm.classworkDetails.points
+                            )
+                          )
+                        ])
+                      ])
+                    : _vm._e()
                 ],
                 1
               )

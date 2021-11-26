@@ -8,12 +8,13 @@
                 <span class="h6">Publish to <span class="primary--text">"{{ClassDetails.class_name}}"</span></span>
             </v-card-title>
             <v-card-text>
-                <v-container >
+                <v-container mb-0 pb-0>
                     <v-row>
                         <v-col   class="pb-0 mb-0 mt-0 pt-0" cols="12">
                             <v-select
                             class="mb-0 pb-0"
                                 dense
+                                hide-details
                                 :rules="FieldRules"
                                 :items="GradingItems"
                                 item-text="value"
@@ -31,11 +32,11 @@
                             </v-select>
                        </v-col>
 
-                        <v-col ma-0 pa-0 class="text-left pb-0 mb-" cols="12">
-                            <div class="subtitle-1 mb-1">Availability:</div>
+                        <v-col ma-0 pa-0 class="text-left pb-0 mb-0" cols="12">
+                            <div class="subtitle-1">Availability:</div>
                         </v-col>
 
-                        <v-col  ma-0 pa-0 class="text-left pb-0 mb-" cols="12">
+                        <v-col  ma-0 pa-0 class="text-left pb-0 mb-0" cols="12">
                                <!--  <v-container ma-0 pa-0 class="d-flex">
                                 <v-checkbox
                                 class="pa-0 ma-0"
@@ -44,7 +45,7 @@
                                 ></v-checkbox>
                                 </v-container> -->
 
-                                <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="availability">
+                                <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                                 <v-radio
                                     v-for="(n, index) in InputAvailability"
                                     :key="index"
@@ -64,13 +65,15 @@
                                 </v-container>
                         </v-col> -->
 
-                         <v-col v-if="availability == 'Set Date'"  class="pb-0 mb-"  cols="12">
-                             <v-row class="mt-0 pt-0">
+                         <v-col v-if="availability == 'Set date & time'"  class="pb-0 mb-0"  cols="12">
+                             <v-row class="mt-0 pt-0 mb-0 pb-0">
                                  <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
                                         class="mt-0 pt-0"
-                                
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -97,7 +100,9 @@
                                      <v-datetime-picker label="To"
                                         v-model="to_date"
                                         class="Datetimepicker"
-                                        
+                                        :text-field-props="textFieldProps"
+                                        :date-picker-props="dateProps"
+                                        :time-picker-props="timeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         >
@@ -118,34 +123,45 @@
                                     </v-text-field> -->
                                  </v-col>
 
-                                   <v-col cols="12" class="mt-0 pt-0">
+                                   <v-col cols="12" class="mt-0 pt-0 ">
                                     <v-checkbox
+                                    hide-details
                                     class="pa-0 ma-0"
                                     v-model="response_late"
-                                    label="Accept late response"
+                                    label="Allow late submission"
                                     ></v-checkbox>    
                                 </v-col>
                              </v-row>
                            
                             </v-col>
-                             <v-col class="text-left pb-0 mb-0" cols="12">
-                                <v-checkbox
+                             <v-col class="text-left pb-0 mb-0 mt-0 pt-2" cols="12">
+                                 <v-divider></v-divider>
+                              <!--   <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="ReviewAnswer"
                                     label="Enable Review Answer After Submit"
-                                    ></v-checkbox>
+                                    ></v-checkbox> -->
+                                    <v-switch
+                                  
+                                    hide-details
+                                    v-model="ReviewAnswer"
+                                    label="Review answer after submit"
+                                    ></v-switch>
                                 </v-col>
+
                             
-                            <v-col v-if="ReviewAnswer"  ma-0 pa-0 class="text-left pb-0 mb-0 mt-0 pt-0" cols="12">
+                            <v-col v-if="ReviewAnswer"  class="text-left  pb-0 mb-0 mt-0 pt-0" cols="12">
                                 <v-checkbox
-                                    class="pa-0 ma-0"
+                                    hide-details
+                         
+                                    class="pa-0 ma-0 ml-10"
                                     v-model="showAns"
                                     label="Show Correct Answer"
                                     ></v-checkbox>
                                 </v-col>
 
-                             <v-col v-if="showAns"  class="text-left pa-0 ma-0" cols="12">
-                                <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
+                             <v-col v-if="showAns"  class="text-left pl-7 pa-0 ma-0" cols="12">
+                                <v-radio-group class="ml-12 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
                                 <v-radio
                                     v-for="(n, index) in InputShowAnswer"
                                     :key="index"
@@ -161,6 +177,7 @@
                                          <v-datetime-picker label="From"
                                             
                                             v-model="ShowAnswerDateFrom"
+                                         
                                             class="mt-0 pt-0"
                                             :text-field-props="textFieldProps"
                                             :date-picker-props="dateProps"
@@ -224,7 +241,7 @@ export default {
   
     data(){
         return{
-            InputAvailability:['Always Available', 'Set Date','Unavailable'],
+            InputAvailability:['Always available','Set date & time','Unavailable'],
             InputShowAnswer:['After Classwork Done', 'Set Date'],
             valid: false,
             ClassDetails:{},
@@ -240,7 +257,10 @@ export default {
                 appendIcon: 'event'
             },
             dateProps: {
-                headerColor: 'primary'
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+              
+                 
             },
             timeProps: {
                 useSeconds: true,
@@ -260,6 +280,9 @@ export default {
             ],
             isPublishing: false,
             test: '',
+            disabledDates: {
+                to: new Date(Date.now() - 8640000)
+            }
             
         }
     },
@@ -295,7 +318,29 @@ export default {
                 }, 1000);
             }
         },
-        async shareClasswork() {
+
+        shareClasswork(){
+            if(this.availability == 'Set date & time'){
+                let from_date = new Date(this.from_date).getTime();
+                let to_date = new Date(this.to_date).getTime();
+            
+                if(from_date < to_date){
+                    this.startSharing();
+                }
+                else{
+                    this.isPublishing = !this.isPublishing;
+                    this.toastError('Ivalid due date')
+                }
+            }
+            else{
+                this.startSharing();
+            }
+            
+         
+        },
+        async startSharing() {
+
+            
             const fd = new FormData();
             let form = {};
             form.classwork_id = this.ClassDetails.id;
@@ -343,9 +388,6 @@ export default {
             let newDate = new Date();
             this.duedate = moment(newDate).format('YYYY-MM-DD HH:mm:ss');
             this.ClassDetails = this.Details;
-           /*  this.ShowAnswerDate =  this.duedate;
-            this.from_date =  this.duedate;
-            this.to_date =  this.duedate; */
         },
         async getGradingCriteria(){
             axios.get('/api/grading-criteria/all/'+this.$route.params.id)

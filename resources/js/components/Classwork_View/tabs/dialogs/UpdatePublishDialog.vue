@@ -22,11 +22,12 @@
                 <span class="h6">Publish to <span class="primary--text">"{{Details.class_name}}"</span></span>
             </v-card-title>
             <v-card-text>
-                <v-container >
+                <v-container mb-0 pb-0 >
                     <v-row>
                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
                             <v-select
                                 dense
+                                hide-details
                                 :rules="FieldRules"
                                 :items="GradingItems"
                                 item-text="value"
@@ -49,7 +50,7 @@
                         </v-col>
 
                         <v-col  ma-0 pa-0 class="text-left mb-0 pb-0" cols="12">
-                                <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="availability">
+                                <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                                 <v-radio
                                     v-for="(n, index) in InputAvailability"
                                     :key="index"
@@ -59,10 +60,11 @@
                                 </v-radio-group>
                         </v-col>
 
-                         <v-col v-if="availability == 'Set Date'"  class="mb-0 pb-0 "  cols="12">
-                             <v-row class="mt-0 pt-0">
+                         <v-col v-if="availability == 'Set date & time'"  class="mb-0 pb-0 "  cols="12">
+                             <v-row class="mt-0 pt-0 mb-0 pb-0">
                                  <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                       <v-datetime-picker label="From"
+                                 
                                         v-model="PublishDetails.from_date"
                                         class="mt-0 pt-0"
                                         time-format="HH:mm"
@@ -84,32 +86,39 @@
                                     <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="PublishDetails.response_late"
-                                    label="Accept Late Response"
+                                    label="Allow late submission"
                                     ></v-checkbox>    
                                 </v-col>
                              </v-row>
                            
                             </v-col>
 
-                             <v-col class="text-left pb-0 mb-0" cols="12">
-                                <v-checkbox
+                             <v-col class="text-left pb-0 mb-0 pt-2 mt-0" cols="12">
+                                 <v-divider></v-divider>
+                                <!-- <v-checkbox
                                     class="pa-0 ma-0"
                                     v-model="PublishDetails.reviewAnswer"
                                     label="Enable Review Answer After Submit"
-                                    ></v-checkbox>
-                                </v-col>
-                            <v-col v-if="PublishDetails.reviewAnswer" ma-0 pa-0 class="text-left mb-0 pb-0 mt-0 pt-0" cols="12">
+                                    ></v-checkbox> -->
+                                     <v-switch
+                                    hide-details
+                                    v-model="PublishDetails.reviewAnswer"
+                                    label="Review answer after submit"
+                                    ></v-switch>
+                            </v-col>
+                            <v-col v-if="PublishDetails.reviewAnswer" ma-0 pa-0 class="text-left mb-0 pb-0 mt-0 pt-0 mt-2" cols="12">
                                 <v-checkbox
-                                    class="pa-0 ma-0"
+                                     hide-details
+                                    class="pa-0 ma-0 ml-11"
                                     v-model="PublishDetails.showAnswer"
                                     label="Show Correct Answer"
                                     ></v-checkbox>
                                 </v-col>
 
-                             <v-col v-if="PublishDetails.showAnswer"  ma-0 pa-0 class="text-left mb-0 pb-0 " cols="12">
+                             <v-col v-if="PublishDetails.showAnswer"  ma-0 pa-0 class="text-left pl-8 mb-0 pb-0 mt-0 pt-0 " cols="12">
                                
 
-                                <v-radio-group class="ml-3 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
+                                <v-radio-group hide-details class="ml-12 mt-1 pt-0 mb-0 pb-0" v-model="showAnsType">
                                 <v-radio
                                     v-for="(n, index) in InputShowAnswer"
                                     :key="index"
@@ -119,9 +128,9 @@
                                 </v-radio-group>
                             </v-col>
 
-                            <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left mb-0 pb-0" cols="12">
-                                <v-row>
-                                    <v-col cols="6">
+                            <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left mb-0 pb-0 mt-0 pt-0" cols="12">
+                                <v-row class="mt-0 pt-0">
+                                    <v-col cols="6" class="mt-0 pt-0">
                                          <v-datetime-picker label="From"
                                             :rules="FieldRules"
                                             v-model="PublishDetails.showDateFrom"
@@ -135,7 +144,7 @@
                                         </v-datetime-picker>
                                     </v-col>
 
-                                     <v-col cols="6">
+                                     <v-col cols="6" class="mt-0 pt-0">
                                           <v-datetime-picker label="To"
                                         :rules="FieldRules"
                                         v-model="PublishDetails.showDateTo"
@@ -174,7 +183,7 @@ export default {
     props:['Details'],
     data(){
         return{
-            InputAvailability:['Always Available', 'Set Date','Unavailable'],
+            InputAvailability:['Always available','Set date & time','Unavailable'],
             InputShowAnswer:['After Classwork Done', 'Set Date'],
             valid: false,
             ClassDetails:{},
@@ -252,7 +261,7 @@ export default {
             .then(res=>{
                 ////console.log(res.data);
                 this.PublishDetails = res.data;
-                this.availability = this.PublishDetails.availability == 1 ? 'Set Date' : this.PublishDetails.availability == 2 ? 'Unavailable' : 'Always Available';
+                this.availability = this.PublishDetails.availability == 1 ? 'Set date & time' : this.PublishDetails.availability == 2 ? 'Unavailable' : 'Always available';
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 
                 this.showAnsType = this.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : 
                 this.showAnsType = '';

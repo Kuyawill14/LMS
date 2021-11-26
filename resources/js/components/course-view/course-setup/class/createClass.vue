@@ -136,6 +136,8 @@ import moment from 'moment-timezone';
                     });
                    
 
+                    this.$store.dispatch('createClass', this.form);
+                    this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
                     this.sending = false;
                 }
             },

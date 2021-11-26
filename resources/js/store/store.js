@@ -24,6 +24,8 @@ import teacherSummary from './modules/teacherSummary'
 import verifyEmail from './modules/verifyEmail'
 import classworkStatusCheck from './modules/classworkStatusCheck'
 import allProgramChair from './modules/allProgramChair'
+import studentsList from './modules/StudentsList'
+
 import allCampusDirector from './modules/allCampusDirector'
 export default new Vuex.Store({
     modules: {
@@ -49,6 +51,7 @@ export default new Vuex.Store({
         verifyEmail,
         classworkStatusCheck,
         allProgramChair,
+        studentsList,
         allCampusDirector
 
 

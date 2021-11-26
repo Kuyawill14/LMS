@@ -155,14 +155,18 @@ const router = new Router({
                 store.dispatch('IsAuthenticated').then(() => {
                         if (store.state.CurrentUser.IsAuthenticated == true) {
                             store.dispatch('fetchCurrentUser').then(() => {
-                                if (store.state.CurrentUser.IsVerified == true) {
-                                    next();
-                                } else {
-                                    return next({
-                                        path: "/EmailPending"
-                                    });
+                                if(store.state.CurrentUser.isSuccess){
+                                    if (store.state.CurrentUser.IsVerified == true) {
+                                        next();
+                                    } else {
+                                        return next({
+                                            path: "/EmailPending"
+                                        });
+                                    }
                                 }
-
+                                else{
+                                    next(false);
+                                }
                             }).catch(() => {
                                 return next({
                                     path: "/login"

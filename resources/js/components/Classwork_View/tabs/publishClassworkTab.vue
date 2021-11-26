@@ -79,7 +79,7 @@
 
   <v-container v-if="!isloading" pa-0 ma-0  class="pa-0 pa-0" fluid>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="9" xl="9" md="8">
+            <v-col cols="12"  md="8">
                 <v-card elevation="1" outlined class="pa-5" >
                     <v-row>
 

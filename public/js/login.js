@@ -239,6 +239,7 @@ var forgotPassword = function forgotPassword() {
     validate: function validate() {
       if (this.$refs.loginForm.validate()) {
         this.login();
+<<<<<<< HEAD
         /* this.$store.dispatch('login', this.form)
         .then(res=>{
           ////console.log(res);
@@ -249,6 +250,8 @@ var forgotPassword = function forgotPassword() {
                 this.toastError('Login failed!');
            }
         }) */
+=======
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
       }
     },
     reset: function reset() {

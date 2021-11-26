@@ -102,25 +102,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var studentStartPage = function studentStartPage() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_studentStartPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./type/studentStartPage */ "./resources/js/components/Classwork_View/type/studentStartPage.vue"));
 };
@@ -2359,6 +2340,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -2402,11 +2399,18 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }],
       editorOption: {
         placeholder: 'type here ...',
+        theme: 'bubble',
         blur: true,
+        editorData: null,
         modules: {
-          toolbar: [['bold', 'italic', 'underline'], [{
-            'list': 'bullet'
-          }], ['image']],
+          toolbar: {
+            container: [['bold', 'italic', 'underline'], [{
+              'list': 'bullet'
+            }], ['image']],
+            handlers: {
+              image: this.imageHandler
+            }
+          },
           syntax: {
             highlight: function highlight(text) {
               return hljs.highlightAuto(text).value;
@@ -2446,13 +2450,76 @@ var studentViewForTeacher = function studentViewForTeacher() {
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getAll_questions"]),
   methods: {
+    ImageUploader: function ImageUploader(main_index, sub_index) {
+      this.$refs['uploader' + main_index + '' + sub_index][0].$refs.input.click();
+    },
+    onEditorBlur: function onEditorBlur(editor) {
+      this.editorData = editor;
+    },
+    onEditorFocus: function onEditorFocus(editor) {
+      this.editorData = editor;
+    },
+    onEditorReady: function onEditorReady(editor) {
+      this.editorData = editor;
+    },
+    imageHandler: function imageHandler() {
+      var editor = this.editorData;
+      var input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.click();
+      input.onchange = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var file, formData, range;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                file = input.files[0];
+                formData = new FormData();
+                formData.append('file', file);
+                formData.append('type', 'Announcement');
+                range = editor.getSelection(true);
+                editor.setSelection(range.index + 1);
+                _context2.next = 8;
+                return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {
+                  var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref2) {
+                    var data;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            data = _ref2.data;
+                            _context.next = 3;
+                            return editor.insertEmbed(range.index, 'image', data.link);
+
+                          case 3:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
+
+                  return function (_x) {
+                    return _ref3.apply(this, arguments);
+                  };
+                }());
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+    },
     AddNewQuestion: function AddNewQuestion() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 _this.isAddingNewQuestion = true;
                 axios.post('/api/question/add_new_question', {
@@ -2501,19 +2568,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 2:
               case "end":
-                return _context.stop();
+                return _context3.stop();
             }
           }
-        }, _callee);
+        }, _callee3);
       }))();
     },
     AddAnswer: function AddAnswer(id, Mainindex) {
       var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 _this2.isNewChanges = true;
 
@@ -2539,19 +2606,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 2:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2);
+        }, _callee4);
       }))();
     },
     AddNewOption: function AddNewOption(id, Mainindex) {
       var _this3 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 _this3.isNewChanges = true;
 
@@ -2563,19 +2630,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3);
+        }, _callee5);
       }))();
     },
     AddNewMatch: function AddNewMatch(id, mainIndex) {
       var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 _this4.isNewChanges = true;
                 /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
@@ -2610,19 +2677,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4);
+        }, _callee6);
       }))();
     },
     RemoveOption: function RemoveOption(id, Mainindex, AnsIndex, type) {
       var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (id == null || id == '') {
                   _this5.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
@@ -2636,19 +2703,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
-                return _context5.stop();
+                return _context7.stop();
             }
           }
-        }, _callee5);
+        }, _callee7);
       }))();
     },
     RemoveMatch: function RemoveMatch(main_id, sub_quesId, answer_id, main_index, match_index) {
       var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 axios.put('/api/question/remove_question_match/' + main_id, {
                   sub_question_id: sub_quesId,
@@ -2661,19 +2728,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
-                return _context6.stop();
+                return _context8.stop();
             }
           }
-        }, _callee6);
+        }, _callee8);
       }))();
     },
     UpdateQuestion: function UpdateQuestion(id, Mainindex) {
       var _this7 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 axios.put('/api/question/update_question_details/' + id, {
                   question: _this7.getAll_questions.Question[Mainindex],
@@ -2682,10 +2749,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
-                return _context7.stop();
+                return _context9.stop();
             }
           }
-        }, _callee7);
+        }, _callee9);
       }))();
     },
     CheckType: function CheckType(id, type, mainIndex) {
@@ -2719,10 +2786,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
     SaveAllQuestion: function SaveAllQuestion() {
       var _this8 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 _this8.isAddingNewQuestion = true;
                 _this8.showSnackbar = true;
@@ -2741,10 +2808,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 4:
               case "end":
-                return _context8.stop();
+                return _context10.stop();
             }
           }
-        }, _callee8);
+        }, _callee10);
       }))();
     },
     CheckSelectedCount: function CheckSelectedCount(check) {
@@ -2834,10 +2901,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
     deleteSingleQuestion: function deleteSingleQuestion() {
       var _this11 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 axios["delete"]('/api/question/remove/' + _this11.DeleteDetails.id).then(function (res) {
                   _this11.getAll_questions.Question.splice(_this11.DeleteIndex, 1);
@@ -2852,10 +2919,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
-                return _context9.stop();
+                return _context11.stop();
             }
           }
-        }, _callee9);
+        }, _callee11);
       }))();
     },
     singleDuplicate: function singleDuplicate(question, answer) {
@@ -2883,10 +2950,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
     DuplicateQuestionAction: function DuplicateQuestionAction() {
       var _this12 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 axios.put('/api/question/store_duplicate_question/' + _this12.$route.query.clwk, {
                   question: _this12.DuplicateQuestion,
@@ -2948,10 +3015,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
-                return _context10.stop();
+                return _context12.stop();
             }
           }
-        }, _callee10);
+        }, _callee12);
       }))();
     },
     studenView: function studenView() {
@@ -4232,8 +4299,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -4249,14 +4314,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       headers: [{
         text: 'Question',
         align: 'start',
-        filterable: false,
         value: 'question'
       }, {
         text: 'Correct Student',
+        filterable: false,
         align: 'center',
         value: 'correct_count'
       }, {
         text: 'Wrong Student',
+        filterable: false,
         align: 'center',
         value: 'wrong_count'
       }],
@@ -4600,7 +4666,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n\r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n  \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n      min-height: 60px !important;\n}\r\n\r\n\r\n \r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4669,7 +4735,30 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.Image_centered[data-v-5e081adf] {\r\n   display: block;\r\n    margin-left: auto;\r\n    margin-right: auto\n}\n.centered[data-v-5e081adf]{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\r\n  width: 5px;\n}\r\n\r\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\r\n  background: #f1f1f1;\n}\r\n \r\n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\r\n  background: #888; \r\n   border-radius: 3px\n}\r\n\r\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\r\n  background: #555;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.Essayeditor[data-v-5e081adf]{\r\n    height: 10rem !important;\n}\n.Image_centered[data-v-5e081adf] {\r\n   display: block;\r\n    margin-left: auto;\r\n    margin-right: auto\n}\n.centered[data-v-5e081adf]{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n    /* width */\n[data-v-5e081adf]::-webkit-scrollbar {\r\n  width: 5px;\n}\r\n\r\n/* Track */\n[data-v-5e081adf]::-webkit-scrollbar-track {\r\n  background: #f1f1f1;\n}\r\n \r\n/* Handle */\n[data-v-5e081adf]::-webkit-scrollbar-thumb {\r\n  background: #888; \r\n   border-radius: 3px\n}\r\n\r\n/* Handle on hover */\n[data-v-5e081adf]::-webkit-scrollbar-thumb:hover {\r\n  background: #555;\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content  img{\n      max-height: 10rem !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4841,6 +4930,35 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_0_id_5e081adf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/laravel-mix/node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./questionnAnalyticstab.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -7499,6 +7617,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -7648,9 +7767,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -7675,7 +7794,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -7765,6 +7884,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -13622,16 +13742,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _questionnAnalyticstab_vue_vue_type_template_id_5e081adf_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./questionnAnalyticstab.vue?vue&type=template&id=5e081adf&scoped=true& */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=template&id=5e081adf&scoped=true&");
 /* harmony import */ var _questionnAnalyticstab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./questionnAnalyticstab.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=script&lang=js&");
 /* harmony import */ var _questionnAnalyticstab_vue_vue_type_style_index_0_id_5e081adf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./questionnAnalyticstab.vue?vue&type=style&index=0&id=5e081adf&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=0&id=5e081adf&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _questionnAnalyticstab_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./questionnAnalyticstab.vue?vue&type=style&index=1&lang=css& */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
 ;
 
 
+
 /* normalize component */
 
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__.default)(
   _questionnAnalyticstab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
   _questionnAnalyticstab_vue_vue_type_template_id_5e081adf_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
   _questionnAnalyticstab_vue_vue_type_template_id_5e081adf_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -13925,6 +14047,18 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_0_id_5e081adf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./questionnAnalyticstab.vue?vue&type=style&index=0&id=5e081adf&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=0&id=5e081adf&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_questionnAnalyticstab_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./questionnAnalyticstab.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue?vue&type=style&index=1&lang=css&");
 
 
 /***/ }),
@@ -14248,7 +14382,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                                 Back to Class\n                             "
+                                    "\n                              Back to Class\n                          "
                                   )
                                 ]
                               )
@@ -18294,6 +18428,14 @@ var render = function() {
                                     shaped: "",
                                     floating: "",
                                     color: "red"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$router.push({
+                                        name: "question-analytics",
+                                        query: { clwk: _vm.$route.query.clwk }
+                                      })
+                                    }
                                   }
                                 },
                                 [
@@ -19114,6 +19256,7 @@ var render = function() {
                                                         staticClass:
                                                           "pa-0 ma-0",
                                                         attrs: {
+                                                          fluid: "",
                                                           "ma-0": "",
                                                           "pa-0": ""
                                                         }
@@ -19182,6 +19325,27 @@ var render = function() {
                                                                             _vm.editorOption
                                                                         },
                                                                         on: {
+                                                                          blur: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.onEditorBlur(
+                                                                              $event
+                                                                            )
+                                                                          },
+                                                                          focus: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.onEditorFocus(
+                                                                              $event
+                                                                            )
+                                                                          },
+                                                                          ready: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.onEditorReady(
+                                                                              $event
+                                                                            )
+                                                                          },
                                                                           change: function(
                                                                             $event
                                                                           ) {
@@ -19238,6 +19402,9 @@ var render = function() {
                                                     "Multiple Choice"
                                                       ? _c(
                                                           "v-container",
+                                                          {
+                                                            attrs: { fluid: "" }
+                                                          },
                                                           [
                                                             _c(
                                                               "v-row",
@@ -19302,7 +19469,11 @@ var render = function() {
                                                                                   "v-container",
                                                                                   {
                                                                                     staticClass:
-                                                                                      "d-flex flex-row ma-0 pa-0"
+                                                                                      "d-flex flex-row ma-0 pa-0",
+                                                                                    attrs: {
+                                                                                      fluid:
+                                                                                        ""
+                                                                                    }
                                                                                   },
                                                                                   [
                                                                                     _c(
@@ -19423,38 +19594,48 @@ var render = function() {
                                                                                       1
                                                                                     ),
                                                                                     _vm._v(
-                                                                                      "`\r\n                                                    \r\n                                                            "
+                                                                                      "`\r\n\r\n                                                            "
                                                                                     ),
                                                                                     _c(
-                                                                                      "v-btn",
+                                                                                      "div",
                                                                                       {
                                                                                         staticClass:
-                                                                                          "mt-2 pl-2 pr-2",
-                                                                                        attrs: {
-                                                                                          icon:
-                                                                                            ""
-                                                                                        },
-                                                                                        on: {
-                                                                                          click: function(
-                                                                                            $event
-                                                                                          ) {
-                                                                                            return _vm.RemoveOption(
-                                                                                              Ans.id,
-                                                                                              mainIndex,
-                                                                                              i,
-                                                                                              item.type
-                                                                                            )
-                                                                                          }
-                                                                                        }
+                                                                                          "d-flex"
                                                                                       },
                                                                                       [
                                                                                         _c(
-                                                                                          "v-icon",
+                                                                                          "v-btn",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "mt-3 pl-2 pr-2",
+                                                                                            attrs: {
+                                                                                              icon:
+                                                                                                ""
+                                                                                            },
+                                                                                            on: {
+                                                                                              click: function(
+                                                                                                $event
+                                                                                              ) {
+                                                                                                return _vm.RemoveOption(
+                                                                                                  Ans.id,
+                                                                                                  mainIndex,
+                                                                                                  i,
+                                                                                                  item.type
+                                                                                                )
+                                                                                              }
+                                                                                            }
+                                                                                          },
                                                                                           [
-                                                                                            _vm._v(
-                                                                                              "mdi-close"
+                                                                                            _c(
+                                                                                              "v-icon",
+                                                                                              [
+                                                                                                _vm._v(
+                                                                                                  "mdi-close"
+                                                                                                )
+                                                                                              ]
                                                                                             )
-                                                                                          ]
+                                                                                          ],
+                                                                                          1
                                                                                         )
                                                                                       ],
                                                                                       1
@@ -19555,6 +19736,7 @@ var render = function() {
                                                           "v-container",
                                                           {
                                                             attrs: {
+                                                              fluid: "",
                                                               "mb-0": "",
                                                               "pb-0": ""
                                                             }
@@ -19619,7 +19801,11 @@ var render = function() {
                                                                       "v-container",
                                                                       {
                                                                         staticClass:
-                                                                          "d-flex flex-row ma-0 pa-0"
+                                                                          "d-flex flex-row ma-0 pa-0",
+                                                                        attrs: {
+                                                                          fluid:
+                                                                            ""
+                                                                        }
                                                                       },
                                                                       [
                                                                         _c(
@@ -19683,7 +19869,7 @@ var render = function() {
                                                                           "v-btn",
                                                                           {
                                                                             staticClass:
-                                                                              "mt-2 pl-2 pr-2",
+                                                                              "mt-3 pl-2 pr-2",
                                                                             attrs: {
                                                                               icon:
                                                                                 ""
@@ -19771,7 +19957,11 @@ var render = function() {
                                                                           "v-container",
                                                                           {
                                                                             staticClass:
-                                                                              "d-flex flex-row ma-0 pa-0"
+                                                                              "d-flex flex-row ma-0 pa-0",
+                                                                            attrs: {
+                                                                              fluid:
+                                                                                ""
+                                                                            }
                                                                           },
                                                                           [
                                                                             _c(
@@ -19832,41 +20022,50 @@ var render = function() {
                                                                               " "
                                                                             ),
                                                                             _c(
-                                                                              "v-btn",
+                                                                              "div",
                                                                               {
                                                                                 staticClass:
-                                                                                  "mt-2 pl-2 pr-2",
-                                                                                attrs: {
-                                                                                  icon:
-                                                                                    ""
-                                                                                },
-                                                                                on: {
-                                                                                  click: function(
-                                                                                    $event
-                                                                                  ) {
-                                                                                    return _vm.RemoveOption(
-                                                                                      Answer.id,
-                                                                                      mainIndex,
-                                                                                      i,
-                                                                                      item.type
-                                                                                    )
-                                                                                  }
-                                                                                }
+                                                                                  "d-flex"
                                                                               },
                                                                               [
                                                                                 _c(
-                                                                                  "v-icon",
+                                                                                  "v-btn",
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "mt-3 pl-2 pr-2",
+                                                                                    attrs: {
+                                                                                      icon:
+                                                                                        ""
+                                                                                    },
+                                                                                    on: {
+                                                                                      click: function(
+                                                                                        $event
+                                                                                      ) {
+                                                                                        return _vm.RemoveOption(
+                                                                                          Answer.id,
+                                                                                          mainIndex,
+                                                                                          i,
+                                                                                          item.type
+                                                                                        )
+                                                                                      }
+                                                                                    }
+                                                                                  },
                                                                                   [
-                                                                                    _vm._v(
-                                                                                      "mdi-close"
+                                                                                    _c(
+                                                                                      "v-icon",
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          "mdi-close"
+                                                                                        )
+                                                                                      ]
                                                                                     )
-                                                                                  ]
+                                                                                  ],
+                                                                                  1
                                                                                 )
                                                                               ],
                                                                               1
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
                                                                         )
                                                                       ],
                                                                       1
@@ -20115,6 +20314,7 @@ var render = function() {
                                                           "v-container",
                                                           {
                                                             attrs: {
+                                                              fluid: "",
                                                               "mb-0": "",
                                                               "pb-0": ""
                                                             }
@@ -20193,7 +20393,11 @@ var render = function() {
                                                                                   "v-container",
                                                                                   {
                                                                                     staticClass:
-                                                                                      "d-flex flex-row ma-0 pa-0"
+                                                                                      "d-flex flex-row ma-0 pa-0",
+                                                                                    attrs: {
+                                                                                      fluid:
+                                                                                        ""
+                                                                                    }
                                                                                   },
                                                                                   [
                                                                                     _c(
@@ -20333,7 +20537,7 @@ var render = function() {
                                                                                       "v-btn",
                                                                                       {
                                                                                         staticClass:
-                                                                                          "mt-12 pl-2 pr-2",
+                                                                                          "mt-3 pl-2 pr-2",
                                                                                         attrs: {
                                                                                           icon:
                                                                                             ""
@@ -21961,7 +22165,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12", lg: "9", xl: "9", md: "8" } },
+                    { attrs: { cols: "12", md: "8" } },
                     [
                       _c(
                         "v-card",
@@ -22861,6 +23065,55 @@ var render = function() {
       _vm._v(" "),
       _vm.isloading
         ? _c(
+            "v-row",
+            { attrs: { align: "center", justify: "center" } },
+            [
+              _c(
+                "v-col",
+                { attrs: { cols: "8" } },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      staticClass: "pa-5",
+                      attrs: { elevation: "1", outlined: "" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        {
+                          attrs: {
+                            "align-content": "center",
+                            justify: "center"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12" } },
+                            [
+                              _c("v-skeleton-loader", {
+                                attrs: { type: "table" }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.isloading
+        ? _c(
             "div",
             [
               _c(
@@ -22884,6 +23137,7 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: {
                                   "append-icon": "mdi-magnify",
+                                  placeholder: "Search question",
                                   label: "Search",
                                   "single-line": "",
                                   "hide-details": ""
@@ -22921,6 +23175,7 @@ var render = function() {
                                           return _c("tr", { key: item.id }, [
                                             _c("td", [
                                               _c("span", {
+                                                staticClass: "post-content",
                                                 domProps: {
                                                   innerHTML: _vm._s(
                                                     item.question
@@ -22969,7 +23224,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              464852055
+                              1946606091
                             )
                           })
                         ],

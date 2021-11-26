@@ -3417,16 +3417,7 @@ var render = function() {
                                                                                               {
                                                                                                 staticClass:
                                                                                                   "primary--text"
-                                                                                              },
-                                                                                              [
-                                                                                                _vm._v(
-                                                                                                  "(correct answer: " +
-                                                                                                    _vm._s(
-                                                                                                      item.Correct_Answer
-                                                                                                    ) +
-                                                                                                    ")"
-                                                                                                )
-                                                                                              ]
+                                                                                              }
                                                                                             )
                                                                                           : _vm._e()
                                                                                       ]

@@ -229,6 +229,9 @@ import moment from 'moment-timezone';
         
               ////console.log(this.form);
           
+            this.className = this.class_name;
+
+
         }
     }
 
