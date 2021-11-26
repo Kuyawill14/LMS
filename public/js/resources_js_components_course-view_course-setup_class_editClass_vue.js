@@ -236,7 +236,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.className = this.class_name;
+    ////console.log(this.form);
+    this.className = this.getClassName; ////console.log(this.form);
   }
 });
 
@@ -21880,15 +21881,6 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     function listMonths(format, index) {
         return listMonthsImpl(format, index, 'months');
     }
-<<<<<<< HEAD
-=======
-  }),
-  mounted: function mounted() {
-    ////console.log(this.form);
-    this.className = this.getClassName; ////console.log(this.form);
-  }
-});
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 
     function listMonthsShort(format, index) {
         return listMonthsImpl(format, index, 'monthsShort');

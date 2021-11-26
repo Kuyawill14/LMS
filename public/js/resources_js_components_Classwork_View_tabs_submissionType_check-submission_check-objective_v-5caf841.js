@@ -902,7 +902,7 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                ////console.log(this.ListData[this.resetIndex].points)
+                //////console.log(this.ListData[this.resetIndex].points)
                 _this4.isReseting = true;
 
                 if (_this4.ViewDetails.status != null && _this4.ViewDetails.status != '') {

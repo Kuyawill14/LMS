@@ -215,8 +215,6 @@
             validate() {
                 if (this.$refs.loginForm.validate()) {
                     this.login();
-<<<<<<< HEAD
-=======
                     /* this.$store.dispatch('login', this.form)
                     .then(res=>{
                       ////console.log(res);
@@ -227,7 +225,6 @@
                             this.toastError('Login failed!');
                        }
                     }) */
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
                 }
             },
             reset() {

@@ -243,15 +243,11 @@ import { mapGetters } from 'vuex'
                     this.students = res.data.StudentList;
                      this.isGetting = false;
                 }).catch((error)=>{
-<<<<<<< HEAD
                 }) */
 
                 this.$store.dispatch('fetchAllStudents',this.$route.params.id)
                 .then(()=>{
                     this.isGetting = false;
-=======
-                    ////console.log(error)
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
                 })
             },
             async fetchClassnames() {

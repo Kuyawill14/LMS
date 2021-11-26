@@ -309,11 +309,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           event = _ref2.event;
 
       var open = function open() {
-<<<<<<< HEAD
-        _this3.selectedEvent = event; //console.log(event);
-=======
-        _this2.selectedEvent = event; ////console.log(event);
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
+        _this3.selectedEvent = event; ////console.log(event);
 
         _this3.selectedElement = nativeEvent.target;
         requestAnimationFrame(function () {
@@ -10298,6 +10294,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 })));
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/locale/mi.js":
@@ -10625,7 +10622,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         }
     }
 
-<<<<<<< HEAD
     var mn = moment.defineLocale('mn', {
         months: 'Нэгдүгээр сар_Хоёрдугаар сар_Гуравдугаар сар_Дөрөвдүгээр сар_Тавдугаар сар_Зургадугаар сар_Долдугаар сар_Наймдугаар сар_Есдүгээр сар_Аравдугаар сар_Арван нэгдүгээр сар_Арван хоёрдугаар сар'.split(
             '_'
@@ -10653,28 +10649,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         meridiem: function (hour, minute, isLower) {
             if (hour < 12) {
                 return 'ҮӨ';
-=======
-    return globalLocale._abbr;
-}
-
-function defineLocale(name, config) {
-    if (config !== null) {
-        var locale,
-            parentConfig = _base_config__WEBPACK_IMPORTED_MODULE_6__.baseConfig;
-        config.abbr = name;
-        if (locales[name] != null) {
-            (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
-                'defineLocaleOverride',
-                'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
-            );
-            parentConfig = locales[name]._config;
-        } else if (config.parentLocale != null) {
-            if (locales[config.parentLocale] != null) {
-                parentConfig = locales[config.parentLocale]._config;
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
             } else {
                 return 'ҮХ';
             }
@@ -10716,15 +10690,7 @@ function defineLocale(name, config) {
         },
     });
 
-<<<<<<< HEAD
     return mn;
-=======
-        if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
-                defineLocale(x.name, x.config);
-            });
-        }
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 
 })));
 
@@ -11040,13 +11006,9 @@ function defineLocale(name, config) {
         },
     });
 
-<<<<<<< HEAD
     return msMy;
 
 })));
-=======
-/***/ }),
->>>>>>> 6e9d7f1739ce84a0e22d79b4795162db3cafa5e5
 
 
 /***/ }),
