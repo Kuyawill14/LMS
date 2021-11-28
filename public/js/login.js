@@ -4,9 +4,287 @@
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/login/login.vue?vue&type=script&lang=js& ***!
   \******************************************************************************************************************************************************************************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\xampp\\htdocs\\LMS-Vue\\resources\\js\\components\\login\\login.vue: Unexpected token (219:0)\n\n\u001b[0m \u001b[90m 217 |\u001b[39m                 \u001b[36mif\u001b[39m (\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39m$refs\u001b[33m.\u001b[39mloginForm\u001b[33m.\u001b[39mvalidate()) {\u001b[0m\n\u001b[0m \u001b[90m 218 |\u001b[39m                     \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mlogin()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 219 |\u001b[39m \u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 220 |\u001b[39m                     \u001b[90m/* this.$store.dispatch('login', this.form)\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 221 |\u001b[39m \u001b[90m                    .then(res=>{\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 222 |\u001b[39m \u001b[90m                      ////console.log(res);\u001b[39m\u001b[0m\n    at Parser._raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:798:17)\n    at Parser.raiseWithData (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:791:17)\n    at Parser.raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:752:17)\n    at Parser.unexpected (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:3257:16)\n    at Parser.parseExprAtom (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11520:20)\n    at Parser.parseExprSubscripts (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11081:23)\n    at Parser.parseUpdate (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11061:21)\n    at Parser.parseMaybeUnary (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11039:23)\n    at Parser.parseExprOps (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10882:23)\n    at Parser.parseMaybeConditional (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10856:23)\n    at Parser.parseMaybeAssign (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10814:21)\n    at Parser.parseExpressionBase (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10754:23)\n    at C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10748:39\n    at Parser.allowInAnd (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12589:16)\n    at Parser.parseExpression (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10748:17)\n    at Parser.parseStatementContent (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12927:23)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var forgotPassword = function forgotPassword() {
+  return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    forgotPassword: forgotPassword
+  },
+  data: function data() {
+    return {
+      isLoggin: false,
+      dialog: true,
+      valid: true,
+      form: new Form({
+        email: "",
+        password: ""
+      }),
+      loginEmailRules: [function (v) {
+        return !!v || "Required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "Email must be valid";
+      }],
+      emailRules: [function (v) {
+        return !!v || "Required";
+      }, function (v) {
+        return /.+@.+\..+/.test(v) || "Email must be valid";
+      }],
+      show: false,
+      rules: {
+        required: function required(value) {
+          return !!value || "Required.";
+        },
+        min: function min(v) {
+          return v && v.length >= 6 || "Min 6 characters";
+        }
+      },
+      ToManyAttepmtError: null,
+      isForgotPassword: false,
+      IsloadingComponent: false
+    };
+  },
+  computed: {
+    passwordMatch: function passwordMatch() {
+      var _this = this;
+
+      return function () {
+        return _this.password === _this.verify || "Password must match";
+      };
+    }
+  },
+  methods: {
+    validate: function validate() {
+      if (this.$refs.loginForm.validate()) {
+        this.login();
+      }
+    },
+    reset: function reset() {
+      this.$refs.form.reset();
+    },
+    resetValidation: function resetValidation() {
+      this.$refs.form.resetValidation();
+    },
+    login: function login() {
+      var _this2 = this;
+
+      this.isLoggin = true;
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        _this2.form.post('/api/login').then(function (res) {
+          if (res.data.success == true) {
+            _this2.$store.dispatch('clear_current_user');
+
+            window.localStorage.setItem('personal_access_token', res.data.token);
+
+            _this2.$router.push({
+              path: "/"
+            }); // this.toastSuccess(res.data.message);
+
+          } else {
+            _this2.isLoggin = false;
+
+            _this2.toastError(res.data.message);
+          }
+        })["catch"](function (err) {
+          if (err.response.status == 429) {
+            _this2.toastError(err.response.data.errors[_this2.form.email][0]);
+          } else {
+            _this2.toastError(err.response.data.message);
+          }
+
+          _this2.isLoggin = false;
+        });
+      });
+    }
+  },
+  created: function created() {
+    window.open("", "_self");
+    window.close();
+  }
+});
 
 /***/ }),
 
