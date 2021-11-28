@@ -152,6 +152,8 @@ __webpack_require__.r(__webpack_exports__);
         this.$store.dispatch('createClass', this.form).then(function () {
           _this.fetchSubjectCourseClassList(_this.$route.params.id);
         });
+        this.$store.dispatch('createClass', this.form);
+        this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
         this.sending = false;
       }
     },

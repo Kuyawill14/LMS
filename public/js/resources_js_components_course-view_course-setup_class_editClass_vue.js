@@ -238,6 +238,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     ////console.log(this.form);
     this.className = this.getClassName; ////console.log(this.form);
+
+    this.className = this.class_name;
   }
 });
 
