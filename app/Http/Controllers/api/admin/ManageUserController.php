@@ -100,8 +100,8 @@ class ManageUserController extends Controller
             "student_id" => $details->student_id,
             "isVerified" => true,
             "isActive" => 0,
-            "department_short_name" => $request->department['short_name'] == null ? '' : $request->department['short_name'],
-            "department_full_name" =>$request->department['name'] == null ? '' : $request->department['name'],
+            "department_short_name" => !isset($request->department['short_name'])  ? '' : $request->department['short_name'],
+            "department_full_name" => !isset($request->department['name']) ? '' : $request->department['name'],
         ]);
     }
 
