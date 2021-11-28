@@ -944,7 +944,7 @@ export default {
             //setTimeout(() => (this.isReloadTime = false), 300);
         },
          isOffline(event) {
-            this.setAsOffline();
+            //this.setAsOffline();
             location.reload();
         },
     },

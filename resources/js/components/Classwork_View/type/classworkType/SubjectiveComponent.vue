@@ -313,15 +313,17 @@
             <v-divider></v-divider>
             <v-list :max-height="$vuetify.breakpoint.mdAndUp ? '350' : '450'" style="overflow-y:scroll;scrollbar-width: thin;"  class="mb-0 pb-0">
       
-                <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
+                <v-list-item class="mb-0 pb-0 mt-0 pt-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                   <v-list-item-avatar>
                       <v-img 
                       :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  item.name : item.profile_pic">
                       </v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
-                      <v-list-item-title v-html="item.name"></v-list-item-title>
-                      <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                    <v-alert  color="#F5F5F5" class="rounded-xl mt-0 mb-0">
+                        <v-list-item-title v-html="item.name"></v-list-item-title>
+                        <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                    </v-alert>
                   </v-list-item-content>
                    <v-list-item-action>
                      <!-- v-if="get_CurrentUser.id == item.u_id" -->
@@ -356,7 +358,7 @@
                           </v-img>
                       </v-list-item-avatar>
                       <v-list-item-content class="ma-0 pa-0">
-                          <v-textarea
+                         <!--  <v-textarea
                               :loading="isCommenting"
                               v-model="comment"
                               prepend-avatar="mdi-emoticon-dead"
@@ -371,7 +373,9 @@
                               class="pa-0 mt-7"
                               type="text"
                               >
-                            </v-textarea>
+                            </v-textarea> -->
+
+                              <editor :options="options" class="CommentEditor"   placeholder="Comment" v-model="comment"  theme="bubble" ></editor>
                       </v-list-item-content>
                       <v-list-item-action>
                         <v-btn :loading="isCommenting" @click="addComment(classworkDetails)" icon>
@@ -540,6 +544,16 @@ export default {
             selected: 0,
             ScrollPosistion: 0,
             TempFile: "",
+            options:{
+            modules: {
+                'toolbar': [
+                    ['bold', 'italic', 'underline', 'strike'],
+            
+                    [{ 'list': 'bullet' }],
+                    ['image'],
+                ],
+            }
+        },
         }
     },
      computed: {
@@ -877,7 +891,7 @@ export default {
                       name : res.data.name,
                       profile_pic : res.data.profile_pic
                     })
-                    this.comment = null;
+                    this.comment = '';
                   }
                   
               })
@@ -1029,5 +1043,33 @@ export default {
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
     background: #555; 
+    }
+
+    .commentContent  img{
+        max-width: 100% !important;
+        max-height: 20rem !important;
+    }
+
+
+    .post-content  img{
+            max-height: 15rem !important;
+        }
+    .CommentEditor >  iframe{
+        width: 100% !important;
+    height: 20rem !important;
+    }
+    .CommentEditor >  .ql-editor img{
+
+        max-height: 25rem !important;
+    }
+    .CommentEditor >  .ql-container{
+        max-height: 70rem;
+    }
+     div.ql-tooltip{
+        left: 0px !important;
+        top: -8px !important;
+    }
+    div>.ql-tooltip-arrow{
+        display: none !important;
     }
 </style>

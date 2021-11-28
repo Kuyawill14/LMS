@@ -23,7 +23,7 @@
                         </v-tooltip>
                   
             
-                <v-tabs  rounded v-if="classworkDetails.type == 'Objective Type'"
+                <v-tabs   rounded v-if="classworkDetails.type == 'Objective Type'"
                 next-icon="mdi-arrow-right-bold-box-outline"
                 prev-icon="mdi-arrow-left-bold-box-outline"
                 show-arrows 

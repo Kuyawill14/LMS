@@ -236,18 +236,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -263,7 +251,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isAccepted: false
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore", "LastPage", "isGetting"]),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_notification", "get_notification_count", "ShowPage", "ShowLoadMore", "LastPage", "isGetting"])),
   methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['fetchNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['ShowMore'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['ShowLess'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['LessNotificationCount'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['UnreadMessage'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['HideNotification'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(['markAsReadNotification'])), {}, (_objectSpread2 = {
     test: function test(data) {
       this.testdata = data;
@@ -779,54 +767,135 @@ var render = function() {
                     "v-col",
                     { attrs: { cols: "12", md: "9" } },
                     [
-                      _c(
-                        "v-list",
-                        [
-                          _vm.isGetting
-                            ? _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-content",
+                      _vm.isGetting
+                        ? _c(
+                            "div",
+                            [
+                              _c("v-skeleton-loader", {
+                                attrs: { "max-width": "200", type: "text" }
+                              }),
+                              _vm._v(" "),
+                              _vm._l(4, function(n) {
+                                return _c("v-skeleton-loader", {
+                                  key: n,
+                                  attrs: {
+                                    "max-width": "600",
+                                    type: "list-item-avatar-two-line"
+                                  }
+                                })
+                              })
+                            ],
+                            2
+                          )
+                        : _c(
+                            "v-list",
+                            [
+                              _vm.notifLength != 0
+                                ? _c(
+                                    "v-list-item",
+                                    [
+                                      _c("v-list-item-content", [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "d-flex justify-space-between"
+                                          },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "body-1 text-uppercase"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(_vm.notifTypeName)
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _vm.get_notification_count != 0 &&
+                                            !_vm.isGetting
+                                              ? _c(
+                                                  "v-btn",
+                                                  {
+                                                    attrs: {
+                                                      small: "",
+                                                      color: "primary"
+                                                    },
+                                                    on: {
+                                                      click: _vm.markAllasRead
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\r\n                                Mark all as read\r\n                                "
+                                                    ),
+                                                    _c(
+                                                      "v-icon",
+                                                      { attrs: { right: "" } },
+                                                      [_vm._v("mdi-check")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              : _vm._e()
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.get_notification.length == 0
+                                ? _c(
+                                    "v-list-item",
                                     [
                                       _c(
-                                        "v-row",
-                                        {
-                                          attrs: {
-                                            "align-content": "center",
-                                            justify: "center"
-                                          }
-                                        },
+                                        "v-list-item-content",
                                         [
                                           _c(
-                                            "v-col",
+                                            "v-row",
                                             {
-                                              staticClass:
-                                                "text-subtitle-1 text-center mb-0 pb-0",
-                                              attrs: { cols: "12" }
+                                              staticClass: "mt-3",
+                                              attrs: {
+                                                align: "center",
+                                                justify: "center"
+                                              }
                                             },
                                             [
-                                              _vm._v(
-                                                "\r\n                                    Loading\r\n                                "
+                                              _c(
+                                                "v-col",
+                                                {
+                                                  staticClass: "text-center",
+                                                  attrs: { cols: "12" }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-icon",
+                                                    {
+                                                      staticStyle: {
+                                                        "font-size": "2rem"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\r\n                                        mdi-bell-off\r\n                                    "
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c("p", [
+                                                    _vm._v(
+                                                      " Empty Notification  "
+                                                    )
+                                                  ])
+                                                ],
+                                                1
                                               )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-col",
-                                            {
-                                              staticClass: "mt-0 pt-0",
-                                              attrs: { cols: "6" }
-                                            },
-                                            [
-                                              _c("v-progress-linear", {
-                                                attrs: {
-                                                  color: "primary",
-                                                  indeterminate: "",
-                                                  rounded: "",
-                                                  height: "4"
-                                                }
-                                              })
                                             ],
                                             1
                                           )
@@ -836,503 +905,347 @@ var render = function() {
                                     ],
                                     1
                                   )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          !_vm.isGetting
-                            ? _c(
-                                "div",
-                                [
-                                  _vm.notifLength != 0
-                                    ? _c(
-                                        "v-list-item",
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm._l(_vm.get_notification, function(
+                                item,
+                                index
+                              ) {
+                                return [
+                                  _c(
+                                    "v-list-item",
+                                    {
+                                      key: item.id,
+                                      class:
+                                        item.status == null || item.status == 0
+                                          ? "grey_active"
+                                          : "",
+                                      attrs: { link: "" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-avatar",
+                                        {
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.GotoThisNotification(
+                                                item
+                                              )
+                                            }
+                                          }
+                                        },
                                         [
-                                          _c("v-list-item-content", [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "d-flex justify-space-between"
-                                              },
-                                              [
-                                                _c(
-                                                  "div",
-                                                  {
-                                                    staticClass:
-                                                      "body-1 text-uppercase"
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      _vm._s(_vm.notifTypeName)
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _vm.get_notification_count !=
-                                                  0 && !_vm.isGetting
-                                                  ? _c(
-                                                      "v-btn",
-                                                      {
-                                                        attrs: {
-                                                          small: "",
-                                                          color: "primary"
-                                                        },
-                                                        on: {
-                                                          click:
-                                                            _vm.markAllasRead
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "\r\n                                Mark all as read\r\n                                "
-                                                        ),
-                                                        _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: { right: "" }
-                                                          },
-                                                          [_vm._v("mdi-check")]
-                                                        )
-                                                      ],
-                                                      1
-                                                    )
-                                                  : _vm._e()
-                                              ],
-                                              1
-                                            )
-                                          ])
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm.notifLength == 0
-                                    ? _c(
-                                        "v-list-item",
-                                        [
-                                          _c(
-                                            "v-list-item-content",
-                                            [
-                                              _c(
-                                                "v-row",
+                                          item.notification_type == 3 ||
+                                          item.notification_type == 2
+                                            ? _c(
+                                                "v-icon",
                                                 {
-                                                  staticClass: "mt-3",
                                                   attrs: {
-                                                    align: "center",
-                                                    justify: "center"
+                                                    color: "blue",
+                                                    large: ""
+                                                  }
+                                                },
+                                                [_vm._v("mdi-account-plus")]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          item.notification_type == 1
+                                            ? _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    color: "red",
+                                                    large: ""
+                                                  }
+                                                },
+                                                [_vm._v("mdi-bullhorn-outline")]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          item.notification_type == 4
+                                            ? _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    color: "green",
+                                                    large: ""
                                                   }
                                                 },
                                                 [
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass:
-                                                        "text-center",
-                                                      attrs: { cols: "12" }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-icon",
-                                                        {
-                                                          staticStyle: {
-                                                            "font-size": "2rem"
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\r\n                                        mdi-bell-off\r\n                                    "
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c("p", [
-                                                        _vm._v(
-                                                          " Empty Notification  "
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _vm._l(_vm.get_notification, function(
-                                    item,
-                                    index
-                                  ) {
-                                    return [
-                                      _c(
-                                        "v-list-item",
-                                        {
-                                          directives: [
-                                            {
-                                              name: "show",
-                                              rawName: "v-show",
-                                              value:
-                                                _vm.notificationType == "all" ||
-                                                item.notification_type ==
-                                                  _vm.notificationType ||
-                                                item.hide_notif == 1,
-                                              expression:
-                                                "notificationType == 'all' || item.notification_type == notificationType || item.hide_notif == 1"
-                                            }
-                                          ],
-                                          key: item.id,
-                                          class:
-                                            item.status == null ||
-                                            item.status == 0
-                                              ? "grey_active"
-                                              : "",
-                                          attrs: { link: "" }
-                                        },
-                                        [
-                                          _c(
-                                            "v-list-item-avatar",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.GotoThisNotification(
-                                                    item
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              item.notification_type == 3 ||
-                                              item.notification_type == 2
-                                                ? _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        color: "blue",
-                                                        large: ""
-                                                      }
-                                                    },
-                                                    [_vm._v("mdi-account-plus")]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              item.notification_type == 1
-                                                ? _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        color: "red",
-                                                        large: ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "mdi-bullhorn-outline"
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              item.notification_type == 4
-                                                ? _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        color: "green",
-                                                        large: ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        " mdi-book-open-variant"
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e(),
-                                              _vm._v(" "),
-                                              item.notification_type == 5
-                                                ? _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        color: "red",
-                                                        large: ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        " mdi-comment-text"
-                                                      )
-                                                    ]
-                                                  )
-                                                : _vm._e()
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item-content",
-                                            {
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.GotoThisNotification(
-                                                    item
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "v-list-item-title",
-                                                {
-                                                  staticClass:
-                                                    "font-weight-medium"
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-badge",
-                                                    {
-                                                      attrs: {
-                                                        content:
-                                                          item.status == 1
-                                                            ? ""
-                                                            : "new",
-                                                        value:
-                                                          item.status == 1
-                                                            ? ""
-                                                            : "new",
-                                                        color:
-                                                          item.notification_type ==
-                                                            1 ||
-                                                          item.notification_type ==
-                                                            5
-                                                            ? "red"
-                                                            : item.notification_type ==
-                                                                3 ||
-                                                              item.notification_type ==
-                                                                2
-                                                            ? "blue"
-                                                            : item.notification_type ==
-                                                              4
-                                                            ? "green"
-                                                            : ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\r\n                                " +
-                                                          _vm._s(
-                                                            item.notification_type !=
-                                                              2
-                                                              ? item.name
-                                                              : "Join Class"
-                                                          ) +
-                                                          "   \r\n                                "
-                                                      )
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "body-2" },
-                                                [
                                                   _vm._v(
-                                                    "\r\n                                " +
-                                                      _vm._s(item.message) +
-                                                      "\r\n                            "
+                                                    " mdi-book-open-variant"
                                                   )
                                                 ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("small", [
-                                                _vm._v(
-                                                  _vm._s(
-                                                    _vm.format_date(
-                                                      item.created_at
-                                                    )
-                                                  )
-                                                )
-                                              ])
-                                            ],
-                                            1
-                                          ),
+                                              )
+                                            : _vm._e(),
                                           _vm._v(" "),
-                                          _c(
-                                            "v-list-item-action",
-                                            { staticStyle: { "z-index": "1" } },
-                                            [
-                                              _c(
-                                                "v-list-item-action-text",
-                                                [
-                                                  _c(
-                                                    "v-tooltip",
-                                                    {
-                                                      attrs: { top: "" },
-                                                      scopedSlots: _vm._u(
-                                                        [
-                                                          {
-                                                            key: "activator",
-                                                            fn: function(ref) {
-                                                              var on = ref.on
-                                                              var attrs =
-                                                                ref.attrs
-                                                              return [
-                                                                _c(
-                                                                  "v-btn",
-                                                                  _vm._g(
-                                                                    _vm._b(
-                                                                      {
-                                                                        staticStyle: {
-                                                                          "z-index":
-                                                                            "50"
-                                                                        },
-                                                                        attrs: {
-                                                                          small:
-                                                                            "",
-                                                                          icon:
-                                                                            ""
-                                                                        },
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            return _vm.NotificationHide(
-                                                                              item.n_id,
-                                                                              index,
-                                                                              item.status
-                                                                            )
-                                                                          }
-                                                                        }
-                                                                      },
-                                                                      "v-btn",
-                                                                      attrs,
-                                                                      false
-                                                                    ),
-                                                                    on
-                                                                  ),
-                                                                  [
-                                                                    _c(
-                                                                      "v-icon",
-                                                                      {
-                                                                        attrs: {
-                                                                          small:
-                                                                            ""
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          "mdi-close"
-                                                                        )
-                                                                      ]
-                                                                    )
-                                                                  ],
-                                                                  1
-                                                                )
-                                                              ]
-                                                            }
-                                                          }
-                                                        ],
-                                                        null,
-                                                        true
-                                                      )
-                                                    },
-                                                    [
-                                                      _vm._v(" "),
-                                                      _c("span", [
-                                                        _vm._v(
-                                                          "Hide notification"
-                                                        )
-                                                      ])
-                                                    ]
-                                                  )
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c("v-spacer")
-                                            ],
-                                            1
-                                          )
+                                          item.notification_type == 5
+                                            ? _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    color: "red",
+                                                    large: ""
+                                                  }
+                                                },
+                                                [_vm._v(" mdi-comment-text")]
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          item.notification_type == 6
+                                            ? _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    color: "green",
+                                                    large: ""
+                                                  }
+                                                },
+                                                [_vm._v(" mdi-notebook-check")]
+                                              )
+                                            : _vm._e()
                                         ],
                                         1
                                       ),
                                       _vm._v(" "),
-                                      index < _vm.get_notification.length
-                                        ? _c("v-divider", { key: index })
-                                        : _vm._e()
-                                    ]
-                                  }),
-                                  _vm._v(" "),
-                                  _vm.LastPage != 1
-                                    ? _c(
-                                        "v-list-item",
+                                      _c(
+                                        "v-list-item-content",
+                                        {
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.GotoThisNotification(
+                                                item
+                                              )
+                                            }
+                                          }
+                                        },
                                         [
                                           _c(
-                                            "v-list-item-content",
+                                            "v-list-item-title",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
                                             [
                                               _c(
-                                                "v-row",
+                                                "v-badge",
                                                 {
                                                   attrs: {
-                                                    "align-content": "center",
-                                                    justify: "center"
+                                                    content:
+                                                      item.status == 1
+                                                        ? ""
+                                                        : "new",
+                                                    value:
+                                                      item.status == 1
+                                                        ? ""
+                                                        : "new",
+                                                    color:
+                                                      item.notification_type ==
+                                                        1 ||
+                                                      item.notification_type ==
+                                                        5
+                                                        ? "red"
+                                                        : item.notification_type ==
+                                                            3 ||
+                                                          item.notification_type ==
+                                                            2
+                                                        ? "blue"
+                                                        : item.notification_type ==
+                                                          4
+                                                        ? "green"
+                                                        : ""
                                                   }
                                                 },
                                                 [
-                                                  _c(
-                                                    "v-col",
-                                                    {
-                                                      staticClass: "text-right",
-                                                      attrs: { cols: "12" }
-                                                    },
+                                                  _vm._v(
+                                                    "\r\n                                " +
+                                                      _vm._s(
+                                                        item.notification_type !=
+                                                          2
+                                                          ? item.name
+                                                          : "Join Class"
+                                                      ) +
+                                                      "   \r\n                                "
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("div", { staticClass: "body-2" }, [
+                                            _vm._v(
+                                              "\r\n                                " +
+                                                _vm._s(item.message) +
+                                                "\r\n                            "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("small", [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.format_date(item.created_at)
+                                              )
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-action",
+                                        { staticStyle: { "z-index": "1" } },
+                                        [
+                                          _c(
+                                            "v-list-item-action-text",
+                                            [
+                                              _c(
+                                                "v-tooltip",
+                                                {
+                                                  attrs: { top: "" },
+                                                  scopedSlots: _vm._u(
                                                     [
-                                                      _vm.ShowLoadMore
-                                                        ? _c(
-                                                            "v-btn",
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          var attrs = ref.attrs
+                                                          return [
+                                                            _c(
+                                                              "v-btn",
+                                                              _vm._g(
+                                                                _vm._b(
+                                                                  {
+                                                                    staticStyle: {
+                                                                      "z-index":
+                                                                        "50"
+                                                                    },
+                                                                    attrs: {
+                                                                      small: "",
+                                                                      icon: ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.NotificationHide(
+                                                                          item.n_id,
+                                                                          index,
+                                                                          item.status
+                                                                        )
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  "v-btn",
+                                                                  attrs,
+                                                                  false
+                                                                ),
+                                                                on
+                                                              ),
+                                                              [
+                                                                _c(
+                                                                  "v-icon",
+                                                                  {
+                                                                    attrs: {
+                                                                      small: ""
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "mdi-close"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        }
+                                                      }
+                                                    ],
+                                                    null,
+                                                    true
+                                                  )
+                                                },
+                                                [
+                                                  _vm._v(" "),
+                                                  _c("span", [
+                                                    _vm._v("Hide notification")
+                                                  ])
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-spacer")
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  index < _vm.get_notification.length
+                                    ? _c("v-divider", { key: index })
+                                    : _vm._e()
+                                ]
+                              }),
+                              _vm._v(" "),
+                              _vm.LastPage != 1
+                                ? _c(
+                                    "v-list-item",
+                                    [
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c(
+                                            "v-row",
+                                            {
+                                              attrs: {
+                                                "align-content": "center",
+                                                justify: "center"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "v-col",
+                                                {
+                                                  staticClass: "text-right",
+                                                  attrs: { cols: "12" }
+                                                },
+                                                [
+                                                  _vm.ShowLoadMore
+                                                    ? _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: {
+                                                            rounded: "",
+                                                            text: "",
+                                                            color: "primary"
+                                                          },
+                                                          on: {
+                                                            click: _vm.ShowMore
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v("Load More  "),
+                                                          _c(
+                                                            "v-icon",
                                                             {
                                                               attrs: {
-                                                                rounded: "",
-                                                                text: "",
-                                                                color: "primary"
-                                                              },
-                                                              on: {
-                                                                click:
-                                                                  _vm.ShowMore
+                                                                right: ""
                                                               }
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "Load More  "
-                                                              ),
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  attrs: {
-                                                                    right: ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "mdi-chevron-down"
-                                                                  )
-                                                                ]
+                                                                "mdi-chevron-down"
                                                               )
-                                                            ],
-                                                            1
+                                                            ]
                                                           )
-                                                        : _vm._e()
-                                                    ],
-                                                    1
-                                                  )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
                                                 ],
                                                 1
                                               )
@@ -1342,14 +1255,13 @@ var render = function() {
                                         ],
                                         1
                                       )
-                                    : _vm._e()
-                                ],
-                                2
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
+                                    ],
+                                    1
+                                  )
+                                : _vm._e()
+                            ],
+                            2
+                          )
                     ],
                     1
                   )

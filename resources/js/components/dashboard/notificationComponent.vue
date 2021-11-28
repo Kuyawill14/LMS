@@ -40,6 +40,7 @@
                             <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                              <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                              <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
+                             <v-icon color="green" v-if="item.notification_type == 6" large>mdi-notebook-check</v-icon>
                         </v-list-item-avatar>
                       
                 

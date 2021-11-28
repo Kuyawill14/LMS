@@ -317,6 +317,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 //const seeAllNotification = () => import("./SeeAllNotification")
 
 
@@ -490,6 +498,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           if (this.$route.query.clwk != data.notification_attachments) {
             this.$router.push({
               path: '/classwork/' + data.c_id + '/classwork-details?clwk=' + data.notification_attachments
+            });
+          }
+        }
+      } else if (data.notification_type == 6) {
+        var SubmissionPath = '/classwork/' + data.c_id + '/classwork-details';
+
+        if (this.$route.path != SubmissionPath) {
+          this.$router.push({
+            path: '/classwork/' + data.c_id + '/submission-list?clwk=' + data.notification_attachments
+          });
+        } else {
+          if (this.$route.query.clwk != data.notification_attachments) {
+            this.$router.push({
+              path: '/classwork/' + data.c_id + '/submission-list?clwk=' + data.notification_attachments
             });
           }
         }
@@ -928,7 +950,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10070,52 +10092,15 @@ var render = function() {
                         [
                           _c(
                             "v-list-item-content",
-                            [
-                              _c(
-                                "v-row",
-                                {
-                                  attrs: {
-                                    "align-content": "center",
-                                    justify: "center"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass:
-                                        "text-subtitle-1 text-center mb-0 pb-0",
-                                      attrs: { cols: "12" }
-                                    },
-                                    [
-                                      _vm._v(
-                                        "\n                                Loading\n                            "
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "mt-0 pt-0",
-                                      attrs: { cols: "6" }
-                                    },
-                                    [
-                                      _c("v-progress-linear", {
-                                        attrs: {
-                                          color: "primary",
-                                          indeterminate: "",
-                                          rounded: "",
-                                          height: "4"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
+                            _vm._l(3, function(n) {
+                              return _c("v-skeleton-loader", {
+                                key: n,
+                                attrs: {
+                                  "max-width": "600",
+                                  type: "list-item-avatar-two-line"
+                                }
+                              })
+                            }),
                             1
                           )
                         ],
@@ -10260,6 +10245,19 @@ var render = function() {
                                               attrs: { color: "red", large: "" }
                                             },
                                             [_vm._v(" mdi-comment-text")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      item.notification_type == 6
+                                        ? _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                color: "green",
+                                                large: ""
+                                              }
+                                            },
+                                            [_vm._v("mdi-notebook-check")]
                                           )
                                         : _vm._e()
                                     ],

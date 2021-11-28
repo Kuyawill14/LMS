@@ -4,8 +4,11 @@ const state = {
     CurrentUser: [],
     UserRole: null,
     MyCourses: [],
-    CurrentStatus: {},
-    IsAuthenticated: window.localStorage.getItem('IsAuthenticated'),
+    CurrentStatus: {
+        exist: null,
+        status: null
+    },
+    IsAuthenticated: null,
     IsVerified: null,
     AccessToken: window.localStorage.getItem('personal_access_token'),
     isSuccess: null,
@@ -22,12 +25,10 @@ const actions = {
             const res = await axios.get(`/api/authenticated`)
             .catch((e) => {
                 commit('SET_AUTHENTICATED', false);
-                window.localStorage.removeItem('IsAuthenticated');
                 window.localStorage.removeItem('personal_access_token');
             })
             if (res.data == true) {
                 commit('SET_AUTHENTICATED', true);
-                window.localStorage.setItem('IsAuthenticated', true);
             }
         }
         else{
@@ -44,7 +45,6 @@ const actions = {
             const res = await axios.get(`/api/profile/details`)
             .catch((e) => {
                 commit('SET_AUTHENTICATED', false);
-                window.localStorage.removeItem('IsAuthenticated');
                 window.localStorage.removeItem('personal_access_token');
                 state.isSuccess = false;
             })
@@ -66,7 +66,6 @@ const actions = {
         state.AccessToken = null;
         rootState.classwork.current_classwork_id = null;
         rootState.classwork.current_course_id = null;
-        window.localStorage.removeItem('IsAuthenticated');
         window.localStorage.removeItem('personal_access_token');
     },
     async fetchMyCoursesStatus({ commit }) {
@@ -79,7 +78,6 @@ const actions = {
         }
     },
     async setCourseStatus({ commit }, id) {
-        ////console.log(id);
         state.MyCourses.forEach(item => {
             if (item.id == id) {
                 item.status = 1;
@@ -87,7 +85,6 @@ const actions = {
         });
     },
     async CheckMyCourse({ commit }, course_id) {
-        //////console.log(course_id);
         let exist = false;
         let status = 0;
         state.MyCourses.forEach(item => {

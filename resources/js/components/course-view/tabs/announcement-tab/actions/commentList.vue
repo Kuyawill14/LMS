@@ -82,12 +82,19 @@
                   
                             <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 pl-0 pr-0">
                                 <v-lazy class="ml-0 pl-0" transition>
+                                    <div 
+                                     :style="!$vuetify.breakpoint.mdAndUp  ? readMore[index].isLongText ? 'line-height:1.5;font-size:0.9rem;background-color:transparent' : 'line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px' : 
+                                    readMore[index].isLongText ? 'line-height:1.5;font-size:0.95rem;' : 'line-height:1.5;font-size:0.95rem;max-height:160px;overflow:hidden'"
+                                    v-if="((!isEditing || idEditing_id != item.id) && checkComment(item.content) == true)"  class="pl-5">
+                                         <span v-html="item.content"></span>  
+                                    </div>
+                                   
                                     <v-textarea    
                                     
                                     class="mt-0 pt-0 ml-0 pl-0 area-text text-field-transparent"
                                     :style="!$vuetify.breakpoint.mdAndUp  ? readMore[index].isLongText ? 'line-height:1.5;font-size:0.9rem;background-color:transparent' : 'line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px' : 
                                     readMore[index].isLongText ? 'line-height:1.5;font-size:0.95rem;' : 'line-height:1.5;font-size:0.95rem;max-height:160px;overflow:hidden'"
-                                    v-if="!isEditing || idEditing_id != item.id"
+                                    v-if="((!isEditing || idEditing_id != item.id) && checkComment(item.content) == false)"
 
                                     rounded
                                     readonly
@@ -107,7 +114,7 @@
                                 </v-lazy>
                                 <v-lazy transition>
                                     <v-textarea
-                                    v-if="isEditing && idEditing_id == item.id"
+                                    v-if="((isEditing && idEditing_id == item.id) && checkComment(item.content) == false)"
                                     v-model="UpdateComment"
                                     append-outer-icon="mdi-send"
                                     prepend-avatar="mdi-emoticon-dead"
@@ -125,6 +132,14 @@
                                     @click:append-outer="UpdateCommentData(index)"
                                     @click:clear="UpdateComment=''"
                                     ></v-textarea>
+
+                                    <div   v-if="((isEditing && idEditing_id == item.id) && checkComment(item.content) == true)" class="d-flex">
+                                        <div style="width:100%"  class="pl-5 pr-3">
+                                             <editor :options="options" class="CommentEditor"   placeholder="Comment" v-model="UpdateComment"  theme="bubble" ></editor>
+                                        </div>
+                                       
+                                         <v-btn class="ml-2" @click="UpdateCommentData(index)" icon><v-icon>mdi-send</v-icon></v-btn>
+                                    </div>
                                 </v-lazy>
 
                             
@@ -138,9 +153,13 @@
         </v-container>
       </div>
      </div>
+     
       </transition>
-      <v-row  class="pa-3 pt-0 mt-0 mb-0 pb-0" >
+      <v-row  class="pa-3 pt-0 mt-0 mb-0 pb-0 mt-6" >
          <v-col  cols="12" class="ma-0 pa-0" >
+            <v-row class="pl-5 pr-5 pb-2">
+                <v-divider></v-divider>
+            </v-row>
             <v-list class="mb-0 pb-0 mt-0 pt-0 ">
                 <v-list-item class="mb-0 pb-0" >
                     <v-list-item-avatar class="mt-0 pt-0" v-if="$vuetify.breakpoint.mdAndUp" color="secondary" >
@@ -148,9 +167,9 @@
                         'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                         </v-img>
                     </v-list-item-avatar>
-                    <v-list-item-content class="ma-0 pa-0">
+                    <v-list-item-content class="ma-0 pa-0 mb-4 mt-4">
                         <v-list-item-title>
-                             <v-textarea
+                            <!--  <v-textarea
                                     v-model="comment"
                                     append-outer-icon="mdi-send"
                                     prepend-avatar="mdi-emoticon-dead"
@@ -168,9 +187,15 @@
                                     @click:append-outer="addComment"
                                     @click:clear="clearComment"
                                     >
-                                </v-textarea>
+                                </v-textarea> -->
+
+                                <editor :options="options" class="CommentEditor"   placeholder="Comment" v-model="comment"  theme="bubble" ></editor>
                         </v-list-item-title>
                     </v-list-item-content>
+
+                    <v-list-item-action>
+                            <v-btn @click="addComment" icon><v-icon>mdi-send</v-icon></v-btn>
+                    </v-list-item-action>
                 </v-list-item>
             </v-list>
         </v-col>
@@ -199,6 +224,16 @@ export default {
             readMore: [],
             readMore_id: null,
             AreaHeight:[],
+             options:{
+                modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            },
         
         }
     },
@@ -319,6 +354,16 @@ export default {
             }
               
         },
+        checkComment(comment){
+
+            let str = comment;
+            if(str.includes('<p>')){
+                    return true
+            }else{
+                return false;
+            }
+           
+        },
        async LoadLessComment(){
            this.getComments();
         },
@@ -395,4 +440,33 @@ export default {
   .text-field-transparent  .v-input__slot {
   background: transparent !important;
 }
+</style>
+<style>
+    .commentContent  img{
+        max-width: 100% !important;
+        max-height: 20rem !important;
+    }
+
+
+    .post-content  img{
+            max-height: 15rem !important;
+        }
+    .CommentEditor >  iframe{
+        width: 100% !important;
+    height: 20rem !important;
+    }
+    .CommentEditor >  .ql-editor img{
+
+        max-height: 25rem !important;
+    }
+    .CommentEditor >  .ql-container{
+        max-height: 70rem;
+    }
+     div.ql-tooltip{
+        left: 0px !important;
+        top: -8px !important;
+    }
+    div>.ql-tooltip-arrow{
+        display: none !important;
+    }
 </style>

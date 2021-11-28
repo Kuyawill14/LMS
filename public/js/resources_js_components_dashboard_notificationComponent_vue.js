@@ -130,6 +130,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8697,6 +8698,12 @@ var render = function() {
                     item.notification_type == 5
                       ? _c("v-icon", { attrs: { color: "red", large: "" } }, [
                           _vm._v(" mdi-comment-text")
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    item.notification_type == 6
+                      ? _c("v-icon", { attrs: { color: "green", large: "" } }, [
+                          _vm._v("mdi-notebook-check")
                         ])
                       : _vm._e()
                   ],

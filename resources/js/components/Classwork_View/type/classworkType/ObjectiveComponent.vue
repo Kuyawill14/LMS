@@ -53,7 +53,8 @@
                         <v-divider></v-divider>
                         <v-list :max-height="$vuetify.breakpoint.mdAndUp ? '350' : '500'" style="overflow-y:scroll;scrollbar-width: thin;"  class="mb-0 pb-0">
                    
-                        <v-list-item class="mb-0 pb-0" v-for="(item, i) in classworkDetails.comments" :key="i">
+                        <v-list-item class="mb-0 pb-0 mt-0 pt-0" v-for="(item, i) in classworkDetails.comments" :key="i">
+                         
                             <v-list-item-avatar>
                                 <v-img 
                                 :src="item.profile_pic == null || item.profile_pic == ''? 
@@ -61,10 +62,13 @@
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title v-html="item.name"></v-list-item-title>
-                                <div class="commentContent">
-                                    <span v-html="item.content"></span>
-                                </div>
+                                
+                                    <v-alert  color="#F5F5F5" class="rounded-xl mt-0 mb-0">
+                                    <v-list-item-title class="font-weight-medium" v-html="item.name"></v-list-item-title>
+                                        <div class="commentContent">
+                                            <span v-html="item.content"></span>
+                                        </div>
+                                    </v-alert>
                             </v-list-item-content>
                             <v-list-item-action>
     
@@ -99,7 +103,7 @@
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content class="ma-0 pa-0">
-                                <v-textarea
+                              <!--   <v-textarea
                                     :loading="isCommenting"
                                     v-model="comment"
                                     prepend-avatar="mdi-emoticon-dead"
@@ -114,7 +118,10 @@
                                     class="pa-0 mt-7"
                                     type="text"
                                     >
-                                    </v-textarea>
+                                    </v-textarea> -->
+
+                                    <editor :options="options" class="CommentEditor"   placeholder="Comment" 
+                                                    v-model="comment"  theme="bubble" ></editor>
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn :loading="isCommenting" @click="addComment(classworkDetails)" icon>
@@ -351,6 +358,16 @@ export default {
             ScrollPosistion: 0,
             isOpenQuiz: false,
             confirmStartDialog:false,
+            options:{
+                modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            },
         }
         
     },
@@ -460,7 +477,6 @@ export default {
               data.comment = this.comment;
               axios.post('/api/post/classwork/comment/insert', data)
               .then((res)=>{
-                ////console.log(res.data);
                   if(res.status == 200 ){
                     this.classworkDetails.comments.push({
                       content : res.data.comment,
@@ -470,7 +486,6 @@ export default {
                     })
                     this.comment = '';
                   }
-                  
               })
                this.isCommenting = false;
           },
@@ -535,4 +550,25 @@ export default {
     }
 
 
+    .post-content  img{
+            max-height: 15rem !important;
+        }
+    .CommentEditor >  iframe{
+        width: 100% !important;
+    height: 20rem !important;
+    }
+    .CommentEditor >  .ql-editor img{
+
+        max-height: 25rem !important;
+    }
+    .CommentEditor >  .ql-container{
+        max-height: 70rem;
+    }
+     div.ql-tooltip{
+        left: 0px !important;
+        top: -8px !important;
+    }
+    div>.ql-tooltip-arrow{
+        display: none !important;
+    }
 </style>
