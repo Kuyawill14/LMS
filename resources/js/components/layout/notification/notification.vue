@@ -34,14 +34,20 @@
                     <v-divider></v-divider>
                        <v-list-item v-if="isGetting">
                         <v-list-item-content>
-                             <v-row  align-content="center" justify="center">
+                             <!-- <v-row  align-content="center" justify="center">
                                 <v-col class="text-subtitle-1 text-center mb-0 pb-0" cols="12">
                                     Loading
                                 </v-col>
                                 <v-col cols="6" class="mt-0 pt-0">
                                     <v-progress-linear color="primary" indeterminate rounded height="4"></v-progress-linear>
                                 </v-col>
-                            </v-row>
+                            </v-row> -->
+
+                      
+     
+                
+                            <v-skeleton-loader v-for="n in 3" :key="n" max-width="600" type="list-item-avatar-two-line"></v-skeleton-loader>
+            
                         </v-list-item-content>
                     </v-list-item>
 
@@ -66,6 +72,8 @@
                                     <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                                     <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                                     <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
+                                    <v-icon color="green" v-if="item.notification_type == 6" large>mdi-notebook-check</v-icon>
+                                   
                                 
                                 </v-list-item-avatar>
                                 <v-list-item-content @click="GotoThisNotification(item)" >
@@ -321,6 +329,16 @@
                             this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
                         }
                     }
+                }
+                else if (data.notification_type == 6){
+                     let SubmissionPath = '/classwork/'+data.c_id+'/classwork-details';
+                      if(this.$route.path != SubmissionPath){
+                            this.$router.push({path: '/classwork/'+data.c_id+'/submission-list?clwk='+data.notification_attachments});
+                        }else{
+                            if(this.$route.query.clwk != data.notification_attachments){
+                                this.$router.push({path: '/classwork/'+data.c_id+'/submission-list?clwk='+data.notification_attachments});
+                            }
+                        }
                 }
                
             },

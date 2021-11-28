@@ -363,8 +363,63 @@ class StudentController extends Controller
         if($SubmitSubj){
             $SubmitSubj->status = "Submitted";
             $SubmitSubj->save();
+
+       $courseAndClassId = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $SubmitSubj->classwork_id)
+       ->select('tbl_classes.id', 'tbl_classes.course_id')
+       ->leftJoin('tbl_classes','tbl_classes.id','=','tbl_class_classworks.class_id')
+       ->first();
+
+     
+    
+        $submissionCount = tbl_Submission::where('classwork_id', $SubmitSubj->classwork_id)->count();
+        $submissionCount =  $submissionCount -1;
+        $user = tbl_userDetails::where('user_id', $userId)->select('firstName', 'lastName')->first();
+
+        $CheckNotif = tbl_notification::where('notification_attachments', $SubmitSubj->classwork_id)->where('notification_type', 6)->first();
+        $classwork_details = tbl_classwork::find($SubmitSubj->classwork_id);
+    
+        if($CheckNotif){
+            $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
+            
+            if($CheckNotifIfRead){
+                $CheckNotifIfRead->delete();
+            }
+
+            if($submissionCount <= 2){
+                $CheckNotif->message = $user->firstName." ".$user->lastName." Submit in your ".$classwork_details->title." classwork";
+            }   
+            else{
+                $submissionCount = $submissionCount - 1;
+                $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$submissionCount." others Submit in your ".$classwork_details->title." classwork";
+            }
+            $CheckNotif->from_id =  $userId;
+            $CheckNotif->save();
+            broadcast(new NewNotification($CheckNotif))->toOthers();
+
         }
+        else{
+            $newNotification = new tbl_notification;
+            $newNotification->course_id = $courseAndClassId->course_id;
+            $newNotification->class_id = $courseAndClassId->id;
+            $newNotification->from_id =  $userId;
+            if($submissionCount <= 2){
+                $newNotification->message = $user->firstName." ".$user->lastName." Submit in your ".$classwork_details->title." classwork";
+            }   
+            else{
+                $submissionCount = $submissionCount - 1;
+                $newNotification->message = $user->firstName." ".$user->lastName." and ".$submissionCount." others Submit in your ".$classwork_details->title." classwork";
+            }
+            $newNotification->notification_type = 6;
+            $newNotification->notification_attachments = $SubmitSubj->classwork_id;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+        }
+
         return $SubmitSubj;
+        }
+
+    
+       
     }
 
 
@@ -653,6 +708,7 @@ class StudentController extends Controller
                 
             }
             $newNotification->notification_type = 2;
+     
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
             return $userInClass->status;
@@ -863,29 +919,4 @@ class StudentController extends Controller
         return "Student Not found";
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-
-    
 }

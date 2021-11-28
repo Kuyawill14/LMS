@@ -154,6 +154,7 @@
                                                 <v-col class="ma-0 pa-0 text-left mt-2" cols="12" md="8">
                                                     <v-btn :loading="isRegistering" :disabled="!valid" @click="validate"
                                                     :block="!$vuetify.breakpoint.mdAndUp"
+                                                     :large="!$vuetify.breakpoint.mdAndUp"
                                                     :rounded="!$vuetify.breakpoint.mdAndUp"
                                                         color="primary" class="mb-5">
                                                         <v-icon class="mr-3">mdi-login</v-icon>

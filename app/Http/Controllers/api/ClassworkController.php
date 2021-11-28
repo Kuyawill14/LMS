@@ -404,14 +404,15 @@ class ClassworkController extends Controller
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->where('tbl_classworks.user_id', $userId)
             ->first();
-      
-            $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
+            
             if(!$classworkDetails){
                 return response()->json([
                     "message" => "Classwork not found!",
                     "success" => false
                 ]);
             }
+
+            $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
         }
         else{
 

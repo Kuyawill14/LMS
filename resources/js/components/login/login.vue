@@ -119,6 +119,7 @@
                                                 <v-col :class="$vuetify.breakpoint.mdAndUp ? 'ma-0 pa-0 text-left' : 'ml-0 pl-0 pr-0 mr-0 mt-1'" cols="12" md="8">
                                                     <v-btn color="primary" class="mb-5" type="submit" :disabled="!valid"
                                                     :block="!$vuetify.breakpoint.mdAndUp"
+                                                    :large="!$vuetify.breakpoint.mdAndUp"
                                                     :rounded="!$vuetify.breakpoint.mdAndUp"
                                                        :loading="isLoggin">
                                                         <v-icon class="mr-3">mdi-login</v-icon>

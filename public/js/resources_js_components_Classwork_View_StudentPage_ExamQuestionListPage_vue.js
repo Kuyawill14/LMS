@@ -1457,7 +1457,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.isReloadTime = true; //setTimeout(() => (this.isReloadTime = false), 300);
     },
     isOffline: function isOffline(event) {
-      this.setAsOffline();
+      //this.setAsOffline();
       location.reload();
     }
   }),

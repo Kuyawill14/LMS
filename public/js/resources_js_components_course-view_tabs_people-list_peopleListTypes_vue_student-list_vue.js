@@ -806,7 +806,7 @@ var render = function() {
                             ],
                             key: item.user_id,
                             staticClass: "mb-0 pb-0 mt-0 pt-0",
-                            attrs: { cols: "3" }
+                            attrs: { cols: "12" }
                           },
                           [
                             _c(

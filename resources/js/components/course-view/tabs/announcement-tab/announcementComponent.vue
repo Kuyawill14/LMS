@@ -25,13 +25,16 @@
                 </v-col>
             </v-row>
 
-             <v-row v-if="isGetting" class="fill-height mt-12" align-content="center" justify="center">
-                 
-                <v-col class="text-subtitle-1 text-center" cols="12">
-                    <div> Loading Announcement </div>
-                </v-col>
-                <v-col cols="4">
-                    <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+            <v-row v-if="isGetting" class="mt-2"  justify="center">
+                <v-col v-for="n in 3" :key="n" md="12" lg="8" class="ma-auto">
+                    <v-card min-height="200">
+                        <div class="pt-5">
+                            <v-skeleton-loader  type="list-item-avatar-two-line" ></v-skeleton-loader>
+                        </div>
+                        <div class="pa-8">
+                            <v-skeleton-loader  type="paragraph" ></v-skeleton-loader>
+                        </div>
+                    </v-card>
                 </v-col>
             </v-row>
 

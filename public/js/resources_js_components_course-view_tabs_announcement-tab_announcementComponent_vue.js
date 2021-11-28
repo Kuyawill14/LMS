@@ -65,6 +65,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 var announcementCreate = function announcementCreate() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_announcement-tab_announcementCreate_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./announcementCreate */ "./resources/js/components/course-view/tabs/announcement-tab/announcementCreate.vue"));
 };
@@ -8677,36 +8680,43 @@ var render = function() {
       _vm.isGetting
         ? _c(
             "v-row",
-            {
-              staticClass: "fill-height mt-12",
-              attrs: { "align-content": "center", justify: "center" }
-            },
-            [
-              _c(
+            { staticClass: "mt-2", attrs: { justify: "center" } },
+            _vm._l(3, function(n) {
+              return _c(
                 "v-col",
                 {
-                  staticClass: "text-subtitle-1 text-center",
-                  attrs: { cols: "12" }
+                  key: n,
+                  staticClass: "ma-auto",
+                  attrs: { md: "12", lg: "8" }
                 },
-                [_c("div", [_vm._v(" Loading Announcement ")])]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "4" } },
                 [
-                  _c("v-progress-linear", {
-                    attrs: {
-                      color: "primary",
-                      indeterminate: "",
-                      rounded: "",
-                      height: "6"
-                    }
-                  })
+                  _c("v-card", { attrs: { "min-height": "200" } }, [
+                    _c(
+                      "div",
+                      { staticClass: "pt-5" },
+                      [
+                        _c("v-skeleton-loader", {
+                          attrs: { type: "list-item-avatar-two-line" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "pa-8" },
+                      [
+                        _c("v-skeleton-loader", {
+                          attrs: { type: "paragraph" }
+                        })
+                      ],
+                      1
+                    )
+                  ])
                 ],
                 1
               )
-            ],
+            }),
             1
           )
         : _vm._e(),

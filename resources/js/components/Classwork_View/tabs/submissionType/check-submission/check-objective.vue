@@ -176,7 +176,7 @@
                                                     >
                                                     </v-textarea> -->
 
-                                                    <editor class="CommentEditor"   placeholder="Comment" 
+                                                    <editor :options="options" class="CommentEditor"   placeholder="Comment" 
                                                     v-model="comment"  theme="bubble" ></editor>
 
                                             </v-list-item-content>
@@ -483,6 +483,16 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             isScrolling: false,
             isLoaded: false,
             questionIndex: 0,
+            options:{
+                modules: {
+                    'toolbar': [
+                        ['bold', 'italic', 'underline', 'strike'],
+                
+                        [{ 'list': 'bullet' }],
+                        ['image'],
+                    ],
+                }
+            },
           }
       },
       computed:mapGetters(['get_CurrentUser','getAll_questions']),
@@ -1052,13 +1062,21 @@ height: 20rem !important;
     max-height: 70rem;
 }
 
-
         
 </style>
 <style >
     .commentContent  img{
     max-width: 100% !important;
     max-height: 20rem !important;
+
+    
+}
+div.ql-tooltip{
+    left: 0px !important;
+    top: -10px !important;
+}
+div>.ql-tooltip-arrow{
+    display: none !important;
 }
 </style>
 

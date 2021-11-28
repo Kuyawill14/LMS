@@ -113,39 +113,19 @@
                     <v-col cols="12" class="pl-5 pr-5 pb-0">
                         <v-divider></v-divider>
                     </v-col>
-                     <v-col cols="12" class="pl-3"  v-if="$vuetify.breakpoint.lgAndUp" >
-                            
-                           <!--  <v-btn text rounded class="primary--text"> 
-                                <v-icon left>mdi-account-edit-outline</v-icon>
-                                Edit Profile
-                            </v-btn> -->
-                            <v-tabs @click="items[1].text = 'Profile Details'" v-model="tab" vertical class="mt-2">
-                                 <v-tab class="d-flex justify-start">
-                                    <v-icon left>
-                                    mdi-account
-                                    </v-icon>
-                                    Profile
+                     <v-col cols="12" class="pl-3">
+                            <v-tabs :height="!$vuetify.breakpoint.mdAndUp ? '40' : ''" 
+                            v-model="tab" show-arrows  :icons-and-text="!$vuetify.breakpoint.mdAndUp" 
+                            :centered="!$vuetify.breakpoint.mdAndUp" :vertical="$vuetify.breakpoint.mdAndUp" class="mt-2">
+                                 <v-tab   v-for="(item, index) in profile_tabs" :key="index"
+                                 
+                                 
+                                  
+                                 :to="{name: item.name}" @click="items[1].text = item.text" class="d-flex justify-start">
+                                    <v-icon v-if="$vuetify.breakpoint.mdAndUp" left> {{item.icon}}</v-icon>
+                                     {{item.text}}
+                                     <v-icon small v-if="!$vuetify.breakpoint.mdAndUp"> {{item.icon}}</v-icon>
                                 </v-tab>
-                                <v-tab @click="items[1].text = 'Courses'" class="d-flex justify-start">
-                                    <v-icon left>
-                                    mdi-google-classroom
-                                    </v-icon>
-                                    Courses
-                                </v-tab>
-                                <v-tab @click="items[1].text = 'My Calendar'" class="d-flex justify-start">
-                                    <v-icon left>
-                                    mdi-calendar
-                                    </v-icon>
-                                    My Calendar
-                                </v-tab>
-                               
-                                 <v-tab  @click="items[1].text = 'Change Password'" class="d-flex justify-start">
-                                    <v-icon left>
-                                    mdi-lock
-                                    </v-icon>
-                                    Change Password
-                                </v-tab>
-
                             </v-tabs>
                      </v-col>
                     </v-row>
@@ -155,61 +135,33 @@
                  
             </v-col>
             <v-col cols="12" md="9" lg="9" xl="10" :class="!$vuetify.breakpoint.mdAndUp ? 'pt-5' : ''">
-                <v-card
-                  :class="$vuetify.breakpoint.mdAndUp  ? 'pb-3 pl-5 pr-5' : 'pb-3'"
-                elevation="0"  >
-               <v-row>
-                   <v-col cols="12">
-                       
-                       <v-tabs-items :value="tab">
-                            <v-tab-item>
-                                <editProfile :UserDetails="UserDetails"></editProfile>
-                            </v-tab-item>
-                            <v-tab-item>
-                                <coursesProgress :UserDetails="UserDetails"></coursesProgress>
-                            </v-tab-item>
-                            <v-tab-item>
-                               <myCalendar :role="role"></myCalendar>
-                            </v-tab-item>
-                            <v-tab-item>
-                                <changePassword ></changePassword>
-                            </v-tab-item>
-                       </v-tabs-items>
-                   </v-col>
-               </v-row>
-            </v-card>
+                <v-card :class="$vuetify.breakpoint.mdAndUp  ? 'pb-3 pl-5 pr-5' : 'pb-3'" elevation="0">
+                    <v-row>
+                        <v-col cols="12">
+                            <v-tabs-items :value="tab">
+                                    <router-view :UserDetails="UserDetails" :role="role"></router-view>
+                            </v-tabs-items>
+                        </v-col>
+                    </v-row>
+                </v-card>
             </v-col>
         </v-row>
-
+<!-- 
           <v-bottom-navigation v-if="!$vuetify.breakpoint.lgAndUp" v-model="tab" color="primary" app grow>
-            <v-btn>
-                <span>Profile</span>
-                <v-icon>mdi-account</v-icon>
+            <v-btn v-for="(item, index) in profile_tabs" :key="index" :to="{name: item.name}" @click="items[1].text = item.text">
+                <span>{{item.text}}</span>
+               <v-icon> {{item.icon}}</v-icon>
             </v-btn>
 
-            <v-btn>
-                <span>Courses</span>
-                <v-icon> mdi-google-classroom</v-icon>
-            </v-btn>
-
-            <v-btn>
-                <span>Calendar</span>
-                <v-icon>mdi-calendar</v-icon>
-            </v-btn>
-
-             <v-btn>
-                <span>Security</span>
-                <v-icon>mdi-lock</v-icon>
-            </v-btn>
-        </v-bottom-navigation>
+        </v-bottom-navigation> -->
     </div>
 </template>
 
 <script>
-    const editProfile = () => import('./editprofile')
-    const changePassword = () => import('./changePassword')
-    const coursesProgress = () => import('./coursesProgress')
-    const myCalendar = () => import('./myCalendar')
+    const editProfile = () => import(/* webpackChunkName: "user_profile" */ './editprofile')
+    const changePassword = () => import(/* webpackChunkName: "changge_password" */ './changePassword')
+    const coursesProgress = () => import(/* webpackChunkName: "course_progress" */'./coursesProgress')
+    const myCalendar = () => import(/* webpackChunkName: "my_calendar" */'./myCalendar')
     
     export default {
         props:['role','UserDetails'],
@@ -241,6 +193,12 @@
                     },
                 ],
                 isUploading: false,
+                profile_tabs: [
+                    { name: "profile_page", text: "Profile", icon:"mdi-account"},
+                    { name: "courses_progress", text: "Courses", icon:"mdi-google-classroom"},
+                    { name: "my_calendar", text: "My Calendar", icon:"mdi-calendar"},
+                    { name: "change_password", text: "Change Password", icon:"mdi-lock"},
+                ],
             }
         },
         methods: {
@@ -259,28 +217,13 @@
                     this.isloading = !this.isloading;
 
                 }).catch((e) => {
-                    ////console.log(e);
                 })
-                ////console.log(this.UserDetails.profile_pic);
             },
             TestUpload(){
              this.$refs.fileInput.click();
             },
-            onFileChange(element) {
-                /* const file = element.target.files[0];
-                var reader = new FileReader()
-                reader.readAsDataURL(file)
-                let testFile;
-                reader.onload = () => {
-                    this.UserDetails.profile_pic = reader.result;
-                    testFile = reader.result;
-                    this.UpdateProfile();
-                } */
-              
-          
+            onFileChange(element) {          
                 this.imageFile = element.target.files[0];
-                ////console.log(this.imageFile);
-                //this.file_name = element.target.files[0].name;
                 if( this.imageFile.size <= 5000000){
                     this.isUploading = true;
                     this.UpdateProfile();

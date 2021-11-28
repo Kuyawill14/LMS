@@ -185,6 +185,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };
@@ -23335,6 +23336,9 @@ var render = function() {
                                                             type: "submit",
                                                             disabled: !_vm.valid,
                                                             block: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
+                                                            large: !_vm.$vuetify
                                                               .breakpoint
                                                               .mdAndUp,
                                                             rounded: !_vm

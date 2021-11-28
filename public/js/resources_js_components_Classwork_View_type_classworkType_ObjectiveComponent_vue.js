@@ -358,6 +358,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -382,7 +389,14 @@ var viewSubmission = function viewSubmission() {
       DateToday: null,
       ScrollPosistion: 0,
       isOpenQuiz: false,
-      confirmStartDialog: false
+      confirmStartDialog: false,
+      options: {
+        modules: {
+          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
+            'list': 'bullet'
+          }], ['image']]
+        }
+      }
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'statusDetails'])),
@@ -519,7 +533,6 @@ var viewSubmission = function viewSubmission() {
                 data.course_id = _this3.$route.params.id;
                 data.comment = _this3.comment;
                 axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  ////console.log(res.data);
                   if (res.status == 200) {
                     _this3.classworkDetails.comments.push({
                       content: res.data.comment,
@@ -614,7 +627,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n/* width */\n::-webkit-scrollbar {\nwidth: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\nbackground: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\nbackground: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\nbackground: #555;\n}\n.commentContent  img{\n    max-width: 100% !important;\n    max-height: 20rem !important;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n/* width */\n::-webkit-scrollbar {\nwidth: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\nbackground: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\nbackground: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\nbackground: #555;\n}\n.commentContent  img{\n    max-width: 100% !important;\n    max-height: 20rem !important;\n}\n.post-content  img{\n        max-height: 15rem !important;\n}\n.CommentEditor >  iframe{\n    width: 100% !important;\nheight: 20rem !important;\n}\n.CommentEditor >  .ql-editor img{\n\n    max-height: 25rem !important;\n}\n.CommentEditor >  .ql-container{\n    max-height: 70rem;\n}\ndiv.ql-tooltip{\n    left: 0px !important;\n    top: -8px !important;\n}\ndiv>.ql-tooltip-arrow{\n    display: none !important;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -970,7 +983,10 @@ var render = function() {
                                 ) {
                                   return _c(
                                     "v-list-item",
-                                    { key: i, staticClass: "mb-0 pb-0" },
+                                    {
+                                      key: i,
+                                      staticClass: "mb-0 pb-0 mt-0 pt-0"
+                                    },
                                     [
                                       _c(
                                         "v-list-item-avatar",
@@ -992,24 +1008,39 @@ var render = function() {
                                       _c(
                                         "v-list-item-content",
                                         [
-                                          _c("v-list-item-title", {
-                                            domProps: {
-                                              innerHTML: _vm._s(item.name)
-                                            }
-                                          }),
-                                          _vm._v(" "),
                                           _c(
-                                            "div",
-                                            { staticClass: "commentContent" },
+                                            "v-alert",
+                                            {
+                                              staticClass:
+                                                "rounded-xl mt-0 mb-0",
+                                              attrs: { color: "#F5F5F5" }
+                                            },
                                             [
-                                              _c("span", {
+                                              _c("v-list-item-title", {
+                                                staticClass:
+                                                  "font-weight-medium",
                                                 domProps: {
-                                                  innerHTML: _vm._s(
-                                                    item.content
-                                                  )
+                                                  innerHTML: _vm._s(item.name)
                                                 }
-                                              })
-                                            ]
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "commentContent"
+                                                },
+                                                [
+                                                  _c("span", {
+                                                    domProps: {
+                                                      innerHTML: _vm._s(
+                                                        item.content
+                                                      )
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ],
+                                            1
                                           )
                                         ],
                                         1
@@ -1154,21 +1185,12 @@ var render = function() {
                                         "v-list-item-content",
                                         { staticClass: "ma-0 pa-0" },
                                         [
-                                          _c("v-textarea", {
-                                            staticClass: "pa-0 mt-7",
+                                          _c("editor", {
+                                            staticClass: "CommentEditor",
                                             attrs: {
-                                              loading: _vm.isCommenting,
-                                              "prepend-avatar":
-                                                "mdi-emoticon-dead",
-                                              filled: "",
-                                              rounded: "",
-                                              dense: "",
-                                              "auto-grow": "",
-                                              rows: "1",
-                                              "clear-icon": "mdi-close-circle",
-                                              clearable: "",
+                                              options: _vm.options,
                                               placeholder: "Comment",
-                                              type: "text"
+                                              theme: "bubble"
                                             },
                                             model: {
                                               value: _vm.comment,

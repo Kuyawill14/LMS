@@ -351,8 +351,9 @@ export default {
         max-height: 70rem;
     }
 
-    /* .intruction .ql-editor{
-        min-height: 55px !important;
-    } */
+    div.ql-tooltip{
+        left: 0px !important;
+        top: 28px !important;
+    }
         
 </style>

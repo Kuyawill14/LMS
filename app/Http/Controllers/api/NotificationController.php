@@ -442,17 +442,24 @@ class NotificationController extends Controller
 
             if($type != "Hidden"){
                 if($type != "all"){
-                    $notifType[0] = $type;
+                    if($type == 4){
+                        $notifType[0] = $type;
+                        $notifType[0] = 6;
+                    }
+                    else{
+                         $notifType[0] = $type;
+                    }
                 }else{
                     $notifType[0] = 1;
                     $notifType[1] = 2;
                     $notifType[2] = 3;
                     $notifType[3] = 4;
                     $notifType[4] = 5;
+                    $notifType[5] = 6;
                 }
 
                 $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
-                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type",
+                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type","tbl_notifications.notification_attachments",
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 "tbl_classes.course_id as c_id",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.created_at")
@@ -474,7 +481,7 @@ class NotificationController extends Controller
             }
             else{
                 $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
-                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type",
+                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type","tbl_notifications.notification_attachments",
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
                 "tbl_classes.course_id as c_id",
                 DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.created_at")
@@ -489,7 +496,7 @@ class NotificationController extends Controller
                 ->where(function ($query) {
                     $query->where('user_notifications.hide_notif', 1);
                 })
-                ->whereIn("tbl_notifications.notification_type", [1, 2,3,4,5])
+                ->whereIn("tbl_notifications.notification_type", [1, 2,3,4,5,6])
                 ->whereIn('tbl_notifications.class_id', $list)
                 ->paginate(10);  
             }

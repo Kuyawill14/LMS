@@ -211,7 +211,7 @@
                                             </v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content class="ma-0 pa-0">
-                                            <v-textarea
+                                           <!--  <v-textarea
                                                 :loading="isCommenting"
                                                 v-model="comment"
                                                 prepend-avatar="mdi-emoticon-dead"
@@ -226,7 +226,10 @@
                                                 class="pa-0 mt-7"
                                                 type="text"
                                                 >
-                                                </v-textarea>
+                                                </v-textarea> -->
+                                                <editor :options="options" class="CommentEditor"   placeholder="Comment" 
+                                                    v-model="comment"  theme="bubble" ></editor>
+
                                         </v-list-item-content>
                                         <v-list-item-action>
                                             <v-btn :loading="isCommenting" @click="addComment(CheckData)" icon>
@@ -373,6 +376,16 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         isOpening: true,
         SelectedNav: 0,
         isReloadRubrics: false,
+         options:{
+            modules: {
+                'toolbar': [
+                    ['bold', 'italic', 'underline', 'strike'],
+            
+                    [{ 'list': 'bullet' }],
+                    ['image'],
+                ],
+            }
+        },
       }
     },
     computed:{
@@ -695,4 +708,27 @@ input[type=number] {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+.post-content  img{
+        max-height: 15rem !important;
+    }
+.CommentEditor >  iframe{
+    width: 100% !important;
+height: 20rem !important;
+}
+.CommentEditor >  .ql-editor img{
+
+    max-height: 25rem !important;
+}
+.CommentEditor >  .ql-container{
+    max-height: 70rem;
+}
+</style>
+<style>
+    div.ql-tooltip{
+        left: 0px !important;
+        top: -10px !important;
+    }
+    div>.ql-tooltip-arrow{
+        display: none !important;
+    }
 </style>

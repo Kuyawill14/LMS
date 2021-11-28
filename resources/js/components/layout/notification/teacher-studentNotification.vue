@@ -71,26 +71,14 @@
         </v-col>
 
         <v-col cols="12" md="9">
-
+                  <div v-if="isGetting">
+     
+                        <v-skeleton-loader   max-width="200" type="text"></v-skeleton-loader>
+          
+                     <v-skeleton-loader v-for="n in 4" :key="n"  max-width="600" type="list-item-avatar-two-line"></v-skeleton-loader>
+                  </div>
       
-                 <v-list >
-
-                   <v-list-item v-if="isGetting">
-                        <v-list-item-content>
-                             <v-row  align-content="center" justify="center">
-                                <v-col class="text-subtitle-1 text-center mb-0 pb-0" cols="12">
-                                    Loading
-                                </v-col>
-                                <v-col cols="6" class="mt-0 pt-0">
-                                    <v-progress-linear color="primary" indeterminate rounded height="4"></v-progress-linear>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-content>
-                    </v-list-item>
-
-                <div v-if="!isGetting">
-
-           
+                 <v-list v-else>       
                    <v-list-item v-if="notifLength != 0" >
                         <v-list-item-content>
                           <div class="d-flex justify-space-between">
@@ -98,14 +86,14 @@
                             <div class="body-1 text-uppercase">{{notifTypeName}}</div>
                               <v-btn v-if="get_notification_count != 0 && !isGetting" @click="markAllasRead" small color="primary">
                                 Mark all as read
-                                <v-icon  right>mdi-check</v-icon> 
+                                <v-icon right>mdi-check</v-icon> 
                               </v-btn>
                           </div>
                         </v-list-item-content>
                     </v-list-item>
 
 
-                    <v-list-item v-if="notifLength == 0">
+                    <v-list-item v-if="get_notification.length == 0">
                         <v-list-item-content>
                              <v-row align="center" class="mt-3" justify="center"  >
                                 <v-col cols="12" class="text-center">
@@ -119,12 +107,13 @@
                     </v-list-item>
                     
                    <template v-for="(item, index) in get_notification">
-                    <v-list-item link :class="item.status == null || item.status == 0 ? 'grey_active' : ''"  v-show="notificationType == 'all' || item.notification_type == notificationType || item.hide_notif == 1"  :key="item.id">                  
+                    <v-list-item link :class="item.status == null || item.status == 0 ? 'grey_active' : ''"    :key="item.id">                  
                         <v-list-item-avatar @click="GotoThisNotification(item)" >
                             <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
                             <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
                                 <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                                 <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
+                                <v-icon color="green" v-if="item.notification_type == 6" large> mdi-notebook-check</v-icon>
                         </v-list-item-avatar>
                       
                 
@@ -204,7 +193,6 @@
                             
                         </v-list-item-content>
                     </v-list-item>
-                    </div>
                 </v-list>
         </v-col>
       </v-row>
@@ -234,7 +222,30 @@ export default {
  
     }
   },
-  computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting"]),
+  computed: {
+    ...mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting"]),
+    
+   /*  notificationList(){
+      
+      if(this.notificationType == 'all'){
+        return this.get_notification;
+      }
+      else if(){
+         Filterddata =  Filterddata.filter((item) => {
+            if(this.Class == this.$route.params.id){
+                return (item.status == "Submitted")
+            }
+            else{
+                return (item.status == "Submitted" && item.class_id == this.Class)
+            }
+            
+        })
+      }
+      
+    } */
+
+  },
+
   methods:{
    ...mapActions(['fetchNotification']),
     ...mapActions(['fetchNotificationCount']),
