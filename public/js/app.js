@@ -2015,7 +2015,11 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
+<<<<<<< HEAD
+  key: "05597b24c42e8d5d33ef",
+=======
   key: "865de026959fe9de27a8",
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
   cluster: "ap1",
   forceTLS: true
 });
@@ -3267,10 +3271,17 @@ var mutations = {
 
 /***/ }),
 
+<<<<<<< HEAD
+/***/ "./resources/js/store/modules/allCampusDirector.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/allCampusDirector.js ***!
+  \*********************************************************/
+=======
 /***/ "./resources/js/store/modules/StudentsList.js":
 /*!****************************************************!*\
   !*** ./resources/js/store/modules/StudentsList.js ***!
   \****************************************************/
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3290,6 +3301,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
+<<<<<<< HEAD
+=======
   allStudents: []
 };
 var getters = {
@@ -3359,6 +3372,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
   allCampusDirector: []
 };
 var getters = {
@@ -6355,8 +6369,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./modules/verifyEmail */ "./resources/js/store/modules/verifyEmail.js");
 /* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
 /* harmony import */ var _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/allProgramChair */ "./resources/js/store/modules/allProgramChair.js");
+<<<<<<< HEAD
+/* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
+=======
 /* harmony import */ var _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/StudentsList */ "./resources/js/store/modules/StudentsList.js");
 /* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
@@ -6408,8 +6426,12 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     verifyEmail: _modules_verifyEmail__WEBPACK_IMPORTED_MODULE_21__.default,
     classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default,
     allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default,
+<<<<<<< HEAD
+    allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_24__.default
+=======
     studentsList: _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__.default,
     allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_25__.default
+>>>>>>> db8c239e9bda51188570f9ab5e7876896f371c48
   }
 }));
 

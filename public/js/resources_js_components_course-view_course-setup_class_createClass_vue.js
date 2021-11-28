@@ -139,15 +139,19 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     createClass: function createClass() {
+      var _this = this;
+
       this.$emit('closeModal');
       this.$emit('createclass');
       this.sending = true;
 
       if (this.form.class_name != "") {
         this.toastSuccess();
-        this.form.course_id = this.$route.params.id;
-        this.$store.dispatch('createClass', this.form);
-        this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
+        this.form.course_id = this.$route.params.id; ////console.log(this.form);
+
+        this.$store.dispatch('createClass', this.form).then(function () {
+          _this.fetchSubjectCourseClassList(_this.$route.params.id);
+        });
         this.sending = false;
       }
     },

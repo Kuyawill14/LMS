@@ -130,6 +130,7 @@ import moment from 'moment-timezone';
                 if (this.form.class_name != "") {
                     this.toastSuccess();
                     this.form.course_id = this.$route.params.id;
+                    ////console.log(this.form);
                     this.$store.dispatch('createClass', this.form);
                     this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
                     this.sending = false;

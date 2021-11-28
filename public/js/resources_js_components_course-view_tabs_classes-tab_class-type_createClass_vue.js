@@ -145,7 +145,8 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.form.class_name != "") {
         this.toastSuccess();
-        this.form.course_id = this.$route.params.id;
+        this.form.course_id = this.$route.params.id; ////console.log(this.form);
+
         this.$store.dispatch('createClass', this.form);
         this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
         this.sending = false;
