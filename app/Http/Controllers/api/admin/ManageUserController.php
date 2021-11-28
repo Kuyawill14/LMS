@@ -79,10 +79,14 @@ class ManageUserController extends Controller
         $details->student_id = $usertype == 'Student' ? $request->student_id : null;
         $details->save();
 
-        $departments = new tbl_user_departments;
-        $departments->user_id = $New->id;
-        $departments->department_id = $request->department['id'];
-        $departments->save();
+
+        if($userType != 'CampusDirector') {
+            $departments = new tbl_user_departments;
+            $departments->user_id = $New->id;
+            $departments->department_id = $request->department['id'];
+            $departments->save();
+        }
+       
 
 
 
