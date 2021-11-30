@@ -79,10 +79,14 @@ class ManageUserController extends Controller
         $details->student_id = $usertype == 'Student' ? $request->student_id : null;
         $details->save();
 
-        $departments = new tbl_user_departments;
-        $departments->user_id = $New->id;
-        $departments->department_id = $request->department['id'];
-        $departments->save();
+
+        if($usertype != 'CampusDirector') {
+            $departments = new tbl_user_departments;
+            $departments->user_id = $New->id;
+            $departments->department_id = $request->department['id'];
+            $departments->save();
+        }
+       
 
 
 
@@ -96,8 +100,8 @@ class ManageUserController extends Controller
             "student_id" => $details->student_id,
             "isVerified" => true,
             "isActive" => 0,
-            "department_short_name" =>$request->department['short_name'],
-            "department_full_name" =>$request->department['name'],
+            "department_short_name" => !isset($request->department['short_name'])  ? '' : $request->department['short_name'],
+            "department_full_name" => !isset($request->department['name']) ? '' : $request->department['name'],
         ]);
     }
 
