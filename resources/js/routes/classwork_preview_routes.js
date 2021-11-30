@@ -21,7 +21,7 @@ const routes = [
                 "../components/Classwork_View/tabs/addQuestionTab"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -31,7 +31,7 @@ const routes = [
                 "../components/Classwork_View/tabs/submissionListTab"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -41,7 +41,7 @@ const routes = [
                 "../components/Classwork_View/tabs/questionnAnalyticstab"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -51,7 +51,7 @@ const routes = [
                 "../components/Classwork_View/tabs/publishClassworkTab"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
         ]

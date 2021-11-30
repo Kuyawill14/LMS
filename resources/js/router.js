@@ -13,7 +13,7 @@ import campus_director_routes from "./routes/campus_director_routes";
 import admin_routes from "./routes/admin_routes";
 import program_chair_routes from "./routes/program_chair_routes";
 import notification_invites_routes from "./routes/notification_invites_routes";
-import not_found_page_routes from "./routes/not_found_page_routes";
+import restricted_pages_routes from "./routes/restricted_pages_routes";
 import archive_page_routes from "./routes/archive_page_routes";
 import classwork_overview_page_routes from "./routes/classwork_overview_page_routes";
 
@@ -98,13 +98,19 @@ const router = new Router({
                 //Classwork Preview Routes
                 ...classwork_preview_routes,
 
-                //Page Callback for Erros page
-                ...not_found_page_routes,
+                
             ],
         },
+        //Examination Routes
         ...examination_routes,
+         //Auth Routes
         ...auth_routes,
+
+        //Route for testing purposes
         ...testing_routes,
+
+        //Page Callback for Erros page
+        ...restricted_pages_routes,
     ]
 })
 
@@ -127,11 +133,6 @@ router.beforeEach((to, from, next) => {
                                         params: { id: to.params.id },
                                         replace: true
                                     })
-                                }
-                                else if(to.name == 'modules'){
-                                    if(store.state.CurrentUser.UserRole == 'Teacher') next();
-                                    else next({path: "my-modules",replace: true});
-                                    
                                 }
                                 else{
                                     next();

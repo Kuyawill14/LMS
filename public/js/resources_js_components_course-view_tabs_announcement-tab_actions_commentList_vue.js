@@ -225,6 +225,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'postDetails'],
@@ -895,16 +908,38 @@ var render = function() {
                     "div",
                     { staticClass: "mt-10" },
                     [
-                      _vm.isloading
-                        ? _c("vue-element-loading", {
-                            attrs: {
-                              active: _vm.isloading,
-                              duration: "0.7",
-                              color: "#EF6C00",
-                              spinner: "line-scale"
-                            }
-                          })
-                        : _vm._e()
+                      _c(
+                        "v-list",
+                        _vm._l(2, function(n) {
+                          return _c(
+                            "v-list-item",
+                            { key: n },
+                            [
+                              _c(
+                                "v-list-item-avatar",
+                                [
+                                  _c("v-skeleton-loader", {
+                                    attrs: { type: "avatar" }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-item-content",
+                                [
+                                  _c("v-skeleton-loader", {
+                                    attrs: { type: "list-item-three-line" }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        }),
+                        1
+                      )
                     ],
                     1
                   )
@@ -1375,7 +1410,7 @@ var render = function() {
                                                                     index
                                                                   ].isLongText
                                                                   ? "line-height:1.5;font-size:0.9rem;background-color:transparent"
-                                                                  : "line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px"
+                                                                  : "line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px;overflow:hidden"
                                                                 : _vm.readMore[
                                                                     index
                                                                   ].isLongText

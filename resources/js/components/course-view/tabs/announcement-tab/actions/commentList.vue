@@ -17,8 +17,21 @@
     </v-row>
      <transition transition="v-expand-transition" >
   <div class="mt-6 mb-0 pb-0" v-if="showComment">
+
+
       <div v-if="isloading"  class="mt-10">
-          <vue-element-loading v-if="isloading" :active="isloading" duration="0.7" color="#EF6C00"  spinner="line-scale" />
+         <!--  <vue-element-loading v-if="isloading" :active="isloading" duration="0.7" color="#EF6C00"  spinner="line-scale" /> -->
+          
+           <v-list>
+               <v-list-item v-for="n in 2" :key="n">
+                   <v-list-item-avatar>
+                        <v-skeleton-loader  type="avatar"></v-skeleton-loader>
+                   </v-list-item-avatar>
+                   <v-list-item-content>
+                       <v-skeleton-loader  type="list-item-three-line"></v-skeleton-loader>
+                   </v-list-item-content>
+               </v-list-item>
+           </v-list>
       </div>
        
         <div class="pl-5 pr-5">
@@ -83,10 +96,10 @@
                             <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 pl-0 pr-0">
                                 <v-lazy class="ml-0 pl-0" transition>
                                     <div 
-                                     :style="!$vuetify.breakpoint.mdAndUp  ? readMore[index].isLongText ? 'line-height:1.5;font-size:0.9rem;background-color:transparent' : 'line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px' : 
+                                     :style="!$vuetify.breakpoint.mdAndUp  ? readMore[index].isLongText ? 'line-height:1.5;font-size:0.9rem;background-color:transparent' : 'line-height:1.5;font-size:0.9rem;background-color:transparent;max-height:120px;overflow:hidden' : 
                                     readMore[index].isLongText ? 'line-height:1.5;font-size:0.95rem;' : 'line-height:1.5;font-size:0.95rem;max-height:160px;overflow:hidden'"
                                     v-if="((!isEditing || idEditing_id != item.id) && checkComment(item.content) == true)"  class="pl-5">
-                                         <span v-html="item.content"></span>  
+                                         <span  v-html="item.content"></span>  
                                     </div>
                                    
                                     <v-textarea    

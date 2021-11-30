@@ -1,10 +1,10 @@
 <template>
-
-    <v-container style="height:75vh" class="fill-height" fluid>
-            <v-row align="center" justify="center">
-                <v-col cols="12" md="4" lg="3" xl="3">
-                    <v-card outlined class="pa-5">
-                       <v-row>
+<v-app>
+    <v-container  class="fill-height" fluid>
+            <v-row class="centered" style="min-width:350px;max-width:500px">
+                <v-col cols="12" >
+                    <v-card width="100%" outlined class="pa-5">
+                       <v-row >
                            <v-col cols="12">
                                <h2 class="font-weight-regular">Course Not Found</h2>
                                <div>Look for it on Courses, or double-check your course link.</div>
@@ -19,8 +19,16 @@
                     </v-card>
                 </v-col>
             </v-row>
-
     </v-container>
-
-    
+</v-app>
 </template>
+
+<style scoped>
+.centered{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+</style>
