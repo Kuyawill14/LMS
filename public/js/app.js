@@ -2087,7 +2087,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./routes/admin_routes */ "./resources/js/routes/admin_routes.js");
 /* harmony import */ var _routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./routes/program_chair_routes */ "./resources/js/routes/program_chair_routes.js");
 /* harmony import */ var _routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./routes/notification_invites_routes */ "./resources/js/routes/notification_invites_routes.js");
-/* harmony import */ var _routes_not_found_page_routes__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./routes/not_found_page_routes */ "./resources/js/routes/not_found_page_routes.js");
+/* harmony import */ var _routes_restricted_pages_routes__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./routes/restricted_pages_routes */ "./resources/js/routes/restricted_pages_routes.js");
 /* harmony import */ var _routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./routes/archive_page_routes */ "./resources/js/routes/archive_page_routes.js");
 /* harmony import */ var _routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./routes/classwork_overview_page_routes */ "./resources/js/routes/classwork_overview_page_routes.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -2171,8 +2171,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_17__.default({
         return __webpack_require__.e(/*! import() | Dashboard */ "Dashboard").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/dashboardComponent */ "./resources/js/components/dashboard/dashboardComponent.vue"));
       },
       name: "dashboard"
-    }].concat(_toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default), _toConsumableArray(_routes_not_found_page_routes__WEBPACK_IMPORTED_MODULE_13__.default))
-  }].concat(_toConsumableArray(_routes_examination_routes__WEBPACK_IMPORTED_MODULE_8__.default), _toConsumableArray(_routes_auth_routes__WEBPACK_IMPORTED_MODULE_3__.default), _toConsumableArray(_routes_testing_routes__WEBPACK_IMPORTED_MODULE_4__.default))
+    }].concat(_toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default))
+  }].concat(_toConsumableArray(_routes_examination_routes__WEBPACK_IMPORTED_MODULE_8__.default), _toConsumableArray(_routes_auth_routes__WEBPACK_IMPORTED_MODULE_3__.default), _toConsumableArray(_routes_testing_routes__WEBPACK_IMPORTED_MODULE_4__.default), _toConsumableArray(_routes_restricted_pages_routes__WEBPACK_IMPORTED_MODULE_13__.default))
 });
 router.beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_0___default().start();
@@ -2191,11 +2191,6 @@ router.beforeEach(function (to, from, next) {
                     params: {
                       id: to.params.id
                     },
-                    replace: true
-                  });
-                } else if (to.name == 'modules') {
-                  if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-                    path: "my-modules",
                     replace: true
                   });
                 } else {
@@ -2465,7 +2460,7 @@ var routes = [{
   name: "campus_director-monitor_deparments",
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'CampusDirector') next();else next({
-      path: '/',
+      path: '/page-access-denied',
       replace: true
     });
   }
@@ -2482,7 +2477,7 @@ var routes = [{
     name: "campus_director-monitor_deparments-id",
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'CampusDirector') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2494,7 +2489,7 @@ var routes = [{
     name: "departmentMonitorTeacher_id",
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'CampusDirector') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2560,7 +2555,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2572,7 +2567,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2584,7 +2579,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2596,7 +2591,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2654,7 +2649,7 @@ var routes = [{
     name: "courseSetup",
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2666,7 +2661,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2689,8 +2684,11 @@ var routes = [{
       return __webpack_require__.e(/*! import() | Course_Modules */ "Course_Modules").then(__webpack_require__.bind(__webpack_require__, /*! ../components/course-view/tabs/modules-tab/modulesComponent */ "./resources/js/components/course-view/tabs/modules-tab/modulesComponent.vue"));
     },
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else return next({
+        name: 'student-modules',
+        params: {
+          id: to.params.id
+        },
         replace: true
       });
     }
@@ -2711,7 +2709,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2735,7 +2733,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2747,7 +2745,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2759,7 +2757,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2777,7 +2775,7 @@ var routes = [{
     },
     beforeEnter: function beforeEnter(to, from, next) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/',
+        path: '/page-access-denied',
         replace: true
       });
     }
@@ -2817,28 +2815,6 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_StudentPage_resultPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Classwork_View/StudentPage/resultPage */ "./resources/js/components/Classwork_View/StudentPage/resultPage.vue"));
   },
   name: "result-page"
-}];
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
-
-/***/ }),
-
-/***/ "./resources/js/routes/not_found_page_routes.js":
-/*!******************************************************!*\
-  !*** ./resources/js/routes/not_found_page_routes.js ***!
-  \******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-var routes = [{
-  path: "/course-not-found/:id",
-  component: function component() {
-    return __webpack_require__.e(/*! import() | not-found-callback-page */ "not-found-callback-page").then(__webpack_require__.bind(__webpack_require__, /*! ../components/course_subject/class-type/ClassNotFound */ "./resources/js/components/course_subject/class-type/ClassNotFound.vue"));
-  },
-  name: "course-not-found"
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -2939,7 +2915,7 @@ var routes = [{
   name: "monitorTeachers",
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
-      path: '/',
+      path: '/page-access-denied',
       replace: true
     });
   }
@@ -2951,7 +2927,7 @@ var routes = [{
   name: "monitorTeacher_id",
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
-      path: '/',
+      path: '/page-access-denied',
       replace: true
     });
   }
@@ -2963,10 +2939,38 @@ var routes = [{
   name: "program_chair-announcement",
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
-      path: '/',
+      path: '/page-access-denied',
       replace: true
     });
   }
+}];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
+
+/***/ }),
+
+/***/ "./resources/js/routes/restricted_pages_routes.js":
+/*!********************************************************!*\
+  !*** ./resources/js/routes/restricted_pages_routes.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var routes = [{
+  path: "/course-not-found/:id",
+  component: function component() {
+    return __webpack_require__.e(/*! import() | not-found-callback-page */ "not-found-callback-page").then(__webpack_require__.bind(__webpack_require__, /*! ../components/error_pages/ClassNotFound */ "./resources/js/components/error_pages/ClassNotFound.vue"));
+  },
+  name: "course-not-found"
+}, {
+  path: "/page-access-denied",
+  component: function component() {
+    return __webpack_require__.e(/*! import() | not-found-callback-page */ "not-found-callback-page").then(__webpack_require__.bind(__webpack_require__, /*! ../components/error_pages/PageRestrictedDisplayPage */ "./resources/js/components/error_pages/PageRestrictedDisplayPage.vue"));
+  },
+  name: "page-access-denied"
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 

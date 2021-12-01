@@ -782,7 +782,7 @@ class ClassworkController extends Controller
 
             $file = $request->file;
             $upload_file = Storage::disk('DO_spaces')->putFile('Announcement', $file, 'public');
-            $path = \Config::get('app.do_url').'/'. $upload_file;
+            $path = \Config::get('app.do_url').'/'.$upload_file;
             //return $path;
             return response()->json([
                 "message" => "File Uploaded!",

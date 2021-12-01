@@ -26,7 +26,7 @@
             </v-row>
 
             <v-row v-if="isGetting" class="mt-2"  justify="center">
-                <v-col v-for="n in 3" :key="n" md="12" lg="8" class="ma-auto">
+                <v-col v-for="n in 3" :key="n" cols="12" md="8" lg="8" class="ma-auto">
                     <v-card min-height="200">
                         <div class="pt-5">
                             <v-skeleton-loader  type="list-item-avatar-two-line" ></v-skeleton-loader>
@@ -40,7 +40,7 @@
 
 
             <v-row v-if="!isGetting"  class="mt-3">
-            <v-col md="12" lg="8" class="ma-auto">
+            <v-col cols="12" md="8" lg="8" class="ma-auto">
                 <announcementPostList v-on:SlicePost="SlicePostList"  v-on:loadmore="loadMore()" :classNames="classNames" :UserDetails="UserDetails" > </announcementPostList>
                
             </v-col>

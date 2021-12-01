@@ -7,7 +7,7 @@ const routes = [
         name: "monitorTeachers",
         beforeEnter: (to, from, next) => {
             if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
-            else next({ path: '/', replace: true })
+            else next({ path: '/page-access-denied', replace: true })
         }
     },
 
@@ -17,7 +17,7 @@ const routes = [
         name: "monitorTeacher_id",
         beforeEnter: (to, from, next) => {
             if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
-            else next({ path: '/', replace: true })
+            else next({ path: '/page-access-denied', replace: true })
         }
     },
     {
@@ -27,7 +27,7 @@ const routes = [
         name: "program_chair-announcement",
         beforeEnter: (to, from, next) => {
             if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
-            else next({ path: '/', replace: true })
+            else next({ path: '/page-access-denied', replace: true })
         }
     },
 

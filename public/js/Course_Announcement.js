@@ -8685,7 +8685,7 @@ var render = function() {
                 {
                   key: n,
                   staticClass: "ma-auto",
-                  attrs: { md: "12", lg: "8" }
+                  attrs: { cols: "12", md: "8", lg: "8" }
                 },
                 [
                   _c("v-card", { attrs: { "min-height": "200" } }, [
@@ -8726,7 +8726,10 @@ var render = function() {
             [
               _c(
                 "v-col",
-                { staticClass: "ma-auto", attrs: { md: "12", lg: "8" } },
+                {
+                  staticClass: "ma-auto",
+                  attrs: { cols: "12", md: "8", lg: "8" }
+                },
                 [
                   _c("announcementPostList", {
                     attrs: {

@@ -6,7 +6,7 @@ const routes = [
         name: "campus_director-monitor_deparments",
         beforeEnter: (to, from, next) => {
             if (store.state.CurrentUser.UserRole == 'CampusDirector') next()
-            else next({ path: '/', replace: true })
+            else next({ path: '/page-access-denied', replace: true })
         }
     },
     {
@@ -19,7 +19,7 @@ const routes = [
                 name: "campus_director-monitor_deparments-id",
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'CampusDirector') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -28,7 +28,7 @@ const routes = [
                 name: "departmentMonitorTeacher_id",
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'CampusDirector') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
 

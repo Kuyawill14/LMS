@@ -25,7 +25,7 @@ const routes = [
                 name: "courseSetup",
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -34,7 +34,7 @@ const routes = [
                 component: () => import (/* webpackChunkName: "Course_Classes" */"../components/course-view/tabs/classes-tab/classesComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -53,7 +53,7 @@ const routes = [
                 component: () => import (/* webpackChunkName: "Course_Modules" */"../components/course-view/tabs/modules-tab/modulesComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else return next({ name: 'student-modules', params:{id: to.params.id}, replace: true })
                 }
             },
             {
@@ -68,7 +68,7 @@ const routes = [
                 component: () => import (/* webpackChunkName: "Course_Module_Preview" */"../components/course-view/tabs/modules-tab/user-type/studentmodulesComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -88,7 +88,7 @@ const routes = [
                 component: () => import (/* webpackChunkName: "Course_Setting" */"../components/course-view/tabs/settings-tab/settingsComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -97,7 +97,7 @@ const routes = [
                 component: () => import (/* webpackChunkName: "Course_Grading_Criteria" */"../components/course-view/tabs/grading_criteria-tab/grading_criteriaComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
             },
             {
@@ -106,7 +106,7 @@ const routes = [
                 component:  () => import (/* webpackChunkName: "Course_Student_Progress" */"../components/course-view/tabs/studentProgress-tab/teacher-studentProgressComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
         
             },
@@ -122,7 +122,7 @@ const routes = [
                 component: () => import (/* webpackChunkName: "Course_GradeBook" */"../components/course-view/tabs/gradebook-tab/teacherGradebookComponent"),
                 beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
-                    else next({ path: '/', replace: true })
+                    else next({ path: '/page-access-denied', replace: true })
                 }
                
             },
