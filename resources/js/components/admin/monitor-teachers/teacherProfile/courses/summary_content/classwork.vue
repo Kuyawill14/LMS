@@ -78,8 +78,11 @@
                     <v-expansion-panel-content id="extend" class=" expand ma-0 pa-0 mt-3">
                         <v-row no-gutters>
                             <v-col cols="8" class=" pl-5" >
-                                <!-- <div  class="mb-5 ml-5 text-caption">{{item.instruction}}</div> -->
-                                   <span class="mb-5 text-sm-body-2 " v-html="item.instruction"></span>
+                                <!--    <span class="mb-5 text-sm-body-2 " v-html="item.instruction"></span> -->
+
+                                <v-row>
+                                    
+                                </v-row>
                             </v-col>
                                 <v-col cols="4" class="pl-3">
                                     <div class="flex-column">

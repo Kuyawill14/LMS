@@ -52,7 +52,7 @@
                  <v-tab-item >
                     <v-card color="basil" flat>
                         <div class="pa-1">
-                         <classwork :course_details="course_details"></classwork>
+                        <!--  <classwork :course_details="course_details"></classwork> -->
                         </div>
                     </v-card>
                 </v-tab-item>

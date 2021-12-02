@@ -66,26 +66,63 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
   data: function data() {
     return {
       StudentList: [],
-      isGetting: true
+      isGetting: true,
+      class_id: null,
+      class_name: [],
+      isloading: false
     };
+  },
+  computed: {
+    filteredStudentList: function filteredStudentList() {
+      var _this = this;
+
+      var Filterddata = this.StudentList;
+      Filterddata = Filterddata.filter(function (item) {
+        return _this.class_id == item.class_id;
+      });
+      return Filterddata;
+    }
   },
   methods: {
     getStudentList: function getStudentList() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/admin/teachers/studentList/' + _this.course_details.course_id).then(function (res) {
-                  _this.StudentList = res.data;
-                  _this.isGetting = false;
+                axios.get('/api/admin/teachers/studentList/' + _this2.course_details.course_id).then(function (res) {
+                  _this2.StudentList = res.data.student_list;
+                  _this2.class_name = res.data.class_name;
+
+                  if (_this2.class_name.length != 0) {
+                    _this2.class_id = _this2.class_name[0].id;
+                  }
+
+                  setTimeout(function () {
+                    return _this2.isGetting = false;
+                  }, 700);
                 });
 
               case 1:
@@ -95,9 +132,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    showLoading: function showLoading() {
+      var _this3 = this;
+
+      this.isloading = true;
+      setTimeout(function () {
+        return _this3.isloading = false;
+      }, 500);
     }
   },
-  beforeMount: function beforeMount() {
+  mounted: function mounted() {
     this.getStudentList();
   }
 });
@@ -191,39 +236,63 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.isGetting
+      _c(
+        "v-row",
+        { staticStyle: { "margin-bottom": "-50px" } },
+        [
+          _c(
+            "v-col",
+            { staticClass: "text-right", attrs: { cols: "12", md: "2" } },
+            [
+              _c("v-select", {
+                staticClass: "mr-2 my-1",
+                attrs: {
+                  dense: "",
+                  label: "Class",
+                  items: _vm.class_name,
+                  "item-text": "class_name",
+                  "item-value": "id",
+                  outlined: "",
+                  small: ""
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.showLoading()
+                  }
+                },
+                model: {
+                  value: _vm.class_id,
+                  callback: function($$v) {
+                    _vm.class_id = $$v
+                  },
+                  expression: "class_id"
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.isGetting || _vm.isloading
         ? _c(
             "v-row",
-            {
-              staticStyle: { "margin-top": "10rem" },
-              attrs: { "align-content": "center", justify: "center" }
-            },
-            [
-              _c(
+            _vm._l(16, function(n) {
+              return _c(
                 "v-col",
-                {
-                  staticClass: "text-subtitle-1 text-center",
-                  attrs: { cols: "12" }
-                },
-                [_vm._v("\n            Loading student list\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "6" } },
+                { key: n, staticClass: "pa-1", attrs: { cols: "12", md: "3" } },
                 [
-                  _c("v-progress-linear", {
+                  _c("v-skeleton-loader", {
                     attrs: {
-                      color: "primary",
-                      indeterminate: "",
-                      rounded: "",
-                      height: "6"
+                      "max-width": "380",
+                      type: "list-item-avatar-two-line"
                     }
                   })
                 ],
                 1
               )
-            ],
+            }),
             1
           )
         : _vm._e(),
@@ -259,68 +328,78 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c(
-        "v-row",
-        [
-          _c(
-            "v-col",
-            { staticClass: "pa-2", attrs: { cols: "12" } },
-            [
-              _c(
-                "v-list",
-                _vm._l(_vm.StudentList, function(item, index) {
-                  return _c(
-                    "v-list-item",
-                    { key: index },
+      _vm.StudentList.length != 0 && !_vm.isGetting && !_vm.isloading
+        ? _c(
+            "v-row",
+            _vm._l(_vm.filteredStudentList, function(item, index) {
+              return _c(
+                "v-col",
+                {
+                  key: index,
+                  staticClass: "pb-0 pt-0",
+                  attrs: { cols: "12", md: "3" }
+                },
+                [
+                  _c(
+                    "v-list",
                     [
                       _c(
-                        "v-list-item-avatar",
+                        "v-list-item",
                         [
-                          _c("v-img", {
-                            attrs: {
-                              alt: "Profile",
-                              src:
-                                item.profile_pic == null ||
-                                item.profile_pic == ""
-                                  ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                    item.firstName +
-                                    " " +
-                                    item.lastName
-                                  : item.profile_pic
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-item-content",
-                        [
-                          _c("v-list-item-title", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(item.firstName + " " + item.lastName) +
-                                " "
-                            ),
-                            _c("small", [
-                              _vm._v("(" + _vm._s(item.class_name) + ")")
-                            ])
-                          ])
+                          _c(
+                            "v-list-item-avatar",
+                            [
+                              _c("v-img", {
+                                attrs: {
+                                  alt: "Profile",
+                                  src:
+                                    item.profile_pic == null ||
+                                    item.profile_pic == ""
+                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
+                                        item.firstName +
+                                        " " +
+                                        item.lastName
+                                      : item.profile_pic
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c("v-list-item-title", [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      item.firstName + " " + item.lastName
+                                    ) +
+                                    "\n                        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-item-subtitle", [
+                                _c("small", [
+                                  _vm._v("(" + _vm._s(item.class_name) + ")")
+                                ])
+                              ])
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
                     ],
                     1
                   )
-                }),
+                ],
                 1
               )
-            ],
+            }),
             1
           )
-        ],
-        1
-      )
+        : _vm._e()
     ],
     1
   )

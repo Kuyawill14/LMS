@@ -2,12 +2,20 @@
     <div>
 
        
-        <v-row style="margin-top: 13rem"  v-if="isGetting" align-content="center" justify="center">
+        <!-- <v-row style="margin-top: 13rem"  v-if="isGetting" align-content="center" justify="center">
             <v-col class="text-subtitle-1 text-center" cols="12">
                 Loading Modules
             </v-col>
             <v-col cols="6">
                 <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+            </v-col>
+        </v-row> -->
+
+        <v-row v-if="isGetting"  >
+            <v-col v-for="n in 5" :key="n" cols="12">
+                <v-card elevation="0" class="pa-3">
+                     <v-skeleton-loader max-width="420" type="list-item-avatar"></v-skeleton-loader>
+                </v-card>
             </v-col>
         </v-row>
            
@@ -166,9 +174,10 @@
             },
             fetchAllModule() {
                 this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(() => {
-                    this.isGetting = false;
+                  
                     this.moduleLength = this.getmain_module.length;
                     this.mainModule = this.getmain_module;
+                     setTimeout(() => (this.isGetting = false), 700);
                 });
                 this.$store.dispatch('fetchSubModule', this.course_details.course_id);
             },

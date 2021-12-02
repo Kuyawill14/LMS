@@ -19,7 +19,7 @@
         </v-row>
 
 
-        <v-container v-if="isGetting" style="height: 400px;">
+       <!--  <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                 <v-icon style="font-size:14rem">
                     mdi-google-contacts
@@ -31,7 +31,7 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-container> -->
 
         <v-dialog v-model="dialog" width="400px">
             <v-card>
@@ -56,7 +56,9 @@
             </v-card>
         </v-dialog>
 
-        <div v-if="coursesLength != 0 && isGetting == false">
+        
+
+        <div >
             
             <v-row style="margin-bottom: -40px;">
                 <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
@@ -64,7 +66,7 @@
                 </v-col>
                 <v-col lg="2" class="text-right">
                     <v-select class="mr-2 my-0" dense :items="school_year" item-text="schoolyear" item-value="id"
-                        label="School Year" v-model="school_year_id" outlined small @change=" schoolYearFilter()">
+                        label="School Year" v-model="school_year_id" outlined small @change="schoolYearFilter()">
                     </v-select>
                 </v-col>
                 <v-col class="text-right" lg="2">
@@ -74,7 +76,15 @@
 
             </v-row>
 
-            <v-row class="mt-3">
+          
+            <v-row v-if="isGetting" >
+                <v-col :height="$vuetify.breakpoint.lgAndUp ? 200 : 140" v-for="n in 3" :key="n" cols="12" xl="3" lg="3" md="6">
+                    <v-skeleton-loader  type="image, article"></v-skeleton-loader>
+                </v-col>
+            </v-row>
+           
+
+            <v-row class="mt-3" v-if="coursesLength != 0 && isGetting == false">
                 <v-col cols="12" xl="3" lg="3" md="6"  v-for="(item, i) in allClassesData" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
@@ -91,7 +101,7 @@
  -->
                              <v-img
                                :src="CheckBackgroundPath(item.course_picture)"
-                                 :height="$vuetify.breakpoint.lgAndUp ? 200 : 140"
+                                 :height="$vuetify.breakpoint.lgAndUp ? 200 : 160"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end grey lighten-2"
                                 aspect-ratio="1"
                             

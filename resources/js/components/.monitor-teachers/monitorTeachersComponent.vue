@@ -28,8 +28,6 @@
                 <v-select class="mr-2 my-1" dense :items="semester" item-text="semester" item-value="id"
                     :disabled="school_year_id == null" label="Semester" v-model="semester_id" outlined small
                     @change="getTeacherSummary()"></v-select>
-
-
             </v-col>
         </v-row>
 

@@ -146,6 +146,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
@@ -172,7 +174,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get('/api/admin/teachers/classworkList/' + _this.course_details.course_id).then(function (res) {
                   _this.classworkList = res.data;
-                  _this.isGetting = false;
+                  setTimeout(function () {
+                    return _this.isGetting = false;
+                  }, 700);
                 });
 
               case 1:
@@ -8665,36 +8669,25 @@ var render = function() {
       _vm.isGetting
         ? _c(
             "v-row",
-            {
-              staticStyle: { "margin-top": "10rem" },
-              attrs: { "align-content": "center", justify: "center" }
-            },
-            [
-              _c(
+            _vm._l(6, function(n) {
+              return _c(
                 "v-col",
-                {
-                  staticClass: "text-subtitle-1 text-center",
-                  attrs: { cols: "12" }
-                },
-                [_vm._v("\n            Loading Classworks\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "6" } },
+                { key: n, attrs: { cols: "12", md: "4" } },
                 [
-                  _c("v-progress-linear", {
-                    attrs: {
-                      color: "primary",
-                      indeterminate: "",
-                      rounded: "",
-                      height: "6"
-                    }
-                  })
+                  _c(
+                    "v-card",
+                    { staticClass: "pa-4", attrs: { elevation: "0" } },
+                    [
+                      _c("v-skeleton-loader", {
+                        attrs: { type: "list-item-avatar-two-line" }
+                      })
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
+            }),
             1
           )
         : _vm._e(),
@@ -8717,7 +8710,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "7rem" } }, [
                     _vm._v(
-                      "\n                mdi-book-open-variant\n            "
+                      "\n                   mdi-book-open-variant\n               "
                     )
                   ]),
                   _vm._v(" "),
@@ -8782,7 +8775,7 @@ var render = function() {
                                                 { attrs: { color: "white" } },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            mdi-book-open-variant\n                                        "
+                                                    "\n                                               mdi-book-open-variant\n                                           "
                                                   )
                                                 ]
                                               )
@@ -8801,7 +8794,7 @@ var render = function() {
                                             { staticStyle: { width: "10px" } },
                                             [
                                               _vm._v(
-                                                "\n                                        " +
+                                                "\n                                           " +
                                                   _vm._s(item.title)
                                               ),
                                               _c(
@@ -8827,13 +8820,13 @@ var render = function() {
                                           _vm._v(" "),
                                           _c("v-list-item-subtitle", [
                                             _vm._v(
-                                              "\n                                        Created: " +
+                                              "\n                                           Created: " +
                                                 _vm._s(
                                                   _vm.format_date(
                                                     item.created_at
                                                   )
                                                 ) +
-                                                "\n                                    "
+                                                "\n                                       "
                                             )
                                           ])
                                         ],
@@ -8924,40 +8917,6 @@ var render = function() {
                                                       )
                                                     ],
                                                     1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list-item",
-                                                    {
-                                                      attrs: {
-                                                        link: "",
-                                                        "ma-0": "",
-                                                        "pa-0": ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "v-list-item-title",
-                                                        [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                left: ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "mdi-delete"
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v("Delete")
-                                                        ],
-                                                        1
-                                                      )
-                                                    ],
-                                                    1
                                                   )
                                                 ],
                                                 1
@@ -8996,13 +8955,124 @@ var render = function() {
                                       attrs: { cols: "8" }
                                     },
                                     [
-                                      _c("span", {
-                                        staticClass: "mb-5 text-sm-body-2 ",
-                                        domProps: {
-                                          innerHTML: _vm._s(item.instruction)
-                                        }
-                                      })
-                                    ]
+                                      _c(
+                                        "v-row",
+                                        {
+                                          staticClass: "pt-2",
+                                          attrs: { "no-gutters": "" }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "ml-5 font-weight-bold "
+                                                },
+                                                [_vm._v("Publish to class:")]
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "v-list",
+                                                { staticClass: "pt-0 pb-0" },
+                                                _vm._l(
+                                                  item.publish_in,
+                                                  function(item, i) {
+                                                    return _c(
+                                                      "v-list-item",
+                                                      { key: i },
+                                                      [
+                                                        _c(
+                                                          "v-list-item-avatar",
+                                                          [
+                                                            _c("v-icon", [
+                                                              _vm._v(
+                                                                "mdi-account-multiple"
+                                                              )
+                                                            ])
+                                                          ],
+                                                          1
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "v-list-item-content",
+                                                          {
+                                                            staticClass: "pl-0"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-list-item-title",
+                                                              {
+                                                                staticClass:
+                                                                  "font-weight-medium"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                   " +
+                                                                    _vm._s(
+                                                                      item.class_name
+                                                                    ) +
+                                                                    "\n                                               "
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-list-item-subtitle",
+                                                              [
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "font-weight-medium"
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "Due:"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(
+                                                                  "\n                                                   " +
+                                                                    _vm._s(
+                                                                      item.availability ==
+                                                                        1
+                                                                        ? _vm.format_date(
+                                                                            item.to_date
+                                                                          )
+                                                                        : "Always available"
+                                                                    ) +
+                                                                    "\n                                               "
+                                                                )
+                                                              ]
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  }
+                                                ),
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -9038,106 +9108,6 @@ var render = function() {
                                         ]
                                       )
                                     ]
-                                  )
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-row",
-                                {
-                                  staticClass: "pt-2",
-                                  attrs: { "no-gutters": "" }
-                                },
-                                [
-                                  _c("v-col", { attrs: { cols: "12" } }, [
-                                    _c(
-                                      "div",
-                                      { staticClass: "ml-5 font-weight-bold " },
-                                      [_vm._v("Publish to class:")]
-                                    )
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12" } },
-                                    [
-                                      _c(
-                                        "v-list",
-                                        { staticClass: "pt-0 pb-0" },
-                                        _vm._l(item.publish_in, function(
-                                          item,
-                                          i
-                                        ) {
-                                          return _c(
-                                            "v-list-item",
-                                            { key: i },
-                                            [
-                                              _c(
-                                                "v-list-item-avatar",
-                                                [
-                                                  _c("v-icon", [
-                                                    _vm._v(
-                                                      "mdi-account-multiple"
-                                                    )
-                                                  ])
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item-content",
-                                                { staticClass: "pl-0" },
-                                                [
-                                                  _c(
-                                                    "v-list-item-title",
-                                                    {
-                                                      staticClass:
-                                                        "font-weight-medium"
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                           " +
-                                                          _vm._s(
-                                                            item.class_name
-                                                          ) +
-                                                          "\n                                       "
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c("v-list-item-subtitle", [
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "font-weight-medium"
-                                                      },
-                                                      [_vm._v("Due:")]
-                                                    ),
-                                                    _vm._v(
-                                                      "\n                                          " +
-                                                        _vm._s(
-                                                          item.availability == 1
-                                                            ? _vm.format_date(
-                                                                item.to_date
-                                                              )
-                                                            : "Always available"
-                                                        ) +
-                                                        "\n                                       "
-                                                    )
-                                                  ])
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        }),
-                                        1
-                                      )
-                                    ],
-                                    1
                                   )
                                 ],
                                 1
