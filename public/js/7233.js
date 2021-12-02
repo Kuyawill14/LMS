@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[7233],{87233:(e,n,l)=>{l.r(n),l.d(n,{default:()=>s});const s=(0,l(51900).Z)({},(function(){var e=this,n=e.$createElement;return(e._self._c||n)("div",[e._v("\n    dashboard\n")])}),[],!1,null,null,null).exports}}]);
