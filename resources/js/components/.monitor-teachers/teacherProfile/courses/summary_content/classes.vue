@@ -2,12 +2,11 @@
     <div>
 
 
-        <v-row v-if="isGetting" align-content="center" style="margin-top: 10rem" justify="center">
-            <v-col class="text-subtitle-1 text-center" cols="12">
-                Loading Classes
-            </v-col>
-            <v-col cols="6">
-                <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+        <v-row v-if="isGetting"  >
+            <v-col v-for="n in 4" :key="n" cols="12" md="3" >
+                <v-card class="pa-4">
+                     <v-skeleton-loader type="article"></v-skeleton-loader>
+                </v-card>
             </v-col>
         </v-row>
 
@@ -21,27 +20,43 @@
             </v-col>
         </v-row>
 
-        <v-row v-if="ClassList.length != 0 && !isGetting">
-            <v-col v-for="(item, index) in ClassList" :key="index" cols="6" sm="6" md="3" lg="2" xl="2">
-                <v-card outlined>
-                    <v-toolbar dense dark color="primary">
-                        <v-toolbar-title>{{item.class_name}}</v-toolbar-title>
-                    </v-toolbar>
-                    <div class="pa-3">
-                        <div class="text-body-2">
-                            <v-icon left>mdi-account-supervisor</v-icon>
-                            Student: {{item.student_count}}
-                        </div>
-                        <div class="text-body-2">
-                            <v-icon left>mdi-book-open-variant</v-icon>
-                            Publish Classwork: {{item.classwork_count}}
-                        </div>
-                        <div class="text-body-2">
-                            <v-icon left>mdi-book-open-variant</v-icon>
-                            Class Date Created: {{item.created_at}}
-                        </div>
 
-                    </div>
+        
+
+        <v-row v-if="ClassList.length != 0 && !isGetting">
+            <v-col v-for="(item, index) in ClassList" :key="index" cols="12" md="3">
+                <v-card class="pa-4" outlined elevation="3" >
+                
+                    <v-list >
+                        <v-list-item>
+                             <v-list-item-content>
+                                <v-list-item-title class="font-weight-bold">
+                                    {{item.class_name}}
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-divider></v-divider>
+                          <v-list-item class="pt-0 mt-0">
+                             <v-list-item-content>
+                                <div class="text-body-2">
+                                    <v-icon left>mdi-account-supervisor</v-icon>
+                                    <span  class="font-weight-medium">Student: </span>
+                                    {{item.student_count}}
+                                </div>
+                                <div class="text-body-2">
+                                    <v-icon left>mdi-book-open-variant</v-icon>
+                                     <span  class="font-weight-medium">Publish Classwork: </span>
+                                     {{item.classwork_count}}
+                                </div>
+                                <div class="text-body-2">
+                                    <v-icon left>mdi-calendar</v-icon>
+                                    <span class="font-weight-medium">Date Created: </span>
+                                    {{format_date(item.created_at)}}
+                                </div>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                 
                 </v-card>
             </v-col>
         </v-row>
@@ -49,6 +64,7 @@
     </div>
 </template>
 <script>
+ import moment from 'moment/src/moment';
     import {
         mapGetters
     } from "vuex";
@@ -64,14 +80,16 @@
         },
         computed: mapGetters(["get_UserRole"]),
         methods: {
+            format_date(value) {
+                if (value) {
+                    return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+                }
+            },
             async getClasslist() {
-
-
                 axios.get('/api/admin/teachers/classes/' + this.course_details.course_id + '/' + this.teacher_id)
                     .then(res => {
-                        this.ClassList = res.data.data;
-                        //this.isGetting = false;
-                        setTimeout(() => (this.isGetting = false), 1000);
+                        this.ClassList = res.data;
+                        setTimeout(() => (this.isGetting = false), 700);
                     })
             },
 

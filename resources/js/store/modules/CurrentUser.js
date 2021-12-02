@@ -21,19 +21,24 @@ const getters = {
 };
 const actions = {
     async IsAuthenticated({ commit, actions }) {
+      
         if(state.CurrentUser.length == 0){
             const res = await axios.get(`/api/authenticated`)
             .catch((e) => {
                 commit('SET_AUTHENTICATED', false);
                 window.localStorage.removeItem('personal_access_token');
+              
             })
+
             if (res.data == true) {
                 commit('SET_AUTHENTICATED', true);
             }
-        }
+          
+        }   
         else{
             commit('SET_AUTHENTICATED', true);
             window.localStorage.setItem('IsAuthenticated', true);
+            console.log(state.IsAuthenticated);
         }
         
     },

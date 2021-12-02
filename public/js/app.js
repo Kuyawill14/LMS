@@ -2015,7 +2015,7 @@ axios.defaults.withCredentials = true;
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   broadcaster: 'pusher',
-  key: "05597b24c42e8d5d33ef",
+  key: "865de026959fe9de27a8",
   cluster: "ap1",
   forceTLS: true
 });
@@ -2179,47 +2179,62 @@ router.beforeEach(function (to, from, next) {
   var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'coursePage', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
 
   if (protectedRoutes.includes(to.name)) {
-    _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
-      _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
-        if (res.status == 200) {
-          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function () {
-            if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
-              if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
-                if (to.name == 'courseSetup') {
-                  next({
-                    name: "announcement",
-                    params: {
-                      id: to.params.id
-                    },
-                    replace: true
-                  });
-                } else {
-                  next();
-                }
-              } else {
-                if (to.name == 'courseSetup') {
-                  next();
+    _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
+      if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
+        _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
+            if (res.status == 200) {
+              _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function () {
+                if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
+                  if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
+                    if (to.name == 'courseSetup') {
+                      next({
+                        name: "announcement",
+                        params: {
+                          id: to.params.id
+                        },
+                        replace: true
+                      });
+                    } else {
+                      next();
+                    }
+                  } else {
+                    if (to.name == 'courseSetup') {
+                      next();
+                    } else {
+                      return next({
+                        name: "courseSetup",
+                        params: {
+                          id: to.params.id
+                        },
+                        replace: true
+                      });
+                    }
+                  }
                 } else {
                   return next({
-                    name: "courseSetup",
+                    name: "course-not-found",
                     params: {
                       id: to.params.id
                     },
                     replace: true
                   });
                 }
-              }
-            } else {
-              return next({
-                name: "course-not-found",
-                params: {
-                  id: to.params.id
-                },
-                replace: true
               });
             }
           });
-        }
+        });
+      } else {
+        next({
+          path: "/login",
+          replace: true
+        });
+      }
+    })["catch"](function () {
+      _store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated = false;
+      return next({
+        path: "/login",
+        replace: true
       });
     });
   } else {
@@ -2546,6 +2561,18 @@ var routes = [{
     path: "classwork-details",
     component: function component() {
       return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Classwork_View/tabs/classworkDetailsTab */ "./resources/js/components/Classwork_View/tabs/classworkDetailsTab.vue"));
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          next();
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
+      });
     }
   }, {
     name: "add-question",
@@ -2554,9 +2581,18 @@ var routes = [{
       return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Classwork_View/tabs/addQuestionTab */ "./resources/js/components/Classwork_View/tabs/addQuestionTab.vue"));
     },
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/page-access-denied',
-        replace: true
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
+            path: '/page-access-denied',
+            replace: true
+          });
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
       });
     }
   }, {
@@ -2566,9 +2602,18 @@ var routes = [{
       return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Classwork_View/tabs/submissionListTab */ "./resources/js/components/Classwork_View/tabs/submissionListTab.vue"));
     },
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/page-access-denied',
-        replace: true
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
+            path: '/page-access-denied',
+            replace: true
+          });
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
       });
     }
   }, {
@@ -2578,9 +2623,18 @@ var routes = [{
       return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Classwork_View/tabs/questionnAnalyticstab */ "./resources/js/components/Classwork_View/tabs/questionnAnalyticstab.vue"));
     },
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/page-access-denied',
-        replace: true
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
+            path: '/page-access-denied',
+            replace: true
+          });
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
       });
     }
   }, {
@@ -2590,9 +2644,18 @@ var routes = [{
       return __webpack_require__.e(/*! import() | classworks-details-view */ "classworks-details-view").then(__webpack_require__.bind(__webpack_require__, /*! ../components/Classwork_View/tabs/publishClassworkTab */ "./resources/js/components/Classwork_View/tabs/publishClassworkTab.vue"));
     },
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/page-access-denied',
-        replace: true
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
+            path: '/page-access-denied',
+            replace: true
+          });
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
       });
     }
   }]
@@ -2831,18 +2894,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/store */ "./resources/js/store/store.js");
+
 var routes = [{
   path: "/notifications/:slug",
   component: function component() {
     return __webpack_require__.e(/*! import() | notification */ "notification").then(__webpack_require__.bind(__webpack_require__, /*! ../components/layout/notification/SeeAllNotification */ "./resources/js/components/layout/notification/SeeAllNotification.vue"));
   },
-  name: "notifications"
+  name: "notifications",
+  beforeEnter: function beforeEnter(to, from, next) {
+    _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+        next();
+      } else {
+        next({
+          path: "/login",
+          replace: true
+        });
+      }
+    });
+  }
 }, {
   path: "/invites",
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_components_layout_notification_invites_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/layout/notification/invites */ "./resources/js/components/layout/notification/invites.vue"));
   },
-  name: "invites"
+  name: "invites",
+  beforeEnter: function beforeEnter(to, from, next) {
+    _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+        next();
+      } else {
+        next({
+          path: "/login",
+          replace: true
+        });
+      }
+    });
+  }
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -2859,6 +2948,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/store */ "./resources/js/store/store.js");
+
 var routes = [{
   path: "/profile",
   component: function component() {
@@ -2869,25 +2960,73 @@ var routes = [{
     component: function component() {
       return __webpack_require__.e(/*! import() | profile_user_details */ "user_profile").then(__webpack_require__.bind(__webpack_require__, /*! ../components/profile/editprofile */ "./resources/js/components/profile/editprofile.vue"));
     },
-    name: "profile_page"
+    name: "profile_page",
+    beforeEnter: function beforeEnter(to, from, next) {
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          next();
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
+      });
+    }
   }, {
     path: "courses_progress",
     component: function component() {
       return __webpack_require__.e(/*! import() | profile_course_progress */ "course_progress").then(__webpack_require__.bind(__webpack_require__, /*! ../components/profile/coursesProgress */ "./resources/js/components/profile/coursesProgress.vue"));
     },
-    name: "courses_progress"
+    name: "courses_progress",
+    beforeEnter: function beforeEnter(to, from, next) {
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          next();
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
+      });
+    }
   }, {
     path: "my_calendar",
     component: function component() {
       return __webpack_require__.e(/*! import() | profile_my_calendar */ "my_calendar").then(__webpack_require__.bind(__webpack_require__, /*! ../components/profile/myCalendar */ "./resources/js/components/profile/myCalendar.vue"));
     },
-    name: "my_calendar"
+    name: "my_calendar",
+    beforeEnter: function beforeEnter(to, from, next) {
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          next();
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
+      });
+    }
   }, {
     path: "change_password",
     component: function component() {
       return __webpack_require__.e(/*! import() | change_password */ "change_password").then(__webpack_require__.bind(__webpack_require__, /*! ../components/profile/changePassword */ "./resources/js/components/profile/changePassword.vue"));
     },
-    name: "change_password"
+    name: "change_password",
+    beforeEnter: function beforeEnter(to, from, next) {
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated == true) {
+          next();
+        } else {
+          next({
+            path: "/login",
+            replace: true
+          });
+        }
+      });
+    }
   }]
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
@@ -3069,14 +3208,15 @@ var actions = {
                 commit('SET_AUTHENTICATED', true);
               }
 
-              _context.next = 10;
+              _context.next = 11;
               break;
 
             case 8:
               commit('SET_AUTHENTICATED', true);
               window.localStorage.setItem('IsAuthenticated', true);
+              console.log(state.IsAuthenticated);
 
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -14028,27 +14168,6 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
       return this;
     }
     /**
-     * Listen for all events on the channel instance.
-     */
-
-  }, {
-    key: "listenToAll",
-    value: function listenToAll(callback) {
-      var _this2 = this;
-
-      this.subscription.bind_global(function (event, data) {
-        if (event.startsWith('pusher:')) {
-          return;
-        }
-
-        var namespace = _this2.options.namespace.replace(/\./g, '\\');
-
-        var formattedEvent = event.startsWith(namespace) ? event.substring(namespace.length + 1) : '.' + event;
-        callback(formattedEvent, data);
-      });
-      return this;
-    }
-    /**
      * Stop listening for an event on the channel instance.
      */
 
@@ -14059,21 +14178,6 @@ var PusherChannel = /*#__PURE__*/function (_Channel) {
         this.subscription.unbind(this.eventFormatter.format(event), callback);
       } else {
         this.subscription.unbind(this.eventFormatter.format(event));
-      }
-
-      return this;
-    }
-    /**
-     * Stop listening for all events on the channel instance.
-     */
-
-  }, {
-    key: "stopListeningToAll",
-    value: function stopListeningToAll(callback) {
-      if (callback) {
-        this.subscription.unbind_global(callback);
-      } else {
-        this.subscription.unbind_global();
       }
 
       return this;
@@ -30835,9 +30939,9 @@ var runtime = (function (exports) {
   // This is a polyfill for %IteratorPrototype% for environments that
   // don't natively support it.
   var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
+  IteratorPrototype[iteratorSymbol] = function () {
     return this;
-  });
+  };
 
   var getProto = Object.getPrototypeOf;
   var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
@@ -30851,9 +30955,8 @@ var runtime = (function (exports) {
 
   var Gp = GeneratorFunctionPrototype.prototype =
     Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = GeneratorFunctionPrototype;
-  define(Gp, "constructor", GeneratorFunctionPrototype);
-  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
   GeneratorFunction.displayName = define(
     GeneratorFunctionPrototype,
     toStringTagSymbol,
@@ -30967,9 +31070,9 @@ var runtime = (function (exports) {
   }
 
   defineIteratorMethods(AsyncIterator.prototype);
-  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
     return this;
-  });
+  };
   exports.AsyncIterator = AsyncIterator;
 
   // Note that simple async functions are implemented on top of
@@ -31162,13 +31265,13 @@ var runtime = (function (exports) {
   // iterator prototype chain incorrectly implement this, causing the Generator
   // object to not be returned from this call. This ensures that doesn't happen.
   // See https://github.com/facebook/regenerator/issues/274 for more details.
-  define(Gp, iteratorSymbol, function() {
+  Gp[iteratorSymbol] = function() {
     return this;
-  });
+  };
 
-  define(Gp, "toString", function() {
+  Gp.toString = function() {
     return "[object Generator]";
-  });
+  };
 
   function pushTryEntry(locs) {
     var entry = { tryLoc: locs[0] };
@@ -31487,19 +31590,14 @@ try {
 } catch (accidentalStrictMode) {
   // This module should not be running in strict mode, so the above
   // assignment should always work unless something is misconfigured. Just
-  // in case runtime.js accidentally runs in strict mode, in modern engines
-  // we can explicitly access globalThis. In older engines we can escape
+  // in case runtime.js accidentally runs in strict mode, we can escape
   // strict mode using a global Function call. This could conceivably fail
   // if a Content Security Policy forbids using Function, but in that case
   // the proper solution is to fix the accidental strict mode problem. If
   // you've misconfigured your bundler to force strict mode and applied a
   // CSP to forbid Function, and you're not willing to fix either of those
   // problems, please detail your unique predicament in a GitHub issue.
-  if (typeof globalThis === "object") {
-    globalThis.regeneratorRuntime = runtime;
-  } else {
-    Function("r", "regeneratorRuntime = r")(runtime);
-  }
+  Function("r", "regeneratorRuntime = r")(runtime);
 }
 
 

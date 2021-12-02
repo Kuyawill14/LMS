@@ -143,8 +143,8 @@ class TeacherProfileController extends Controller
         'tbl_subject_courses.course_name',
         'tbl_subject_courses.course_code',
         'tbl_classes.id as class_id',
+        'tbl_classes.created_at',
         )
-        ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
         ->selectRaw('count(tbl_class_classworks.class_id ) as classwork_count')
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
@@ -152,14 +152,13 @@ class TeacherProfileController extends Controller
         ->groupBy('tbl_classes.class_name','tbl_classes.class_code', 'tbl_subject_courses.course_name'
         ,'tbl_subject_courses.course_code', 'tbl_classes.id')
         ->where('user_id', $user_id)
-        ->paginate(10);
+        ->get();
 
         foreach($allClass as $key => $value) {
             $StudentCount = tbl_userclass::where('class_id', $value ->class_id)
             ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
             ->where('users.role','Student')
             ->count();
-            
             $value->student_count = $StudentCount;
         }
 
@@ -169,7 +168,8 @@ class TeacherProfileController extends Controller
     public function getCourseStudentList($id){
 
         $allStudent = tbl_userclass::where('tbl_userclasses.course_id',$id)
-        ->select('tbl_user_details.user_id','tbl_user_details.student_id', 'tbl_user_details.firstName', 'tbl_user_details.lastName','tbl_user_details.profile_pic','tbl_classes.class_name')
+        ->select('tbl_user_details.user_id','tbl_user_details.student_id', 'tbl_user_details.firstName', 'tbl_user_details.lastName','tbl_user_details.profile_pic',
+        'tbl_classes.class_name','tbl_classes.id as class_id')
         ->leftjoin('users','users.id','=','tbl_userclasses.user_id')
         ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
         ->leftjoin('tbl_classes','tbl_classes.id','=','tbl_userclasses.class_id')
@@ -177,7 +177,11 @@ class TeacherProfileController extends Controller
         ->orderBy('tbl_user_details.lastName')
         ->get();
 
-        return $allStudent;
+        $class = Tbl_class::where('course_id', $id)
+        ->select('tbl_classes.id','tbl_classes.class_name')
+        ->get();
+
+        return ['student_list'=> $allStudent, 'class_name'=> $class] ;
     }
 
 

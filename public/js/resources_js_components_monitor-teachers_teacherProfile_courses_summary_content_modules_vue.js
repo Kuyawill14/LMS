@@ -118,6 +118,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -190,9 +198,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(function () {
-      _this.isGetting = false;
       _this.moduleLength = _this.getmain_module.length;
       _this.mainModule = _this.getmain_module;
+      setTimeout(function () {
+        return _this.isGetting = false;
+      }, 700);
     });
     this.$store.dispatch('fetchSubModule', this.course_details.course_id);
   }), _methods),
@@ -2896,6 +2906,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -3045,9 +3056,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3072,7 +3083,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3162,6 +3173,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -8686,36 +8698,25 @@ var render = function() {
       _vm.isGetting
         ? _c(
             "v-row",
-            {
-              staticStyle: { "margin-top": "13rem" },
-              attrs: { "align-content": "center", justify: "center" }
-            },
-            [
-              _c(
+            _vm._l(5, function(n) {
+              return _c(
                 "v-col",
-                {
-                  staticClass: "text-subtitle-1 text-center",
-                  attrs: { cols: "12" }
-                },
-                [_vm._v("\n            Loading Modules\n        ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "6" } },
+                { key: n, attrs: { cols: "12" } },
                 [
-                  _c("v-progress-linear", {
-                    attrs: {
-                      color: "primary",
-                      indeterminate: "",
-                      rounded: "",
-                      height: "6"
-                    }
-                  })
+                  _c(
+                    "v-card",
+                    { staticClass: "pa-3", attrs: { elevation: "0" } },
+                    [
+                      _c("v-skeleton-loader", {
+                        attrs: { "max-width": "420", type: "list-item-avatar" }
+                      })
+                    ],
+                    1
+                  )
                 ],
                 1
               )
-            ],
+            }),
             1
           )
         : _vm._e(),

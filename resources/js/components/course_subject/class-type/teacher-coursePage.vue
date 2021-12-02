@@ -23,7 +23,7 @@
             </v-col>
         </v-row>
 
-
+<!-- 
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
                 <v-icon style="font-size:14rem">
@@ -36,7 +36,7 @@
                     <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-container> -->
 
 
         <v-dialog v-model="dialog" width="400px">
@@ -68,7 +68,7 @@
             </v-card>
         </v-dialog>
 
-        <div v-if="coursesLength != 0 && isGetting == false">
+        <div>
             <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
@@ -92,11 +92,15 @@
                     <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id"
                         label="Semester" v-model="semester_id" outlined small @change="semesterFilter()"
                         :disabled="school_year_id == 0"></v-select>
-
-
                 </v-col>
             </v-row>
-            <v-row class="mt-3">
+
+              <v-row v-if="isGetting" >
+                <v-col :height="$vuetify.breakpoint.lgAndUp ? 200 : 140" v-for="n in 3" :key="n" cols="12" xl="3" lg="3" md="6">
+                    <v-skeleton-loader  type="image, article"></v-skeleton-loader>
+                </v-col>
+            </v-row>
+            <v-row class="mt-3"  v-if="coursesLength != 0 && isGetting == false">
                 <v-col cols="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">

@@ -2,12 +2,20 @@
     <div>
 
        
-        <v-row v-if="isGetting" align-content="center" style="margin-top: 10rem" justify="center">
+        <!-- <v-row v-if="isGetting" align-content="center" style="margin-top: 10rem" justify="center">
             <v-col class="text-subtitle-1 text-center" cols="12">
                 Loading Classworks
             </v-col>
             <v-col cols="6">
                 <v-progress-linear color="primary" indeterminate rounded height="6"></v-progress-linear>
+            </v-col>
+        </v-row>
+ -->
+         <v-row v-if="isGetting"  >
+            <v-col v-for="n in 6" :key="n" cols="12" md="4" >
+                <v-card elevation="0" class="pa-4">
+                     <v-skeleton-loader type="list-item-avatar-two-line"></v-skeleton-loader>
+                </v-card>
             </v-col>
         </v-row>
         
@@ -57,12 +65,8 @@
                                             </template>
                                         
                                             <v-list rounded >
-                                            
                                                 <v-list-item link ma-0 pa-0>
                                                     <v-list-item-title><v-icon left>mdi-eye</v-icon>View</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item  link ma-0 pa-0>
-                                                    <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -79,7 +83,30 @@
                         <v-row no-gutters>
                             <v-col cols="8" class=" pl-5" >
                                 <!-- <div  class="mb-5 ml-5 text-caption">{{item.instruction}}</div> -->
-                                   <span class="mb-5 text-sm-body-2 " v-html="item.instruction"></span>
+                                  <!--  <span class="mb-5 text-sm-body-2 " v-html="item.instruction"></span> -->
+                                <v-row no-gutters class="pt-2">
+                                    <v-col cols="12"  >
+                                        <div  class="ml-5 font-weight-bold ">Publish to class:</div>
+                                    </v-col>
+                                    <v-col cols="12"  >
+                                    <v-list class="pt-0 pb-0">
+                                        <v-list-item v-for="(item, i) in item.publish_in" :key="i">
+                                            <v-list-item-avatar >
+                                                <v-icon>mdi-account-multiple</v-icon>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content class="pl-0">
+                                                <v-list-item-title class="font-weight-medium">
+                                                    {{item.class_name}}
+                                                </v-list-item-title>
+                                                <v-list-item-subtitle>
+                                                    <span class="font-weight-medium">Due:</span>
+                                                    {{item.availability == 1 ? format_date(item.to_date) : 'Always available'}}
+                                                </v-list-item-subtitle>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
+                                    </v-col>
+                                </v-row>
                             </v-col>
                                 <v-col cols="4" class="pl-3">
                                     <div class="flex-column">
@@ -89,32 +116,7 @@
                             </v-col>
                         </v-row>
 
-                        <v-row no-gutters class="pt-2">
-                            <v-col cols="12"  >
-                                <div  class="ml-5 font-weight-bold ">Publish to class:</div>
-                            </v-col>
-
-                            <v-col cols="12"  >
-
-                               <v-list class="pt-0 pb-0">
-                                   <v-list-item v-for="(item, i) in item.publish_in" :key="i">
-                                       <v-list-item-avatar >
-                                           <v-icon>mdi-account-multiple</v-icon>
-                                       </v-list-item-avatar>
-                                       <v-list-item-content class="pl-0">
-                                           <v-list-item-title class="font-weight-medium">
-                                               {{item.class_name}}
-                                           </v-list-item-title>
-                                           <v-list-item-subtitle>
-                                               <span class="font-weight-medium">Due:</span>
-                                              {{item.availability == 1 ? format_date(item.to_date) : 'Always available'}}
-                                           </v-list-item-subtitle>
-                                       </v-list-item-content>
-                                   </v-list-item>
-                               </v-list>
-                            </v-col>
-                                
-                        </v-row>
+                      
                         
                     </v-expansion-panel-content>
                     </v-expansion-panel>
@@ -146,7 +148,7 @@ export default {
             axios.get('/api/admin/teachers/classworkList/'+this.course_details.course_id)
             .then(res=>{
                 this.classworkList = res.data;
-                 this.isGetting = false;
+                setTimeout(() => (this.isGetting = false), 700);
             })
         }
 

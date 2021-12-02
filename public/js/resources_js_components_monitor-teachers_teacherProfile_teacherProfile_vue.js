@@ -285,11 +285,9 @@ var coursesProgress = function coursesProgress() {
   }),
   mounted: function mounted() {
     this.teacher_id = this.get_UserRole == "ProgramChair" ? this.$route.params.id : this.$route.query.id;
-    console.log(this.$route);
     this.getTeacherSummary();
     this.getUserDetails();
-    this.fetchAllSchoolyear_semester();
-    console.log(this.get_UserRole); // this.isloading = !this.isloading;
+    this.fetchAllSchoolyear_semester(); // this.isloading = !this.isloading;
   }
 });
 
