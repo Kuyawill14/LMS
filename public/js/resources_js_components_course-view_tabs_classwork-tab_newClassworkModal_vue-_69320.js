@@ -9051,175 +9051,186 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "mb-0 pb-0 pt-0 mt-0",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _c(
-                            "v-btn",
+                      _vm.form.type == "Subjective Type"
+                        ? _c(
+                            "v-col",
                             {
-                              staticClass: "mb-2",
-                              attrs: {
-                                color: "primary",
-                                text: "",
-                                rounded: ""
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.$refs.inputFile.$refs.input.click()
-                                }
-                              }
+                              staticClass: "mb-0 pb-0 pt-0 mt-0",
+                              attrs: { cols: "12" }
                             },
                             [
-                              _c("v-icon", { attrs: { left: "" } }, [
-                                _vm._v(
-                                  "\n                                  mdi-attachment\n                              "
-                                )
-                              ]),
-                              _vm._v(
-                                "\n                              Attach file\n                          "
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("v-file-input", {
-                            ref: "inputFile",
-                            staticClass: "d-none",
-                            attrs: {
-                              multiple: "",
-                              accept:
-                                ".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain"
-                            },
-                            on: { change: _vm.onFileChange }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "v-list",
-                            { staticClass: "ma-0 pa-0", attrs: { dense: "" } },
-                            _vm._l(_vm.file_name, function(item, index) {
-                              return _c(
-                                "v-list-item",
-                                { key: index, staticClass: "ma-0 pa-0" },
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "mb-2",
+                                  attrs: {
+                                    color: "primary",
+                                    text: "",
+                                    rounded: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$refs.inputFile.$refs.input.click()
+                                    }
+                                  }
+                                },
                                 [
-                                  _c(
-                                    "v-list-item-avatar",
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v(
+                                      "\n                                  mdi-attachment\n                              "
+                                    )
+                                  ]),
+                                  _vm._v(
+                                    "\n                              Attach file\n                          "
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-file-input", {
+                                ref: "inputFile",
+                                staticClass: "d-none",
+                                attrs: {
+                                  multiple: "",
+                                  accept:
+                                    ".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain"
+                                },
+                                on: { change: _vm.onFileChange }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-list",
+                                {
+                                  staticClass: "ma-0 pa-0",
+                                  attrs: { dense: "" }
+                                },
+                                _vm._l(_vm.file_name, function(item, index) {
+                                  return _c(
+                                    "v-list-item",
+                                    { key: index, staticClass: "ma-0 pa-0" },
                                     [
                                       _c(
-                                        "v-icon",
-                                        {
-                                          attrs: {
-                                            large: "",
-                                            color:
-                                              item.extension == "pdf"
-                                                ? "red"
-                                                : item.extension == "docx"
-                                                ? "blue"
-                                                : item.extension == "link"
-                                                ? "green"
-                                                : item.extension == "jpg" ||
-                                                  item.extension == "jpeg" ||
-                                                  item.extension == "gif" ||
-                                                  item.extension == "svg" ||
-                                                  item.extension == "png" ||
-                                                  item.extension == "bmp"
-                                                ? "info"
-                                                : ""
-                                          }
-                                        },
+                                        "v-list-item-avatar",
                                         [
-                                          _vm._v(
-                                            "\n                                              " +
-                                              _vm._s(
-                                                item.extension == "pdf"
-                                                  ? "mdi-file-pdf"
-                                                  : item.extension == "txt"
-                                                  ? "mdi-file-pdf"
-                                                  : item.extension == "docx"
-                                                  ? "mdi-file-word"
-                                                  : item.extension == "link"
-                                                  ? "mdi-file-link"
-                                                  : item.extension == "jpg" ||
-                                                    item.extension == "jpeg" ||
-                                                    item.extension == "gif" ||
-                                                    item.extension == "svg" ||
-                                                    item.extension == "png" ||
-                                                    item.extension == "bmp"
-                                                  ? "mdi-image"
-                                                  : ""
-                                              ) +
-                                              "\n                                        "
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                large: "",
+                                                color:
+                                                  item.extension == "pdf"
+                                                    ? "red"
+                                                    : item.extension == "docx"
+                                                    ? "blue"
+                                                    : item.extension == "link"
+                                                    ? "green"
+                                                    : item.extension == "jpg" ||
+                                                      item.extension ==
+                                                        "jpeg" ||
+                                                      item.extension == "gif" ||
+                                                      item.extension == "svg" ||
+                                                      item.extension == "png" ||
+                                                      item.extension == "bmp"
+                                                    ? "info"
+                                                    : ""
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                              " +
+                                                  _vm._s(
+                                                    item.extension == "pdf"
+                                                      ? "mdi-file-pdf"
+                                                      : item.extension == "txt"
+                                                      ? "mdi-file-pdf"
+                                                      : item.extension == "docx"
+                                                      ? "mdi-file-word"
+                                                      : item.extension == "link"
+                                                      ? "mdi-file-link"
+                                                      : item.extension ==
+                                                          "jpg" ||
+                                                        item.extension ==
+                                                          "jpeg" ||
+                                                        item.extension ==
+                                                          "gif" ||
+                                                        item.extension ==
+                                                          "svg" ||
+                                                        item.extension ==
+                                                          "png" ||
+                                                        item.extension == "bmp"
+                                                      ? "mdi-image"
+                                                      : ""
+                                                  ) +
+                                                  "\n                                        "
+                                              )
+                                            ]
                                           )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(_vm._s(item.name))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item-subtitle",
-                                        [
-                                          _vm.uploadIndex == index
-                                            ? _c("v-progress-linear", {
-                                                attrs: {
-                                                  color: "primary",
-                                                  indeterminate: "",
-                                                  rounded: "",
-                                                  height: "5"
-                                                }
-                                              })
-                                            : _vm._e()
                                         ],
                                         1
-                                      )
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-action",
-                                    [
+                                      ),
+                                      _vm._v(" "),
                                       _c(
-                                        "v-btn",
-                                        {
-                                          attrs: { icon: "" },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.RemoveFile(index)
-                                            }
-                                          }
-                                        },
+                                        "v-list-item-content",
                                         [
-                                          _c("v-icon", [
-                                            _vm._v(
-                                              "\n                                        mdi-close\n                                        "
-                                            )
-                                          ])
+                                          _c("v-list-item-title", [
+                                            _vm._v(_vm._s(item.name))
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item-subtitle",
+                                            [
+                                              _vm.uploadIndex == index
+                                                ? _c("v-progress-linear", {
+                                                    attrs: {
+                                                      color: "primary",
+                                                      indeterminate: "",
+                                                      rounded: "",
+                                                      height: "5"
+                                                    }
+                                                  })
+                                                : _vm._e()
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-action",
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: { icon: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.RemoveFile(index)
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-icon", [
+                                                _vm._v(
+                                                  "\n                                        mdi-close\n                                        "
+                                                )
+                                              ])
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
                                     ],
                                     1
                                   )
-                                ],
+                                }),
                                 1
                               )
-                            }),
+                            ],
                             1
                           )
-                        ],
-                        1
-                      )
+                        : _vm._e()
                     ],
                     1
                   )

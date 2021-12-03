@@ -57,8 +57,14 @@
         </v-dialog>
 
         
-
-        <div >
+        <div v-if="isGetting" >
+             <v-row  >
+                <v-col :height="$vuetify.breakpoint.lgAndUp ? 200 : 140" v-for="n in 4" :key="n" cols="12" xl="3" lg="3" md="6">
+                    <v-skeleton-loader  type="image, article"></v-skeleton-loader>
+                </v-col>
+            </v-row>
+        </div>
+        <div  v-if="coursesLength != 0 && isGetting == false">
             
             <v-row style="margin-bottom: -40px;">
                 <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
@@ -77,14 +83,10 @@
             </v-row>
 
           
-            <v-row v-if="isGetting" >
-                <v-col :height="$vuetify.breakpoint.lgAndUp ? 200 : 140" v-for="n in 3" :key="n" cols="12" xl="3" lg="3" md="6">
-                    <v-skeleton-loader  type="image, article"></v-skeleton-loader>
-                </v-col>
-            </v-row>
+           
            
 
-            <v-row class="mt-3" v-if="coursesLength != 0 && isGetting == false">
+            <v-row class="mt-3" >
                 <v-col cols="12" xl="3" lg="3" md="6"  v-for="(item, i) in allClassesData" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">

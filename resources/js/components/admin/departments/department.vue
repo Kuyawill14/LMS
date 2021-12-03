@@ -20,11 +20,12 @@
 
                     </v-card-title>
                     <v-divider></v-divider>
-                    <v-data-table dense :headers="header" :items="departmentsList" :items-per-page="5"
+                    <v-data-table :headers="header" :items="departmentsList" :items-per-page="5"
                         class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="item.id">
+                                     <td class="text-center"> <v-img max-width="60" max-height="60" :src="item.logo" ></v-img></td>
                                     <td>{{item.short_name}}</td>
                                     <td>{{item.name}}</td>
                                     <td style="width:8%">
@@ -70,43 +71,97 @@
                     <v-form class="text-center " ref="form" v-model="valid" lazy-validation>
                         <v-row class="pa-5">
 
+                              <v-col class="ma-0 pa-0 text-center" cols="12" md="12">
+                                 <v-avatar  :tile="form.logo != null && form.logo != ''" size="130" @click="$refs.refdepartment.$refs.input.click()">
+                                    <v-hover >
+                                        <template v-slot:default="{ hover }">
+                                            <div>
+                                            <v-avatar :tile="form.logo != null && form.logo != ''" color="#0D8ABC"  size="130" style="cursor: pointer">
+                                                <v-icon style="font-size:4rem" color="white"  v-if="form.logo == null || form.logo == ''">mdi-cloud-upload-outline</v-icon>
+                                            <v-img contain v-else alt="Proflie" 
+                                            :src="form.logo">
+                                            <v-row v-if="isUploading" class="fill-height ma-0" align="center" justify="center">
+                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                            </v-row>
+
+                                            </v-img>
+                                            </v-avatar>
+                                                <v-fade-transition>
+                                                    <v-overlay v-if="hover" absolute color="#212121" style="cursor: pointer;">
+                                                        <div class=""><v-icon small>mdi-camera</v-icon> {{!isUploading ? 'Upload' : 'Uploading'}} </div>
+                                                    </v-overlay>
+                                                </v-fade-transition>
+                                            </div>
+                                        </template>
+                                    </v-hover>
+                                    </v-avatar>
+                                   <!--  <input
+                                    :disabled="isUploading"
+                                    ref="fileInput"
+                                    class="d-none"
+                                    type="file"
+                                    accept="image/jpeg"
+                                    @change="onFileChange"> -->
+                                      <v-file-input
+                                      @change="onFileChange"
+                                        class="d-none"
+                                        outlined
+                                        ref="refdepartment"
+                                        v-model="file"
+                                        :rules="Logorules"
+                                        prepend-icon=""
+                                        accept="image/png, image/jpeg, image/bmp"
+                                        prepend-inner-icon="mdi-camera"
+                                        label="Department Logo">
+                                    </v-file-input>
+                             </v-col>
+                             <v-col class="ma-0 pa-0 mb-5" cols="12" md="12">
+                                <h3> Department Logo</h3>
+                            </v-col>
+
                               <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="short_name" />
-                              <!--   <v-text-field :rules="Rules" label="Department Name" name="name"
-                                    v-model="form.name" type="text" color="primary" outlined /> -->
                                      <v-textarea
                                     class="mb-0 pb-0"
-                                   v-model="form.short_name" 
+                                    v-model="form.short_name" 
                                     type="text" 
                                     rows="1"
-                                        name="name"
-                                         :rules="Rules"
-                                        label="Short Name"
-                                        placeholder="Eg. CCSICT, COC, COE , etc"
-                                        auto-grow
-                                      outlined
-                                        ></v-textarea>
+                                    name="name"
+                                    label="Short Name"
+                                    placeholder="Eg. CCSICT, COC, COE , etc"
+                                    auto-grow
+                                    outlined
+                                    ></v-textarea>
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="name" />
-                              <!--   <v-text-field :rules="Rules" label="Department Name" name="name"
-                                    v-model="form.name" type="text" color="primary" outlined /> -->
                                      <v-textarea
                                     class="mb-0 pb-0"
                                    v-model="form.name" 
                                     type="text" 
                                     rows="1"
-                                        name="name"
-                                         :rules="Rules"
-                                        label="Department Name"
-                                        auto-grow
-                                      outlined
-                                        ></v-textarea>
+                                    name="name"
+
+                                    label="Department Name"
+                                    auto-grow
+                                    outlined
+                                    ></v-textarea>
                             </v-col>
 
-                           
+                           <!--  <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                    <v-file-input
+                                    outlined
+                                    v-model="file"
+                                    :rules="Logorules"
+                                    prepend-icon=""
+                                    accept="image/png, image/jpeg, image/bmp"
+                                    prepend-inner-icon="mdi-camera"
+                                    label="Department Logo"
+                                    ></v-file-input>
+                                </v-col> -->
 
+                        
                            
                         </v-row>
                     </v-form>
@@ -114,7 +169,7 @@
                 <v-card-actions>
 
                     <v-spacer></v-spacer>
-                    <v-btn text @click="dialog = false;$refs.form.reset()">Cancel</v-btn>
+                    <v-btn text @click="clearData()">Cancel</v-btn>
                     <v-btn :loading="isAdding" text color="primary" @click="validate()">
                         {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
                 </v-card-actions>
@@ -156,6 +211,11 @@
             return {
                 departmentsList:[],
                 header: [
+                     {
+                        text: 'Department Logo',
+                        value: 'logo',
+                        align: 'start',
+                    },
                     {
                         text: 'Department Short Name',
                         value: 'name',
@@ -181,15 +241,21 @@
                  form: new Form({
                     short_name: "",
                     name: "",
-                  
+                    logo: '',
                 }),
+                file: null,
                 IsDeleting: false,
                 deleteIndex: null,
                 deleteId: null,
                 isUpdateId: null,
                 isUpdateIndex: null,
-                isAdding: false
-              
+                isAdding: false,
+                Logorules: [
+                    value => !value || value.size < 10000000 || 'Avatar size should be less than 10 MB!',
+                ],
+                isUploading: false,
+                old_logo_path: null,
+                        
             }
         },
 
@@ -201,13 +267,18 @@
                 })
             },
            async addDepartment(){
-               axios.post('/api/admin/department/add', this.form).then((res)=>{
+
+               let fd = new FormData;
+               fd.append('short_name', this.form.short_name);
+               fd.append('name', this.form.name);
+               fd.append('logo', this.file);
+               axios.post('/api/admin/department/add', fd).then((res)=>{
                   
-                   if(res.status == 201){
-                        this.departmentsList.push(res.data);
-                       
+                   if(res.data.success == true){
+                       this.departmentsList.push(res.data.new_data);
                        this.dialog = false;
-                        this.isAdding = false;
+                       this.isAdding = false;
+                       this.file = null;
                        this.$refs.form.reset();
                    }
                })
@@ -237,6 +308,8 @@
             },
             OpendepartmentDialog(data, index){
                 this.form.name = data.name;
+                this.form.logo = data.logo;
+                this.old_logo_path = data.logo;
                 this.form.short_name = data.short_name;
                 this.isUpdateId = data.id;
                 this.isUpdateIndex = index;
@@ -244,18 +317,36 @@
                 this.dialog = true;
             },
             async UpdateDepartmentDetails(){
-                axios.put('/api/admin/department/update/'+this.isUpdateId , this.form)
+                let fd = new FormData;
+                fd.append('short_name', this.form.short_name);
+                fd.append('name', this.form.name);
+                fd.append('old_logo_path', this.old_logo_path);
+                fd.append('logo', this.file);
+
+                axios.post('/api/admin/department/update/'+this.isUpdateId , fd)
                 .then(res=>{
                     if(res.data.success == true){
                         this.departmentsList[ this.isUpdateIndex].name = this.form.name;
                         this.departmentsList[ this.isUpdateIndex].short_name = this.form.short_name;
-                         this.isAdding = false;
+                        this.form.logo = this.data.path;
+                        this.isAdding = false;
                         this.dialog = false;
-                         this.$refs.form.reset();
+                        this.file = null;
+                        this.$refs.form.reset();
                     }
                 })
+            },
+              onFileChange(file) {     
+                this.form.logo =   URL.createObjectURL(file)
+            },
+            clearData(){
+                this.dialog = false;
+                this.form.logo = null;
+                this.$refs.form.reset()
             }
         },
+
+       
 
         mounted() {
             this.fetchDeparmentList();
