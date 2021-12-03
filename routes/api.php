@@ -371,7 +371,7 @@ Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
 
 
 
-
+    Route::post('/users/bulk_add', [ManageUserController::class, 'bulkadduser']);
 
 
     Route::get('/studentAndteacher/count', [AdminController::class, 'getAllStudentAndTeacherCount']);

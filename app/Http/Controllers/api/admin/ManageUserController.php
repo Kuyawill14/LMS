@@ -43,6 +43,97 @@ class ManageUserController extends Controller
     }
     
 
+
+
+    public function bulkadduser(Request $request)
+    {
+
+        $usertype = $request->user_type;
+        $users_data = $request->users_data;
+        $department_id = $request->department_id;
+        DB::beginTransaction(); // <-- first line  
+
+        try{
+             
+            foreach($users_data as $user) {
+                // echo $user['name'];
+            
+                
+            
+
+                $user_data_details = null;
+                $user_login_details = [];
+
+                $splitName = explode(", ",$user['name']);
+
+                $last_name =  $splitName[0];
+
+                $first_name_split = explode(" ", $splitName[1]);
+                $first_name_split_1 = explode(" ", $splitName[1]);
+
+
+                $middle_name =  $first_name_split_1[count($first_name_split_1)-1];
+                array_pop($first_name_split_1);
+
+                $first_name = count($first_name_split) > 1  ?  implode(" ", $first_name_split_1) : $first_name_split[0];
+
+                $email = $user['email'];
+
+                $userFind = User::where('email',$email)->count();
+
+
+                if($userFind == 0 ) {
+                    $New = User::create([
+                        'email' =>  $email,
+                        'password' => Hash::make($last_name . '@2022'),
+                        'role' =>  $usertype,
+                        'email_verified_at' =>  date('Y-m-d H:i:s'),
+                    ]);
+        
+        
+                    $details = new tbl_userDetails;
+                    $details->user_id = $New->id;
+                    $details->firstName = $first_name;;
+                    $details->middleName =$middle_name;
+                    $details->lastName =$last_name;
+                    $details->save();
+        
+        
+
+
+                    if($usertype != 'CampusDirector') {
+                        $departments = new tbl_user_departments;
+                        $departments->user_id = $New->id;
+                        $departments->department_id = $request->department['id'];
+                        $departments->save();
+                    }
+                
+                // array_push($user_data_details, $details);
+                array_push($user_login_details, $New);
+                // array_push($user_departm,_details, $New);
+                }
+            
+
+
+            
+                $childModelSaved = true; 
+
+            }
+
+        } catch(Exception $e)
+        {
+            $childModelSaved = false;
+            DB::rollBack();
+        }
+
+        if($childModelSaved) {
+            DB::commit();
+        }
+
+    
+           return ['account'=>$user_login_details];
+    
+    }
     
     public function adduser(Request $request, $usertype)
     {

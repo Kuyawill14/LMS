@@ -1,15 +1,40 @@
 <template>
     <div class="pt-4">
-        <h2>
-            Manage Instructors
-        </h2>
-        <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
+
+        <v-row>
+            <v-col cols="12" lg="9">
+                <h2>
+                    Manage Instructors
+                </h2>
+            </v-col>
+
+
+            <v-col cols="12" lg="3" style="display:flex;justify-content: end;">
+                <v-btn dark color="blue" class="mr-3" @click="openAdd_multiple_user()">
+                    <v-icon>mdi-upload</v-icon>
+                    Import JSON
+                </v-btn>
+
+                <v-btn color="primary" dark @click="openAdd()">
+                    <v-icon>mdi-account-plus-outline</v-icon>
+                    Add User
+                </v-btn>
+            </v-col>
+
+
+        </v-row>
+
+
+        <!-- <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
-        </v-btn>
+        </v-btn> -->
+
+
+
+
+
         <v-row class="pt-2">
             <v-col>
-
-
                 <v-card v-if="loading">
                     <v-skeleton-loader :loading="loading" type="table"></v-skeleton-loader>
                 </v-card>
@@ -39,12 +64,12 @@
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                     <td> {{ item.department_short_name}} </td>
+                                    <td> {{ item.department_short_name}} </td>
                                     <td>
                                         <v-icon :color="item.isVerified != null ? 'success' : ''">
                                             {{item.isVerified ? 'mdi-check' : ''}}</v-icon>
                                     </td>
-                                   
+
                                     <td>
                                         <v-btn color="primary" :disabled="IsResetting && IsResetting_id == item.user_id"
                                             @click="updatePass(item.user_id)">
@@ -139,11 +164,11 @@
                                     outlined />
                             </v-col>
 
-                            
+
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" v-model="form.department" item-value="id" item-text="name" return-object
-                                    label="Department" dense outlined></v-select>
+                                <v-select :items="department" v-model="form.department" item-value="id" item-text="name"
+                                    return-object label="Department" dense outlined></v-select>
                             </v-col>
                         </v-row>
                     </v-form>
@@ -157,7 +182,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
 
 
         <v-dialog v-model="Deldialog" persistent max-width="290">
@@ -177,14 +201,62 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+
+
+
+        <v-dialog v-model="dialog_multi_user" width="500" persistent>
+            <v-card>
+                <v-card-title class="">
+                    Bulk Add Teachers
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-container>
+
+                    <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                        <v-row class="pa-5">
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-select :items="department" v-model="department_id" item-value="id" item-text="name"
+                                    return-object label="Department" dense outlined></v-select>
+                            </v-col>
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-textarea outlined v-model="json_users_text_area" label="Paste JSON Here"
+                                    :disabled="json_users_file != null "
+                                    placeholder="[ {'name': 'value' , 'email': 'value' } ]"></v-textarea>
+                            </v-col>
+                            <v-col class="text-center py-0 my-0">
+                                Or
+                            </v-col>
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+
+                                <v-file-input accept="application/json" chips outlined label="Upload JSON File"
+                                    @change="onFileChange" :disabled="json_users_text_area != null ">
+                                </v-file-input>
+                            </v-col>
+
+                        </v-row>
+                    </v-form>
+                </v-container>
+                <v-card-actions>
+
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary"
+                        @click="dialog_multi_user = false;json_users_text_area='';json_users_file = null;">Cancel
+                    </v-btn>
+                    <v-btn text @click="addBulk()" :loading="IsBulkadding" :disabled="IsBulkadding">
+                        Add Bulk</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 
 
 
 </template>
-<style scoped>
 
-</style>
 
 <script>
     import {
@@ -195,10 +267,13 @@
     export default {
         data: function () {
             return {
-                department:[],
+                IsBulkadding: false,
+
+                department: [],
                 user_type: 'Teacher',
                 Deldialog: false,
                 dialog: false,
+                dialog_multi_user: false,
                 temp_id: '',
                 IsDeleting: false,
                 IsAddUpdating: false,
@@ -219,6 +294,7 @@
                     verified: null,
                     department: null
                 }),
+
 
                 nameRules: [
                     v => !!v || 'Field is required',
@@ -266,7 +342,7 @@
                         value: 'email',
                         align: 'start',
                     },
-                     {
+                    {
                         text: 'Deparment',
                         align: 'start',
                     },
@@ -287,8 +363,36 @@
                 teacherList: [],
                 loading: true,
 
+                direction: 'top',
+                fab: false,
+                fling: false,
+                hover: false,
+                tabs: null,
+                top: false,
+                right: true,
+                bottom: true,
+                left: false,
+                transition: 'slide-y-reverse-transition',
+                json_users_file: null,
+                json_users_text_area: null,
+                department_id: null
+
             }
 
+        },
+        watch: {
+            top(val) {
+                this.bottom = !val
+            },
+            right(val) {
+                this.left = !val
+            },
+            bottom(val) {
+                this.top = !val
+            },
+            left(val) {
+                this.right = !val
+            },
         },
         computed: {
             ...mapGetters(["getTeachers", "filterTeacher"]),
@@ -309,6 +413,76 @@
         },
 
         methods: {
+            addBulk() {
+
+                if (this.department != null && ( this.json_users_file != null || this
+                    .json_users_text_area != null)) {
+                    let json_users_data = this.json_users_file != null ? this.json_users_file : JSON.parse(this
+                        .json_users_text_area);
+                    this.IsBulkadding = true;
+                    axios.post(`/api/admin/users/bulk_add`, {
+                            user_type: this.user_type,
+                            users_data: json_users_data,
+                            department: this.department_id
+                        })
+                        .then((response) => {
+
+                            if (response.status == 200) {
+
+                                this.$refs.RegisterForm.reset()
+
+                                this.$store.dispatch('fetchAllTeachers').then(() => {
+                                    this.teacherList = this.getTeachers;
+                                    this.valid = true;
+                                    this.dialog_multi_user = false;
+                                    this.toastSuccess('User successfully Added!')
+                                    this.IsBulkadding = false;
+                                    this.json_users_text_area = null;
+                                    this.json_users_file = null;
+                                });
+
+                            } else {
+                                this.IsBulkadding = false;
+                                this.toastError('Something went wrong!')
+                                this.$refs.RegisterForm.reset();
+                                this.json_users_text_area = null;
+                                this.json_users_file = null;
+
+                            }
+                        })
+                        .catch((err) => {
+                            this.IsBulkadding = false;
+                            this.toastError('Something went wrong!');
+                            this.$refs.RegisterForm.reset();
+                            this.json_users_text_area = null;
+                            this.json_users_file = null;
+                        })
+                }
+
+            },
+            onFileChange(file) {
+
+                if (file != null) {
+                    this.readFile(file);
+                } else {
+                    this.json_users_file = null;
+                }
+
+
+
+
+
+            },
+            readFile(file) {
+                let reader = new FileReader();
+                reader.onload = e => {
+                    // console.log(e.target.result);
+                    let json = JSON.parse(e.target.result);
+                    this.json_users_file = json;
+                    this.json_users_ready = true;
+                };
+                reader.readAsText(file);
+            },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
                 this.form.password = 'ISU-' + tmpLastname;
@@ -319,6 +493,12 @@
                 this.type = 'add'
                 this.dialog = true;
             },
+
+            openAdd_multiple_user() {
+                this.dialog_multi_user = true;
+            },
+
+
             openEdit(user_id) {
 
                 this.type = 'edit'
@@ -351,7 +531,7 @@
                 axios.delete('/api/admin/users/remove/' + this.delId)
                     .then((res) => {
                         if (res.status == 200) {
-                            this.getTeachers.splice(this.deleteIndex, 1);
+                            this.teacherList.splice(this.deleteIndex, 1);
                             this.toastSuccess('User successfully removed!')
                             this.IsDeleting = false;
                             this.deleteIndex = null;
@@ -439,16 +619,16 @@
 
 
             },
-                fetchDeparmentList() {
+            fetchDeparmentList() {
                 axios.get('/api/admin/department/all')
-                .then((res) => {
-                    this.department = res.data;
-                })
+                    .then((res) => {
+                        this.department = res.data;
+                    })
             },
         },
 
         mounted() {
-       this.fetchDeparmentList();
+            this.fetchDeparmentList();
             this.$store.dispatch('fetchAllTeachers').then(() => {
                 this.teacherList = this.getTeachers;
                 this.loading = false;
