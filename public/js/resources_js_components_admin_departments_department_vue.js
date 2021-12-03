@@ -376,7 +376,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   if (res.data.success == true) {
                     _this4.departmentsList[_this4.isUpdateIndex].name = _this4.form.name;
                     _this4.departmentsList[_this4.isUpdateIndex].short_name = _this4.form.short_name;
-                    _this4.form.logo = _this4.data.path;
+                    _this4.departmentsList[_this4.isUpdateIndex].logo = res.data.path;
                     _this4.isAdding = false;
                     _this4.dialog = false;
                     _this4.file = null;
@@ -814,9 +814,7 @@ var render = function() {
                 _vm._v(
                   "\n                " +
                     _vm._s(
-                      this.type == "add"
-                        ? "Add Department"
-                        : "Update Department"
+                      _vm.type == "add" ? "Add Department" : "Update Department"
                     ) +
                     "\n            "
                 )
@@ -890,7 +888,10 @@ var render = function() {
                                                       tile:
                                                         _vm.form.logo != null &&
                                                         _vm.form.logo != "",
-                                                      color: "#0D8ABC",
+                                                      color:
+                                                        _vm.type == "add"
+                                                          ? "#0D8ABC"
+                                                          : "",
                                                       size: "130"
                                                     }
                                                   },

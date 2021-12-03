@@ -62,7 +62,7 @@
         <v-dialog persistent v-model="dialog" width="500">
             <v-card>
                 <v-card-title class="">
-                    {{this.type == "add" ? 'Add Department' :  'Update Department'}}
+                    {{type == "add" ? 'Add Department' :  'Update Department'}}
                 </v-card-title>
                 <v-divider></v-divider>
             
@@ -76,7 +76,7 @@
                                     <v-hover >
                                         <template v-slot:default="{ hover }">
                                             <div>
-                                            <v-avatar :tile="form.logo != null && form.logo != ''" color="#0D8ABC"  size="130" style="cursor: pointer">
+                                            <v-avatar :tile="form.logo != null && form.logo != ''" :color="type == 'add' ? '#0D8ABC' : ''"  size="130" style="cursor: pointer">
                                                 <v-icon style="font-size:4rem" color="white"  v-if="form.logo == null || form.logo == ''">mdi-cloud-upload-outline</v-icon>
                                             <v-img contain v-else alt="Proflie" 
                                             :src="form.logo">
@@ -328,7 +328,7 @@
                     if(res.data.success == true){
                         this.departmentsList[ this.isUpdateIndex].name = this.form.name;
                         this.departmentsList[ this.isUpdateIndex].short_name = this.form.short_name;
-                        this.form.logo = this.data.path;
+                        this.departmentsList[ this.isUpdateIndex].logo = res.data.path;
                         this.isAdding = false;
                         this.dialog = false;
                         this.file = null;
