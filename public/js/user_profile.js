@@ -890,11 +890,15 @@ var render = function() {
                                   outlined: ""
                                 },
                                 model: {
-                                  value: _vm.UserDetails.department,
+                                  value: _vm.UserDetails.department_id,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.UserDetails, "department", $$v)
+                                    _vm.$set(
+                                      _vm.UserDetails,
+                                      "department_id",
+                                      $$v
+                                    )
                                   },
-                                  expression: "UserDetails.department"
+                                  expression: "UserDetails.department_id"
                                 }
                               })
                             ],
