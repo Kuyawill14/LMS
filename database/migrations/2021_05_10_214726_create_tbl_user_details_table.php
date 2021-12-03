@@ -17,7 +17,7 @@ class CreateTblUserDetailsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->string('firstName');
-            $table->string('middleName');
+            $table->string('middleName')->nullable();
             $table->string('lastName');
             $table->integer('student_id')->nullable();
             $table->integer('department')->nullable();

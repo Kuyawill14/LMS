@@ -108,30 +108,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
   data: function data() {
     return {
+      docpath: window.location.origin + '/storage/',
       moduleName: '',
       isEdit: false,
       itemType: '',
@@ -152,6 +135,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module"])),
   methods: (_methods = {
+    openInNewTab: function openInNewTab(file, link, type) {
+      if (type == 'Link') {
+        window.open(link, '_blank').focus();
+      } else {
+        window.open(this.docpath + file, '_blank').focus();
+      }
+
+      console.log('url: ', file);
+      console.log('link: ', link);
+      console.log('type: ', type);
+    },
     format_date: function format_date(value) {
       if (value) {
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
@@ -8772,14 +8766,14 @@ var render = function() {
                               { staticStyle: { "font-size": "2.25rem" } },
                               [
                                 _vm._v(
-                                  "\n                                    mdi-folder\n                                "
+                                  "\n                            mdi-folder\n                        "
                                 )
                               ]
                             ),
                             _vm._v(
-                              "\n                                " +
+                              "\n                        " +
                                 _vm._s(itemModule.module_name) +
-                                "\n\n                            "
+                                "\n\n                    "
                             )
                           ],
                           1
@@ -8798,7 +8792,16 @@ var render = function() {
                             {
                               key: "Submodule" + i,
                               staticClass: "pl-8",
-                              attrs: { link: "" }
+                              attrs: { link: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openInNewTab(
+                                    itemSubModule.file_attachment,
+                                    itemSubModule.link,
+                                    itemSubModule.type
+                                  )
+                                }
+                              }
                             },
                             [
                               _c(
@@ -8812,7 +8815,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                                        mdi-folder\n                                    "
+                                        "\n                                mdi-folder\n                            "
                                       )
                                     ]
                                   )
@@ -8841,129 +8844,10 @@ var render = function() {
                                           _vm.format_date(
                                             itemSubModule.created_at
                                           )
-                                        )
+                                        ) +
+                                        "\n                            "
                                     )
                                   ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-item-action",
-                                [
-                                  _c(
-                                    "v-menu",
-                                    {
-                                      attrs: {
-                                        transition: "slide-y-transition",
-                                        bottom: ""
-                                      },
-                                      scopedSlots: _vm._u(
-                                        [
-                                          {
-                                            key: "activator",
-                                            fn: function(ref) {
-                                              var on = ref.on
-                                              var attrs = ref.attrs
-                                              return [
-                                                _c(
-                                                  "v-btn",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      { attrs: { icon: "" } },
-                                                      "v-btn",
-                                                      attrs,
-                                                      false
-                                                    ),
-                                                    on
-                                                  ),
-                                                  [
-                                                    _c(
-                                                      "v-icon",
-                                                      {
-                                                        attrs: {
-                                                          color:
-                                                            "grey lighten-1"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          "mdi-dots-vertical"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              ]
-                                            }
-                                          }
-                                        ],
-                                        null,
-                                        true
-                                      )
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list",
-                                        [
-                                          _c(
-                                            "v-list-item",
-                                            {
-                                              attrs: { link: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.editFileBtn(
-                                                    itemModule.id
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Edit")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            {
-                                              attrs: { link: "" },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.editLinkBtn(
-                                                    itemModule.id
-                                                  )
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Delete")
-                                              ])
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list-item",
-                                            { attrs: { link: "" } },
-                                            [
-                                              _c("v-list-item-title", [
-                                                _vm._v("Archive")
-                                              ])
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
                                 ],
                                 1
                               )

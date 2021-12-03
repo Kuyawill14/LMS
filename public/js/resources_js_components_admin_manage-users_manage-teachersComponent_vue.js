@@ -280,14 +280,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
+ // import csvToJson from 'convert-csv-to-json';
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -343,7 +336,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       },
       headers: [{
-        sortable: false
+        sortable: true
       }, {
         text: 'ID',
         value: 'user_id',
@@ -366,9 +359,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         align: 'start'
       }, {
         text: 'Deparment',
+        value: 'department_short_name',
         align: 'start'
       }, {
         text: 'Verified',
+        value: 'verified',
         align: 'start'
       }, {
         text: 'Password Reset',
@@ -484,10 +479,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        // console.log(e.target.result);
-        var json = JSON.parse(e.target.result);
-        _this3.json_users_file = json;
-        _this3.json_users_ready = true;
+        //  console.log(e.target.result);
+        // let json = JSON.parse(e.target.result);
+        // this.json_users_file = json;
+        // this.json_users_ready = true;
+        var lines = e.target.result.replaceAll('\r', '').split('\n'); // 1️⃣
+
+        var header = lines[0].split(','); // 2️⃣
+
+        var output = lines.slice(1).map(function (line) {
+          var fields = line.split(','); // 3️⃣
+
+          return Object.fromEntries(header.map(function (h, i) {
+            return [h, fields[i]];
+          })); // 4️⃣
+        });
+        _this3.json_users_file = output;
       };
 
       reader.readAsText(file);
@@ -837,8 +844,8 @@ var render = function() {
                   }
                 },
                 [
-                  _c("v-icon", [_vm._v("mdi-upload")]),
-                  _vm._v("\n                Import JSON\n            ")
+                  _c("v-icon", { attrs: { left: "" } }, [_vm._v("mdi-upload")]),
+                  _vm._v("\n                Import CSV\n            ")
                 ],
                 1
               ),
@@ -854,8 +861,10 @@ var render = function() {
                   }
                 },
                 [
-                  _c("v-icon", [_vm._v("mdi-account-plus-outline")]),
-                  _vm._v("\n                Add User\n            ")
+                  _c("v-icon", { attrs: { left: "" } }, [
+                    _vm._v("mdi-account-plus-outline")
+                  ]),
+                  _vm._v("\n                Add Teacher\n            ")
                 ],
                 1
               )
@@ -894,7 +903,7 @@ var render = function() {
                         "v-card-title",
                         [
                           _vm._v(
-                            "\n                    Instructors\n\n                    "
+                            "\n                    Teacher\n\n                    "
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
@@ -1682,49 +1691,14 @@ var render = function() {
                               attrs: { cols: "12", md: "12" }
                             },
                             [
-                              _c("v-textarea", {
-                                attrs: {
-                                  outlined: "",
-                                  label: "Paste JSON Here",
-                                  disabled: _vm.json_users_file != null,
-                                  placeholder:
-                                    "[ {'name': 'value' , 'email': 'value' } ]"
-                                },
-                                model: {
-                                  value: _vm.json_users_text_area,
-                                  callback: function($$v) {
-                                    _vm.json_users_text_area = $$v
-                                  },
-                                  expression: "json_users_text_area"
-                                }
-                              })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            { staticClass: "text-center py-0 my-0" },
-                            [
-                              _vm._v(
-                                "\n                            Or\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "ma-0 pa-0 mb-1",
-                              attrs: { cols: "12", md: "12" }
-                            },
-                            [
                               _c("v-file-input", {
                                 attrs: {
-                                  accept: "application/json",
+                                  accept: ".csv",
+                                  "prepend-inner-icon": "mdi-file-outline",
+                                  "prepend-icon": "",
                                   chips: "",
                                   outlined: "",
-                                  label: "Upload JSON File",
+                                  label: "Upload CSV File",
                                   disabled: _vm.json_users_text_area != null
                                 },
                                 on: { change: _vm.onFileChange }

@@ -11,13 +11,13 @@
 
             <v-col cols="12" lg="3" style="display:flex;justify-content: end;">
                 <v-btn dark color="blue" class="mr-3" @click="openAdd_multiple_user()">
-                    <v-icon>mdi-upload</v-icon>
-                    Import JSON
+                    <v-icon left>mdi-upload</v-icon>
+                    Import CSV
                 </v-btn>
 
                 <v-btn color="primary" dark @click="openAdd()">
-                    <v-icon>mdi-account-plus-outline</v-icon>
-                    Add User
+                    <v-icon left>mdi-account-plus-outline</v-icon>
+                    Add Teacher
                 </v-btn>
             </v-col>
 
@@ -41,7 +41,7 @@
 
                 <v-card elevation="2" v-if="!loading">
                     <v-card-title>
-                        Instructors
+                        Teacher
 
                         <v-spacer></v-spacer>
                         <div width="30%">
@@ -221,18 +221,10 @@
                                     return-object label="Department" dense outlined></v-select>
                             </v-col>
 
-                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <v-textarea outlined v-model="json_users_text_area" label="Paste JSON Here"
-                                    :disabled="json_users_file != null "
-                                    placeholder="[ {'name': 'value' , 'email': 'value' } ]"></v-textarea>
-                            </v-col>
-                            <v-col class="text-center py-0 my-0">
-                                Or
-                            </v-col>
-
+                     
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
 
-                                <v-file-input accept="application/json" chips outlined label="Upload JSON File"
+                                <v-file-input accept=".csv" prepend-inner-icon="mdi-file-outline" prepend-icon="" chips outlined label="Upload CSV File"
                                     @change="onFileChange" :disabled="json_users_text_area != null ">
                                 </v-file-input>
                             </v-col>
@@ -263,6 +255,7 @@
         mapGetters,
         mapActions
     } from "vuex";
+    // import csvToJson from 'convert-csv-to-json';
     import axios from 'axios';
     export default {
         data: function () {
@@ -315,7 +308,7 @@
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
                 headers: [{
-                        sortable: false
+                        sortable: true
                     },
                     {
                         text: 'ID',
@@ -344,10 +337,12 @@
                     },
                     {
                         text: 'Deparment',
+                        value: 'department_short_name',
                         align: 'start',
                     },
                     {
                         text: 'Verified',
+                        value: 'verified',
                         align: 'start',
                     },
                     {
@@ -415,8 +410,8 @@
         methods: {
             addBulk() {
 
-                if (this.department != null && ( this.json_users_file != null || this
-                    .json_users_text_area != null)) {
+                if (this.department != null && (this.json_users_file != null || this
+                        .json_users_text_area != null)) {
                     let json_users_data = this.json_users_file != null ? this.json_users_file : JSON.parse(this
                         .json_users_text_area);
                     this.IsBulkadding = true;
@@ -476,10 +471,21 @@
             readFile(file) {
                 let reader = new FileReader();
                 reader.onload = e => {
-                    // console.log(e.target.result);
-                    let json = JSON.parse(e.target.result);
-                    this.json_users_file = json;
-                    this.json_users_ready = true;
+                    //  console.log(e.target.result);
+                    // let json = JSON.parse(e.target.result);
+                    // this.json_users_file = json;
+                    // this.json_users_ready = true;
+
+
+                    const lines = e.target.result.replaceAll('\r', '').split('\n') // 1️⃣
+                    const header = lines[0].split(',') // 2️⃣
+                    const output = lines.slice(1).map(line => {
+                        const fields = line.split(',') // 3️⃣
+                        return Object.fromEntries(header.map((h, i) => [h, fields[i]])) // 4️⃣
+                    })
+
+                    this.json_users_file = output;
+
                 };
                 reader.readAsText(file);
             },

@@ -48,6 +48,7 @@ class ManageUserController extends Controller
     public function bulkadduser(Request $request)
     {
 
+        $user_login_details = [];
         $usertype = $request->user_type;
         $users_data = $request->users_data;
         $department_id = $request->department_id;
@@ -56,27 +57,11 @@ class ManageUserController extends Controller
         try{
              
             foreach($users_data as $user) {
-                // echo $user['name'];
-            
-                
-            
 
-                $user_data_details = null;
-                $user_login_details = [];
-
-                $splitName = explode(", ",$user['name']);
-
-                $last_name =  $splitName[0];
-
-                $first_name_split = explode(" ", $splitName[1]);
-                $first_name_split_1 = explode(" ", $splitName[1]);
-
-
-                $middle_name =  $first_name_split_1[count($first_name_split_1)-1];
-                array_pop($first_name_split_1);
-
-                $first_name = count($first_name_split) > 1  ?  implode(" ", $first_name_split_1) : $first_name_split[0];
-
+                $first_name = $user['first_name'];
+                $middle_name = $user['middle_name'];
+                $last_name = $user['last_name'];
+           
                 $email = $user['email'];
 
                 $userFind = User::where('email',$email)->count();
@@ -85,7 +70,7 @@ class ManageUserController extends Controller
                 if($userFind == 0 ) {
                     $New = User::create([
                         'email' =>  $email,
-                        'password' => Hash::make($last_name . '@2022'),
+                        'password' => Hash::make('ORANGE-' . $last_name . '@2021'),
                         'role' =>  $usertype,
                         'email_verified_at' =>  date('Y-m-d H:i:s'),
                     ]);
@@ -108,13 +93,11 @@ class ManageUserController extends Controller
                         $departments->save();
                     }
                 
-                // array_push($user_data_details, $details);
-                array_push($user_login_details, $New);
-                // array_push($user_departm,_details, $New);
+              
+
+                    $user_login_details[]= $details;
                 }
             
-
-
             
                 $childModelSaved = true; 
 

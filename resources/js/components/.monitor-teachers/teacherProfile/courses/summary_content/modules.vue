@@ -1,7 +1,7 @@
 <template>
     <div>
 
-       
+
         <!-- <v-row style="margin-top: 13rem"  v-if="isGetting" align-content="center" justify="center">
             <v-col class="text-subtitle-1 text-center" cols="12">
                 Loading Modules
@@ -11,16 +11,17 @@
             </v-col>
         </v-row> -->
 
-        <v-row v-if="isGetting"  >
+        <v-row v-if="isGetting">
             <v-col v-for="n in 5" :key="n" cols="12">
                 <v-card elevation="0" class="pa-3">
-                     <v-skeleton-loader max-width="420" type="list-item-avatar"></v-skeleton-loader>
+                    <v-skeleton-loader max-width="420" type="list-item-avatar"></v-skeleton-loader>
                 </v-card>
             </v-col>
         </v-row>
-           
 
-        <v-row style="margin-top: 7rem" align="center" justify="center" class="pt-10" v-if="getmain_module.length == 0 && !isGetting">
+
+        <v-row style="margin-top: 7rem" align="center" justify="center" class="pt-10"
+            v-if="getmain_module.length == 0 && !isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:7rem">
                     mdi-folder
@@ -29,74 +30,55 @@
             </v-col>
         </v-row>
 
-        <div  v-if="!isGetting && getmain_module.length != 0">
-            <v-expansion-panels  focusable>
-              
-                        <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" >
-                            <span class="text-right pannel-btn">
+        <div v-if="!isGetting && getmain_module.length != 0">
+            <v-expansion-panels focusable>
 
-                            
-                            </span>
-                            <v-expansion-panel-header>
-                                <span style="font-size: 1.5rem;">
-                                    <v-icon style="font-size: 2.25rem; ">
-                                        mdi-folder
-                                    </v-icon>
-                                    {{itemModule.module_name}}
+                <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i">
+                    <span class="text-right pannel-btn">
 
-                                </span>
-                            </v-expansion-panel-header>
-                            <v-expansion-panel-content class="pa-0">
-                                <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)"
-                                    :key="'Submodule'+i" link class="pl-8">
-                                    <v-list-item-avatar>
-                                        <v-icon class="grey lighten-1" dark>
-                                            mdi-folder
-                                        </v-icon>
-                                    </v-list-item-avatar>
 
-                                    <v-list-item-content>
-                                        <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
+                    </span>
+                    <v-expansion-panel-header>
+                        <span style="font-size: 1.5rem;">
+                            <v-icon style="font-size: 2.25rem; ">
+                                mdi-folder
+                            </v-icon>
+                            {{itemModule.module_name}}
 
-                                        <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
-                                        <v-list-item-subtitle> Created: {{format_date(itemSubModule.created_at)}}</v-list-item-subtitle>
+                        </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="pa-0">
+                        <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
+                            link class="pl-8"
+                            @click="openInNewTab(itemSubModule.file_attachment,itemSubModule.link,itemSubModule.type)">
 
-                                    </v-list-item-content>
+                            <v-list-item-avatar>
+                                <v-icon class="grey lighten-1" dark>
+                                    mdi-folder
+                                </v-icon>
+                            </v-list-item-avatar>
 
-                                    <v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                                        <v-menu transition="slide-y-transition" bottom>
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-btn icon v-bind="attrs" v-on="on">
-                                                    <v-icon color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                                </v-btn>
-                                            </template>
-                                            <v-list>
-                                                <v-list-item link @click="editFileBtn(itemModule.id)">
-                                                    <v-list-item-title>Edit</v-list-item-title>
+                                <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                <v-list-item-subtitle> Created: {{format_date(itemSubModule.created_at)}}
+                                </v-list-item-subtitle>
 
-                                                </v-list-item>
-                                                <v-list-item link @click="editLinkBtn(itemModule.id)">
-                                                    <v-list-item-title>Delete</v-list-item-title>
+                            </v-list-item-content>
 
-                                                </v-list-item>
-                                                <v-list-item link>
-                                                    <v-list-item-title>Archive</v-list-item-title>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
-                                    </v-list-item-action>
-                                </v-list-item>
-                            
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-           
+
+                        </v-list-item>
+
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+
             </v-expansion-panels>
         </div>
     </div>
 </template>
 <script>
- import moment from 'moment/src/moment';
+    import moment from 'moment/src/moment';
     import {
         mapGetters,
         mapActions
@@ -106,39 +88,55 @@
         props: ['course_details'],
         data() {
             return {
-                    moduleName: '',
-                    isEdit: false,
-                    itemType: '',
-                    isDrag: false,
-                    itemDialog: false,
-                    temp_id: null,
-                    showLecture: false,
-                    addLink: false,
-                    showClasswork: false,
-                    subModuleForm: {},
-                    mainModule_id: '',
-                    mainModule: [],
-                    propModule: [],
-                    studentSubModuleProgress: [],
-                    studentSubModuleProgressForm: {},
-                    isGetting: true,
-                    }
-                },
+                docpath: window.location.origin + '/storage/',
+                moduleName: '',
+                isEdit: false,
+                itemType: '',
+                isDrag: false,
+                itemDialog: false,
+                temp_id: null,
+                showLecture: false,
+                addLink: false,
+                showClasswork: false,
+                subModuleForm: {},
+                mainModule_id: '',
+                mainModule: [],
+                propModule: [],
+                studentSubModuleProgress: [],
+                studentSubModuleProgressForm: {},
+                isGetting: true,
+            }
+        },
         computed: {
             ...mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
-         
+
 
         },
         methods: {
-             format_date(value) {
-            if (value) {
-                return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
-            }
-        },
+            openInNewTab(file, link, type) {
+
+                if (type == 'Link') {
+                    window.open(link, '_blank').focus();
+
+                } else {
+                    window.open(this.docpath + file, '_blank').focus();
+
+                }
+                console.log('url: ', file);
+                console.log('link: ', link);
+                console.log('type: ', type);
+
+
+            },
+            format_date(value) {
+                if (value) {
+                    return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+                }
+            },
             getdata() {
                 this.mainModule = this.getmain_module;
             },
-           
+
             student_sub_module_progress(id) {
                 var data;
 
@@ -161,7 +159,7 @@
                 }
                 return count;
             },
-           
+
             checkSubModule(arr, sub_module_id) {
                 var check = false;
                 //////console.log(arr);
@@ -174,19 +172,19 @@
             },
             fetchAllModule() {
                 this.$store.dispatch('fetchMainModule', this.course_details.course_id).then(() => {
-                  
+
                     this.moduleLength = this.getmain_module.length;
                     this.mainModule = this.getmain_module;
-                     setTimeout(() => (this.isGetting = false), 700);
+                    setTimeout(() => (this.isGetting = false), 700);
                 });
                 this.$store.dispatch('fetchSubModule', this.course_details.course_id);
             },
-            
+
         },
-        async beforeMount(){
+        async beforeMount() {
             this.fetchAllModule();
         }
-        
+
 
     }
 
