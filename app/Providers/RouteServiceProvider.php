@@ -60,9 +60,9 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(120)->by(optional($request->user())->id ?: $request->ip());
         });
 
-        RateLimiter::for('WebRouteLimiter', function (Request $request) {
+      /*   RateLimiter::for('WebRouteLimiter', function (Request $request) {
             return Limit::perMinute(100)->by($request->ip());
-        });
+        }); */
 
     }
 }

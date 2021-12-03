@@ -23319,7 +23319,7 @@ var render = function() {
                                       link: "",
                                       cols: "12",
                                       md: "6",
-                                      lg: "3",
+                                      lg: "4",
                                       xl: "3"
                                     }
                                   },
@@ -23476,6 +23476,11 @@ var render = function() {
                                             _vm._v(" "),
                                             _c(
                                               "v-list-item-action",
+                                              {
+                                                staticStyle: {
+                                                  "max-width": "150px"
+                                                }
+                                              },
                                               [
                                                 _c("v-text-field", {
                                                   staticClass: "ma-0 pa-0",

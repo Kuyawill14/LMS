@@ -125,7 +125,7 @@
         
             <v-col cols="12" class="mt-0 pt-0">
                 <v-row>
-                    <v-col  v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)" link cols="12" md="6" lg="3" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
+                    <v-col  v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)" link  cols="12" md="6" lg="4" xl="3"  v-for="(item,i) in studentSubmissionList" :key="i">
 
                         <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
                             <v-list-item   class="pt-1 pb-1"  link  >
@@ -146,7 +146,7 @@
                                               <span class="red--text"  v-else>No Submission</span>
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
-                                    <v-list-item-action >
+                                    <v-list-item-action style="max-width:150px">
                                         <v-text-field 
                                             hide-details
                                             class="ma-0 pa-0"

@@ -24,8 +24,8 @@ Route::get('/testView', function () {
     return view('errors.429');
 });
 
-
-Route::middleware(['throttle:WebRouteLimiter'])->get('/{any}', function () {
+/* middleware(['throttle:WebRouteLimiter'])-> */
+Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
 

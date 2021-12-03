@@ -262,6 +262,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -1086,7 +1087,7 @@ var render = function() {
                                         attrs: {
                                           cols: "12",
                                           md: "6",
-                                          lg: "3",
+                                          lg: "4",
                                           xl: "3"
                                         }
                                       },
@@ -1246,6 +1247,12 @@ var render = function() {
                                                 _vm._v(" "),
                                                 _c(
                                                   "v-list-item-action",
+                                                  {
+                                                    staticStyle: {
+                                                      "max-width":
+                                                        "150px !important"
+                                                    }
+                                                  },
                                                   [
                                                     item.status == "Submitted"
                                                       ? _c("v-text-field", {
