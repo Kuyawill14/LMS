@@ -17,7 +17,7 @@ class CreateTblDepartmentsTable extends Migration
             $table->id();
             $table->string('short_name');
             $table->string('name');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

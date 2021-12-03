@@ -414,7 +414,7 @@ Route::middleware('auth:sanctum')->prefix('/admin/schoolyears')->group(function(
 Route::middleware('auth:sanctum')->prefix('/admin/department')->group(function() {
     Route::get('/all', [DepartmentController::class, 'index']);
     Route::post('/add', [DepartmentController::class, 'store']);
-    Route::put('/update/{id}', [DepartmentController::class, 'update']);
+    Route::post('/update/{id}', [DepartmentController::class, 'update']);
     Route::delete('/delete/{id}', [DepartmentController::class, 'destroy']);
    
 

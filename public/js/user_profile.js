@@ -280,6 +280,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -890,11 +891,15 @@ var render = function() {
                                   outlined: ""
                                 },
                                 model: {
-                                  value: _vm.UserDetails.department,
+                                  value: _vm.UserDetails.department_id,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.UserDetails, "department", $$v)
+                                    _vm.$set(
+                                      _vm.UserDetails,
+                                      "department_id",
+                                      $$v
+                                    )
                                   },
-                                  expression: "UserDetails.department"
+                                  expression: "UserDetails.department_id"
                                 }
                               })
                             ],

@@ -72,7 +72,7 @@
                                 </v-text-field>
                         </v-col>
 
-                          <v-col  class="mb-0 pb-0 pt-0 mt-0" cols="12">
+                          <v-col v-if="form.type == 'Subjective Type'"  class="mb-0 pb-0 pt-0 mt-0" cols="12">
                               <v-btn color="primary" class="mb-2" @click="$refs.inputFile.$refs.input.click()" text rounded>
                                   <v-icon left>
                                       mdi-attachment

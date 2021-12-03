@@ -205,6 +205,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -656,93 +658,13 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c(
-            "v-row",
-            { staticStyle: { "margin-bottom": "-40px" } },
+      _vm.isGetting
+        ? _c(
+            "div",
             [
               _c(
-                "v-col",
-                {
-                  staticClass: "mb-0 pb-0",
-                  attrs: { cols: "12", md: "12", lg: "8" }
-                },
-                [_c("h2", [_vm._v("My Classes")])]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-right", attrs: { lg: "2" } },
-                [
-                  _c("v-select", {
-                    staticClass: "mr-2 my-0",
-                    attrs: {
-                      dense: "",
-                      items: _vm.school_year,
-                      "item-text": "schoolyear",
-                      "item-value": "id",
-                      label: "School Year",
-                      outlined: "",
-                      small: ""
-                    },
-                    on: {
-                      change: function($event) {
-                        return _vm.schoolYearFilter()
-                      }
-                    },
-                    model: {
-                      value: _vm.school_year_id,
-                      callback: function($$v) {
-                        _vm.school_year_id = $$v
-                      },
-                      expression: "school_year_id"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-right", attrs: { lg: "2" } },
-                [
-                  _c("v-select", {
-                    staticClass: "mr-2 my-0",
-                    attrs: {
-                      dense: "",
-                      items: _vm.semester,
-                      "item-text": "semester",
-                      "item-value": "id",
-                      label: "Semester",
-                      outlined: "",
-                      small: ""
-                    },
-                    on: {
-                      change: function($event) {
-                        return _vm.semesterFilter()
-                      }
-                    },
-                    model: {
-                      value: _vm.semester_id,
-                      callback: function($$v) {
-                        _vm.semester_id = $$v
-                      },
-                      expression: "semester_id"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.isGetting
-            ? _c(
                 "v-row",
-                _vm._l(3, function(n) {
+                _vm._l(4, function(n) {
                   return _c(
                     "v-col",
                     {
@@ -765,10 +687,96 @@ var render = function() {
                 }),
                 1
               )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.coursesLength != 0 && _vm.isGetting == false
-            ? _c(
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.coursesLength != 0 && _vm.isGetting == false
+        ? _c(
+            "div",
+            [
+              _c(
+                "v-row",
+                { staticStyle: { "margin-bottom": "-40px" } },
+                [
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "mb-0 pb-0",
+                      attrs: { cols: "12", md: "12", lg: "8" }
+                    },
+                    [_c("h2", [_vm._v("My Classes")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right", attrs: { lg: "2" } },
+                    [
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          dense: "",
+                          items: _vm.school_year,
+                          "item-text": "schoolyear",
+                          "item-value": "id",
+                          label: "School Year",
+                          outlined: "",
+                          small: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.schoolYearFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.school_year_id,
+                          callback: function($$v) {
+                            _vm.school_year_id = $$v
+                          },
+                          expression: "school_year_id"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right", attrs: { lg: "2" } },
+                    [
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          dense: "",
+                          items: _vm.semester,
+                          "item-text": "semester",
+                          "item-value": "id",
+                          label: "Semester",
+                          outlined: "",
+                          small: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.semesterFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.semester_id,
+                          callback: function($$v) {
+                            _vm.semester_id = $$v
+                          },
+                          expression: "semester_id"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-row",
                 { staticClass: "mt-3" },
                 [
@@ -1097,10 +1105,10 @@ var render = function() {
                 ],
                 2
               )
-            : _vm._e()
-        ],
-        1
-      )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

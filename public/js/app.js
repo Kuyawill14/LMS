@@ -2178,52 +2178,56 @@ router.beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_0___default().start();
   var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'coursePage', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
 
-  if (protectedRoutes.includes(to.name)) {
+  if (to.name != 'login' && to.name != 'register') {
     _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
       if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
-        _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
-          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
-            if (res.status == 200) {
-              _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function () {
-                if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
-                  if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
-                    if (to.name == 'courseSetup') {
-                      next({
-                        name: "announcement",
-                        params: {
-                          id: to.params.id
-                        },
-                        replace: true
-                      });
+        if (protectedRoutes.includes(to.name)) {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+            _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
+              if (res.status == 200) {
+                _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function () {
+                  if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
+                    if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
+                      if (to.name == 'courseSetup') {
+                        next({
+                          name: "announcement",
+                          params: {
+                            id: to.params.id
+                          },
+                          replace: true
+                        });
+                      } else {
+                        next();
+                      }
                     } else {
-                      next();
+                      if (to.name == 'courseSetup') {
+                        next();
+                      } else {
+                        return next({
+                          name: "courseSetup",
+                          params: {
+                            id: to.params.id
+                          },
+                          replace: true
+                        });
+                      }
                     }
                   } else {
-                    if (to.name == 'courseSetup') {
-                      next();
-                    } else {
-                      return next({
-                        name: "courseSetup",
-                        params: {
-                          id: to.params.id
-                        },
-                        replace: true
-                      });
-                    }
+                    return next({
+                      name: "course-not-found",
+                      params: {
+                        id: to.params.id
+                      },
+                      replace: true
+                    });
                   }
-                } else {
-                  return next({
-                    name: "course-not-found",
-                    params: {
-                      id: to.params.id
-                    },
-                    replace: true
-                  });
-                }
-              });
-            }
+                });
+              }
+            });
           });
-        });
+        } else {
+          next();
+        }
       } else {
         next({
           path: "/login",
@@ -2387,13 +2391,17 @@ var routes = [{
   },
   name: "login",
   beforeEnter: function beforeEnter(to, form, next) {
-    if (!_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated) {
+    _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+      if (!_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated) {
+        next();
+      } else {
+        return next({
+          path: "/"
+        });
+      }
+    })["catch"](function () {
       next();
-    } else {
-      return next({
-        path: "/"
-      });
-    }
+    });
   }
 }, {
   path: "/register",
@@ -2402,13 +2410,17 @@ var routes = [{
   },
   name: "register",
   beforeEnter: function beforeEnter(to, form, next) {
-    if (!_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated) {
+    _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('IsAuthenticated').then(function () {
+      if (!_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated) {
+        next();
+      } else {
+        return next({
+          path: "/"
+        });
+      }
+    })["catch"](function () {
       next();
-    } else {
-      return next({
-        path: "/"
-      });
-    }
+    });
   }
 }, {
   path: "/verify-email",

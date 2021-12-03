@@ -167,6 +167,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -174,6 +229,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       departmentsList: [],
       header: [{
+        text: 'Department Logo',
+        value: 'logo',
+        align: 'start'
+      }, {
         text: 'Department Short Name',
         value: 'name',
         align: 'start'
@@ -194,14 +253,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       form: new Form({
         short_name: "",
-        name: ""
+        name: "",
+        logo: ''
       }),
+      file: null,
       IsDeleting: false,
       deleteIndex: null,
       deleteId: null,
       isUpdateId: null,
       isUpdateIndex: null,
-      isAdding: false
+      isAdding: false,
+      Logorules: [function (value) {
+        return !value || value.size < 10000000 || 'Avatar size should be less than 10 MB!';
+      }],
+      isUploading: false,
+      old_logo_path: null
     };
   },
   methods: {
@@ -216,22 +282,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/department/add', _this2.form).then(function (res) {
-                  if (res.status == 201) {
-                    _this2.departmentsList.push(res.data);
+                fd = new FormData();
+                fd.append('short_name', _this2.form.short_name);
+                fd.append('name', _this2.form.name);
+                fd.append('logo', _this2.file);
+                axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/department/add', fd).then(function (res) {
+                  if (res.data.success == true) {
+                    _this2.departmentsList.push(res.data.new_data);
 
                     _this2.dialog = false;
                     _this2.isAdding = false;
+                    _this2.file = null;
 
                     _this2.$refs.form.reset();
                   }
                 });
 
-              case 1:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -278,6 +350,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     OpendepartmentDialog: function OpendepartmentDialog(data, index) {
       this.form.name = data.name;
+      this.form.logo = data.logo;
+      this.old_logo_path = data.logo;
       this.form.short_name = data.short_name;
       this.isUpdateId = data.id;
       this.isUpdateIndex = index;
@@ -288,28 +362,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var fd;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/department/update/' + _this4.isUpdateId, _this4.form).then(function (res) {
+                fd = new FormData();
+                fd.append('short_name', _this4.form.short_name);
+                fd.append('name', _this4.form.name);
+                fd.append('old_logo_path', _this4.old_logo_path);
+                fd.append('logo', _this4.file);
+                axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/department/update/' + _this4.isUpdateId, fd).then(function (res) {
                   if (res.data.success == true) {
                     _this4.departmentsList[_this4.isUpdateIndex].name = _this4.form.name;
                     _this4.departmentsList[_this4.isUpdateIndex].short_name = _this4.form.short_name;
+                    _this4.form.logo = _this4.data.path;
                     _this4.isAdding = false;
                     _this4.dialog = false;
+                    _this4.file = null;
 
                     _this4.$refs.form.reset();
                   }
                 });
 
-              case 1:
+              case 6:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3);
       }))();
+    },
+    onFileChange: function onFileChange(file) {
+      this.form.logo = URL.createObjectURL(file);
+    },
+    clearData: function clearData() {
+      this.dialog = false;
+      this.form.logo = null;
+      this.$refs.form.reset();
     }
   },
   mounted: function mounted() {
@@ -526,7 +616,6 @@ var render = function() {
                   _c("v-data-table", {
                     staticClass: "elevation-1",
                     attrs: {
-                      dense: "",
                       headers: _vm.header,
                       items: _vm.departmentsList,
                       "items-per-page": 5
@@ -541,6 +630,21 @@ var render = function() {
                               "tbody",
                               _vm._l(items, function(item, index) {
                                 return _c("tr", { key: item.id }, [
+                                  _c(
+                                    "td",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c("v-img", {
+                                        attrs: {
+                                          "max-width": "60",
+                                          "max-height": "60",
+                                          src: item.logo
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
                                   _c("td", [_vm._v(_vm._s(item.short_name))]),
                                   _vm._v(" "),
                                   _c("td", [_vm._v(_vm._s(item.name))]),
@@ -746,6 +850,215 @@ var render = function() {
                           _c(
                             "v-col",
                             {
+                              staticClass: "ma-0 pa-0 text-center",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c(
+                                "v-avatar",
+                                {
+                                  attrs: {
+                                    tile:
+                                      _vm.form.logo != null &&
+                                      _vm.form.logo != "",
+                                    size: "130"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$refs.refdepartment.$refs.input.click()
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("v-hover", {
+                                    scopedSlots: _vm._u([
+                                      {
+                                        key: "default",
+                                        fn: function(ref) {
+                                          var hover = ref.hover
+                                          return [
+                                            _c(
+                                              "div",
+                                              [
+                                                _c(
+                                                  "v-avatar",
+                                                  {
+                                                    staticStyle: {
+                                                      cursor: "pointer"
+                                                    },
+                                                    attrs: {
+                                                      tile:
+                                                        _vm.form.logo != null &&
+                                                        _vm.form.logo != "",
+                                                      color: "#0D8ABC",
+                                                      size: "130"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm.form.logo == null ||
+                                                    _vm.form.logo == ""
+                                                      ? _c(
+                                                          "v-icon",
+                                                          {
+                                                            staticStyle: {
+                                                              "font-size":
+                                                                "4rem"
+                                                            },
+                                                            attrs: {
+                                                              color: "white"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "mdi-cloud-upload-outline"
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _c(
+                                                          "v-img",
+                                                          {
+                                                            attrs: {
+                                                              contain: "",
+                                                              alt: "Proflie",
+                                                              src: _vm.form.logo
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm.isUploading
+                                                              ? _c(
+                                                                  "v-row",
+                                                                  {
+                                                                    staticClass:
+                                                                      "fill-height ma-0",
+                                                                    attrs: {
+                                                                      align:
+                                                                        "center",
+                                                                      justify:
+                                                                        "center"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-progress-circular",
+                                                                      {
+                                                                        attrs: {
+                                                                          indeterminate:
+                                                                            "",
+                                                                          color:
+                                                                            "grey lighten-5"
+                                                                        }
+                                                                      }
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              : _vm._e()
+                                                          ],
+                                                          1
+                                                        )
+                                                  ],
+                                                  1
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "v-fade-transition",
+                                                  [
+                                                    hover
+                                                      ? _c(
+                                                          "v-overlay",
+                                                          {
+                                                            staticStyle: {
+                                                              cursor: "pointer"
+                                                            },
+                                                            attrs: {
+                                                              absolute: "",
+                                                              color: "#212121"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "div",
+                                                              {},
+                                                              [
+                                                                _c(
+                                                                  "v-icon",
+                                                                  {
+                                                                    attrs: {
+                                                                      small: ""
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "mdi-camera"
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(
+                                                                  " " +
+                                                                    _vm._s(
+                                                                      !_vm.isUploading
+                                                                        ? "Upload"
+                                                                        : "Uploading"
+                                                                    ) +
+                                                                    " "
+                                                                )
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ])
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-file-input", {
+                                ref: "refdepartment",
+                                staticClass: "d-none",
+                                attrs: {
+                                  outlined: "",
+                                  rules: _vm.Logorules,
+                                  "prepend-icon": "",
+                                  accept: "image/png, image/jpeg, image/bmp",
+                                  "prepend-inner-icon": "mdi-camera",
+                                  label: "Department Logo"
+                                },
+                                on: { change: _vm.onFileChange },
+                                model: {
+                                  value: _vm.file,
+                                  callback: function($$v) {
+                                    _vm.file = $$v
+                                  },
+                                  expression: "file"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-5",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [_c("h3", [_vm._v(" Department Logo")])]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
                               staticClass: "ma-0 pa-0 mb-1",
                               attrs: { cols: "12", md: "12" }
                             },
@@ -761,7 +1074,6 @@ var render = function() {
                                   type: "text",
                                   rows: "1",
                                   name: "name",
-                                  rules: _vm.Rules,
                                   label: "Short Name",
                                   placeholder: "Eg. CCSICT, COC, COE , etc",
                                   "auto-grow": "",
@@ -797,7 +1109,6 @@ var render = function() {
                                   type: "text",
                                   rows: "1",
                                   name: "name",
-                                  rules: _vm.Rules,
                                   label: "Department Name",
                                   "auto-grow": "",
                                   outlined: ""
@@ -834,8 +1145,7 @@ var render = function() {
                       attrs: { text: "" },
                       on: {
                         click: function($event) {
-                          _vm.dialog = false
-                          _vm.$refs.form.reset()
+                          return _vm.clearData()
                         }
                       }
                     },

@@ -119,67 +119,76 @@ router.beforeEach((to, from, next) => {
     const protectedRoutes = ['studentGradebook', 'gradebook','mystudentProgress','studentProgress','gradingCriteria','settings','about','Student-list',
     'modules-preview','student-modules','classwork','announcement','courseSetup','modules','coursePage',
     'clwk','add-question','submission-list','question-analytics','publish-to'];
- 
-        if(protectedRoutes.includes(to.name)){
-            store.dispatch('IsAuthenticated').then(() => {
-                if (store.state.CurrentUser.IsAuthenticated == true) {
-                    store.dispatch('fetchMyCoursesStatus').then((res) => {
-                        store.dispatch('fetchCurrentUser').then(() => {
-                            if (res.status == 200) {
-                                store.dispatch('CheckMyCourse', to.params.id).then(() => {
-                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
-                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
-                                            if(to.name == 'courseSetup'){
-                                                next({
-                                                    name: "announcement",
-                                                    params: { id: to.params.id },
-                                                    replace: true
-                                                })
-                                            }
-                                            else{
-                                                next();
-                                            }
-                                        } else {
-                                            if(to.name == 'courseSetup'){
-                                                next();
-                                            }
-                                            else{
-                                                return next({
-                                                    name: "courseSetup",
-                                                    params: { id: to.params.id },
-                                                    replace: true
-                                                })
-                                            }
+
+
+    
+    if(to.name != 'login' && to.name != 'register'){
+        store.dispatch('IsAuthenticated').then(() => {
+        if (store.state.CurrentUser.IsAuthenticated == true) {
+            if(protectedRoutes.includes(to.name)){
+                store.dispatch('fetchMyCoursesStatus').then((res) => {
+                    store.dispatch('fetchCurrentUser').then(() => {
+                        if (res.status == 200) {
+                            store.dispatch('CheckMyCourse', to.params.id).then(() => {
+                                if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                    if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                        if(to.name == 'courseSetup'){
+                                            next({
+                                                name: "announcement",
+                                                params: { id: to.params.id },
+                                                replace: true
+                                            })
+                                        }
+                                        else{
+                                            next();
                                         }
                                     } else {
-                                        return next({
-                                            name: "course-not-found",
-                                            params: { id: to.params.id },
-                                            replace: true
-                                        })
+                                        if(to.name == 'courseSetup'){
+                                            next();
+                                        }
+                                        else{
+                                            return next({
+                                                name: "courseSetup",
+                                                params: { id: to.params.id },
+                                                replace: true
+                                            })
+                                        }
                                     }
-                                })
-                            }
+                                } else {
+                                    return next({
+                                        name: "course-not-found",
+                                        params: { id: to.params.id },
+                                        replace: true
+                                    })
+                                }
+                            })
+                        }
 
-                        })
                     })
-                }else{
-                    next({
-                            path: "/login",
-                            replace: true
-                        });
-                    }
-                }).catch(() => {
-                    store.state.CurrentUser.IsAuthenticated = false;
-                    return next({
-                        path: "/login",
-                        replace: true
-                    });
                 })
-        }
-        else{
-            next()
-        }
+            }
+            else{
+                next()
+            }
+        }else{
+            next({
+                    path: "/login",
+                    replace: true
+                });
+            }
+        }).catch(() => {
+            store.state.CurrentUser.IsAuthenticated = false;
+            return next({
+                path: "/login",
+                replace: true
+            });
+        })
+    }
+    else{
+        next();
+    }
+
+       
 })
 
 router.afterEach(() => {

@@ -18,7 +18,10 @@ use App\Models\tbl_sub_modules;
 use App\Models\tbl_Submission;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
+use App\Models\tbl_teacher_course;
 use Carbon\Carbon;
+
+
 use Illuminate\Support\Str;
 //use Image;
 
@@ -114,30 +117,22 @@ class UserProfileController extends Controller
         $totalProgress = 0;
         $userId = auth('sanctum')->id();
         if(auth('sanctum')->user()->role != "Student") {
-            $allClass = tbl_userclass::select('tbl_subject_courses.course_name',
-            'tbl_subject_courses.course_code',
-            'tbl_subject_courses.id as course_id',
-            )
-            ->selectRaw('count(tbl_userclasses.course_id ) as student_count')
-            ->selectRaw('count(tbl_class_classworks.class_id ) as classwork_count')
-            
 
-            ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-            ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-            ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_classes.id')
+            $allCourse = tbl_teacher_course::where('tbl_teacher_courses.user_id', $userId)
+            ->select('tbl_subject_courses.course_name','tbl_subject_courses.course_code','tbl_subject_courses.id as course_id')
+            ->selectRaw('count(tbl_classworks.course_id ) as classwork_count')
+            ->leftJoin('tbl_classworks','tbl_classworks.course_id','=','tbl_teacher_courses.course_id')
+            ->leftJoin('tbl_subject_courses', 'tbl_teacher_courses.course_id', '=', 'tbl_subject_courses.id')
             ->groupBy('tbl_subject_courses.course_name','tbl_subject_courses.course_code','tbl_subject_courses.id')
-            ->where('user_id',$userId)
             ->get();
-
-            foreach($allClass as $key => $value) {
-                
+            foreach($allCourse as $key => $value) {
                 $StudentCount = tbl_userclass::where('course_id', $value ->course_id)
                 ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
                 ->where('users.role','Student')
                 ->count();
                 $value->student_count = $StudentCount;
             }
-            return $allClass;
+            return $allCourse;
 
         }
         else{

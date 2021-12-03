@@ -222,6 +222,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -772,141 +775,149 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c(
-            "v-btn",
-            {
-              attrs: {
-                bottom: "",
-                color: "primary",
-                dark: "",
-                fab: "",
-                fixed: "",
-                right: ""
-              },
-              on: {
-                click: function($event) {
-                  return _vm.openAddmodal()
-                }
-              }
-            },
-            [_c("v-icon", [_vm._v("mdi-plus")])],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-row",
-            { staticStyle: { "margin-bottom": "-40px" } },
+      _vm.isGetting
+        ? _c(
+            "div",
             [
-              _c(
-                "v-col",
-                {
-                  staticClass: "mb-0 pb-0",
-                  attrs: { cols: "12", md: "12", lg: "8" }
-                },
-                [_c("h2", [_vm._v("My Courses")])]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-right", attrs: { lg: "2" } },
-                [
-                  _c("v-select", {
-                    staticClass: "mr-2 my-0",
-                    attrs: {
-                      dense: "",
-                      items: _vm.school_year,
-                      "item-text": "schoolyear",
-                      "item-value": "id",
-                      label: "School Year",
-                      outlined: "",
-                      small: ""
-                    },
-                    on: {
-                      change: function($event) {
-                        return _vm.schoolYearFilter()
-                      }
-                    },
-                    model: {
-                      value: _vm.school_year_id,
-                      callback: function($$v) {
-                        _vm.school_year_id = $$v
-                      },
-                      expression: "school_year_id"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "text-right", attrs: { lg: "2" } },
-                [
-                  _c("v-select", {
-                    staticClass: "mr-2 my-0",
-                    attrs: {
-                      dense: "",
-                      items: _vm.semester,
-                      "item-text": "semester",
-                      "item-value": "id",
-                      label: "Semester",
-                      outlined: "",
-                      small: "",
-                      disabled: _vm.school_year_id == 0
-                    },
-                    on: {
-                      change: function($event) {
-                        return _vm.semesterFilter()
-                      }
-                    },
-                    model: {
-                      value: _vm.semester_id,
-                      callback: function($$v) {
-                        _vm.semester_id = $$v
-                      },
-                      expression: "semester_id"
-                    }
-                  })
-                ],
-                1
-              )
+              _vm.isGetting
+                ? _c(
+                    "v-row",
+                    _vm._l(4, function(n) {
+                      return _c(
+                        "v-col",
+                        {
+                          key: n,
+                          attrs: {
+                            height: _vm.$vuetify.breakpoint.lgAndUp ? 200 : 140,
+                            cols: "12",
+                            xl: "3",
+                            lg: "3",
+                            md: "6"
+                          }
+                        },
+                        [
+                          _c("v-skeleton-loader", {
+                            attrs: { type: "image, article" }
+                          })
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
+                : _vm._e()
             ],
             1
-          ),
-          _vm._v(" "),
-          _vm.isGetting
-            ? _c(
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.coursesLength != 0 && _vm.isGetting == false
+        ? _c(
+            "div",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: {
+                    bottom: "",
+                    color: "primary",
+                    dark: "",
+                    fab: "",
+                    fixed: "",
+                    right: ""
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.openAddmodal()
+                    }
+                  }
+                },
+                [_c("v-icon", [_vm._v("mdi-plus")])],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-row",
-                _vm._l(3, function(n) {
-                  return _c(
+                { staticStyle: { "margin-bottom": "-40px" } },
+                [
+                  _c(
                     "v-col",
                     {
-                      key: n,
-                      attrs: {
-                        height: _vm.$vuetify.breakpoint.lgAndUp ? 200 : 140,
-                        cols: "12",
-                        xl: "3",
-                        lg: "3",
-                        md: "6"
-                      }
+                      staticClass: "mb-0 pb-0",
+                      attrs: { cols: "12", md: "12", lg: "8" }
                     },
+                    [_c("h2", [_vm._v("My Courses")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right", attrs: { lg: "2" } },
                     [
-                      _c("v-skeleton-loader", {
-                        attrs: { type: "image, article" }
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          dense: "",
+                          items: _vm.school_year,
+                          "item-text": "schoolyear",
+                          "item-value": "id",
+                          label: "School Year",
+                          outlined: "",
+                          small: ""
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.schoolYearFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.school_year_id,
+                          callback: function($$v) {
+                            _vm.school_year_id = $$v
+                          },
+                          expression: "school_year_id"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "text-right", attrs: { lg: "2" } },
+                    [
+                      _c("v-select", {
+                        staticClass: "mr-2 my-0",
+                        attrs: {
+                          dense: "",
+                          items: _vm.semester,
+                          "item-text": "semester",
+                          "item-value": "id",
+                          label: "Semester",
+                          outlined: "",
+                          small: "",
+                          disabled: _vm.school_year_id == 0
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.semesterFilter()
+                          }
+                        },
+                        model: {
+                          value: _vm.semester_id,
+                          callback: function($$v) {
+                            _vm.semester_id = $$v
+                          },
+                          expression: "semester_id"
+                        }
                       })
                     ],
                     1
                   )
-                }),
+                ],
                 1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.coursesLength != 0 && _vm.isGetting == false
-            ? _c(
+              ),
+              _vm._v(" "),
+              _c(
                 "v-row",
                 { staticClass: "mt-3" },
                 _vm._l(_vm.allCoursesData, function(item, i) {
@@ -1250,10 +1261,10 @@ var render = function() {
                 }),
                 1
               )
-            : _vm._e()
-        ],
-        1
-      )
+            ],
+            1
+          )
+        : _vm._e()
     ],
     1
   )

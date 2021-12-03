@@ -115,7 +115,7 @@
                             item-text="name"
                             item-value="id"
                             dense
-                            v-model="UserDetails.department"
+                            v-model="UserDetails.department_id"
                             outlined
                             ></v-select>
                     </v-col>
@@ -252,6 +252,7 @@
                     </v-col>
                 </v-row>
             </v-col> -->
+            
 
 
 
