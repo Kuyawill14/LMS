@@ -25,8 +25,8 @@
       
             <style>
               #fb-root > div.fb_dialog.fb_dialog_advanced > div > iframe {
-                height: 0px;
-    width: 0;
+                height: 60px !important;
+    width: 60px  !important;
               }
             </style>
           </head>
