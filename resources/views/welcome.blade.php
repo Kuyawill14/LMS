@@ -57,7 +57,7 @@
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
-      $('#fb-root > div.fb_dialog.fb_dialog_advanced > div').
+
     </script>
           
             <div id="app">
