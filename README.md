@@ -60,3 +60,21 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Installation
+Composer Install
+npm install
+
+
+## php version 7.4.3
+
+## Vue version 2.6
+
+
+## php version
+
+## Activity Logs
+
+composer require spatie/laravel-activitylog "3.17"
+php artisanm migrate
