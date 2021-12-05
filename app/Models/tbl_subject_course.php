@@ -16,19 +16,13 @@ class tbl_subject_course extends Model
     protected static $logName = 'Teacher Courses';
     protected static $logOnlyDirty = true;
     protected static $submitEmptyLogs = false;
-    
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-        ->logOnly(
-        ['course_code', 
-        'course_name',
-        'course_description',
-        'completed',
-        'semester_id',
-        'school_year_id'
-        ]);
-    }
+    protected static $logAttributes = ['course_code', 
+    'course_name',
+    'course_description',
+    'completed',
+    'semester_id',
+    'school_year_id'
+    ];
 
     public function getDescriptionForEvent(string $eventName): string
     {
