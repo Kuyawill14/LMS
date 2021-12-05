@@ -158,15 +158,17 @@
             ...mapActions(['fetchScourse', 'clear_current_user']),
             fbChat() {
                 this.showFBchat = !this.showFBchat;
-                if( $('#fb-root')) {
+                if ($('#fb-root')) {
                     $('#fb-root').css('display', this.showFBchat == true ? 'block' : 'none');
                     $('#help-btn').css('background', this.showFBchat == true ? '#ffffff7d' : 'transparent');
+                    $('#fb-customer-chat > span > iframe').css('display', this.showFBchat == true ? 'block' : 'none');
+                    this.toastNormal(this.showFBchat == true ?
+                        'You\'ve opened Help Chat, Click "HELP" to hide the help chat.' : 'Help chat hidding...'
+                        );
 
-      this.toastNormal(this.showFBchat == true ? 'You\'ve opened Help Chat, Click "HELP" to hide the help chat.' : 'Help chat hidding...');
 
-                  
                 }
-              
+
             },
             goHome() {
                 this.$router.push({
@@ -190,6 +192,17 @@
         mounted() {
             this.navBarType = this.$route.matched[1].name;
         },
+        created() {
+
+            if($('#fb-root').is(":visible")) {
+            $('#fb-root').css('display', 'none');
+            $('#help-btn').css('background', '#ffffff7d' );
+            $('#fb-customer-chat > span > iframe').css('display', 'none');
+            }
+           
+         
+
+        }
 
 
         // watch: {
