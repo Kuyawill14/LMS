@@ -17,8 +17,7 @@
                         <v-col
                             :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'height:35vh;':'height:100vh'"
                             cols="12" md="7" class="primary ma-0 pa-0 d-flex flex-column"
-                            style="  justify-content: center;background: linear-gradient(rgba(255, 130, 0, 0.85), rgba(255, 153, 0, 0.85)) 50% / cover no-repeat, url('https://isu.edu.ph/wp-content/uploads/2019/03/ISU-Gate-Copy.jpg');">
-
+                            style="justify-content: center;background: linear-gradient(rgba(255, 130, 0, 0.85), rgba(255, 153, 0, 0.85)) 50% center / cover no-repeat, url('https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/ISU-Gate-Copy.jpg');height: 100vh;background-position-x: center;background-repeat: no-repeat;background-size: cover;">
                             <v-container v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
                                 class="pb-0 mb-0 pl-5 d-flex justify-space-between">
                                 <v-img height="70" width="70" max-height="70" max-width="70"
@@ -48,7 +47,7 @@
                                         <v-row align="center" justify="center">
                                             <v-col cols="12">
                                                 <div class="text-h2 white--text font-weight-bold">ISUE ORANGE</div>
-                                              
+
                                                 <div class="white--text"><b class="text-h5">O</b>nline <b
                                                         class="text-h5">R</b>esources <b class="text-h5">A</b>pp for a
                                                     <b class="text-h5">N</b>ew <b class="text-h5">G</b>uild of <b
@@ -187,11 +186,11 @@
 
     import VueFbCustomerChat from 'vue-fb-customer-chat'
 
-Vue.use(VueFbCustomerChat, {
-  page_id: 102514265611526, //  change 'null' to your Facebook Page ID,
-  theme_color: '#333333', // theme color in HEX
-  locale: 'en_US', // default 'en_US'
-})
+    Vue.use(VueFbCustomerChat, {
+        page_id: 102514265611526, //  change 'null' to your Facebook Page ID,
+        theme_color: '#333333', // theme color in HEX
+        locale: 'en_US', // default 'en_US'
+    })
     export default {
         components: {
             forgotPassword
@@ -254,6 +253,9 @@ Vue.use(VueFbCustomerChat, {
                                 this.$router.push({
                                     path: "/"
                                 })
+                                if ($('#fb-root')) {
+                                    $('#fb-root').css('display', 'none');
+                                }
                                 // this.toastSuccess(res.data.message);
                             } else {
                                 this.isLoggin = false;
@@ -276,10 +278,33 @@ Vue.use(VueFbCustomerChat, {
 
         },
         created() {
-            window.open("", "_self");
-            window.close();
+            // window.open("", "_self");
+            // window.close();
+
+            var chatbox = document.getElementById('fb-customer-chat');
+            chatbox.setAttribute("page_id", "102514265611526");
+            chatbox.setAttribute("attribution", "biz_inbox");
+
+
+
+            window.fbAsyncInit = function () {
+                FB.init({
+                    xfbml: true,
+                    version: 'v12.0'
+                });
+            };
+
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+
         },
-       
+
     };
 
 </script>

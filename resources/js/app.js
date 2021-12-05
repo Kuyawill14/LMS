@@ -39,7 +39,7 @@ Vue.component("VueElementLoading", VueElementLoading);
 import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-Vue.use(VueQuillEditor, /* { default global options } */)
+Vue.use(VueQuillEditor, /* { default global options } */ )
 
 
 //Vuex Store
@@ -53,7 +53,7 @@ Vue.mixin({
         toastNormal(message) {
             return this.$toasted.show(message, {
                 theme: "toasted-primary",
-                position: "bottom-left",
+                position: "top-right",
                 duration: 3000,
             });
         },
