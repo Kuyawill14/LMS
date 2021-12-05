@@ -160,14 +160,15 @@
                 this.showFBchat = !this.showFBchat;
                 if ($('#fb-root')) {
                     $('#fb-root').css('display', this.showFBchat == true ? 'block' : 'none');
-                    $('#help-btn').css('background', this.showFBchat == true ? '#ffffff7d' : 'transparent');
-                    $('#fb-customer-chat > span > iframe').css('display', this.showFBchat == true ? 'block' : 'none');
-                    this.toastNormal(this.showFBchat == true ?
-                        'You\'ve opened Help Chat, Click "HELP" to hide the help chat.' : 'Help chat hidding...'
-                        );
+                    // $('#help-btn').css('background', this.showFBchat == true ? '#ffffff7d' : 'transparent');
+                    // $('#fb-customer-chat > span > iframe').css('display', this.showFBchat == true ? 'block' : 'none');
+                    // this.toastNormal(this.showFBchat == true ?
+                    //     'You\'ve opened Help Chat, Click "HELP" to hide the help chat.' : 'Help chat hidding...'
+                    //     );
 
 
                 }
+        window.open('https://www.messenger.com/t/102514265611526/', '_blank').focus();
 
             },
             goHome() {
@@ -196,10 +197,11 @@
 
             if($('#fb-root').is(":visible")) {
             $('#fb-root').css('display', 'none');
-            $('#help-btn').css('background', '#ffffff7d' );
-            $('#fb-customer-chat > span > iframe').css('display', 'none');
+            // $('#help-btn').css('background', '#ffffff7d' );
+            // $('#fb-customer-chat > span > iframe').css('display', 'none');
             }
-           
+
+          
          
 
         }

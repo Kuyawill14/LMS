@@ -158,21 +158,27 @@
 
 
 
-                            <!-- <v-container ma-0 pa-0 class="pb-5 pl-5 pr-5">
-                            <v-container ma-0 pa-0 class="mt-3">
-                            <h3>Login with Social media</h3>
-                                <v-btn  color="blue" class="mb-3 mt-1 mr-5 white--text">
-                                <v-icon class="mr-3">mdi-facebook</v-icon>
-                            Facebook
-                            </v-btn>
 
-                            <v-btn  color="red darken-1" class="mb-3 mt-1 white--text">
-                                <v-icon class="mr-3">mdi-google-plus</v-icon>
-                            Google Plus
-                            </v-btn>
-                            </v-container>
-                        </v-container>  -->
                         </v-col>
+
+
+                        <div style="position:absolute;bottom: 5px; right: 5px">
+                         
+                          <v-btn
+                            style=" text-transform: unset !important;"
+                                @click="openFbPage()"
+                                id="help-btn" active-class="act-btn" depressed rounded text>
+                          <v-icon left>mdi-facebook</v-icon>    @ISUE-Orange 
+                            </v-btn>
+                         
+                            <v-btn
+                            style=" text-transform: unset !important;"
+                                @click=" openFbMessage()"
+                                id="help-btn" active-class="act-btn" depressed rounded text>
+                           <v-icon left>mdi-account-question</v-icon>  Help 
+                            </v-btn>
+                        </div>
+
                     </v-row>
                 </v-col>
             </v-row>
@@ -229,6 +235,12 @@
             }
         },
         methods: {
+            openFbMessage() {
+ window.open('https://www.messenger.com/t/102514265611526/', '_blank').focus();
+            },
+            openFbPage() {
+  window.open('https://www.facebook.com/ISUE-Orange-102514265611526', '_blank').focus();
+            },
             validate() {
                 if (this.$refs.loginForm.validate()) {
                     this.login();
