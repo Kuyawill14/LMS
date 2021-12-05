@@ -79,7 +79,7 @@ class AuthController extends Controller
         else{
             $this->incrementLoginAttempts($request);
             return response()->json([
-                "message" => "The provided credentials do not match our records.",
+                "message" => "Incorrect Email or Password. Please try again",
                 "success" => false
             ]);
         }
