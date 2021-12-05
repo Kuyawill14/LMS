@@ -38,7 +38,6 @@ const actions = {
         else{
             commit('SET_AUTHENTICATED', true);
             window.localStorage.setItem('IsAuthenticated', true);
-            console.log(state.IsAuthenticated);
         }
         
     },
@@ -77,12 +76,14 @@ const actions = {
         if (state.MyCourses.length == 0) {
             const res = await axios.get(`/api/course/status`);
             state.MyCourses = res.data;
-            return res;
+            return { 'status': res.status };
         } else {
             return { 'status': 200 };
         }
     },
     async setCourseStatus({ commit }, id) {
+        
+        if(state.MyCourses.includes())
         state.MyCourses.forEach(item => {
             if (item.id == id) {
                 item.status = 1;

@@ -35,7 +35,7 @@ use App\Http\Controllers\api\SubjectiveTypeRubrics;
 use App\Http\Controllers\api\CourseOverviewController;
 use App\Http\Controllers\api\admin\ManageUserController;
 use App\Http\Controllers\api\CampusDirector\CampusDirectorController;
-
+use App\Http\Controllers\api\ActivityLogController;
 use App\Http\Controllers\api\sms\testSmscontroller;
 /*
 |--------------------------------------------------------------------------
@@ -90,6 +90,7 @@ Route::middleware('auth:sanctum')->prefix('/course')->group(function () {
     Route::get('/ShowCourse/{id}', [SubjectCourseController::class, 'CourseDetails']);
     Route::post('/completed/{id}', [SubjectCourseController::class, 'courseCompleted']);
     Route::delete('/archiveCourse/{id}', [SubjectCourseController::class, 'ArchiveCourse']);
+    Route::delete('/delete/{id}', [SubjectCourseController::class, 'DeleteCourse']);
     Route::get('/status', [SubjectCourseController::class, 'CheckCourseStatus']);
     Route::put('/file-remove/{id}', [SubjectCourseController::class, 'RemoveUploadedFile']); 
 });
@@ -436,7 +437,9 @@ Route::middleware('auth:sanctum')->prefix('/department')->group(function() {
 });
 
 
-
+Route::prefix('/activitylog')->group(function() {
+    Route::get('/all', [ActivityLogController::class, 'index']);
+});
 
 
 

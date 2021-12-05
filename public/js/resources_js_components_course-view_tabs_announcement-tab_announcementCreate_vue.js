@@ -551,6 +551,7 @@ var render = function() {
                     ? _c("v-select", {
                         staticClass: "mr-2 ma-0 pa-0",
                         attrs: {
+                          "hide-details": "",
                           items: _vm.classNames,
                           "item-text": "class_name",
                           "item-value": "class_id",
@@ -571,8 +572,12 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
+                      staticClass: "mb-0 pb-0",
                       attrs: {
                         depressed: "",
+                        disabled:
+                          _vm.announcement.content == "" ||
+                          _vm.announcement.content == null,
                         type: "submit",
                         name: "create_post",
                         color: "primary"

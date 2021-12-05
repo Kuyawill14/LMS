@@ -26,8 +26,8 @@ const router = new Router({
             component: () => import ( /* webpackChunkName: "main-view" */ "./components/mainApp"),
             name: "mainApp",
             beforeEnter: (to, form, next) => {
-                store.dispatch('IsAuthenticated').then(() => {
-                    if (store.state.CurrentUser.IsAuthenticated == true) {
+              /*   store.dispatch('IsAuthenticated').then(() => {
+                    if (store.state.CurrentUser.IsAuthenticated == true) { */
                         store.dispatch('fetchCurrentUser').then(() => {
                             if(store.state.CurrentUser.isSuccess){
                                 if (store.state.CurrentUser.IsVerified == true) {
@@ -49,7 +49,7 @@ const router = new Router({
                             });
                         })
 
-                    } else {
+                   /*  } else {
                         return next({
                             path: "/login",
                             replace: true
@@ -61,7 +61,7 @@ const router = new Router({
                         path: "/login",
                         replace: true
                     });
-                })
+                }) */
 
             },
             children: [
@@ -117,7 +117,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     NProgress.start()  
     const protectedRoutes = ['studentGradebook', 'gradebook','mystudentProgress','studentProgress','gradingCriteria','settings','about','Student-list',
-    'modules-preview','student-modules','classwork','announcement','courseSetup','modules','coursePage',
+    'modules-preview','student-modules','classwork','announcement','courseSetup','modules','coursePage','classses',
     'clwk','add-question','submission-list','question-analytics','publish-to'];
 
 

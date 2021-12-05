@@ -186,7 +186,6 @@ class SubjectCourseController extends Controller
      */
     public function ArchiveCourse($id)
     {
-        //return $id;
         $CheckCourse = tbl_teacher_course::where("course_id", $id)->first();
         if($CheckCourse){
             $CheckClass = tbl_userclass::where("course_id", $id)
@@ -195,6 +194,31 @@ class SubjectCourseController extends Controller
             return "Course Archive";
         }
         return "Course not found!";
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function DeleteCourse($id){
+
+        $CheckClass = tbl_userclass::where("course_id", $id)->count();
+        if($CheckClass == 0){
+            $CheckCourse = tbl_teacher_course::where("course_id", $id)->first();
+            if($CheckCourse){
+                $class = tbl_userclass::where("course_id", $id)->forceDelete();
+                $course = tbl_subject_course::find($id);
+                $course->forceDelete();
+                $CheckCourse->forceDelete();
+                return "Course Deleted";
+            }
+            return "Course not found!";
+        }else{
+            return "This course already have student!";
+        }
     }
 
     /**

@@ -244,7 +244,7 @@ class ClassController extends Controller
         $class = Tbl_class::find($id);
         if($class) {
             $userClass = tbl_userclass::where('class_id', $id)->where('user_id', $userId)->where('course_id',$class->course_id)->delete();
-            $class->delete();
+            $class->ForceDelete();
             return 'Successfully Removed';
         }
     }

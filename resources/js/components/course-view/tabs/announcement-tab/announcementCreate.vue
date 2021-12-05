@@ -100,7 +100,7 @@
           
                 v-if="UserDetails.role != 'Student'"
                 class="mr-2 ma-0 pa-0"
-             
+                hide-details
                  :items="classNames"
                 item-text="class_name"
                 item-value="class_id"
@@ -109,7 +109,7 @@
                 dense
                 solo
                 ></v-select>
-                <v-btn depressed type="submit" name="create_post" color="primary"
+                <v-btn class="mb-0 pb-0" depressed :disabled="announcement.content == '' || announcement.content == null" type="submit" name="create_post" color="primary"
                     @click="createPost">Post</v-btn>
                 </v-container>
             </v-col>

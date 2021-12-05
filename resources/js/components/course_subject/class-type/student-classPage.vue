@@ -35,24 +35,26 @@
 
         <v-dialog v-model="dialog" width="400px">
             <v-card>
-                <v-card-title class="">
-                    Join Class
-                </v-card-title>
-                <v-container>
-                    <v-row class="mx-2">
+                <v-form @submit.prevent="validate" ref="form" v-model="valid" lazy-validation>
+                    <v-card-title class="">
+                        Join Class
+                    </v-card-title>
+                    <v-container>
+                        <v-row class="mx-2">
 
-                        <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="form.class_code" filled color="primary" label="Class Code">
-                            </v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-container>
-                <v-card-actions>
+                            <v-col cols="12" class="pa-0 ma-0">
+                                <v-text-field @keydown.space.prevent :rules="rules" v-model="form.class_code" filled color="primary" label="Class Code">
+                                </v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                    <v-card-actions>
 
-                    <v-spacer></v-spacer>
-                    <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text color="primary" :disabled="isJoining" @click="joinClass">{{isJoining ? 'Joining...': 'Join'}}</v-btn>
-                </v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text color="secondary" @click="dialog = false,$refs.form.resetValidation()">Cancel</v-btn>
+                        <v-btn type="submit" text color="primary" :disabled="isJoining" tyoe="submit">{{isJoining ? 'Joining...': 'Join'}}</v-btn>
+                    </v-card-actions>
+                </v-form>
             </v-card>
         </v-dialog>
 
@@ -213,12 +215,22 @@
                 school_year_id: '',
                 semester_id: '',
                 isLeaving: false,
-                isJoining: false
+                isJoining: false,
+                valid: true,
+                rules: [
+                    v => !!v || 'Class code is required',
+                ],
+
             };
         },
         computed: mapGetters(["allClass"]),
         methods: {
             ...mapActions(["fetchClassList"]),
+            validate(){
+                if( this.$refs.form.validate()){
+                    this.joinClass();
+                }
+            },
             openJoinmodal() {
                 this.dialog = !this.dialog;
             },
@@ -256,7 +268,8 @@
                         this.isJoining = false
                         
                     } else {
-                        this.toastError('Something went wrong while joining the class!');
+                        this.toastError(res.data);
+                        this.isJoining = false
                     }
                 });
             },

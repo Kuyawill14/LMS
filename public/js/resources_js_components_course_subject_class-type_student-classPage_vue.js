@@ -207,6 +207,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -227,11 +229,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       school_year_id: '',
       semester_id: '',
       isLeaving: false,
-      isJoining: false
+      isJoining: false,
+      valid: true,
+      rules: [function (v) {
+        return !!v || 'Class code is required';
+      }]
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchClassList"])), {}, {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.joinClass();
+      }
+    },
     openJoinmodal: function openJoinmodal() {
       this.dialog = !this.dialog;
     },
@@ -274,7 +285,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this.form.class_code = '';
           _this.isJoining = false;
         } else {
-          _this.toastError('Something went wrong while joining the class!');
+          _this.toastError(res.data);
+
+          _this.isJoining = false;
         }
       });
     },
@@ -579,74 +592,119 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", {}, [
-                _vm._v("\n                   Join Class\n               ")
-              ]),
-              _vm._v(" "),
               _c(
-                "v-container",
+                "v-form",
+                {
+                  ref: "form",
+                  attrs: { "lazy-validation": "" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.validate.apply(null, arguments)
+                    }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
+                  }
+                },
                 [
+                  _c("v-card-title", {}, [
+                    _vm._v(
+                      "\n                       Join Class\n                   "
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-row",
-                    { staticClass: "mx-2" },
+                    "v-container",
                     [
                       _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                        "v-row",
+                        { staticClass: "mx-2" },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Class Code"
-                            },
-                            model: {
-                              value: _vm.form.class_code,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "class_code", $$v)
-                              },
-                              expression: "form.class_code"
-                            }
-                          })
+                          _c(
+                            "v-col",
+                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.rules,
+                                  filled: "",
+                                  color: "primary",
+                                  label: "Class Code"
+                                },
+                                on: {
+                                  keydown: function($event) {
+                                    if (
+                                      !$event.type.indexOf("key") &&
+                                      _vm._k(
+                                        $event.keyCode,
+                                        "space",
+                                        32,
+                                        $event.key,
+                                        [" ", "Spacebar"]
+                                      )
+                                    ) {
+                                      return null
+                                    }
+                                    $event.preventDefault()
+                                  }
+                                },
+                                model: {
+                                  value: _vm.form.class_code,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "class_code", $$v)
+                                  },
+                                  expression: "form.class_code"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "", color: "secondary" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Cancel")]
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        text: "",
-                        color: "primary",
-                        disabled: _vm.isJoining
-                      },
-                      on: { click: _vm.joinClass }
-                    },
-                    [_vm._v(_vm._s(_vm.isJoining ? "Joining..." : "Join"))]
+                    "v-card-actions",
+                    [
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "", color: "secondary" },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.dialog = false),
+                                _vm.$refs.form.resetValidation()
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            type: "submit",
+                            text: "",
+                            color: "primary",
+                            disabled: _vm.isJoining,
+                            tyoe: "submit"
+                          }
+                        },
+                        [_vm._v(_vm._s(_vm.isJoining ? "Joining..." : "Join"))]
+                      )
+                    ],
+                    1
                   )
                 ],
                 1

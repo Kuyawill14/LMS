@@ -1,50 +1,49 @@
 <template>
 
     <v-card>
+        <v-form @submit.prevent="validate" ref="form" v-model="valid" lazy-validation>
         <v-card-title class="">
             Create Class
         </v-card-title>
         <v-container>
-            <v-row class="mx-2">
+            
+                <v-row class="mx-2">
+                    <v-col cols="12" class="pa-0 ma-0">
+                        <v-text-field :rules="rules" class="mb-0 pb-0" v-model="form.class_name"   outlined color="primary" label="Class Name">
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="12" class="pa-0 ma-0">
+                        <v-switch
+                            v-model="form.auto_accept"
+                            label="Auto accept"
+                            hide-details
+                            ></v-switch>
+                    </v-col>
 
-                <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field  required v-model="form.class_name"  hide-details outlined color="primary" label="Class Name">
-                    </v-text-field>
-                </v-col>
-                 <v-col cols="12" class="pa-0 ma-0">
-                    <v-switch
-                        v-model="form.auto_accept"
-                        label="Auto accept"
-                        hide-details
-                        ></v-switch>
-                </v-col>
-
-                 <v-col cols="12" class="pa-0 ma-0 mt-5">
-                     <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
-                         Add Schedule <v-icon>mdi-plus</v-icon>
-                     </v-btn>
-                </v-col>
-                <v-col cols="12" class="pa-0 ma-0 mt-2">
-                    <v-row>
-                        <v-col cols="12" v-for="(item , index) in form.schedule" :key="index">
-                            <div class="d-flex">
-                                <v-icon color="red" class="pr-1">mdi-calendar</v-icon>
-                                <span>{{item.day}},- </span>
-                                <span>{{item.display_start+' to '+item.display_end}}</span>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-col>
-                
-                 
-                
-            </v-row>
+                    <v-col cols="12" class="pa-0 ma-0 mt-5">
+                        <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
+                            Add Schedule <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="12" class="pa-0 ma-0 mt-2">
+                        <v-row>
+                            <v-col cols="12" v-for="(item , index) in form.schedule" :key="index">
+                                <div class="d-flex">
+                                    <v-icon color="red" class="pr-1">mdi-calendar</v-icon>
+                                    <span>{{item.day}},- </span>
+                                    <span>{{item.display_start+' to '+item.display_end}}</span>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+          
         </v-container>
         <v-card-actions>
 
             <v-spacer></v-spacer>
-            <v-btn text @click="$emit('closeModal');">Cancel</v-btn>
-            <v-btn text color="primary" :disabled="sending" @click="createClass">Create</v-btn>
+            <v-btn text @click="$emit('closeModal'),$refs.form.resetValidation()">Cancel</v-btn>
+            <v-btn text color="primary" type="submit">Create</v-btn>
         </v-card-actions>
 
         <div>
@@ -86,7 +85,7 @@
                 </v-card>
             </v-dialog>
         </div>
-
+   </v-form>
     </v-card>
 </template>
 
@@ -98,7 +97,6 @@ import moment from 'moment-timezone';
             required: null,
             textarea: null,
             hasMessages: false,
-            sending: false,
             form: {
                 class_name: '',
                 course_id: null,
@@ -111,10 +109,19 @@ import moment from 'moment-timezone';
             menu: false,
             menu1: false,
             addScheduleDialog: false,
-            day: null
+            day: null,
+            valid: true,
+            rules: [
+                v => !!v || 'Class name is required',
+            ],
            
         }),
         methods: {
+            validate(){
+                if(this.$refs.form.validate()){
+                    this.createClass();
+                }
+            },
             toastSuccess() {
                 return this.$toasted.success("Class Successfully Created", {
                     theme: "toasted-primary",
@@ -124,17 +131,13 @@ import moment from 'moment-timezone';
                 });
             },
             createClass() {
+               
+                this.form.course_id = this.$route.params.id;
+                this.$store.dispatch('createClass', this.form);
+                this.clearFormInputs();
                 this.$emit('closeModal')
-                this.$emit('createclass')
-                this.sending = true;
-                if (this.form.class_name != "") {
-                    this.toastSuccess();
-                    this.form.course_id = this.$route.params.id;
-                    ////console.log(this.form);
-                    this.$store.dispatch('createClass', this.form);
-                    this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
-                    this.sending = false;
-                }
+                this.toastSuccess();
+
             },
             AddSchedule(){
               
@@ -160,6 +163,13 @@ import moment from 'moment-timezone';
                 this.day = null;
                 this.start_time = null;
                 this.end_time = null;
+            },
+            clearFormInputs(){
+                this.form.class_name = '';
+                this.form.course_id = null;
+                this.form.end_timeauto_accept = false;
+                this.form.schedule = [];
+                this.$refs.form.resetValidation()
             }
         }
     }

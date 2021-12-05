@@ -11,9 +11,17 @@ const getters = {
 };
 
 const actions = {
-    async fetchCourseList({ commit }) {
+    async fetchCourseList({ commit , rootState}) {
         const response = await axios.get("/api/course/all");
         commit("setcourseList", response.data);
+        rootState.CurrentUser.MyCourses = [];
+        response.data.forEach(item => {
+            
+            rootState.CurrentUser.MyCourses.push({
+                id: item.id,
+                status: item.completed
+            })
+        });
     },
     async createCourse({ commit, rootState }, courseItem) {
         delete courseItem.id;

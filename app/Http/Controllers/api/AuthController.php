@@ -23,7 +23,7 @@ class AuthController extends Controller
     use ThrottlesLogins;
 
     protected $maxAttempts = 5;
-    protected $decayMinutes = 2;
+    protected $decayMinutes = 1;
 
     public function UserLogin(Request $request){
 

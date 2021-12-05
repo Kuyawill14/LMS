@@ -231,6 +231,7 @@ var archiveClass = function archiveClass() {
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
     closeModal: function closeModal() {
+      this.fetchSubjectCourseClassList(this.$route.params.id);
       this.showModal = false;
     },
     openAddmodal: function openAddmodal() {

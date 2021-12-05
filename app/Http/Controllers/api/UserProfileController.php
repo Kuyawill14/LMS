@@ -35,17 +35,27 @@ class UserProfileController extends Controller
     public function index()
     {
    
-        //return \Config::get('app.do_url');
-        $userId = auth('sanctum')->id();
-        
+       
+        $currentUser = auth('sanctum')->user();
+        $userDetails  = auth('sanctum')->user()->tbl_userDetails;
+        $userDetails->email = $currentUser->email;
+        $userDetails->role = $currentUser->role;
+
+        if($currentUser->email == 'admin@gmail.com'){
+            $userDetails->verified = $userDetails->verified = true;
+        }else{
+            $userDetails->verified = $currentUser->email_verified_at != null ? true : false;
+        }
+        return $userDetails;
       
 
+        /* $userId = auth('sanctum')->id();
         $userDetails = User::where('users.id' ,$userId)
         ->select('users.role','users.email','users.email_verified_at as verified',
         'tbl_user_details.*','department_id')
         ->leftjoin('tbl_user_departments', 'tbl_user_departments.user_id', '=', 'users.id')
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
-        ->first();
+        ->first(); */
         
 
        /*  $name = $userDetails->firstName.' '.$userDetails->lastName;

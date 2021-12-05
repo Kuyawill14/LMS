@@ -29,7 +29,7 @@
             </v-row>
         </v-container>
 
-        <v-dialog v-model="showModal" width="400px">
+        <v-dialog persistent v-model="showModal" width="400px">
             <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm :class_details="class_details" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"

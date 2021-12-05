@@ -18,4 +18,10 @@ class tbl_userDetails extends Model
      */
     //protected $hidden = ['firstName', 'lastName'];
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

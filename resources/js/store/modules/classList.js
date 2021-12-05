@@ -22,14 +22,7 @@ const actions = {
     },
 
     async createClass({ commit }, classItem) {
-        delete classItem.id;
         let res = await axios.post(`/api/class/insert`, { class: classItem });
-
-        let newCLass = res.data;
-        commit("ADD_class", newCLass);
-        // state.classList.push({...newCLass });
-
-        return newCLass;
     },
 
     async updateClass({ commit }, classItem) {

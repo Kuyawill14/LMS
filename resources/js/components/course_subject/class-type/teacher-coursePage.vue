@@ -10,6 +10,15 @@
             </confirmArchiveCourse>
         </v-dialog>
 
+        <v-dialog v-model="deleteDiaglog" persistent max-width="400">
+            <confirmDeleteCourse v-on:toggleCancelDialog="deleteDiaglog = !deleteDiaglog"
+                v-on:toggleconfirm="deleteCourse()" :ArchiveDetails="ArchiveDetails" v-if="deleteDiaglog">
+            </confirmDeleteCourse>
+        </v-dialog>
+
+
+        
+
         <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -39,32 +48,35 @@
         </v-container> -->
 
 
-        <v-dialog v-model="dialog" width="400px">
+        <v-dialog persistent v-model="dialog" width="400px">
             <v-card>
+                <v-form @submit.prevent="validate()" ref="form" v-model="valid" lazy-validation>
+
+                
                 <vue-element-loading :active="isloading" spinner="bar-fade-scale" />
-                <v-card-title class="">
-                    {{modalType == 'add' ? 'Create Course' : 'Edit Course'}}
+                <v-card-title>
+                     Create Course
                 </v-card-title>
                 <v-container>
                     <v-row class="mx-2">
                         <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="form.course_code" filled color="primary" label="Course Code">
+                            <v-text-field :rules="Coderules" v-model="form.course_code" filled color="primary" label="Course Code">
                             </v-text-field>
                         </v-col>
 
                         <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="form.course_name" filled color="primary" label="Course Name">
+                            <v-text-field :rules="Namerules" v-model="form.course_name" filled color="primary" label="Course Name">
                             </v-text-field>
                         </v-col>
                     </v-row>
                 </v-container>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text color="secondary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text :disabled="isloading" color="primary"
-                        @click="modalType == 'add' ? createCourse() : updateCourse()">
+                    <v-btn text color="secondary" @click="dialog = false,$refs.form.resetValidation()">Cancel</v-btn>
+                    <v-btn text :disabled="isloading" color="primary" type="submit">
                         {{isloading ? 'Saving...' : 'Save'}}</v-btn>
                 </v-card-actions>
+                </v-form>
             </v-card>
         </v-dialog>
 
@@ -133,7 +145,7 @@
                                                 <v-list-item-title>Archive</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item v-if="item.student_count == 0" link>
+                                            <v-list-item @click="DeleteConfirm(item.course_name, item.id)" v-if="item.student_count == 0" link>
                                                 <v-list-item-title>Delete</v-list-item-title>
 
                                             </v-list-item>
@@ -157,7 +169,7 @@
                             </v-img>
                             <v-hover v-slot="{ hover }">
                                 <v-card-subtitle class="mt-0 pt-0 pl-0 ml-0">
-                                    <router-link :to="{name: 'coursePage', params: {id: item.id}}"
+                                    <router-link :to="item.completed == 1 ? {name: 'coursePage', params: {id: item.id}} : {name: 'courseSetup', params: {id: item.id}}"
                                         style="text-decoration: none">
                                     <!--  <p style="font-size: 16px;">{{item.course_code }}
                                             <br> {{ item.course_name}}
@@ -207,14 +219,15 @@
 
 <script>
     const confirmArchiveCourse = () => import("./dialog/confirmArchiveCourse")
+     const confirmDeleteCourse = () => import("./dialog/confirmDeleteCourse")
     import {
         mapGetters,
         mapActions
     } from "vuex";
     export default {
         components: {
-            //    VueElementLoading,
-            confirmArchiveCourse
+            confirmArchiveCourse,
+            confirmDeleteCourse
         },
         data() {
             return {
@@ -241,12 +254,26 @@
                 ArchiveDetails: {},
                 allCoursesData: [],
                 isLeaving: false,
+                Coderules: [
+                    v => !!v || 'Course code is required',
+                ],
+                Namerules: [
+                    v => !!v || 'Course name is required',
+                ],
+                 valid: true,
+                 deleteDiaglog:false,
 
             }
         },
         computed: mapGetters(['allCourse']),
         methods: {
             ...mapActions(['fetchCourseList']),
+            validate () {
+               
+                if( this.$refs.form.validate()){
+                    this.createCourse();
+                }
+            },
             toastSuccess(message, icon) {
                 return this.$toasted.success(message, {
                     theme: "toasted-primary",
@@ -260,12 +287,26 @@
                 this.ArchiveDetails.name = name;
                 this.Archivedialog = !this.Archivedialog
             },
+            DeleteConfirm(name, id) {
+                this.ArchiveDetails.course_id = id;
+                this.ArchiveDetails.name = name;
+                this.deleteDiaglog = !this.deleteDiaglog
+            },
             archiveCourse() {
                 axios.delete('/api/course/archiveCourse/' + this.ArchiveDetails.course_id)
                     .then(res => {
                         this.fetchCourses();
                         this.Archivedialog = !this.Archivedialog;
                     })
+            },
+             deleteCourse() {
+                axios.delete('/api/course/delete/' + this.ArchiveDetails.course_id)
+                    .then(res => {
+                        this.deleteDiaglog = !this.deleteDiaglog
+                        this.fetchCourses();
+                        this.toastSuccess("Successfully deleted!");
+                    })
+                    
             },
             openAddmodal() {
                 this.dialog = !this.dialog;

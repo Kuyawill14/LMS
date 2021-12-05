@@ -14,7 +14,7 @@ const getters = {
 };
 
 const actions = {
-    async fetchScourse({ commit }, id) {
+    async fetchScourse({ commit}, id) {
         if(state.current_course != id || state.courseInfo.completed != 1){
             state.current_course = id;
             const res = await axios.get(

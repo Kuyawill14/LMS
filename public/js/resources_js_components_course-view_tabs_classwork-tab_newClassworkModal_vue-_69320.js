@@ -193,6 +193,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       FieldRules: [function (v) {
         return !!v || 'Field is required';
       }],
+      pointsRules: [function (v) {
+        return !!v || 'Points is required';
+      }, function (v) {
+        return v && v >= 1 || "Points should be above or 0";
+      }],
       file_name: [],
       counter: 0,
       tmpName: [],
@@ -9031,9 +9036,9 @@ var render = function() {
                                 ? _c("v-text-field", {
                                     staticClass: "mb-0 pb-0",
                                     attrs: {
-                                      rules: _vm.FieldRules,
+                                      rules: _vm.pointsRules,
                                       outlined: "",
-                                      min: "0",
+                                      min: "1",
                                       label: "Points",
                                       type: "number"
                                     },
@@ -9088,7 +9093,6 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c("v-file-input", {
-                                ref: "inputFile",
                                 staticClass: "d-none",
                                 attrs: {
                                   multiple: "",

@@ -225,15 +225,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
+};
+
+var confirmDeleteCourse = function confirmDeleteCourse() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmDeleteCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmDeleteCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmDeleteCourse.vue"));
 };
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    //    VueElementLoading,
-    confirmArchiveCourse: confirmArchiveCourse
+    confirmArchiveCourse: confirmArchiveCourse,
+    confirmDeleteCourse: confirmDeleteCourse
   },
   data: function data() {
     return {
@@ -259,11 +275,24 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       Archivedialog: false,
       ArchiveDetails: {},
       allCoursesData: [],
-      isLeaving: false
+      isLeaving: false,
+      Coderules: [function (v) {
+        return !!v || 'Course code is required';
+      }],
+      Namerules: [function (v) {
+        return !!v || 'Course name is required';
+      }],
+      valid: true,
+      deleteDiaglog: false
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.createCourse();
+      }
+    },
     toastSuccess: function toastSuccess(message, icon) {
       return this.$toasted.success(message, {
         theme: "toasted-primary",
@@ -277,6 +306,11 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       this.ArchiveDetails.name = name;
       this.Archivedialog = !this.Archivedialog;
     },
+    DeleteConfirm: function DeleteConfirm(name, id) {
+      this.ArchiveDetails.course_id = id;
+      this.ArchiveDetails.name = name;
+      this.deleteDiaglog = !this.deleteDiaglog;
+    },
     archiveCourse: function archiveCourse() {
       var _this = this;
 
@@ -284,6 +318,17 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
         _this.fetchCourses();
 
         _this.Archivedialog = !_this.Archivedialog;
+      });
+    },
+    deleteCourse: function deleteCourse() {
+      var _this2 = this;
+
+      axios["delete"]('/api/course/delete/' + this.ArchiveDetails.course_id).then(function (res) {
+        _this2.deleteDiaglog = !_this2.deleteDiaglog;
+
+        _this2.fetchCourses();
+
+        _this2.toastSuccess("Successfully deleted!");
       });
     },
     openAddmodal: function openAddmodal() {
@@ -304,20 +349,20 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       this.form.course_id = selectedCourse.course_id;
     },
     createCourse: function createCourse() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isloading = true;
 
       if (this.form.course_name != "" && this.form.course_code != "") {
         this.$store.dispatch('createCourse', this.form).then(function (res) {
-          _this2.dialog = false;
+          _this3.dialog = false;
           var id = res.id;
 
-          _this2.toastSuccess("Your course has been Added", 'done');
+          _this3.toastSuccess("Your course has been Added", 'done');
 
-          _this2.isLeaving = true;
+          _this3.isLeaving = true;
 
-          _this2.$router.push({
+          _this3.$router.push({
             name: 'courseSetup',
             params: {
               id: id
@@ -327,23 +372,23 @@ var confirmArchiveCourse = function confirmArchiveCourse() {
       }
     },
     fetchCourses: function fetchCourses() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.school_year_id = 0;
       this.semester_id = 0;
       this.isGetting = true;
       this.$store.dispatch('fetchCourseList').then(function () {
-        _this3.allCoursesData = _this3.allCourse;
-        _this3.coursesLength = _this3.allCourse.length;
-        _this3.isGetting = false;
+        _this4.allCoursesData = _this4.allCourse;
+        _this4.coursesLength = _this4.allCourse.length;
+        _this4.isGetting = false;
       });
     },
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
-        _this4.school_year = res.data.school_year;
-        _this4.semester = res.data.semester;
+        _this5.school_year = res.data.school_year;
+        _this5.semester = res.data.semester;
       });
     },
     schoolYearFilter: function schoolYearFilter() {
@@ -588,6 +633,36 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.deleteDiaglog,
+            callback: function($$v) {
+              _vm.deleteDiaglog = $$v
+            },
+            expression: "deleteDiaglog"
+          }
+        },
+        [
+          _vm.deleteDiaglog
+            ? _c("confirmDeleteCourse", {
+                attrs: { ArchiveDetails: _vm.ArchiveDetails },
+                on: {
+                  toggleCancelDialog: function($event) {
+                    _vm.deleteDiaglog = !_vm.deleteDiaglog
+                  },
+                  toggleconfirm: function($event) {
+                    return _vm.deleteCourse()
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.coursesLength == 0
         ? _c(
             "v-row",
@@ -640,7 +715,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "400px" },
+          attrs: { persistent: "", width: "400px" },
           model: {
             value: _vm.dialog,
             callback: function($$v) {
@@ -653,117 +728,133 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("vue-element-loading", {
-                attrs: { active: _vm.isloading, spinner: "bar-fade-scale" }
-              }),
-              _vm._v(" "),
-              _c("v-card-title", {}, [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(
-                      _vm.modalType == "add" ? "Create Course" : "Edit Course"
-                    ) +
-                    "\n                "
-                )
-              ]),
-              _vm._v(" "),
               _c(
-                "v-container",
+                "v-form",
+                {
+                  ref: "form",
+                  attrs: { "lazy-validation": "" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.validate()
+                    }
+                  },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
+                  }
+                },
                 [
+                  _c("vue-element-loading", {
+                    attrs: { active: _vm.isloading, spinner: "bar-fade-scale" }
+                  }),
+                  _vm._v(" "),
+                  _c("v-card-title", [
+                    _vm._v(
+                      "\n                     Create Course\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-row",
-                    { staticClass: "mx-2" },
+                    "v-container",
                     [
                       _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                        "v-row",
+                        { staticClass: "mx-2" },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Course Code"
-                            },
-                            model: {
-                              value: _vm.form.course_code,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "course_code", $$v)
-                              },
-                              expression: "form.course_code"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Course Name"
-                            },
-                            model: {
-                              value: _vm.form.course_name,
-                              callback: function($$v) {
-                                _vm.$set(_vm.form, "course_name", $$v)
-                              },
-                              expression: "form.course_name"
-                            }
-                          })
+                          _c(
+                            "v-col",
+                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.Coderules,
+                                  filled: "",
+                                  color: "primary",
+                                  label: "Course Code"
+                                },
+                                model: {
+                                  value: _vm.form.course_code,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "course_code", $$v)
+                                  },
+                                  expression: "form.course_code"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.Namerules,
+                                  filled: "",
+                                  color: "primary",
+                                  label: "Course Name"
+                                },
+                                model: {
+                                  value: _vm.form.course_name,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "course_name", $$v)
+                                  },
+                                  expression: "form.course_name"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "", color: "secondary" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Cancel")]
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        text: "",
-                        disabled: _vm.isloading,
-                        color: "primary"
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.modalType == "add"
-                            ? _vm.createCourse()
-                            : _vm.updateCourse()
-                        }
-                      }
-                    },
+                    "v-card-actions",
                     [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(_vm.isloading ? "Saving..." : "Save")
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "", color: "secondary" },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.dialog = false),
+                                _vm.$refs.form.resetValidation()
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            text: "",
+                            disabled: _vm.isloading,
+                            color: "primary",
+                            type: "submit"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.isloading ? "Saving..." : "Save")
+                          )
+                        ]
                       )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1
@@ -1083,7 +1174,17 @@ var render = function() {
                                           item.student_count == 0
                                             ? _c(
                                                 "v-list-item",
-                                                { attrs: { link: "" } },
+                                                {
+                                                  attrs: { link: "" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.DeleteConfirm(
+                                                        item.course_name,
+                                                        item.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
                                                 [
                                                   _c("v-list-item-title", [
                                                     _vm._v("Delete")
@@ -1125,10 +1226,20 @@ var render = function() {
                                                     "text-decoration": "none"
                                                   },
                                                   attrs: {
-                                                    to: {
-                                                      name: "coursePage",
-                                                      params: { id: item.id }
-                                                    }
+                                                    to:
+                                                      item.completed == 1
+                                                        ? {
+                                                            name: "coursePage",
+                                                            params: {
+                                                              id: item.id
+                                                            }
+                                                          }
+                                                        : {
+                                                            name: "courseSetup",
+                                                            params: {
+                                                              id: item.id
+                                                            }
+                                                          }
                                                   }
                                                 },
                                                 [

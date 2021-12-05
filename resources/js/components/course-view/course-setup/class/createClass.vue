@@ -1,6 +1,8 @@
 <template>
 
     <v-card>
+         <v-form @submit.prevent="validate" ref="form" v-model="valid" lazy-validation>
+      
         <v-card-title class="">
             Create Class
         </v-card-title>
@@ -8,7 +10,7 @@
             <v-row class="mx-2">
 
                 <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field  required v-model="form.class_name"  hide-details outlined color="primary" label="Class Name">
+                    <v-text-field  required v-model="form.class_name" :rules="rules" outlined color="primary" label="Class Name">
                     </v-text-field>
                 </v-col>
                  <v-col cols="12" class="pa-0 ma-0">
@@ -44,7 +46,7 @@
 
             <v-spacer></v-spacer>
             <v-btn text @click="$emit('closeModal');">Cancel</v-btn>
-            <v-btn text color="primary" :disabled="sending" @click="createClass">Create</v-btn>
+            <v-btn text color="primary" :disabled="sending" type="submit">Create</v-btn>
         </v-card-actions>
 
         <div>
@@ -86,7 +88,7 @@
                 </v-card>
             </v-dialog>
         </div>
-
+   </v-form>
     </v-card>
 </template>
 
@@ -111,10 +113,19 @@ import moment from 'moment-timezone';
             menu: false,
             menu1: false,
             addScheduleDialog: false,
-            day: null
+            day: null,
+            valid: true,
+            rules: [
+                v => !!v || 'Class name is required',
+            ],
            
         }),
         methods: {
+             validate(){
+                if(this.$refs.form.validate()){
+                    this.createClass();
+                }
+            },
             toastSuccess() {
                 return this.$toasted.success("Class Successfully Created", {
                     theme: "toasted-primary",
@@ -125,21 +136,14 @@ import moment from 'moment-timezone';
             },
             createClass() {
                 this.$emit('closeModal')
-                this.$emit('createclass')
-                this.sending = true;
-                if (this.form.class_name != "") {
-                    this.toastSuccess();
-                    this.form.course_id = this.$route.params.id;
-                    ////console.log(this.form);
-                    this.$store.dispatch('createClass', this.form).then(()=> {
-                         this.fetchSubjectCourseClassList(this.$route.params.id);
-                    });
-                   
-
-                    this.$store.dispatch('createClass', this.form);
-                    this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
-                    this.sending = false;
-                }
+                this.sending = true;       
+                this.toastSuccess();
+                this.form.course_id = this.$route.params.id;
+                this.$store.dispatch('createClass', this.form);
+                this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
+                this.clearFormInputs();
+                this.sending = false;
+        
             },
             AddSchedule(){
               
@@ -165,6 +169,13 @@ import moment from 'moment-timezone';
                 this.day = null;
                 this.start_time = null;
                 this.end_time = null;
+            },
+            clearFormInputs(){
+                this.form.class_name = '';
+                this.form.course_id = null;
+                this.form.auto_accept = false;
+                this.form.schedule = [];
+                this.$refs.form.resetValidation()
             }
         }
     }

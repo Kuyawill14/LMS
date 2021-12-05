@@ -28,8 +28,7 @@
                                 :rules="FieldRules"
                                 v-model="form.title"
                                 label="Title"
-                                auto-grow
-                                >
+                                auto-grow>
                             </v-textarea>
                         </v-col>
                         <v-col class="mb-8 pb-0 pt-0 mt-0" cols="12">
@@ -61,13 +60,14 @@
 
                           <v-col v-if="form.type == 'Subjective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
                             <v-text-field
-                                :rules="FieldRules"
+                                :rules="pointsRules"
                                 v-if="form.type == 'Subjective Type'"
                                 outlined
-                                min="0"
+                                min="1"
                                 class="mb-0 pb-0"
                                 v-model="form.points"
                                 label="Points" 
+                                
                                 type="number">
                                 </v-text-field>
                         </v-col>
@@ -81,7 +81,7 @@
                               </v-btn>
                              <v-file-input
                                 multiple
-                                @change="onFileChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain" ref="inputFile"
+                                @change="onFileChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain"  
                                 class="d-none">
                             </v-file-input>
 
@@ -170,6 +170,10 @@ export default {
             },
             FieldRules: [
                 v => !!v || 'Field is required',
+            ],
+            pointsRules:[
+                v => !!v || 'Points is required',
+                v => ( v && v >= 1 ) || "Points should be above or 0",
             ],
             file_name: [],
             counter: 0,

@@ -518,7 +518,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "400px" },
+          attrs: { persistent: "", width: "400px" },
           model: {
             value: _vm.showModal,
             callback: function($$v) {

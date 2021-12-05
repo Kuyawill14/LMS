@@ -648,9 +648,7 @@ class StudentController extends Controller
         ->where('class_id', $class_id)->where('notification_type', 2)
         ->first();
 
-        $user = tbl_userDetails::where('user_id', $userId)
-        ->select('firstName', 'lastName')
-        ->first();
+        $userName = auth('sanctum')->user()->tbl_userDetails->firstName.' '.auth('sanctum')->user()->tbl_userDetails->lastName;
 
         if($CheckNotif){
             $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
@@ -661,10 +659,10 @@ class StudentController extends Controller
 
             if($userCount <= 2){
                 if($type == 'joined'){
-                    $CheckNotif->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $CheckNotif->message = $userName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
                 else if($type == 'request'){
-                    $CheckNotif->message = $user->firstName." ".$user->lastName." ask to join your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $CheckNotif->message = $userName." ask to join your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
                 
             }   
@@ -672,10 +670,10 @@ class StudentController extends Controller
                 $userCount = $userCount - 1;
                 
                 if($type == 'joined'){
-                    $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $CheckNotif->message = $userName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
                 else if($type == 'request'){
-                    $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$userCount." others ask to join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $CheckNotif->message = $userName." and ".$userCount." others ask to join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
             }
             $CheckNotif->from_id =  $userId;
@@ -691,19 +689,19 @@ class StudentController extends Controller
 
             if($userCount <= 2){
                 if($type == 'joined'){
-                    $newNotification->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $newNotification->message = $userName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
                 else if($type == 'request'){
-                    $newNotification->message = $user->firstName." ".$user->lastName." ask to join your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $newNotification->message = $userName." ask to join your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
             }   
             else{
                 $userCount = $userCount - 1;
                 if($type == 'joined'){
-                    $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $newNotification->message = $userName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
                 else if($type == 'request'){
-                    $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others ask to join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
+                    $newNotification->message = $userName." and ".$userCount." others ask to join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
                 }
                 
             }
@@ -729,7 +727,7 @@ class StudentController extends Controller
         $Class = Tbl_class::where('class_code', $id)->first();
         
         if(!$Class){
-            return response()->json("Class doest exist",203);
+            return response()->json("Class doesn't exist",203);
         }
     
         $Check = tbl_userclass::withTrashed()

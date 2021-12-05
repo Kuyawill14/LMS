@@ -199,6 +199,7 @@
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
             closeModal() {
+                this.fetchSubjectCourseClassList(this.$route.params.id);
                 this.showModal = false
             },
 
