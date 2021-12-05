@@ -192,6 +192,11 @@
         },
         mounted() {
             this.navBarType = this.$route.matched[1].name;
+             if($('#fb-root').is(":visible")) {
+            $('#fb-root').css('display', 'none');
+            // $('#help-btn').css('background', '#ffffff7d' );
+            // $('#fb-customer-chat > span > iframe').css('display', 'none');
+            }
         },
         created() {
 
