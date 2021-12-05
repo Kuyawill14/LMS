@@ -28,6 +28,13 @@
                 height: 60px !important;
     width: 60px  !important;
               }
+
+              #fb-customer-chat > span > iframe {
+                min-height: 300px !important;
+    height: 732px  !important;
+    width: 399px !important;
+              }
+              
             </style>
           </head>
         <body class="antialiased">
