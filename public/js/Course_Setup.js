@@ -107,13 +107,24 @@ var classComponent = function classComponent() {
     },
     step: function step(_step) {
       this.e1 = _step;
+    },
+    beforeWindowUnload: function beforeWindowUnload(e) {
+      localStorage.setItem("step", this.e1);
     }
-  })
-  /* created() {
-      const course_id = this.$route.params.id;
-      this.fetchScourse(course_id);
-  }, */
+  }),
+  mounted: function mounted() {
+    var step = localStorage.getItem("step");
 
+    if (step != null) {
+      this.e1 = step;
+    }
+  },
+  beforeMount: function beforeMount() {
+    window.addEventListener('beforeunload', this.beforeWindowUnload);
+  },
+  beforeDestroy: function beforeDestroy() {
+    window.removeEventListener('beforeunload', this.beforeWindowUnload);
+  }
 });
 
 /***/ }),

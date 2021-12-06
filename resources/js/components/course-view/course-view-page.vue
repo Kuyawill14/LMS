@@ -107,8 +107,10 @@
             </v-img>
 
         </v-card>
-
-        <router-view :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></router-view>
+    <!--     <div v-if="this.$route.name == 'selectedCourse' && role == 'Teacher'" >
+            <teachercoursedashboardComponent v-if="role == 'Teacher'" :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></teachercoursedashboardComponent>
+        </div> -->
+        <router-view  :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></router-view>
 
          <v-dialog scrollable v-model="dialog" persistent max-width="800" >
             <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
@@ -119,6 +121,7 @@
 </template>
 <script>
     const selectBackgroundDialog = () => import('./SelectBackgroundDialog')
+    const teachercoursedashboardComponent = () => import('./tabs/dashboard-tab/teacher_course_dashboardComponent')
     import {
         mapGetters,
         mapActions
@@ -128,6 +131,7 @@
         props: ['role', 'UserDetails'],
         components: {
             selectBackgroundDialog,
+            teachercoursedashboardComponent
         },
         data() {
             return {
@@ -147,6 +151,7 @@
                 filePreview: null,
                 file: null,
                 isChanging: false,
+                showDefault: false,
             }
         },
         computed: {
@@ -170,14 +175,28 @@
         },
         methods: {
             hideCard() {
-                this.routeName = this.$route.matched[2].name;
-
-                if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName ==
+    
+                if(this.$route.name == 'selectedCourse'){
+                    this.showDefault = true;
+                    this.routeName = this.$route.matched[1].name;
+                    if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName ==
                     'courseSetup') {
                     this.showCard = false;
-                } else {
-                    this.showCard = true;
+                    } else {
+                        this.showCard = true;
+                    } 
                 }
+                else{
+                     this.showDefault = false;
+                    this.routeName = this.$route.matched[2].name;
+                    if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName ==
+                        'courseSetup') {
+                        this.showCard = false;
+                    } else {
+                        this.showCard = true;
+                    }
+                }
+               
 
             },
             ...mapActions(['fetchScourse']),
@@ -248,7 +267,9 @@
             this.hideCard();
             this.isloading = true;
             this.course_id = this.$route.params.id;
-            this.routeName = this.$route.matched[2].name;
+            if(this.$route.name != 'selectedCourse'){
+                this.routeName = this.$route.matched[2].name;
+            }
             this.$store.dispatch('fetchScourse', this.course_id);
             setInterval(() => this.isloading = false, 1000);
 

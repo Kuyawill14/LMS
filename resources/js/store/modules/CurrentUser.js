@@ -81,6 +81,10 @@ const actions = {
             return { 'status': 200 };
         }
     },
+    async fetchMyCoursesStatusAgain({ commit }) {
+        const res = await axios.get(`/api/course/status`);
+        state.MyCourses = res.data;
+    },
     async setCourseStatus({ commit }, id) {
         
         if(state.MyCourses.includes())

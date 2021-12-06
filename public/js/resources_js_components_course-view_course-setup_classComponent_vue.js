@@ -197,9 +197,12 @@ var deleteClass = function deleteClass() {
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
     closeModal: function closeModal() {
       this.showModal = false;
+      this.fetchSubjectCourseClassList(this.$route.params.id);
     },
     completed: function completed() {
       var _this = this;
+
+      localStorage.removeItem("step");
 
       if (this.allClass.length == 0) {
         this.toastError('Please add atleast one class to complete the course setup');
@@ -209,8 +212,10 @@ var deleteClass = function deleteClass() {
 
           _this.$store.dispatch('setCourseStatus', _this.$route.params.id);
 
+          _this.$store.dispatch('fetchMyCoursesStatusAgain');
+
           _this.$router.push({
-            name: "coursePage"
+            path: '/course/' + _this.$route.params.id + '/'
           });
 
           _this.$store.dispatch('fetchScourse', _this.$route.params.id);
@@ -423,7 +428,7 @@ var render = function() {
                   attrs: { cols: "12", sm: "8", md: "4" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
                     _vm._v(
                       "\n                mdi-google-classroom\n            "
                     )
@@ -453,7 +458,7 @@ var render = function() {
                           "\n                    mdi-plus\n                "
                         )
                       ]),
-                      _vm._v(" Add CLASS\n            ")
+                      _vm._v(" Create Class\n            ")
                     ],
                     1
                   )
@@ -477,7 +482,7 @@ var render = function() {
                   attrs: { "align-content": "center", justify: "center" }
                 },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
+                  _c("v-icon", { staticStyle: { "font-size": "8rem" } }, [
                     _vm._v(
                       "\n                mdi-google-classroom\n            "
                     )

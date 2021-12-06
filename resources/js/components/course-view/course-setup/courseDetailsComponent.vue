@@ -118,14 +118,9 @@
 
 
 
-            <v-col cols="12" class="pa-0 ">
-          <!--       <v-card> -->
-                  <!--   <v-card-title class="pl-3 py-3" style="font-size: 1rem;color:grey">Course Description
-                    </v-card-title> -->
-                   <!--  <v-divider></v-divider> -->
-
-                    <editor placeholder="Course Description" class="course_desciption"  v-model="getcourseInfo.course_description" theme="bubble"></editor>
-            <!--     </v-card> -->
+            <v-col cols="12" class="pa-0">
+                <div>Course Description</div>
+                <editor placeholder="Course Description" class="course_desciption"  v-model="getcourseInfo.course_description" theme="bubble"></editor>
             </v-col>
 
 

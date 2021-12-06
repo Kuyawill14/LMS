@@ -1,90 +1,104 @@
 <template>
 
     <v-card>
-         <v-form @submit.prevent="validate" ref="form" v-model="valid" lazy-validation>
-      
+        <v-form @submit.prevent="validate" ref="form" v-model="valid" lazy-validation>
         <v-card-title class="">
             Create Class
         </v-card-title>
         <v-container>
-            <v-row class="mx-2">
+            
+                <v-row class="mx-2">
+                    <v-col cols="12" class="pa-0 ma-0">
+                        <v-text-field :hide-details="valid" :rules="rules" class="mb-0 pb-0" v-model="form.class_name"   outlined color="primary" label="Class Name">
+                        </v-text-field>
+                    </v-col>
+                    <v-col cols="12" class="pa-0 ma-0">
+                        <v-switch
+                            v-model="form.auto_accept"
+                            label="Auto accept"
+                            hide-details
+                            ></v-switch>
+                    </v-col>
 
-                <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field  required v-model="form.class_name" :rules="rules" outlined color="primary" label="Class Name">
-                    </v-text-field>
-                </v-col>
-                 <v-col cols="12" class="pa-0 ma-0">
-                    <v-switch
-                        v-model="form.auto_accept"
-                        label="Auto accept"
-                        hide-details
-                        ></v-switch>
-                </v-col>
-
-                 <v-col cols="12" class="pa-0 ma-0 mt-5">
-                     <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
-                         Add Schedule <v-icon>mdi-plus</v-icon>
-                     </v-btn>
-                </v-col>
-                <v-col cols="12" class="pa-0 ma-0 mt-2">
-                    <v-row>
-                        <v-col cols="12" v-for="(item , index) in form.schedule" :key="index">
-                            <div class="d-flex">
-                                <v-icon color="red" class="pr-1">mdi-calendar</v-icon>
-                                <span>{{item.day}},- </span>
-                                <span>{{item.display_start+' to '+item.display_end}}</span>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </v-col>
-                
-                 
-                
-            </v-row>
+                    <v-col cols="12" class="pa-0 ma-0 mt-5">
+                        <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
+                            Add Schedule <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="12" class="pa-0 ma-0 mt-2">
+                        <v-row>
+                            <v-col cols="12" v-for="(item , index) in form.schedule" :key="index">
+                               <!--  <div class="d-flex">
+                                    <v-icon color="red" class="pr-1">mdi-calendar</v-icon>
+                                    <span>{{item.day}},- </span>
+                                    <span>{{item.display_start+' to '+item.display_end}}</span>
+                                </div> -->
+                                 <div class="d-flex justify-space-between">
+                                    <div class="d-flex">
+                                        <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
+                                    
+                                        <span>{{item.day}}- </span>
+                                        <span>{{item.display_start+' to '+item.display_end}}</span>
+                                    </div>
+                                    <div>
+                                        <span><v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn></span>
+                                        <span> <v-btn @click="DeleteSchedule(index)" icon><v-icon color="red" small >mdi-delete</v-icon></v-btn></span>
+                                        
+                                    </div>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+                </v-row>
+          
         </v-container>
         <v-card-actions>
 
             <v-spacer></v-spacer>
-            <v-btn text @click="$emit('closeModal');">Cancel</v-btn>
-            <v-btn text color="primary" :disabled="sending" type="submit">Create</v-btn>
+            <v-btn text @click="$emit('closeModal'),$refs.form.resetValidation()">Cancel</v-btn>
+            <v-btn text color="primary" type="submit">Create</v-btn>
         </v-card-actions>
 
         <div>
               <v-dialog persistent v-model="addScheduleDialog"  width="400px">
-                <v-card >
-                    <v-card-title class="">
-                        <v-btn @click="addScheduleDialog = !addScheduleDialog" icon>
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                        New Schedule
-                    </v-card-title>
-                    <v-container>
-                        <v-row class="mx-2">
-                            <v-col cols="12" class="pa-0 ma-0 mb-2">
-                                <v-row>
-                                    <v-col cols="12">
-                                        <v-select
-                                        dense
-                                        :items="items"
-                                        v-model="day"
-                                        hide-details
-                                        outlined
-                                        label="Day"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field outlined dense hide-details type="time" v-model="start_time" label="End time"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field outlined dense hide-details v-model="end_time" type="time" label="End time"></v-text-field>
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                     <v-card-actions >
-                        <v-btn rounded @click="AddSchedule" block color="primary" >Add</v-btn>
-                    </v-card-actions>
+                <v-card>
+                    <v-form  ref="Schedform" v-model="Schedvalid" lazy-validation>
+                        <v-card-title class="">
+                            <v-btn @click="addScheduleDialog = !addScheduleDialog, isUpdateSched = !isUpdateSched" icon>
+                                <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                            New Schedule
+                        </v-card-title>
+                        <v-container>
+                            <v-row class="mx-2">
+                                <v-col cols="12" class="pa-0 ma-0 mb-2">
+                                    <v-row>
+                                        <v-col cols="12">
+                                            <v-select
+                                            :rules="Schedrules"
+                                            dense
+                                            :items="items"
+                                            v-model="day"
+                                            :hide-details="Schedvalid"
+                                            outlined
+                                            label="Day"
+                                            ></v-select>
+                                        </v-col>
+                                        <v-col cols="12" md="6">
+                                            <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" type="time" v-model="start_time" label="End time"></v-text-field>
+                                        </v-col>
+                                        <v-col cols="12" md="6">
+                                            <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" v-model="end_time" type="time" label="End time"></v-text-field>
+                                        </v-col>
+                                    </v-row>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                        <v-card-actions >
+                            <v-btn v-if="!isUpdateSched" rounded @click="validateSched" block color="primary" >Add</v-btn>
+                            <v-btn v-else rounded @click="updateSchedule" block color="primary" >Update</v-btn>
+                        </v-card-actions>
+                    </v-form>
                 </v-card>
             </v-dialog>
         </div>
@@ -100,7 +114,6 @@ import moment from 'moment-timezone';
             required: null,
             textarea: null,
             hasMessages: false,
-            sending: false,
             form: {
                 class_name: '',
                 course_id: null,
@@ -115,15 +128,27 @@ import moment from 'moment-timezone';
             addScheduleDialog: false,
             day: null,
             valid: true,
+            Schedvalid: true,
             rules: [
                 v => !!v || 'Class name is required',
             ],
+            Schedrules: [
+                v => !!v || 'Field is required',
+            ],
+            isUpdateSched: false,
+            is_edit_index: null
            
         }),
         methods: {
-             validate(){
+            validate(){
                 if(this.$refs.form.validate()){
                     this.createClass();
+                }
+            },
+
+            validateSched(){
+                if(this.$refs.Schedform.validate()){
+                    this.AddSchedule();
                 }
             },
             toastSuccess() {
@@ -135,15 +160,13 @@ import moment from 'moment-timezone';
                 });
             },
             createClass() {
-                this.$emit('closeModal')
-                this.sending = true;       
-                this.toastSuccess();
+               
                 this.form.course_id = this.$route.params.id;
                 this.$store.dispatch('createClass', this.form);
-                this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id);
                 this.clearFormInputs();
-                this.sending = false;
-        
+                this.$emit('closeModal')
+                this.toastSuccess();
+
             },
             AddSchedule(){
               
@@ -173,9 +196,40 @@ import moment from 'moment-timezone';
             clearFormInputs(){
                 this.form.class_name = '';
                 this.form.course_id = null;
-                this.form.auto_accept = false;
+                this.form.end_timeauto_accept = false;
                 this.form.schedule = [];
                 this.$refs.form.resetValidation()
+            },
+             OpenEdit(data, index){
+                this.is_edit_index = index;
+                this.day = data.day;
+                this.start_time = data.start_time;
+                this.end_time = data.end_time;
+                this.addScheduleDialog = true;
+                this.isUpdateSched = true;
+            },
+            updateSchedule(){
+
+                let tmpday = this.day.toLowerCase();
+                let tmp_start = Date.parse('next '+tmpday).at(this.start_time);
+                let tmp_end = Date.parse('next '+tmpday).at(this.end_time);
+                let display_start = moment(tmp_start).tz("Asia/Manila").format('LT');
+                let display_end = moment(tmp_end).tz("Asia/Manila").format('LT');
+
+                this.form.schedule[this.is_edit_index].day = this.day;
+                this.form.schedule[this.is_edit_index].display_start = display_start;
+                this.form.schedule[this.is_edit_index].display_end = display_end;
+                this.form.schedule[this.is_edit_index].start_time = this.start_time;
+                this.form.schedule[this.is_edit_index].end_time = this.end_time;
+
+                this.isUpdateSched = false;
+                this.is_edit_index = null;
+                this.addScheduleDialog = false;
+                this.$refs.Schedform.resetValidation()
+                this.clearInputs();
+            },
+            DeleteSchedule(index){
+                this.form.schedule.splice(index, 1)
             }
         }
     }

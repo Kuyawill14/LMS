@@ -140,11 +140,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -188,6 +183,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     },
     validateUpdate: function validateUpdate(name, percentage, id) {
+      //console.log(this.$refs.Updateform);
       if (this.$refs.Updateform.validate()) {
         this.updateGradeCriteria(name, percentage, id);
       }
@@ -240,6 +236,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _this.new_grading_criteria_form.name = '';
             _this.new_grading_criteria_form.percentage = '';
 
+            _this.$refs.form.resetValidation();
+
             _this.toastSuccess("Criteria Successfully added");
           }
 
@@ -247,7 +245,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
         setTimeout(function () {
           _this.loading = false;
-        }, 1000);
+        }, 500);
       } else {
         this.toastError('Please fill up all the field to add criteria');
         this.isAdding = false;
@@ -283,7 +281,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       setTimeout(function () {
         _this2.loading = false;
-      }, 1000);
+      }, 500);
     },
     removeGradeCriteria: function removeGradeCriteria() {
       var _this3 = this;
@@ -293,7 +291,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this3.Deldialog = false;
         setTimeout(function () {
           _this3.loading = false;
-        }, 1000);
+        }, 500);
 
         _this3.toastSuccess("Criteria successfully deleted ");
       });
@@ -535,119 +533,131 @@ var render = function() {
     "div",
     [
       _c(
-        "v-form",
-        {
-          ref: "form",
-          attrs: { "lazy-validation": "" },
-          model: {
-            value: _vm.valid,
-            callback: function($$v) {
-              _vm.valid = $$v
-            },
-            expression: "valid"
-          }
-        },
+        "v-container",
         [
           _c(
-            "v-container",
+            "v-form",
+            {
+              ref: "form",
+              attrs: { "lazy-validation": "" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.validate()
+                }
+              },
+              model: {
+                value: _vm.valid,
+                callback: function($$v) {
+                  _vm.valid = $$v
+                },
+                expression: "valid"
+              }
+            },
             [
-              _c(
-                "v-row",
-                { staticClass: "mx-2" },
-                [
-                  _c(
-                    "v-col",
-                    { attrs: { lg: "9" } },
+              _vm._totalPercent(_vm.get_gradingCriteria) != 100
+                ? _c(
+                    "v-row",
+                    { staticClass: "mx-2" },
                     [
-                      _c("v-text-field", {
-                        attrs: {
-                          rules: _vm.rules,
-                          outlined: "",
-                          color: "primary",
-                          label: "Criteria Name"
-                        },
-                        model: {
-                          value: _vm.new_grading_criteria_form.name,
-                          callback: function($$v) {
-                            _vm.$set(_vm.new_grading_criteria_form, "name", $$v)
-                          },
-                          expression: "new_grading_criteria_form.name"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "float-right", attrs: { lg: "3" } },
-                    [
-                      _c("v-text-field", {
-                        staticClass: "centered-input",
-                        attrs: {
-                          rules: _vm.numberRule,
-                          min: "1",
-                          max: "100",
-                          type: "number",
-                          outlined: "",
-                          color: "primary",
-                          label: "Percentage",
-                          suffix: "%"
-                        },
-                        model: {
-                          value: _vm.new_grading_criteria_form.percentage,
-                          callback: function($$v) {
-                            _vm.$set(
-                              _vm.new_grading_criteria_form,
-                              "percentage",
-                              $$v
-                            )
-                          },
-                          expression: "new_grading_criteria_form.percentage"
-                        }
-                      })
+                      _c(
+                        "v-col",
+                        { attrs: { lg: "9" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              rules: _vm.rules,
+                              outlined: "",
+                              color: "primary",
+                              label: "Criteria Name"
+                            },
+                            model: {
+                              value: _vm.new_grading_criteria_form.name,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.new_grading_criteria_form,
+                                  "name",
+                                  $$v
+                                )
+                              },
+                              expression: "new_grading_criteria_form.name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "float-right", attrs: { lg: "3" } },
+                        [
+                          _c("v-text-field", {
+                            staticClass: "centered-input",
+                            attrs: {
+                              rules: _vm.numberRule,
+                              min: "1",
+                              max: "100",
+                              type: "number",
+                              outlined: "",
+                              color: "primary",
+                              label: "Percentage",
+                              suffix: "%"
+                            },
+                            model: {
+                              value: _vm.new_grading_criteria_form.percentage,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.new_grading_criteria_form,
+                                  "percentage",
+                                  $$v
+                                )
+                              },
+                              expression: "new_grading_criteria_form.percentage"
+                            }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              ),
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "v-row",
-                { staticClass: "ma-0 pa-0" },
-                [
-                  _c(
-                    "v-col",
-                    { staticClass: "float-right mx-2 pt-0" },
+              _vm._totalPercent(_vm.get_gradingCriteria) != 100
+                ? _c(
+                    "v-row",
+                    { staticClass: "ma-0 pa-0" },
                     [
                       _c(
-                        "v-btn",
-                        {
-                          staticClass: "float-right",
-                          attrs: {
-                            color: "primary",
-                            disabled: _vm.isAdding,
-                            outlined: ""
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.validate()
-                            }
-                          }
-                        },
+                        "v-col",
+                        { staticClass: "float-right mx-2 pt-0" },
                         [
-                          _c("v-icon", { attrs: { left: "" } }, [
-                            _vm._v(
-                              "\n                        mdi-plus\n                    "
-                            )
-                          ]),
-                          _vm._v(
-                            "\n                    " +
-                              _vm._s(
-                                _vm.isAdding ? "Adding..." : "Add Criteria"
-                              ) +
-                              "\n                "
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "float-right",
+                              attrs: {
+                                type: "submit",
+                                color: "primary",
+                                disabled: _vm.isAdding,
+                                outlined: ""
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v(
+                                  "\n                            mdi-plus\n                        "
+                                )
+                              ]),
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(
+                                    _vm.isAdding ? "Adding..." : "Add Criteria"
+                                  ) +
+                                  "\n                    "
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
@@ -655,305 +665,293 @@ var render = function() {
                     ],
                     1
                   )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
-              _c(
-                "div",
-                [
-                  _c("VueElementLoading", {
-                    attrs: { active: _vm.loading, spinner: "bar-fade-scale" }
-                  }),
-                  _vm._v(" "),
-                  _vm._l(_vm.get_gradingCriteria, function(gradeCriteria, i) {
-                    return _c(
-                      "v-row",
-                      {
-                        key: "get_gradingCriteria" + i,
-                        staticClass: "mx-2 mt-0"
-                      },
-                      [
-                        _c(
-                          "v-col",
-                          { attrs: { cols: "12" } },
-                          [
-                            _c(
-                              "v-form",
-                              {
-                                ref: "Updateform",
-                                refInFor: true,
-                                attrs: { "lazy-validation": "" },
-                                model: {
-                                  value: _vm.UpdateValid,
-                                  callback: function($$v) {
-                                    _vm.UpdateValid = $$v
-                                  },
-                                  expression: "UpdateValid"
-                                }
-                              },
-                              [
-                                _c(
-                                  "v-row",
-                                  [
-                                    _c(
-                                      "v-col",
-                                      { attrs: { lg: "9" } },
-                                      [
-                                        _c("v-text-field", {
-                                          attrs: {
-                                            rules: _vm.rules,
-                                            outlined: "",
-                                            color: "primary"
-                                          },
-                                          on: {
-                                            change: function($event) {
-                                              return _vm.validateUpdate(
-                                                gradeCriteria.name,
-                                                gradeCriteria.percentage,
-                                                gradeCriteria.id
-                                              )
-                                            }
-                                          },
-                                          model: {
-                                            value: gradeCriteria.name,
-                                            callback: function($$v) {
-                                              _vm.$set(
-                                                gradeCriteria,
-                                                "name",
-                                                $$v
-                                              )
-                                            },
-                                            expression: "gradeCriteria.name"
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      { attrs: { lg: "2" } },
-                                      [
-                                        _c("v-text-field", {
-                                          staticClass:
-                                            "text-center centered-input",
-                                          staticStyle: {
-                                            "text-align": "center !important"
-                                          },
-                                          attrs: {
-                                            rules: _vm.numberRule,
-                                            min: "1",
-                                            max: "100",
-                                            type: "number",
-                                            outlined: "",
-                                            color: "primary",
-                                            suffix: "%"
-                                          },
-                                          on: {
-                                            change: function($event) {
-                                              return _vm.validateUpdate(
-                                                gradeCriteria.name,
-                                                gradeCriteria.percentage,
-                                                gradeCriteria.id
-                                              )
-                                            }
-                                          },
-                                          model: {
-                                            value: gradeCriteria.percentage,
-                                            callback: function($$v) {
-                                              _vm.$set(
-                                                gradeCriteria,
-                                                "percentage",
-                                                $$v
-                                              )
-                                            },
-                                            expression:
-                                              "gradeCriteria.percentage"
-                                          }
-                                        })
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-col",
-                                      { attrs: { lg: "1" } },
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            staticClass: "mt-2",
-                                            attrs: {
-                                              color: "grey lighten-1",
-                                              icon: ""
-                                            },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.openDelete(
-                                                  gradeCriteria.id
-                                                )
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c("v-icon", [_vm._v("mdi-delete")])
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  }),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "v-row",
-                    { staticClass: "mx-2" },
-                    [
-                      _c("v-col", { staticClass: "text-right" }, [
-                        _c("p", [
-                          _vm._v("Total: "),
-                          _c("strong", [
-                            _vm._v(
-                              _vm._s(
-                                _vm._totalPercent(_vm.get_gradingCriteria)
-                              ) + " % "
-                            )
-                          ])
-                        ])
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                2
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-dialog",
-            {
-              attrs: { persistent: "", "max-width": "290" },
-              model: {
-                value: _vm.Deldialog,
-                callback: function($$v) {
-                  _vm.Deldialog = $$v
-                },
-                expression: "Deldialog"
-              }
-            },
-            [
-              _c(
-                "v-card",
-                [
-                  _c("v-card-title", { staticClass: "headline" }, [
-                    _vm._v(
-                      "\n                Are you sure you want to delete this?\n            "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { text: "" },
-                          on: {
-                            click: function($event) {
-                              _vm.Deldialog = false
-                            }
-                          }
-                        },
-                        [_vm._v("\n                    No\n                ")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { color: "primary", text: "" },
-                          on: {
-                            click: function($event) {
-                              return _vm.removeGradeCriteria()
-                            }
-                          }
-                        },
-                        [_vm._v("\n                    Yes\n                ")]
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
+                : _vm._e()
             ],
             1
           ),
           _vm._v(" "),
           _c("v-divider"),
           _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
           _c(
-            "v-row",
+            "div",
+            { staticClass: "mt-1" },
             [
+              _c("VueElementLoading", {
+                attrs: { active: _vm.loading, spinner: "bar-fade-scale" }
+              }),
+              _vm._v(" "),
               _c(
-                "v-col",
+                "v-form",
+                {
+                  ref: "Updateform",
+                  attrs: { "lazy-validation": "" },
+                  model: {
+                    value: _vm.UpdateValid,
+                    callback: function($$v) {
+                      _vm.UpdateValid = $$v
+                    },
+                    expression: "UpdateValid"
+                  }
+                },
+                _vm._l(_vm.get_gradingCriteria, function(gradeCriteria, i) {
+                  return _c(
+                    "v-row",
+                    {
+                      key: "get_gradingCriteria" + i,
+                      staticClass: "mx-2 mt-0"
+                    },
+                    [
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { lg: "9" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Name",
+                                      rules: _vm.rules,
+                                      outlined: "",
+                                      color: "primary"
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.validateUpdate(
+                                          gradeCriteria.name,
+                                          gradeCriteria.percentage,
+                                          gradeCriteria.id
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value: gradeCriteria.name,
+                                      callback: function($$v) {
+                                        _vm.$set(gradeCriteria, "name", $$v)
+                                      },
+                                      expression: "gradeCriteria.name"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { lg: "2" } },
+                                [
+                                  _c("v-text-field", {
+                                    staticClass: "text-center centered-input",
+                                    staticStyle: {
+                                      "text-align": "center !important"
+                                    },
+                                    attrs: {
+                                      label: "Percentage",
+                                      rules: _vm.numberRule,
+                                      min: "1",
+                                      max: "100",
+                                      type: "number",
+                                      outlined: "",
+                                      color: "primary",
+                                      suffix: "%"
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.validateUpdate(
+                                          gradeCriteria.name,
+                                          gradeCriteria.percentage,
+                                          gradeCriteria.id
+                                        )
+                                      }
+                                    },
+                                    model: {
+                                      value: gradeCriteria.percentage,
+                                      callback: function($$v) {
+                                        _vm.$set(
+                                          gradeCriteria,
+                                          "percentage",
+                                          $$v
+                                        )
+                                      },
+                                      expression: "gradeCriteria.percentage"
+                                    }
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { lg: "1" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "mt-2",
+                                      attrs: {
+                                        color: "grey lighten-1",
+                                        icon: ""
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.openDelete(
+                                            gradeCriteria.id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [_c("v-icon", [_vm._v("mdi-delete")])],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                }),
+                1
+              ),
+              _vm._v(" "),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "v-row",
+                { staticClass: "mx-2" },
                 [
+                  _c("v-col", { staticClass: "text-right" }, [
+                    _c("p", [
+                      _vm._v("Total: "),
+                      _c("strong", [
+                        _vm._v(
+                          _vm._s(_vm._totalPercent(_vm.get_gradingCriteria)) +
+                            " % "
+                        )
+                      ])
+                    ])
+                  ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "290" },
+          model: {
+            value: _vm.Deldialog,
+            callback: function($$v) {
+              _vm.Deldialog = $$v
+            },
+            expression: "Deldialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v(
+                  "\n                Are you sure you want to delete this?\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
                   _c(
                     "v-btn",
                     {
-                      staticClass: "float-right",
-                      attrs: {
-                        color: "primary",
-                        disabled:
-                          _vm.get_gradingCriteria.length == 0 ||
-                          _vm._totalPercent(_vm.get_gradingCriteria) != 100
-                      },
+                      attrs: { text: "" },
                       on: {
                         click: function($event) {
-                          return _vm.next()
+                          _vm.Deldialog = false
                         }
                       }
                     },
-                    [_vm._v("\n                Next\n            ")]
+                    [_vm._v("\n                    No\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
                     "v-btn",
                     {
-                      staticClass: "float-left",
-                      attrs: { text: "" },
+                      attrs: { color: "primary", text: "" },
                       on: {
                         click: function($event) {
-                          return _vm.back()
+                          return _vm.removeGradeCriteria()
                         }
                       }
                     },
-                    [_vm._v("\n                back\n            ")]
+                    [_vm._v("\n                    Yes\n                ")]
                   )
                 ],
                 1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-divider"),
+      _vm._v(" "),
+      _c(
+        "v-row",
+        { staticClass: "mt-1" },
+        [
+          _c(
+            "v-col",
+            [
+              _c(
+                "v-btn",
+                {
+                  staticClass: "float-right",
+                  attrs: {
+                    color: "primary",
+                    disabled:
+                      _vm.get_gradingCriteria.length == 0 ||
+                      _vm._totalPercent(_vm.get_gradingCriteria) != 100
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.next()
+                    }
+                  }
+                },
+                [_vm._v("\n                Next\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "float-left",
+                  attrs: { text: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.back()
+                    }
+                  }
+                },
+                [_vm._v("\n                back\n            ")]
               )
             ],
             1

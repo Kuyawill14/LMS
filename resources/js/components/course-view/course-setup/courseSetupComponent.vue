@@ -85,12 +85,27 @@
             },
             step(step) {
                 this.e1 = step;
+                
+            },
+            beforeWindowUnload(e) {
+                localStorage.setItem("step", this.e1);
             }
         },
-        /* created() {
-            const course_id = this.$route.params.id;
-            this.fetchScourse(course_id);
-        }, */
+    
+       
+        mounted(){
+            let step = localStorage.getItem("step");
+            if(step != null){
+                this.e1 = step;
+            }
+        },
+        beforeMount(){
+            window.addEventListener('beforeunload', this.beforeWindowUnload)
+        },
+        beforeDestroy(){
+            window.removeEventListener('beforeunload', this.beforeWindowUnload)
+        },
+
     }
 
 </script>

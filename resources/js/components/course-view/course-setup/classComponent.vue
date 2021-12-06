@@ -2,7 +2,7 @@
     <v-container fluid ma-0 pa-0>
         <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:10rem">
+                <v-icon style="font-size:8rem">
                     mdi-google-classroom
                 </v-icon>
                 <h1> Create Class </h1>
@@ -10,14 +10,14 @@
                 <v-btn color="primary" @click="openAddmodal()">
                     <v-icon left>
                         mdi-plus
-                    </v-icon> Add CLASS
+                    </v-icon> Create Class
                 </v-btn>
             </v-col>
         </v-row>
 
         <v-container v-if="isGetting" style="height: 400px;">
             <v-row class="fill-height" align-content="center" justify="center">
-                <v-icon style="font-size:10rem">
+                <v-icon style="font-size:8rem">
                     mdi-google-classroom
                 </v-icon>
                 <v-col class="text-subtitle-1 text-center" cols="12">
@@ -172,9 +172,11 @@
             },
             ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
             closeModal() {
-                this.showModal = false
+                this.showModal = false;
+                this.fetchSubjectCourseClassList(this.$route.params.id)
             },
             completed() {
+                localStorage.removeItem("step");
                 if (this.allClass.length == 0) {
                     this.toastError('Please add atleast one class to complete the course setup');
 
@@ -183,8 +185,9 @@
                         .then(res => {
                             this.toastSuccess('Course setup completed!');
                             this.$store.dispatch('setCourseStatus', this.$route.params.id);
+                            this.$store.dispatch('fetchMyCoursesStatusAgain');
                             this.$router.push({
-                                name: "coursePage"
+                                path: '/course/'+this.$route.params.id+'/'
                             })
                             this.$store.dispatch('fetchScourse', this.$route.params.id);
                         })
@@ -235,8 +238,6 @@
 
 
         },
-
-
     }
 
 </script>

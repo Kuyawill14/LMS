@@ -139,8 +139,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
+};
+
+var teachercoursedashboardComponent = function teachercoursedashboardComponent() {
+  return __webpack_require__.e(/*! import() */ "Course_Page").then(__webpack_require__.bind(__webpack_require__, /*! ./tabs/dashboard-tab/teacher_course_dashboardComponent */ "./resources/js/components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent.vue"));
 };
 
 
@@ -148,7 +154,8 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
   components: {
-    selectBackgroundDialog: selectBackgroundDialog
+    selectBackgroundDialog: selectBackgroundDialog,
+    teachercoursedashboardComponent: teachercoursedashboardComponent
   },
   data: function data() {
     return {
@@ -167,7 +174,8 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
       previewUploaded: false,
       filePreview: null,
       file: null,
-      isChanging: false
+      isChanging: false,
+      showDefault: false
     };
   },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), {}, {
@@ -186,12 +194,24 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
   },
   methods: _objectSpread(_objectSpread({
     hideCard: function hideCard() {
-      this.routeName = this.$route.matched[2].name;
+      if (this.$route.name == 'selectedCourse') {
+        this.showDefault = true;
+        this.routeName = this.$route.matched[1].name;
 
-      if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName == 'courseSetup') {
-        this.showCard = false;
+        if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName == 'courseSetup') {
+          this.showCard = false;
+        } else {
+          this.showCard = true;
+        }
       } else {
-        this.showCard = true;
+        this.showDefault = false;
+        this.routeName = this.$route.matched[2].name;
+
+        if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName == 'courseSetup') {
+          this.showCard = false;
+        } else {
+          this.showCard = true;
+        }
       }
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchScourse'])), {}, {
@@ -255,7 +275,11 @@ var selectBackgroundDialog = function selectBackgroundDialog() {
     this.hideCard();
     this.isloading = true;
     this.course_id = this.$route.params.id;
-    this.routeName = this.$route.matched[2].name;
+
+    if (this.$route.name != 'selectedCourse') {
+      this.routeName = this.$route.matched[2].name;
+    }
+
     this.$store.dispatch('fetchScourse', this.course_id);
     setInterval(function () {
       return _this.isloading = false;

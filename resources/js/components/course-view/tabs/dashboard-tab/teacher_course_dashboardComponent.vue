@@ -46,7 +46,10 @@
 
     const recentClasswork = () => import('./recent_classwork');
     const latestModules = () => import('./latest_modules');
-
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
 
     export default {
         data() {
@@ -91,8 +94,11 @@
             recentClasswork,
             latestModules
         },
+        computed: {
+            ...mapGetters(["getcourseInfo"]),
+        },
         methods: {
-         
+            
             getGeneralClassworks() {
                 //this.isGetting = true;
                 axios.get(`/api/course/overview/all/${this.$route.params.id}`)
@@ -116,7 +122,7 @@
         mounted() {
             this.getGeneralClassworks();
        
-        }
+        },
 
 
 

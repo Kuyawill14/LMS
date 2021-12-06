@@ -2176,53 +2176,51 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_17__.default({
 });
 router.beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_0___default().start();
-  var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'coursePage', 'classses', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
+  var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'classses', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
 
   if (to.name != 'login' && to.name != 'register') {
     _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
       if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
         if (protectedRoutes.includes(to.name)) {
-          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+          _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function () {
             _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
-              if (res.status == 200) {
-                _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function () {
-                  if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
-                    if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
-                      if (to.name == 'courseSetup') {
-                        next({
-                          name: "announcement",
-                          params: {
-                            id: to.params.id
-                          },
-                          replace: true
-                        });
-                      } else {
-                        next();
-                      }
+              _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('CheckMyCourse', to.params.id).then(function () {
+                if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
+                  if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
+                    if (to.name == 'courseSetup') {
+                      next({
+                        name: "announcement",
+                        params: {
+                          id: to.params.id
+                        },
+                        replace: true
+                      });
                     } else {
-                      if (to.name == 'courseSetup') {
-                        next();
-                      } else {
-                        return next({
-                          name: "courseSetup",
-                          params: {
-                            id: to.params.id
-                          },
-                          replace: true
-                        });
-                      }
+                      next();
                     }
                   } else {
-                    return next({
-                      name: "course-not-found",
-                      params: {
-                        id: to.params.id
-                      },
-                      replace: true
-                    });
+                    if (to.name == 'courseSetup') {
+                      next();
+                    } else {
+                      return next({
+                        name: "courseSetup",
+                        params: {
+                          id: to.params.id
+                        },
+                        replace: true
+                      });
+                    }
                   }
-                });
-              }
+                } else {
+                  return next({
+                    name: "course-not-found",
+                    params: {
+                      id: to.params.id
+                    },
+                    replace: true
+                  });
+                }
+              });
             });
           });
         } else {
@@ -3326,14 +3324,37 @@ var actions = {
       }, _callee3);
     }))();
   },
-  setCourseStatus: function setCourseStatus(_ref5, id) {
+  fetchMyCoursesStatusAgain: function fetchMyCoursesStatusAgain(_ref5) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-      var commit;
+      var commit, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref5.commit;
+              _context4.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/course/status");
+
+            case 3:
+              res = _context4.sent;
+              state.MyCourses = res.data;
+
+            case 5:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }))();
+  },
+  setCourseStatus: function setCourseStatus(_ref6, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              commit = _ref6.commit;
               if (state.MyCourses.includes()) state.MyCourses.forEach(function (item) {
                 if (item.id == id) {
                   item.status = 1;
@@ -3342,20 +3363,20 @@ var actions = {
 
             case 2:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
         }
-      }, _callee4);
+      }, _callee5);
     }))();
   },
-  CheckMyCourse: function CheckMyCourse(_ref6, course_id) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+  CheckMyCourse: function CheckMyCourse(_ref7, course_id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
       var commit, exist, status;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              commit = _ref6.commit;
+              commit = _ref7.commit;
               exist = false;
               status = 0;
               state.MyCourses.forEach(function (item) {
@@ -3369,27 +3390,27 @@ var actions = {
               });
               state.CurrentStatus.exist = exist;
               state.CurrentStatus.status = status;
-              return _context5.abrupt("return", {
+              return _context6.abrupt("return", {
                 'exist': exist,
                 'status': status
               });
 
             case 7:
             case "end":
-              return _context5.stop();
+              return _context6.stop();
           }
         }
-      }, _callee5);
+      }, _callee6);
     }))();
   },
-  setAsOffline: function setAsOffline(_ref7) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+  setAsOffline: function setAsOffline(_ref8) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
       var commit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
-              commit = _ref7.commit;
+              commit = _ref8.commit;
               axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/logout').then(function () {})["catch"](function (e) {});
               commit('SET_AUTHENTICATED', false);
               window.localStorage.removeItem('IsAuthenticated');
@@ -3397,10 +3418,10 @@ var actions = {
 
             case 5:
             case "end":
-              return _context6.stop();
+              return _context7.stop();
           }
         }
-      }, _callee6);
+      }, _callee7);
     }))();
   }
 };

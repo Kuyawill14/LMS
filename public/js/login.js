@@ -11,7 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-fb-customer-chat'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-fb-customer-chat */ "./node_modules/vue-fb-customer-chat/dist/vue-fb-customer-chat.umd.js");
+/* harmony import */ var vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -206,7 +207,7 @@ var forgotPassword = function forgotPassword() {
 };
 
 
-Vue.use(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-fb-customer-chat'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
   page_id: 102514265611526,
   //  change 'null' to your Facebook Page ID,
   theme_color: '#333333',
@@ -22642,6 +22643,17 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
     return hooks;
 
 })));
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-fb-customer-chat/dist/vue-fb-customer-chat.umd.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/vue-fb-customer-chat/dist/vue-fb-customer-chat.umd.js ***!
+  \****************************************************************************/
+/***/ (function(module) {
+
+!function(e,t){ true?module.exports=t():0}(this,function(){"use strict";function n(i){for(var e=1;e<arguments.length;e++){var r=null!=arguments[e]?arguments[e]:{},t=Object.keys(r);"function"==typeof Object.getOwnPropertySymbols&&(t=t.concat(Object.getOwnPropertySymbols(r).filter(function(e){return Object.getOwnPropertyDescriptor(r,e).enumerable}))),t.forEach(function(e){var t,n,o;t=i,o=r[n=e],n in t?Object.defineProperty(t,n,{value:o,enumerable:!0,configurable:!0,writable:!0}):t[n]=o})}return i}var o="en_us";function i(t){return new Promise(function(e){window.FB?e(window.FB):function(e){var c=e.locale?e.locale:o;return new Promise(function(r,u){!function(e,t,n){var o=e.getElementsByTagName(t)[0];if(!e.getElementById(n)){var i=e.createElement(t);i.id=n,i.src="https://connect.facebook.net/"+c+"/sdk/xfbml.customerchat.js",o.parentNode.insertBefore(i,o),i.onload=function(){r()},i.onerror=function(){u()}}}(document,"script","facebook-jssdk")})}(t).then(function(){(function(t){return new Promise(function(e){window.fbAsyncInit=function(){t=n({},{cookie:!0,xfbml:!0,version:"v5.0"},t),window.FB.init(t),e()}})})(t).then(function(){e(window.FB)})})})}var e={install:function(e,t){e.fbCustomerChat={setOptions:function(e){t=n({},t,e)}},Object.defineProperties(e.prototype,{$fbCustomerChat:{get:function(){return e.fbCustomerChat}}}),e.mixin({mounted:function(){this.$parent||i(t).then(function(){t.page_id&&function(e){var t=document.createElement("div");t.setAttribute("class","fb-customerchat"),t.setAttribute("attribution","setup_tool"),Object.entries(e).forEach(function(e){t.setAttribute(e[0],e[1])}),document.body.appendChild(t)}(t)})}})}};return"undefined"!=typeof window&&window.Vue&&(window.VueFbCustomerChat=e),e});
 
 
 /***/ }),
