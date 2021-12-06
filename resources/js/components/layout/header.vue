@@ -11,7 +11,7 @@
             class="hidden-sm-and-down"></v-text-field>
         <v-spacer></v-spacer>
 
-
+    
         <notifications></notifications>
 
         <div class="text-center">

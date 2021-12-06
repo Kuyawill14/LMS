@@ -23,6 +23,18 @@
             <link href="https://cdn.jsdelivr.net/npm/@morioh/v-quill-editor/dist/editor.css" rel="stylesheet">
             <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
       
+            <style>
+              #fb-root > div.fb_dialog.fb_dialog_advanced > div > iframe {
+                height: 60px !important;
+    width: 60px  !important;
+              }
+
+              #fb-customer-chat > span > iframe {
+                min-height: 300px !important;
+    width: 399px !important;
+              }
+              
+            </style>
           </head>
         <body class="antialiased">
           <!-- Messenger Chat Plugin Code -->
@@ -51,6 +63,7 @@
       //   js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
       //   fjs.parentNode.insertBefore(js, fjs);
       // }(document, 'script', 'facebook-jssdk'));
+
     </script>
           
             <div id="app">

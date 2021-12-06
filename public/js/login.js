@@ -11,6 +11,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-fb-customer-chat'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -190,6 +205,15 @@ var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };
 
+
+Vue.use(Object(function webpackMissingModule() { var e = new Error("Cannot find module 'vue-fb-customer-chat'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()), {
+  page_id: 102514265611526,
+  //  change 'null' to your Facebook Page ID,
+  theme_color: '#333333',
+  // theme color in HEX
+  locale: 'en_US' // default 'en_US'
+
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     forgotPassword: forgotPassword
@@ -237,6 +261,12 @@ var forgotPassword = function forgotPassword() {
     }
   },
   methods: {
+    openFbMessage: function openFbMessage() {
+      window.open('https://www.messenger.com/t/102514265611526/', '_blank').focus();
+    },
+    openFbPage: function openFbPage() {
+      window.open('https://www.facebook.com/ISUE-Orange-102514265611526', '_blank').focus();
+    },
     validate: function validate() {
       if (this.$refs.loginForm.validate()) {
         this.login();
@@ -261,7 +291,11 @@ var forgotPassword = function forgotPassword() {
 
             _this2.$router.push({
               path: "/"
-            }); // this.toastSuccess(res.data.message);
+            });
+
+            if ($('#fb-root')) {
+              $('#fb-root').css('display', 'none');
+            } // this.toastSuccess(res.data.message);
 
           } else {
             _this2.isLoggin = false;
@@ -281,8 +315,28 @@ var forgotPassword = function forgotPassword() {
     }
   },
   created: function created() {
-    window.open("", "_self");
-    window.close();
+    // window.open("", "_self");
+    // window.close();
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "102514265611526");
+    chatbox.setAttribute("attribution", "biz_inbox");
+
+    window.fbAsyncInit = function () {
+      FB.init({
+        xfbml: true,
+        version: 'v12.0'
+      });
+    };
+
+    (function (d, s, id) {
+      var js,
+          fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'facebook-jssdk');
   }
 });
 
@@ -22755,6 +22809,13 @@ var render = function() {
   return _c(
     "v-app",
     [
+      _c("div", { attrs: { id: "fb-root" } }),
+      _vm._v(" "),
+      _c("div", {
+        staticClass: "fb-customerchat",
+        attrs: { id: "fb-customer-chat" }
+      }),
+      _vm._v(" "),
       _c(
         "v-container",
         {
@@ -22793,12 +22854,21 @@ var render = function() {
                         "v-col",
                         {
                           staticClass: "primary ma-0 pa-0 d-flex flex-column",
+                          staticStyle: {
+                            "justify-content": "center",
+                            background:
+                              "linear-gradient(rgba(255, 130, 0, 0.85), rgba(255, 153, 0, 0.85)) 50% center / cover no-repeat, url('https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/ISU-Gate-Copy.jpg')",
+                            height: "100vh",
+                            "background-position-x": "center",
+                            "background-repeat": "no-repeat",
+                            "background-size": "cover"
+                          },
                           style:
                             _vm.$vuetify.breakpoint.xs ||
                             _vm.$vuetify.breakpoint.sm
                               ? "height:35vh;"
                               : "height:100vh",
-                          attrs: { cols: "12", md: "4" }
+                          attrs: { cols: "12", md: "7" }
                         },
                         [
                           _vm.$vuetify.breakpoint.xs ||
@@ -22877,7 +22947,7 @@ var render = function() {
                           _c(
                             "v-container",
                             {
-                              staticClass: "fill-height ",
+                              staticClass: " ",
                               style:
                                 _vm.$vuetify.breakpoint.xs ||
                                 _vm.$vuetify.breakpoint.sm
@@ -22910,9 +22980,9 @@ var render = function() {
                                                 "div",
                                                 {
                                                   staticClass:
-                                                    "display-2 white--text font-weight-bold"
+                                                    "text-h2 white--text font-weight-bold"
                                                 },
-                                                [_vm._v("ORANGE")]
+                                                [_vm._v("ISUE ORANGE")]
                                               ),
                                               _vm._v(" "),
                                               _c(
@@ -22921,19 +22991,19 @@ var render = function() {
                                                 [
                                                   _c(
                                                     "b",
-                                                    { staticClass: "text-h6" },
+                                                    { staticClass: "text-h5" },
                                                     [_vm._v("O")]
                                                   ),
                                                   _vm._v("nline "),
                                                   _c(
                                                     "b",
-                                                    { staticClass: "text-h6" },
+                                                    { staticClass: "text-h5" },
                                                     [_vm._v("R")]
                                                   ),
                                                   _vm._v("esources "),
                                                   _c(
                                                     "b",
-                                                    { staticClass: "text-h6" },
+                                                    { staticClass: "text-h5" },
                                                     [_vm._v("A")]
                                                   ),
                                                   _vm._v(
@@ -22941,19 +23011,19 @@ var render = function() {
                                                   ),
                                                   _c(
                                                     "b",
-                                                    { staticClass: "text-h6" },
+                                                    { staticClass: "text-h5" },
                                                     [_vm._v("N")]
                                                   ),
                                                   _vm._v("ew "),
                                                   _c(
                                                     "b",
-                                                    { staticClass: "text-h6" },
+                                                    { staticClass: "text-h5" },
                                                     [_vm._v("G")]
                                                   ),
                                                   _vm._v("uild of "),
                                                   _c(
                                                     "b",
-                                                    { staticClass: "text-h6" },
+                                                    { staticClass: "text-h5" },
                                                     [_vm._v("E")]
                                                   ),
                                                   _vm._v("ducation")
@@ -22972,52 +23042,6 @@ var render = function() {
                               )
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-container",
-                            {
-                              staticClass: "fill-height",
-                              class:
-                                _vm.$vuetify.breakpoint.xs ||
-                                _vm.$vuetify.breakpoint.sm
-                                  ? "d-none"
-                                  : "",
-                              attrs: { fluid: "" }
-                            },
-                            [
-                              _c(
-                                "v-row",
-                                {
-                                  attrs: { align: "center", justify: "center" }
-                                },
-                                [
-                                  _c(
-                                    "v-col",
-                                    {
-                                      staticClass: "text-center",
-                                      attrs: { cols: "12" }
-                                    },
-                                    [
-                                      _c("iframe", {
-                                        attrs: {
-                                          src:
-                                            "https://player.vimeo.com/video/601244029?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s",
-                                          width: "440",
-                                          height: "250",
-                                          frameborder: "0",
-                                          allow:
-                                            "autoplay; fullscreen; picture-in-picture",
-                                          allowfullscreen: ""
-                                        }
-                                      })
-                                    ]
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
                           )
                         ],
                         1
@@ -23029,7 +23053,7 @@ var render = function() {
                           class: _vm.$vuetify.breakpoint.xs
                             ? "ma-0 pa-3"
                             : "ma-0 pa-0",
-                          attrs: { cols: "12", md: "8" }
+                          attrs: { cols: "12", md: "5" }
                         },
                         [
                           _c("vue-element-loading", {
@@ -23050,8 +23074,8 @@ var render = function() {
                                   staticClass: "text-left",
                                   attrs: {
                                     cols: "12",
-                                    md: "8",
-                                    lg: "6",
+                                    md: "12",
+                                    lg: "12",
                                     sm: "7"
                                   }
                                 },
@@ -23421,6 +23445,77 @@ var render = function() {
                                 ],
                                 1
                               )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            position: "absolute",
+                            bottom: "5px",
+                            right: "5px"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticStyle: {
+                                "text-transform": "unset !important"
+                              },
+                              attrs: {
+                                id: "help-btn",
+                                "active-class": "act-btn",
+                                depressed: "",
+                                rounded: "",
+                                text: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openFbPage()
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-facebook")
+                              ]),
+                              _vm._v(
+                                "    @ISUE-Orange \n                        "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              staticStyle: {
+                                "text-transform": "unset !important"
+                              },
+                              attrs: {
+                                id: "help-btn",
+                                "active-class": "act-btn",
+                                depressed: "",
+                                rounded: "",
+                                text: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openFbMessage()
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-account-question")
+                              ]),
+                              _vm._v("  Help \n                        ")
                             ],
                             1
                           )

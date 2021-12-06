@@ -1,5 +1,7 @@
 <template>
     <v-app >
+          
+
         <!-- <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader> -->
         <sidebar  :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
         <v-main>
@@ -79,6 +81,7 @@
         },
         mounted(){
             this.getIp();
+         
         },
         beforeMount(){
            //window.addEventListener("offline", this.isOffline);
@@ -90,7 +93,8 @@
         },
         beforeDestroy(){
             window.removeEventListener('offline', this.isOffline)
-        }
+        },
+       
      
     }
 

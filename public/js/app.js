@@ -1930,7 +1930,7 @@ Vue.mixin({
     toastNormal: function toastNormal(message) {
       return this.$toasted.show(message, {
         theme: "toasted-primary",
-        position: "bottom-left",
+        position: "top-right",
         duration: 3000
       });
     },
