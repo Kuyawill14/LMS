@@ -146,7 +146,7 @@
                                               <span class="red--text"  v-else>No Submission</span>
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
-                                    <v-list-item-action style="max-width:150px">
+                                    <v-list-item-action style="max-width:150px !important">
                                         <v-text-field 
                                             hide-details
                                             class="ma-0 pa-0"

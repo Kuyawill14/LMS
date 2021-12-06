@@ -13,7 +13,6 @@
 <script>    
     const classworkListStudent = () => import('./classworkListType/classworkListStudent')
     const classworkListTeacher = () => import('./classworkListType/classworkListTeacher')
-    import moment from 'moment/src/moment';
     export default {
         props: ['role','classworks'],
         components: {

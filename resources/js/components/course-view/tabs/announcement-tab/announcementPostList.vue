@@ -44,7 +44,7 @@
                             </v-btn> 
                         </template>
                         <v-list dense nav >
-                            <v-list-item link>
+                            <v-list-item link @click="editPost(post.post_id, post.content)">
                                 <v-list-item-title>Edit</v-list-item-title>
                             </v-list-item>
                             <v-list-item link @click="deletePost(post.post_id, index)">
@@ -62,7 +62,16 @@
                 <v-row>
                     <v-col cols="12">
                         <div class="pa-5 " >
-                            <span v-html="post.content" class="post-content"></span>
+                            <div  v-if="isEditingPost && isEditingPost_id == post.post_id" >
+                                  <editor style="width:100%;height:100px" v-if="isEditingPost && isEditingPost_id == post.post_id" class="AnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)"   placeholder="Announce something in your class!" 
+                                v-model="post.content" theme="bubble" :options="options"></editor>
+                                <div class="d-flex justify-end mt-1">
+                                     <v-btn small depressed dark :disabled="post.content == ''" color="success" @click="updatePost(post)" class="mt-1 ml-2" >Update post</v-btn>
+                                      <v-btn @click="post.content = tempOldPost, isEditingPost = false, isEditingPost_id = null" small depressed dark  color="red"  class="mt-1 ml-2" >Cancel</v-btn>
+                                </div>
+                               
+                            </div>
+                            <span v-else v-html="post.content" class="post-content"></span>
                         </div>
                     </v-col>
                 </v-row>
@@ -92,7 +101,7 @@
 
 
 <script>
-    import moment from 'moment/src/moment';
+    import moment from 'moment-timezone';
     const announcementList = () => import('./PostListType/AnnouncementList');
     const commentList = () => import('./actions/commentList');
      import {mapGetters, mapActions} from "vuex";
@@ -116,8 +125,38 @@ import axios from 'axios';
             class_id: this.$route.params.id,
             isLoadingMore: false,
             isdeleting: false,
-            isdeleting_id: null
+            isdeleting_id: null,
+            Editannouncement: {
+                content: "",
+                file: "",
+                class_id: ""
+                },
+            options:{
+                modules: {
+                        toolbar: {
+                            container:[
+                                ['bold', 'italic', 'underline'],
+                                [{ 'header': [1, 2, 3, 4, 5, false] }],
+                                [{ 'color': [] }],
+                                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                                ['link', 'image', 'video'],
+                            ],
+                            handlers: {
+                                image: this.imageHandler
+                            }
+                        },
+                       
+                                        
+                    },
+                    
+                },
+
+                isEditingPost: false,
+                isEditingPost_id: null,
+                tempOldPost: null,
             }
+            
+
         },
         computed: {
             ...mapGetters(['current_page','last_page','getclass_post']),
@@ -135,7 +174,7 @@ import axios from 'axios';
             }, */
             format_date(value){
                 if (value) {
-                return moment(String(value)).format("ddd, MMMM DD, YYYY h:mm a")
+                return moment(String(value)).tz('Asia/Manila').format("ddd, MMMM DD, YYYY h:mm a")
                 }
             },
             addComment (i, post_id) {
@@ -197,7 +236,61 @@ import axios from 'axios';
                 this.$store.dispatch('deleteClassPost', data).then(()=>{
                     this.isdeleting = false;
                 })
-            }
+            },
+            editPost(post_id, content){
+                if(this.isEditingPost != post_id){
+                    this.isEditingPost = true;
+                    this.isEditingPost_id = post_id;
+                    this.tempOldPost = content;
+                }
+                
+            },
+            async updatePost(data){
+                this.$store.dispatch('updateClasspost', data).then(()=>{
+                     this.isEditingPost = false;
+                    this.isEditingPost_id = null;
+                })
+            },
+             onFileChanged(e) {
+                this.selectedFile = e.target.files[0]
+            },
+             onEditorBlur(editor) {
+                this.editorData = editor;
+            },
+            onEditorFocus(editor) {
+                 this.editorData = editor;
+            },
+            onEditorReady(editor) {
+                this.editorData = editor;
+            },
+            imageHandler() {
+                const editor = this.editorData;
+                const input = document.createElement('input');
+
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.click();
+
+                input.onchange = async () => {
+                    const file = input.files[0];
+                    const formData = new FormData();
+
+                    formData.append('file', file);
+                    formData.append('type', 'Announcement');
+                    // Save current cursor state
+                    const range = editor.getSelection(true);
+
+                    editor.setSelection(range.index + 1);
+                    await axios.post('/api/classwork/newAttachment', formData)
+                        .then(async ({data}) => {
+                            // Insert uploaded image
+                            await editor.insertEmbed(range.index, 'image', data.link);
+                        })
+                        .catch(({response}) => {
+                            alert('error');
+                        })
+                }
+            },
         },
         beforeMount() {
             $(".post-content p").replaceWith(function () {

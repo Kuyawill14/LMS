@@ -205,7 +205,10 @@ class SubjectCourseController extends Controller
      */
     public function DeleteCourse($id){
 
-        $CheckClass = tbl_userclass::where("course_id", $id)->count();
+        $userId = auth("sanctum")->id();
+        $CheckClass = tbl_userclass::where("course_id", $id)
+        ->where('user_id','!=', $userId)
+        ->count();
         if($CheckClass == 0){
             $CheckCourse = tbl_teacher_course::where("course_id", $id)->first();
             if($CheckCourse){
@@ -213,11 +216,17 @@ class SubjectCourseController extends Controller
                 $course = tbl_subject_course::find($id);
                 $course->forceDelete();
                 $CheckCourse->forceDelete();
-                return "Course Deleted";
+                return response()->json([
+                    "success"=>true,
+                    "message"=> 'Course Deleted'
+                ]);
             }
             return "Course not found!";
         }else{
-            return "This course already have student!";
+            return response()->json([
+                "success"=>false,
+                "message"=> 'This course already have student!'
+            ]);
         }
     }
 

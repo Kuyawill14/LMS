@@ -100,6 +100,7 @@ Route::middleware('auth:sanctum')->prefix('/course')->group(function () {
 Route::middleware('auth:sanctum')->prefix('/announcement')->group(function () {
     Route::post('/insert', [AnnouncementController::class, 'store']);
     Route::delete('/delete/{id}', [AnnouncementController::class, 'delete']);
+    Route::put('/update/{id}', [AnnouncementController::class, 'update']);
     Route::get('/allpost/{id}', [AnnouncementController::class, 'allClassPost']);
     Route::post('/upload/image', [AnnouncementController::class, 'ImageUploader']);
     

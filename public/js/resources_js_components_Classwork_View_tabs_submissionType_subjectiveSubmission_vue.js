@@ -23478,7 +23478,8 @@ var render = function() {
                                               "v-list-item-action",
                                               {
                                                 staticStyle: {
-                                                  "max-width": "150px"
+                                                  "max-width":
+                                                    "150px !important"
                                                 }
                                               },
                                               [

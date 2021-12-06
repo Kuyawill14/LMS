@@ -65,8 +65,12 @@ const actions = {
         if(res){
             state.class_post.splice(data.index, 1);
         }
-        
-        
+    },
+
+    async updateClasspost({ commit }, data) {
+
+        const res = await axios.put(`/api/announcement/update/${data.post_id}`,data);
+      
     },
 };
 const mutations = {

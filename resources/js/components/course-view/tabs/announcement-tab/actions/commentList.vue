@@ -217,7 +217,7 @@
 </div>
 </template>
 <script>
-import moment from 'moment/src/moment';
+import moment from 'moment-timezone';
 export default {
     props:['UserDetails','postDetails'],
     data(){
@@ -253,8 +253,12 @@ export default {
     methods:{
          format_date(value){
             if (value) {
+                //console.log(moment(String(value)).startOf('hour').fromNow());
                //return moment(String(value)).startOf('hour').fromNow();
-                return moment(String(value)).format("dddd,  h:mm a")
+                //return moment(String(value)).format("YY,MM,dddd,  h:mm a")
+
+
+                return moment(String(value)).tz('Asia/Manila').format("ddd, MMMM DD, YYYY h:mm a")
             }
         },
         async CheckCommentLoad(){

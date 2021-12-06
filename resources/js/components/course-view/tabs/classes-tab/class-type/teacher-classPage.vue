@@ -86,7 +86,7 @@
 
                                 <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">
                                     <span class="font-weight-medium">Schedule: </span>
-                                    <div  v-for="(data, index) in item.schedule" :key="index">
+                                    <div class="pl-1" v-for="(data, index) in item.schedule" :key="index">
                                         <span class="pr-1">&bull; </span>
                                         {{data.day+' - '+data.display_start}} <span class="font-weight-medium">to</span> {{data.display_end}}</div>
                                 </v-list-item-subtitle>
@@ -96,7 +96,7 @@
                                 </v-list-item-subtitle>
                             
                             
-                        <v-list-item-subtitle><span class="font-weight-medium">Students: </span> {{item.student_count}}</v-list-item-subtitle>
+                        <v-list-item-subtitle><span class="font-weight-medium">Students Enrolled: </span> {{item.student_count}}</v-list-item-subtitle>
                     </v-list-item-content>
                 <v-list-item-action>
                     <v-menu transition="slide-y-transition" bottom>

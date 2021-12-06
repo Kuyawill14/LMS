@@ -1,113 +1,118 @@
 <template>
     <v-card>
-        <v-card-title class="">
-            Edit Class
-        </v-card-title>
-        <v-container>
-            <v-row class="mx-2">
+        <v-form  ref="form" v-model="valid" lazy-validation>
+            <v-card-title class="">
+                Update Class
+            </v-card-title>
+            <v-container>
+                <v-row class="mx-2">
 
-                <v-col cols="12" class="pa-0 ma-0">
-                    <v-text-field required v-model="class_details.class_name" hide-details ref="_classname" outlined color="primary" label="Class Name">
-                    </v-text-field>
+                    <v-col cols="12" class="pa-0 ma-0">
+                        <v-text-field :rules="rules"  v-model="class_details.class_name" :hide-details="valid" ref="_classname" outlined color="primary" label="Class Name">
+                        </v-text-field>
 
-                </v-col>
-                   <v-col cols="12" class="pa-0 ma-0">
-                    <v-switch
-                        v-model="class_details.is_auto_accept"
-                        label="Auto accept"
-                        hide-details
-                        ></v-switch>
-                </v-col>
+                    </v-col>
+                    <v-col cols="12" class="pa-0 ma-0">
+                        <v-switch
+                            v-model="class_details.is_auto_accept"
+                            label="Auto accept"
+                            hide-details
+                            ></v-switch>
+                    </v-col>
 
-              <!--    <v-col cols="12" class="pa-0 ma-0 mt-5">
-                     <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
-                         Add Schedule <v-icon>mdi-plus</v-icon>
-                     </v-btn>
-                </v-col> -->
+                <!--    <v-col cols="12" class="pa-0 ma-0 mt-5">
+                        <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
+                            Add Schedule <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </v-col> -->
 
-                 <v-col cols="12" class="pa-0 ma-0 mt-5">
-                     <div class="d-flex justify-space-between">
-                         <div class="mt-1">
-                             Schedule: 
-                         </div>
-                         <div>
-                             <v-btn icon  @click="addScheduleDialog = !addScheduleDialog">
-                                <v-icon >mdi-plus</v-icon>
-                            </v-btn>
-                         </div>
-                     </div>
-                     
-                </v-col>
-                <v-col cols="12" class="pa-0 ma-0 mt-2">
-                    <v-row v-if="class_details.schedule != false">
-                        <v-col class="mb-0 pb-0" cols="12" v-for="(item , index) in class_details.schedule" :key="index">
-                            <div class="d-flex justify-space-between">
-                            <div class="d-flex">
-                                <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
-                               
-                                <span>{{item.day}}- </span>
-                                <span>{{item.display_start+' to '+item.display_end}}</span>
+                    <v-col cols="12" class="pa-0 ma-0 mt-5">
+                        <div class="d-flex justify-space-between">
+                            <div class="mt-1">
+                                Schedule: 
                             </div>
                             <div>
-                                <span><v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn></span>
-                                <span> <v-btn @click="DeleteSchedule(index)" icon><v-icon color="red" small >mdi-delete</v-icon></v-btn></span>
-                                
+                                <v-btn icon  @click="addScheduleDialog = !addScheduleDialog">
+                                    <v-icon >mdi-plus</v-icon>
+                                </v-btn>
                             </div>
-                              </div>
-                        </v-col>
-                    </v-row>
-                </v-col>
-
-
-            </v-row>
-        </v-container>
-        <v-card-actions>
-
-            <v-spacer></v-spacer>
-            <v-btn text color="secondary" @click="$emit('closeModal');">Cancel</v-btn>
-            <v-btn text color="primary" :disabled="sending" @click="updateClass">Save</v-btn>
-        </v-card-actions>
-
-
-        <div>
-              <v-dialog persistent v-model="addScheduleDialog"  width="400px">
-                <v-card >
-                    <v-card-title class="">
-                        <v-btn @click="addScheduleDialog = !addScheduleDialog, is_edit = false" icon>
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                        {{!is_edit ? 'New Schedule' : 'Update Schedule'}}
-                    </v-card-title>
-                    <v-container>
-                        <v-row class="mx-2">
-                            <v-col cols="12" class="pa-0 ma-0 mb-2">
-                                <v-row>
-                                    <v-col cols="12">
-                                        <v-select
-                                        dense
-                                        :items="items"
-                                        v-model="day"
-                                        hide-details
-                                        outlined
-                                        label="Day"
-                                        ></v-select>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field outlined dense hide-details type="time" v-model="start_time" label="End time"></v-text-field>
-                                    </v-col>
-                                    <v-col cols="12" md="6">
-                                        <v-text-field outlined dense hide-details v-model="end_time" type="time" label="End time"></v-text-field>
-                                    </v-col>
-                                </v-row>
+                        </div>
+                        
+                    </v-col>
+                    <v-col cols="12" class="pa-0 ma-0 mt-2">
+                        <v-row v-if="class_details.schedule != false">
+                            <v-col class="mb-0 pb-0" cols="12" v-for="(item , index) in class_details.schedule" :key="index">
+                                <div class="d-flex justify-space-between">
+                                    <div class="d-flex">
+                                        <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
+                                    
+                                        <span>{{item.day}}- </span>
+                                        <span>{{item.display_start+' to '+item.display_end}}</span>
+                                    </div>
+                                    <div>
+                                        <span><v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn></span>
+                                        <span> <v-btn @click="DeleteSchedule(index)" icon><v-icon color="red" small >mdi-delete</v-icon></v-btn></span>
+                                        
+                                    </div>
+                                </div>
                             </v-col>
                         </v-row>
-                    </v-container>
-                     <v-card-actions >
-                        <v-btn rounded  @click="!is_edit ? AddSchedule() : updateSchedule()" block color="primary" > {{!is_edit ? 'Add' : 'Update'}}</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-dialog>
-        </div>
+                    </v-col>
+
+
+                </v-row>
+            </v-container>
+            <v-card-actions>
+
+                <v-spacer></v-spacer>
+                <v-btn text color="secondary" @click="$emit('closeModal');">Cancel</v-btn>
+                <v-btn text color="primary" :disabled="sending" @click="validate">Save</v-btn>
+            </v-card-actions>
+
+
+            <div>
+                <v-dialog persistent v-model="addScheduleDialog"  width="400px">
+                    <v-card>
+                        <v-form  ref="Schedform" v-model="Schedvalid" lazy-validation>
+                            <v-card-title class="">
+                                <v-btn @click="addScheduleDialog = !addScheduleDialog, is_edit = false,clearInputs()" icon>
+                                    <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                                {{!is_edit ? 'New Schedule' : 'Update Schedule'}}
+                            </v-card-title>
+                            <v-container>
+                                <v-row class="mx-2">
+                                    <v-col cols="12" class="pa-0 ma-0 mb-2">
+                                        <v-row>
+                                            <v-col cols="12">
+                                                <v-select
+                                                :hide-details="Schedvalid"
+                                                :rules="Schedrules"
+                                                dense
+                                                :items="items"
+                                                v-model="day"
+                                                outlined
+                                                label="Day"
+                                                ></v-select>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" type="time" v-model="start_time" label="End time"></v-text-field>
+                                            </v-col>
+                                            <v-col cols="12" md="6">
+                                                <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" v-model="end_time" type="time" label="End time"></v-text-field>
+                                            </v-col>
+                                        </v-row>
+                                    </v-col>
+                                </v-row>
+                            </v-container>
+                            <v-card-actions >
+                                <v-btn rounded  @click="validateSched" block color="primary" > {{!is_edit ? 'Add' : 'Update'}}</v-btn>
+                            </v-card-actions>
+                        </v-form>
+                    </v-card>
+                </v-dialog>
+            </div>
+        </v-form>
     </v-card>
 
 </template>
@@ -138,9 +143,34 @@ import moment from 'moment-timezone';
             addScheduleDialog: false,
             day: null,
             is_edit: false,
-            is_edit_index: null
+            is_edit_index: null,
+            Schedvalid: true,
+            valid: true,
+            rules: [
+                v => !!v || 'Class name is required',
+            ],
+            Schedrules: [
+                v => !!v || 'Field is required',
+            ],
         }),
         methods: {
+            validate(){
+                if(this.$refs.form.validate()){
+                    this.updateClass();
+                }
+            },
+
+            validateSched(){
+                if(this.$refs.Schedform.validate()){
+                    if(!this.is_edit){
+                         this.AddSchedule();
+                    }
+                    else{
+                        this.updateSchedule();
+                    }
+                   
+                }
+            },
             toastSuccess() {
                 return this.$toasted.success("Class Successfully updated", {
                     theme: "toasted-primary",
@@ -192,6 +222,7 @@ import moment from 'moment-timezone';
                 this.day = null;
                 this.start_time = null;
                 this.end_time = null;
+                this.$refs.Schedform.resetValidation()
             },
             OpenEdit(data, index){
                 this.is_edit = true;
@@ -217,6 +248,8 @@ import moment from 'moment-timezone';
                 }
                 this.addScheduleDialog = false;
                 this.is_edit = false;
+                this.clearInputs();
+                
             },
             DeleteSchedule(index){
                 this.class_details.schedule.splice(index, 1)

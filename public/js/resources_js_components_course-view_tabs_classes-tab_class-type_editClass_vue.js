@@ -127,6 +127,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['class_id', 'class_name', 'class_details'],
@@ -153,10 +158,32 @@ __webpack_require__.r(__webpack_exports__);
       addScheduleDialog: false,
       day: null,
       is_edit: false,
-      is_edit_index: null
+      is_edit_index: null,
+      Schedvalid: true,
+      valid: true,
+      rules: [function (v) {
+        return !!v || 'Class name is required';
+      }],
+      Schedrules: [function (v) {
+        return !!v || 'Field is required';
+      }]
     };
   },
   methods: {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.updateClass();
+      }
+    },
+    validateSched: function validateSched() {
+      if (this.$refs.Schedform.validate()) {
+        if (!this.is_edit) {
+          this.AddSchedule();
+        } else {
+          this.updateSchedule();
+        }
+      }
+    },
     toastSuccess: function toastSuccess() {
       return this.$toasted.success("Class Successfully updated", {
         theme: "toasted-primary",
@@ -206,6 +233,7 @@ __webpack_require__.r(__webpack_exports__);
       this.day = null;
       this.start_time = null;
       this.end_time = null;
+      this.$refs.Schedform.resetValidation();
     },
     OpenEdit: function OpenEdit(data, index) {
       this.is_edit = true;
@@ -230,6 +258,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       this.addScheduleDialog = false;
       this.is_edit = false;
+      this.clearInputs();
     },
     DeleteSchedule: function DeleteSchedule(index) {
       this.class_details.schedule.splice(index, 1);
@@ -22555,388 +22584,445 @@ var render = function() {
   return _c(
     "v-card",
     [
-      _c("v-card-title", {}, [_vm._v("\n        Edit Class\n    ")]),
-      _vm._v(" "),
       _c(
-        "v-container",
+        "v-form",
+        {
+          ref: "form",
+          attrs: { "lazy-validation": "" },
+          model: {
+            value: _vm.valid,
+            callback: function($$v) {
+              _vm.valid = $$v
+            },
+            expression: "valid"
+          }
+        },
         [
-          _c(
-            "v-row",
-            { staticClass: "mx-2" },
-            [
-              _c(
-                "v-col",
-                { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
-                [
-                  _c("v-text-field", {
-                    ref: "_classname",
-                    attrs: {
-                      required: "",
-                      "hide-details": "",
-                      outlined: "",
-                      color: "primary",
-                      label: "Class Name"
-                    },
-                    model: {
-                      value: _vm.class_details.class_name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.class_details, "class_name", $$v)
-                      },
-                      expression: "class_details.class_name"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
-                [
-                  _c("v-switch", {
-                    attrs: { label: "Auto accept", "hide-details": "" },
-                    model: {
-                      value: _vm.class_details.is_auto_accept,
-                      callback: function($$v) {
-                        _vm.$set(_vm.class_details, "is_auto_accept", $$v)
-                      },
-                      expression: "class_details.is_auto_accept"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pa-0 ma-0 mt-5", attrs: { cols: "12" } },
-                [
-                  _c("div", { staticClass: "d-flex justify-space-between" }, [
-                    _c("div", { staticClass: "mt-1" }, [
-                      _vm._v(
-                        "\n                         Schedule: \n                     "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      [
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { icon: "" },
-                            on: {
-                              click: function($event) {
-                                _vm.addScheduleDialog = !_vm.addScheduleDialog
-                              }
-                            }
-                          },
-                          [_c("v-icon", [_vm._v("mdi-plus")])],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
-                [
-                  _vm.class_details.schedule != false
-                    ? _c(
-                        "v-row",
-                        _vm._l(_vm.class_details.schedule, function(
-                          item,
-                          index
-                        ) {
-                          return _c(
-                            "v-col",
-                            {
-                              key: index,
-                              staticClass: "mb-0 pb-0",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticClass: "d-flex justify-space-between" },
-                                [
-                                  _c("div", { staticClass: "d-flex" }, [
-                                    _c(
-                                      "span",
-                                      { staticClass: "pr-1" },
-                                      [
-                                        _c(
-                                          "v-icon",
-                                          { attrs: { color: "red" } },
-                                          [_vm._v("mdi-calendar")]
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c("span", [
-                                      _vm._v(_vm._s(item.day) + "- ")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("span", [
-                                      _vm._v(
-                                        _vm._s(
-                                          item.display_start +
-                                            " to " +
-                                            item.display_end
-                                        )
-                                      )
-                                    ])
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("div", [
-                                    _c(
-                                      "span",
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.OpenEdit(item, index)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                attrs: {
-                                                  color: "blue",
-                                                  small: ""
-                                                }
-                                              },
-                                              [_vm._v("mdi-pencil")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "span",
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.DeleteSchedule(index)
-                                              }
-                                            }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                attrs: {
-                                                  color: "red",
-                                                  small: ""
-                                                }
-                                              },
-                                              [_vm._v("mdi-delete")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
-                                ]
-                              )
-                            ]
-                          )
-                        }),
-                        1
-                      )
-                    : _vm._e()
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-card-actions",
-        [
-          _c("v-spacer"),
+          _c("v-card-title", {}, [
+            _vm._v("\n            Update Class\n        ")
+          ]),
           _vm._v(" "),
           _c(
-            "v-btn",
-            {
-              attrs: { text: "", color: "secondary" },
-              on: {
-                click: function($event) {
-                  return _vm.$emit("closeModal")
-                }
-              }
-            },
-            [_vm._v("Cancel")]
-          ),
-          _vm._v(" "),
-          _c(
-            "v-btn",
-            {
-              attrs: { text: "", color: "primary", disabled: _vm.sending },
-              on: { click: _vm.updateClass }
-            },
-            [_vm._v("Save")]
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        [
-          _c(
-            "v-dialog",
-            {
-              attrs: { persistent: "", width: "400px" },
-              model: {
-                value: _vm.addScheduleDialog,
-                callback: function($$v) {
-                  _vm.addScheduleDialog = $$v
-                },
-                expression: "addScheduleDialog"
-              }
-            },
+            "v-container",
             [
               _c(
-                "v-card",
+                "v-row",
+                { staticClass: "mx-2" },
                 [
                   _c(
-                    "v-card-title",
-                    {},
+                    "v-col",
+                    { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { icon: "" },
-                          on: {
-                            click: function($event) {
-                              ;(_vm.addScheduleDialog = !_vm.addScheduleDialog),
-                                (_vm.is_edit = false)
-                            }
-                          }
+                      _c("v-text-field", {
+                        ref: "_classname",
+                        attrs: {
+                          rules: _vm.rules,
+                          "hide-details": _vm.valid,
+                          outlined: "",
+                          color: "primary",
+                          label: "Class Name"
                         },
-                        [_c("v-icon", [_vm._v("mdi-close")])],
-                        1
-                      ),
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(
-                            !_vm.is_edit ? "New Schedule" : "Update Schedule"
-                          ) +
-                          "\n                "
-                      )
+                        model: {
+                          value: _vm.class_details.class_name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.class_details, "class_name", $$v)
+                          },
+                          expression: "class_details.class_name"
+                        }
+                      })
                     ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-container",
+                    "v-col",
+                    { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                    [
+                      _c("v-switch", {
+                        attrs: { label: "Auto accept", "hide-details": "" },
+                        model: {
+                          value: _vm.class_details.is_auto_accept,
+                          callback: function($$v) {
+                            _vm.$set(_vm.class_details, "is_auto_accept", $$v)
+                          },
+                          expression: "class_details.is_auto_accept"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pa-0 ma-0 mt-5", attrs: { cols: "12" } },
                     [
                       _c(
-                        "v-row",
-                        { staticClass: "mx-2" },
+                        "div",
+                        { staticClass: "d-flex justify-space-between" },
+                        [
+                          _c("div", { staticClass: "mt-1" }, [
+                            _vm._v(
+                              "\n                            Schedule: \n                        "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addScheduleDialog = !_vm.addScheduleDialog
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mdi-plus")])],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
+                    [
+                      _vm.class_details.schedule != false
+                        ? _c(
+                            "v-row",
+                            _vm._l(_vm.class_details.schedule, function(
+                              item,
+                              index
+                            ) {
+                              return _c(
+                                "v-col",
+                                {
+                                  key: index,
+                                  staticClass: "mb-0 pb-0",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "d-flex justify-space-between"
+                                    },
+                                    [
+                                      _c("div", { staticClass: "d-flex" }, [
+                                        _c(
+                                          "span",
+                                          { staticClass: "pr-1" },
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { color: "red" } },
+                                              [_vm._v("mdi-calendar")]
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", [
+                                          _vm._v(_vm._s(item.day) + "- ")
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("span", [
+                                          _vm._v(
+                                            _vm._s(
+                                              item.display_start +
+                                                " to " +
+                                                item.display_end
+                                            )
+                                          )
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", [
+                                        _c(
+                                          "span",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: { icon: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.OpenEdit(
+                                                      item,
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      color: "blue",
+                                                      small: ""
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-pencil")]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "span",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: { icon: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.DeleteSchedule(
+                                                      index
+                                                    )
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  {
+                                                    attrs: {
+                                                      color: "red",
+                                                      small: ""
+                                                    }
+                                                  },
+                                                  [_vm._v("mdi-delete")]
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ]
+                              )
+                            }),
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-card-actions",
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "", color: "secondary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("closeModal")
+                    }
+                  }
+                },
+                [_vm._v("Cancel")]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  attrs: { text: "", color: "primary", disabled: _vm.sending },
+                  on: { click: _vm.validate }
+                },
+                [_vm._v("Save")]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", width: "400px" },
+                  model: {
+                    value: _vm.addScheduleDialog,
+                    callback: function($$v) {
+                      _vm.addScheduleDialog = $$v
+                    },
+                    expression: "addScheduleDialog"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c(
+                        "v-form",
+                        {
+                          ref: "Schedform",
+                          attrs: { "lazy-validation": "" },
+                          model: {
+                            value: _vm.Schedvalid,
+                            callback: function($$v) {
+                              _vm.Schedvalid = $$v
+                            },
+                            expression: "Schedvalid"
+                          }
+                        },
                         [
                           _c(
-                            "v-col",
-                            {
-                              staticClass: "pa-0 ma-0 mb-2",
-                              attrs: { cols: "12" }
-                            },
+                            "v-card-title",
+                            {},
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      ;(_vm.addScheduleDialog = !_vm.addScheduleDialog),
+                                        (_vm.is_edit = false),
+                                        _vm.clearInputs()
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mdi-close")])],
+                                1
+                              ),
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    !_vm.is_edit
+                                      ? "New Schedule"
+                                      : "Update Schedule"
+                                  ) +
+                                  "\n                        "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
                             [
                               _c(
                                 "v-row",
+                                { staticClass: "mx-2" },
                                 [
                                   _c(
                                     "v-col",
-                                    { attrs: { cols: "12" } },
+                                    {
+                                      staticClass: "pa-0 ma-0 mb-2",
+                                      attrs: { cols: "12" }
+                                    },
                                     [
-                                      _c("v-select", {
-                                        attrs: {
-                                          dense: "",
-                                          items: _vm.items,
-                                          "hide-details": "",
-                                          outlined: "",
-                                          label: "Day"
-                                        },
-                                        model: {
-                                          value: _vm.day,
-                                          callback: function($$v) {
-                                            _vm.day = $$v
-                                          },
-                                          expression: "day"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12", md: "6" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          outlined: "",
-                                          dense: "",
-                                          "hide-details": "",
-                                          type: "time",
-                                          label: "End time"
-                                        },
-                                        model: {
-                                          value: _vm.start_time,
-                                          callback: function($$v) {
-                                            _vm.start_time = $$v
-                                          },
-                                          expression: "start_time"
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-col",
-                                    { attrs: { cols: "12", md: "6" } },
-                                    [
-                                      _c("v-text-field", {
-                                        attrs: {
-                                          outlined: "",
-                                          dense: "",
-                                          "hide-details": "",
-                                          type: "time",
-                                          label: "End time"
-                                        },
-                                        model: {
-                                          value: _vm.end_time,
-                                          callback: function($$v) {
-                                            _vm.end_time = $$v
-                                          },
-                                          expression: "end_time"
-                                        }
-                                      })
+                                      _c(
+                                        "v-row",
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c("v-select", {
+                                                attrs: {
+                                                  "hide-details":
+                                                    _vm.Schedvalid,
+                                                  rules: _vm.Schedrules,
+                                                  dense: "",
+                                                  items: _vm.items,
+                                                  outlined: "",
+                                                  label: "Day"
+                                                },
+                                                model: {
+                                                  value: _vm.day,
+                                                  callback: function($$v) {
+                                                    _vm.day = $$v
+                                                  },
+                                                  expression: "day"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", md: "6" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  outlined: "",
+                                                  rules: _vm.Schedrules,
+                                                  dense: "",
+                                                  "hide-details":
+                                                    _vm.Schedvalid,
+                                                  type: "time",
+                                                  label: "End time"
+                                                },
+                                                model: {
+                                                  value: _vm.start_time,
+                                                  callback: function($$v) {
+                                                    _vm.start_time = $$v
+                                                  },
+                                                  expression: "start_time"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12", md: "6" } },
+                                            [
+                                              _c("v-text-field", {
+                                                attrs: {
+                                                  outlined: "",
+                                                  rules: _vm.Schedrules,
+                                                  dense: "",
+                                                  "hide-details":
+                                                    _vm.Schedvalid,
+                                                  type: "time",
+                                                  label: "End time"
+                                                },
+                                                model: {
+                                                  value: _vm.end_time,
+                                                  callback: function($$v) {
+                                                    _vm.end_time = $$v
+                                                  },
+                                                  expression: "end_time"
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
                                     ],
                                     1
                                   )
@@ -22945,30 +23031,33 @@ var render = function() {
                               )
                             ],
                             1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-actions",
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    rounded: "",
+                                    block: "",
+                                    color: "primary"
+                                  },
+                                  on: { click: _vm.validateSched }
+                                },
+                                [
+                                  _vm._v(
+                                    " " +
+                                      _vm._s(!_vm.is_edit ? "Add" : "Update")
+                                  )
+                                ]
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          attrs: { rounded: "", block: "", color: "primary" },
-                          on: {
-                            click: function($event) {
-                              !_vm.is_edit
-                                ? _vm.AddSchedule()
-                                : _vm.updateSchedule()
-                            }
-                          }
-                        },
-                        [_vm._v(" " + _vm._s(!_vm.is_edit ? "Add" : "Update"))]
                       )
                     ],
                     1

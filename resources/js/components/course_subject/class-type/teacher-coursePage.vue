@@ -302,9 +302,18 @@
              deleteCourse() {
                 axios.delete('/api/course/delete/' + this.ArchiveDetails.course_id)
                     .then(res => {
-                        this.deleteDiaglog = !this.deleteDiaglog
-                        this.fetchCourses();
-                        this.toastSuccess("Successfully deleted!");
+                        if(res.data.success == true){
+                             this.deleteDiaglog = !this.deleteDiaglog
+                            this.fetchCourses();
+                            this.toastSuccess("Successfully deleted!");
+                        }
+                        else{
+                            this.deleteDiaglog = !this.deleteDiaglog
+                            this.toastInfo(res.data.message);
+                        }
+                    }).catch((e)=>{
+                        this.toastError('Something went wrong while deleting the course!');
+                        this.deleteDiaglog = !this.deleteDiaglog;
                     })
                     
             },

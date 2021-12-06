@@ -324,11 +324,21 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
       var _this2 = this;
 
       axios["delete"]('/api/course/delete/' + this.ArchiveDetails.course_id).then(function (res) {
+        if (res.data.success == true) {
+          _this2.deleteDiaglog = !_this2.deleteDiaglog;
+
+          _this2.fetchCourses();
+
+          _this2.toastSuccess("Successfully deleted!");
+        } else {
+          _this2.deleteDiaglog = !_this2.deleteDiaglog;
+
+          _this2.toastInfo(res.data.message);
+        }
+      })["catch"](function (e) {
+        _this2.toastError('Something went wrong while deleting the course!');
+
         _this2.deleteDiaglog = !_this2.deleteDiaglog;
-
-        _this2.fetchCourses();
-
-        _this2.toastSuccess("Successfully deleted!");
       });
     },
     openAddmodal: function openAddmodal() {

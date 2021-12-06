@@ -1,8 +1,8 @@
 <template>
     <v-container  pa-0>
         <v-row align="center" justify="center">
-            <v-col cols="12" lg="10">
-                <v-stepper v-model="e1">
+            <v-col cols="12" lg="11">
+                <v-stepper  v-model="e1">
                     <v-stepper-header>
                         <v-stepper-step :complete="e1 > 1" step="1">
                             Course Details
@@ -25,7 +25,6 @@
                         <v-stepper-content step="1">
 
                             <courseDetailsComponent v-if="e1 == 1" v-on:changeStep="step" />
-
                         </v-stepper-content>
 
                         <v-stepper-content step="2">
@@ -41,10 +40,10 @@
                     </v-stepper-items>
                 </v-stepper>
 
+
             </v-col>
         </v-row>
     </v-container>
-
 </template>
 
 

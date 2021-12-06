@@ -1,144 +1,145 @@
 <template>
     <v-container>
+        <v-form ref="form" v-model="valid" lazy-validation>
+            <v-row class="pl-5 pr-5">
 
-        <v-col cols="12" class="pa-0">
-            <v-text-field v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code">
-            </v-text-field>
-        </v-col>
-
-        <v-col cols="12" class="pa-0 ">
-            <v-text-field v-model="getcourseInfo.course_name" outlined color="primary" label="Course Title">
-            </v-text-field>
-        </v-col>
-
-        <v-col cols="12" class="pa-0 ">
-            <small class="text-caption">Generate google meet here: <a href="https://meet.google.com/"
-                    target="_blank">meet.google.com </a> </small>
-
-            <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary"
-                label="Video Conference Link">
-
-            </v-text-field>
-
-        </v-col>
-
-          <v-col cols="12" class="pa-0 ">
-                 <v-select
-                class="mr-2"
-                :items="departmentsList"
-                item-text="name"
-                item-value="id"
-                label="Department"
-                v-model="getcourseInfo.department"
-                outlined
-                ></v-select>
-        </v-col>
-
-
-        <v-col cols="12" class="pa-0 ">
-            <v-select class="mr-2" :items="school_year" item-text="schoolyear" item-value="id" label="School Year"
-                v-model="getcourseInfo.school_year_id" outlined></v-select>
-        </v-col>
-
-
-
-        <v-col cols="12" class="pa-0 ">
-            <v-select class="mr-2" :items="semester" item-text="semester" item-value="id" label="Semester"
-                v-model="getcourseInfo.semester_id" outlined></v-select>
-        </v-col>
-
-      
-
-
-        <v-col cols="12" class="pa-0 " v-if="getcourseInfo.course_guide == null">
-            <v-file-input show-size outlined label="Course Guide" @change="onFileChange" ref="inputFile"
-                prepend-inner-icon="mdi-file" prepend-icon="">
-
-            </v-file-input>
-        </v-col>
-
-        <v-col cols="12 py-0 my-0">
-
-            <v-progress-linear rounded :value="uploadPercentage" v-if="uploadPercentage !=0" height="14px">
-                <span style="color:#fff">{{uploadPercentage+ '%'}} </span>
-            </v-progress-linear>
-        </v-col>
-
-
-
-
-        <v-row align="center" justify="center" class="mb-5"
-            style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;"
-            v-if="getcourseInfo.course_guide != null ">
-            <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
-
-            <v-col class="grow text-left py-0 pr-0 col-1">
-                <v-icon>mdi-file</v-icon>
+           
+            <v-col cols="12" class="pl-0 pb-0 pr-0">
+                <v-text-field :rules="rules" v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code">
+                </v-text-field>
             </v-col>
 
-
-            <v-col style="margin-left: -40px;">
-                <div class="text-decoration-underline':''"> {{ getFileName(getcourseInfo.course_guide) }}</div>
+            <v-col cols="12" class="pa-0 ">
+                <v-text-field :rules="rules" v-model="getcourseInfo.course_name" outlined color="primary" label="Course Title">
+                </v-text-field>
             </v-col>
-            <v-col class="shrink d-flex py-0 shrink d-flex">
-                <div class="black--text mt-1 mr-2"></div>
 
-                <div class="py-0">
+            <v-col cols="12" class="pa-0 ">
+                <small class="text-caption">Generate google meet here: <a href="https://meet.google.com/"
+                        target="_blank">meet.google.com </a> </small>
 
-                    <v-btn rounded small icon text @click="removeFile()">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-
-
-                </div>
+                <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary"
+                    label="Video Conference Link">
+                </v-text-field>
 
             </v-col>
 
-        </v-row>
-        <!-- <div style="margin-top: 10px;position: relative;z-index: 90999;">
-            <v-tooltip right="">
-                <template v-slot:activator="{ on, attrs }">
-                    <span v-bind="attrs" v-on="on">
-                        <v-icon color="info">mdi-information-outline</v-icon>
-                        Supported files
+           <!--  <v-col cols="12" class="pa-0 ">
+                    <v-select
+                  
+                    :items="departmentsList"
+                    item-text="name"
+                    item-value="id"
+                    label="Department"
+                    v-model="getcourseInfo.department"
+                    outlined
+                    ></v-select>
+            </v-col> -->
+
+
+            <v-col cols="12" class="pa-0 ">
+                <v-select :items="school_year" item-text="schoolyear" item-value="id" label="School Year"
+                    v-model="getcourseInfo.school_year_id" outlined></v-select>
+            </v-col>
+
+
+
+            <v-col cols="12" class="pa-0 ">
+                <v-select :items="semester" item-text="semester" item-value="id" label="Semester"
+                    v-model="getcourseInfo.semester_id" outlined></v-select>
+            </v-col>
+
+        
+
+
+            <v-col cols="12" class="pa-0" v-if="getcourseInfo.course_guide == null">
+                <v-file-input show-size outlined label="Course Guide" @change="onFileChange" ref="inputFile"
+                    prepend-inner-icon="mdi-file" prepend-icon="">
+
+                </v-file-input>
+            </v-col>
+
+            <v-col cols="12" class="pa-0">
+
+                <v-progress-linear rounded :value="uploadPercentage" v-if="uploadPercentage !=0" height="14px">
+                    <span style="color:#fff">{{uploadPercentage+ '%'}} </span>
+                </v-progress-linear>
+            </v-col>
+
+
+            <v-col cols="12" class="pa-0">
+                 <v-row align="center" justify="center"
+                    style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;"
+                    v-if="getcourseInfo.course_guide != null ">
+                    <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
+
+                    <v-col class="grow text-left py-0 pr-0">
+                        <v-icon>mdi-file</v-icon>
+                    </v-col>
+
+
+                    <v-col style="margin-left: -40px;">
+                        <div class="text-decoration-underline':''"> {{ getFileName(getcourseInfo.course_guide) }}</div>
+                    </v-col>
+                    <v-col class="shrink d-flex py-0 shrink d-flex">
+                        <div class="black--text mt-1 mr-2"></div>
+
+                        <div class="pa-0">
+                            <v-btn rounded small icon text @click="removeFile()">
+                                <v-icon>mdi-close</v-icon>
+                            </v-btn>
+                        </div>
+                    </v-col>
+                </v-row>
+
+            </v-col>
+
+
+           
+            <!-- <div style="margin-top: 10px;position: relative;z-index: 90999;">
+                <v-tooltip right="">
+                    <template v-slot:activator="{ on, attrs }">
+                        <span v-bind="attrs" v-on="on">
+                            <v-icon color="info">mdi-information-outline</v-icon>
+                            Supported files
+                        </span>
+                    </template>
+                    <span>
+                        Supported files:
+                        <ul>
+                            <li>.pdf</li>
+                            <li>.doc .docx</li>
+                            <li>.pptx .ppt</li>
+                            <li>File must be less than 10 mb</li>
+                        </ul>
                     </span>
-                </template>
-                <span>
-                    Supported files:
-                    <ul>
-                        <li>.pdf</li>
-                        <li>.doc .docx</li>
-                        <li>.pptx .ppt</li>
-                        <li>File must be less than 10 mb</li>
-                    </ul>
-                </span>
-            </v-tooltip>
-        </div> -->
+                </v-tooltip>
+            </div> -->
 
 
 
-        <v-col cols="12" class="pa-0 mx-0">
-            <v-card>
-                <v-card-title class="pl-3 py-3" style="font-size: 1rem;color:grey">Course Description
-                </v-card-title>
+            <v-col cols="12" class="pa-0 ">
+          <!--       <v-card> -->
+                  <!--   <v-card-title class="pl-3 py-3" style="font-size: 1rem;color:grey">Course Description
+                    </v-card-title> -->
+                   <!--  <v-divider></v-divider> -->
+
+                    <editor placeholder="Course Description" class="course_desciption"  v-model="getcourseInfo.course_description" theme="bubble"></editor>
+            <!--     </v-card> -->
+            </v-col>
+
+
+         
+
+            <v-col cols="12" class="pl-0 mt-1 text-right">
                 <v-divider></v-divider>
-
-                <editor v-model="getcourseInfo.course_description" theme="snow"></editor>
-            </v-card>
-        </v-col>
-
-
-        <br> <br>
-        <v-divider></v-divider>
-        <br>
-        <v-row>
-            <v-col>
-                <v-btn class="float-right" color="primary" @click="updateCourseDetails()" :disabled="isUpdating">
+                <v-btn class="mt-3" :disabled="getcourseInfo.course_description == '' || getcourseInfo.course_description == null" color="primary" @click="validate()" >
                     {{isUpdating ? 'Saving..' : 'Next'}}
                 </v-btn>
             </v-col>
-
-        </v-row>
+           
+            </v-row>
+        </v-form>
     </v-container>
 
 
@@ -163,12 +164,21 @@
                 isFileSize: null,
                 uploadPercentage: 0,
                 isDeleting: false,
+                valid: true,
+                rules: [
+                    v => !!v || 'Field is required',
+                ],
             }
         },
 
         computed: mapGetters(["getcourseInfo"]),
         methods: {
             ...mapActions(['fetchScourse']),
+             validate () {
+                if(this.$refs.form.validate()){
+                    this.updateCourseDetails()
+                }
+            },
             getFileName(file) {
                 var name = file.split('/');
                 return name[name.length - 1];
@@ -241,8 +251,6 @@
                     fd.append('file', this.file);
                     fd.append('courseItem', JSON.stringify(this.getcourseInfo));
 
-
-
                     this.isUpdating = true;
                     axios.post(`/api/course/update/${this.$route.params.id}`, fd, {
                                 onUploadProgress: (progressEvent) => {
@@ -289,3 +297,9 @@
     }
 
 </script>
+<style>
+    .course_desciption .ql-editor{
+        min-height:100px;
+        max-height:450px;
+    }
+</style>

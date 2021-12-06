@@ -85,8 +85,6 @@
             </v-row>
 
           
-           
-           
 
             <v-row class="mt-3" >
                 <v-col cols="12" xl="3" lg="3" md="6"  v-for="(item, i) in allClassesData" :key="'class' + i">

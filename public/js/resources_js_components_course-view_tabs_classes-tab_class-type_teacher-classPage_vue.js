@@ -847,26 +847,32 @@ var render = function() {
                                       data,
                                       index
                                     ) {
-                                      return _c("div", { key: index }, [
-                                        _c("span", { staticClass: "pr-1" }, [
-                                          _vm._v("• ")
-                                        ]),
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(
-                                              data.day +
-                                                " - " +
-                                                data.display_start
-                                            ) +
-                                            " "
-                                        ),
-                                        _c(
-                                          "span",
-                                          { staticClass: "font-weight-medium" },
-                                          [_vm._v("to")]
-                                        ),
-                                        _vm._v(" " + _vm._s(data.display_end))
-                                      ])
+                                      return _c(
+                                        "div",
+                                        { key: index, staticClass: "pl-1" },
+                                        [
+                                          _c("span", { staticClass: "pr-1" }, [
+                                            _vm._v("• ")
+                                          ]),
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(
+                                                data.day +
+                                                  " - " +
+                                                  data.display_start
+                                              ) +
+                                              " "
+                                          ),
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
+                                            [_vm._v("to")]
+                                          ),
+                                          _vm._v(" " + _vm._s(data.display_end))
+                                        ]
+                                      )
                                     })
                                   ],
                                   2
@@ -884,7 +890,7 @@ var render = function() {
                               _c(
                                 "span",
                                 { staticClass: "font-weight-medium" },
-                                [_vm._v("Students: ")]
+                                [_vm._v("Students Enrolled: ")]
                               ),
                               _vm._v(" " + _vm._s(item.student_count))
                             ])

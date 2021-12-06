@@ -1,29 +1,31 @@
 <template>
     <div>
+   
+            
+         <v-form ref="form" v-model="valid" lazy-validation>
+        
         <v-container>
+            
+           
             <v-row class="mx-2">
                 <v-col lg="9">
-                    <v-text-field v-model="new_grading_criteria_form.name" outlined color="primary"
+                    <v-text-field :rules="rules" v-model="new_grading_criteria_form.name" outlined color="primary"
                         label="Criteria Name">
                     </v-text-field>
                 </v-col>
                 <v-col lg="3" class="float-right">
-                    <v-text-field type="number" v-model="new_grading_criteria_form.percentage" class="centered-input" outlined
+                    <v-text-field :rules="numberRule" min="1" max="100" type="number" v-model="new_grading_criteria_form.percentage" class="centered-input" outlined
                         color="primary" label="Percentage" suffix="%"></v-text-field>
                 </v-col>
-
-
             </v-row>
 
             <v-row class="ma-0 pa-0">
                 <v-col class="float-right mx-2 pt-0">
-                    <v-btn class="float-right" color="primary" :disabled="isAdding" outlined @click="addGradeCriteria()">
+                    <v-btn class="float-right" color="primary" :disabled="isAdding" outlined @click="validate()">
                         <v-icon left>
                             mdi-plus
                         </v-icon>
                         {{isAdding ? 'Adding...' : 'Add Criteria'}}
-                        
-
                     </v-btn>
                 </v-col>
             </v-row>
@@ -33,23 +35,28 @@
                 <VueElementLoading :active="loading" spinner="bar-fade-scale" />
                 <v-row class="mx-2 mt-0" v-for="(gradeCriteria, i) in get_gradingCriteria"
                     :key="'get_gradingCriteria'+i">
-
-                    <v-col lg="9">
-                        <v-text-field v-model="gradeCriteria.name" outlined color="primary"
-                            @change="updateGradeCriteria(gradeCriteria.name, gradeCriteria.percentage, gradeCriteria.id)">
-                        </v-text-field>
-                    </v-col>
-                    <v-col lg="2">
-                        <v-text-field type="number" v-model="gradeCriteria.percentage" outlined color="primary" suffix="%"
-                            class="text-center centered-input" style="text-align:center !important"
-                            @change="updateGradeCriteria(gradeCriteria.name, gradeCriteria.percentage, gradeCriteria.id)">
-                        </v-text-field>
-                    </v-col>
-
-                    <v-col lg="1">
-                        <v-btn color="grey lighten-1" class="mt-2" icon @click="openDelete( gradeCriteria.id)">
-                            <v-icon>mdi-delete</v-icon>
-                        </v-btn>
+                    <v-col cols="12">
+                         <v-form ref="Updateform" v-model="UpdateValid" lazy-validation>
+                            <v-row>
+                                <v-col lg="9">
+                                    <v-text-field :rules="rules"  v-model="gradeCriteria.name" outlined color="primary"
+                                        @change="validateUpdate(gradeCriteria.name, gradeCriteria.percentage, gradeCriteria.id)">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col lg="2">
+                                    <v-text-field :rules="numberRule" min="1" max="100" type="number" v-model="gradeCriteria.percentage" outlined color="primary" suffix="%"
+                                        class="text-center centered-input" style="text-align:center !important"
+                                        @change="validateUpdate(gradeCriteria.name, gradeCriteria.percentage, gradeCriteria.id)">
+                                    </v-text-field>
+                                </v-col>
+                    
+                                <v-col lg="1">
+                                    <v-btn color="grey lighten-1" class="mt-2" icon @click="openDelete( gradeCriteria.id)">
+                                        <v-icon>mdi-delete</v-icon>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
                     </v-col>
 
 
@@ -105,7 +112,7 @@
             </v-col>
 
         </v-row>
-
+     </v-form>
     </div>
 
 
@@ -142,7 +149,17 @@
                 course_id: '',
                 delId: '',
                 time: '',
-                isAdding: false
+                isAdding: false,
+                valid: true,
+                UpdateValid: true,
+                rules: [
+                    v => !!v || 'Field is required',
+                ],
+                numberRule:[
+                    v => !!v || 'Field is required',
+                    v => ( v && v >= 1 ) || "Points should be above or 0",
+                    v => ( v && v <= 100 ) || "Points should not be above 100",
+                ],
             }
 
         },
@@ -151,6 +168,16 @@
         },
 
         methods: {
+            validate(){
+                if(this.$refs.form.validate()){
+                    this.addGradeCriteria()
+                }
+            },
+             validateUpdate(name, percentage, id){
+                if(this.$refs.Updateform.validate()){
+                    this.updateGradeCriteria(name, percentage, id)
+                }
+            },
              _totalPercent(percentage_data) {
                 var total = 0;
 

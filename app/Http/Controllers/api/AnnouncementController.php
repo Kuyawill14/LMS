@@ -175,28 +175,6 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -205,7 +183,21 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, $id)
     {
-      
+        $updateAnnouncement = tbl_classAnnouncement::find($request->announcement_id);
+        if($updateAnnouncement){
+            $updateAnnouncement->content = $request->content;
+            $updateAnnouncement->save();
+
+            return response()->json([
+                "success"=>true,
+                "message"=> 'Post updated successfully'
+            ]);
+        }
+
+        return response()->json([
+            "success"=>false,
+            "message"=> 'Post does not exist!'
+        ]);
     }
 
     /**
