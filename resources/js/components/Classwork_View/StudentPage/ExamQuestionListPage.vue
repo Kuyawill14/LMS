@@ -953,7 +953,8 @@ export default {
         window.addEventListener("onbeforeunload", this.preventNav);
         let self = this;
         $(window).blur(function(){
-            self.triggerWarning()
+            self.triggerWarning();
+            window.close();
         });
     },
      beforeRouteLeave(to, from, next) {

@@ -315,8 +315,12 @@
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
 
-        },
+         
 
+        },
+mounted() {
+         $('#fb-root').css('display', 'block');
+}
     };
 
 </script>

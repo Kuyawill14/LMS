@@ -1467,6 +1467,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
+      window.close();
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
