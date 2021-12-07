@@ -462,18 +462,19 @@ export default {
             
             //  this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
              let routeData = this.$router.resolve({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
-            window.open(routeData.href);
+            window.open(routeData.href,'winname',"directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width="+screen.availWidth+",height="+screen.availHeight,"screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
               
           }
           else{
               this.isOpenQuiz = false;
           }
         },
+        
         continueQuiz(id){
             // this.isOpenQuiz = true;
             // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
             let routeData = this.$router.resolve({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
-            window.open(routeData.href);
+            window.open(routeData.href,'winname',"directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width="+screen.availWidth+",height="+screen.availHeight,"screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
 
         },
         checkStatus(){

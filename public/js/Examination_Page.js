@@ -905,6 +905,48 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1459,6 +1501,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     isOffline: function isOffline(event) {
       //this.setAsOffline();
       location.reload();
+    },
+    openFullscreen: function openFullscreen(elem) {
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) {
+        /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) {
+        /* IE11 */
+        elem.msRequestFullscreen();
+      }
+    },
+    toggleFullScreen: function toggleFullScreen() {
+      var el = document.documentElement,
+          rfs = // for newer Webkit and Firefox
+      el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+
+      if (typeof rfs != "undefined" && rfs) {
+        rfs.call(el);
+      } else if (typeof window.ActiveXObject != "undefined") {
+        // for Internet Explorer
+        var wscript = new ActiveXObject("WScript.Shell");
+
+        if (wscript != null) {
+          wscript.SendKeys("{F11}");
+        }
+      }
     }
   }),
   beforeMount: function beforeMount() {
@@ -1469,6 +1538,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       self.triggerWarning();
       window.close();
     });
+    this.toggleFullScreen();
+    this.openFullscreen(doucment.body);
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     if (this.isExamStart) {
@@ -1490,13 +1561,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             case 0:
               _this11.CheckStatus();
 
-            case 1:
+              _this11.toggleFullScreen();
+
+              _this11.openFullscreen(document.body);
+
+            case 3:
             case "end":
               return _context2.stop();
           }
         }
       }, _callee2);
     }))();
+  },
+  created: function created() {
+    this.toggleFullScreen();
+    this.openFullscreen(document.body);
   },
   beforeDestroy: function beforeDestroy() {
     window.removeEventListener('onbeforeunload', this.preventNav);
@@ -1789,7 +1868,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input >>> input {\n  text-align: center\n}\n.post-content img{\n    border:  1px solid lightgray;\n    max-width: 80%;\n    max-height: 13rem !important;\n}\n.ql-editor img{\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input>>>input {\n    text-align: center\n}\n.post-content img {\n    border: 1px solid lightgray;\n    max-width: 80%;\n    max-height: 13rem !important;\n}\n.ql-editor img {\n    max-height: 20rem !important;\n    max-width: 80%;\n}\n.centered-input input {\n    text-align: center\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -24547,7 +24626,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\r\n                                mdi-book-open-variant\r\n                                "
+                                                                    "\n                                                        mdi-book-open-variant\n                                                    "
                                                                   )
                                                                 ]
                                                               )
@@ -24573,7 +24652,8 @@ var render = function() {
                                                                   _vm
                                                                     .classworkDetails
                                                                     .title
-                                                                )
+                                                                ) +
+                                                                  "\n                                                "
                                                               )
                                                             ]
                                                           ),
@@ -24587,7 +24667,8 @@ var render = function() {
                                                                     _vm
                                                                       .classworkDetails
                                                                       .points
-                                                                  )
+                                                                  ) +
+                                                                  "\n                                                "
                                                               )
                                                             ]
                                                           )
@@ -24679,7 +24760,7 @@ var render = function() {
                                                                             "v-icon",
                                                                             [
                                                                               _vm._v(
-                                                                                " " +
+                                                                                "\n                                                                " +
                                                                                   _vm._s(
                                                                                     !_vm
                                                                                       .$vuetify
@@ -24687,7 +24768,8 @@ var render = function() {
                                                                                       .mdAndUp
                                                                                       ? "mdi-format-list-numbered"
                                                                                       : "mdi-chevron-down"
-                                                                                  )
+                                                                                  ) +
+                                                                                  "\n                                                            "
                                                                               )
                                                                             ]
                                                                           )
@@ -24700,7 +24782,7 @@ var render = function() {
                                                               ],
                                                               null,
                                                               false,
-                                                              1137808014
+                                                              2263091013
                                                             )
                                                           },
                                                           [
@@ -24778,32 +24860,34 @@ var render = function() {
                                                                                     },
                                                                                     [
                                                                                       _vm._v(
-                                                                                        _vm._s(
-                                                                                          _vm
-                                                                                            .FinalAnswers[
-                                                                                            index
-                                                                                          ]
-                                                                                            .Answer ==
-                                                                                            null ||
+                                                                                        "\n                                                                        " +
+                                                                                          _vm._s(
                                                                                             _vm
                                                                                               .FinalAnswers[
                                                                                               index
                                                                                             ]
                                                                                               .Answer ==
-                                                                                              ""
-                                                                                            ? "mdi-checkbox-blank-outline"
-                                                                                            : "mdi-checkbox-marked"
-                                                                                        )
+                                                                                              null ||
+                                                                                              _vm
+                                                                                                .FinalAnswers[
+                                                                                                index
+                                                                                              ]
+                                                                                                .Answer ==
+                                                                                                ""
+                                                                                              ? "mdi-checkbox-blank-outline"
+                                                                                              : "mdi-checkbox-marked"
+                                                                                          ) +
+                                                                                          "\n                                                                    "
                                                                                       )
                                                                                     ]
                                                                                   ),
                                                                                   _vm._v(
-                                                                                    "\r\n                                        " +
+                                                                                    "\n                                                                    " +
                                                                                       _vm._s(
                                                                                         index +
                                                                                           1
                                                                                       ) +
-                                                                                      "\r\n                                       "
+                                                                                      "\n                                                                "
                                                                                   )
                                                                                 ],
                                                                                 1
@@ -24860,7 +24944,7 @@ var render = function() {
                                                                                     },
                                                                                     [
                                                                                       _vm._v(
-                                                                                        "\r\n                                                " +
+                                                                                        "\n                                                                        " +
                                                                                           _vm._s(
                                                                                             _vm
                                                                                               .FinalAnswers[
@@ -24878,17 +24962,18 @@ var render = function() {
                                                                                                 ""
                                                                                               ? "mdi-checkbox-blank-outline"
                                                                                               : "mdi-checkbox-marked"
-                                                                                          )
+                                                                                          ) +
+                                                                                          "\n                                                                    "
                                                                                       )
                                                                                     ]
                                                                                   ),
                                                                                   _vm._v(
-                                                                                    "\r\n                                            " +
+                                                                                    "\n                                                                    " +
                                                                                       _vm._s(
                                                                                         index +
                                                                                           1
                                                                                       ) +
-                                                                                      "\r\n                                       "
+                                                                                      "\n                                                                "
                                                                                   )
                                                                                 ],
                                                                                 1
@@ -25148,32 +25233,34 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        _vm._s(
-                                                                          _vm
-                                                                            .FinalAnswers[
-                                                                            index
-                                                                          ]
-                                                                            .Answer ==
-                                                                            null ||
+                                                                        "\n                                                        " +
+                                                                          _vm._s(
                                                                             _vm
                                                                               .FinalAnswers[
                                                                               index
                                                                             ]
                                                                               .Answer ==
-                                                                              ""
-                                                                            ? "mdi-checkbox-blank-outline"
-                                                                            : "mdi-checkbox-marked"
-                                                                        )
+                                                                              null ||
+                                                                              _vm
+                                                                                .FinalAnswers[
+                                                                                index
+                                                                              ]
+                                                                                .Answer ==
+                                                                                ""
+                                                                              ? "mdi-checkbox-blank-outline"
+                                                                              : "mdi-checkbox-marked"
+                                                                          ) +
+                                                                          "\n                                                    "
                                                                       )
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "\r\n                                " +
+                                                                    "\n                                                    " +
                                                                       _vm._s(
                                                                         index +
                                                                           1
                                                                       ) +
-                                                                      "\r\n                                "
+                                                                      "\n                                                "
                                                                   )
                                                                 ],
                                                                 1
@@ -25225,7 +25312,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "\r\n                                        " +
+                                                                        "\n                                                        " +
                                                                           _vm._s(
                                                                             _vm
                                                                               .FinalAnswers[
@@ -25243,17 +25330,18 @@ var render = function() {
                                                                                 ""
                                                                               ? "mdi-checkbox-blank-outline"
                                                                               : "mdi-checkbox-marked"
-                                                                          )
+                                                                          ) +
+                                                                          "\n                                                    "
                                                                       )
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "\r\n                                    " +
+                                                                    "\n                                                    " +
                                                                       _vm._s(
                                                                         index +
                                                                           1
                                                                       ) +
-                                                                      "\r\n                                "
+                                                                      "\n                                                "
                                                                   )
                                                                 ],
                                                                 1
@@ -25288,7 +25376,8 @@ var render = function() {
                                                 _vm.getAll_questions.Question[
                                                   _vm.questionIndex
                                                 ].points
-                                              ) + " points"
+                                              ) +
+                                                "\n                                    points"
                                             )
                                           ]
                                         ),
@@ -25488,7 +25577,7 @@ var render = function() {
                                                         ]
                                                       ),
                                                       _vm._v(
-                                                        "\r\n                                            Previous\r\n                                            "
+                                                        "\n                                                Previous\n                                            "
                                                       )
                                                     ],
                                                     1
@@ -25526,7 +25615,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                            Next\r\n                                            "
+                                                            "\n                                                Next\n                                                "
                                                           ),
                                                           _c(
                                                             "v-icon",
@@ -25568,7 +25657,7 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\r\n                                            Submit\r\n                                            "
+                                                            "\n                                                Submit\n                                                "
                                                           ),
                                                           _c(
                                                             "v-icon",
@@ -25921,7 +26010,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "Reset selection"
+                                                                      "Reset\n                                                            selection"
                                                                     )
                                                                   ]
                                                                 )
@@ -26064,7 +26153,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "Clear Answer"
+                                                                      "Clear\n                                                            Answer"
                                                                     )
                                                                   ]
                                                                 )
@@ -26268,7 +26357,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "Reset selection"
+                                                                      "Reset\n                                                            selection"
                                                                     )
                                                                   ]
                                                                 )
@@ -26364,7 +26453,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\r\n                                                                        Column A\r\n                                                                    "
+                                                                                  "\n                                                                        Column A\n                                                                    "
                                                                                 )
                                                                               ]
                                                                             ),
@@ -26383,7 +26472,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _vm._v(
-                                                                                  "\r\n                                                                        Column B\r\n                                                                    "
+                                                                                  "\n                                                                        Column B\n                                                                    "
                                                                                 )
                                                                               ]
                                                                             )
@@ -26764,7 +26853,7 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          "Clear Answer"
+                                                                          "\n                                                                Clear Answer"
                                                                         )
                                                                       ]
                                                                     )
@@ -26883,7 +26972,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\r\n            Submit\r\n           \r\n            "
+                                "\n                        Submit\n\n                    "
                               )
                             ]
                           )
