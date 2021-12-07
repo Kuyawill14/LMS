@@ -305,13 +305,13 @@
                    </v-col>
                 </v-row> 
           </v-card>
-          <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 2" :class="$vuetify.breakpoint.mdAndUp ? 'mt-4' :''" outlined  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
+          <v-card v-if="$vuetify.breakpoint.mdAndUp || selected == 2" :class="$vuetify.breakpoint.mdAndUp ? 'mt-4' :''" :outlined="$vuetify.breakpoint.mdAndUp"  :elevation="$vuetify.breakpoint.mdAndUp ? 1 : 0">
             <div class="pt-3 pl-4 pr-4 pb-2">
                <v-icon left>mdi-comment</v-icon>Private Comments
             </div>
             
             <v-divider></v-divider>
-            <v-list :max-height="$vuetify.breakpoint.mdAndUp ? '350' : '450'" style="overflow-y:scroll;scrollbar-width: thin;"  class="mb-0 pb-0">
+            <v-list :max-height="$vuetify.breakpoint.mdAndUp ? '500' : '500'" style="overflow-y:scroll;scrollbar-width: thin;"  class="mb-0 pb-0">
       
                 <v-list-item class="mb-0 pb-0 mt-0 pt-0" v-for="(item, i) in classworkDetails.comments" :key="i">
                   <v-list-item-avatar>
@@ -320,32 +320,48 @@
                       </v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
-                    <v-alert  color="#F5F5F5" class="rounded-xl mt-0 mb-0">
-                        <v-list-item-title v-html="item.name"></v-list-item-title>
-                        <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+
+                    <div v-if="isUpdatingComment && isUpdatingComment_id == item.id">
+                      <v-list-item-title class="mb-2" v-html="item.name"></v-list-item-title>
+                      <editor :options="options" class="CommentEditor"  placeholder="Comment" v-model="item.content"  theme="bubble" ></editor>
+                      <div class="d-flex justify-end mt-2">
+                       
+                        <v-btn small @click="UpdateComment(item.content, item.id)" dark color="success" class="mr-2">update</v-btn>
+                        <v-btn small dark @click="isUpdatingComment = false, isUpdatingComment_id = null, item.content = isUpdatingComment_old_data" color="red">Cancel</v-btn>
+                      </div>
+                    </div>
+                    <v-alert v-else  color="#F5F5F5" class="rounded-xl mt-0 mb-0">
+                       <v-list-item-title >
+                              <div class="d-flex justify-space-between">
+                                  <div :class="item.u_id == get_CurrentUser.id ? 'mb-0 pb-0 pt-2' : 'pt-2 pb-2'" style="max-width:90%">{{item.name}}</div>
+                                  
+                                  <div class="mb-0 pb-0 mt-0" v-if="item.u_id == get_CurrentUser.id">
+                                        <v-menu offset-x >
+                                          <template v-slot:activator="{ on, attrs }">
+                                              <v-btn icon v-bind="attrs" v-on="on">
+                                                  <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
+                                              </v-btn> 
+                                          </template>
+                                          <v-list dense nav>
+                                              <v-list-item   @click="isUpdatingComment = true, isUpdatingComment_id = item.id, isUpdatingComment_old_data = item.content">
+                                                  <v-list-item-title>Edit</v-list-item-title>
+                                              </v-list-item>
+                                              <v-list-item  @click="DeleteComment(item.id, i)">
+                                                  <v-list-item-title>Remove</v-list-item-title>
+                                              </v-list-item>
+                                          </v-list>
+                                      </v-menu>
+                                  </div>
+                              </div>
+                          </v-list-item-title>
+                        <v-list-item-subtitle class="mb-3">{{comment_date(item.comment_date)}}</v-list-item-subtitle>
+                        <div>
+                            <span class="commentContent" v-html="item.content"></span>
+                        </div>
                     </v-alert>
+                    
                   </v-list-item-content>
-                   <v-list-item-action>
-                     <!-- v-if="get_CurrentUser.id == item.u_id" -->
-                      <v-menu offset-x >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon v-bind="attrs" v-on="on">
-                                <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                            </v-btn> 
-                        </template>
-                        <v-list dense nav>
-                          <!--    <v-list-item >
-                                <v-list-item-title><v-btn @click="UpdateComment = item.content,isEditing = true, idEditing_id = item.id" text>Edit</v-btn></v-list-item-title>
-                                </v-list-item> -->
-                            <v-list-item  @click="DeleteComment(item.id, i)">
-                                <v-list-item-title>Remove</v-list-item-title>
-                            </v-list-item>
-                              <!--    <v-list-item>
-                                <v-list-item-title><v-btn text>Hide</v-btn></v-list-item-title>
-                            </v-list-item> -->
-                        </v-list>
-                        </v-menu>
-                  </v-list-item-action>
+                  
                 </v-list-item>
           
             </v-list>
@@ -358,23 +374,6 @@
                           </v-img>
                       </v-list-item-avatar>
                       <v-list-item-content class="ma-0 pa-0">
-                         <!--  <v-textarea
-                              :loading="isCommenting"
-                              v-model="comment"
-                              prepend-avatar="mdi-emoticon-dead"
-                              filled
-                              rounded
-                              dense
-                              auto-grow
-                              rows="1"
-                              clear-icon="mdi-close-circle"
-                              clearable
-                              placeholder="Comment"
-                              class="pa-0 mt-7"
-                              type="text"
-                              >
-                            </v-textarea> -->
-
                               <editor :options="options" class="CommentEditor"   placeholder="Comment" v-model="comment"  theme="bubble" ></editor>
                       </v-list-item-content>
                       <v-list-item-action>
@@ -504,6 +503,9 @@ export default {
     },
     data(){
         return{
+            isUpdatingComment: false,
+            isUpdatingComment_id: null,
+            isUpdatingComment_old_data: null,
             AttachLink: false,
             FileList:[],
             file: [],
@@ -552,7 +554,8 @@ export default {
                     [{ 'list': 'bullet' }],
                     ['image'],
                 ],
-            }
+            },
+            
         },
         }
     },
@@ -620,6 +623,12 @@ export default {
             if (value) {
                 //return moment(String(value)).format('YYYY-MM-DD HH:mm:ss')
                 return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            }
+        },
+         comment_date(value) {
+        if (value) {
+            return moment(String(value)).tz("Asia/Manila").format('MMMM, DD YYYY, h:mm a');
+            
             }
         },
       validate () {
@@ -889,7 +898,9 @@ export default {
                       content : res.data.comment,
                       id : res.data.id,
                       name : res.data.name,
-                      profile_pic : res.data.profile_pic
+                      profile_pic : res.data.profile_pic,
+                      u_id : this.get_CurrentUser.user_id,
+                      comment_date : new Date()
                     })
                     this.comment = '';
                   }
@@ -906,7 +917,14 @@ export default {
                   }
               })
           },
-
+          async UpdateComment(content, id){
+              axios.put('/api/post/comment/update/'+id,  {comment: content})
+              .then(res=>{
+                 this.isUpdatingComment = false;
+                 this.isUpdatingComment_id = null;
+                 this.isUpdatingComment_old_data = null;
+              })
+          },
          async MarkAsSubmitting(id){
            axios.put('/api/student/markAsSubmitting/'+id)
            .then(()=>{
@@ -1051,8 +1069,8 @@ export default {
     }
 
 
-    .post-content  img{
-            max-height: 15rem !important;
+    .commentContent img{
+            max-height: 10rem !important;
         }
     .CommentEditor >  iframe{
         width: 100% !important;

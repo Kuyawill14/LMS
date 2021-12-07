@@ -33,7 +33,11 @@
                 min-height: 300px !important;
     width: 399px !important;
               }
-              
+
+              html {
+                scroll-behavior: smooth !important;
+              }
+                            
             </style>
           </head>
         <body class="antialiased">

@@ -22788,7 +22788,7 @@ var render = function() {
               attrs: { text: "", color: "secondary" },
               on: {
                 click: function($event) {
-                  return _vm.$emit("closeModal")
+                  return _vm.$emit("cancelUpdate")
                 }
               }
             },

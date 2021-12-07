@@ -77,8 +77,8 @@
                                  <div >
                                     <v-menu  v-if="(item.u_id == UserDetails.id || UserDetails.role == 'Teacher') && idEditing_id != item.id" offset-y >
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon v-bind="attrs" v-on="on">
-                                            <v-icon >mdi-dots-vertical</v-icon>
+                                        <v-btn small icon v-bind="attrs" v-on="on">
+                                            <v-icon small>mdi-dots-vertical</v-icon>
                                         </v-btn> 
                                     </template>
                                     <v-list pa-0 ma-0>

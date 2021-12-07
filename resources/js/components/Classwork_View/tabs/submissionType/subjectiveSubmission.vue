@@ -147,15 +147,19 @@
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
                                     <v-list-item-action style="max-width:150px !important">
+                                        <v-form ref="pointsform" v-model="valid" lazy-validation>
+                                     
                                         <v-text-field 
-                                            hide-details
+                                            :hide-details="valid"
                                             class="ma-0 pa-0"
                                             label="Score"
                                             rounded
+                                            :rules="pointsRules"
                                             :loading="isSavingScore" 
-                                            @keyup="SaveScore(item.id, item.points)"  v-model="item.points" 
+                                            @keyup="validate(item.id, item.points)"  v-model="item.points" 
                                             dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
                                         </v-text-field>
+                                       </v-form>
                                 </v-list-item-action>
                             </v-list-item>
                           </v-alert>
@@ -216,7 +220,7 @@ export default {
             ],
             isSavingScore: false,
             score: null,
-            StatusType: ['All','Submitted', 'Graded', 'No Submission'],
+            StatusType: ['Submitted', 'Graded', 'No Submission'],
             selectedStatus:'Submitted',
             SortType: ['Name', 'Highest Score', 'Lowest Score'],
             selectedShowNumber: 24,
@@ -228,6 +232,11 @@ export default {
             Submitted_count : 0,
             selected_index: null,
             AllData: null,
+              pointsRules:[
+                v => !!v || 'Points is required',
+                v => ( v && v >= 0 ) || "Points should be above or equal to 0",
+            ],
+            valid:true
         }
     },
      computed: {
@@ -458,6 +467,11 @@ export default {
                 return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
             }
         },
+        validate(id, points) {
+            if (this.$refs.pointsform.validate()) {
+                this.SaveScore(id, points); 
+            }
+        },
          SaveScore(id, points){
             clearTimeout(this.timeout);
             var self = this;
@@ -469,7 +483,7 @@ export default {
         },
         async UpdateScore(id){
             let rubrics_score = [];
-            if(this.score <= this.classworkDetails.points){
+            if(this.score <= this.classworkDetails.points && this.score >= 0){
                 axios.put('/api/submission/update-score/'+id,{score: this.score, data: rubrics_score})
                 .then(res=>{
                     if(res.status == 200){
@@ -487,7 +501,7 @@ export default {
             }
             else{
                 this.isSavingScore = !this.isSavingScore;
-                this.toastError('Score is higher than the set points!');
+                this.toastError('The set points is invalid!');
             }
             
         },

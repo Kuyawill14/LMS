@@ -864,6 +864,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1072,6 +1076,9 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   }
 
                   _this.isAddingNewQuestion = false;
+                  setTimeout(function () {
+                    return window.scrollTo(0, document.body.scrollHeight);
+                  }, 100);
                 });
 
               case 2:
@@ -12159,10 +12166,10 @@ var render = function() {
                                   staticClass: "fixed-bar",
                                   style:
                                     _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;"
                                       : _vm.$vuetify.breakpoint.mdAndUp &&
                                         _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;"
                                       : "",
                                   attrs: {
                                     elevation: hover ? "10" : "2",
@@ -12205,6 +12212,108 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "\r\n                ADD\r\n            "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]
+                  }
+                }
+              ])
+            }),
+            _vm._v(" "),
+            _c("v-hover", {
+              scopedSlots: _vm._u([
+                {
+                  key: "default",
+                  fn: function(ref) {
+                    var hover = ref.hover
+                    return [
+                      _c(
+                        "div",
+                        [
+                          !_vm.isloading &&
+                          _vm.Qlength != 0 &&
+                          _vm.$vuetify.breakpoint.mdAndUp
+                            ? _c(
+                                "v-app-bar",
+                                {
+                                  staticClass: "fixed-bar",
+                                  style:
+                                    _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;"
+                                      : _vm.$vuetify.breakpoint.mdAndUp &&
+                                        _vm.fab
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;"
+                                      : "",
+                                  attrs: {
+                                    flat: "",
+                                    light: !_vm.isNewChanges,
+                                    elevation: hover ? "10" : "2",
+                                    dense: "",
+                                    "clipped-right": "",
+                                    shaped: "",
+                                    floating: "",
+                                    color: _vm.isNewChanges
+                                      ? "primary"
+                                      : "#EEEEEE"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.isNewChanges
+                                        ? _vm.SaveAllQuestion()
+                                        : ""
+                                    }
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "v-chip",
+                                    {
+                                      staticStyle: { cursor: "pointer" },
+                                      attrs: {
+                                        small: "",
+                                        color: _vm.isNewChanges
+                                          ? "primary"
+                                          : "#EEEEEE",
+                                        "text-color": "white"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticStyle: {
+                                            "font-size": "1.5rem"
+                                          },
+                                          attrs: { left: "" }
+                                        },
+                                        [_vm._v("mdi-content-save-all-outline")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass: "font-weight-bold pl-2"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\r\n            " +
+                                              _vm._s(
+                                                _vm.isSavingAllQuestion
+                                                  ? "SAVING.."
+                                                  : "SAVE"
+                                              ) +
+                                              "\r\n        "
                                           )
                                         ]
                                       )
@@ -12384,108 +12493,6 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "\r\n                ANALYTICS\r\n            "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      )
-                    ]
-                  }
-                }
-              ])
-            }),
-            _vm._v(" "),
-            _c("v-hover", {
-              scopedSlots: _vm._u([
-                {
-                  key: "default",
-                  fn: function(ref) {
-                    var hover = ref.hover
-                    return [
-                      _c(
-                        "div",
-                        [
-                          !_vm.isloading &&
-                          _vm.Qlength != 0 &&
-                          _vm.$vuetify.breakpoint.mdAndUp
-                            ? _c(
-                                "v-app-bar",
-                                {
-                                  staticClass: "fixed-bar",
-                                  style:
-                                    _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;"
-                                      : _vm.$vuetify.breakpoint.mdAndUp &&
-                                        _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;"
-                                      : "",
-                                  attrs: {
-                                    flat: "",
-                                    light: !_vm.isNewChanges,
-                                    elevation: hover ? "10" : "2",
-                                    dense: "",
-                                    "clipped-right": "",
-                                    shaped: "",
-                                    floating: "",
-                                    color: _vm.isNewChanges
-                                      ? "primary"
-                                      : "#EEEEEE"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.isNewChanges
-                                        ? _vm.SaveAllQuestion()
-                                        : ""
-                                    }
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "v-chip",
-                                    {
-                                      staticStyle: { cursor: "pointer" },
-                                      attrs: {
-                                        small: "",
-                                        color: _vm.isNewChanges
-                                          ? "primary"
-                                          : "#EEEEEE",
-                                        "text-color": "white"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          staticStyle: {
-                                            "font-size": "1.5rem"
-                                          },
-                                          attrs: { left: "" }
-                                        },
-                                        [_vm._v("mdi-content-save-all-outline")]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "span",
-                                        {
-                                          staticClass: "font-weight-bold pl-2"
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\r\n            " +
-                                              _vm._s(
-                                                _vm.isSavingAllQuestion
-                                                  ? "SAVING.."
-                                                  : "SAVE"
-                                              ) +
-                                              "\r\n        "
                                           )
                                         ]
                                       )

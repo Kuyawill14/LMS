@@ -208,6 +208,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -251,7 +255,7 @@ var checksubjective = function checksubjective() {
       }],
       isSavingScore: false,
       score: null,
-      StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
+      StatusType: ['Submitted', 'Graded', 'No Submission'],
       selectedStatus: 'Submitted',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
       selectedShowNumber: 24,
@@ -262,7 +266,13 @@ var checksubjective = function checksubjective() {
       Over_total: 0,
       Submitted_count: 0,
       selected_index: null,
-      AllData: null
+      AllData: null,
+      pointsRules: [function (v) {
+        return !!v || 'Points is required';
+      }, function (v) {
+        return v && v >= 0 || "Points should be above or equal to 0";
+      }],
+      valid: true
     };
   },
   computed: {
@@ -472,6 +482,11 @@ var checksubjective = function checksubjective() {
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
       }
     },
+    validate: function validate(id, points) {
+      if (this.$refs.pointsform.validate()) {
+        this.SaveScore(id, points);
+      }
+    },
     SaveScore: function SaveScore(id, points) {
       clearTimeout(this.timeout);
       var self = this;
@@ -492,7 +507,7 @@ var checksubjective = function checksubjective() {
               case 0:
                 rubrics_score = [];
 
-                if (_this2.score <= _this2.classworkDetails.points) {
+                if (_this2.score <= _this2.classworkDetails.points && _this2.score >= 0) {
                   axios.put('/api/submission/update-score/' + id, {
                     score: _this2.score,
                     data: rubrics_score
@@ -514,7 +529,7 @@ var checksubjective = function checksubjective() {
                 } else {
                   _this2.isSavingScore = !_this2.isSavingScore;
 
-                  _this2.toastError('Score is higher than the set points!');
+                  _this2.toastError('The set points is invalid!');
                 }
 
               case 2:
@@ -23483,47 +23498,75 @@ var render = function() {
                                                 }
                                               },
                                               [
-                                                _c("v-text-field", {
-                                                  staticClass: "ma-0 pa-0",
-                                                  attrs: {
-                                                    "hide-details": "",
-                                                    label: "Score",
-                                                    rounded: "",
-                                                    loading: _vm.isSavingScore,
-                                                    dense: "",
-                                                    outlined: "",
-                                                    type: "number",
-                                                    suffix:
-                                                      "/" +
-                                                      _vm.classworkDetails
-                                                        .points,
-                                                    max:
-                                                      _vm.classworkDetails
-                                                        .points,
-                                                    maxlength: _vm.classworkDetails.points.toString()
-                                                      .length,
-                                                    min: "0"
-                                                  },
-                                                  on: {
-                                                    keyup: function($event) {
-                                                      return _vm.SaveScore(
-                                                        item.id,
-                                                        item.points
-                                                      )
+                                                _c(
+                                                  "v-form",
+                                                  {
+                                                    ref: "pointsform",
+                                                    refInFor: true,
+                                                    attrs: {
+                                                      "lazy-validation": ""
+                                                    },
+                                                    model: {
+                                                      value: _vm.valid,
+                                                      callback: function($$v) {
+                                                        _vm.valid = $$v
+                                                      },
+                                                      expression: "valid"
                                                     }
                                                   },
-                                                  model: {
-                                                    value: item.points,
-                                                    callback: function($$v) {
-                                                      _vm.$set(
-                                                        item,
-                                                        "points",
-                                                        $$v
-                                                      )
-                                                    },
-                                                    expression: "item.points"
-                                                  }
-                                                })
+                                                  [
+                                                    _c("v-text-field", {
+                                                      staticClass: "ma-0 pa-0",
+                                                      attrs: {
+                                                        "hide-details":
+                                                          _vm.valid,
+                                                        label: "Score",
+                                                        rounded: "",
+                                                        rules: _vm.pointsRules,
+                                                        loading:
+                                                          _vm.isSavingScore,
+                                                        dense: "",
+                                                        outlined: "",
+                                                        type: "number",
+                                                        suffix:
+                                                          "/" +
+                                                          _vm.classworkDetails
+                                                            .points,
+                                                        max:
+                                                          _vm.classworkDetails
+                                                            .points,
+                                                        maxlength: _vm.classworkDetails.points.toString()
+                                                          .length,
+                                                        min: "0"
+                                                      },
+                                                      on: {
+                                                        keyup: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.validate(
+                                                            item.id,
+                                                            item.points
+                                                          )
+                                                        }
+                                                      },
+                                                      model: {
+                                                        value: item.points,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            item,
+                                                            "points",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "item.points"
+                                                      }
+                                                    })
+                                                  ],
+                                                  1
+                                                )
                                               ],
                                               1
                                             )

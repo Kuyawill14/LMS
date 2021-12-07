@@ -107,6 +107,7 @@
                                                     <v-text-field
                                                     hide-details
                                                     rounded
+                                                    :rules="pointsRules"
                                                     v-if="ViewDetails.status == 'Submitted'"
                                                     v-model="ViewDetails.points" 
                                                     dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
@@ -137,16 +138,48 @@
                                                 </v-img>
                                             </v-list-item-avatar>
                                             <v-list-item-content>
-                                                <v-list-item-title v-html="item.name"></v-list-item-title>
-                                                <div class="commentContent">
-                                                    <span v-html="item.content"></span>
+                                                 <div v-if="isUpdatingComment && isUpdatingComment_id == item.id">
+                                                    <v-list-item-title class="mb-2" v-html="item.name"></v-list-item-title>
+                                                    <editor :options="options" class="CommentEditor"  placeholder="Comment" v-model="item.content"  theme="bubble" ></editor>
+                                                    <div class="d-flex justify-end mt-2">
+                                                    
+                                                        <v-btn small @click="UpdateComment(item.content, item.id)" dark color="success" class="mr-2">update</v-btn>
+                                                        <v-btn small dark @click="isUpdatingComment = false, isUpdatingComment_id = null, item.content = isUpdatingComment_old_data" color="red">Cancel</v-btn>
+                                                    </div>
                                                 </div>
+
+                                                <v-alert v-else  color="#F5F5F5" class="rounded-xl mt-0 mb-0 pb-0">
+                                                    <v-list-item-title> 
+                                                        <div class="d-flex justify-space-between">
+                                                            <div :class="item.u_id == get_CurrentUser.id ? 'mb-0 pb-0 pt-2' : 'pt-2 pb-2'" style="max-width:90%">{{item.name}}</div>
+                                                            <div v-if="item.u_id == get_CurrentUser.user_id">
+                                                                <v-menu offset-x >
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                        <v-btn icon v-bind="attrs" v-on="on">
+                                                                            <v-icon dark small >mdi-dots-vertical</v-icon>
+                                                                        </v-btn> 
+                                                                    </template>
+                                                                    <v-list dense nav>
+                                                                        <v-list-item  @click="isUpdatingComment = true, isUpdatingComment_id = item.id, isUpdatingComment_old_data = item.content" >
+                                                                            <v-list-item-title>Edit</v-list-item-title>
+                                                                        </v-list-item>
+                                                                        <v-list-item  @click="DeleteComment(item.id, i)">
+                                                                            <v-list-item-title>Remove</v-list-item-title>
+                                                                        </v-list-item>
+                                                                    </v-list>
+                                                                </v-menu>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle class="mb-3">{{format_date(item.comment_date)}}</v-list-item-subtitle>
+                                                    <div class="ml-2">
+                                                        <span class="commentContent" v-html="item.content"></span>
+                                                    </div>
+                                                </v-alert>
+
+
                                             </v-list-item-content>
-                                            <v-list-item-action>
-                                                <v-btn icon>
-                                                <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                                </v-btn>
-                                            </v-list-item-action>
                                             </v-list-item>
                                     
                                         </v-list>
@@ -467,6 +500,9 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
       },
       data(){
           return{
+            isUpdatingComment: false,
+            isUpdatingComment_id: null,
+            isUpdatingComment_old_data: null,
             Qlength: null,
             Check: [],
             isLoading: true,
@@ -493,17 +529,20 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                     ],
                 }
             },
+            pointsRules:[
+                v => !!v || 'Points is required',
+                v => ( v && v >= 0 ) || "Points should be above or equal to 0",
+            ],
           }
       },
       computed:mapGetters(['get_CurrentUser','getAll_questions']),
       methods:{
            format_date(value) {
             if (value) {
-                //return moment(String(value)).format('MM/d/YYYY, hh:mm A');
-                return moment(String(value)).tz("Asia/Manila").format('MM/d/YYYY, hh:mm A');
+                return moment(String(value)).tz("Asia/Manila").format('MMMM, DD YYYY, h:mm a');
                 
-            }
-        },
+                }
+          },
           fetchQuestions(){
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res)=>{
 
@@ -899,13 +938,31 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                         content : res.data.comment,
                         id : res.data.id,
                         name : this.get_CurrentUser.firstName+' '+this.get_CurrentUser.lastName,
-                        profile_pic : this.get_CurrentUser.profile_pic
+                        profile_pic : this.get_CurrentUser.profile_pic,
+                        u_id : this.get_CurrentUser.user_id,
+                        comment_date : new Date()
                         })
                     this.comment = '';
                   }
                   
               })
                this.isCommenting = false;
+          },
+        async DeleteComment(id, index){
+              axios.delete('/api/post/classwork/comment/delete/'+id)
+              .then(res=>{
+                  if(res.data.success == true){
+                      this.ViewDetails.comments.splice(index, 1);
+                  }
+              })
+          },
+           async UpdateComment(content, id){
+              axios.put('/api/post/comment/update/'+id,  {comment: content})
+              .then(res=>{
+                 this.isUpdatingComment = false;
+                 this.isUpdatingComment_id = null;
+                 this.isUpdatingComment_old_data = null;
+              })
           },
 
           async alertStudent(){
@@ -1067,8 +1124,7 @@ height: 20rem !important;
 <style >
     .commentContent  img{
     max-width: 100% !important;
-    max-height: 20rem !important;
-
+    max-height: 10rem !important;
     
 }
 div.ql-tooltip{

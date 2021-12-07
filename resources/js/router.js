@@ -26,42 +26,26 @@ const router = new Router({
             component: () => import ( /* webpackChunkName: "main-view" */ "./components/mainApp"),
             name: "mainApp",
             beforeEnter: (to, form, next) => {
-              /*   store.dispatch('IsAuthenticated').then(() => {
-                    if (store.state.CurrentUser.IsAuthenticated == true) { */
-                        store.dispatch('fetchCurrentUser').then(() => {
-                            if(store.state.CurrentUser.isSuccess){
-                                if (store.state.CurrentUser.IsVerified == true) {
-                                    next();
-                                } else {
-                                  next({
-                                        path: "/EmailPending",
-                                        replace: true
-                                    });
-                                }
-                            }
-                            else{
-                                next(false);
-                            }
-                        }).catch(() => {
-                            return next({
-                                path: "/login",
+                store.dispatch('fetchCurrentUser').then(() => {
+                    if(store.state.CurrentUser.isSuccess){
+                        if (store.state.CurrentUser.IsVerified == true) {
+                            next();
+                        } else {
+                            next({
+                                path: "/EmailPending",
                                 replace: true
                             });
-                        })
-
-                   /*  } else {
-                        return next({
-                            path: "/login",
-                            replace: true
-                        });
+                        }
+                    }
+                    else{
+                        next(false);
                     }
                 }).catch(() => {
-                    store.state.CurrentUser.IsAuthenticated = false;
                     return next({
                         path: "/login",
                         replace: true
                     });
-                }) */
+                })
 
             },
             children: [
@@ -116,11 +100,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     NProgress.start()  
+
     const protectedRoutes = ['studentGradebook', 'gradebook','mystudentProgress','studentProgress','gradingCriteria','settings','about','Student-list',
     'modules-preview','student-modules','classwork','announcement','courseSetup','modules','classses',
     'clwk','add-question','submission-list','question-analytics','publish-to'];
-
     if(to.name != 'login' && to.name != 'register'){
+     
         store.dispatch('IsAuthenticated').then(() => {
         if (store.state.CurrentUser.IsAuthenticated == true) {
             if(protectedRoutes.includes(to.name)){

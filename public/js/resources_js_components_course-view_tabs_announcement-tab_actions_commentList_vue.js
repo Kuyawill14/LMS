@@ -1235,6 +1235,8 @@ var render = function() {
                                                                             _vm._b(
                                                                               {
                                                                                 attrs: {
+                                                                                  small:
+                                                                                    "",
                                                                                   icon:
                                                                                     ""
                                                                                 }
@@ -1248,6 +1250,12 @@ var render = function() {
                                                                           [
                                                                             _c(
                                                                               "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  small:
+                                                                                    ""
+                                                                                }
+                                                                              },
                                                                               [
                                                                                 _vm._v(
                                                                                   "mdi-dots-vertical"

@@ -1,6 +1,6 @@
 <template>
-    <v-container fluid ma-0 pa-0>
-        <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
+    <div>
+        <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0 &&   !this.isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:8rem">
                     mdi-google-classroom
@@ -30,9 +30,9 @@
         </v-container>
 
         <v-dialog persistent v-model="showModal" width="400px">
-            <createClassForm v-on:closeModal="closeModal()" v-if="modalType == 'add'"
+            <createClassForm v-on:closeModal="closeModal()" v-on:cancelCreate="showModal = !showModal" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
-            <editClassForm :class_details="class_details" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
+            <editClassForm :class_details="class_details" v-on:cancelUpdate="showModal = !showModal" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
                 v-if="modalType == 'edit'" />
 
             <deleteClass :class_id="class_id" v-on:closeModal="closeModal()" v-if="modalType == 'delete'" />
@@ -57,49 +57,54 @@
             </v-row>
 
 
-
-            <v-card v-for="(item, index) in allClass" :key="index" class="mt-3">
-                <v-list-item>
-                    <v-list-item-avatar>
-                        <v-icon>mdi-account-multiple</v-icon>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                        <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                        <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
-                          <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">
-                            <span class="font-weight-medium">Schedule: </span>
-                            <div  v-for="(data, index) in item.schedule" :key="index">
-                                <span class="pr-1">&bull; </span>
-                                {{data.day+' - '+data.display_start}} <span class="font-weight-medium">to</span> {{data.display_end}}</div>
-                        </v-list-item-subtitle>
+            <v-row>
+                <v-col cols="12" class="pl-5 pr-5">
+                    <v-card elevation="2" v-for="(item, index) in allClass" :key="index" class="mt-3">
                         
-                        <v-list-item-subtitle v-else>
-                            <span class="font-weight-medium">Schedule: </span> N/A
-                        </v-list-item-subtitle>
-                        <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
-                        
-                    </v-list-item-content>
-                    <v-list-item-action>
-                        <v-menu transition="slide-y-transition" bottom>
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
-                            </template>
-                            <v-list>
-                            
-                                <v-list-item link @click="openEditmodal(item,item.class_name, item.class_id)">
-                                    <v-list-item-title>Edit</v-list-item-title>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-account-multiple</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>{{item.class_name}} </v-list-item-title>
+                                <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                                <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">
+                                    <span class="font-weight-medium">Schedule: </span>
+                                    <div  v-for="(data, index) in item.schedule" :key="index">
+                                        <span class="pr-1">&bull; </span>
+                                        {{data.day+' - '+data.display_start}} <span class="font-weight-medium">to</span> {{data.display_end}}</div>
+                                </v-list-item-subtitle>
+                                
+                                <v-list-item-subtitle v-else>
+                                    <span class="font-weight-medium">Schedule: </span> N/A
+                                </v-list-item-subtitle>
+                                <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
+                                
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-menu transition="slide-y-transition" bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-icon color="secondary " v-bind="attrs" v-on="on">mdi-dots-vertical</v-icon>
+                                    </template>
+                                    <v-list>
+                                    
+                                        <v-list-item link @click="openEditmodal(item,item.class_name, item.class_id)">
+                                            <v-list-item-title>Edit</v-list-item-title>
 
-                                </v-list-item>
-                                <v-list-item link  @click="openDeleteModal( item.class_id)">
-                                    <v-list-item-title>Remove
-                                    </v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item link  @click="openDeleteModal( item.class_id)">
+                                            <v-list-item-title>Remove
+                                            </v-list-item-title>
 
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </v-list-item-action>
-                </v-list-item>
-            </v-card>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </v-list-item-action>
+                        </v-list-item>
+                    </v-card>
+
+                </v-col>
+            </v-row>
         </div>
 
         <br> <br>
@@ -123,7 +128,7 @@
 
 
 
-    </v-container>
+    </div>
 
 </template>
 
@@ -173,7 +178,7 @@
             ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
             closeModal() {
                 this.showModal = false;
-                this.fetchSubjectCourseClassList(this.$route.params.id)
+                this.reloadClasses();
             },
             completed() {
                 localStorage.removeItem("step");
@@ -221,9 +226,15 @@
                         setTimeout(() => {
                             this.isGetting = false;
                             this.classLength = this.allClass.length;
-                        }, 1000);
+                        }, 500);
 
 
+                    })
+            },
+            async reloadClasses() {
+                this.fetchSubjectCourseClassList(this.$route.params.id)
+                    .then(() => {
+                        this.classLength = this.allClass.length;
                     })
             },
 

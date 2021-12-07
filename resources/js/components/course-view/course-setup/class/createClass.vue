@@ -55,7 +55,7 @@
         <v-card-actions>
 
             <v-spacer></v-spacer>
-            <v-btn text @click="$emit('closeModal'),$refs.form.resetValidation()">Cancel</v-btn>
+            <v-btn text @click="$emit('cancelCreate'),$refs.form.resetValidation()">Cancel</v-btn>
             <v-btn text color="primary" type="submit">Create</v-btn>
         </v-card-actions>
 
@@ -162,7 +162,7 @@ import moment from 'moment-timezone';
             createClass() {
                
                 this.form.course_id = this.$route.params.id;
-                this.$store.dispatch('createClass', this.form);
+                this.$store.dispatch('createClass', this.form);;
                 this.clearFormInputs();
                 this.$emit('closeModal')
                 this.toastSuccess();

@@ -64,7 +64,7 @@
         <v-card-actions>
 
             <v-spacer></v-spacer>
-            <v-btn text color="secondary" @click="$emit('closeModal');">Cancel</v-btn>
+            <v-btn text color="secondary" @click="$emit('cancelUpdate');">Cancel</v-btn>
             <v-btn text color="primary" :disabled="sending" @click="updateClass">Save</v-btn>
         </v-card-actions>
 

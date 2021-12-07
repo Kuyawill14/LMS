@@ -2130,8 +2130,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_17__.default({
     },
     name: "mainApp",
     beforeEnter: function beforeEnter(to, form, next) {
-      /*   store.dispatch('IsAuthenticated').then(() => {
-            if (store.state.CurrentUser.IsAuthenticated == true) { */
       _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchCurrentUser').then(function () {
         if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.isSuccess) {
           if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsVerified == true) {
@@ -2151,19 +2149,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_17__.default({
           replace: true
         });
       });
-      /*  } else {
-           return next({
-               path: "/login",
-               replace: true
-           });
-       }
-      }).catch(() => {
-       store.state.CurrentUser.IsAuthenticated = false;
-       return next({
-           path: "/login",
-           replace: true
-       });
-      }) */
     },
     children: [{
       path: "",
@@ -37940,7 +37925,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

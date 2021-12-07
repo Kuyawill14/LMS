@@ -11,13 +11,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -194,10 +207,10 @@ var deleteClass = function deleteClass() {
     back: function back() {
       this.$emit('changeStep', 2);
     }
-  }, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
     closeModal: function closeModal() {
       this.showModal = false;
-      this.fetchSubjectCourseClassList(this.$route.params.id);
+      this.reloadClasses();
     },
     completed: function completed() {
       var _this = this;
@@ -247,11 +260,31 @@ var deleteClass = function deleteClass() {
         setTimeout(function () {
           _this2.isGetting = false;
           _this2.classLength = _this2.allClass.length;
-        }, 1000);
+        }, 500);
       });
+    },
+    reloadClasses: function reloadClasses() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this3.fetchSubjectCourseClassList(_this3.$route.params.id).then(function () {
+                  _this3.classLength = _this3.allClass.length;
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allClass']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
   mounted: function mounted() {
     this.getTeacherClasses();
   }
@@ -410,10 +443,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
-    { attrs: { fluid: "", "ma-0": "", "pa-0": "" } },
+    "div",
     [
-      _vm.classLength == 0
+      _vm.classLength == 0 && !this.isGetting
         ? _c(
             "v-row",
             {
@@ -539,6 +571,9 @@ var render = function() {
                   closeModal: function($event) {
                     return _vm.closeModal()
                   },
+                  cancelCreate: function($event) {
+                    _vm.showModal = !_vm.showModal
+                  },
                   createclass: function($event) {
                     _vm.classLength++
                   }
@@ -554,6 +589,9 @@ var render = function() {
                   class_id: _vm.class_id
                 },
                 on: {
+                  cancelUpdate: function($event) {
+                    _vm.showModal = !_vm.showModal
+                  },
                   closeModal: function($event) {
                     return _vm.closeModal()
                   }
@@ -618,194 +656,229 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._l(_vm.allClass, function(item, index) {
-                return _c(
-                  "v-card",
-                  { key: index, staticClass: "mt-3" },
-                  [
-                    _c(
-                      "v-list-item",
-                      [
-                        _c(
-                          "v-list-item-avatar",
-                          [_c("v-icon", [_vm._v("mdi-account-multiple")])],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-item-content",
-                          [
-                            _c("v-list-item-title", [
-                              _vm._v(_vm._s(item.class_name) + " ")
-                            ]),
-                            _vm._v(" "),
-                            _c("v-list-item-subtitle", [
-                              _vm._v(
-                                "Class code: " + _vm._s(item.class_code) + " "
-                              )
-                            ]),
-                            _vm._v(" "),
-                            item.schedule != false && item.schedule != null
-                              ? _c(
-                                  "v-list-item-subtitle",
-                                  [
-                                    _c(
-                                      "span",
-                                      { staticClass: "font-weight-medium" },
-                                      [_vm._v("Schedule: ")]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm._l(item.schedule, function(
-                                      data,
-                                      index
-                                    ) {
-                                      return _c("div", { key: index }, [
-                                        _c("span", { staticClass: "pr-1" }, [
-                                          _vm._v("• ")
-                                        ]),
-                                        _vm._v(
-                                          "\n                            " +
-                                            _vm._s(
-                                              data.day +
-                                                " - " +
-                                                data.display_start
-                                            ) +
-                                            " "
-                                        ),
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { staticClass: "pl-5 pr-5", attrs: { cols: "12" } },
+                    _vm._l(_vm.allClass, function(item, index) {
+                      return _c(
+                        "v-card",
+                        {
+                          key: index,
+                          staticClass: "mt-3",
+                          attrs: { elevation: "2" }
+                        },
+                        [
+                          _c(
+                            "v-list-item",
+                            [
+                              _c(
+                                "v-list-item-avatar",
+                                [
+                                  _c("v-icon", [_vm._v("mdi-account-multiple")])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-item-content",
+                                [
+                                  _c("v-list-item-title", [
+                                    _vm._v(_vm._s(item.class_name) + " ")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-list-item-subtitle", [
+                                    _vm._v(
+                                      "Class code: " +
+                                        _vm._s(item.class_code) +
+                                        " "
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  item.schedule != false &&
+                                  item.schedule != null
+                                    ? _c(
+                                        "v-list-item-subtitle",
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "font-weight-medium"
+                                            },
+                                            [_vm._v("Schedule: ")]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm._l(item.schedule, function(
+                                            data,
+                                            index
+                                          ) {
+                                            return _c("div", { key: index }, [
+                                              _c(
+                                                "span",
+                                                { staticClass: "pr-1" },
+                                                [_vm._v("• ")]
+                                              ),
+                                              _vm._v(
+                                                "\n                                    " +
+                                                  _vm._s(
+                                                    data.day +
+                                                      " - " +
+                                                      data.display_start
+                                                  ) +
+                                                  " "
+                                              ),
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "font-weight-medium"
+                                                },
+                                                [_vm._v("to")]
+                                              ),
+                                              _vm._v(
+                                                " " + _vm._s(data.display_end)
+                                              )
+                                            ])
+                                          })
+                                        ],
+                                        2
+                                      )
+                                    : _c("v-list-item-subtitle", [
                                         _c(
                                           "span",
                                           { staticClass: "font-weight-medium" },
-                                          [_vm._v("to")]
+                                          [_vm._v("Schedule: ")]
                                         ),
-                                        _vm._v(" " + _vm._s(data.display_end))
-                                      ])
-                                    })
-                                  ],
-                                  2
-                                )
-                              : _c("v-list-item-subtitle", [
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-medium" },
-                                    [_vm._v("Schedule: ")]
-                                  ),
-                                  _vm._v(" N/A\n                    ")
-                                ]),
-                            _vm._v(" "),
-                            _c("v-list-item-subtitle", [
-                              _vm._v("Students: " + _vm._s(item.student_count))
-                            ])
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-item-action",
-                          [
-                            _c(
-                              "v-menu",
-                              {
-                                attrs: {
-                                  transition: "slide-y-transition",
-                                  bottom: ""
-                                },
-                                scopedSlots: _vm._u(
-                                  [
-                                    {
-                                      key: "activator",
-                                      fn: function(ref) {
-                                        var on = ref.on
-                                        var attrs = ref.attrs
-                                        return [
-                                          _c(
-                                            "v-icon",
-                                            _vm._g(
-                                              _vm._b(
-                                                {
-                                                  attrs: { color: "secondary " }
-                                                },
-                                                "v-icon",
-                                                attrs,
-                                                false
-                                              ),
-                                              on
-                                            ),
-                                            [_vm._v("mdi-dots-vertical")]
-                                          )
-                                        ]
-                                      }
-                                    }
-                                  ],
-                                  null,
-                                  true
-                                )
-                              },
-                              [
-                                _vm._v(" "),
-                                _c(
-                                  "v-list",
-                                  [
-                                    _c(
-                                      "v-list-item",
-                                      {
-                                        attrs: { link: "" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.openEditmodal(
-                                              item,
-                                              item.class_name,
-                                              item.class_id
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("v-list-item-title", [
-                                          _vm._v("Edit")
-                                        ])
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "v-list-item",
-                                      {
-                                        attrs: { link: "" },
-                                        on: {
-                                          click: function($event) {
-                                            return _vm.openDeleteModal(
-                                              item.class_id
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("v-list-item-title", [
-                                          _vm._v(
-                                            "Remove\n                                "
-                                          )
-                                        ])
-                                      ],
-                                      1
+                                        _vm._v(
+                                          " N/A\n                            "
+                                        )
+                                      ]),
+                                  _vm._v(" "),
+                                  _c("v-list-item-subtitle", [
+                                    _vm._v(
+                                      "Students: " + _vm._s(item.student_count)
                                     )
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              })
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-list-item-action",
+                                [
+                                  _c(
+                                    "v-menu",
+                                    {
+                                      attrs: {
+                                        transition: "slide-y-transition",
+                                        bottom: ""
+                                      },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "v-icon",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {
+                                                        attrs: {
+                                                          color: "secondary "
+                                                        }
+                                                      },
+                                                      "v-icon",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [_vm._v("mdi-dots-vertical")]
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list",
+                                        [
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              attrs: { link: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.openEditmodal(
+                                                    item,
+                                                    item.class_name,
+                                                    item.class_id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v("Edit")
+                                              ])
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item",
+                                            {
+                                              attrs: { link: "" },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.openDeleteModal(
+                                                    item.class_id
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c("v-list-item-title", [
+                                                _vm._v(
+                                                  "Remove\n                                        "
+                                                )
+                                              ])
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    }),
+                    1
+                  )
+                ],
+                1
+              )
             ],
-            2
+            1
           )
         : _vm._e(),
       _vm._v(" "),

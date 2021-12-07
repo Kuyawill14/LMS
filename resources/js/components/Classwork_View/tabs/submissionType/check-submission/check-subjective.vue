@@ -92,18 +92,23 @@
                                                     
                                                         <v-list-item-content>
                                                             <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                            <v-list-item-subtitle v-if="CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
-                                                             <v-list-item-subtitle v-else class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
+                                                            <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                             <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
                                                         <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
-                                                            <v-text-field rounded hide-details :loading="isSavingScore" 
-                                                        @keyup="SaveScore()" v-model="CheckData.points" 
-                                                        dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
+                                                            <v-form ref="pointsform" v-model="valid" lazy-validation>
+                                                                <v-text-field rounded 
+                                                                :hide-details="valid"
+                                                                :loading="isSavingScore" 
+                                                                :rules="pointsRules"
+                                                                @keyup="validate" v-model="CheckData.points" 
+                                                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
+                                                            </v-form>
                                                         </v-list-item-action>
                                                     </v-list-item>
                                             </v-list>
                                         </v-col>
-                                        <v-col  cols="12" class="ma-0 pa-0 pb-4 pt-3">
+                                        <v-col v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"  cols="12" class="ma-0 pa-0 pb-4 pt-3">
                                             <v-btn rounded text block v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
                                                 @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                         </v-col>
@@ -186,19 +191,46 @@
                                             </v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content>
-                                            <v-list-item-title>
-                                                {{item.name}}
-                                            </v-list-item-title>
-                                        <!--  <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle> -->
-                                            <div>
-                                                <p>{{item.content}}</p>
+                                           <div v-if="isUpdatingComment && isUpdatingComment_id == item.id">
+                                                <v-list-item-title class="mb-2" v-html="item.name"></v-list-item-title>
+                                                <editor :options="options" class="CommentEditor"  placeholder="Comment" v-model="item.content"  theme="bubble" ></editor>
+                                                <div class="d-flex justify-end mt-2">
+                                                
+                                                    <v-btn small @click="UpdateComment(item.content, item.id)" dark color="success" class="mr-2">update</v-btn>
+                                                    <v-btn small dark @click="isUpdatingComment = false, isUpdatingComment_id = null, item.content = isUpdatingComment_old_data" color="red">Cancel</v-btn>
+                                                </div>
                                             </div>
+
+                                            <v-alert v-else  color="#F5F5F5" class="rounded-xl mt-0 mb-0 pb-0">
+                                                <v-list-item-title> 
+                                                    <div class="d-flex justify-space-between">
+                                                        <div :class="item.u_id == get_CurrentUser.id ? 'mb-0 pb-0 pt-2' : 'pt-2 pb-2'" style="max-width:90%">{{item.name}}</div>
+                                                        <div v-if="item.u_id == get_CurrentUser.user_id">
+                                                            <v-menu offset-x >
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-btn icon v-bind="attrs" v-on="on">
+                                                                        <v-icon dark small >mdi-dots-vertical</v-icon>
+                                                                    </v-btn> 
+                                                                </template>
+                                                                <v-list dense nav>
+                                                                    <v-list-item  @click="isUpdatingComment = true, isUpdatingComment_id = item.id, isUpdatingComment_old_data = item.content" >
+                                                                        <v-list-item-title>Edit</v-list-item-title>
+                                                                    </v-list-item>
+                                                                    <v-list-item  @click="DeleteComment(item.id, i)">
+                                                                        <v-list-item-title>Remove</v-list-item-title>
+                                                                    </v-list-item>
+                                                                </v-list>
+                                                            </v-menu>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </v-list-item-title>
+                                                <v-list-item-subtitle class="mb-3">{{format_date(item.comment_date)}}</v-list-item-subtitle>
+                                                <div class="ml-2">
+                                                    <span class="commentContent" v-html="item.content"></span>
+                                                </div>
+                                            </v-alert>
                                         </v-list-item-content>
-                                        <v-list-item-action>
-                                            <v-btn icon>
-                                            <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                            </v-btn>
-                                        </v-list-item-action>
                                         </v-list-item>
                                 
                                     </v-list>
@@ -211,25 +243,8 @@
                                             </v-img>
                                         </v-list-item-avatar>
                                         <v-list-item-content class="ma-0 pa-0">
-                                           <!--  <v-textarea
-                                                :loading="isCommenting"
-                                                v-model="comment"
-                                                prepend-avatar="mdi-emoticon-dead"
-                                                filled
-                                                rounded
-                                                dense
-                                                auto-grow
-                                                rows="1"
-                                                clear-icon="mdi-close-circle"
-                                                clearable
-                                                placeholder="Comment"
-                                                class="pa-0 mt-7"
-                                                type="text"
-                                                >
-                                                </v-textarea> -->
                                                 <editor :options="options" class="CommentEditor"   placeholder="Comment" 
                                                     v-model="comment"  theme="bubble" ></editor>
-
                                         </v-list-item-content>
                                         <v-list-item-action>
                                             <v-btn :loading="isCommenting" @click="addComment(CheckData)" icon>
@@ -358,6 +373,9 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
     },
     data () {
       return {
+        isUpdatingComment: false,
+        isUpdatingComment_id: null,
+        isUpdatingComment_old_data: null,
         dialog: false,
         notifications: false,
         sound: true,
@@ -386,6 +404,11 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                 ],
             }
         },
+         pointsRules:[
+            v => !!v || 'Points is required',
+            v => ( v && v >= 0 ) || "Points should be above or equal to 0",
+        ],
+        valid: true
       }
     },
     computed:{
@@ -441,6 +464,11 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             //window.location = link
             window.open(link,'_blank');
         },
+        validate() {
+            if (this.$refs.pointsform.validate()) {
+                this.SaveScore(); 
+            }
+        },
         SaveScore(){
             clearTimeout(this.timeout);
             var self = this;
@@ -472,7 +500,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             this.UpdateScore();
         },
         async UpdateScore(){
-            if(this.score <= this.classworkDetails.points){
+            if(this.score <= this.classworkDetails.points && this.score >= 0){
                 axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, data: this.CheckData.rubrics_score})
                 .then(res=>{
                     if(res.status == 200){
@@ -484,7 +512,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             }
             else{
                 this.isSavingScore = !this.isSavingScore;
-                 this.toastError('Score is higher than the set points!');
+                 this.toastError('The set points is invalid!');
             }
             
         },
@@ -556,13 +584,32 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                       content : res.data.comment,
                       id : res.data.id,
                       name : res.data.name,
-                      profile_pic : res.data.profile_pic
+                      profile_pic : res.data.profile_pic,
+                      u_id : this.get_CurrentUser.user_id,
+                    comment_date : new Date()
+
                     })
-                    this.comment = null;
+                    this.comment = '';
                   }
                   
               })
                this.isCommenting = false;
+          },
+          async DeleteComment(id, index){
+              axios.delete('/api/post/classwork/comment/delete/'+id)
+              .then(res=>{
+                  if(res.data.success == true){
+                      this.CheckData.comments.splice(index, 1);
+                  }
+              })
+          },
+           async UpdateComment(content, id){
+              axios.put('/api/post/comment/update/'+id,  {comment: content})
+              .then(res=>{
+                 this.isUpdatingComment = false;
+                 this.isUpdatingComment_id = null;
+                 this.isUpdatingComment_old_data = null;
+              })
           },
           checkRubrics(){
               if(this.classworkDetails.rubrics.length != 0){
@@ -600,6 +647,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             axios.put('/api/teacher/reset-sbj/'+this.CheckData.id, {files : this.CheckData.Submitted_Answers})
             .then(()=>{
                 this.$emit('SubmissionReset', this.CheckData.id);
+                this.dialog = false;
             })
         },
          async NextStudent(){

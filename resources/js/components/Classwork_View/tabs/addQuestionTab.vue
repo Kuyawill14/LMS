@@ -13,10 +13,10 @@
        v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
         @click="AddNewQuestion"
         :elevation="hover ? '10' : '2'"
-        :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : 
+        :style="$vuetify.breakpoint.mdAndUp && !fab ? 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : 
         $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        'position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : ''"
         dense clipped-right shaped class="fixed-bar" floating  color="blue"  >
             <v-chip
             small
@@ -29,6 +29,37 @@
             </span>
             </v-chip>
         </v-app-bar>
+    </div>
+</v-hover>
+
+<v-hover v-slot="{ hover }">
+    <div>
+    <v-app-bar  
+    flat
+    :light="!isNewChanges"
+    :elevation="hover ? '10' : '2'"
+    @click="isNewChanges ? SaveAllQuestion() : ''"
+    v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
+    
+
+    :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : 
+        $vuetify.breakpoint.mdAndUp && fab ?
+        'position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+    
+    dense clipped-right shaped class="fixed-bar" floating  :color="isNewChanges ? 'primary' : '#EEEEEE'"  >
+        <v-chip
+  
+        small
+        style="cursor:pointer;"
+        :color="isNewChanges ? 'primary' : '#EEEEEE'"
+        text-color="white">
+        <v-icon style="font-size:1.5rem" left>mdi-content-save-all-outline</v-icon>
+        <span class="font-weight-bold pl-2">
+            {{isSavingAllQuestion ? 'SAVING..' : 'SAVE'}}
+        </span>
+        </v-chip>
+    </v-app-bar>
     </div>
 </v-hover>
 
@@ -84,34 +115,7 @@
 </v-hover>
 
 
-<v-hover v-slot="{ hover }">
-    <div>
-    <v-app-bar  
-    flat
-    :light="!isNewChanges"
-    :elevation="hover ? '10' : '2'"
-    @click="isNewChanges ? SaveAllQuestion() : ''"
-    v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
-    :style="$vuetify.breakpoint.mdAndUp && !fab ? 
-    'position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : 
-    $vuetify.breakpoint.mdAndUp && fab ?
-    'position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : ''"
-    
-    dense clipped-right shaped class="fixed-bar" floating  :color="isNewChanges ? 'primary' : '#EEEEEE'"  >
-        <v-chip
-  
-        small
-        style="cursor:pointer;"
-        :color="isNewChanges ? 'primary' : '#EEEEEE'"
-        text-color="white">
-        <v-icon style="font-size:1.5rem" left>mdi-content-save-all-outline</v-icon>
-        <span class="font-weight-bold pl-2">
-            {{isSavingAllQuestion ? 'SAVING..' : 'SAVE'}}
-        </span>
-        </v-chip>
-    </v-app-bar>
-    </div>
-</v-hover>
+
 
 
 <div transition="slide-y-reverse-transition">
@@ -761,6 +765,7 @@ export default {
             }
         },
        async AddNewQuestion(){
+                       
            this.isAddingNewQuestion = true;
            axios.post('/api/question/add_new_question', {
                classwork_id: this.$route.query.clwk,
@@ -806,6 +811,8 @@ export default {
                }
 
                this.isAddingNewQuestion = false;
+                setTimeout(() => (window.scrollTo(0,document.body.scrollHeight)), 100);
+                 
                
            })
             
@@ -1034,6 +1041,7 @@ export default {
             })
         },
         singleDuplicate(question, answer){
+
             this.isAddingNewQuestion = true;
             this.DuplicateQuestion = [];
             this.DuplicateAnswers = [];

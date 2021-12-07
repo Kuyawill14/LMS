@@ -16,6 +16,7 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_userDetails;
 use App\Models\tbl_join_request;
+use App\Models\tbl_comment;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
@@ -335,14 +336,8 @@ class TeacherController extends Controller
         //return $id;
         $ResetSubmission = tbl_Submission::find($id);
            if($ResetSubmission){
+               $removeComment = tbl_comment::where('classwork_id', $ResetSubmission->classwork_id)->delete();
                 $ResetSubmission->forceDelete();
-
-                /* $ResetSubmission->status = null;
-                $ResetSubmission->points = null;
-                $ResetSubmission->Submitted_Answers = null;
-                $ResetSubmission->created_at = null;
-                $ResetSubmission->updated_at = null;
-                $ResetSubmission->save(); */
                 return "Reset Success";
            }
            return "Submission Not found";
@@ -359,6 +354,7 @@ class TeacherController extends Controller
        
         $ResetSubmission = tbl_Submission::find($id);
         if($ResetSubmission){
+            $removeComment = tbl_comment::where('classwork_id', $ResetSubmission->classwork_id)->delete();
             foreach($request["files"] as $item){
                 if($item["fileExte"] != "link"){
                     $path =  str_replace(\Config::get('app.do_url').'/', "", $item['link']);

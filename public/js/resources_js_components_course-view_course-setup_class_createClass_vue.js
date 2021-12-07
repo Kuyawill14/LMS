@@ -176,6 +176,7 @@ __webpack_require__.r(__webpack_exports__);
     createClass: function createClass() {
       this.form.course_id = this.$route.params.id;
       this.$store.dispatch('createClass', this.form);
+      ;
       this.clearFormInputs();
       this.$emit('closeModal');
       this.toastSuccess();
@@ -22785,7 +22786,8 @@ var render = function() {
                   attrs: { text: "" },
                   on: {
                     click: function($event) {
-                      _vm.$emit("closeModal"), _vm.$refs.form.resetValidation()
+                      _vm.$emit("cancelCreate"),
+                        _vm.$refs.form.resetValidation()
                     }
                   }
                 },
