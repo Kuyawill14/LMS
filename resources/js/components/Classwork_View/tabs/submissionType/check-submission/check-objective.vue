@@ -192,26 +192,8 @@
                                                 </v-img>
                                             </v-list-item-avatar>
                                             <v-list-item-content class="ma-0 pa-0">
-                                               <!--  <v-textarea
-                                                    :loading="isCommenting"
-                                                    v-model="comment"
-                                                    prepend-avatar="mdi-emoticon-dead"
-                                                    filled
-                                                    rounded
-                                                    dense
-                                                    auto-grow
-                                                    rows="1"
-                                                    clear-icon="mdi-close-circle"
-                                                    clearable
-                                                    placeholder="Comment"
-                                                    class="pa-0 mt-7"
-                                                    type="text"
-                                                    >
-                                                    </v-textarea> -->
-
-                                                    <editor :options="options" class="CommentEditor"   placeholder="Comment" 
-                                                    v-model="comment"  theme="bubble" ></editor>
-
+                                                <editor :options="options" class="CommentEditor"   placeholder="Comment" 
+                                                v-model="comment"  theme="bubble" ></editor>
                                             </v-list-item-content>
                                             <v-list-item-action>
                                              

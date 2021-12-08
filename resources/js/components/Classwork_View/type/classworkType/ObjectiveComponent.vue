@@ -64,13 +64,13 @@
                             <v-list-item-content>
                                 
                                    <div v-if="isUpdatingComment && isUpdatingComment_id == item.id">
-                                    <v-list-item-title class="mb-2" v-html="item.name"></v-list-item-title>
-                                    <editor :options="options" class="CommentEditor"  placeholder="Comment" v-model="item.content"  theme="bubble" ></editor>
-                                    <div class="d-flex justify-end mt-2">
-                                    
-                                        <v-btn small @click="UpdateComment(item.content, item.id)" dark color="success" class="mr-2">update</v-btn>
-                                        <v-btn small dark @click="isUpdatingComment = false, isUpdatingComment_id = null, item.content = isUpdatingComment_old_data" color="red">Cancel</v-btn>
-                                    </div>
+                                        <v-list-item-title class="mb-2" v-html="item.name"></v-list-item-title>
+                                        <editor :options="options" class="CommentEditor"  placeholder="Comment" v-model="item.content"  theme="bubble" ></editor>
+                                        <div class="d-flex justify-end mt-2">
+                                        
+                                            <v-btn small @click="UpdateComment(item.content, item.id)" dark color="success" class="mr-2">update</v-btn>
+                                            <v-btn small dark @click="isUpdatingComment = false, isUpdatingComment_id = null, item.content = isUpdatingComment_old_data" color="red">Cancel</v-btn>
+                                        </div>
                                     </div>
                                     <v-alert v-else  color="#F5F5F5" class="rounded-xl mt-0 mb-0">
                                         <v-list-item-title >
