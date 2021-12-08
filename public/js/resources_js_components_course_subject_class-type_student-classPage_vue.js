@@ -11,7 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -207,9 +215,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var confirmUnenroll = function confirmUnenroll() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmUnenroll_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmUnenroll */ "./resources/js/components/course_subject/class-type/dialog/confirmUnenroll.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {},
+  components: {
+    confirmUnenroll: confirmUnenroll
+  },
   data: function data() {
     return {
       coursesLength: null,
@@ -231,11 +268,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       valid: true,
       rules: [function (v) {
         return !!v || 'Class code is required';
-      }]
+      }],
+      Archivedialog: false,
+      ArchiveDetails: {}
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["allClass"]),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchClassList"])), {}, {
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["allClass"]),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(["fetchClassList"])), {}, {
     validate: function validate() {
       if (this.$refs.form.validate()) {
         this.joinClass();
@@ -355,6 +394,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return '../images/' + path;
         }
       }
+    },
+    UnenrollInCourse: function UnenrollInCourse() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios["delete"]('/api/student/unenroll/' + _this5.ArchiveDetails.id).then(function () {
+                  _this5.allClassesData.splice(_this5.ArchiveDetails.index, 1);
+
+                  _this5.Archivedialog = false;
+                  _this5.coursesLength--;
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
   mounted: function mounted() {
@@ -546,7 +609,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                   mdi-book-variant-multiple\n               "
+                      "\n                mdi-book-variant-multiple\n            "
                     )
                   ]),
                   _vm._v(" "),
@@ -611,9 +674,7 @@ var render = function() {
                 },
                 [
                   _c("v-card-title", {}, [
-                    _vm._v(
-                      "\n                       Join Class\n                   "
-                    )
+                    _vm._v("\n                    Join Class\n                ")
                   ]),
                   _vm._v(" "),
                   _c(
@@ -754,7 +815,6 @@ var render = function() {
             [
               _c(
                 "v-row",
-                { staticStyle: { "margin-bottom": "-40px" } },
                 [
                   _c(
                     "v-col",
@@ -772,6 +832,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "mr-2 my-0",
                         attrs: {
+                          "hide-details": "",
                           dense: "",
                           items: _vm.school_year,
                           "item-text": "schoolyear",
@@ -804,6 +865,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "mr-2 my-0",
                         attrs: {
+                          "hide-details": "",
                           dense: "",
                           items: _vm.semester,
                           "item-text": "semester",
@@ -834,7 +896,6 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { staticClass: "mt-3" },
                 [
                   _vm._l(_vm.allClassesData, function(item, i) {
                     return _c(
@@ -856,7 +917,7 @@ var render = function() {
                                   "v-img",
                                   {
                                     staticClass:
-                                      "white--text align-end grey lighten-2",
+                                      "white--text d-flex flex-row justify-space-between grey lighten-2",
                                     attrs: {
                                       src: _vm.CheckBackgroundPath(
                                         item.course_picture
@@ -904,9 +965,108 @@ var render = function() {
                                     )
                                   },
                                   [
+                                    _c(
+                                      "v-app-bar",
+                                      {
+                                        attrs: {
+                                          flat: "",
+                                          color: "rgba(0, 0, 0, 0)"
+                                        }
+                                      },
+                                      [
+                                        _c("v-spacer"),
+                                        _vm._v(" "),
+                                        _c(
+                                          "v-menu",
+                                          {
+                                            attrs: {
+                                              transition: "slide-y-transition",
+                                              bottom: ""
+                                            },
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "activator",
+                                                  fn: function(ref) {
+                                                    var on = ref.on
+                                                    var attrs = ref.attrs
+                                                    return [
+                                                      _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              staticClass:
+                                                                "float-right",
+                                                              attrs: {
+                                                                icon: "",
+                                                                color: "white"
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c("v-icon", [
+                                                            _vm._v(
+                                                              "\n                                                mdi-dots-vertical\n                                            "
+                                                            )
+                                                          ])
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              true
+                                            )
+                                          },
+                                          [
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-list",
+                                              { staticClass: "pa-1" },
+                                              [
+                                                _c(
+                                                  "v-list-item",
+                                                  {
+                                                    on: {
+                                                      click: function($event) {
+                                                        ;(_vm.ArchiveDetails.name =
+                                                          item.course_name),
+                                                          (_vm.ArchiveDetails.id =
+                                                            item.useClass_id),
+                                                          (_vm.ArchiveDetails.index = i),
+                                                          (_vm.Archivedialog = true)
+                                                      }
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("v-list-item-title", [
+                                                      _vm._v("Unenroll")
+                                                    ])
+                                                  ],
+                                                  1
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
                                     _vm._v(" "),
                                     _c(
                                       "v-card-subtitle",
+                                      { staticClass: "mt-12" },
                                       [
                                         _c("v-progress-linear", {
                                           staticClass: "rounded-sm",
@@ -930,7 +1090,7 @@ var render = function() {
                                                     item.progress.toFixed(2)
                                                   )
                                                 ) +
-                                                "%\n                                   "
+                                                "%\n                                "
                                             )
                                           ]
                                         ),
@@ -1024,7 +1184,7 @@ var render = function() {
                                                                               _vm._s(
                                                                                 item.course_code
                                                                               ) +
-                                                                                "\n                                                       "
+                                                                                "\n                                                    "
                                                                             ),
                                                                             _c(
                                                                               "br"
@@ -1164,7 +1324,37 @@ var render = function() {
             ],
             1
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.Archivedialog,
+            callback: function($$v) {
+              _vm.Archivedialog = $$v
+            },
+            expression: "Archivedialog"
+          }
+        },
+        [
+          _vm.Archivedialog
+            ? _c("confirmUnenroll", {
+                attrs: { ArchiveDetails: _vm.ArchiveDetails },
+                on: {
+                  toggleCancelDialog: function($event) {
+                    _vm.Archivedialog = !_vm.Archivedialog
+                  },
+                  toggleconfirm: function($event) {
+                    return _vm.UnenrollInCourse()
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )

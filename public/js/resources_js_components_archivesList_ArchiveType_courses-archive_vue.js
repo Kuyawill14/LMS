@@ -17,20 +17,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var teacherArchive = function teacherArchive() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveCourseType_teacherArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveCourseType/teacherArchive */ "./resources/js/components/archivesList/ArchiveType/archiveCourseType/teacherArchive.vue"));
-};
-
-var studentArchive = function studentArchive() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveCourseType_studentArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveCourseType/studentArchive */ "./resources/js/components/archivesList/ArchiveType/archiveCourseType/studentArchive.vue"));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
-    teacherArchive: teacherArchive,
-    studentArchive: studentArchive
+    teacherArchive: teacherArchive
   }
 });
 
@@ -120,15 +114,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm.role == "Teacher" ? _c("teacherArchive") : _vm._e(),
-      _vm._v(" "),
-      _vm.role == "Student" ? _c("studentArchive") : _vm._e()
-    ],
-    1
-  )
+  return _c("div", [_vm.role == "Teacher" ? _c("teacherArchive") : _vm._e()], 1)
 }
 var staticRenderFns = []
 render._withStripped = true

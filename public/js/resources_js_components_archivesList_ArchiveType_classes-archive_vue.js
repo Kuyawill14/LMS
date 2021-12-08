@@ -51,22 +51,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var teacherClassArchive = function teacherClassArchive() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveClassType_teacherClassArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveClassType/teacherClassArchive */ "./resources/js/components/archivesList/ArchiveType/archiveClassType/teacherClassArchive.vue"));
 };
 
-var studentClassArchive = function studentClassArchive() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_archiveClassType_studentClassArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveClassType/studentClassArchive */ "./resources/js/components/archivesList/ArchiveType/archiveClassType/studentClassArchive.vue"));
-};
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   components: {
-    teacherClassArchive: teacherClassArchive,
-    studentClassArchive: studentClassArchive
+    teacherClassArchive: teacherClassArchive
   },
   data: function data() {
     return {
@@ -109,19 +103,13 @@ var studentClassArchive = function studentClassArchive() {
                 _context2.next = 3;
                 return axios.get('/api/archive/classes').then(function (res) {
                   _this2.ArchiveClasses = res.data;
-                  _this2.classLength = res.data.length; ////console.log(res.data);
-                  //////console.log( this.$store.state.CurrentUser.MyCourses)
-
-                  ////console.log(res.data);
-                  //////console.log( this.$store.state.CurrentUser.MyCourses)
+                  _this2.classLength = res.data.length;
                   res.data.forEach(function (item) {
                     _this2.$store.state.CurrentUser.MyCourses.push({
                       id: item.course_id,
                       status: item.status
                     });
-                  }); ////console.log( this.$store.state.CurrentUser.MyCourses)
-
-                  ////console.log( this.$store.state.CurrentUser.MyCourses)
+                  });
                   _this2.isGetting = false;
                 });
 
@@ -316,12 +304,6 @@ var render = function() {
                 ? _c("teacherClassArchive", {
                     attrs: { ArchiveClasses: _vm.ArchiveClasses },
                     on: { RestoreConfirm: _vm.restoreClass }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.role == "Student"
-                ? _c("studentClassArchive", {
-                    attrs: { ArchiveClasses: _vm.ArchiveClasses }
                   })
                 : _vm._e()
             ],

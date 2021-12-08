@@ -46,9 +46,11 @@ Vue.use(VueQuillEditor, /* { default global options } */ )
 import store from "./store/store";
 import router from "./router";
 
+import titleMixin from './mixins/titleMixin'
 
 Vue.component('main-component', require('./components/app.vue').default);
 Vue.mixin({
+    ...titleMixin,
     methods: {
         toastNormal(message) {
             return this.$toasted.show(message, {

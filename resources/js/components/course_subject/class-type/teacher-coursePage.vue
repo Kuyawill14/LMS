@@ -60,12 +60,12 @@
                 <v-container>
                     <v-row class="mx-2">
                         <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field :rules="Coderules" v-model="form.course_code" filled color="primary" label="Course Code">
+                            <v-text-field hide-details :rules="Coderules" v-model="form.course_code" filled color="primary" label="Course Code">
                             </v-text-field>
                         </v-col>
 
                         <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field :rules="Namerules" v-model="form.course_name" filled color="primary" label="Course Name">
+                            <v-text-field hide-details :rules="Namerules" v-model="form.course_name" filled color="primary" label="Course Name">
                             </v-text-field>
                         </v-col>
                     </v-row>
@@ -136,7 +136,7 @@
 
                                             </v-btn>
                                         </template>
-                                        <v-list>
+                                        <v-list class="pa-1">
                                             <v-list-item link :to="{name: 'settings', params: {id: item.id}}">
                                                 <v-list-item-title>Edit</v-list-item-title>
 

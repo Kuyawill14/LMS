@@ -198,6 +198,7 @@
         locale: 'en_US', // default 'en_US'
     })
     export default {
+        title: 'Orange',
         components: {
             forgotPassword
         },

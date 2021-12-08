@@ -23,12 +23,12 @@
         </div>
 
         <v-row >
-          <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
-                 <h2 class="mt-1">My Classworks</h2>
+          <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
+                 <h2 >My Classworks</h2>
             </v-col>
             <v-col cols="12" md="3" xl="3" lg="3" class="text-right mb-0 pb-0">
                   <v-select
-          
+                    hide-details
                     @click="setFilterItems()"
                      :items="FilterItems"
                      item-text="title"
@@ -74,7 +74,7 @@
             <v-divider></v-divider>
         </v-row> -->
 
-        <v-row  justify="center" align-content="center">
+        <v-row class="mt-3"  justify="center" align-content="center">
             <v-col cols="12" v-show="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" class="mt-1 ml-0  mr-0" v-for="(data, i) in classworks.ClassworkTitle" :key="i">
               
             <v-row v-if="classworks.ClassworksList[i].length != 0 && (SelectedFilter == 'All' || SelectedFilter == data.title)" >

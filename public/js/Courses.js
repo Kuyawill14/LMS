@@ -27,6 +27,7 @@ var studentClassPage = function studentClassPage() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  title: 'Courses',
   props: ['role'],
   components: {
     teacherCoursePage: teacherCoursePage,

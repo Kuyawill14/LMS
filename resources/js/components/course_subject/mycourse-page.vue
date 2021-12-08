@@ -9,6 +9,7 @@
     const teacherCoursePage = () => import("./class-type/teacher-coursePage")
     const studentClassPage = () => import("./class-type/student-classPage")
     export default {
+        title: 'Courses',
         props: ['role'],
         components: {
             teacherCoursePage,

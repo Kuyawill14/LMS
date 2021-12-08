@@ -13,13 +13,13 @@
         <h2>
             Grading Criteria
         </h2>
-        <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
+        <v-btn v-if="_totalPercent(get_gradingCriteria) != 100" bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
         </v-btn>
-        <v-row class="pt-2">
+        <v-row class="pt-2" align="center" justify="center">
 
 
-            <v-col>
+            <v-col cols="12" md="10">
                 <v-card elevation="2">
                     <v-simple-table>
                         <template v-slot:default>
@@ -65,9 +65,6 @@
                                 <tr v-if="get_gradingCriteria.length == 0">
                                     <td class="text-center" colspan="3"> No data available</td>
                                 </tr>
-
-
-
                             </tbody>
                         </template>
                     </v-simple-table>
@@ -77,30 +74,32 @@
 
         <v-dialog v-model="dialog" width="400px">
             <v-card>
-                <v-card-title class="">
-                    Grading Criteria
-                </v-card-title>
-                <v-container>
-                    <v-row class="mx-2">
+                 <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-card-title class="">
+                        Grading Criteria
+                    </v-card-title>
+                    <v-container>
+                        <v-row class="mx-2">
 
-                        <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="grading_criteria_form.name" filled color="primary"
-                                label="Criteria Name"></v-text-field>
-                        </v-col>
-                        <v-col cols="12" class="pa-0 ma-0">
-                            <v-text-field v-model="grading_criteria_form.percentage" filled color="primary"
-                                label="Percentage (%)"></v-text-field>
-                        </v-col>
+                            <v-col cols="12" class="pa-0 ma-0">
+                                <v-text-field :rules="rules"  v-model="grading_criteria_form.name" filled color="primary"
+                                    label="Criteria Name"></v-text-field>
+                            </v-col>
+                            <v-col cols="12" class="pa-0 ma-0">
+                                <v-text-field :rules="rules" v-model="grading_criteria_form.percentage" filled color="primary"
+                                    label="Percentage (%)"></v-text-field>
+                            </v-col>
 
-                    </v-row>
-                </v-container>
-                <v-card-actions>
+                        </v-row>
+                    </v-container>
+                    <v-card-actions>
 
-                    <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
-                    <v-btn text @click="type  == 'add' ? addGradeCriteria() : updateGradeCriteria()">
-                        {{type  == 'add' ? 'Add' : 'Save'}}</v-btn>
-                </v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
+                        <v-btn :disabled="!valid" text @click="validate">
+                            {{type  == 'add' ? 'Add' : 'Save'}}</v-btn>
+                    </v-card-actions>
+                </v-form>
             </v-card>
         </v-dialog>
 
@@ -164,6 +163,10 @@
                     link: 'gradingCriteria',
                     },
                 ],
+                valid: true,
+                rules: [
+                    v => !!v || 'Field is required',
+                ],
             }
 
         },
@@ -172,6 +175,15 @@
         },
 
         methods: {
+             validate () {
+                if(this.$refs.form.validate()){
+                    if(this.type  == 'add'){
+                        this.addGradeCriteria();
+                    }else{
+                        this.updateGradeCriteria()
+                    }
+                }
+            },
             getAllGradeCriteria() {
                 this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
             },

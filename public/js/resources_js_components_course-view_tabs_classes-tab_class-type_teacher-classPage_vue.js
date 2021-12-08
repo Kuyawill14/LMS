@@ -179,10 +179,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-var VueElementLoading = function VueElementLoading() {
-  return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
-};
-
+//
+//
+//
+//
+//
+//
 var createClassForm = function createClassForm() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classes-tab_class-type_createClass_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./createClass */ "./resources/js/components/course-view/tabs/classes-tab/class-type/createClass.vue"));
 };
@@ -195,13 +197,17 @@ var archiveClass = function archiveClass() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classes-tab_class-type_archiveClass_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./archiveClass */ "./resources/js/components/course-view/tabs/classes-tab/class-type/archiveClass.vue"));
 };
 
+var deleteClass = function deleteClass() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classes-tab_class-type_deleteClass_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./deleteClass */ "./resources/js/components/course-view/tabs/classes-tab/class-type/deleteClass.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    VueElementLoading: VueElementLoading,
     createClassForm: createClassForm,
     editClassForm: editClassForm,
-    archiveClass: archiveClass
+    archiveClass: archiveClass,
+    deleteClass: deleteClass
   },
   data: function data() {
     return {
@@ -226,7 +232,9 @@ var archiveClass = function archiveClass() {
       menu1: false,
       addScheduleDialog: false,
       day: null,
-      class_details: []
+      class_details: [],
+      removeDetails: {},
+      removeDialog: false
     };
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
@@ -333,7 +341,7 @@ var archiveClass = function archiveClass() {
         }, _callee4);
       }))();
     },
-    removeClass: function removeClass(id, index, count) {
+    removeClass: function removeClass() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -341,14 +349,16 @@ var archiveClass = function archiveClass() {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(count == 0)) {
+                if (!(_this5.removeDetails.student_count == 0)) {
                   _context5.next = 3;
                   break;
                 }
 
                 _context5.next = 3;
-                return axios["delete"]('/api/class/delete/' + id).then(function () {
-                  _this5.allClass.splice(index, 1);
+                return axios["delete"]('/api/class/delete/' + _this5.removeDetails.class_id).then(function () {
+                  _this5.allClass.splice(_this5.removeDetails.index, 1);
+
+                  _this5.removeDialog = false;
                 });
 
               case 3:
@@ -638,7 +648,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "500px" },
+          attrs: { width: "400" },
           model: {
             value: _vm.showModal,
             callback: function($$v) {
@@ -688,6 +698,35 @@ var render = function() {
                   },
                   toggleCancelDialog: function($event) {
                     return _vm.closeModal()
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "400" },
+          model: {
+            value: _vm.removeDialog,
+            callback: function($$v) {
+              _vm.removeDialog = $$v
+            },
+            expression: "removeDialog"
+          }
+        },
+        [
+          _vm.removeDialog
+            ? _c("deleteClass", {
+                on: {
+                  toggleCancelDialog: function($event) {
+                    _vm.removeDialog = false
+                  },
+                  toggleConfirm: function($event) {
+                    return _vm.removeClass()
                   }
                 }
               })
@@ -992,11 +1031,12 @@ var render = function() {
                                             attrs: { link: "" },
                                             on: {
                                               click: function($event) {
-                                                return _vm.removeClass(
-                                                  item.class_id,
-                                                  index,
-                                                  item.student_count
-                                                )
+                                                ;(_vm.removeDetails.class_id =
+                                                  item.class_id),
+                                                  (_vm.removeDialog = true),
+                                                  (_vm.removeDetails.index = index),
+                                                  (_vm.removeDetails.student_count =
+                                                    item.student_count)
                                               }
                                             }
                                           },

@@ -34,12 +34,13 @@
        
         
 
-        <v-row >
-            <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
+        <v-row class="mb-2" >
+            <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
                  <h2 class="mt-1">Manage Classworks</h2>
             </v-col>
             <v-col cols="12" md="3" lg="3" class="text-right mb-0 pb-0">
                   <v-select
+                  hide-details
                      :items="FilterItems"
                     dense
                     v-model="SelectedFilter"
@@ -216,7 +217,11 @@
                                            </div>
                                     </v-col>
                                     <v-col class="pt-3" cols="12">
-                                        <v-btn class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                        <v-btn v-if="item.publish_in.length == 0" class="ma-0" @click="$router.push({name: 'publish-to',params: {id: $route.params.id},query: {clwk: item.id}})"
+                                            rounded color="primary" small text>Publish Classwork
+                                        </v-btn>
+
+                                        <v-btn v-else class="ma-0" @click="$router.push({name: 'submission-list',params: {id: $route.params.id},query: {clwk: item.id}})"
                                             rounded color="primary" small text>View Submission
                                         </v-btn>
                                     </v-col>

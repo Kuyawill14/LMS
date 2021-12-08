@@ -177,7 +177,7 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
    
 
-    Route::delete('/{id}', [StudentController::class, 'Unenroll']);
+    Route::delete('unenroll/{id}', [StudentController::class, 'Unenroll']);
     Route::delete('/removeFromClass/{class_id}/{user_id}', [StudentController::class, 'removeFromClass']);
     
 });
@@ -349,6 +349,8 @@ Route::middleware('auth:sanctum')->prefix('/archive')->group(function () {
     Route::put('/restore/{id}', [ArchiveController::class, 'restoreArchive']);
     Route::get('/classes', [ArchiveController::class, 'showArchiveClasses']);
     Route::put('/restore-class/{id}', [ArchiveController::class, 'restoreClass']);
+    Route::put('/student-restore-class/{id}', [ArchiveController::class, 'StudentRestoreClass']);
+    
     Route::get('/classwork/{id}', [ArchiveController::class, 'ShowArchiveClasswork']);
     Route::put('/restore-classwork/{id}', [ArchiveController::class, 'restoreClasswork']);
     

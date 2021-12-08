@@ -12,6 +12,7 @@ const teacherstudentNotification = () => import("./teacher-studentNotification")
 import moment from 'moment/src/moment'
 import { mapGetters,mapActions } from "vuex";
 export default {
+  title: 'Notifications',
   components:{
     adminNotification,
     teacherstudentNotification

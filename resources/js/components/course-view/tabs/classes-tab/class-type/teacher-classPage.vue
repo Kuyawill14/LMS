@@ -38,7 +38,7 @@
             </v-row>
        </div>
 
-        <v-dialog v-model="showModal" width="500px">
+        <v-dialog v-model="showModal" width="400">
             <createClassForm v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_details="class_details" :class_name="form.class_name" :class_id="form.class_id"
@@ -46,6 +46,10 @@
 
             <archiveClass v-on:toggleconfirm="SuccessArchive()"
             v-on:toggleCancelDialog="closeModal()" :ArchiveDetails="ArchiveDetails" v-if="modalType == 'archive'"></archiveClass>
+        </v-dialog>
+
+        <v-dialog v-model="removeDialog" width="400">
+            <deleteClass v-if="removeDialog" v-on:toggleCancelDialog="removeDialog = false" v-on:toggleConfirm="removeClass()"></deleteClass>
         </v-dialog>
         <div v-if="!isGetting && classLength > 0">
 
@@ -113,7 +117,9 @@
                                 <v-list-item-title>Archive</v-list-item-title>
 
                             </v-list-item>
-                            <v-list-item link @click="removeClass(item.class_id,index, item.student_count)" v-if="item.student_count == 0">
+                            <v-list-item link @click="removeDetails.class_id = item.class_id,  removeDialog = true,
+                                removeDetails.index = index,
+                                removeDetails.student_count = item.student_count" v-if="item.student_count == 0">
                                 <v-list-item-title>Remove</v-list-item-title>
                             </v-list-item>
                         </v-list>
@@ -152,21 +158,20 @@
 
 
 <script>
-    const VueElementLoading = () => import("vue-element-loading")
     const createClassForm = () => import("./createClass")
     const editClassForm = () => import("./editClass")
     const archiveClass = () => import("./archiveClass")
+     const deleteClass = () => import("./deleteClass")
     import {
         mapGetters,
         mapActions
     } from "vuex";
     export default {
         components: {
-            VueElementLoading,
             createClassForm,
             editClassForm,
-            archiveClass
-
+            archiveClass,
+            deleteClass
         },
         data: () => ({
 
@@ -193,6 +198,8 @@
             addScheduleDialog: false,
             day: null,
             class_details:[],
+            removeDetails:{},
+            removeDialog: false
         }),
 
 
@@ -241,11 +248,12 @@
                 //this.copied = true;
                 this.toastNormal('Class code copied');
             },
-           async removeClass(id, index, count){
-               if(count == 0){
-                    await axios.delete('/api/class/delete/'+id)
+           async removeClass(){
+               if(this.removeDetails.student_count == 0){
+                    await axios.delete('/api/class/delete/'+this.removeDetails.class_id)
                     .then(()=>{
-                        this.allClass.splice(index, 1);
+                        this.allClass.splice(this.removeDetails.index, 1);
+                        this.removeDialog = false;
                     })
                }
             }   

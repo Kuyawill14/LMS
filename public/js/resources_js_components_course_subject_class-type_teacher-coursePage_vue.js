@@ -781,6 +781,7 @@ var render = function() {
                             [
                               _c("v-text-field", {
                                 attrs: {
+                                  "hide-details": "",
                                   rules: _vm.Coderules,
                                   filled: "",
                                   color: "primary",
@@ -804,6 +805,7 @@ var render = function() {
                             [
                               _c("v-text-field", {
                                 attrs: {
+                                  "hide-details": "",
                                   rules: _vm.Namerules,
                                   filled: "",
                                   color: "primary",
@@ -1140,6 +1142,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "v-list",
+                                        { staticClass: "pa-1" },
                                         [
                                           _c(
                                             "v-list-item",

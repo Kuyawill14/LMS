@@ -7,145 +7,129 @@
                 </v-breadcrumbs-item>
             </template>
         </v-breadcrumbs>
-        <v-card elevation="2" class="pa-3 mt-5">
 
-            <v-col cols="12" class="pa-0">
-                <v-text-field v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code">
-                </v-text-field>
-            </v-col>
+        <v-row align="center" justify="center">
+            <v-col cols="12" md="10">
+                <v-form ref="form" v-model="valid" lazy-validation>
+                    <v-card elevation="2" class="pa-3 mt-5">
 
-            <v-col cols="12" class="pa-0 ">
-                <v-text-field v-model="getcourseInfo.course_name" outlined color="primary" label="Course Title">
-                </v-text-field>
-            </v-col>
+                        <v-col cols="12" class="pa-0">
+                            <v-text-field :rules="rules" v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code">
+                            </v-text-field>
+                        </v-col>
 
-            <v-col cols="12" class="pa-0 ">
-                <small class="text-caption">Generate google meet here: <a href="https://meet.google.com/"
-                        target="_blank">meet.google.com </a> </small>
+                        <v-col cols="12" class="pa-0 ">
+                            <v-text-field :rules="rules" v-model="getcourseInfo.course_name" outlined color="primary" label="Course Title">
+                            </v-text-field>
+                        </v-col>
 
-                <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary"
-                    label="Video Conference Link">
+                        <v-col cols="12" class="pa-0 ">
+                            <small class="text-caption">Generate google meet here: <a href="https://meet.google.com/"
+                                    target="_blank">meet.google.com </a> </small>
 
-                </v-text-field>
+                            <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary"
+                                label="Video Conference Link">
 
-            </v-col>
+                            </v-text-field>
 
-            <v-col cols="12" class="pa-0 ">
-                 <v-select
-                class="mr-2"
-                 :items="departmentsList"
-                item-text="name"
-                item-value="id"
-                label="Department"
-                  v-model="getcourseInfo.department"
-                outlined
-                ></v-select>
-            </v-col>
+                        </v-col>
 
 
-            <v-col cols="12" class="pa-0 ">
-                <v-select class="mr-2" :items="school_year" item-text="schoolyear" item-value="id" label="School Year"
-                    v-model="getcourseInfo.school_year_id" outlined></v-select>
-            </v-col>
+                        <v-col cols="12" class="pa-0 ">
+                            <v-select :rules="rules" :items="school_year" item-text="schoolyear" item-value="id" label="School Year"
+                                v-model="getcourseInfo.school_year_id" outlined></v-select>
+                        </v-col>
 
 
 
-            <v-col cols="12" class="pa-0 ">
-                <v-select class="mr-2" :items="semester" item-text="semester" item-value="id" label="Semester"
-                    v-model="getcourseInfo.semester_id" outlined></v-select>
-            </v-col>
+                        <v-col cols="12" class="pa-0 ">
+                            <v-select  :rules="rules" :items="semester" item-text="semester" item-value="id" label="Semester"
+                                v-model="getcourseInfo.semester_id" outlined></v-select>
+                        </v-col>
 
 
-            <v-col cols="12" class="pa-0 " v-if="getcourseInfo.course_guide == null">
-                <v-file-input show-size outlined label="Course Guide" @change="onFileChange" ref="inputFile"
-                    prepend-inner-icon="mdi-file" prepend-icon="">
+                        <v-col cols="12" class="pa-0 " v-if="getcourseInfo.course_guide == null">
+                            <v-file-input show-size outlined label="Course Guide" @change="onFileChange" ref="inputFile"
+                                prepend-inner-icon="mdi-file" prepend-icon="">
 
-                </v-file-input>
-            </v-col>
+                            </v-file-input>
+                        </v-col>
 
-            <v-col cols="12 py-0 my-0">
+                        <v-col cols="12 py-0 my-0">
 
-                <v-progress-linear rounded :value="uploadPercentage" v-if="uploadPercentage !=0 " height="14px">
-                    <span style="color:#fff">{{uploadPercentage+ '%'}} </span>
-                </v-progress-linear>
-            </v-col>
-
-
-
-   <small class="text-caption"  v-if="getcourseInfo.course_guide != null ">Course Guide</small>
-            <v-row align="center" justify="center" class="mb-5"
-                style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;"
-                v-if="getcourseInfo.course_guide != null ">
-                 
-
-                <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
-
-                <v-col class="grow text-left py-0 pr-0 col-1" style="max-width: 2.333333% !important;">
-                    <v-icon>mdi-file</v-icon>
-                </v-col>
-
-
-                <v-col >
-                    <div class="text-decoration-underline':''"> {{ getFileName(getcourseInfo.course_guide) }}</div>
-                </v-col>
-                <v-col class="shrink d-flex py-0 shrink d-flex">
-                    <div class="black--text mt-1 mr-2"></div>
-
-                    <div class="py-0">
-
-                        <v-btn rounded small icon text @click="removeFile()">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-
-
-                    </div>
-
-                </v-col>
-
-            </v-row>
-            <!-- <div style="margin-top: 10px;position: relative;z-index: 90999;">
-            <v-tooltip right="">
-                <template v-slot:activator="{ on, attrs }">
-                    <span v-bind="attrs" v-on="on">
-                        <v-icon color="info">mdi-information-outline</v-icon>
-                        Supported files
-                    </span>
-                </template>
-                <span>
-                    Supported files:
-                    <ul>
-                        <li>.pdf</li>
-                        <li>.doc .docx</li>
-                        <li>.pptx .ppt</li>
-                        <li>File must be less than 10 mb</li>
-                    </ul>
-                </span>
-            </v-tooltip>
-        </div> -->
+                            <v-progress-linear rounded :value="uploadPercentage" v-if="uploadPercentage !=0 " height="14px">
+                                <span style="color:#fff">{{uploadPercentage+ '%'}} </span>
+                            </v-progress-linear>
+                        </v-col>
 
 
 
-            <v-col cols="12" class="pa-0 mx-0">
-                <v-card>
-                    <v-card-title class="pl-3 py-3" style="font-size: 1rem;color:grey">Course Description
-                    </v-card-title>
-                    <v-divider></v-divider>
+                        <small class="text-caption"  v-if="getcourseInfo.course_guide != null ">Course Guide</small>
+                        <v-row align="center" justify="center" class="mb-5"
+                            style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;"
+                            v-if="getcourseInfo.course_guide != null ">
+                            
 
-                    <editor v-model="getcourseInfo.course_description" theme="snow"></editor>
-                </v-card>
-            </v-col>
+                            <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
+
+                            <v-col class="grow text-left py-0 pr-0 col-1" style="max-width: 2.333333% !important;">
+                                <v-icon>mdi-file</v-icon>
+                            </v-col>
 
 
-            <div class="text-right pt-6">
-                <v-btn tile color="primary" large @click="updateCourseDetails" :disabled="isUpdating"
-                    :loading="isUpdating">
-                    <v-icon left>
-                        mdi-pencil
-                    </v-icon>
-                    Save Changes
-                </v-btn>
-            </div>
-        </v-card>
+                            <v-col >
+                                <div class="text-decoration-underline':''"> {{ getFileName(getcourseInfo.course_guide) }}</div>
+                            </v-col>
+                            <v-col class="shrink d-flex py-0 shrink d-flex">
+                                <div class="black--text mt-1 mr-2"></div>
+                                <div class="py-0">
+                                    <v-btn rounded small icon text @click="removeFile()">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+                                </div>
+                            </v-col>
+                        </v-row>
+                        <!-- <div style="margin-top: 10px;position: relative;z-index: 90999;">
+                        <v-tooltip right="">
+                            <template v-slot:activator="{ on, attrs }">
+                                <span v-bind="attrs" v-on="on">
+                                    <v-icon color="info">mdi-information-outline</v-icon>
+                                    Supported files
+                                </span>
+                            </template>
+                            <span>
+                                Supported files:
+                                <ul>
+                                    <li>.pdf</li>
+                                    <li>.doc .docx</li>
+                                    <li>.pptx .ppt</li>
+                                    <li>File must be less than 10 mb</li>
+                                </ul>
+                            </span>
+                        </v-tooltip>
+                    </div> -->
+
+
+
+                        <v-col cols="12" class="pa-0 mx-0">
+                            <div  style="font-size: 1rem;color:grey">Course Description:</div>
+                            <editor class="course_desciption" v-model="getcourseInfo.course_description" theme="bubble"></editor>
+                        </v-col>
+
+
+                        <div class="text-right pt-6">
+                            <v-btn tile color="primary" large @click="validate()" :disabled="!valid"
+                                :loading="isUpdating">
+                                <v-icon left>
+                                    mdi-pencil
+                                </v-icon>
+                                Save Changes
+                            </v-btn>
+                        </div>
+                    </v-card>
+                </v-form>
+             </v-col>
+        </v-row>
 
 
     </div>
@@ -181,12 +165,21 @@
                 uploadPercentage: 0,
                 isDeleting: false,
                 file: null,
+                valid: true,
+                rules: [
+                    v => !!v || 'Field is required',
+                ],
 
             }
         },
         computed: mapGetters(["getcourseInfo"]),
         methods: {
             ...mapActions(['fetchScourse']),
+            validate () {
+                if(this.$refs.form.validate()){
+                    this.updateCourseDetails()
+                }
+            },
             getFileName(file) {
                 var name = file.split('/');
                 return name[name.length - 1];
@@ -335,6 +328,10 @@
         padding: 6px 12px;
         cursor: pointer;
         border-radius: 5px;
+    }
+    .course_desciption .ql-editor{
+        min-height:100px;
+        max-height:450px;
     }
 
 </style>
