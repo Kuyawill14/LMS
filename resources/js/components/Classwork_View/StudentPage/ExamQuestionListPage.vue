@@ -1,33 +1,27 @@
-
 <template>
 
-<v-app >
+    <v-app>
 
-    <v-container fluid>
+        <v-container fluid>
 
-   
-<v-dialog v-model="dialog" persistent max-width="550">
-    <confirmDialog
-    :unAnsweredQuestion="unAnsweredQuestion"
-    v-on:toggleCancelDialog="dialog = !dialog"
-    v-on:toggleSubmit="StopTimer = true"
-     v-if="dialog"></confirmDialog>
-</v-dialog>
 
-<v-dialog v-model="warningDialog" persistent max-width="500">
-    <dialogWarning
-    v-on:toggleCloaseDialog="warningDialog = !warningDialog,ReloadTime()"
-    
-     v-if="warningDialog"></dialogWarning>
-</v-dialog>
+            <v-dialog v-model="dialog" persistent max-width="550">
+                <confirmDialog :unAnsweredQuestion="unAnsweredQuestion" v-on:toggleCancelDialog="dialog = !dialog"
+                    v-on:toggleSubmit="StopTimer = true" v-if="dialog"></confirmDialog>
+            </v-dialog>
 
-<v-dialog v-model="TimesUpDialog" persistent max-width="500">
-    <timesUpDialog
-    v-on:SubmitAnswer="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: $route.query.clwk}})"
-     v-if="TimesUpDialog"></timesUpDialog>
-</v-dialog>
+            <v-dialog v-model="warningDialog" persistent max-width="500">
+                <dialogWarning v-on:toggleCloaseDialog="warningDialog = !warningDialog,ReloadTime()"
+                    v-if="warningDialog"></dialogWarning>
+            </v-dialog>
 
-<!-- <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
+            <v-dialog v-model="TimesUpDialog" persistent max-width="500">
+                <timesUpDialog
+                    v-on:SubmitAnswer="$router.push({name: 'clwk',params: {id: $route.params.id},query: {clwk: $route.query.clwk}})"
+                    v-if="TimesUpDialog"></timesUpDialog>
+            </v-dialog>
+
+            <!-- <v-container class="fill-height" v-if="isLoading" style="height: 600px;">
     <v-row  align-content="center" justify="center">
         <v-col class="text-subtitle-1 text-center" cols="12">
             {{isSubmitting? 'Submitting Questions':'Loading Questions'}}
@@ -37,298 +31,343 @@
         </v-col>
     </v-row>
 </v-container> -->
-    
-    <vue-element-loading :active="isLoading" 
-    text="Loading Questions"
-    duration="0.7"
-    :textStyle="{fontSize: '18px'}"
-    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
 
-    <!--  <vue-element-loading :active="isSubmitting" 
+            <vue-element-loading :active="isLoading" text="Loading Questions" duration="0.7"
+                :textStyle="{fontSize: '18px'}" spinner="line-scale" color="#EF6C00" size="50" is-full-screen />
+
+            <!--  <vue-element-loading :active="isSubmitting" 
     text="Submitting..."
     duration="0.7"
     :textStyle="{fontSize: '18px'}"
     spinner="line-scale" color="#EF6C00"  size="50" is-full-screen /> -->
 
-    <vue-element-loading :active="isLeavingPage" 
-    duration="0.7"
-    spinner="line-scale" color="#EF6C00"  size="50" is-full-screen />
-    
-   
+            <vue-element-loading :active="isLeavingPage" duration="0.7" spinner="line-scale" color="#EF6C00" size="50"
+                is-full-screen />
 
 
-<v-container class="ma-0 pa-0"  fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''" v-if="!isLoading || !isSubmitting" >
-      <v-row justify="center" >
-          <v-col cols="12" >
-               <v-card class="pr-4 pt-3" elevation="2" outlined >
-               <v-row v-if="!isLoading">
-                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="8"  >
-                    <v-list>
-                        <v-list-item>
-                        <v-list-item-avatar>
-                             <v-avatar color="blue">
-                                <v-icon dark >
-                                mdi-book-open-variant
-                                </v-icon>
-                            </v-avatar>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title class="font-weight-bold">{{classworkDetails.title}}</v-list-item-title>
-                            <v-list-item-subtitle>Total Points: {{classworkDetails.points}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                </v-col>
-                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="4" :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-end' : ''">
-                    <div >
-                       
-                        <div class="d-flex justify-space-between ">
-                            
-                             <div class="text-center mt-5">
-                                <v-menu offset-y max-height="600" style="overflow-y:scroll;">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-btn icon
-                                    color="primary"
-                                     v-bind="attrs"
-                                    v-on="on"><v-icon> {{ !$vuetify.breakpoint.mdAndUp  ? 'mdi-format-list-numbered' : 'mdi-chevron-down'}}</v-icon> </v-btn>
-                                </template>
-                                <v-list  >
-                                    <v-list-item class="ma-0 pa-0" v-for="(item, index) in getAll_questions.Question" :key="index">
-                                    <v-list-item-title>  
-                                        <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
-                                        text rounded @click="updateAnswer(), questionIndex = index">
-                                        <v-icon :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'" left>{{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
-                                        {{index+1}}
-                                       </v-btn>
-                                       <v-btn @click="updateAnswer(), questionIndex = index" text rounded v-if="item.type == 'Matching type'">
-                                            <v-icon :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'" left>
-                                                {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
-                                            {{index+1}}
-                                       </v-btn>
-                                       </v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
-                                </v-menu>
-                            </div>
-                              <div v-if="isReloadTime" style="margin-right:3rem">
-                                 <vue-element-loading :active="isReloadTime" 
-                                    duration="0.7"
-                                    spinner="line-scale" color="#EF6C00"  size="25"  />
-                            </div>
-                            <div v-else>
-                                 <h4 @click="Answersheet = true" class="ml-1" >Time Remaining</h4>
-                                 <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </v-col>
-            </v-row>
-            </v-card>
-          </v-col>
-          <v-col v-if="!$vuetify.breakpoint.mdAndUp" cols="12">
-              <div transition="slide-y-reverse-transition">
-                <v-app-bar 
-                flat
-                v-if="!$vuetify.breakpoint.mdAndUp"
-                    app  color="primary"  >
-                        <v-menu offset-y max-height="600" style="overflow-y:scroll;">
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon
-                                dark
-                                v-bind="attrs"
-                                v-on="on">
-                            <v-icon>mdi-format-list-numbered</v-icon> </v-btn>
-                        </template>
-                        <v-list  >
-                            <v-list-item class="ma-0 pa-0" v-for="(item, index) in getAll_questions.Question" :key="index">
-                            <v-list-item-title>  
-                                <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
-                                text rounded @click="updateAnswer(), questionIndex = index">
-                                <v-icon :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'" left>{{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
-                                {{index+1}}
-                                </v-btn>
-                                <v-btn @click="updateAnswer(), questionIndex = index" text rounded v-if="item.type == 'Matching type'">
-                                    <v-icon :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'" left>
-                                        {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}</v-icon>
-                                    {{index+1}}
-                                </v-btn>
-                                </v-list-item-title>
-                            </v-list-item>
-                        </v-list>
-                        </v-menu>
-                  
-                    <v-divider vertical></v-divider>
-                    <div class="pl-2 mt-1 white--text">{{getAll_questions.Question[questionIndex].points}} points</div>
-                   
-                    <v-spacer></v-spacer>
-                    <div v-if="isReloadTime" style="margin-right:1.2rem">
-                            <vue-element-loading :active="isReloadTime" 
-                        duration="0.7"
-                        spinner="line-scale"  color="white" size="25"  />
-                    </div>
-                     <div v-else class="white--text mt-5 ml-0 font-weight-bold">
-                           <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"  :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer" v-on:TimesUp="TimesUpSubmit" :duration="duration" v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
-                     </div>
-                  
-                </v-app-bar>
-            </div>
-          </v-col>
-      </v-row>
- <!--      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn> -->
-</v-container>
 
-  <div v-if="!isLoading" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-10' : 'mt-5'">
-        <v-row  justify="center">
-            <v-col  cols="12" sm="12" md="10" lg="8" xl="7">
-                <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-0'" :elevation="$vuetify.breakpoint.mdAndUp ? 2 : 0" :outlined="$vuetify.breakpoint.mdAndUp " >
-               
-                        <v-row>
-                            <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="12" lg="12"  :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'" >
-                                
-                            
-                                <div class="d-flex pt-2 pb-2">
-                                  
-                                    <div  class="mt-2">
-                                         <h3 v-if="$vuetify.breakpoint.mdAndUp" >Question #{{questionIndex+1}}</h3>
-                                         <h4 v-else >Question #{{questionIndex+1}}</h4>
+
+            <v-container class="ma-0 pa-0" fluid :class="!$vuetify.breakpoint.mdAndUp ? '' : ''"
+                v-if="!isLoading || !isSubmitting">
+                <v-row justify="center">
+                    <v-col cols="12">
+                        <v-card class="pr-4 pt-3" elevation="2" outlined>
+                            <v-row v-if="!isLoading">
+                                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="8">
+                                    <v-list>
+                                        <v-list-item>
+                                            <v-list-item-avatar>
+                                                <v-avatar color="blue">
+                                                    <v-icon dark>
+                                                        mdi-book-open-variant
+                                                    </v-icon>
+                                                </v-avatar>
+                                            </v-list-item-avatar>
+                                            <v-list-item-content>
+                                                <v-list-item-title class="font-weight-bold">{{classworkDetails.title}}
+                                                </v-list-item-title>
+                                                <v-list-item-subtitle>Total Points: {{classworkDetails.points}}
+                                                </v-list-item-subtitle>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-col>
+                                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="4"
+                                    :class="$vuetify.breakpoint.mdAndUp ? 'd-flex justify-end' : ''">
+                                    <div>
+
+                                        <div class="d-flex justify-space-between ">
+
+                                            <div class="text-center mt-5">
+                                                <v-menu offset-y max-height="600" style="overflow-y:scroll;">
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn icon color="primary" v-bind="attrs" v-on="on">
+                                                            <v-icon>
+                                                                {{ !$vuetify.breakpoint.mdAndUp  ? 'mdi-format-list-numbered' : 'mdi-chevron-down'}}
+                                                            </v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <v-list>
+                                                        <v-list-item class="ma-0 pa-0"
+                                                            v-for="(item, index) in getAll_questions.Question"
+                                                            :key="index">
+                                                            <v-list-item-title>
+                                                                <v-btn
+                                                                    v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'"
+                                                                    text rounded
+                                                                    @click="updateAnswer(), questionIndex = index">
+                                                                    <v-icon
+                                                                        :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'"
+                                                                        left>
+                                                                        {{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}
+                                                                    </v-icon>
+                                                                    {{index+1}}
+                                                                </v-btn>
+                                                                <v-btn @click="updateAnswer(), questionIndex = index"
+                                                                    text rounded v-if="item.type == 'Matching type'">
+                                                                    <v-icon
+                                                                        :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'"
+                                                                        left>
+                                                                        {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}
+                                                                    </v-icon>
+                                                                    {{index+1}}
+                                                                </v-btn>
+                                                            </v-list-item-title>
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </v-menu>
+                                            </div>
+                                            <div v-if="isReloadTime" style="margin-right:3rem">
+                                                <vue-element-loading :active="isReloadTime" duration="0.7"
+                                                    spinner="line-scale" color="#EF6C00" size="25" />
+                                            </div>
+                                            <div v-else>
+                                                <h4 @click="Answersheet = true" class="ml-1">Time Remaining</h4>
+                                                <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"
+                                                    :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer"
+                                                    v-on:TimesUp="TimesUpSubmit" :duration="duration"
+                                                    v-if="!isLoading && questionIsLoaded && duration != null">
+                                                </quizTimer>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                    <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
-                                    <div :class="$vuetify.breakpoint.mdAndUp  ? 'mb-3 mt-0 pt-0' : 'd-flex mb-3 mt-0 pt-0'">
-                                        <v-btn :class="!$vuetify.breakpoint.mdAndUp ? 'pl-5' : ''" rounded color="primary" outlined="" @click="prev" 
-                                        :disabled="questionIndex <= 0">
-                                            <v-icon left>mdi-arrow-left</v-icon>
-                                            Previous
-                                            </v-btn>
-                                        
-                                            <v-spacer v-if="!$vuetify.breakpoint.mdAndUp"></v-spacer>
-                                            <v-btn v-if="questionIndex != Qlength-1" 
-                                            :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
-                                            :loading="isSavingAnswer"
-                                            rounded color="primary" @click="next(questionIndex)">
-                                            Next
-                                            <v-icon right>mdi-arrow-right</v-icon>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+                    </v-col>
+                    <v-col v-if="!$vuetify.breakpoint.mdAndUp" cols="12">
+                        <div transition="slide-y-reverse-transition">
+                            <v-app-bar flat v-if="!$vuetify.breakpoint.mdAndUp" app color="primary">
+                                <v-menu offset-y max-height="600" style="overflow-y:scroll;">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn icon dark v-bind="attrs" v-on="on">
+                                            <v-icon>mdi-format-list-numbered</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <v-list>
+                                        <v-list-item class="ma-0 pa-0"
+                                            v-for="(item, index) in getAll_questions.Question" :key="index">
+                                            <v-list-item-title>
+                                                <v-btn
+                                                    v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'"
+                                                    text rounded @click="updateAnswer(), questionIndex = index">
+                                                    <v-icon
+                                                        :color="FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == ''  ? '' : 'primary'"
+                                                        left>
+                                                        {{FinalAnswers[index].Answer == null || FinalAnswers[index].Answer == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}
+                                                    </v-icon>
+                                                    {{index+1}}
+                                                </v-btn>
+                                                <v-btn @click="updateAnswer(), questionIndex = index" text rounded
+                                                    v-if="item.type == 'Matching type'">
+                                                    <v-icon
+                                                        :color="FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == ''  ? '' : 'primary'"
+                                                        left>
+                                                        {{FinalAnswers[index].Answer[0].Ans_letter == null || FinalAnswers[index].Answer[0].Ans_letter == '' ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}
+                                                    </v-icon>
+                                                    {{index+1}}
+                                                </v-btn>
+                                            </v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+
+                                <v-divider vertical></v-divider>
+                                <div class="pl-2 mt-1 white--text">{{getAll_questions.Question[questionIndex].points}}
+                                    points</div>
+
+                                <v-spacer></v-spacer>
+                                <div v-if="isReloadTime" style="margin-right:1.2rem">
+                                    <vue-element-loading :active="isReloadTime" duration="0.7" spinner="line-scale"
+                                        color="white" size="25" />
+                                </div>
+                                <div v-else class="white--text mt-5 ml-0 font-weight-bold">
+                                    <quizTimer :bus="bus" :CurrentTime="CurrentTime" :StartTime="StartTime"
+                                        :StopTimer="StopTimer" v-on:TimerStop="SubmitAnswer"
+                                        v-on:TimesUp="TimesUpSubmit" :duration="duration"
+                                        v-if="!isLoading && questionIsLoaded && duration != null"></quizTimer>
+                                </div>
+
+                            </v-app-bar>
+                        </div>
+                    </v-col>
+                </v-row>
+                <!--      <btn @click="TimesUpDialog =!TimesUpDialog" class="primary">Click ME</btn> -->
+            </v-container>
+
+            <div v-if="!isLoading" :class="!$vuetify.breakpoint.mdAndUp ? 'mt-10' : 'mt-5'">
+                <v-row justify="center">
+                    <v-col cols="12" sm="12" md="10" lg="8" xl="7">
+                        <v-card :class="$vuetify.breakpoint.mdAndUp ? 'pa-5' : 'pa-0'"
+                            :elevation="$vuetify.breakpoint.mdAndUp ? 2 : 0" :outlined="$vuetify.breakpoint.mdAndUp ">
+
+                            <v-row>
+                                <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="12" lg="12"
+                                    :class="$vuetify.breakpoint.mdAndUp ? 'text-right' : 'text-center'">
+
+
+                                    <div class="d-flex pt-2 pb-2">
+
+                                        <div class="mt-2">
+                                            <h3 v-if="$vuetify.breakpoint.mdAndUp">Question #{{questionIndex+1}}</h3>
+                                            <h4 v-else>Question #{{questionIndex+1}}</h4>
+                                        </div>
+                                        <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
+                                        <div
+                                            :class="$vuetify.breakpoint.mdAndUp  ? 'mb-3 mt-0 pt-0' : 'd-flex mb-3 mt-0 pt-0'">
+                                            <v-btn :class="!$vuetify.breakpoint.mdAndUp ? 'pl-5' : ''" rounded
+                                                color="primary" outlined="" @click="prev"
+                                                :disabled="questionIndex <= 0">
+                                                <v-icon left>mdi-arrow-left</v-icon>
+                                                Previous
                                             </v-btn>
 
-                                            <v-btn 
-                                            :loading="isSavingAnswer"
-                                            :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
-                                            v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
-                                            Submit
-                                            <v-icon right>mdi-lock</v-icon>
+                                            <v-spacer v-if="!$vuetify.breakpoint.mdAndUp"></v-spacer>
+                                            <v-btn v-if="questionIndex != Qlength-1"
+                                                :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
+                                                :loading="isSavingAnswer" rounded color="primary"
+                                                @click="next(questionIndex)">
+                                                Next
+                                                <v-icon right>mdi-arrow-right</v-icon>
+                                            </v-btn>
+
+                                            <v-btn :loading="isSavingAnswer"
+                                                :class="!$vuetify.breakpoint.mdAndUp ? 'pr-5' : ''"
+                                                v-if="questionIndex == Qlength-1" rounded color="success"
+                                                @click="SubmitPromp">
+                                                Submit
+                                                <v-icon right>mdi-lock</v-icon>
                                             </v-btn>
                                         </div>
                                     </div>
-                                <v-divider></v-divider>
-                            </v-col>
-                            <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
-                            <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question" :key="index">
-                                <div v-show="index === questionIndex">
-                                        <v-row v-if="$vuetify.breakpoint.mdAndUp" ma-0 pa-0>
-                                            <v-col class="mb-0 pb-0" cols="12">
-                                                <v-container class="pa-0 ma-0 d-flex flex-row justify-end">
-                                                    <p class="mr-5 primary--text">({{item.points}} Points)</p>
-                                                </v-container>
-                                            </v-col>
-                                        </v-row>
-                                        
-                                     
-                                        <v-row >
-                                            <v-col class="mt-0 pt-1 pl-3 mb-0 pb-0" cols="12" md="11" lg="11">
-                                                
-                                               <!--  <v-skeleton-loader v-if="isSavingAnswer" type="heading"></v-skeleton-loader> -->
-                                          
-                                                <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'" class="font-weight-medium">
-                                                    <span v-html="item.question" class="post-content"></span>
-                                                </div>
-                                            </v-col>
-                                            <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'Multiple Choice'">
-                                                <div>
-                                                    <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'" >
-                                                        <v-list-item class="ma-0 pa-0"  v-for="(Ans,i) in getAll_questions.Answer[index]" :key="i">
-                                                            <v-list-item-icon class="ma-0 pa-0">
-                                                                <v-radio-group hide-details :name="'option'+index"  class="ma-0 pa-0 mt-1" v-model="FinalAnswers[index].Answer">
-                                                                    <v-radio
-                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                    <v-divider></v-divider>
+                                </v-col>
+                                <v-col cols="12"
+                                    :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
+                                    <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question"
+                                        :key="index">
+                                        <div v-show="index === questionIndex">
+                                            <v-row v-if="$vuetify.breakpoint.mdAndUp" ma-0 pa-0>
+                                                <v-col class="mb-0 pb-0" cols="12">
+                                                    <v-container class="pa-0 ma-0 d-flex flex-row justify-end">
+                                                        <p class="mr-5 primary--text">({{item.points}} Points)</p>
+                                                    </v-container>
+                                                </v-col>
+                                            </v-row>
+
+
+                                            <v-row>
+                                                <v-col class="mt-0 pt-1 pl-3 mb-0 pb-0" cols="12" md="11" lg="11">
+
+                                                    <!--  <v-skeleton-loader v-if="isSavingAnswer" type="heading"></v-skeleton-loader> -->
+
+                                                    <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'"
+                                                        class="font-weight-medium">
+                                                        <span v-html="item.question" class="post-content"></span>
+                                                    </div>
+                                                </v-col>
+                                                <v-col class="ma-0 pa-0" cols="12"
+                                                    v-if="item.type == 'Multiple Choice'">
+                                                    <div>
+                                                        <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'">
+                                                            <v-list-item class="ma-0 pa-0"
+                                                                v-for="(Ans,i) in getAll_questions.Answer[index]"
+                                                                :key="i">
+                                                                <v-list-item-icon class="ma-0 pa-0">
+                                                                    <v-radio-group hide-details :name="'option'+index"
+                                                                        class="ma-0 pa-0 mt-1"
+                                                                        v-model="FinalAnswers[index].Answer">
+                                                                        <v-radio
+                                                                            :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                            :name="'option'+index"
+                                                                            @click="FinalAnswers[index].answer_id = Ans.id"
+                                                                            :value="Ans.Choice">
+                                                                        </v-radio>
+                                                                    </v-radio-group>
+                                                                </v-list-item-icon>
+                                                                <v-list-item-content class="ma-0 pa-0">
+                                                                    <div style="line-height:1.4"
+                                                                        class="Subtitle-1 ma-0 pa-0 d-flex mt-1">
+                                                                        <span v-html="Ans.Choice"
+                                                                            class="post-content"></span>
+                                                                    </div>
+                                                                </v-list-item-content>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </div>
+                                                    <div class="ma-0 pa-0 text-right">
+                                                        <v-btn @click="reset(index,item.type)" text rounded small>Reset
+                                                            selection</v-btn>
+                                                    </div>
+                                                </v-col>
+
+                                                <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'Identification'">
+                                                    <div>
+                                                        <v-list class="pl-3">
+                                                            <v-list-item class="ma-0 pa-0">
+                                                                <v-list-item-content class="ma-0 pa-0">
+                                                                    <editor @focus="SetWarning()" @blur="SetWarning()"
+                                                                        @change="SelectAnswer()"
+                                                                        v-model="FinalAnswers[index].Answer"
+                                                                        id="editor-container" placeholder="Answer"
+                                                                        theme="snow" :options="options"></editor>
+                                                                </v-list-item-content>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </div>
+                                                    <div class="ma-0 pa-0 text-right">
+                                                        <v-btn @click="reset(index,item.type)" text rounded small>Clear
+                                                            Answer</v-btn>
+                                                    </div>
+                                                </v-col>
+
+                                                <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'True or False'">
+                                                    <div>
+                                                        <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'">
+                                                            <v-list-item class="ma-0 pa-0" v-for="(x, n) in inputCheck"
+                                                                :key="n">
+                                                                <v-list-item-icon class="ma-0 pa-0">
+                                                                    <v-radio-group hide-details class="ma-0 pa-0 mt-1"
                                                                         :name="'option'+index"
-                                                                    @click="FinalAnswers[index].answer_id = Ans.id"
-                                                                    :value="Ans.Choice">
-                                                                    </v-radio>
-                                                                </v-radio-group>
-                                                            </v-list-item-icon>
-                                                            <v-list-item-content class="ma-0 pa-0">
-                                                                <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex mt-1">
-                                                                    <span v-html="Ans.Choice" class="post-content"></span>
-                                                                </div>
-                                                            </v-list-item-content>  
-                                                        </v-list-item>
-                                                    </v-list>
-                                                </div>
-                                                <div class="ma-0 pa-0 text-right">
-                                                    <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
-                                                </div>
-                                            </v-col>
+                                                                        v-model="FinalAnswers[index].Answer">
+                                                                        <v-radio
+                                                                            :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                            color="primary" @click="SelectAnswer()"
+                                                                            :key="index" :value="inputCheck[n]">
+                                                                        </v-radio>
+                                                                    </v-radio-group>
+                                                                </v-list-item-icon>
+                                                                <v-list-item-content class="ma-0 pa-0">
+                                                                    <div style="line-height:1.4"
+                                                                        class="Subtitle-1 ma-0 pa-0 d-flex mt-1">
+                                                                        <span v-html="TrueOrFalse[n]" class=""></span>
+                                                                    </div>
+                                                                </v-list-item-content>
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </div>
+                                                    <div class="ma-0 pa-0 text-right">
+                                                        <v-btn @click="reset(index,item.type)" text rounded small>Reset
+                                                            selection</v-btn>
+                                                    </div>
+                                                </v-col>
+                                            </v-row>
 
-                                            <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'Identification'">
-                                                 <div>
-                                                    <v-list class="pl-3" >
-                                                        <v-list-item class="ma-0 pa-0" >
-                                                            <v-list-item-content  class="ma-0 pa-0">
-                                                                   <editor 
-                                                                    @focus="SetWarning()"
-                                                                    @blur="SetWarning()"
-                                                                    @change="SelectAnswer()"
-                                                                    v-model="FinalAnswers[index].Answer" 
-                                                                    id="editor-container" placeholder="Answer" 
-                                                                    theme="snow" :options="options"></editor>
-                                                            </v-list-item-content>  
-                                                        </v-list-item>
-                                                    </v-list>
-                                                </div>
-                                                  <div class="ma-0 pa-0 text-right">
-                                                    <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
-                                                </div>
-                                            </v-col>
-
-                                            <v-col class="ma-0 pa-0" cols="12" v-if="item.type == 'True or False'">
-                                                 <div>
-                                                    <v-list :class="$vuetify.breakpoint.mdAndUp ? 'pl-8' : 'pl-5'" >
-                                                        <v-list-item class="ma-0 pa-0"  v-for="(x, n) in inputCheck" :key="n">
-                                                            <v-list-item-icon class="ma-0 pa-0">
-                                                                <v-radio-group hide-details class="ma-0 pa-0 mt-1" :name="'option'+index" v-model="FinalAnswers[index].Answer">
-                                                                    <v-radio
-                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                                    color="primary"
-                                                                    @click="SelectAnswer()"
-                                                                    :key="index"
-                                                                    :value="inputCheck[n]"
-                                                                    ></v-radio>
-                                                                </v-radio-group>
-                                                            </v-list-item-icon>
-                                                            <v-list-item-content  class="ma-0 pa-0">
-                                                                <div  style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex mt-1">
-                                                                    <span v-html="TrueOrFalse[n]" class=""></span>
-                                                                </div>
-                                                            </v-list-item-content>  
-                                                        </v-list-item>
-                                                    </v-list>
-                                                </div>
-                                                <div class="ma-0 pa-0 text-right">
-                                                    <v-btn @click="reset(index,item.type)" text rounded small>Reset selection</v-btn>
-                                                </div>
-                                            </v-col>
-                                        </v-row>
-                                      
-                                        <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'mb-4' : 'mb-4 pa-0'" v-if="item.type == 'Matching type'">
-                                            <v-row >
-                                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12" >
-                                                        <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'pl-5 pr-5' : 'ma-0 pa-0'">
+                                            <v-container :class="$vuetify.breakpoint.mdAndUp  ? 'mb-4' : 'mb-4 pa-0'"
+                                                v-if="item.type == 'Matching type'">
+                                                <v-row>
+                                                    <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12" lg="12" md="12">
+                                                        <v-container
+                                                            :class="$vuetify.breakpoint.mdAndUp  ? 'pl-5 pr-5' : 'ma-0 pa-0'">
                                                             <v-container class="mb-0 pb-0">
                                                                 <v-row>
-                                                                    <v-col class="font-weight-bold" cols="2" md="1" lg="1">
-                                                                        
+                                                                    <v-col class="font-weight-bold" cols="2" md="1"
+                                                                        lg="1">
+
                                                                     </v-col>
-                                                                    <v-col class="font-weight-bold" cols="5" md="6" lg="6">
+                                                                    <v-col class="font-weight-bold" cols="5" md="6"
+                                                                        lg="6">
                                                                         Column A
                                                                     </v-col>
                                                                     <v-col class="font-weight-bold" cols="5">
@@ -337,27 +376,39 @@
                                                                 </v-row>
                                                             </v-container>
                                                             <v-divider></v-divider>
-                                                            
-                                                            <v-container class="mb-0 pb-0" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id">
+
+                                                            <v-container class="mb-0 pb-0"
+                                                                v-for="(List, i) in getAll_questions.Answer[index].SubQuestion"
+                                                                :key="List.id">
                                                                 <v-row>
-                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1" lg="1">
-                                                                        <v-text-field 
-                                                                        hide-details
-                                                                        v-model="FinalAnswers[index].Answer[i].Ans_letter"
-                                                                        @change="SelectMatch(item.id, index, i)"
-                                                                        class="centered-input">
+                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="2" md="1"
+                                                                        lg="1">
+                                                                        <v-text-field hide-details
+                                                                            v-model="FinalAnswers[index].Answer[i].Ans_letter"
+                                                                            @change="SelectMatch(item.id, index, i)"
+                                                                            class="centered-input">
                                                                         </v-text-field>
                                                                     </v-col>
-                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6" lg="6">
+                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="6"
+                                                                        lg="6">
                                                                         <div class="d-flex mt-7">
-                                                                            <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
-                                                                            <span :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="List.sub_question" class="subquestion-content"></span>
+                                                                            <span
+                                                                                class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                            <span
+                                                                                :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'"
+                                                                                v-html="List.sub_question"
+                                                                                class="subquestion-content"></span>
                                                                         </div>
                                                                     </v-col>
-                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0"  cols="5" md="5" lg="5">
-                                                                        <div class="d-flex mt-7"> 
-                                                                            <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
-                                                                            <span :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'" v-html="getAll_questions.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
+                                                                    <v-col class="mb-1 pb-0 pt-0 mt-0" cols="5" md="5"
+                                                                        lg="5">
+                                                                        <div class="d-flex mt-7">
+                                                                            <span
+                                                                                class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                            <span
+                                                                                :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none':'line-height:1.5;user-select: none'"
+                                                                                v-html="getAll_questions.Answer[index].SubAnswer[i].Choice"
+                                                                                class="subchoices-content"></span>
                                                                         </div>
                                                                     </v-col>
                                                                 </v-row>
@@ -365,634 +416,731 @@
                                                         </v-container>
                                                     </v-col>
                                                 </v-row>
-                                        </v-container>
+                                            </v-container>
 
-                                        <v-container v-if="item.type == 'Essay'">
-                                            <v-row ma-0 pa-0>
-                                                <v-col  ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
-                                                 <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
-                                                        <editor
-                                                            style="height:220px" 
-                                                            @focus="SetWarning()"
-                                                             @blur="SetWarning()"
-                                                            @change="SelectAnswer()"
-                                                            v-model="FinalAnswers[index].Answer" 
-                                                            id="editor-container" placeholder="Essay" 
-                                                            theme="snow" :options="Essayoptions"></editor>
-                                                      <!--   </v-card> -->
-                                                 <!--    <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 pr-0 d-flex flex-row-reverse mt-10">
+                                            <v-container v-if="item.type == 'Essay'">
+                                                <v-row ma-0 pa-0>
+                                                    <v-col ma-0 pa-0 class="ma-0 pa-0 mt-5" cols="12">
+                                                        <!--    <v-card style="width:100%;min-height:200px" class="mb-3"> -->
+                                                        <editor style="height:220px" @focus="SetWarning()"
+                                                            @blur="SetWarning()" @change="SelectAnswer()"
+                                                            v-model="FinalAnswers[index].Answer" id="editor-container"
+                                                            placeholder="Essay" theme="snow" :options="Essayoptions">
+                                                        </editor>
+                                                        <!--   </v-card> -->
+                                                        <!--    <v-container class="mb-0 pb-0 pl-0 ml-0 mr-0 pr-0 d-flex flex-row-reverse mt-10">
                                                         <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
                                                     </v-container> -->
-                                                      <div class="ma-0 pa-0 text-right">
-                                                            <v-btn @click="reset(index,item.type)" text rounded small>Clear Answer</v-btn>
+                                                        <div class="ma-0 pa-0 text-right">
+                                                            <v-btn @click="reset(index,item.type)" text rounded small>
+                                                                Clear Answer</v-btn>
                                                         </div>
-                                                </v-col>
-                                            </v-row>
-                                        </v-container>
-                                    </div>
-                                </v-container>
-                            </v-col>
-                        </v-row>
-                  
-                </v-card>
-            </v-col>
-        </v-row>
-    </div>
-    
-    <div>
-       
-    <v-app-bar color="white" outlined elevation="0" 
-     v-if="!$vuetify.breakpoint.mdAndUp"
-        app :dense="$vuetify.breakpoint.mdAndUp" bottom flat  >
-        
-       <v-btn icon   @click="prev" 
-             :disabled="questionIndex <= 0">
-            <v-icon >mdi-arrow-left</v-icon>
-            </v-btn>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </div>
+                                    </v-container>
+                                </v-col>
+                            </v-row>
 
-            <v-spacer></v-spacer>
-            <div class="d-flex justify-center" >
-                <small>{{questionIndex+1 }} of {{getAll_questions.Question.length}}</small>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </div>
-            
-            <v-spacer></v-spacer>
 
-            <v-btn icon v-if="questionIndex != Qlength-1" 
-           
-            :loading="isSavingAnswer"
-             color="primary" @click="next(questionIndex)">
-            <v-icon >mdi-arrow-right</v-icon>
-            </v-btn>
+            <div>
 
-            <v-btn 
-            text
-            :loading="isSavingAnswer"
-           
-                v-if="questionIndex == Qlength-1"  rounded color="success" @click="SubmitPromp">
-            Submit
-           
-            </v-btn>
- 
-    </v-app-bar>
-</div>
+                <v-app-bar color="white" outlined elevation="0" v-if="!$vuetify.breakpoint.mdAndUp" app
+                    :dense="$vuetify.breakpoint.mdAndUp" bottom flat>
 
-</v-container>
-</v-app>
+                    <v-btn icon @click="prev" :disabled="questionIndex <= 0">
+                        <v-icon>mdi-arrow-left</v-icon>
+                    </v-btn>
+
+                    <v-spacer></v-spacer>
+                    <div class="d-flex justify-center">
+                        <small>{{questionIndex+1 }} of {{getAll_questions.Question.length}}</small>
+                    </div>
+
+                    <v-spacer></v-spacer>
+
+                    <v-btn icon v-if="questionIndex != Qlength-1" :loading="isSavingAnswer" color="primary"
+                        @click="next(questionIndex)">
+                        <v-icon>mdi-arrow-right</v-icon>
+                    </v-btn>
+
+                    <v-btn text :loading="isSavingAnswer" v-if="questionIndex == Qlength-1" rounded color="success"
+                        @click="SubmitPromp">
+                        Submit
+
+                    </v-btn>
+
+                </v-app-bar>
+            </div>
+
+        </v-container>
+    </v-app>
 
 </template>
 <script>
-import confirmDialog from './confirmDialog';
-import dialogWarning from './warningDialog';
-import timesUpDialog from './TimesUpDialog';
-import quizTimer from './QuizTimer';
+    import confirmDialog from './confirmDialog';
+    import dialogWarning from './warningDialog';
+    import timesUpDialog from './TimesUpDialog';
+    import quizTimer from './QuizTimer';
 
-import moment from 'moment-timezone';
- import {mapGetters, mapActions } from "vuex";
-export default {
-    components:{
-        quizTimer,
-        confirmDialog,
-        dialogWarning,
-        timesUpDialog
-    },
-    data(){
-        return{
-            Answersheet: false,
-            StopTimer: false,
-            dialog:false,
-            warningDialog: false,
-            inputCheck:['True','False'],
-            TrueOrFalse:['<p>True</p>','<p>False</p>'],
-            isSubmitting:false,
-            Qlength:'',
-            isStart: false,
-            isLoading: true,
-            PickAnswers: {},
-            PickAnswers_id: {},
-            FinalAnswers: [],
-            Questype: "",
-            questionIndex: 0,
-            questionIsLoaded: false,
-            duration: null,
-            Alphabet: "",
-            options:{
-            modules: {
-                    'toolbar': [
-                        ['bold', 'italic', 'underline', 'strike'],
-                
-                        [{ 'list': 'bullet' }],
-                        ['image'],
-                    ],
-                }
-            },
-            Essayoptions:{
-            modules: {
-                    'toolbar': [
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'list': 'bullet' }],
-                    ],
-                }
-            },
-            TimerCount:[],
-            tempCounter:0,
-            timeCount:null,
-            classworkDetails:[],
-            leaveStrike: 0,
-            preventWarning: false,
-            isExamStart: false,
-            StartTime: null,
-            Submitted_Answers: null,
-            submission_id: null,
-            isSavingAnswer: false,
-            bus: "testing",
-            TimesUpDialog: false,
-            windowHeight: window.innerHeight - 100,
-            isLeavingPage: false,
-            CurrentTime: null,
-            testDate: null,
-            isReloadTime: false,
-            unAnsweredQuestion: 0,
-
-        }
-    },
-    computed: 
-    mapGetters(["getAll_questions", "get_classwork_show_details"]),
-    methods:{
-        ...mapActions(['fetchClassworkShowDetails','setAsOffline']),
-        CountTime(){
-            this.timeCount = setInterval(()=>{
-                this.tempCounter = this.tempCounter +1
-            },1000)
+    import moment from 'moment-timezone';
+    import {
+        mapGetters,
+        mapActions
+    } from "vuex";
+    export default {
+        components: {
+            quizTimer,
+            confirmDialog,
+            dialogWarning,
+            timesUpDialog
         },
-        SubmitPromp(){
-            this.unAnsweredQuestion = 0;
-            this.FinalAnswers.forEach(item => {
-                if(item.type != "Matching type"){
-                    if(item.Answer == null || item.Answer == ''){
-                        this.unAnsweredQuestion++;
+        data() {
+            return {
+                Answersheet: false,
+                StopTimer: false,
+                dialog: false,
+                warningDialog: false,
+                inputCheck: ['True', 'False'],
+                TrueOrFalse: ['<p>True</p>', '<p>False</p>'],
+                isSubmitting: false,
+                Qlength: '',
+                isStart: false,
+                isLoading: true,
+                PickAnswers: {},
+                PickAnswers_id: {},
+                FinalAnswers: [],
+                Questype: "",
+                questionIndex: 0,
+                questionIsLoaded: false,
+                duration: null,
+                Alphabet: "",
+                options: {
+                    modules: {
+                        'toolbar': [
+                            ['bold', 'italic', 'underline', 'strike'],
+
+                            [{
+                                'list': 'bullet'
+                            }],
+                            ['image'],
+                        ],
                     }
-                }
-                else{
+                },
+                Essayoptions: {
+                    modules: {
+                        'toolbar': [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{
+                                'list': 'bullet'
+                            }],
+                        ],
+                    }
+                },
+                TimerCount: [],
+                tempCounter: 0,
+                timeCount: null,
+                classworkDetails: [],
+                leaveStrike: 0,
+                preventWarning: false,
+                isExamStart: false,
+                StartTime: null,
+                Submitted_Answers: null,
+                submission_id: null,
+                isSavingAnswer: false,
+                bus: "testing",
+                TimesUpDialog: false,
+                windowHeight: window.innerHeight - 100,
+                isLeavingPage: false,
+                CurrentTime: null,
+                testDate: null,
+                isReloadTime: false,
+                unAnsweredQuestion: 0,
 
-                }
-            });
-
-            this.isRemoving = true;
-            this.dialog = true;;
-        },
-        reset (index, type) {
-            if(type == 'Multiple Choice' || type == 'Identification' || type == 'True or False' || type == 'Essay'){
-                 this.FinalAnswers[index].Answer = '';
             }
-            else if(type == 'Matching type'){
-                this.FinalAnswers[index].Answer.forEach(item => {
-                    item.Ans_letter = '',
-                    item.Answers = ''
+        },
+        computed: mapGetters(["getAll_questions", "get_classwork_show_details"]),
+        methods: {
+            ...mapActions(['fetchClassworkShowDetails', 'setAsOffline']),
+            CountTime() {
+                this.timeCount = setInterval(() => {
+                    this.tempCounter = this.tempCounter + 1
+                }, 1000)
+            },
+            SubmitPromp() {
+                this.unAnsweredQuestion = 0;
+                this.FinalAnswers.forEach(item => {
+                    if (item.type != "Matching type") {
+                        if (item.Answer == null || item.Answer == '') {
+                            this.unAnsweredQuestion++;
+                        }
+                    } else {
+
+                    }
                 });
-            }
-        },
-        SelectAnswer(){
-            if(this.FinalAnswers[this.questionIndex].timeConsume != null || ''){
-                this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
-            }
-            else{
-                this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
-            }
-            clearInterval(this.timeCount);
-            this.tempCounter = 0;
-            this.CountTime();
-        },
-        setAnswer(index, Choices){
 
-        },
-        SetWarning(){
-            this.preventWarning = !this.preventWarning;
-        },
-        next(index){
-            
-            this.isSavingAnswer = true;
-            if(this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null){
-                this.updateAnswer();
-            }
-            this.Questype = "";
-            this.PickAnswers.ans = "";
-            this.PickAnswers_id.quesId = "";
-            if(this.questionIndex != this.Qlength-1){
-                this.questionIndex++;
-            }
-            setTimeout(() => (this.isSavingAnswer = false), 700);
-            
-        },
-        async updateAnswer(){
-             axios.put('/api/question/store-answer/'+ this.submission_id , {
-                type: "multiple",
-                data: this.FinalAnswers
-            })
-            //this.isSavingAnswer = false;
-             //setTimeout(() => (this.isSavingAnswer = false), 500);
-        },
-        // Go to previous question
-        prev: function() {
-            if(this.TimerCount[this.questionIndex] != null || ''){
-                this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex]+this.tempCounter;
-            }
-            else{
-                this.TimerCount[this.questionIndex] = this.tempCounter;
-            }
-            clearInterval(this.timeCount);
-            this.tempCounter = 0;
-            this.CountTime();
-            this.questionIndex--;
-            
-        },
-         SubmitAnswer(data){
-             if(data.istime == false){
-                  this.isExamStart = false;
+                this.isRemoving = true;
+                this.dialog = true;;
+            },
+            reset(index, type) {
+                if (type == 'Multiple Choice' || type == 'Identification' || type == 'True or False' || type ==
+                    'Essay') {
+                    this.FinalAnswers[index].Answer = '';
+                } else if (type == 'Matching type') {
+                    this.FinalAnswers[index].Answer.forEach(item => {
+                        item.Ans_letter = '',
+                            item.Answers = ''
+                    });
+                }
+            },
+            SelectAnswer() {
+                if (this.FinalAnswers[this.questionIndex].timeConsume != null || '') {
+                    this.FinalAnswers[this.questionIndex].timeConsume += this.tempCounter
+                } else {
+                    this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
+                }
+                clearInterval(this.timeCount);
+                this.tempCounter = 0;
+                this.CountTime();
+            },
+            setAnswer(index, Choices) {
+
+            },
+            SetWarning() {
+                this.preventWarning = !this.preventWarning;
+            },
+            next(index) {
+
+                this.isSavingAnswer = true;
+                if (this.FinalAnswers[index].Answer != '' && this.FinalAnswers[index].Answer != null) {
+                    this.updateAnswer();
+                }
+                this.Questype = "";
+                this.PickAnswers.ans = "";
+                this.PickAnswers_id.quesId = "";
+                if (this.questionIndex != this.Qlength - 1) {
+                    this.questionIndex++;
+                }
+                setTimeout(() => (this.isSavingAnswer = false), 700);
+
+            },
+            async updateAnswer() {
+                axios.put('/api/question/store-answer/' + this.submission_id, {
+                    type: "multiple",
+                    data: this.FinalAnswers
+                })
+                //this.isSavingAnswer = false;
+                //setTimeout(() => (this.isSavingAnswer = false), 500);
+            },
+            // Go to previous question
+            prev: function () {
+                if (this.TimerCount[this.questionIndex] != null || '') {
+                    this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
+                } else {
+                    this.TimerCount[this.questionIndex] = this.tempCounter;
+                }
+                clearInterval(this.timeCount);
+                this.tempCounter = 0;
+                this.CountTime();
+                this.questionIndex--;
+
+            },
+            SubmitAnswer(data) {
+                if (data.istime == false) {
+                    this.isExamStart = false;
                     //this.isLoading = !this.isLoading;
                     this.isSubmitting = !this.isSubmitting;
                     this.dialog = !this.dialog;
                     this.isStart = !this.isStart;
                     this.warningDialog = false;
-                    axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex, timerCount: this.TimerCount, timeSpent: data.time})
-                    .then((res)=>{
-                        //this.isLoading = !this.isLoading;
-                        //this.isSubmitting = !this.isSubmitting;
-                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
-                    })       
-             }
-                  
-        },
-        TimesUpSubmit(data){
-            
-            this.isExamStart = false;
-            //this.isLoading = !this.isLoading;
-            this.isSubmitting = !this.isSubmitting;
-            this.isStart = !this.isStart;
-            this.warningDialog = false;
-             axios.post('/api/question/check/'+this.$route.query.clwk, {item: this.FinalAnswers, AnsLength:this.questionIndex,timerCount: this.TimerCount, timeSpent: data.time})
-            .then((res)=>{
-                this.TimesUpDialog = !this.TimesUpDialog;
-                 setTimeout(() => {
-                    //this.isLoading = !this.isLoading;
-                    //this.isSubmitting = !this.isSubmitting;
-                }, 2000);
-               //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
-            })
-        },
-        fetchQuestions(){
-            this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(()=>{
-                this.Qlength = this.getAll_questions.Question.length;
-                let AnswersList = this.Submitted_Answers;
-        
-                if(AnswersList == null || AnswersList.length == 0){
-                    for (let index = 0; index < this.getAll_questions.Question.length; index++) {
-                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
-                            this.FinalAnswers.push({
-                                Answer: '',
-                                Question_id: this.getAll_questions.Question[index].id,
-                                answer_id: null,
-                                type:this.getAll_questions.Question[index].type,
-                                timeConsume: null
+                    axios.post('/api/question/check/' + this.$route.query.clwk, {
+                            item: this.FinalAnswers,
+                            AnsLength: this.questionIndex,
+                            timerCount: this.TimerCount,
+                            timeSpent: data.time
+                        })
+                        .then((res) => {
+                            //this.isLoading = !this.isLoading;
+                            //this.isSubmitting = !this.isSubmitting;
+                            this.$router.push({
+                                name: 'clwk',
+                                params: {
+                                    id: this.$route.params.id
+                                },
+                                query: {
+                                    clwk: this.$route.query.clwk
+                                }
                             });
-                        }
-                        else if(this.getAll_questions.Question[index].type == 'Essay'){
-                             this.FinalAnswers.push({
-                                Answer: '',
-                                Question_id: this.getAll_questions.Question[index].id,
-                                answer_id: null,
-                                type:this.getAll_questions.Question[index].type,
-                                check: false,
-                                timeConsume: null
-                            });
-                        }
-                         else if(this.getAll_questions.Question[index].type == 'Matching type'){
-                            let Ans = new Array();
-                            let Choices_id = new Array();
-                             this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
-                                Choices_id.push({
-                                   choice_id: item.id
-                                })
-                            });
-                            
-                            this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
-                                Ans.push({
-                                    Ans_letter: '',
-                                    Ans_id: null,
-                                    subquestion_id: item.id,
-                                    Answers: ''
-                                })
-                            });
+                        })
+                }
 
-                            this.FinalAnswers.push({
-                                Answer: Ans,
-                                Choices_id: Choices_id,
-                                Question_id: this.getAll_questions.Question[index].id,
-                                type: this.getAll_questions.Question[index].type,
-                                timeConsume: null
-                            });
-                        }                      
-                    }
-                        axios.put('/api/question/store-answer/'+ this.submission_id , {
-                        type: "multiple",
-                        data: this.FinalAnswers
+            },
+            TimesUpSubmit(data) {
+
+                this.isExamStart = false;
+                //this.isLoading = !this.isLoading;
+                this.isSubmitting = !this.isSubmitting;
+                this.isStart = !this.isStart;
+                this.warningDialog = false;
+                axios.post('/api/question/check/' + this.$route.query.clwk, {
+                        item: this.FinalAnswers,
+                        AnsLength: this.questionIndex,
+                        timerCount: this.TimerCount,
+                        timeSpent: data.time
                     })
-                }
-                else if(this.Qlength != AnswersList.length){
-                     for (let index = 0; index < this.getAll_questions.Question.length; index++) {
-                        if(this.getAll_questions.Question[index].type == 'Identification' || this.getAll_questions.Question[index].type == 'Multiple Choice' || this.getAll_questions.Question[index].type == 'True or False'){
-                            this.FinalAnswers.push({
-                                Answer: '',
-                                Question_id: this.getAll_questions.Question[index].id,
-                                 answer_id: null,
-                                type:this.getAll_questions.Question[index].type,
-                                timeConsume: null
-                            });
-                        }
-                        else if(this.getAll_questions.Question[index].type == 'Essay'){
-                             this.FinalAnswers.push({
-                                Answer: '',
-                                Question_id: this.getAll_questions.Question[index].id,
-                                answer_id: null,
-                                type:this.getAll_questions.Question[index].type,
-                                check: false,
-                                timeConsume: null
-                            });
-                        }
-                         else if(this.getAll_questions.Question[index].type == 'Matching type'){
-                            let Ans = new Array();
-                            let Choices_id = new Array();
-
-                            this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
-                                Choices_id.push({
-                                   choice_id: item.id
-                                })
-                            });
-                            
-                            this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
-                                Ans.push({
-                                    Ans_letter: '',
-                                    Ans_id: null,
-                                    subquestion_id: item.id,
-                                    Answers: ''
-                                })
-                            });
-
-                            this.FinalAnswers.push({
-                                Answer: Ans,
-                                Choices_id: Choices_id,
-                                Question_id: this.getAll_questions.Question[index].id,
-                                type: this.getAll_questions.Question[index].type,
-                                timeConsume: null
-                            });
-                        }                      
-                    }
-                        axios.put('/api/question/store-answer/'+ this.submission_id , {
-                        type: "multiple",
-                        data: this.FinalAnswers
+                    .then((res) => {
+                        this.TimesUpDialog = !this.TimesUpDialog;
+                        setTimeout(() => {
+                            //this.isLoading = !this.isLoading;
+                            //this.isSubmitting = !this.isSubmitting;
+                        }, 2000);
+                        //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
                     })
-                }
-                else if(this.Qlength == AnswersList.length){
+            },
+            fetchQuestions() {
+                this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(() => {
+                    this.Qlength = this.getAll_questions.Question.length;
+                    let AnswersList = this.Submitted_Answers;
 
-                     for (let x = 0; x < this.getAll_questions.Question.length; x++) {
-                         for (let j = 0; j < AnswersList.length; j++) {
-                            if(this.getAll_questions.Question[x].id == AnswersList[j].Question_id){
-                                if(this.getAll_questions.Question[x].type == 'Identification' || this.getAll_questions.Question[x].type == 'Multiple Choice' || this.getAll_questions.Question[x].type == 'True or False' || this.getAll_questions.Question[x].type == 'Essay'  ){
-                                    this.FinalAnswers.push({
-                                        Answer: AnswersList[j].Answer,
-                                        Question_id: AnswersList[j].Question_id,
-                                        answer_id: null,
-                                        type: AnswersList[j].type,
-                                        timeConsume: AnswersList[j].timeConsume
+                    if (AnswersList == null || AnswersList.length == 0) {
+                        for (let index = 0; index < this.getAll_questions.Question.length; index++) {
+                            if (this.getAll_questions.Question[index].type == 'Identification' || this
+                                .getAll_questions.Question[index].type == 'Multiple Choice' || this
+                                .getAll_questions.Question[index].type == 'True or False') {
+                                this.FinalAnswers.push({
+                                    Answer: '',
+                                    Question_id: this.getAll_questions.Question[index].id,
+                                    answer_id: null,
+                                    type: this.getAll_questions.Question[index].type,
+                                    timeConsume: null
+                                });
+                            } else if (this.getAll_questions.Question[index].type == 'Essay') {
+                                this.FinalAnswers.push({
+                                    Answer: '',
+                                    Question_id: this.getAll_questions.Question[index].id,
+                                    answer_id: null,
+                                    type: this.getAll_questions.Question[index].type,
+                                    check: false,
+                                    timeConsume: null
+                                });
+                            } else if (this.getAll_questions.Question[index].type == 'Matching type') {
+                                let Ans = new Array();
+                                let Choices_id = new Array();
+                                this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
+                                    Choices_id.push({
+                                        choice_id: item.id
+                                    })
+                                });
+
+                                this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
+                                    Ans.push({
+                                        Ans_letter: '',
+                                        Ans_id: null,
+                                        subquestion_id: item.id,
+                                        Answers: ''
+                                    })
+                                });
+
+                                this.FinalAnswers.push({
+                                    Answer: Ans,
+                                    Choices_id: Choices_id,
+                                    Question_id: this.getAll_questions.Question[index].id,
+                                    type: this.getAll_questions.Question[index].type,
+                                    timeConsume: null
+                                });
+                            }
+                        }
+                        axios.put('/api/question/store-answer/' + this.submission_id, {
+                            type: "multiple",
+                            data: this.FinalAnswers
+                        })
+                    } else if (this.Qlength != AnswersList.length) {
+                        for (let index = 0; index < this.getAll_questions.Question.length; index++) {
+                            if (this.getAll_questions.Question[index].type == 'Identification' || this
+                                .getAll_questions.Question[index].type == 'Multiple Choice' || this
+                                .getAll_questions.Question[index].type == 'True or False') {
+                                this.FinalAnswers.push({
+                                    Answer: '',
+                                    Question_id: this.getAll_questions.Question[index].id,
+                                    answer_id: null,
+                                    type: this.getAll_questions.Question[index].type,
+                                    timeConsume: null
+                                });
+                            } else if (this.getAll_questions.Question[index].type == 'Essay') {
+                                this.FinalAnswers.push({
+                                    Answer: '',
+                                    Question_id: this.getAll_questions.Question[index].id,
+                                    answer_id: null,
+                                    type: this.getAll_questions.Question[index].type,
+                                    check: false,
+                                    timeConsume: null
+                                });
+                            } else if (this.getAll_questions.Question[index].type == 'Matching type') {
+                                let Ans = new Array();
+                                let Choices_id = new Array();
+
+                                this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
+                                    Choices_id.push({
+                                        choice_id: item.id
+                                    })
+                                });
+
+                                this.getAll_questions.Answer[index].SubQuestion.forEach(item => {
+                                    Ans.push({
+                                        Ans_letter: '',
+                                        Ans_id: null,
+                                        subquestion_id: item.id,
+                                        Answers: ''
+                                    })
+                                });
+
+                                this.FinalAnswers.push({
+                                    Answer: Ans,
+                                    Choices_id: Choices_id,
+                                    Question_id: this.getAll_questions.Question[index].id,
+                                    type: this.getAll_questions.Question[index].type,
+                                    timeConsume: null
+                                });
+                            }
+                        }
+                        axios.put('/api/question/store-answer/' + this.submission_id, {
+                            type: "multiple",
+                            data: this.FinalAnswers
+                        })
+                    } else if (this.Qlength == AnswersList.length) {
+
+                        for (let x = 0; x < this.getAll_questions.Question.length; x++) {
+                            for (let j = 0; j < AnswersList.length; j++) {
+                                if (this.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                                    if (this.getAll_questions.Question[x].type == 'Identification' || this
+                                        .getAll_questions.Question[x].type == 'Multiple Choice' || this
+                                        .getAll_questions.Question[x].type == 'True or False' || this
+                                        .getAll_questions.Question[x].type == 'Essay') {
+                                        this.FinalAnswers.push({
+                                            Answer: AnswersList[j].Answer,
+                                            Question_id: AnswersList[j].Question_id,
+                                            answer_id: null,
+                                            type: AnswersList[j].type,
+                                            timeConsume: AnswersList[j].timeConsume
+                                        });
+                                    } else if (this.getAll_questions.Question[x].type == 'Matching type') {
+                                        let Ans = new Array();
+                                        let Choices_id = new Array();
+
+                                        this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
+                                            Choices_id.push({
+                                                choice_id: item.id
+                                            })
+                                        });
+
+                                        let counter = 0;
+                                        this.getAll_questions.Answer[x].SubQuestion.forEach(item => {
+                                            Ans.push({
+                                                Ans_letter: AnswersList[j].Answer[counter]
+                                                    .Ans_letter,
+                                                Ans_id: AnswersList[j].Answer[counter].Ans_id,
+                                                subquestion_id: item.id,
+                                                Answers: AnswersList[j].Answer[counter].Answers,
+                                            })
+                                            counter++;
+                                        });
+
+
+
+
+                                        /*     AnswersList[j].Answer.forEach(item => {
+                                               Ans.push({
+                                                   Ans_letter: item.Ans_letter,
+                                                   Ans_id: item.Ans_id,
+                                                   subquestion_id: item.subquestion_id,
+                                                   Answers: item.Answers
+                                               })
+                                            }); */
+                                        this.FinalAnswers.push({
+                                            Answer: Ans,
+                                            Choices_id: Choices_id,
+                                            Question_id: AnswersList[j].Question_id,
+                                            type: AnswersList[j].type,
+                                            timeConsume: AnswersList[j].timeConsume
+                                        });
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                    this.isLoading = false;
+                    this.questionIsLoaded = true;
+                });
+
+            },
+            preventNav(event) {
+                if (!this.isStart) return;
+                event.returnValue = "";
+            },
+            ReloadStatus() {
+                axios.get('/api/student/checking/' + this.$route.query.clwk)
+                    .then(res => {
+                        if (res.data.success == true) {
+                            if (res.data.status != 'Submitted') {
+                                this.CurrentTime = res.data.currentTime;
+                                this.StartTime = res.data.startTime;
+                            }
+                        }
+                        this.isReloadTime = false;
+                    })
+                    .catch(e => {
+                        this.toastError('Something went wrong while loading Questions!');
+                        this.$router.push({
+                            name: 'clwk',
+                            params: {
+                                id: this.$route.params.id
+                            },
+                            query: {
+                                clwk: this.$route.query.clwk
+                            }
+                        })
+                    })
+            },
+            CheckStatus() {
+                axios.get('/api/student/checking/' + this.$route.query.clwk)
+                    .then(res => {
+                        if (res.data.success == true) {
+                            if (res.data.status != 'Submitted') {
+                                this.isExamStart = true
+                                this.Submitted_Answers = res.data.Submitted_Answers;
+                                this.CurrentTime = res.data.currentTime;
+                                this.testDate = res.data.testDate;
+                                this.StartTime = res.data.startTime;
+                                this.submission_id = res.data.submission_id;
+                                this.preventNav = !this.preventNav;
+                                this.StartQuiz();
+                            } else {
+                                this.isLoading = false;
+                                //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                                //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+                                this.$toasted.error(
+                                    'You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+                                        theme: "toasted-primary",
+                                        position: "top-center",
+                                        icon: "warning",
+                                        duration: 7000
                                     });
-                                 }
-                                 else if(this.getAll_questions.Question[x].type == 'Matching type'){
-                                    let Ans = new Array();
-                                    let Choices_id = new Array();
-
-                                    this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
-                                        Choices_id.push({
-                                            choice_id: item.id
-                                        })
-                                    });
-
-                                     let counter = 0;
-                                     this.getAll_questions.Answer[x].SubQuestion.forEach(item => {
-                                        Ans.push({
-                                            Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
-                                            Ans_id: AnswersList[j].Answer[counter].Ans_id,
-                                            subquestion_id: item.id,
-                                            Answers: AnswersList[j].Answer[counter].Answers,
-                                        })
-                                        counter++;
-                                    });
-
-
-
-                                    
-                                 /*     AnswersList[j].Answer.forEach(item => {
-                                        Ans.push({
-                                            Ans_letter: item.Ans_letter,
-                                            Ans_id: item.Ans_id,
-                                            subquestion_id: item.subquestion_id,
-                                            Answers: item.Answers
-                                        })
-                                     }); */
-                                     this.FinalAnswers.push({
-                                        Answer: Ans,
-                                        Choices_id: Choices_id,
-                                        Question_id: AnswersList[j].Question_id,
-                                        type: AnswersList[j].type,
-                                        timeConsume: AnswersList[j].timeConsume
-                                    });
-                                 }
-                             }
-                            
-                         }
+                                this.$router.push({
+                                    name: 'clwk',
+                                    params: {
+                                        id: this.$route.params.id
+                                    },
+                                    query: {
+                                        clwk: this.$route.query.clwk
+                                    }
+                                });
+                            }
+                        } else {
+                            this.toastError('Something went wrong while loading Questions!');
+                            this.$router.push({
+                                name: 'clwk',
+                                params: {
+                                    id: this.$route.params.id
+                                },
+                                query: {
+                                    clwk: this.$route.query.clwk
+                                }
+                            })
+                        }
+                    })
+                    .catch(e => {
+                        this.toastError('Something went wrong while loading Questions!');
+                        this.$router.push({
+                            name: 'clwk',
+                            params: {
+                                id: this.$route.params.id
+                            },
+                            query: {
+                                clwk: this.$route.query.clwk
+                            }
+                        })
+                    })
+            },
+            SelectMatch(id, main_index, second_index) {
+                let Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
+                for (let i = 0; i < this.getAll_questions.Answer[main_index].SubAnswer.length; i++) {
+                    for (let x = 0; x < this.getAll_questions.Answer[main_index].SubAnswer.length; x++) {
+                        if (this.Alphabet[x].toUpperCase() == Answer.toUpperCase()) {
+                            this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[
+                                main_index].SubAnswer[x].Choice;
+                            this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[
+                                main_index].SubAnswer[x].id;
+                        }
                     }
                 }
-                this.isLoading = false;
-                this.questionIsLoaded = true;
-            });
+                //console.log(this.FinalAnswers[main_index]);
+            },
+            StartQuiz() {
+                this.isStart = true;
+                const alphabet = [
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "H",
+                    "I",
+                    "J",
+                    "K",
+                    "L",
+                    "M",
+                    "N",
+                    "O",
+                    "P",
+                    "q",
+                    "r",
+                    "s",
+                    "t",
+                    "u",
+                    "v",
+                    "w",
+                    "x",
+                    "y",
+                    "z"
+                ];
+                this.Alphabet = alphabet;
+                let data = {
+                    classwork_id: this.$route.query.clwk,
+                    course_id: this.$route.params.id
+                }
+                this.$store.dispatch('fetchClassworkShowDetails', data)
+                    .then(() => {
+                        this.duration = this.get_classwork_show_details.Details.duration;
+                        this.classworkDetails = this.get_classwork_show_details.Details;
+                        this.fetchQuestions();
+                    })
+                //this.CountTime();
+            },
+            triggerWarning() {
+                if (this.isExamStart) {
+                    this.leaveStrike += 1;
+                    if (this.leaveStrike == 5) {
+                        this.isExamStart = false;
 
-        },
-         preventNav(event) {
-            if (!this.isStart) return;
-            event.returnValue = "";
-        },
-        ReloadStatus(){
-            axios.get('/api/student/checking/'+this.$route.query.clwk)
-            .then(res=>{
-               if(res.data.success == true){
-                    if(res.data.status != 'Submitted'){
-                        this.CurrentTime = res.data.currentTime;
-                        this.StartTime = res.data.startTime;
+                        this.toastError('You are lossing focus to examination page many times!');
+                        this.$router.push({
+                            name: 'clwk',
+                            params: {
+                                id: this.$route.params.id
+                            },
+                            query: {
+                                clwk: this.$route.query.clwk
+                            }
+                        })
+                    }
+                    if (!this.preventWarning) {
+                        this.warningDialog = true;
                     }
                 }
-                this.isReloadTime = false;
-            })
-            .catch(e=>{
-                this.toastError('Something went wrong while loading Questions!');
-                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
-            })
-        },
-         CheckStatus(){
-            axios.get('/api/student/checking/'+this.$route.query.clwk)
-            .then(res=>{
-               if(res.data.success == true){
-                    if(res.data.status != 'Submitted'){
-                        this.isExamStart = true
-                        this.Submitted_Answers = res.data.Submitted_Answers;
-                        this.CurrentTime = res.data.currentTime;
-                        this.testDate = res.data.testDate;
-                        this.StartTime = res.data.startTime;
-                        this.submission_id = res.data.submission_id;
-                        this.preventNav = !this.preventNav;
-                        this.StartQuiz();
-                    }
-                    else{
-                        this.isLoading = false;
-                        //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-                        //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
-                        this.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
-                            theme: "toasted-primary",
-                            position: "top-center",
-                            icon: "warning",
-                            duration: 7000
-                        });
-                        this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
-                    }
-               }
-               else{
-                   this.toastError('Something went wrong while loading Questions!');
-                  this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
-               }
-            })
-            .catch(e=>{
-                this.toastError('Something went wrong while loading Questions!');
-                this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
-            })
-        },
-        SelectMatch(id, main_index, second_index){
-            let Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
-             for (let i = 0; i < this.getAll_questions.Answer[main_index].SubAnswer.length; i++) {
-                for (let x = 0; x < this.getAll_questions.Answer[main_index].SubAnswer.length; x++) {
-                    if(this.Alphabet[x].toUpperCase() == Answer.toUpperCase()){
-                        this.FinalAnswers[main_index].Answer[second_index].Answers = this.getAll_questions.Answer[main_index].SubAnswer[x].Choice;
-                        this.FinalAnswers[main_index].Answer[second_index].Ans_id = this.getAll_questions.Answer[main_index].SubAnswer[x].id; 
-                    }
-                }   
-            }
-            //console.log(this.FinalAnswers[main_index]);
-        },
-        StartQuiz(){
-            this.isStart = true;
-            const alphabet = [
-                "A",
-                "B",
-                "C",
-                "D",
-                "E",
-                "F",
-                "G",
-                "H",
-                "I",
-                "J",
-                "K",
-                "L",
-                "M",
-                "N",
-                "O",
-                "P",
-                "q",
-                "r",
-                "s",
-                "t",
-                "u",
-                "v",
-                "w",
-                "x",
-                "y",
-                "z"
-            ];
-            this.Alphabet = alphabet;
-            let data = {classwork_id : this.$route.query.clwk, course_id : this.$route.params.id}
-            this.$store.dispatch('fetchClassworkShowDetails',  data)
-            .then(()=>{
-               this.duration = this.get_classwork_show_details.Details.duration;
-                this.classworkDetails = this.get_classwork_show_details.Details;
-                this.fetchQuestions();
-            })
-            //this.CountTime();
-        },
-        triggerWarning(){
-            if(this.isExamStart){
-                this.leaveStrike += 1;
-                if(this.leaveStrike == 5){
-                    this.isExamStart = false;
-                 
-                    this.toastError('You are lossing focus to examination page many times!');
-                    this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}})
+            },
+            ReloadTime() {
+                this.ReloadStatus();
+                this.isReloadTime = true;
+                //setTimeout(() => (this.isReloadTime = false), 300);
+            },
+            isOffline(event) {
+                //this.setAsOffline();
+                location.reload();
+            },
+            openFullscreen(elem) {
+                if (elem.requestFullscreen) {
+                    elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    /* Safari */
+                    elem.webkitRequestFullscreen();
+                } else if (elem.msRequestFullscreen) {
+                    /* IE11 */
+                    elem.msRequestFullscreen();
                 }
-                if(!this.preventWarning){
-                    this.warningDialog = true;
+            },
+                toggleFullScreen() {
+                    var el = document.documentElement,
+                        rfs = // for newer Webkit and Firefox
+                        el.requestFullScreen ||
+                        el.webkitRequestFullScreen ||
+                        el.mozRequestFullScreen ||
+                        el.msRequestFullScreen;
+                    if (typeof rfs != "undefined" && rfs) {
+                        rfs.call(el);
+                    } else if (typeof window.ActiveXObject != "undefined") {
+                        // for Internet Explorer
+                        var wscript = new ActiveXObject("WScript.Shell");
+                        if (wscript != null) {
+                            wscript.SendKeys("{F11}");
+                        }
+                    }
                 }
-              }
-        },
-        ReloadTime(){
-            this.ReloadStatus();
-            this.isReloadTime = true;
-            //setTimeout(() => (this.isReloadTime = false), 300);
-        },
-         isOffline(event) {
-            //this.setAsOffline();
-            location.reload();
-        },
-    },
-    beforeMount() {
-        window.addEventListener("offline", this.isOffline);
-        window.addEventListener("onbeforeunload", this.preventNav);
-        let self = this;
-        $(window).blur(function(){
-            self.triggerWarning()
-        });
-    },
-     beforeRouteLeave(to, from, next) {
-        if (this.isExamStart) {
-            if (!window.confirm("Leave without saving?")) {
-           
-                return;
-            }
+            },
+            beforeMount() {
+
+                window.addEventListener("offline", this.isOffline);
+                window.addEventListener("onbeforeunload", this.preventNav);
+                let self = this;
+                $(window).blur(function () {
+                    self.triggerWarning();
+                    window.close();
+                });
+                this.toggleFullScreen();
+                this.openFullscreen(doucment.body);
+            },
+            beforeRouteLeave(to, from, next) {
+                if (this.isExamStart) {
+                    if (!window.confirm("Leave without saving?")) {
+
+                        return;
+                    }
+                }
+                this.isLeavingPage = true;
+                next();
+            },
+            async mounted() {
+                this.CheckStatus();
+                this.toggleFullScreen();
+                this.openFullscreen(document.body);
+            },
+            created() {
+                this.toggleFullScreen();
+                this.openFullscreen(document.body);
+            },
+            beforeDestroy() {
+                window.removeEventListener('onbeforeunload', this.preventNav)
+            },
+
         }
-        this.isLeavingPage = true;
-        next();
-    },
-    async mounted() {
-        this.CheckStatus();
-    },
-    beforeDestroy(){
-         window.removeEventListener('onbeforeunload', this.preventNav)
-    },
-    
-}
+
 </script>
 
 <style>
-    .centered-input >>> input {
-      text-align: center
-    }
-    .post-content img{
-        border:  1px solid lightgray;
-        max-width: 80%;
-        max-height: 13rem !important;
-    }
-    .ql-editor img{
-        max-height: 20rem !important;
-        max-width: 80%;
-    }
-    .centered-input input {
+    .centered-input>>>input {
         text-align: center
     }
 
- 
+    .post-content img {
+        border: 1px solid lightgray;
+        max-width: 80%;
+        max-height: 13rem !important;
+    }
+
+    .ql-editor img {
+        max-height: 20rem !important;
+        max-width: 80%;
+    }
+
+    .centered-input input {
+        text-align: center
+    }
 
 </style>

@@ -456,18 +456,26 @@ export default {
         },
         start(){
         this.classworkDetails.status = "Taking";
-          this.isOpenQuiz = true;
+        //   this.isOpenQuiz = true;
           if(this.totalQuestion != 0 && (this.status == null || this.status == '')){
               //this.UpdateStatus( this.classworkDetails.id);
-             this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+            
+            //  this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+             let routeData = this.$router.resolve({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+            window.open(routeData.href,'winname',"directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width="+screen.availWidth+",height="+screen.availHeight,"screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+              
           }
           else{
               this.isOpenQuiz = false;
           }
         },
+        
         continueQuiz(id){
-            this.isOpenQuiz = true;
-            this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+            // this.isOpenQuiz = true;
+            // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+            let routeData = this.$router.resolve({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+            window.open(routeData.href,'winname',"directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width="+screen.availWidth+",height="+screen.availHeight,"screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+
         },
         checkStatus(){
             axios.get('/api/student/check-status/'+this.classworkDetails.id)
@@ -486,7 +494,8 @@ export default {
             .then(res=>{
                 if(res.data.success == true){
                     this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
-                }
+             
+               }
                 else{
                      this.toastError('Something went wrong while loading this classwork!');
                 }

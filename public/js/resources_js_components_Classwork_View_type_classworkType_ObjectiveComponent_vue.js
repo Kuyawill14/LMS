@@ -466,12 +466,12 @@ var viewSubmission = function viewSubmission() {
       }
     },
     start: function start() {
-      this.classworkDetails.status = "Taking";
-      this.isOpenQuiz = true;
+      this.classworkDetails.status = "Taking"; //   this.isOpenQuiz = true;
 
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
         //this.UpdateStatus( this.classworkDetails.id);
-        this.$router.push({
+        //  this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: this.classworkDetails.id}})
+        var routeData = this.$router.resolve({
           name: 'quizstart',
           params: {
             id: this.$route.params.id
@@ -480,13 +480,15 @@ var viewSubmission = function viewSubmission() {
             clwk: this.classworkDetails.id
           }
         });
+        window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
       } else {
         this.isOpenQuiz = false;
       }
     },
     continueQuiz: function continueQuiz(id) {
-      this.isOpenQuiz = true;
-      this.$router.push({
+      // this.isOpenQuiz = true;
+      // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+      var routeData = this.$router.resolve({
         name: 'quizstart',
         params: {
           id: this.$route.params.id
@@ -495,6 +497,7 @@ var viewSubmission = function viewSubmission() {
           clwk: id
         }
       });
+      window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
     },
     checkStatus: function checkStatus() {
       var _this = this;
