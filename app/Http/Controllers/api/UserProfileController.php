@@ -40,10 +40,10 @@ class UserProfileController extends Controller
         $userDetails  = auth('sanctum')->user()->tbl_userDetails;
         $department = auth('sanctum')->user()->tbl_user_departments;
 
-
         $userDetails->email = $currentUser->email;
         $userDetails->role = $currentUser->role;
-        $userDetails->department_id = $department->department_id;
+        $userDetails->department_id = $department != null ? $department->department_id : null;
+
         if($currentUser->email == 'admin@gmail.com'){
             $userDetails->verified = $userDetails->verified = true;
         }else{
