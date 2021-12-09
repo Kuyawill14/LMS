@@ -54,11 +54,16 @@
                             <v-row>
 
                                 <v-col cols="12" class="mt-2">
-                                    <v-select outlined :rules="FieldRules" v-model="Details.type"
-                                        :items="['Objective Type', 'Subjective Type']" label="Type"></v-select>
+                                   <!--  <small>*Note you cannot change type</small> -->
+                                     <v-text-field outlined :rules="rules" v-model="Details.type" label="Type"
+                                        type="text" readonly>
+                                    </v-text-field>
+                                    
+                                  <!--   <v-select outlined :rules="FieldRules" v-model="Details.type"
+                                        :items="['Objective Type', 'Subjective Type']" label="Type"></v-select> -->
                                 </v-col>
                                 <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                                    <v-text-field outlined :rules="FieldRules" v-model="Details.title" label="Title"
+                                    <v-text-field @change="isNewChanges = true" outlined :rules="rules" v-model="Details.title" label="Title"
                                         type="text" required>
                                     </v-text-field>
                                 </v-col>
@@ -67,24 +72,23 @@
                                         label="Instruction" auto-grow>
                                     </v-textarea> -->
 
-                                    <editor class="classwork_editor" v-model="Details.instruction" placeholder="Instruction" theme="snow"></editor>
+                                    <editor @change="isNewChanges = true" class="classwork_editor" v-model="Details.instruction" placeholder="Instruction" theme="snow"></editor>
                                 </v-col>
                                 <v-col v-if="Details.type == 'Objective Type'" class="mb-0 pb-0 pt-0 mt-0" cols="12">
 
-                                    <v-text-field v-if="Details.type == 'Objective Type'" :rules="FieldRules"
-                                        class="mb-0 pb-0 pt-0 mt-0" append-icon="mdi-timer" outlined
-                                        v-model="Details.duration" hint="mins" label="Time Limit" type="number">
+                                    <v-text-field @change="isNewChanges = true" v-if="Details.type == 'Objective Type'" :rules="durationrules"
+                                      outlined  v-model="Details.duration" hint="mins" label="Time Limit(min)" type="number">
                                     </v-text-field>
                                 </v-col>
 
-                                <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-2 pt-0 mt-0" cols="12">
+                                <v-col v-if="Details.type == 'Subjective Type'" class="mb-0  pt-0 mt-0" cols="12">
 
-                                <v-text-field :rules="FieldRules" v-if="Details.type == 'Subjective Type'"
-                                    outlined min="0" v-model="Details.points" label="Points" type="number">
+                                <v-text-field @change="isNewChanges = true" :rules="pointsrules" v-if="Details.type == 'Subjective Type'"
+                                    outlined min="0"  v-model="Details.points" label="Points" type="number">
                                 </v-text-field>
                             </v-col>
                                 
-                                <v-col v-if="Details.type == 'Subjective Type'" class="mb-0 pb-2 pt-0 mt-0" cols="12">
+                                <v-col v-if="Details.type == 'Subjective Type'" class="mb-0  pt-0 mt-0" cols="12">
 
                                     <v-row>
                                         <v-col class="text-left">
@@ -133,19 +137,7 @@
                                 </v-col>
 
 
-                                <v-col :class="isUploading ? 'b-0 pb-0 pt-0 mt-0': 'b-0 pb-0 pt-0 mt-0 '" cols="12">
-
-                                    <!-- <v-file-input
-                                            @change="onFileChange" 
-                                            ref="fileInput"
-                                            label="File input"
-                                            outlined
-                                            show-size
-                                            counter
-                                            multiple
-                                            prepend-icon=""
-                                            prepend-inner-icon="mdi-paperclip">
-                                        </v-file-input> -->
+                                <v-col v-if="Details.type == 'Subjective Type'" :class="isUploading ? 'b-0 pb-0 pt-0 mt-0': 'b-0 pb-0 pt-0 mt-0 '" cols="12">
 
                                     <v-btn color="primary" class="mb-2" @click="$refs.inputFile.$refs.input.click()"
                                         text rounded>
@@ -230,8 +222,8 @@
 
                                 <v-col cols="12 text-left">
 
-                                    <v-btn rounded :loading="isUpdating" color="primary" class="ma-2 white--text"
-                                        @click="UpdateClasswork()">
+                                    <v-btn rounded :disabled="!isNewChanges && !valid" :loading="isUpdating" color="primary" class="ma-2 white--text"
+                                        @click="validate()">
                                         Update
                                         <v-icon right dark>
                                             mdi-update
@@ -286,6 +278,19 @@
                 uploadIndex: null,
                 rubricsDialog: false,
                 isRemoving: false,
+                isNewChanges: false,
+                rules: [
+                    v => !!v || 'Field is required',
+
+                ],
+                pointsrules: [
+                    v => !!v || 'Points is required',
+                    v => ( v && v >= 1 ) || "Points should be above or equal to 1",
+                ],
+                durationrules: [
+                    v => !!v || 'Duration is required',
+                    v => ( v && v >= 1 ) || "Duration should be above or eqaul to 1min",
+                ],
             }
         },
         computed: {
@@ -332,7 +337,14 @@
                     }
 
                 },
-            async UpdateClasswork(rubrics) {
+
+            validate () {
+                if(this.$refs.UpdateClassworkForm.validate()){
+                    this.UpdateClasswork();
+                }
+                
+            },
+            async UpdateClasswork() {
                 this.isUpdatingSnackBar = true;
                 this.isUpdating = true;
                 ////console.log(this.Details);
@@ -345,26 +357,16 @@
                 fd.append('points', this.Details.points);
                 fd.append('title', this.Details.title);
                 fd.append('type', this.Details.type);
-                /*  for (let index = 0; index < this.file.length; index++) {
-                    fd.append('file['+index+']', this.file[index]); 
-                    fd.append('attachment_name['+index+']',  this.file_name[index].name);
-                    fd.append('attachment_size['+index+']',  this.file_name[index].size);
-                    fd.append('attachment_extension['+index+']',  this.file_name[index].extension);
-                }  */
-
                 await axios.post('/api/classwork/update', fd)
                     .then(res => {
-                        //this.rubricsDialog= rubrics ? true : false;
                         this.isUpdating = false,
                         this.toastSuccess("Classwork successfully updated")
                     })
                     .catch(e => {
 
                     })
-
             },
             TestUpload() {
-                /*  this.$refs.fileInput.click(); */
                 this.$refs.fileInput.$refs.input.click();
                 this.isUploading = true;
             },

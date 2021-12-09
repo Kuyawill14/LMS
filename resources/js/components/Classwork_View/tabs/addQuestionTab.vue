@@ -10,7 +10,7 @@
 <v-hover v-slot="{ hover }">
     <div>
         <v-app-bar
-       v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp"
+       v-if="!isloading && Qlength != 0 && $vuetify.breakpoint.mdAndUp && !isHaveSubmission"
         @click="AddNewQuestion"
         :elevation="hover ? '10' : '2'"
         :style="$vuetify.breakpoint.mdAndUp && !fab ? 
@@ -236,7 +236,7 @@
                     <v-row>
                         <v-col cols="12" class="mb-0 pb-0 pt-0  mt-0 d-flex justify-space-between ">
                             <span class="ml-2 mt-3"><h4>{{mainIndex+1}}</h4> </span>
-                            <v-checkbox v-model="selectedData[mainIndex].selected" @click="CheckSelectedCount(selectedData[mainIndex].selected)" hide-details></v-checkbox>
+                            <v-checkbox v-if="!isHaveSubmission" v-model="selectedData[mainIndex].selected" @click="CheckSelectedCount(selectedData[mainIndex].selected)" hide-details></v-checkbox>
                         </v-col>
                          <v-col cols="12" class="mb-0 pb-0 pt-0 pr-6 mt-3 text-right ">
                             <v-btn small @click="selectedData[mainIndex].isEditing = false"
@@ -267,6 +267,7 @@
                                     <v-col class="pa-0 ma-0 pl-2 pl-sm-0 text-right" cols="9" md="11" lg="11">
                                          <v-select
                                          dense
+                                         :disabled="isHaveSubmission"
                                             v-model="item.type"
                                             class="pa-0 ma-0 float-right"
                                             :items="Question_type"
@@ -336,6 +337,7 @@
                                                                 </v-btn> -->
 
                                                                  <v-btn
+                                                                 v-if="!isHaveSubmission" 
                                                                 @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
                                                                 icon class="mt-3 pl-2 pr-2">
                                                                 <v-icon>mdi-close</v-icon>
@@ -353,6 +355,7 @@
                                             block
                                             class="mb-0 pb-0"
                                             color="primary"
+                                            v-if="!isHaveSubmission" 
                                             @click="AddNewOption(item.id, mainIndex)">
                                             <v-icon dark left large>mdi-plus</v-icon>
                                             Add Choice
@@ -378,6 +381,7 @@
                                                       </div>
 
                                                       <v-btn
+                                                      v-if="!isHaveSubmission" 
                                                     @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
                                                     icon class="mt-3 pl-2 pr-2">
                                                     <v-icon>mdi-close</v-icon>
@@ -407,6 +411,7 @@
                                                         </v-btn> -->
 
                                                          <v-btn
+                                                         v-if="!isHaveSubmission" 
                                                             @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
                                                             icon class="mt-3 pl-2 pr-2">
                                                             <v-icon>mdi-close</v-icon>
@@ -416,7 +421,7 @@
                                                   </v-container>
                                       <!--       </div> -->
                                         </v-col>
-                                          <v-col  class="pa-0 ma-0 pt-5" cols="12" md="12" lg="12">
+                                          <v-col  v-if="!isHaveSubmission"  class="pa-0 ma-0 pt-5" cols="12" md="12" lg="12">
                                             <v-btn
                                             rounded
                                             outlined
@@ -494,6 +499,7 @@
                                                       </div>
 
                                                      <v-btn
+                                                        v-if="!isHaveSubmission" 
                                                         @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index][0].id, mainIndex,  sub_index)"
                                                         icon class="mt-3 pl-2 pr-2">
                                                         <v-icon>mdi-close</v-icon>
@@ -502,7 +508,7 @@
                                                </v-col>
                                            </v-row>
                                         </v-col>
-                                        <v-col class="ma-0 pa-0 text-right pb-2">
+                                        <v-col v-if="!isHaveSubmission"  class="ma-0 pa-0 text-right pb-2">
                                             <v-btn
                                             block 
                                             rounded
@@ -535,7 +541,7 @@
                         <v-col cols="12" class="mb-0 pb-5 pt-0 pr-2  mt-0 text-right pr-3">
                             <v-tooltip  style="height:5px !important" eager  bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                      <v-btn @click="singleDuplicate(item, getAll_questions.Answer[mainIndex])" v-bind="attrs" v-on="on" icon>
+                                      <v-btn v-if="!isHaveSubmission"  @click="singleDuplicate(item, getAll_questions.Answer[mainIndex])" v-bind="attrs" v-on="on" icon>
                                         <v-icon>mdi-content-copy</v-icon>
                                     </v-btn>
                                 </template>
@@ -543,7 +549,7 @@
                             </v-tooltip>
                             <v-tooltip  style="height:5px !important" eager  bottom>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-btn @click="openDeleteDialog(item, mainIndex)" v-bind="attrs" v-on="on" icon>
+                                    <v-btn v-if="!isHaveSubmission"  @click="openDeleteDialog(item, mainIndex)" v-bind="attrs" v-on="on" icon>
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                  </template>
@@ -639,6 +645,10 @@
             v-if="DeleteSingledialog">
             </deleteDialogQuestion>
     </v-dialog>
+
+    <v-dialog v-model="isHaveSubmissionDialog"  max-width="550">
+          <warningDialog v-if="isHaveSubmissionDialog"></warningDialog>
+    </v-dialog>
 </div>
     
 </div>
@@ -648,6 +658,7 @@
 import {mapGetters, mapActions} from "vuex";
 const deleteDialog = () => import('./dialogs/deleteDialog')
 const deleteDialogQuestion = () => import('./dialogs/deleteDialogQuestion')
+const warningDialog = () => import('./dialogs/warningDialog')
 const viewQuestion = () => import('./viewQuestion')
 const studentViewForTeacher = () => import('./TeacherQuizPreview/StudentViewForTeacher')
 export default {
@@ -656,7 +667,8 @@ export default {
         deleteDialog,
         viewQuestion,
         deleteDialogQuestion,
-        studentViewForTeacher
+        studentViewForTeacher,
+        warningDialog
     },
     data(){
         return{
@@ -710,7 +722,9 @@ export default {
             DuplicateAnswers:[],
             isAddingNewQuestion: false,
             isStudentView: false,
-            studentViewData:null
+            studentViewData:null,
+            isHaveSubmissionDialog: null,
+            isHaveSubmission: null
         }
     },
     watch: {
@@ -1085,7 +1099,7 @@ export default {
                     }) 
                     this.getAll_questions.Answer.push({options:[],SubQuestion:[], SubAnswer:[]});
 
-                     if(this.DuplicateQuestion[i].type == 'Multiple Choice'){
+                     if(this.DuplicateQuestion[i].type == 'Multiple Choice' || this.DuplicateQuestion[i].type == 'Identification'){
                          for (let j = 0; j < res.data.answer_id[i].options_id.length; j++) {
                              this.getAll_questions.Answer[this.getAll_questions.Answer.length-1].options.push({
                                 id : res.data.answer_id[i].options_id[j],
@@ -1113,6 +1127,7 @@ export default {
                 }
                 this.isAddingNewQuestion = false;
                 this.UnselectAll();
+                setTimeout(() => (window.scrollTo(0,document.body.scrollHeight)), 100);
                 
             })
         },
@@ -1160,6 +1175,7 @@ export default {
             }
             
         } else {
+
            next()
         }
     },
@@ -1168,10 +1184,13 @@ export default {
     },
 
     mounted(){
+    this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
+    this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
+     
      const top = window.pageYOffset || 0;
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
       .then((res)=>{
-    
+        
           if(res.status == 200){
                 let tmp = this.getAll_questions.Question;
                 tmp.forEach(item => {
@@ -1183,10 +1202,10 @@ export default {
                 });
                 this.isloading = false;
                 this.Qlength = tmp.length;
-                
           }
           
       })  
+
        
     },
     beforeMount(){

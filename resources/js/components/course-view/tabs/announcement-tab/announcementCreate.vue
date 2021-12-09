@@ -86,10 +86,7 @@
      <editor class="AnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)"   placeholder="Announce something in your class!" 
       v-model="announcement.content" @change="onChange" theme="snow" :options="options"></editor>
 
-        <!-- <editor style="outline:none;"  :paste-as-text="pasteText"  placeholder="Announce something in your class!" 
-      v-model="announcement.content" @change="onChange" theme="snow" :options="options"></editor> -->
- <!--   <v-expand-transition> -->
-        <v-row  class="pl-3 pr-3">
+        <v-row  class="pl-3">
             <v-col cols="5" md="8" lg="8">
               
             </v-col>
@@ -150,9 +147,7 @@ export default {
                             handlers: {
                                 image: this.imageHandler
                             }
-                        },
-                       
-                                        
+                        },           
                     },
                     
                 },
@@ -183,7 +178,6 @@ export default {
                     this.$store.dispatch('createClassPost', this.announcement)
                     .then(res=>{
                         if(res.status == 200){
-               
                             this.isloading = false;
                             this.newNotification(res.data.announcement_id);
                         }else{
