@@ -139,9 +139,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'classNames'],
   data: function data() {
@@ -526,7 +523,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pl-3 pr-3" },
+        { staticClass: "pl-3" },
         [
           _c("v-col", { attrs: { cols: "5", md: "8", lg: "8" } }),
           _vm._v(" "),

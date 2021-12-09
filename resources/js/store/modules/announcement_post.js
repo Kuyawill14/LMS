@@ -31,8 +31,6 @@ const actions = {
 
         commit('FETCH_CLASSPOST', res.data.data);
         return res.status;
-
-
     },
     async loadMore({ commit }, id) {
         if (state.currentPage != state.lastPage) {
@@ -51,19 +49,21 @@ const actions = {
     async createClassPost({ commit }, postItem) {
 
         let res = await axios.post(`/api/announcement/insert`, { announcement: postItem });
-
         let newCLassPost = res.data;
-        // commit('ADD_CLASSPOST', newCLassPost);
-        ////console.log(state.class_post);
         state.class_post.push({...newCLassPost });
         return res;
     },
 
     async deleteClassPost({ commit }, data) {
-
         const res = await axios.delete(`/api/announcement/delete/${data.id}`);
         if(res){
-            state.class_post.splice(data.index, 1);
+            let index = 0;
+            state.class_post.forEach(item => {
+                if(data.id == item.announcement_id){
+                    state.class_post.splice(index, 1);
+                }
+                index++;
+            });
         }
     },
 

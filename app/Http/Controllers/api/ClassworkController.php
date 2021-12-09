@@ -404,14 +404,17 @@ class ClassworkController extends Controller
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->where('tbl_classworks.user_id', $userId)
             ->first();
-            
+
+
+            $submitted_count = tbl_Submission::where('tbl_submissions.classwork_id', $id)->count();
+            $classworkDetails->submitted_count =  $submitted_count;
             if(!$classworkDetails){
                 return response()->json([
                     "message" => "Classwork not found!",
                     "success" => false
                 ]);
             }
-
+           
             $classworkDetails->attachment = $classworkDetails->attachment != null ? unserialize($classworkDetails->attachment) : [];
         }
         else{
@@ -605,7 +608,6 @@ class ClassworkController extends Controller
         else{
             $UpdateClasswork->points  = $request->points;
         }
-        $UpdateClasswork->type =  $request->type;
         $UpdateClasswork->points = $request->type == "Objective Type" ? $UpdateClasswork->points : $request->points;
         $UpdateClasswork->title =  $request->title;
         $UpdateClasswork->instruction =  $request->instruction;

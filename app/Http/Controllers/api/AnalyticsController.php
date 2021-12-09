@@ -44,15 +44,8 @@ class AnalyticsController extends Controller
             return ["analytics"=>  $analytics];
         }
         else{
-           /*  $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
-            ->select("tbl_questions.id","tbl_questions.question", 
-            "tbl_question_analytics.correct_count","tbl_question_analytics.wrong_count","tbl_question_analytics.average_time")
-            ->leftJoin("tbl_question_analytics", "tbl_question_analytics.question_id", "=", "tbl_questions.id")
-            ->orderBy("tbl_questions.created_at","ASC")
-            ->get(); */
-
             $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
-            ->select("tbl_questions.id","tbl_questions.question", "tbl_questions.answer","tbl_questions.type")
+            ->select("tbl_questions.id","tbl_questions.question", "tbl_questions.answer","tbl_questions.type","tbl_questions.sensitivity")
             ->orderBy("tbl_questions.created_at","ASC")
             ->where("tbl_questions.type","!=",'Matching type')
             ->get();
@@ -65,8 +58,10 @@ class AnalyticsController extends Controller
                     if($sub->Submitted_Answers != null && $sub->Submitted_Answers != ''){
                         foreach(unserialize($sub->Submitted_Answers)  as $sub_answers){
                             if($item->id == $sub_answers['Question_id']){
-                                
-                                if($sub_answers['Answer'] == $item->answer){
+                                $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
+                                $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
+
+                                if($userAns == $questionAns){
                                     $checkCount++;
                                 }
                                 else{
