@@ -160,6 +160,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -280,6 +286,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this3.isUpdating = false;
         });
       }
+    },
+    copyLink: function copyLink() {
+      var expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www|meet\.[^\s]+\.[^\s]{2,})/gi;
+      var matches = this.getcourseInfo.v_classroom_link.match(expression);
+      this.getcourseInfo.v_classroom_link = matches[0];
     }
     /*   fetchDeparmentList() {
           axios.get('/api/admin/department/all')
@@ -312,7 +323,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.course_desciption .ql-editor{\n    min-height:100px;\n    max-height:450px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.course_desciption .ql-editor {\n    min-height: 100px;\n    max-height: 450px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -538,6 +549,11 @@ var render = function() {
                       label: "Video Conference Link *",
                       type: "url"
                     },
+                    on: {
+                      change: function($event) {
+                        return _vm.copyLink()
+                      }
+                    },
                     model: {
                       value: _vm.getcourseInfo.v_classroom_link,
                       callback: function($$v) {
@@ -559,7 +575,7 @@ var render = function() {
                       items: _vm.school_year,
                       "item-text": "schoolyear",
                       "item-value": "id",
-                      label: "School Year",
+                      label: "School Year *",
                       outlined: ""
                     },
                     model: {
@@ -583,7 +599,7 @@ var render = function() {
                       items: _vm.semester,
                       "item-text": "semester",
                       "item-value": "id",
-                      label: "Semester",
+                      label: "Semester *",
                       outlined: ""
                     },
                     model: {
@@ -692,7 +708,8 @@ var render = function() {
                                         _vm.getFileName(
                                           _vm.getcourseInfo.course_guide
                                         )
-                                      )
+                                      ) +
+                                      "\n                        "
                                   )
                                 ]
                               )
@@ -790,9 +807,9 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                " +
+                        "\n                    " +
                           _vm._s(_vm.isUpdating ? "Saving.." : "Next") +
-                          "\n            "
+                          "\n                "
                       )
                     ]
                   )
