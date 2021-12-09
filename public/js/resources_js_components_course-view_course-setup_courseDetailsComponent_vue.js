@@ -557,7 +557,7 @@ var render = function() {
                   _c("v-select", {
                     attrs: {
                       items: _vm.school_year,
-                      "item-text": "schoolyear *",
+                      "item-text": "schoolyear",
                       "item-value": "id",
                       label: "School Year",
                       outlined: ""

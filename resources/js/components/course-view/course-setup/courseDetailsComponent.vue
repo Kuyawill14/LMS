@@ -38,14 +38,14 @@
 
 
             <v-col cols="12" class="pa-0 ">
-                <v-select :items="school_year" item-text="schoolyear *" item-value="id" label="School Year"
+                <v-select :items="school_year" item-text="schoolyear" item-value="id" label="School Year *"
                     v-model="getcourseInfo.school_year_id" outlined></v-select>
             </v-col>
 
 
 
             <v-col cols="12" class="pa-0 ">
-                <v-select :items="semester" item-text="semester" item-value="id" label="Semester"
+                <v-select :items="semester" item-text="semester" item-value="id" label="Semester *"
                     v-model="getcourseInfo.semester_id" outlined></v-select>
             </v-col>
 
