@@ -281,6 +281,10 @@
                        this.file = null;
                        this.$refs.form.reset();
                    }
+               }).catch((err) =>{
+                      this.isAdding = false;
+                       this.file = null;
+                   this.toastError('Something went wrong, ' , err.response.data.error)
                })
             },
              validate() {

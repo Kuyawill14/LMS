@@ -301,6 +301,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                     _this2.$refs.form.reset();
                   }
+                })["catch"](function (err) {
+                  _this2.isAdding = false;
+                  _this2.file = null;
+
+                  _this2.toastError('Something went wrong, ', err.response.data.error);
                 });
 
               case 5:
