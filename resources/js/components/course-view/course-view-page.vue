@@ -91,9 +91,12 @@
                 </v-card-title>
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 
-                    <br>
-                    Google Meet: <a link :href="getcourseInfo.v_classroom_link"
+                    <br v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
+                    <div v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
+                        Google Meet: <a link :href="getcourseInfo.v_classroom_link"
                         target="_blank">{{getcourseInfo.v_classroom_link}}</a>
+                    </div>
+                    
 
                 </v-card-subtitle>
         

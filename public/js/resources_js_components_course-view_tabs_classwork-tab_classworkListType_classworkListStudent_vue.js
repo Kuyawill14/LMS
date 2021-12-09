@@ -236,7 +236,7 @@ var previewClassworkModal = function previewClassworkModal() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworks'],
+  props: ['classworks', 'ClassworkLength'],
   components: {
     previewClassworkModal: previewClassworkModal
   },
@@ -250,7 +250,6 @@ var previewClassworkModal = function previewClassworkModal() {
       FilterItems: [{
         title: 'All'
       }],
-      ClassworkLength: null,
       isSearching: false,
       search: "",
       isLoading: false
@@ -22580,7 +22579,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.classworks.totalClasswork == 0
+      _vm.ClassworkLength == 0
         ? _c(
             "v-row",
             {
@@ -22612,7 +22611,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.classworks.totalClasswork != 0
+      _vm.ClassworkLength != 0
         ? _c(
             "v-container",
             { attrs: { fluid: "" } },

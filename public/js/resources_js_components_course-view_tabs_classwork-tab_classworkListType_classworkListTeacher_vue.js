@@ -264,7 +264,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -279,7 +278,7 @@ var newClassworkModal = function newClassworkModal() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworks'],
+  props: ['classworks', 'ClassworkLength', 'role'],
   components: {
     deleteDialog: deleteDialog,
     newClassworkModal: newClassworkModal,
@@ -295,7 +294,6 @@ var newClassworkModal = function newClassworkModal() {
       focus: false,
       focusId: null,
       clicked: false,
-      ClassworkLength: null,
       FilterItems: ['All', 'Objective Type', 'Subjective Type'],
       SelectedFilter: 'All',
       archiveDialog: false,
@@ -22696,7 +22694,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.classworks.totalClasswork == 0
+      _vm.ClassworkLength == 0
         ? _c(
             "v-row",
             {
@@ -22794,7 +22792,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.classworks.totalClasswork != 0
+      _vm.ClassworkLength != 0
         ? _c(
             "v-container",
             { attrs: { fluid: "" } },

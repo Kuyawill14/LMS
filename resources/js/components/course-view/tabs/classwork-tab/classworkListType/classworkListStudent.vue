@@ -2,7 +2,7 @@
 <div>
    
 
-     <v-row align="center" justify="center" class="pt-10" v-if="classworks.totalClasswork == 0">
+     <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:10rem">
                     mdi-book-open-variant
@@ -13,7 +13,7 @@
         </v-row>
 
 
-    <v-container v-if="classworks.totalClasswork != 0" fluid>
+    <v-container v-if="ClassworkLength != 0" fluid>
         <!-- Modal -->
         <div v-if="Previewdialog">
             <v-dialog persistent v-model="Previewdialog"  width="650px">
@@ -219,7 +219,7 @@
     const previewClassworkModal = () => import('../dialogs/previewClassworkModal');
     import moment from 'moment-timezone';
     export default {
-        props: ['classworks'],
+        props: ['classworks','ClassworkLength'],
         components: {
             previewClassworkModal
         },
@@ -235,7 +235,6 @@
                         title: 'All'
                     }
                 ],
-                ClassworkLength: null,
                 isSearching: false,
                 search: "",
                 isLoading: false
