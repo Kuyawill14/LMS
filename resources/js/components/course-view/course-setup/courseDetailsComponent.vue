@@ -15,11 +15,11 @@
             </v-col>
 
             <v-col cols="12" class="pa-0 ">
-                <small class="text-caption">Generate google meet here: <a href="https://meet.google.com/"
-                        target="_blank">meet.google.com </a> </small>
+                <small class="text-caption">Generate Google Meet Link here: <a href="http://meet.google.com/new"
+                        target="_blank">meet.google.com/new </a> </small>
 
                 <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary"
-                    label="Video Conference Link">
+                    label="Video Conference Link" type="url">
                 </v-text-field>
 
             </v-col>
@@ -287,6 +287,7 @@
         },
         mounted() {
             this.fetchAllSchoolyear_semester();
+  
 
         }
     }

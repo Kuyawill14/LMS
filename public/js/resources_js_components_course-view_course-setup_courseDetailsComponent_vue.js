@@ -518,16 +518,16 @@ var render = function() {
                 { staticClass: "pa-0 ", attrs: { cols: "12" } },
                 [
                   _c("small", { staticClass: "text-caption" }, [
-                    _vm._v("Generate google meet here: "),
+                    _vm._v("Generate Google Meet Link here: "),
                     _c(
                       "a",
                       {
                         attrs: {
-                          href: "https://meet.google.com/",
+                          href: "http://meet.google.com/new",
                           target: "_blank"
                         }
                       },
-                      [_vm._v("meet.google.com ")]
+                      [_vm._v("meet.google.com/new ")]
                     )
                   ]),
                   _vm._v(" "),
@@ -535,7 +535,8 @@ var render = function() {
                     attrs: {
                       outlined: "",
                       color: "primary",
-                      label: "Video Conference Link"
+                      label: "Video Conference Link",
+                      type: "url"
                     },
                     model: {
                       value: _vm.getcourseInfo.v_classroom_link,
