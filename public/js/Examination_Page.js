@@ -1123,8 +1123,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this5 = this;
 
       if (data.istime == false) {
-        this.isExamStart = false; //this.isLoading = !this.isLoading;
-
+        this.isExamStart = false;
+        this.isLoading = true;
         this.isSubmitting = !this.isSubmitting;
         this.dialog = !this.dialog;
         this.isStart = !this.isStart;
@@ -1136,15 +1136,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           timeSpent: data.time
         }).then(function (res) {
           //this.isLoading = !this.isLoading;
-          //this.isSubmitting = !this.isSubmitting;
-          _this5.$router.push({
-            name: 'clwk',
-            params: {
-              id: _this5.$route.params.id
-            },
-            query: {
-              clwk: _this5.$route.query.clwk
-            }
+          // this.isSubmitting = !this.isSubmitting;
+          // this.$router.push({
+          //     name: 'clwk',
+          //     params: {
+          //         id: this.$route.params.id
+          //     },
+          //     query: {
+          //         clwk: this.$route.query.clwk
+          //     }
+          // });
+          self.opener.location.reload();
+
+          _this5.saveActivityLog("Student submitted the exam").then(function () {
+            setTimeout(function () {
+              _this5.isLoading = false;
+              window.close();
+            }, 300);
           });
         });
       }
@@ -1471,21 +1479,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this10.fetchQuestions();
       }); //this.CountTime();
     },
+    saveActivityLog: function saveActivityLog(description) {
+      var _this11 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.post('/api/objective-logs/logs', {
+                  classwork_id: _this11.$route.query.clwk,
+                  description: description
+                }).then(function (res) {
+                  console.log(res.data);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
     triggerWarning: function triggerWarning() {
       if (this.isExamStart) {
         this.leaveStrike += 1;
+        this.saveActivityLog('Switched tabs or applications / lost focus on the page.');
 
         if (this.leaveStrike == 5) {
           this.isExamStart = false;
-          this.toastError('You are lossing focus to examination page many times!');
-          this.$router.push({
-            name: 'clwk',
-            params: {
-              id: this.$route.params.id
-            },
-            query: {
-              clwk: this.$route.query.clwk
-            }
+          self.opener.location.reload();
+          this.toastError('You are lossing focus to examination page many times!, Logs saved');
+          this.saveActivityLog("Student got ".concat(this.leaveStrike, " warnings, Student have been forced to leave the exam")).then(function () {
+            setTimeout(function () {
+              window.close();
+            }, 300);
           });
         }
 
@@ -1503,14 +1533,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       location.reload();
     },
     openFullscreen: function openFullscreen(elem) {
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) {
+      if (document.body.requestFullscreen) {
+        document.body.requestFullscreen();
+      } else if (document.body.webkitRequestFullscreen) {
         /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) {
+        document.body.webkitRequestFullscreen();
+      } else if (document.body.msRequestFullscreen) {
         /* IE11 */
-        elem.msRequestFullscreen();
+        document.body.msRequestFullscreen();
       }
     },
     toggleFullScreen: function toggleFullScreen() {
@@ -1536,10 +1566,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var self = this;
     $(window).blur(function () {
       self.triggerWarning();
-      window.close();
     });
-    this.toggleFullScreen();
-    this.openFullscreen(doucment.body);
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
     if (this.isExamStart) {
@@ -1552,30 +1579,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     next();
   },
   mounted: function mounted() {
-    var _this11 = this;
+    var _this12 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context3.prev = _context3.next) {
             case 0:
-              _this11.CheckStatus();
+              _this12.toggleFullScreen();
 
-              _this11.toggleFullScreen();
+              _this12.openFullscreen(document.body);
 
-              _this11.openFullscreen(document.body);
+              _this12.CheckStatus();
 
             case 3:
             case "end":
-              return _context2.stop();
+              return _context3.stop();
           }
         }
-      }, _callee2);
+      }, _callee3);
     }))();
-  },
-  created: function created() {
-    this.toggleFullScreen();
-    this.openFullscreen(document.body);
   },
   beforeDestroy: function beforeDestroy() {
     window.removeEventListener('onbeforeunload', this.preventNav);

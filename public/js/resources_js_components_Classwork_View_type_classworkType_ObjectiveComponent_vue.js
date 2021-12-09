@@ -381,6 +381,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -465,6 +469,30 @@ var viewSubmission = function viewSubmission() {
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
       }
     },
+    saveActivityLog: function saveActivityLog(description) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.post('/api/objective-logs/logs', {
+                  classwork_id: _this.$route.query.clwk,
+                  description: description
+                }).then(function (res) {
+                  console.log('saved activity');
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
     start: function start() {
       this.classworkDetails.status = "Taking"; //   this.isOpenQuiz = true;
 
@@ -481,6 +509,9 @@ var viewSubmission = function viewSubmission() {
           }
         });
         window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+        this.saveActivityLog('Student started taking the exam').then(function () {
+          location.reload();
+        });
       } else {
         this.isOpenQuiz = false;
       }
@@ -498,84 +529,47 @@ var viewSubmission = function viewSubmission() {
         }
       });
       window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+      this.saveActivityLog('Student continue taking the exam').then(function () {
+        location.reload();
+      });
     },
     checkStatus: function checkStatus() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/api/student/check-status/' + this.classworkDetails.id).then(function (res) {
-        _this.status = res.data.status;
-        _this.statusDetails = res.data;
-        _this.isLoaded = false;
+        _this2.status = res.data.status;
+        _this2.statusDetails = res.data;
+        _this2.isLoaded = false;
       });
     },
     UpdateStatus: function UpdateStatus(id) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this2.updateDetails.id = id;
-                _this2.updateDetails.class_classwork_id = _this2.classworkDetails.class_classwork_id;
-                _this2.updateDetails.type = _this2.classworkDetails.type;
-                axios.post('/api/student/update-status', _this2.updateDetails).then(function (res) {
-                  if (res.data.success == true) {
-                    _this2.$router.push({
-                      name: 'quizstart',
-                      params: {
-                        id: _this2.$route.params.id
-                      },
-                      query: {
-                        clwk: _this2.classworkDetails.id
-                      }
-                    });
-                  } else {
-                    _this2.toastError('Something went wrong while loading this classwork!');
-                  }
-                });
-
-              case 4:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    },
-    addComment: function addComment(details) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                data = {};
-                _this3.isCommenting = true;
-                data.classwork_id = details.id;
-                data.to_user = details.user_id;
-                data.type = 'Private';
-                data.course_id = _this3.$route.params.id;
-                data.comment = _this3.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  if (res.status == 200) {
-                    _this3.classworkDetails.comments.push({
-                      content: res.data.comment,
-                      id: res.data.id,
-                      name: res.data.name,
-                      profile_pic: res.data.profile_pic,
-                      u_id: _this3.get_CurrentUser.user_id,
-                      comment_date: new Date()
+                _this3.updateDetails.id = id;
+                _this3.updateDetails.class_classwork_id = _this3.classworkDetails.class_classwork_id;
+                _this3.updateDetails.type = _this3.classworkDetails.type;
+                axios.post('/api/student/update-status', _this3.updateDetails).then(function (res) {
+                  if (res.data.success == true) {
+                    _this3.$router.push({
+                      name: 'quizstart',
+                      params: {
+                        id: _this3.$route.params.id
+                      },
+                      query: {
+                        clwk: _this3.classworkDetails.id
+                      }
                     });
-
-                    _this3.comment = '';
+                  } else {
+                    _this3.toastError('Something went wrong while loading this classwork!');
                   }
                 });
-                _this3.isCommenting = false;
 
-              case 9:
+              case 4:
               case "end":
                 return _context2.stop();
             }
@@ -583,21 +577,39 @@ var viewSubmission = function viewSubmission() {
         }, _callee2);
       }))();
     },
-    DeleteComment: function DeleteComment(id, index) {
+    addComment: function addComment(details) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
-                  if (res.data.success == true) {
-                    _this4.classworkDetails.comments.splice(index, 1);
+                data = {};
+                _this4.isCommenting = true;
+                data.classwork_id = details.id;
+                data.to_user = details.user_id;
+                data.type = 'Private';
+                data.course_id = _this4.$route.params.id;
+                data.comment = _this4.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  if (res.status == 200) {
+                    _this4.classworkDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: res.data.name,
+                      profile_pic: res.data.profile_pic,
+                      u_id: _this4.get_CurrentUser.user_id,
+                      comment_date: new Date()
+                    });
+
+                    _this4.comment = '';
                   }
                 });
+                _this4.isCommenting = false;
 
-              case 1:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -605,7 +617,7 @@ var viewSubmission = function viewSubmission() {
         }, _callee3);
       }))();
     },
-    UpdateComment: function UpdateComment(content, id) {
+    DeleteComment: function DeleteComment(id, index) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -613,12 +625,10 @@ var viewSubmission = function viewSubmission() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios.put('/api/post/comment/update/' + id, {
-                  comment: content
-                }).then(function (res) {
-                  _this5.isUpdatingComment = false;
-                  _this5.isUpdatingComment_id = null;
-                  _this5.isUpdatingComment_old_data = null;
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this5.classworkDetails.comments.splice(index, 1);
+                  }
                 });
 
               case 1:
@@ -629,6 +639,30 @@ var viewSubmission = function viewSubmission() {
         }, _callee4);
       }))();
     },
+    UpdateComment: function UpdateComment(content, id) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                axios.put('/api/post/comment/update/' + id, {
+                  comment: content
+                }).then(function (res) {
+                  _this6.isUpdatingComment = false;
+                  _this6.isUpdatingComment_id = null;
+                  _this6.isUpdatingComment_old_data = null;
+                });
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
     DownLoadFile: function DownLoadFile(file) {
       window.open(file, '_blank');
     }
@@ -636,16 +670,16 @@ var viewSubmission = function viewSubmission() {
   created: function created() {//this.checkStatus();
     //this.isLoaded = false;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
             case "end":
-              return _context5.stop();
+              return _context6.stop();
           }
         }
-      }, _callee5);
+      }, _callee6);
     }))();
   },
   mounted: function mounted() {
@@ -680,7 +714,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n/* width */\n::-webkit-scrollbar {\nwidth: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\nbackground: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\nbackground: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\nbackground: #555;\n}\n.commentContent  img{\n    max-width: 100% !important;\n    max-height: 20rem !important;\n}\n.commentContent  img{\n        max-height: 10rem !important;\n}\n.CommentEditor >  iframe{\n    width: 100% !important;\nheight: 20rem !important;\n}\n.CommentEditor >  .ql-editor img{\n\n    max-height: 25rem !important;\n}\n.CommentEditor >  .ql-container{\n    max-height: 70rem;\n}\ndiv.ql-tooltip{\n    left: 0px !important;\n    top: -8px !important;\n}\ndiv>.ql-tooltip-arrow{\n    display: none !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img {\n    max-width: 100% !important;\n    max-height: 50rem !important;\n}\n\n/* width */\n::-webkit-scrollbar {\n    width: 8px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\n    background: #f1f1f1;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\n    background: #888;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n    background: #555;\n}\n.commentContent img {\n    max-width: 100% !important;\n    max-height: 20rem !important;\n}\n.commentContent img {\n    max-height: 10rem !important;\n}\n.CommentEditor>iframe {\n    width: 100% !important;\n    height: 20rem !important;\n}\n.CommentEditor>.ql-editor img {\n\n    max-height: 25rem !important;\n}\n.CommentEditor>.ql-container {\n    max-height: 70rem;\n}\ndiv.ql-tooltip {\n    left: 0px !important;\n    top: -8px !important;\n}\ndiv>.ql-tooltip-arrow {\n    display: none !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1007,7 +1041,7 @@ var render = function() {
                                     _vm._v("mdi-comment")
                                   ]),
                                   _vm._v(
-                                    "Private Comments \r\n                          "
+                                    "Private Comments\n                            "
                                   )
                                 ],
                                 1
@@ -1248,7 +1282,7 @@ var render = function() {
                                                                                     },
                                                                                     [
                                                                                       _vm._v(
-                                                                                        "mdi-dots-vertical"
+                                                                                        "\n                                                                    mdi-dots-vertical"
                                                                                       )
                                                                                     ]
                                                                                   )
@@ -1355,7 +1389,8 @@ var render = function() {
                                                           _vm.comment_date(
                                                             item.comment_date
                                                           )
-                                                        )
+                                                        ) +
+                                                          "\n                                        "
                                                       )
                                                     ]
                                                   ),
@@ -1553,7 +1588,7 @@ var render = function() {
                                                         [_vm._v("mdi-check")]
                                                       ),
                                                       _vm._v(
-                                                        " Score: " +
+                                                        " Score:\n                                    " +
                                                           _vm._s(
                                                             _vm.classworkDetails
                                                               .score +
@@ -1561,7 +1596,8 @@ var render = function() {
                                                               _vm
                                                                 .classworkDetails
                                                                 .points
-                                                          )
+                                                          ) +
+                                                          "\n                                "
                                                       )
                                                     ],
                                                     1
@@ -1612,7 +1648,7 @@ var render = function() {
                                                 { attrs: { large: "" } },
                                                 [
                                                   _vm._v(
-                                                    "\r\n                                    mdi-book-open-variant\r\n                                    "
+                                                    "\n                                        mdi-book-open-variant\n                                    "
                                                   )
                                                 ]
                                               )
@@ -1646,18 +1682,19 @@ var render = function() {
                                                     ]
                                                   ),
                                                   _vm._v(
-                                                    " " +
+                                                    "\n                                        " +
                                                       _vm._s(
                                                         _vm.classworkDetails
                                                           .duration
                                                       ) +
-                                                      " " +
+                                                      "\n                                        " +
                                                       _vm._s(
                                                         _vm.classworkDetails
                                                           .duration > 1
                                                           ? "mins"
                                                           : "min"
-                                                      )
+                                                      ) +
+                                                      "\n                                    "
                                                   )
                                                 ],
                                                 1
@@ -1673,7 +1710,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "Due " +
+                                                        "Due\n                                        " +
                                                           _vm._s(
                                                             _vm.classworkDetails
                                                               .availability
@@ -1683,7 +1720,8 @@ var render = function() {
                                                                     .to_date
                                                                 )
                                                               : "always Available"
-                                                          )
+                                                          ) +
+                                                          "\n                                    "
                                                       )
                                                     ]
                                                   )
@@ -1695,7 +1733,7 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "Submitted: " +
+                                                        "Submitted:\n                                        " +
                                                           _vm._s(
                                                             _vm.format_date(
                                                               _vm
@@ -1730,7 +1768,8 @@ var render = function() {
                                         },
                                         [
                                           _vm._v(
-                                            _vm._s(_vm.classworkDetails.title)
+                                            _vm._s(_vm.classworkDetails.title) +
+                                              "\n                            "
                                           )
                                         ]
                                       ),
@@ -1750,7 +1789,7 @@ var render = function() {
                                               ]),
                                               _vm._v(
                                                 _vm._s(_vm.totalQuestion) +
-                                                  " Question"
+                                                  " Question\n                                "
                                               )
                                             ],
                                             1
@@ -1766,7 +1805,8 @@ var render = function() {
                                               _vm._v(
                                                 _vm._s(
                                                   _vm.classworkDetails.points
-                                                ) + " Points"
+                                                ) +
+                                                  " Points\n                                "
                                               )
                                             ],
                                             1
@@ -1843,13 +1883,13 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\r\n                                            " +
+                                                              "\n                                            " +
                                                                 _vm._s(
                                                                   _vm.CheckFileIcon(
                                                                     item.extension
                                                                   )
                                                                 ) +
-                                                                "\r\n                                            "
+                                                                "\n                                        "
                                                             )
                                                           ]
                                                         )
@@ -1893,9 +1933,10 @@ var render = function() {
                                                                       },
                                                                       [
                                                                         _vm._v(
-                                                                          _vm._s(
-                                                                            item.name
-                                                                          )
+                                                                          "\n                                                " +
+                                                                            _vm._s(
+                                                                              item.name
+                                                                            )
                                                                         )
                                                                       ]
                                                                     )
@@ -1967,7 +2008,9 @@ var render = function() {
                                                   }
                                                 },
                                                 [
-                                                  _vm._v("Take Quiz"),
+                                                  _vm._v(
+                                                    "\n                                Take Quiz"
+                                                  ),
                                                   _c(
                                                     "v-icon",
                                                     {
@@ -2013,7 +2056,9 @@ var render = function() {
                                                   }
                                                 },
                                                 [
-                                                  _vm._v("Continue"),
+                                                  _vm._v(
+                                                    "Continue\n                                "
+                                                  ),
                                                   _c(
                                                     "v-icon",
                                                     {
@@ -2052,7 +2097,9 @@ var render = function() {
                                                   }
                                                 },
                                                 [
-                                                  _vm._v("View Submission"),
+                                                  _vm._v(
+                                                    "View\n                                Submission"
+                                                  ),
                                                   _c(
                                                     "v-icon",
                                                     {
@@ -2141,7 +2188,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "Take Quiz"
+                                                                "\n                                        Take Quiz"
                                                               ),
                                                               _c(
                                                                 "v-icon",
@@ -2195,7 +2242,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                        Continue"
+                                                                "\n                                        Continue"
                                                               ),
                                                               _c(
                                                                 "v-icon",
@@ -2242,7 +2289,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "View Submission"
+                                                                "\n                                        View Submission"
                                                               ),
                                                               _c(
                                                                 "v-icon",
@@ -2287,7 +2334,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                    Not Yet Available"
+                                                                "\n                                        Not Yet Available"
                                                               ),
                                                               _c(
                                                                 "v-icon",
@@ -2446,12 +2493,12 @@ var render = function() {
             "v-card",
             [
               _c("v-card-title", { staticClass: "text-h6" }, [
-                _vm._v("\r\n          Start Quiz?\r\n        ")
+                _vm._v("\n                Start Quiz?\n            ")
               ]),
               _vm._v(" "),
               _c("v-card-text", [
                 _vm._v(
-                  "\r\n          Are you sure to take this quiz?\r\n        "
+                  "\n                Are you sure to take this quiz?\n            "
                 )
               ]),
               _vm._v(" "),
@@ -2470,7 +2517,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\r\n            Cancel\r\n          ")]
+                    [_vm._v("\n                    Cancel\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -2483,7 +2530,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\r\n            Start\r\n          ")]
+                    [_vm._v("\n                    Start\n                ")]
                   )
                 ],
                 1

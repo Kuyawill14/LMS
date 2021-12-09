@@ -37,6 +37,8 @@ use App\Http\Controllers\api\admin\ManageUserController;
 use App\Http\Controllers\api\CampusDirector\CampusDirectorController;
 use App\Http\Controllers\api\ActivityLogController;
 use App\Http\Controllers\api\sms\testSmscontroller;
+
+use App\Http\Controllers\api\StduentExamActivityLog; 
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -258,6 +260,14 @@ Route::middleware('auth:sanctum')->prefix('/student_sub_module')->group(function
     Route::get('/student_main_progress/{id}', [StudentSubModuleProgressController::class, 'studentMainProgress']);
     Route::get('/student_sub_progress/{id}', [StudentSubModuleProgressController::class, 'studentSubProgress']);
 
+});
+
+
+//student sub  modules progress
+Route::middleware('auth:sanctum')->prefix('/objective-logs')->group(function () {
+    Route::post('/logs', [StduentExamActivityLog::class, 'addStudentActivityLog']);
+    Route::get('/get_logs', [StduentExamActivityLog::class, 'fetchStudentActivityLog']);
+  
 });
 
 

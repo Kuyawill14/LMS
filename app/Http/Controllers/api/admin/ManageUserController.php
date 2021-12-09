@@ -70,7 +70,7 @@ class ManageUserController extends Controller
                 if($userFind == 0 ) {
                     $New = User::create([
                         'email' =>  $email,
-                        'password' => Hash::make('ORANGE-' . $last_name . '@2021'),
+                        'password' => Hash::make('orange-' . $last_name . '@2021'),
                         'role' =>  $usertype,
                         'email_verified_at' =>  date('Y-m-d H:i:s'),
                     ]);

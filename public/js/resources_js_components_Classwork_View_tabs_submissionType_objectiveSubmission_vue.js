@@ -213,56 +213,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -813,7 +763,7 @@ var render = function() {
                                                   ? _vm.Submitted
                                                   : _vm.Submitted_count
                                               ) +
-                                                " / " +
+                                                "\n                                        / " +
                                                 _vm._s(
                                                   _vm.Class ==
                                                     _vm.$route.params.id
@@ -861,7 +811,7 @@ var render = function() {
                                                 [_vm._v("mdi-restart")]
                                               ),
                                               _vm._v(
-                                                "\r\n                                 Reset Submission\r\n                             "
+                                                "\n                                        Reset Submission\n                                    "
                                               )
                                             ],
                                             1
@@ -1173,13 +1123,13 @@ var render = function() {
                                                   [
                                                     _c("v-list-item-title", [
                                                       _vm._v(
-                                                        "\r\n                                             " +
+                                                        "\n                                                " +
                                                           _vm._s(
                                                             item.firstName +
                                                               " " +
                                                               item.lastName
                                                           ) +
-                                                          "\r\n                                        "
+                                                          "\n                                            "
                                                       )
                                                     ]),
                                                     _vm._v(" "),
@@ -1200,7 +1150,7 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "mdi-check"
+                                                                  "\n                                                    mdi-check"
                                                                 )
                                                               ]
                                                             )
@@ -1320,7 +1270,7 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\r\n                                            Taking...\r\n                                        "
+                                                              "\n                                                Taking...\n                                            "
                                                             )
                                                           ]
                                                         )

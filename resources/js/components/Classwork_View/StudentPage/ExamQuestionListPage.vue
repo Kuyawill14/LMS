@@ -653,7 +653,7 @@
             SubmitAnswer(data) {
                 if (data.istime == false) {
                     this.isExamStart = false;
-                    //this.isLoading = !this.isLoading;
+                    this.isLoading = true;
                     this.isSubmitting = !this.isSubmitting;
                     this.dialog = !this.dialog;
                     this.isStart = !this.isStart;
@@ -666,16 +666,31 @@
                         })
                         .then((res) => {
                             //this.isLoading = !this.isLoading;
-                            //this.isSubmitting = !this.isSubmitting;
-                            this.$router.push({
-                                name: 'clwk',
-                                params: {
-                                    id: this.$route.params.id
-                                },
-                                query: {
-                                    clwk: this.$route.query.clwk
-                                }
-                            });
+                            // this.isSubmitting = !this.isSubmitting;
+
+
+
+                            // this.$router.push({
+                            //     name: 'clwk',
+                            //     params: {
+                            //         id: this.$route.params.id
+                            //     },
+                            //     query: {
+                            //         clwk: this.$route.query.clwk
+                            //     }
+                            // });
+                            self.opener.location.reload();
+                            this.saveActivityLog(
+                                    `Student submitted the exam`)
+                                .then(() => {
+                                    setTimeout(() => {
+                                        this.isLoading = false;
+                                        window.close();
+                                    }, 300)
+                                });
+
+
+
                         })
                 }
 
@@ -1024,22 +1039,35 @@
                     })
                 //this.CountTime();
             },
+
+            async saveActivityLog(description) {
+                await axios.post('/api/objective-logs/logs', {
+                    classwork_id: this.$route.query.clwk,
+                    description: description,
+
+                }).then((res) => {
+                    console.log(res.data);
+                })
+            },
             triggerWarning() {
                 if (this.isExamStart) {
                     this.leaveStrike += 1;
+
+                    this.saveActivityLog('Switched tabs or applications / lost focus on the page.')
+
                     if (this.leaveStrike == 5) {
                         this.isExamStart = false;
+                        self.opener.location.reload();
+                        this.toastError('You are lossing focus to examination page many times!, Logs saved');
 
-                        this.toastError('You are lossing focus to examination page many times!');
-                        this.$router.push({
-                            name: 'clwk',
-                            params: {
-                                id: this.$route.params.id
-                            },
-                            query: {
-                                clwk: this.$route.query.clwk
-                            }
-                        })
+                        this.saveActivityLog(
+                                `Student got ${this.leaveStrike} warnings, Student have been forced to leave the exam`)
+                            .then(() => {
+                                setTimeout(() => {
+                                    window.close();
+                                }, 300)
+                            });
+
                     }
                     if (!this.preventWarning) {
                         this.warningDialog = true;
@@ -1056,70 +1084,70 @@
                 location.reload();
             },
             openFullscreen(elem) {
-                if (elem.requestFullscreen) {
-                    elem.requestFullscreen();
-                } else if (elem.webkitRequestFullscreen) {
+
+                if (document.body.requestFullscreen) {
+                    document.body.requestFullscreen();
+                } else if (document.body.webkitRequestFullscreen) {
                     /* Safari */
-                    elem.webkitRequestFullscreen();
-                } else if (elem.msRequestFullscreen) {
+                    document.body.webkitRequestFullscreen();
+                } else if (document.body.msRequestFullscreen) {
                     /* IE11 */
-                    elem.msRequestFullscreen();
+                    document.body.msRequestFullscreen();
                 }
             },
-                toggleFullScreen() {
-                    var el = document.documentElement,
-                        rfs = // for newer Webkit and Firefox
-                        el.requestFullScreen ||
-                        el.webkitRequestFullScreen ||
-                        el.mozRequestFullScreen ||
-                        el.msRequestFullScreen;
-                    if (typeof rfs != "undefined" && rfs) {
-                        rfs.call(el);
-                    } else if (typeof window.ActiveXObject != "undefined") {
-                        // for Internet Explorer
-                        var wscript = new ActiveXObject("WScript.Shell");
-                        if (wscript != null) {
-                            wscript.SendKeys("{F11}");
-                        }
+            toggleFullScreen() {
+                var el = document.documentElement,
+                    rfs = // for newer Webkit and Firefox
+                    el.requestFullScreen ||
+                    el.webkitRequestFullScreen ||
+                    el.mozRequestFullScreen ||
+                    el.msRequestFullScreen;
+                if (typeof rfs != "undefined" && rfs) {
+                    rfs.call(el);
+                } else if (typeof window.ActiveXObject != "undefined") {
+                    // for Internet Explorer
+                    var wscript = new ActiveXObject("WScript.Shell");
+                    if (wscript != null) {
+                        wscript.SendKeys("{F11}");
                     }
                 }
-            },
-            beforeMount() {
+            }
+        },
+        beforeMount() {
 
-                window.addEventListener("offline", this.isOffline);
-                window.addEventListener("onbeforeunload", this.preventNav);
-                let self = this;
-                $(window).blur(function () {
-                    self.triggerWarning();
-                    window.close();
-                });
-                this.toggleFullScreen();
-                this.openFullscreen(doucment.body);
-            },
-            beforeRouteLeave(to, from, next) {
-                if (this.isExamStart) {
-                    if (!window.confirm("Leave without saving?")) {
+            window.addEventListener("offline", this.isOffline);
+            window.addEventListener("onbeforeunload", this.preventNav);
+            let self = this;
+            $(window).blur(function () {
+                self.triggerWarning();
 
-                        return;
-                    }
+
+            });
+
+        },
+        beforeRouteLeave(to, from, next) {
+            if (this.isExamStart) {
+                if (!window.confirm("Leave without saving?")) {
+
+                    return;
                 }
-                this.isLeavingPage = true;
-                next();
-            },
-            async mounted() {
-                this.CheckStatus();
-                this.toggleFullScreen();
-                this.openFullscreen(document.body);
-            },
-            created() {
-                this.toggleFullScreen();
-                this.openFullscreen(document.body);
-            },
-            beforeDestroy() {
-                window.removeEventListener('onbeforeunload', this.preventNav)
-            },
+            }
+            this.isLeavingPage = true;
+            next();
+        },
+        async mounted() {
+            this.toggleFullScreen();
+            this.openFullscreen(document.body);
+            this.CheckStatus();
 
-        }
+
+        },
+
+        beforeDestroy() {
+            window.removeEventListener('onbeforeunload', this.preventNav)
+        },
+
+    }
 
 </script>
 
