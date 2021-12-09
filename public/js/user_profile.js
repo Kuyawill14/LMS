@@ -281,6 +281,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
   data: function data() {
@@ -311,7 +317,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return v && v.length <= 8 || 'Max 8 characters';
       }],
       isloading: true,
-      departmentsList: []
+      departmentsList: [],
+      isNeChanges: false
     };
   },
   methods: {
@@ -632,7 +639,12 @@ var render = function() {
                                       rules: _vm.StudentIdRules,
                                       outlined: ""
                                     },
-                                    on: { keypress: _vm.isNumber },
+                                    on: {
+                                      change: function($event) {
+                                        _vm.isNeChanges = true
+                                      },
+                                      keypress: _vm.isNumber
+                                    },
                                     model: {
                                       value: _vm.UserDetails.student_id,
                                       callback: function($$v) {
@@ -701,6 +713,11 @@ var render = function() {
                                   rules: _vm.FieldRules,
                                   outlined: ""
                                 },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
                                 model: {
                                   value: _vm.UserDetails.firstName,
                                   callback: function($$v) {
@@ -763,6 +780,11 @@ var render = function() {
                                   dense: "",
                                   outlined: "",
                                   rules: _vm.FieldRules
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
                                 },
                                 model: {
                                   value: _vm.UserDetails.middleName,
@@ -829,6 +851,11 @@ var render = function() {
                                   outlined: "",
                                   rules: _vm.FieldRules
                                 },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
                                 model: {
                                   value: _vm.UserDetails.lastName,
                                   callback: function($$v) {
@@ -889,6 +916,11 @@ var render = function() {
                                   "item-value": "id",
                                   dense: "",
                                   outlined: ""
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
                                 },
                                 model: {
                                   value: _vm.UserDetails.department_id,
@@ -997,6 +1029,11 @@ var render = function() {
                                     ? ""
                                     : "Please use an active email address!"
                                 },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
                                 model: {
                                   value: _vm.UserDetails.email,
                                   callback: function($$v) {
@@ -1100,7 +1137,12 @@ var render = function() {
                                     ? ""
                                     : "Please use an active phone number"
                                 },
-                                on: { keypress: _vm.isNumber },
+                                on: {
+                                  keypress: _vm.isNumber,
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
                                 model: {
                                   value: _vm.UserDetails.cp_no,
                                   callback: function($$v) {
@@ -1239,6 +1281,11 @@ var render = function() {
                                   ? "blue--text"
                                   : "ma-0 pa-0 blue--text",
                                 attrs: { dense: "", outlined: "" },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
                                 model: {
                                   value: _vm.UserDetails.social_account,
                                   callback: function($$v) {
@@ -1293,11 +1340,12 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: {
+                                    dark: _vm.isNeChanges,
+                                    disabled: !_vm.isNeChanges,
                                     block: !_vm.$vuetify.breakpoint.mdAndUp,
                                     color: "primary",
                                     rounded: "",
-                                    loading: _vm.isSaving,
-                                    dark: ""
+                                    loading: _vm.isSaving
                                   },
                                   on: {
                                     click: function($event) {

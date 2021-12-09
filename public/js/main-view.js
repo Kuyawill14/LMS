@@ -10892,40 +10892,46 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _c("v-divider", { staticClass: "my-3" }),
+                                  _vm.role == "Student" || _vm.role == "Teacher"
+                                    ? _c("v-divider", { staticClass: "my-3" })
+                                    : _vm._e(),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        depressed: "",
-                                        rounded: "",
-                                        text: ""
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.$router.push({
-                                            name: "archive-course"
-                                          })
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("mdi-package-down")
-                                      ]),
-                                      _vm._v(
-                                        " " +
-                                          _vm._s(
-                                            _vm.role == "Teacher"
-                                              ? "Archives"
-                                              : "Archive Courses"
-                                          ) +
-                                          "\n                            "
+                                  _vm.role == "Student" || _vm.role == "Teacher"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            depressed: "",
+                                            rounded: "",
+                                            text: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$router.push({
+                                                name: "archive-course"
+                                              })
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("mdi-package-down")]
+                                          ),
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(
+                                                _vm.role == "Teacher"
+                                                  ? "Archives"
+                                                  : "Archive Courses"
+                                              ) +
+                                              "\n                            "
+                                          )
+                                        ],
+                                        1
                                       )
-                                    ],
-                                    1
-                                  ),
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _c("v-divider", { staticClass: "my-3" }),
                                   _vm._v(" "),

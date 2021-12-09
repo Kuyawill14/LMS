@@ -84,8 +84,6 @@
                                     <small>Copy class code</small>
                                 </v-tooltip>
                             
-                            
-                            
                                 </v-list-item-subtitle >
 
                                 <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">

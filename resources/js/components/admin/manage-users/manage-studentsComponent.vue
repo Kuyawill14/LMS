@@ -1,13 +1,24 @@
 <template>
     <div class="pt-4">
-        <h2>
-            Manage Students
-        </h2>
-        <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
+
+        <v-row class="mb-0">
+            <v-col cols="12" lg="10">
+                <h2>
+                     Manage Students
+                </h2>
+            </v-col>
+            <v-col cols="12" lg="2" style="display:flex;justify-content: end;">
+                <v-btn color="primary" dark @click="openAdd()">
+                    <v-icon left>mdi-account-plus-outline</v-icon>
+                    Add Student
+                </v-btn>
+            </v-col>
+        </v-row>
+<!--         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        <v-row class="pt-2">
-            <v-col>
+        </v-btn> -->
+        <v-row >
+            <v-col cols="12" class="mt-0 pt-0">
 
 
 
@@ -30,8 +41,10 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
-                                    <td style="width:1%">
+                                    <td style="width:7%">
                                         <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
+                                        <span :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
+                                         
                                     </td>
                                     <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
@@ -278,8 +291,7 @@
                 },
                 StudentList: [],
                 headers: [{
-
-                        sortable: false
+                        value: 'isActive',
                     },
                     {
                         text: 'Student ID',

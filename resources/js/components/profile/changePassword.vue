@@ -65,7 +65,7 @@
 
                             </v-col>
                             <v-col cols="12" md="5">
-                                <v-btn :block="!$vuetify.breakpoint.lgAndUp " :disabled="isChanging" rounded @click="validate()" color="primary" dark>
+                                <v-btn :disabled="!valid" :block="!$vuetify.breakpoint.lgAndUp " :loading="isChanging" rounded @click="validate()" color="primary" :dark="valid">
                                     {{isChanging ? 'Updating...' : 'Update Password'}}</v-btn>
                             </v-col>
                         </v-row>
@@ -91,7 +91,7 @@
                     confirm_password: null
                 },
                 rules: {
-                    required: value => !!value || "Required.",
+                    required: value => !!value || "Field is required.",
                     min: v => (v && v.length >= 6) || "Min 6 characters"
                 }
             }

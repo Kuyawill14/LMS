@@ -183,8 +183,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 var createClassForm = function createClassForm() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classes-tab_class-type_createClass_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./createClass */ "./resources/js/components/course-view/tabs/classes-tab/class-type/createClass.vue"));
 };

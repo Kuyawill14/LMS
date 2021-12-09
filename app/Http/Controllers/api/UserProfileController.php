@@ -38,48 +38,19 @@ class UserProfileController extends Controller
        
         $currentUser = auth('sanctum')->user();
         $userDetails  = auth('sanctum')->user()->tbl_userDetails;
+        $department = auth('sanctum')->user()->tbl_user_departments;
+
+
         $userDetails->email = $currentUser->email;
         $userDetails->role = $currentUser->role;
-
+        $userDetails->department_id = $department->department_id;
         if($currentUser->email == 'admin@gmail.com'){
             $userDetails->verified = $userDetails->verified = true;
         }else{
             $userDetails->verified = $currentUser->email_verified_at != null ? true : false;
         }
         return $userDetails;
-      
-
-        /* $userId = auth('sanctum')->id();
-        $userDetails = User::where('users.id' ,$userId)
-        ->select('users.role','users.email','users.email_verified_at as verified',
-        'tbl_user_details.*','department_id')
-        ->leftjoin('tbl_user_departments', 'tbl_user_departments.user_id', '=', 'users.id')
-        ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id')
-        ->first(); */
-        
-
-       /*  $name = $userDetails->firstName.' '.$userDetails->lastName;
-        $photo_url = vsprintf('https://www.gravatar.com/avatar/%s.jpg?s=200&d=%s', [
-            md5(strtolower($userDetails->email)),
-            $name ? urlencode("https://ui-avatars.com/api/$name") : 'mp',
-        ]);
-
-        $userDetails->photo_url =  $photo_url; */
-
-
-        
-        if($userDetails->email == 'admin@gmail.com'){
-            $userDetails->verified = true;
-        }
-        else{
-            $userDetails->verified =  $userDetails->verified != null ? true : false;
-        }
-        
-       /*  $userDetails->profile_pic =  str_replace(return \Config::get('app.do_url');.'/', "",$userDetails->profile_pic);
-        return $userDetails->profile_pic; */
-        return $userDetails;
-
-
+    
     }
 
 

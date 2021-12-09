@@ -53,6 +53,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(tbl_userDetails::class, 'user_id');
     }
 
+    public function tbl_user_departments()
+    {
+        return $this->hasOne(tbl_user_departments::class, 'user_id');
+    }
+
     // /**
     //  * The accessors to append to the model's array form.
     //  *

@@ -104,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       rules: {
         required: function required(value) {
-          return !!value || "Required.";
+          return !!value || "Field is required.";
         },
         min: function min(v) {
           return v && v.length >= 6 || "Min 6 characters";
@@ -489,11 +489,12 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: {
+                                    disabled: !_vm.valid,
                                     block: !_vm.$vuetify.breakpoint.lgAndUp,
-                                    disabled: _vm.isChanging,
+                                    loading: _vm.isChanging,
                                     rounded: "",
                                     color: "primary",
-                                    dark: ""
+                                    dark: _vm.valid
                                   },
                                   on: {
                                     click: function($event) {

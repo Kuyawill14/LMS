@@ -37,6 +37,7 @@
                     </v-col>
                     <v-col cols="12" md="2" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
+                         @change="isNeChanges = true"
                                 dense
                                 :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                 :rules="StudentIdRules"
@@ -56,6 +57,7 @@
                     </v-col>
                     <v-col cols="12" md="6"  :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
+                         @change="isNeChanges = true"
                                 dense
                                 :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                 :rules="FieldRules"
@@ -74,6 +76,7 @@
                     <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                         dense
+                         @change="isNeChanges = true"
                             outlined
                             :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             :rules="FieldRules"
@@ -90,6 +93,7 @@
                     </v-col>
                     <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
+                         @change="isNeChanges = true"
                             dense
                             :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             type="text"
@@ -109,6 +113,7 @@
                     </v-col>
                     <v-col cols="12" md="6"  :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                          <v-select
+                          @change="isNeChanges = true"
                             class="mr-2"
                              :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             :items="departmentsList"
@@ -141,6 +146,7 @@
                     <v-col cols="10" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'b-0 mb-0 mt-0 pt-0'">
                         <v-text-field
                             :disabled="editEmail"
+                             @change="isNeChanges = true"
                             :rules="emailRules"
                             :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                             dense
@@ -166,7 +172,7 @@
                         <v-text-field
                         @keypress="isNumber"
                         max-length="11"
-                        
+                         @change="isNeChanges = true"
                         dense
                             outlined
                             :disabled="editPhone"
@@ -201,7 +207,7 @@
                     </v-col>
                     <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                         <v-text-field
-                          
+                            @change="isNeChanges = true"
                             dense
                             :class="$vuetify.breakpoint.lgAndUp ? 'blue--text' : 'ma-0 pa-0 blue--text'"
                             outlined
@@ -232,7 +238,7 @@
                         
                     </v-col>
                     <v-col cols="12" md="6"   :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
-                        <v-btn :block="!$vuetify.breakpoint.mdAndUp" color="primary" rounded :loading="isSaving" @click="validate()" dark>{{isSaving ? 'Saving...' : 'Save Changes'}}</v-btn>
+                        <v-btn :dark="isNeChanges" :disabled="!isNeChanges" :block="!$vuetify.breakpoint.mdAndUp" color="primary" rounded :loading="isSaving" @click="validate()" >{{isSaving ? 'Saving...' : 'Save Changes'}}</v-btn>
                     </v-col>
                 </v-row>
             </v-col>
@@ -288,6 +294,7 @@ export default {
             ],
             isloading: true,
             departmentsList: [],
+            isNeChanges: false,
         }
     },
     methods:{
