@@ -222,16 +222,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {//console.log(this.$route);
   }
@@ -1555,33 +1545,6 @@ var render = function() {
                       ],
                       1
                     )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item",
-              {
-                attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" }
-              },
-              [
-                _c(
-                  "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-list-item-content",
-                  [
-                    _c("v-list-item-title", [
-                      _vm._v(
-                        "\n                    Monitor Teachers\n                "
-                      )
-                    ])
                   ],
                   1
                 )

@@ -141,6 +141,10 @@ class AuthController extends Controller
         if(Hash::check(strval($request->current_password), auth()->user()->password)){
             auth()->user()->password = Hash::make($request->new_password);
             auth()->user()->update();
+            
+            $request->session()->forget('password_hash_web');
+
+            Auth::guard('web')->login(auth()->user());
 
             // auth()->user();
             

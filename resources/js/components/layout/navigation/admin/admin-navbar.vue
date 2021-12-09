@@ -94,16 +94,6 @@
                 </v-list-item>
             </v-list-group>
 
-            <v-list-item link :to="{name: 'monitorTeachers'}" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-chart-box-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>
-                        Monitor Teachers
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
 
             <v-list-item link :to="{name: 'schoolyear_semester'}" exact>
                 <v-list-item-action>
