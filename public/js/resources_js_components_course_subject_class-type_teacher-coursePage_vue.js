@@ -1140,6 +1140,7 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "v-list",
+                                        { staticClass: "pa-1" },
                                         [
                                           _c(
                                             "v-list-item",

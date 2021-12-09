@@ -260,6 +260,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -274,7 +278,7 @@ var newClassworkModal = function newClassworkModal() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworks'],
+  props: ['classworks', 'ClassworkLength', 'role'],
   components: {
     deleteDialog: deleteDialog,
     newClassworkModal: newClassworkModal,
@@ -290,7 +294,6 @@ var newClassworkModal = function newClassworkModal() {
       focus: false,
       focusId: null,
       clicked: false,
-      ClassworkLength: null,
       FilterItems: ['All', 'Objective Type', 'Subjective Type'],
       SelectedFilter: 'All',
       archiveDialog: false,
@@ -22691,7 +22694,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.classworks.totalClasswork == 0
+      _vm.ClassworkLength == 0
         ? _c(
             "v-row",
             {
@@ -22789,26 +22792,29 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm.classworks.totalClasswork != 0
+      _vm.ClassworkLength != 0
         ? _c(
             "v-container",
             { attrs: { fluid: "" } },
             [
               _c(
                 "v-row",
+                { staticClass: "mb-2" },
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-left mb-0 pb-0",
-                      attrs: { cols: "12", md: "9", lg: "9" }
-                    },
-                    [
-                      _c("h2", { staticClass: "mt-1" }, [
-                        _vm._v("Manage Classworks")
-                      ])
-                    ]
-                  ),
+                  _vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left mb-0 pb-0",
+                          attrs: { cols: "12", md: "9", lg: "9" }
+                        },
+                        [
+                          _c("h2", { staticClass: "mt-1" }, [
+                            _vm._v("Manage Classworks")
+                          ])
+                        ]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "v-col",
@@ -22820,6 +22826,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "ma-0 pa-0",
                         attrs: {
+                          "hide-details": "",
                           items: _vm.FilterItems,
                           dense: "",
                           outlined: ""
@@ -23534,45 +23541,92 @@ var render = function() {
                                                       attrs: { cols: "12" }
                                                     },
                                                     [
-                                                      _c(
-                                                        "v-btn",
-                                                        {
-                                                          staticClass: "ma-0",
-                                                          attrs: {
-                                                            rounded: "",
-                                                            color: "primary",
-                                                            small: "",
-                                                            text: ""
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.$router.push(
-                                                                {
-                                                                  name:
-                                                                    "submission-list",
-                                                                  params: {
-                                                                    id:
-                                                                      _vm.$route
-                                                                        .params
-                                                                        .id
-                                                                  },
-                                                                  query: {
-                                                                    clwk:
-                                                                      item.id
-                                                                  }
+                                                      item.publish_in.length ==
+                                                      0
+                                                        ? _c(
+                                                            "v-btn",
+                                                            {
+                                                              staticClass:
+                                                                "ma-0",
+                                                              attrs: {
+                                                                rounded: "",
+                                                                color:
+                                                                  "primary",
+                                                                small: "",
+                                                                text: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.$router.push(
+                                                                    {
+                                                                      name:
+                                                                        "publish-to",
+                                                                      params: {
+                                                                        id:
+                                                                          _vm
+                                                                            .$route
+                                                                            .params
+                                                                            .id
+                                                                      },
+                                                                      query: {
+                                                                        clwk:
+                                                                          item.id
+                                                                      }
+                                                                    }
+                                                                  )
                                                                 }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Publish Classwork\r\n                                        "
                                                               )
-                                                            }
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "View Submission\r\n                                        "
+                                                            ]
                                                           )
-                                                        ]
-                                                      )
+                                                        : _c(
+                                                            "v-btn",
+                                                            {
+                                                              staticClass:
+                                                                "ma-0",
+                                                              attrs: {
+                                                                rounded: "",
+                                                                color:
+                                                                  "primary",
+                                                                small: "",
+                                                                text: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.$router.push(
+                                                                    {
+                                                                      name:
+                                                                        "submission-list",
+                                                                      params: {
+                                                                        id:
+                                                                          _vm
+                                                                            .$route
+                                                                            .params
+                                                                            .id
+                                                                      },
+                                                                      query: {
+                                                                        clwk:
+                                                                          item.id
+                                                                      }
+                                                                    }
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "View Submission\r\n                                        "
+                                                              )
+                                                            ]
+                                                          )
                                                     ],
                                                     1
                                                   )

@@ -155,22 +155,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -194,11 +178,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isFileSize: null,
       uploadPercentage: 0,
       isDeleting: false,
-      file: null
+      file: null,
+      valid: true,
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }]
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["getcourseInfo"]),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchScourse'])), {}, {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.updateCourseDetails();
+      }
+    },
     getFileName: function getFileName(file) {
       var name = file.split('/');
       return name[name.length - 1];
@@ -324,7 +317,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.border {\n    border: 1px solid #d6d6d6;\n}\n.quill-editor {\n    position: relative;\n    background: #ffffff !important;\n}\n.ql-container.ql-snow {\n    border: none !important;\n}\n.custom-file-upload {\n    border: 1px solid #ccc;\n    display: inline-block;\n    padding: 6px 12px;\n    cursor: pointer;\n    border-radius: 5px;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.border {\n    border: 1px solid #d6d6d6;\n}\n.quill-editor {\n    position: relative;\n    background: #ffffff !important;\n}\n.ql-container.ql-snow {\n    border: none !important;\n}\n.custom-file-upload {\n    border: 1px solid #ccc;\n    display: inline-block;\n    padding: 6px 12px;\n    cursor: pointer;\n    border-radius: 5px;\n}\n.course_desciption .ql-editor{\n    min-height:100px;\n    max-height:450px;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -477,9 +470,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                 " +
+                      "\n                " +
                         _vm._s(item.text.toUpperCase()) +
-                        "\n             "
+                        "\n            "
                     )
                   ]
                 )
@@ -490,352 +483,397 @@ var render = function() {
       }),
       _vm._v(" "),
       _c(
-        "v-card",
-        { staticClass: "pa-3 mt-5", attrs: { elevation: "2" } },
+        "v-row",
+        { attrs: { align: "center", justify: "center" } },
         [
           _c(
             "v-col",
-            { staticClass: "pa-0", attrs: { cols: "12" } },
+            { attrs: { cols: "12", md: "10" } },
             [
-              _c("v-text-field", {
-                attrs: { outlined: "", color: "primary", label: "Course Code" },
-                model: {
-                  value: _vm.getcourseInfo.course_code,
-                  callback: function($$v) {
-                    _vm.$set(_vm.getcourseInfo, "course_code", $$v)
-                  },
-                  expression: "getcourseInfo.course_code"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pa-0 ", attrs: { cols: "12" } },
-            [
-              _c("v-text-field", {
-                attrs: {
-                  outlined: "",
-                  color: "primary",
-                  label: "Course Title"
-                },
-                model: {
-                  value: _vm.getcourseInfo.course_name,
-                  callback: function($$v) {
-                    _vm.$set(_vm.getcourseInfo, "course_name", $$v)
-                  },
-                  expression: "getcourseInfo.course_name"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pa-0 ", attrs: { cols: "12" } },
-            [
-              _c("small", { staticClass: "text-caption" }, [
-                _vm._v("Generate google meet here: "),
-                _c(
-                  "a",
-                  {
-                    attrs: {
-                      href: "https://meet.google.com/",
-                      target: "_blank"
-                    }
-                  },
-                  [_vm._v("meet.google.com ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("v-text-field", {
-                attrs: {
-                  outlined: "",
-                  color: "primary",
-                  label: "Video Conference Link"
-                },
-                model: {
-                  value: _vm.getcourseInfo.v_classroom_link,
-                  callback: function($$v) {
-                    _vm.$set(_vm.getcourseInfo, "v_classroom_link", $$v)
-                  },
-                  expression: "getcourseInfo.v_classroom_link"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pa-0 ", attrs: { cols: "12" } },
-            [
-              _c("v-select", {
-                staticClass: "mr-2",
-                attrs: {
-                  items: _vm.departmentsList,
-                  "item-text": "name",
-                  "item-value": "id",
-                  label: "Department",
-                  outlined: ""
-                },
-                model: {
-                  value: _vm.getcourseInfo.department,
-                  callback: function($$v) {
-                    _vm.$set(_vm.getcourseInfo, "department", $$v)
-                  },
-                  expression: "getcourseInfo.department"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pa-0 ", attrs: { cols: "12" } },
-            [
-              _c("v-select", {
-                staticClass: "mr-2",
-                attrs: {
-                  items: _vm.school_year,
-                  "item-text": "schoolyear",
-                  "item-value": "id",
-                  label: "School Year",
-                  outlined: ""
-                },
-                model: {
-                  value: _vm.getcourseInfo.school_year_id,
-                  callback: function($$v) {
-                    _vm.$set(_vm.getcourseInfo, "school_year_id", $$v)
-                  },
-                  expression: "getcourseInfo.school_year_id"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pa-0 ", attrs: { cols: "12" } },
-            [
-              _c("v-select", {
-                staticClass: "mr-2",
-                attrs: {
-                  items: _vm.semester,
-                  "item-text": "semester",
-                  "item-value": "id",
-                  label: "Semester",
-                  outlined: ""
-                },
-                model: {
-                  value: _vm.getcourseInfo.semester_id,
-                  callback: function($$v) {
-                    _vm.$set(_vm.getcourseInfo, "semester_id", $$v)
-                  },
-                  expression: "getcourseInfo.semester_id"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.getcourseInfo.course_guide == null
-            ? _c(
-                "v-col",
-                { staticClass: "pa-0 ", attrs: { cols: "12" } },
-                [
-                  _c("v-file-input", {
-                    ref: "inputFile",
-                    attrs: {
-                      "show-size": "",
-                      outlined: "",
-                      label: "Course Guide",
-                      "prepend-inner-icon": "mdi-file",
-                      "prepend-icon": ""
-                    },
-                    on: { change: _vm.onFileChange }
-                  })
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "12 py-0 my-0" } },
-            [
-              _vm.uploadPercentage != 0
-                ? _c(
-                    "v-progress-linear",
-                    {
-                      attrs: {
-                        rounded: "",
-                        value: _vm.uploadPercentage,
-                        height: "14px"
-                      }
-                    },
-                    [
-                      _c("span", { staticStyle: { color: "#fff" } }, [
-                        _vm._v(_vm._s(_vm.uploadPercentage + "%") + " ")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.getcourseInfo.course_guide != null
-            ? _c("small", { staticClass: "text-caption" }, [
-                _vm._v("Course Guide")
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getcourseInfo.course_guide != null
-            ? _c(
-                "v-row",
+              _c(
+                "v-form",
                 {
-                  staticClass: "mb-5",
-                  staticStyle: {
-                    height: "55px",
-                    border: "1px solid",
-                    "border-radius": "4px",
-                    width: "100%",
-                    margin: "auto"
-                  },
-                  attrs: { align: "center", justify: "center" }
+                  ref: "form",
+                  attrs: { "lazy-validation": "" },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
+                  }
                 },
                 [
-                  _c("vue-element-loading", {
-                    attrs: { active: _vm.isDeleting, spinner: "bar-fade-scale" }
-                  }),
-                  _vm._v(" "),
                   _c(
-                    "v-col",
-                    {
-                      staticClass: "grow text-left py-0 pr-0 col-1",
-                      staticStyle: { "max-width": "2.333333% !important" }
-                    },
-                    [_c("v-icon", [_vm._v("mdi-file")])],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("v-col", [
-                    _c(
-                      "div",
-                      { staticClass: "text-decoration-underline':''" },
-                      [
-                        _vm._v(
-                          " " +
-                            _vm._s(
-                              _vm.getFileName(_vm.getcourseInfo.course_guide)
-                            )
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "shrink d-flex py-0 shrink d-flex" },
+                    "v-card",
+                    { staticClass: "pa-3 mt-5", attrs: { elevation: "2" } },
                     [
-                      _c("div", { staticClass: "black--text mt-1 mr-2" }),
+                      _c(
+                        "v-col",
+                        { staticClass: "pa-0", attrs: { cols: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              rules: _vm.rules,
+                              outlined: "",
+                              color: "primary",
+                              label: "Course Code"
+                            },
+                            model: {
+                              value: _vm.getcourseInfo.course_code,
+                              callback: function($$v) {
+                                _vm.$set(_vm.getcourseInfo, "course_code", $$v)
+                              },
+                              expression: "getcourseInfo.course_code"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+                        [
+                          _c("v-text-field", {
+                            attrs: {
+                              rules: _vm.rules,
+                              outlined: "",
+                              color: "primary",
+                              label: "Course Title"
+                            },
+                            model: {
+                              value: _vm.getcourseInfo.course_name,
+                              callback: function($$v) {
+                                _vm.$set(_vm.getcourseInfo, "course_name", $$v)
+                              },
+                              expression: "getcourseInfo.course_name"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+                        [
+                          _c("small", { staticClass: "text-caption" }, [
+                            _vm._v("Generate google meet here: "),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: "https://meet.google.com/",
+                                  target: "_blank"
+                                }
+                              },
+                              [_vm._v("meet.google.com ")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("v-text-field", {
+                            attrs: {
+                              outlined: "",
+                              color: "primary",
+                              label: "Video Conference Link"
+                            },
+                            model: {
+                              value: _vm.getcourseInfo.v_classroom_link,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.getcourseInfo,
+                                  "v_classroom_link",
+                                  $$v
+                                )
+                              },
+                              expression: "getcourseInfo.v_classroom_link"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              rules: _vm.rules,
+                              items: _vm.school_year,
+                              "item-text": "schoolyear",
+                              "item-value": "id",
+                              label: "School Year",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.getcourseInfo.school_year_id,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.getcourseInfo,
+                                  "school_year_id",
+                                  $$v
+                                )
+                              },
+                              expression: "getcourseInfo.school_year_id"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "pa-0 ", attrs: { cols: "12" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              rules: _vm.rules,
+                              items: _vm.semester,
+                              "item-text": "semester",
+                              "item-value": "id",
+                              label: "Semester",
+                              outlined: ""
+                            },
+                            model: {
+                              value: _vm.getcourseInfo.semester_id,
+                              callback: function($$v) {
+                                _vm.$set(_vm.getcourseInfo, "semester_id", $$v)
+                              },
+                              expression: "getcourseInfo.semester_id"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.getcourseInfo.course_guide == null
+                        ? _c(
+                            "v-col",
+                            { staticClass: "pa-0 ", attrs: { cols: "12" } },
+                            [
+                              _c("v-file-input", {
+                                ref: "inputFile",
+                                attrs: {
+                                  "show-size": "",
+                                  outlined: "",
+                                  label: "Course Guide",
+                                  "prepend-inner-icon": "mdi-file",
+                                  "prepend-icon": ""
+                                },
+                                on: { change: _vm.onFileChange }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { attrs: { cols: "12 py-0 my-0" } },
+                        [
+                          _vm.uploadPercentage != 0
+                            ? _c(
+                                "v-progress-linear",
+                                {
+                                  attrs: {
+                                    rounded: "",
+                                    value: _vm.uploadPercentage,
+                                    height: "14px"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticStyle: { color: "#fff" } },
+                                    [
+                                      _vm._v(
+                                        _vm._s(_vm.uploadPercentage + "%") + " "
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _vm.getcourseInfo.course_guide != null
+                        ? _c("small", { staticClass: "text-caption" }, [
+                            _vm._v("Course Guide")
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.getcourseInfo.course_guide != null
+                        ? _c(
+                            "v-row",
+                            {
+                              staticClass: "mb-5",
+                              staticStyle: {
+                                height: "55px",
+                                border: "1px solid",
+                                "border-radius": "4px",
+                                width: "100%",
+                                margin: "auto"
+                              },
+                              attrs: { align: "center", justify: "center" }
+                            },
+                            [
+                              _c("vue-element-loading", {
+                                attrs: {
+                                  active: _vm.isDeleting,
+                                  spinner: "bar-fade-scale"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "grow text-left py-0 pr-0 col-1",
+                                  staticStyle: {
+                                    "max-width": "2.333333% !important"
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("mdi-file")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-col", [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "text-decoration-underline':''"
+                                  },
+                                  [
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(
+                                          _vm.getFileName(
+                                            _vm.getcourseInfo.course_guide
+                                          )
+                                        )
+                                    )
+                                  ]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass:
+                                    "shrink d-flex py-0 shrink d-flex"
+                                },
+                                [
+                                  _c("div", {
+                                    staticClass: "black--text mt-1 mr-2"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "py-0" },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            small: "",
+                                            icon: "",
+                                            text: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.removeFile()
+                                            }
+                                          }
+                                        },
+                                        [_c("v-icon", [_vm._v("mdi-close")])],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        { staticClass: "pa-0 mx-0", attrs: { cols: "12" } },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticStyle: {
+                                "font-size": "1rem",
+                                color: "grey"
+                              }
+                            },
+                            [_vm._v("Course Description:")]
+                          ),
+                          _vm._v(" "),
+                          _c("editor", {
+                            staticClass: "course_desciption",
+                            attrs: { theme: "bubble" },
+                            model: {
+                              value: _vm.getcourseInfo.course_description,
+                              callback: function($$v) {
+                                _vm.$set(
+                                  _vm.getcourseInfo,
+                                  "course_description",
+                                  $$v
+                                )
+                              },
+                              expression: "getcourseInfo.course_description"
+                            }
+                          })
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "div",
-                        { staticClass: "py-0" },
+                        { staticClass: "text-right pt-6" },
                         [
                           _c(
                             "v-btn",
                             {
                               attrs: {
-                                rounded: "",
-                                small: "",
-                                icon: "",
-                                text: ""
+                                tile: "",
+                                color: "primary",
+                                large: "",
+                                disabled: !_vm.valid,
+                                loading: _vm.isUpdating
                               },
                               on: {
                                 click: function($event) {
-                                  return _vm.removeFile()
+                                  return _vm.validate()
                                 }
                               }
                             },
-                            [_c("v-icon", [_vm._v("mdi-close")])],
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v(
+                                  "\n                                mdi-pencil\n                            "
+                                )
+                              ]),
+                              _vm._v(
+                                "\n                            Save Changes\n                        "
+                              )
+                            ],
                             1
                           )
                         ],
                         1
                       )
-                    ]
+                    ],
+                    1
                   )
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { staticClass: "pa-0 mx-0", attrs: { cols: "12" } },
-            [
-              _c(
-                "v-card",
-                [
-                  _c(
-                    "v-card-title",
-                    {
-                      staticClass: "pl-3 py-3",
-                      staticStyle: { "font-size": "1rem", color: "grey" }
-                    },
-                    [_vm._v("Course Description\n                 ")]
-                  ),
-                  _vm._v(" "),
-                  _c("v-divider"),
-                  _vm._v(" "),
-                  _c("editor", {
-                    attrs: { theme: "snow" },
-                    model: {
-                      value: _vm.getcourseInfo.course_description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.getcourseInfo, "course_description", $$v)
-                      },
-                      expression: "getcourseInfo.course_description"
-                    }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "text-right pt-6" },
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    tile: "",
-                    color: "primary",
-                    large: "",
-                    disabled: _vm.isUpdating,
-                    loading: _vm.isUpdating
-                  },
-                  on: { click: _vm.updateCourseDetails }
-                },
-                [
-                  _c("v-icon", { attrs: { left: "" } }, [
-                    _vm._v(
-                      "\n                     mdi-pencil\n                 "
-                    )
-                  ]),
-                  _vm._v("\n                 Save Changes\n             ")
                 ],
                 1
               )

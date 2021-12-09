@@ -24,61 +24,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var archiveCourses = function archiveCourses() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_courses-archive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ArchiveType/courses-archive */ "./resources/js/components/archivesList/ArchiveType/courses-archive.vue"));
 };
@@ -90,18 +35,21 @@ var archiveClasswork = function archiveClasswork() {
 var archiveClasses = function archiveClasses() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_ArchiveType_classes-archive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./ArchiveType/classes-archive */ "./resources/js/components/archivesList/ArchiveType/classes-archive.vue"));
 };
-/*   const changePassword = () => import('./changePassword')
-  const coursesProgress = () => import('./coursesProgress')
-  const aboutTab = () => import('./aboutTab')
-  const myCalendar = () => import('./myCalendar') */
 
+var teacherArchive = function teacherArchive() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_teacherArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacherArchive */ "./resources/js/components/archivesList/teacherArchive.vue"));
+};
+
+var studentArchive = function studentArchive() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_archivesList_studentArchive_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./studentArchive */ "./resources/js/components/archivesList/studentArchive.vue"));
+};
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  title: 'Archives',
   props: ['role', 'UserDetails'],
   components: {
-    archiveCourses: archiveCourses,
-    archiveClasswork: archiveClasswork,
-    archiveClasses: archiveClasses
+    teacherArchive: teacherArchive,
+    studentArchive: studentArchive
   },
   data: function data() {
     return {
@@ -207,258 +155,43 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
-    { attrs: { fluid: "" } },
+    "div",
     [
-      _vm.isloading
-        ? _c(
-            "v-container",
-            { staticStyle: { height: "400px" } },
-            [
-              _c(
-                "v-row",
-                {
-                  staticClass: "fill-height",
-                  attrs: { "align-content": "center", justify: "center" }
-                },
+      _c(
+        "v-row",
+        [
+          _vm.role == "Teacher"
+            ? _c(
+                "v-col",
+                { attrs: { cols: "12" } },
                 [
-                  _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v("\n                mdi-account\n            ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-subtitle-1 text-center",
-                      attrs: { cols: "12" }
-                    },
-                    [_c("h3", [_vm._v(" Loading Profile ")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "6" } },
-                    [
-                      _c("v-progress-linear", {
-                        attrs: {
-                          color: "primary",
-                          indeterminate: "",
-                          rounded: "",
-                          height: "6"
-                        }
+                  _vm.role == "Teacher"
+                    ? _c("teacherArchive", {
+                        attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
                       })
-                    ],
-                    1
-                  )
+                    : _vm._e()
                 ],
                 1
               )
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.isloading ? _c("h2", [_vm._v("Archives")]) : _vm._e(),
-      _vm._v(" "),
-      !_vm.isloading
-        ? _c(
-            "v-row",
-            { staticClass: "mt-2" },
-            [
-              _c(
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.role == "Student"
+            ? _c(
                 "v-col",
                 { attrs: { cols: "12" } },
                 [
-                  _c(
-                    "v-row",
-                    [
-                      _c(
-                        "v-col",
-                        { staticClass: "pl-3", attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "v-tabs",
-                            {
-                              staticClass: "mt-2",
-                              attrs: {
-                                centered:
-                                  _vm.$vuetify.breakpoint.xs ||
-                                  _vm.$vuetify.breakpoint.sm,
-                                "icons-and-text":
-                                  _vm.$vuetify.breakpoint.xs ||
-                                  _vm.$vuetify.breakpoint.sm
-                              },
-                              model: {
-                                value: _vm.tab,
-                                callback: function($$v) {
-                                  _vm.tab = $$v
-                                },
-                                expression: "tab"
-                              }
-                            },
-                            [
-                              _vm.role == "Teacher"
-                                ? _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _vm._v(
-                                        "\n                           Courses\n                            "
-                                      ),
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          attrs: {
-                                            right:
-                                              !_vm.$vuetify.breakpoint.xs ||
-                                              !_vm.$vuetify.breakpoint.sm
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                mdi-contacts\n                            "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.role == "Teacher" || _vm.role == "Student"
-                                ? _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _vm._v(
-                                        "\n                            Classes\n                            "
-                                      ),
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          attrs: {
-                                            right:
-                                              !_vm.$vuetify.breakpoint.xs ||
-                                              !_vm.$vuetify.breakpoint.sm
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                            mdi-google-classroom\n                            "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.role == "Teacher" || _vm.role == "Student"
-                                ? _c(
-                                    "v-tab",
-                                    { staticClass: "d-flex justify-start" },
-                                    [
-                                      _vm._v(
-                                        "\n                            Classwork\n                            "
-                                      ),
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          attrs: {
-                                            right:
-                                              !_vm.$vuetify.breakpoint.xs ||
-                                              !_vm.$vuetify.breakpoint.sm
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                            mdi-book-open-variant\n                            "
-                                          )
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-col",
-                { attrs: { cols: "12" } },
-                [
-                  _c(
-                    "v-row",
-                    [
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "v-tabs-items",
-                            { attrs: { value: _vm.tab } },
-                            [
-                              _vm.role == "Teacher"
-                                ? _c(
-                                    "v-tab-item",
-                                    [
-                                      _c("archiveCourses", {
-                                        attrs: { role: _vm.role }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.role == "Teacher" || _vm.role == "Student"
-                                ? _c(
-                                    "v-tab-item",
-                                    [
-                                      _c("archiveClasses", {
-                                        attrs: { role: _vm.role }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                : _vm._e(),
-                              _vm._v(" "),
-                              _vm.role == "Teacher" || _vm.role == "Student"
-                                ? _c(
-                                    "v-tab-item",
-                                    [
-                                      _c("archiveClasswork", {
-                                        attrs: { role: _vm.role }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                : _vm._e()
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
+                  _vm.role == "Student"
+                    ? _c("studentArchive", {
+                        attrs: { role: _vm.role, UserDetails: _vm.UserDetails }
+                      })
+                    : _vm._e()
                 ],
                 1
               )
-            ],
-            1
-          )
-        : _vm._e()
+            : _vm._e()
+        ],
+        1
+      )
     ],
     1
   )

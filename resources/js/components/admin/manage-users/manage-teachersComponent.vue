@@ -56,8 +56,9 @@
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item, index) in items" :key="index">
-                                    <td style="width:1%">
+                                    <td style="width:7%">
                                         <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
+                                          <span :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
                                     </td>
                                     <td> {{item.user_id}} </td>
                                     <td> {{item.lastName }} </td>
@@ -308,7 +309,8 @@
                     min: v => (v && v.length >= 6) || "min 6 characters"
                 },
                 headers: [{
-                        sortable: true
+                        value: 'isActive',
+                        value: 'isActive',
                     },
                     {
                         text: 'ID',

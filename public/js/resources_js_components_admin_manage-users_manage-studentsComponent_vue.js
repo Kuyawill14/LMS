@@ -240,6 +240,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -302,7 +315,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       },
       StudentList: [],
       headers: [{
-        sortable: false
+        value: 'isActive'
       }, {
         text: 'Student ID',
         value: 'student_id',
@@ -707,35 +720,54 @@ var render = function() {
     "div",
     { staticClass: "pt-4" },
     [
-      _c("h2", [_vm._v("\n        Manage Students\n    ")]),
-      _vm._v(" "),
       _c(
-        "v-btn",
-        {
-          attrs: {
-            bottom: "",
-            color: "primary",
-            dark: "",
-            fab: "",
-            fixed: "",
-            right: ""
-          },
-          on: {
-            click: function($event) {
-              return _vm.openAdd()
-            }
-          }
-        },
-        [_c("v-icon", [_vm._v("mdi-plus")])],
+        "v-row",
+        { staticClass: "mb-0" },
+        [
+          _c("v-col", { attrs: { cols: "12", lg: "10" } }, [
+            _c("h2", [
+              _vm._v("\n                     Manage Students\n                ")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            {
+              staticStyle: { display: "flex", "justify-content": "end" },
+              attrs: { cols: "12", lg: "2" }
+            },
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { color: "primary", dark: "" },
+                  on: {
+                    click: function($event) {
+                      return _vm.openAdd()
+                    }
+                  }
+                },
+                [
+                  _c("v-icon", { attrs: { left: "" } }, [
+                    _vm._v("mdi-account-plus-outline")
+                  ]),
+                  _vm._v("\n                    Add Student\n                ")
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
         1
       ),
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pt-2" },
         [
           _c(
             "v-col",
+            { staticClass: "mt-0 pt-0", attrs: { cols: "12" } },
             [
               _vm.loading
                 ? _c(
@@ -758,7 +790,7 @@ var render = function() {
                         "v-card-title",
                         [
                           _vm._v(
-                            "\n                    Students\n\n                    "
+                            "\n                        Students\n\n                        "
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
@@ -802,7 +834,7 @@ var render = function() {
                                         return _c("tr", { key: index }, [
                                           _c(
                                             "td",
-                                            { staticStyle: { width: "1%" } },
+                                            { staticStyle: { width: "7%" } },
                                             [
                                               _c(
                                                 "v-icon",
@@ -815,6 +847,25 @@ var render = function() {
                                                   }
                                                 },
                                                 [_vm._v("mdi-circle-medium")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "span",
+                                                {
+                                                  class:
+                                                    item.isActive != 0
+                                                      ? "success--text"
+                                                      : ""
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      item.isActive != 0
+                                                        ? "Online"
+                                                        : "Oflline"
+                                                    )
+                                                  )
+                                                ]
                                               )
                                             ],
                                             1
@@ -879,7 +930,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        " +
+                                                    "\n                                            " +
                                                       _vm._s(
                                                         item.isVerified
                                                           ? "mdi-check"
@@ -915,7 +966,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                        Reset Password\n                                    "
+                                                    "\n                                            Reset Password\n                                        "
                                                   )
                                                 ]
                                               )
@@ -945,7 +996,7 @@ var render = function() {
                                                 [
                                                   _c("v-icon", [
                                                     _vm._v(
-                                                      "\n                                            mdi-pencil\n                                        "
+                                                      "\n                                                mdi-pencil\n                                            "
                                                     )
                                                   ])
                                                 ],
@@ -971,7 +1022,7 @@ var render = function() {
                                                 [
                                                   _c("v-icon", [
                                                     _vm._v(
-                                                      "\n                                            mdi-delete\n                                        "
+                                                      "\n                                                mdi-delete\n                                            "
                                                     )
                                                   ])
                                                 ],
@@ -1004,7 +1055,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          3481323900
+                          745331048
                         )
                       })
                     ],
@@ -1036,11 +1087,11 @@ var render = function() {
             [
               _c("v-card-title", {}, [
                 _vm._v(
-                  "\n                " +
+                  "\n                    " +
                     _vm._s(
                       this.type == "add" ? "Add Student" : "Update Student"
                     ) +
-                    "\n            "
+                    "\n                "
                 )
               ]),
               _vm._v(" "),
@@ -1275,13 +1326,13 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(
-                                        "\n                                " +
+                                        "\n                                    " +
                                           _vm._s(
                                             _vm.isVerifying
                                               ? "Verifying..."
                                               : "Verify user"
                                           ) +
-                                          "\n                            "
+                                          "\n                                "
                                       )
                                     ],
                                     1
@@ -1417,7 +1468,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                    " +
+                        "\n                        " +
                           _vm._s(this.type == "add" ? "Add" : "Update")
                       )
                     ]
@@ -1450,7 +1501,7 @@ var render = function() {
             [
               _c("v-card-title", { staticClass: "headline" }, [
                 _vm._v(
-                  "\n                Are you sure you want to delete this?\n            "
+                  "\n                    Are you sure you want to delete this?\n                "
                 )
               ]),
               _vm._v(" "),
@@ -1470,7 +1521,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    No\n                ")]
+                    [
+                      _vm._v(
+                        "\n                        No\n                    "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1487,7 +1542,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Yes\n                ")]
+                    [
+                      _vm._v(
+                        "\n                        Yes\n                    "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -1517,7 +1576,7 @@ var render = function() {
             [
               _c("v-card-title", { staticClass: "headline" }, [
                 _vm._v(
-                  "\n                Are you sure you want to reset this user password?\n            "
+                  "\n                    Are you sure you want to reset this user password?\n                "
                 )
               ]),
               _vm._v(" "),
@@ -1537,7 +1596,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    No\n                ")]
+                    [
+                      _vm._v(
+                        "\n                        No\n                    "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1554,7 +1617,11 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n                    Yes\n                ")]
+                    [
+                      _vm._v(
+                        "\n                        Yes\n                    "
+                      )
+                    ]
                   )
                 ],
                 1

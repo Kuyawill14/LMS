@@ -41,7 +41,7 @@ var programChairDashboard = function programChairDashboard() {
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
-  name: "HelloWorld",
+  title: 'Dashboard',
   components: {
     teacherDashboard: teacherDashboard,
     studentDashboard: studentDashboard,

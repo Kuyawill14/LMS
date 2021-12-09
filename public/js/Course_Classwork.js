@@ -116,19 +116,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
@@ -165,8 +152,20 @@ var newClassworkModal = function newClassworkModal() {
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['get_Classworks', 'get_isDataLoaded']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchClassworks'])), {}, {
     getGeneralClassworks: function getGeneralClassworks() {
+      var _this = this;
+
       this.$store.dispatch('SetDataisNotLoaded');
-      this.$store.dispatch('fetchClassworks', this.$route.params.id);
+      this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function () {
+        if (_this.role == 'Teacher') {
+          _this.get_Classworks.forEach(function (element) {
+            _this.ClassworkLength += element.length;
+          });
+        } else if (_this.role == 'Student') {
+          _this.get_Classworks.ClassworksList.forEach(function (element) {
+            _this.ClassworkLength += element.length;
+          });
+        }
+      });
     }
   }),
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -312,9 +311,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n            " +
+                      "\n                " +
                         _vm._s(item.text.toUpperCase()) +
-                        "\n        "
+                        "\n            "
                     )
                   ]
                 )
@@ -331,15 +330,19 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: _vm.get_isDataLoaded && _vm.ClassworkLength != 0,
-              expression: "get_isDataLoaded && ClassworkLength != 0"
+              value: _vm.get_isDataLoaded,
+              expression: "get_isDataLoaded"
             }
           ],
           staticClass: "ml-0 mr-0"
         },
         [
           _c("classworkList", {
-            attrs: { classworks: _vm.get_Classworks, role: _vm.role },
+            attrs: {
+              ClassworkLength: _vm.ClassworkLength,
+              classworks: _vm.get_Classworks,
+              role: _vm.role
+            },
             on: {
               ToggleRefresh: function($event) {
                 return _vm.getGeneralClassworks()

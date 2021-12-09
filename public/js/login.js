@@ -216,6 +216,7 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
 
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  title: 'Orange',
   components: {
     forgotPassword: forgotPassword
   },

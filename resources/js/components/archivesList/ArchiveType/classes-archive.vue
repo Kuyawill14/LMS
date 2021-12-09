@@ -27,20 +27,17 @@
 
          <div v-if="!isGetting && classLength > 0" >
             <teacherClassArchive v-on:RestoreConfirm="restoreClass"  :ArchiveClasses="ArchiveClasses" v-if="role == 'Teacher'" />
-            <studentClassArchive :ArchiveClasses="ArchiveClasses" v-if="role == 'Student'" />
         </div>
     </div>
 </template>
 <script>
     import { mapGetters, mapActions} from "vuex";
     const teacherClassArchive = () => import("./archiveClassType/teacherClassArchive");
-    const studentClassArchive = () => import("./archiveClassType/studentClassArchive");
-    
+
     export default {
         props: ['role'],
         components: {
             teacherClassArchive,
-            studentClassArchive
         },
         data() {
             return {
@@ -62,15 +59,12 @@
                 .then(res=>{
                     this.ArchiveClasses = res.data;
                     this.classLength = res.data.length;
-                    ////console.log(res.data);
-                    //////console.log( this.$store.state.CurrentUser.MyCourses)
                     res.data.forEach(item => {
                          this.$store.state.CurrentUser.MyCourses.push({
                         id: item.course_id,
                         status: item.status
                     })
                     });
-                   ////console.log( this.$store.state.CurrentUser.MyCourses)
                     this.isGetting = false;
                 })
                 

@@ -280,6 +280,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
  // import csvToJson from 'convert-csv-to-json';
 
 
@@ -335,9 +336,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return v && v.length >= 6 || "min 6 characters";
         }
       },
-      headers: [{
-        sortable: true
-      }, {
+      headers: [_defineProperty({
+        value: 'isActive'
+      }, "value", 'isActive'), {
         text: 'ID',
         value: 'user_id',
         align: 'start'
@@ -954,7 +955,7 @@ var render = function() {
                                         return _c("tr", { key: index }, [
                                           _c(
                                             "td",
-                                            { staticStyle: { width: "1%" } },
+                                            { staticStyle: { width: "7%" } },
                                             [
                                               _c(
                                                 "v-icon",
@@ -967,6 +968,25 @@ var render = function() {
                                                   }
                                                 },
                                                 [_vm._v("mdi-circle-medium")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "span",
+                                                {
+                                                  class:
+                                                    item.isActive != 0
+                                                      ? "success--text"
+                                                      : ""
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      item.isActive != 0
+                                                        ? "Online"
+                                                        : "Oflline"
+                                                    )
+                                                  )
+                                                ]
                                               )
                                             ],
                                             1
@@ -1161,7 +1181,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1751047877
+                          1478267953
                         )
                       })
                     ],

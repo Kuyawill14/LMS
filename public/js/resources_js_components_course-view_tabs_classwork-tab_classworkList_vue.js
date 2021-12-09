@@ -32,7 +32,7 @@ var classworkListTeacher = function classworkListTeacher() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['role', 'classworks'],
+  props: ['role', 'classworks', 'ClassworkLength'],
   components: {
     classworkListStudent: classworkListStudent,
     classworkListTeacher: classworkListTeacher
@@ -135,7 +135,10 @@ var render = function() {
             [
               _vm.role == "Teacher"
                 ? _c("classworkListTeacher", {
-                    attrs: { classworks: _vm.classworks }
+                    attrs: {
+                      ClassworkLength: _vm.ClassworkLength,
+                      classworks: _vm.classworks
+                    }
                   })
                 : _vm._e()
             ],
@@ -150,7 +153,10 @@ var render = function() {
             [
               _vm.role == "Student"
                 ? _c("classworkListStudent", {
-                    attrs: { classworks: _vm.classworks },
+                    attrs: {
+                      ClassworkLength: _vm.ClassworkLength,
+                      classworks: _vm.classworks
+                    },
                     on: {
                       ismounted: function($event) {
                         return _vm.$emit("isMounted")

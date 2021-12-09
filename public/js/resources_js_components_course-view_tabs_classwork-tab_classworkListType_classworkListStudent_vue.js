@@ -236,7 +236,7 @@ var previewClassworkModal = function previewClassworkModal() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['classworks'],
+  props: ['classworks', 'ClassworkLength'],
   components: {
     previewClassworkModal: previewClassworkModal
   },
@@ -250,7 +250,6 @@ var previewClassworkModal = function previewClassworkModal() {
       FilterItems: [{
         title: 'All'
       }],
-      ClassworkLength: null,
       isSearching: false,
       search: "",
       isLoading: false
@@ -22580,7 +22579,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.classworks.totalClasswork == 0
+      _vm.ClassworkLength == 0
         ? _c(
             "v-row",
             {
@@ -22612,7 +22611,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.classworks.totalClasswork != 0
+      _vm.ClassworkLength != 0
         ? _c(
             "v-container",
             { attrs: { fluid: "" } },
@@ -22666,18 +22665,16 @@ var render = function() {
               _c(
                 "v-row",
                 [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-left mb-0 pb-0",
-                      attrs: { cols: "12", md: "9", lg: "9" }
-                    },
-                    [
-                      _c("h2", { staticClass: "mt-1" }, [
-                        _vm._v("My Classworks")
-                      ])
-                    ]
-                  ),
+                  _vm.$vuetify.breakpoint.mdAndUp
+                    ? _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left mb-0 pb-0",
+                          attrs: { cols: "12", md: "9", lg: "9" }
+                        },
+                        [_c("h2", [_vm._v("My Classworks")])]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "v-col",
@@ -22689,6 +22686,7 @@ var render = function() {
                       _c("v-select", {
                         staticClass: "ma-0 pa-0",
                         attrs: {
+                          "hide-details": "",
                           items: _vm.FilterItems,
                           "item-text": "title",
                           dense: "",
@@ -22716,7 +22714,10 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                { attrs: { justify: "center", "align-content": "center" } },
+                {
+                  staticClass: "mt-3",
+                  attrs: { justify: "center", "align-content": "center" }
+                },
                 _vm._l(_vm.classworks.ClassworkTitle, function(data, i) {
                   return _c(
                     "v-col",

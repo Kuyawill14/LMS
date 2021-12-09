@@ -153,7 +153,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -176,11 +175,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         text: 'Grading Criteria',
         disabled: true,
         link: 'gradingCriteria'
+      }],
+      valid: true,
+      rules: [function (v) {
+        return !!v || 'Field is required';
       }]
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["get_gradingCriteria"])),
   methods: {
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        if (this.type == 'add') {
+          this.addGradeCriteria();
+        } else {
+          this.updateGradeCriteria();
+        }
+      }
+    },
     getAllGradeCriteria: function getAllGradeCriteria() {
       this.$store.dispatch('fetchGradingCriteria', this.$route.params.id);
     },
@@ -439,33 +451,36 @@ var render = function() {
       _vm._v(" "),
       _c("h2", [_vm._v("\n        Grading Criteria\n    ")]),
       _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          attrs: {
-            bottom: "",
-            color: "primary",
-            dark: "",
-            fab: "",
-            fixed: "",
-            right: ""
-          },
-          on: {
-            click: function($event) {
-              return _vm.openAdd()
-            }
-          }
-        },
-        [_c("v-icon", [_vm._v("mdi-plus")])],
-        1
-      ),
+      _vm._totalPercent(_vm.get_gradingCriteria) != 100
+        ? _c(
+            "v-btn",
+            {
+              attrs: {
+                bottom: "",
+                color: "primary",
+                dark: "",
+                fab: "",
+                fixed: "",
+                right: ""
+              },
+              on: {
+                click: function($event) {
+                  return _vm.openAdd()
+                }
+              }
+            },
+            [_c("v-icon", [_vm._v("mdi-plus")])],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "v-row",
-        { staticClass: "pt-2" },
+        { staticClass: "pt-2", attrs: { align: "center", justify: "center" } },
         [
           _c(
             "v-col",
+            { attrs: { cols: "12", md: "10" } },
             [
               _c(
                 "v-card",
@@ -648,107 +663,126 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", {}, [
-                _vm._v("\n                Grading Criteria\n            ")
-              ]),
-              _vm._v(" "),
               _c(
-                "v-container",
+                "v-form",
+                {
+                  ref: "form",
+                  attrs: { "lazy-validation": "" },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
+                    },
+                    expression: "valid"
+                  }
+                },
                 [
+                  _c("v-card-title", {}, [
+                    _vm._v(
+                      "\n                    Grading Criteria\n                "
+                    )
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "v-row",
-                    { staticClass: "mx-2" },
+                    "v-container",
                     [
                       _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                        "v-row",
+                        { staticClass: "mx-2" },
                         [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Criteria Name"
-                            },
-                            model: {
-                              value: _vm.grading_criteria_form.name,
-                              callback: function($$v) {
-                                _vm.$set(_vm.grading_criteria_form, "name", $$v)
-                              },
-                              expression: "grading_criteria_form.name"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
-                        [
-                          _c("v-text-field", {
-                            attrs: {
-                              filled: "",
-                              color: "primary",
-                              label: "Percentage (%)"
-                            },
-                            model: {
-                              value: _vm.grading_criteria_form.percentage,
-                              callback: function($$v) {
-                                _vm.$set(
-                                  _vm.grading_criteria_form,
-                                  "percentage",
-                                  $$v
-                                )
-                              },
-                              expression: "grading_criteria_form.percentage"
-                            }
-                          })
+                          _c(
+                            "v-col",
+                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.rules,
+                                  filled: "",
+                                  color: "primary",
+                                  label: "Criteria Name"
+                                },
+                                model: {
+                                  value: _vm.grading_criteria_form.name,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.grading_criteria_form,
+                                      "name",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "grading_criteria_form.name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { staticClass: "pa-0 ma-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  rules: _vm.rules,
+                                  filled: "",
+                                  color: "primary",
+                                  label: "Percentage (%)"
+                                },
+                                model: {
+                                  value: _vm.grading_criteria_form.percentage,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.grading_criteria_form,
+                                      "percentage",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "grading_criteria_form.percentage"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "", color: "primary" },
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
-                    },
-                    [_vm._v("Cancel")]
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "" },
-                      on: {
-                        click: function($event) {
-                          _vm.type == "add"
-                            ? _vm.addGradeCriteria()
-                            : _vm.updateGradeCriteria()
-                        }
-                      }
-                    },
+                    "v-card-actions",
                     [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(_vm.type == "add" ? "Add" : "Save")
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "", color: "primary" },
+                          on: {
+                            click: function($event) {
+                              _vm.dialog = false
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { disabled: !_vm.valid, text: "" },
+                          on: { click: _vm.validate }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(_vm.type == "add" ? "Add" : "Save")
+                          )
+                        ]
                       )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1

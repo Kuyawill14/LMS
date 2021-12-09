@@ -15,8 +15,8 @@
             <!--  <v-text-field flat solo-inverted hide-details prepend-inner-icon="mdi-magnify" label="Search"
             class="hidden-sm-and-down"></v-text-field> -->
             <v-spacer></v-spacer>
-            <v-btn @click="fbChat()" id="help-btn" active-class="act-btn" depressed rounded text>
-                <v-icon left>mdi-account-question</v-icon> Help
+            <v-btn @click="fbChat()" id="help-btn" active-class="act-btn" depressed rounded :icon="!$vuetify.breakpoint.lgAndUp " :text="$vuetify.breakpoint.lgAndUp ">
+                <v-icon :left="$vuetify.breakpoint.lgAndUp">mdi-account-question</v-icon> {{$vuetify.breakpoint.lgAndUp ? 'Help' : ''}}
             </v-btn>
 
             <notifications v-on:toggleSeeNotif="Notifdrawer = !Notifdrawer"></notifications>
@@ -53,9 +53,9 @@
                                 <v-btn @click="$router.push({name: 'profile_page'})" rounded color="primary">
                                     <v-icon left>mdi-account</v-icon> My Profile
                                 </v-btn>
-                                <v-divider class="my-3"></v-divider>
-                                <v-btn depressed @click="$router.push({name:'archive-course'})" rounded text>
-                                    <v-icon left>mdi-package-down</v-icon> Archive
+                                <v-divider v-if="role == 'Student' || role == 'Teacher'" class="my-3"></v-divider>
+                                <v-btn v-if="role == 'Student' || role == 'Teacher'" depressed @click="$router.push({name:'archive-course'})" rounded text>
+                                    <v-icon left>mdi-package-down</v-icon> {{role == 'Teacher' ? 'Archives' : 'Archive Courses'}}
                                 </v-btn>
                                 <!--   <v-divider class="my-3"></v-divider>
                             <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="15" offset-y="15" color="red darken-4">

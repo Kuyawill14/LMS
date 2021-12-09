@@ -1,30 +1,20 @@
 <template>
     <div>
-       <!--  <v-dialog v-model="dialog" persistent max-width="600">
+        <!-- <v-dialog v-model="dialog" persistent max-width="600">
             <newClassworkModal
             v-on:CloseDialog="dialog =!dialog"
             v-on:realodClassworks="getGeneralClassworks(), dialog = !dialog" 
             v-if="dialog && role == 'Teacher'">
             </newClassworkModal>
-         </v-dialog>
+         </v-dialog> -->
        
-         <v-row align="center" justify="center" class="pt-10" v-if="!isGetting && ClassworkLength == 0">
-            <v-col cols="12" sm="8" md="4" class="text-center">
-                <v-icon style="font-size:14rem">
-                    mdi-book-open-variant
-                </v-icon>
-                <h1> Empty Classwork </h1>
-                <p> {{role == 'Teacher' ? "'Creating Classwork, you'll be able to publish classwork to your class.": 'No, Assign Classwork Yet!'}} </p>
-                <v-btn v-if="role == 'Teacher'" color="primary" @click="role == 'Teacher' ? dialog = !dialog:''"> CREATE CLASSWORK </v-btn>
-            </v-col>
-        </v-row>
+         
 
-
-
+<!-- 
         <v-btn  v-if="(!isGetting && role == 'Teacher') && ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
             <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        -->
+        </v-btn> -->
+       
 
     <v-overlay :value="isLeaving">
         <v-progress-circular
@@ -45,12 +35,10 @@
         </v-breadcrumbs>
 
 
-
-
-        <div class="ml-0 mr-0" v-show="get_isDataLoaded && ClassworkLength != 0" >
+        <div class="ml-0 mr-0" v-show="get_isDataLoaded" >
             <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
            
-     
+            :ClassworkLength="ClassworkLength"
             v-on:reloadClassworks="getGeneralClassworks()"
             :classworks="get_Classworks" :role="role"></classworkList>
         </div>
@@ -69,7 +57,6 @@
                 </v-col>
             </v-row>
         </v-container> -->
-  
     <v-container v-if="!get_isDataLoaded" fluid>
          <v-row class="mb-5">
              <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
@@ -140,7 +127,21 @@
             ...mapActions(['fetchClassworks']),
             getGeneralClassworks() {
                 this.$store.dispatch('SetDataisNotLoaded');
-                this.$store.dispatch('fetchClassworks', this.$route.params.id);
+                this.$store.dispatch('fetchClassworks', this.$route.params.id)
+                .then(()=>{
+
+                    if(this.role == 'Teacher'){
+                        this.get_Classworks.forEach(element => {
+                            this.ClassworkLength+= element.length;
+                        });
+                    }else if(this.role == 'Student'){
+                         this.get_Classworks.ClassworksList.forEach(element => {
+                            this.ClassworkLength+= element.length;
+                        });
+                    }
+                    
+                   
+                });
             },
         },
         beforeRouteLeave(to, from, next) {

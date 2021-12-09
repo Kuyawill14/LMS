@@ -1889,6 +1889,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var quill_dist_quill_snow_css__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! quill/dist/quill.snow.css */ "./node_modules/quill/dist/quill.snow.css");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
+/* harmony import */ var _mixins_titleMixin__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./mixins/titleMixin */ "./resources/js/mixins/titleMixin.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -1924,8 +1931,9 @@ Vue.use((vue_quill_editor__WEBPACK_IMPORTED_MODULE_7___default())
 
 
 
+
 Vue.component('main-component', __webpack_require__(/*! ./components/app.vue */ "./resources/js/components/app.vue").default);
-Vue.mixin({
+Vue.mixin(_objectSpread(_objectSpread({}, _mixins_titleMixin__WEBPACK_IMPORTED_MODULE_12__.default), {}, {
   methods: {
     toastNormal: function toastNormal(message) {
       return this.$toasted.show(message, {
@@ -1959,7 +1967,7 @@ Vue.mixin({
       });
     }
   }
-});
+}));
 var app = new Vue({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_11__.default,
@@ -2018,6 +2026,37 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__.default({
   key: "05597b24c42e8d5d33ef",
   cluster: "ap1",
   forceTLS: true
+});
+
+/***/ }),
+
+/***/ "./resources/js/mixins/titleMixin.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/titleMixin.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function getTitle(vm) {
+  var title = vm.$options.title;
+
+  if (title) {
+    return typeof title === 'function' ? title.call(vm) : title;
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  created: function created() {
+    var title = getTitle(this);
+
+    if (title) {
+      document.title = title;
+    }
+  }
 });
 
 /***/ }),

@@ -33,6 +33,8 @@
             </v-row>
         </v-container> -->
 
+        
+
         <v-dialog v-model="dialog" width="400px">
             <v-card>
                 <v-form @submit.prevent="validate" ref="form" v-model="valid" lazy-validation>
@@ -68,17 +70,17 @@
         </div>
         <div  v-if="coursesLength != 0 && isGetting == false">
             
-            <v-row style="margin-bottom: -40px;">
+            <v-row >
                 <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
                     <h2>My Classes</h2>
                 </v-col>
                 <v-col lg="2" class="text-right">
-                    <v-select class="mr-2 my-0" dense :items="school_year" item-text="schoolyear" item-value="id"
-                        label="School Year" v-model="school_year_id" outlined small @change="schoolYearFilter()">
+                    <v-select class="mr-2 my-0" hide-details dense :items="school_year" item-text="schoolyear" item-value="id"
+                        label="School Year"  v-model="school_year_id" outlined small @change="schoolYearFilter()">
                     </v-select>
                 </v-col>
                 <v-col class="text-right" lg="2">
-                    <v-select class="mr-2 my-0" dense :items="semester" item-text="semester" item-value="id" label="Semester"
+                    <v-select class="mr-2 my-0" hide-details dense :items="semester" item-text="semester" item-value="id" label="Semester"
                         v-model="semester_id" outlined small @change="semesterFilter()"></v-select>
                 </v-col>
 
@@ -86,28 +88,41 @@
 
           
 
-            <v-row class="mt-3" >
+            <v-row>
                 <v-col cols="12" xl="3" lg="3" md="6"  v-for="(item, i) in allClassesData" :key="'class' + i">
                     <div class="card-expansion">
                         <v-card class="mx-auto">
-                           <!--  <v-img :src="'../images/'+item.course_picture" height="200px"
-                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end">
-                                <v-card-subtitle>
-                                    <v-progress-linear :value="item.progress" height="6" class="rounded-sm">
-                                    </v-progress-linear>
-                                    <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}%
-                                    </span>
-                                    <span class="text-caption "> Completed </span>
-                                </v-card-subtitle>
-                            </v-img>
- -->
                              <v-img
                                :src="CheckBackgroundPath(item.course_picture)"
                                  :height="$vuetify.breakpoint.lgAndUp ? 200 : 160"
-                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text align-end grey lighten-2"
-                                aspect-ratio="1"
-                            
-                            >
+                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text d-flex flex-row justify-space-between grey lighten-2"
+                                aspect-ratio="1" >
+                            <v-app-bar flat color="rgba(0, 0, 0, 0)">
+                                <v-spacer></v-spacer>
+                                  <v-menu transition="slide-y-transition" bottom >
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white" >
+                                                <v-icon>
+                                                    mdi-dots-vertical
+                                                </v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <v-list class="pa-1">
+                                            <v-list-item  @click="ArchiveDetails.name = item.course_name,
+                                             ArchiveDetails.id = item.useClass_id,
+                                            ArchiveDetails.index = i,
+                                             Archivedialog = true">
+                                                <v-list-item-title>Unenroll</v-list-item-title>
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
+                               
+                            </v-app-bar>
+                               
+                              
+                           
+
+
                                 <template v-slot:placeholder>
                                 <v-row
                                     class="fill-height ma-0"
@@ -121,7 +136,8 @@
                                 </v-row>
                                 </template>
 
-                                  <v-card-subtitle>
+                                  <v-card-subtitle class="mt-12">
+                                      
                                     <v-progress-linear :value="item.progress" height="6" class="rounded-sm">
                                     </v-progress-linear>
                                     <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}%
@@ -179,6 +195,13 @@
             </v-col>
             </v-row>
         </div>
+
+
+         <v-dialog v-model="Archivedialog" persistent max-width="400">
+            <confirmUnenroll v-on:toggleCancelDialog="Archivedialog = !Archivedialog"
+                v-on:toggleconfirm="UnenrollInCourse()" :ArchiveDetails="ArchiveDetails" v-if="Archivedialog">
+            </confirmUnenroll>
+        </v-dialog>
     </div>
 
 
@@ -188,13 +211,14 @@
 
 
 <script>
+const confirmUnenroll = () => import("./dialog/confirmUnenroll")
     import {
         mapGetters,
         mapActions
     } from "vuex";
     export default {
         components: {
-
+            confirmUnenroll
         },
         data() {
             return {
@@ -218,6 +242,8 @@
                 rules: [
                     v => !!v || 'Class code is required',
                 ],
+                Archivedialog: false,
+                ArchiveDetails:{}
 
             };
         },
@@ -337,6 +363,14 @@
                         return '../images/' + path;
                     }
                 }
+            },
+            async UnenrollInCourse(){
+                await axios.delete('/api/student/unenroll/'+this.ArchiveDetails.id)
+                .then(()=>{
+                    this.allClassesData.splice(this.ArchiveDetails.index, 1);
+                    this.Archivedialog = false;
+                    this.coursesLength--;
+                })
             }
         },
         mounted() {

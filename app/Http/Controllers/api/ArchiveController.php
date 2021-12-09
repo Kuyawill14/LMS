@@ -202,6 +202,22 @@ class ArchiveController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function StudentrestoreClass($id)
+    {
+     
+        $CheckClass = tbl_userclass::withTrashed()->where("id", $id)->restore();
+         if($CheckClass){
+            return "Class Restored";
+         }
+        
+        return "Class not found!";
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

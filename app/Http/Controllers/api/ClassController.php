@@ -243,8 +243,8 @@ class ClassController extends Controller
         $userId = auth('sanctum')->id();
         $class = Tbl_class::find($id);
         if($class) {
-            $userClass = tbl_userclass::where('class_id', $id)->where('user_id', $userId)->where('course_id',$class->course_id)->delete();
-            $class->ForceDelete();
+            $userClass = tbl_userclass::where('class_id', $id)->where('user_id', $userId)->where('course_id',$class->course_id)->forceDelete();
+            $class->forceDelete();
             return 'Successfully Removed';
         }
     }
