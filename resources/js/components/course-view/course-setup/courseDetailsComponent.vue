@@ -5,12 +5,12 @@
 
            
             <v-col cols="12" class="pl-0 pb-0 pr-0">
-                <v-text-field :rules="rules" v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code">
+                <v-text-field :rules="rules" v-model="getcourseInfo.course_code" outlined color="primary" label="Course Code *">
                 </v-text-field>
             </v-col>
 
             <v-col cols="12" class="pa-0 ">
-                <v-text-field :rules="rules" v-model="getcourseInfo.course_name" outlined color="primary" label="Course Title">
+                <v-text-field :rules="rules" v-model="getcourseInfo.course_name" outlined color="primary" label="Course Title *">
                 </v-text-field>
             </v-col>
 
@@ -19,7 +19,7 @@
                         target="_blank">meet.google.com/new </a> </small>
 
                 <v-text-field v-model="getcourseInfo.v_classroom_link" outlined color="primary"
-                    label="Video Conference Link" type="url">
+                    label="Video Conference Link *" type="url">
                 </v-text-field>
 
             </v-col>
@@ -38,7 +38,7 @@
 
 
             <v-col cols="12" class="pa-0 ">
-                <v-select :items="school_year" item-text="schoolyear" item-value="id" label="School Year"
+                <v-select :items="school_year" item-text="schoolyear *" item-value="id" label="School Year"
                     v-model="getcourseInfo.school_year_id" outlined></v-select>
             </v-col>
 
@@ -53,7 +53,7 @@
 
 
             <v-col cols="12" class="pa-0" v-if="getcourseInfo.course_guide == null">
-                <v-file-input show-size outlined label="Course Guide" @change="onFileChange" ref="inputFile"
+                <v-file-input show-size outlined label="Course Guide *" @change="onFileChange" ref="inputFile"
                     prepend-inner-icon="mdi-file" prepend-icon="">
 
                 </v-file-input>

@@ -476,7 +476,7 @@ var render = function() {
                       rules: _vm.rules,
                       outlined: "",
                       color: "primary",
-                      label: "Course Code"
+                      label: "Course Code *"
                     },
                     model: {
                       value: _vm.getcourseInfo.course_code,
@@ -499,7 +499,7 @@ var render = function() {
                       rules: _vm.rules,
                       outlined: "",
                       color: "primary",
-                      label: "Course Title"
+                      label: "Course Title *"
                     },
                     model: {
                       value: _vm.getcourseInfo.course_name,
@@ -535,7 +535,7 @@ var render = function() {
                     attrs: {
                       outlined: "",
                       color: "primary",
-                      label: "Video Conference Link",
+                      label: "Video Conference Link *",
                       type: "url"
                     },
                     model: {
@@ -557,7 +557,7 @@ var render = function() {
                   _c("v-select", {
                     attrs: {
                       items: _vm.school_year,
-                      "item-text": "schoolyear",
+                      "item-text": "schoolyear *",
                       "item-value": "id",
                       label: "School Year",
                       outlined: ""
@@ -608,7 +608,7 @@ var render = function() {
                         attrs: {
                           "show-size": "",
                           outlined: "",
-                          label: "Course Guide",
+                          label: "Course Guide *",
                           "prepend-inner-icon": "mdi-file",
                           "prepend-icon": ""
                         },
