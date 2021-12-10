@@ -3,9 +3,38 @@
 
     <v-card>
 
+
+        <v-dialog width="350" v-model="closeDialog">
+            <v-card class="pa-2">
+                <v-card-text class="font-weight-bold">
+                    <div class="subtitle-1 " style="line-height:1.1">
+                        You have new changes you want to save?
+                      </div>
+                    </v-card-text>
+                <v-card-actions class="pb-5">
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="primary"
+                    rounded
+                    outlined
+                    @click="SaveAndclose(false)"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                    color="primary"
+                    rounded
+                    @click="SaveAndclose(true)"
+                >
+                    Confirm
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         <v-form ref="form" v-model="valid" lazy-validation>
             <v-toolbar dark color="primary">
-                <v-btn icon dark @click="$emit('CLoseRubricModal')">
+                <v-btn icon dark @click="CheckChanges()">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
                 <v-toolbar-title>Rubrics</v-toolbar-title>
@@ -15,7 +44,7 @@
 
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
-                    <v-btn dark text @click="saveAllCriteria()">
+                    <v-btn dark text @click="validate()">
                         Save
                     </v-btn>
                 </v-toolbar-items>
@@ -24,7 +53,7 @@
 
             <v-container>
 
-                <v-row align="center" class="pt-4">
+                <v-row align="center" class="pt-4" >
                     <vue-element-loading :active="loading" spinner="bar-fade-scale" color="#FF6700" />
                     <v-col cols="3" v-for="(item, index) in criteria" :key="index">
                         <v-card class="pa-5">
@@ -35,18 +64,19 @@
                                     mdi-close
                                 </v-icon>
                             </v-btn>
-                            <v-row>
-                                <v-col cols="12" style="margin-bottom: -20px;">
-                                    <v-text-field outlined label="Points" class="text-field" v-model="item.points"
-                                        type="number" :rules="pointsRules" required>
-                                    </v-text-field>
-                                </v-col>
-                                <v-col cols="12" class="py-0" style="margin-bottom: -20px;">
+                            <v-row no-gutters>
+                              
+                                <v-col cols="12" >
                                     <v-text-field outlined label="Criteria name" v-model="item.criteria_name"
                                         :rules="nameRules" type="text" class="text-field" required>
                                     </v-text-field>
                                 </v-col>
-                                <v-col cols="12" class="py-0" style="margin-bottom: -20px;">
+                                  <v-col cols="12"  >
+                                    <v-text-field outlined label="Points" class="text-field" v-model="item.points"
+                                        type="number" :rules="pointsRules" required>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12" >
                                     <v-textarea label="Description" class="text-field" v-model="item.description"
                                         outlined auto-grow>
                                     </v-textarea>
@@ -112,21 +142,16 @@
                         Delete
                     </v-btn>
                 </v-card-actions>
-
             </v-card>
         </v-dialog>
-
-
     </v-card>
-
-
 </template>
 
 
 <script>
     import axios from 'axios'
     export default {
-        props: ['dialog', 'total_points', 'title', 'rubrics'],
+        props: ['dialog', 'total_points', 'title', 'rubricsDetails'],
         data() {
             return {
                 isSaved: true,
@@ -135,7 +160,7 @@
                 rubrics_id: '',
                 deleteIndex: null,
                 modal: this.dialog,
-                criteria: this.rubrics,
+                criteria: [],
                 num: -999,
                 criteria_form: {
                     id: '',
@@ -145,15 +170,36 @@
                 },
                 valid: true,
                 nameRules: [
-                    v => !!v || ' required',
+                    v => !!v || 'Field is required',
 
                 ],
                 pointsRules: [
+                    v => ( v && v >= 1 ) || "Points should be above or equal to 1",
+                    v => ( v && v <= 100 ) || "Points should not be above 100",
                     v => !!v || 'Points is required'
                 ],
+                closeDialog: false,
+                newChanges: false,
+                tmpCriteria: [],
             }
         },
         methods: {
+            SaveAndclose(data){
+                if(data){
+                    this.$emit('CloseAndSave',this.criteria);
+                }
+                else{
+                    this.$emit('CLoseRubricModal');
+                }
+            },
+            CheckChanges(){
+                if(this.newChanges){
+                    this.closeDialog = true;
+                }
+                else{
+                    this.$emit('CLoseRubricModal');
+                }
+            },
             closeModal() {
                 this.saveAllCriteria()
                 .then(() => {
@@ -167,21 +213,26 @@
                 this.criteria_form.description = '';
             },
             saveAllCriteria() {
-                this.loading = true;                
+                this.loading = true;       
                 axios.post(`/api/classwork/rubrics-save/${this.$route.query.clwk}`, {
                     rubrics: this.criteria
                 })
                 .then((res) => {
                     this.loading = false;
-                    this.$emit('CriteriaSave');
+                    this.$emit('CloseAndSave',this.criteria);
                 })
                 .catch((err) => {
-                    //console.log(err);
                     this.toastError('Something went wrong');
                     this.loading = false;
                 })
             },
+            validate(){
+                if(this.$refs.form.validate()){
+                    this.saveAllCriteria();
+                }
+            },
             addCriteria() {
+                this.newChanges = true;
                 this.isSaved = false;
                 if (!this.$refs.form.validate()) {
                     this.toastError('Please Complete the fields')
@@ -208,11 +259,12 @@
             }, */
             deleteRubrics(rubrics_id) {
                 this.loading = true;
-                axios.delete(`/api/classwork/rubric/delete/${this.$route.query.clwk}/${this.rubrics_id}`)
+                axios.delete(`/api/classwork/rubric/delete/${this.$route.query.clwk}/${rubrics_id}`)
                     .then((res) => {
                         this.loading = false;
                         this.deleteDialog = false;
                         this.criteria.splice(this.deleteIndex, 1);
+                        this.$emit('deleteRubrics',rubrics_id);
                     }).catch((err) => {
                         //console.log(err);
                         this.toastError('Something went wrong');
@@ -220,7 +272,7 @@
                     })
             },
             CheckCriteria(){
-                if(this.criteria.length == 0){
+                if(this.rubricsDetails.length == 0){
                      this.criteria.push({
                         id: null,
                         points: null,
@@ -228,9 +280,20 @@
                         description: null,
                     })
                 }
+                else{
+                    this.rubricsDetails.forEach(item => {
+                         this.criteria.push({
+                            id: item.id,
+                            points: item.points,
+                            criteria_name: item.criteria_name,
+                            description: item.description,
+                        })
+                    });
+                }
             }
         },
         mounted() {
+            this.tmpCriteria = this.rubricsDetails;
             this.CheckCriteria();
         }
 
@@ -239,12 +302,12 @@
 </script>
 
 <style>
-    .text-field>.v-input__control>.v-text-field__details>.error--text {
+    /* .text-field>.v-input__control>.v-text-field__details>.error--text {
         margin-top: -55px !important;
         position: absolute !important;
         z-index: 9999999 !important;
 
 
-    }
+    } */
 
 </style>

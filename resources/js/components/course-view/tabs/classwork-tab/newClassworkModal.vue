@@ -81,6 +81,7 @@
                               </v-btn>
                              <v-file-input
                                 multiple
+                                ref="inputFile"
                                 @change="onFileChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain"  
                                 class="d-none">
                             </v-file-input>

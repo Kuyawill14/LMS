@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="create">
 
          <v-row align="center" justify="center" class="pt-10" v-if="ClassworkLength == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
@@ -15,7 +15,7 @@
 
 
 
-        <v-btn  v-if="classworks.totalClasswork != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
+        <v-btn  v-if="ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
             <v-icon>mdi-plus</v-icon>
         </v-btn>
 
@@ -238,6 +238,37 @@
                </v-col>
             </v-row>
     </v-container>
+
+    <!--  <v-speed-dial
+      v-model="fab"
+      :bottom="bottom"
+      :right="right"
+      :direction="direction"
+      :open-on-hover="hover"
+      :transition="transition"
+    >
+      <template v-slot:activator>
+        <v-btn v-model="fab" color="primary" dark fab>
+          <v-icon v-if="fab">
+            mdi-close
+          </v-icon>
+          <v-icon v-else>
+            mdi-plus
+          </v-icon>
+        </v-btn>
+      </template>
+      <v-btn class="pl-8 pr-8 mb-2" dark x-large rounded color="red">
+          <v-icon left>mdi-format-list-numbered</v-icon>
+            Objective Type
+      </v-btn>
+
+      <v-btn class="pl-7 pr-7" dark x-large rounded color="indigo">
+              <v-icon left>mdi-text</v-icon>
+        Subjective Type
+    
+      </v-btn>
+     
+    </v-speed-dial> -->
 </div>
 </template>
 
@@ -270,7 +301,30 @@
                 ArchiveDetails: [],
                 ArchiveIndex: null,
                 classworkIndex: null,
+                 direction: 'top',
+                fab: false,
+                fling: false,
+                hover: false,
+                tabs: null,
+                top: false,
+                right: true,
+                bottom: true,
+                transition: 'slide-y-reverse-transition',
             }
+        },
+         watch: {
+            top (val) {
+                this.bottom = !val
+            },
+            right (val) {
+                this.left = !val
+            },
+            bottom (val) {
+                this.top = !val
+            },
+            left (val) {
+                this.right = !val
+            },
         },
         methods: {
             
@@ -327,6 +381,19 @@
      #extend{
         padding: 0 24px 16px !important;
     }
+
+      /* This is for documentation purposes and will not be needed in your application */
+
+#create .v-speed-dial__list {
+    align-items: flex-end;
+}
+  #create .v-speed-dial {
+    position: absolute;
+  }
+
+  #create .v-btn--floating {
+    position: relative;
+  }
 </style>
 
 

@@ -56,7 +56,7 @@
 
         <v-row v-if="!isloading && classworkDetails.success == true">
             <v-col v-if="role == 'Teacher'" cols="12" class="ma-0 pa-0 pa-2">
-                 <teacherStartPage v-if="role == 'Teacher'" 
+                 <teacherStartPage  v-if="role == 'Teacher'" 
                   :totalPoints="totalPoints"
                   :totalQuestion="totalQuestion"
                   :classworkDetails="classworkDetails.Details"
@@ -127,7 +127,6 @@ export default {
                 this.classworkDetails = this.get_classwork_show_details;
                 this.totalPoints = this.get_classwork_show_details.totalpoints;
                 this.totalQuestion = this.get_classwork_show_details.ItemsCount;
-                //this.checkStatus(res.data.Details.type);
                 this.iChange = false;
                 this.isloading = false;
             })

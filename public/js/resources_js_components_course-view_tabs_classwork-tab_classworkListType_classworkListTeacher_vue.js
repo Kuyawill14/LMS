@@ -264,6 +264,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -299,8 +330,31 @@ var newClassworkModal = function newClassworkModal() {
       archiveDialog: false,
       ArchiveDetails: [],
       ArchiveIndex: null,
-      classworkIndex: null
+      classworkIndex: null,
+      direction: 'top',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: true,
+      bottom: true,
+      transition: 'slide-y-reverse-transition'
     };
+  },
+  watch: {
+    top: function top(val) {
+      this.bottom = !val;
+    },
+    right: function right(val) {
+      this.left = !val;
+    },
+    bottom: function bottom(val) {
+      this.top = !val;
+    },
+    left: function left(val) {
+      this.right = !val;
+    }
   },
   methods: {
     format_date: function format_date(value) {
@@ -398,7 +452,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n    max-width: 100% !important;\n    max-height: 15rem !important;\n}\n.v-expansion-panel-content__wrap {\n    padding: 0 !important;\n}\n#extend{\n    padding: 0 24px 16px !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nspan img{\n        max-width: 100% !important;\n        max-height: 15rem !important;\n}\n.v-expansion-panel-content__wrap {\n        padding: 0 !important;\n}\n#extend{\n        padding: 0 24px 16px !important;\n}\n\n      /* This is for documentation purposes and will not be needed in your application */\n#create .v-speed-dial__list {\n    align-items: flex-end;\n}\n#create .v-speed-dial {\n    position: absolute;\n}\n#create .v-btn--floating {\n    position: relative;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22693,6 +22747,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { attrs: { id: "create" } },
     [
       _vm.ClassworkLength == 0
         ? _c(
@@ -22743,7 +22798,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.classworks.totalClasswork != 0
+      _vm.ClassworkLength != 0
         ? _c(
             "v-btn",
             {

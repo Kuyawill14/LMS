@@ -204,24 +204,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -248,7 +230,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       valid: true,
       dialog: false,
       Deldialog: false,
-      Rules: [function (v) {
+      rules: [function (v) {
         return !!v || "Field is required";
       }],
       form: new Form({
@@ -815,36 +797,38 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", {}, [
-                _vm._v(
-                  "\n                " +
-                    _vm._s(
-                      _vm.type == "add" ? "Add Department" : "Update Department"
-                    ) +
-                    "\n            "
-                )
-              ]),
-              _vm._v(" "),
-              _c("v-divider"),
-              _vm._v(" "),
               _c(
-                "v-container",
-                { staticClass: "mb-0 pb-0" },
-                [
-                  _c(
-                    "v-form",
-                    {
-                      ref: "form",
-                      staticClass: "text-center ",
-                      attrs: { "lazy-validation": "" },
-                      model: {
-                        value: _vm.valid,
-                        callback: function($$v) {
-                          _vm.valid = $$v
-                        },
-                        expression: "valid"
-                      }
+                "v-form",
+                {
+                  ref: "form",
+                  staticClass: "text-center ",
+                  attrs: { "lazy-validation": "" },
+                  model: {
+                    value: _vm.valid,
+                    callback: function($$v) {
+                      _vm.valid = $$v
                     },
+                    expression: "valid"
+                  }
+                },
+                [
+                  _c("v-card-title", {}, [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(
+                          _vm.type == "add"
+                            ? "Add Department"
+                            : "Update Department"
+                        ) +
+                        "\n            "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _c(
+                    "v-container",
+                    { staticClass: "mb-0 pb-0" },
                     [
                       _c(
                         "v-row",
@@ -1083,7 +1067,8 @@ var render = function() {
                                   label: "Short Name",
                                   placeholder: "Eg. CCSICT, COC, COE , etc",
                                   "auto-grow": "",
-                                  outlined: ""
+                                  outlined: "",
+                                  rules: _vm.rules
                                 },
                                 model: {
                                   value: _vm.form.short_name,
@@ -1115,6 +1100,7 @@ var render = function() {
                                   type: "text",
                                   rows: "1",
                                   name: "name",
+                                  rules: _vm.rules,
                                   label: "Department Name",
                                   "auto-grow": "",
                                   outlined: ""
@@ -1135,49 +1121,49 @@ var render = function() {
                       )
                     ],
                     1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-card-actions",
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "" },
-                      on: {
-                        click: function($event) {
-                          return _vm.clearData()
-                        }
-                      }
-                    },
-                    [_vm._v("Cancel")]
                   ),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        loading: _vm.isAdding,
-                        text: "",
-                        color: "primary"
-                      },
-                      on: {
-                        click: function($event) {
-                          return _vm.validate()
-                        }
-                      }
-                    },
+                    "v-card-actions",
                     [
-                      _vm._v(
-                        "\n                    " +
-                          _vm._s(this.type == "add" ? "Add" : "Update")
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { text: "" },
+                          on: {
+                            click: function($event) {
+                              return _vm.clearData()
+                            }
+                          }
+                        },
+                        [_vm._v("Cancel")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            loading: _vm.isAdding,
+                            text: "",
+                            color: "primary"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.validate()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                        " +
+                              _vm._s(this.type == "add" ? "Add" : "Update")
+                          )
+                        ]
                       )
-                    ]
+                    ],
+                    1
                   )
                 ],
                 1

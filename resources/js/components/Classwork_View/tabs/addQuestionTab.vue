@@ -778,6 +778,53 @@ export default {
                     })
             }
         },
+        async GetQuestion(){
+            
+            
+            this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
+            .then((res)=>{
+                
+                if(res.status == 200){
+                        this.selectedData = [];
+                        let tmp = this.getAll_questions.Question;
+                        tmp.forEach(item => {
+
+                                this.selectedData.push({
+                                    id: item.id,
+                                    selected: false,
+                                    isEditing: false
+                                })  
+                        });
+                        this.isloading = false;
+                        this.Qlength = tmp.length;
+                }
+                
+            }) 
+
+        },
+
+        async ReloadQuestion(){
+        
+            this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
+            .then((res)=>{
+                if(res.status == 200){
+                        this.selectedData = [];
+                        let tmp = this.getAll_questions.Question;
+                        tmp.forEach(item => {
+
+                                this.selectedData.push({
+                                    id: item.id,
+                                    selected: false,
+                                    isEditing: false
+                                })  
+                        });
+                        this.isloading = false;
+                        this.Qlength = tmp.length;
+                }
+                
+            }) 
+
+        },
        async AddNewQuestion(){
                        
            this.isAddingNewQuestion = true;
@@ -826,8 +873,6 @@ export default {
 
                this.isAddingNewQuestion = false;
                 setTimeout(() => (window.scrollTo(0,document.body.scrollHeight)), 100);
-                 
-               
            })
             
 
@@ -961,6 +1006,7 @@ export default {
                 if(res.data.success == true){
                     this.isSavingAllQuestion = false;
                     this.isNewChanges = false;
+                    this.GetQuestion();
                      setTimeout(() => {
                           this.showSnackbar = false;
                     }, 3000);
@@ -1082,8 +1128,9 @@ export default {
                 answer: this.DuplicateAnswers
             })
             .then((res)=>{
-                this.isNewChanges = false;
+                //this.isNewChanges = false;
                 for (let i = 0; i < res.data.question_id.length; i++) {
+                    console.log(res.data.question_id[i]);
                     this.getAll_questions.Question.push({
                         id: res.data.question_id[i],
                         question: this.DuplicateQuestion[i].question,
@@ -1092,8 +1139,9 @@ export default {
                         type: this.DuplicateQuestion[i].type,
                         sensitivity: this.DuplicateQuestion[i].sensitivity,
                     })
+                 
                     this.selectedData.push({
-                        id: res.data.question_id,
+                        id: res.data.question_id[i],
                         selected: false,
                         isEditing: true
                     }) 
@@ -1184,27 +1232,11 @@ export default {
     },
 
     mounted(){
-    this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
-    this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
-     
-     const top = window.pageYOffset || 0;
-      this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
-      .then((res)=>{
-        
-          if(res.status == 200){
-                let tmp = this.getAll_questions.Question;
-                tmp.forEach(item => {
-                        this.selectedData.push({
-                            id: item.id,
-                            selected: false,
-                            isEditing: false
-                        })  
-                });
-                this.isloading = false;
-                this.Qlength = tmp.length;
-          }
-          
-      })  
+   
+      this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
+      this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
+       const top = window.pageYOffset || 0;
+      this.GetQuestion();
 
        
     },

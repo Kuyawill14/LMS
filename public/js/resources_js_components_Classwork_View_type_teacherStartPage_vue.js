@@ -118,7 +118,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       activeTab: "",
       ObjectIveTabs: [{
         name: "clwk",
-        text: "CLASSWORK DETAILS",
+        text: "DETAILS",
         icon: "mdi-file-cog"
       }, {
         name: "add-question",
@@ -127,28 +127,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, //{ name: "question-list", text: "QUESTION LIST", icon:"mdi-clipboard-list"},
       {
         name: "publish-to",
-        text: "PUBLISH TO",
+        text: "PUBLISH",
         icon: "mdi-publish"
       }, {
         name: "submission-list",
-        text: "SUBMISSION LIST",
+        text: "SUBMISSIONS",
         icon: "mdi-notebook-check-outline"
       }, {
         name: "question-analytics",
-        text: "QUESTION ANALYTICS",
+        text: "ANALYTICS",
         icon: "mdi-google-analytics"
       }],
       SubjectiveTabs: [{
         name: "clwk",
-        text: "CLASSWORK DETAILS",
+        text: "DETAILS",
         icon: "mdi-file-cog"
       }, {
         name: "publish-to",
-        text: "PUBLISH TO",
+        text: "PUBLISH",
         icon: "mdi-publish"
       }, {
         name: "submission-list",
-        text: "SUBMISSION LIST",
+        text: "SUBMISSIONS",
         icon: "mdi-notebook-check-outline"
       }],
       tabs: null

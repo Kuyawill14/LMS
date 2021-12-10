@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_Questions;
+use App\Models\tbl_choice;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_Submitted_Answer;
@@ -56,19 +57,51 @@ class AnalyticsController extends Controller
                 $wrongCount = 0;
                 foreach($submission as $sub){
                     if($sub->Submitted_Answers != null && $sub->Submitted_Answers != ''){
-                        foreach(unserialize($sub->Submitted_Answers)  as $sub_answers){
-                            if($item->id == $sub_answers['Question_id']){
-                                $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
-                                $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
+                        $answers = unserialize($sub->Submitted_Answers);
 
-                                if($userAns == $questionAns){
-                                    $checkCount++;
+
+                            foreach($answers as $sub_answers){
+                                if($item->id == $sub_answers['Question_id']){
+                                    
+                                    
+                                    if($item->type != 'Identification'){
+                                        $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
+                                        $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
+                                        if($userAns == $questionAns){
+                                            $checkCount++;
+                                        }
+                                        else{
+                                            $wrongCount++;
+                                        }
+                                    }
+                                    else{
+                                        $AnswerList = tbl_choice::where('question_id', $item->id)->get();
+                                        //return  $AnswerList;
+                                        $check = false;
+                                        foreach($AnswerList as $ans_list){
+                                          
+                                            $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
+                                         
+                                            $questionAns = $item->sensitivity ? $ans_list->Choice : strtolower($ans_list->Choice);
+                                            if($userAns == $questionAns){
+                                                $checkCount++;
+                                                $check = true;
+                                                goto breakLoop;
+                                            }
+                                        }
+
+                                        breakLoop:
+                                        if($check = false){
+                                            $wrongCount++;
+                                        }
+                                        
+                                    }
+                                    
+
+                                   
                                 }
-                                else{
-                                    $wrongCount++;
-                                }
-                            }
-                        }
+                            }  
+                       
                     }
                 }
                 $item->correct_count = $checkCount;

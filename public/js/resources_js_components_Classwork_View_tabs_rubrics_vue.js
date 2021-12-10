@@ -138,9 +138,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['dialog', 'total_points', 'title', 'rubrics'],
+  props: ['dialog', 'total_points', 'title', 'rubricsDetails'],
   data: function data() {
     return {
       isSaved: true,
@@ -149,7 +174,7 @@ __webpack_require__.r(__webpack_exports__);
       rubrics_id: '',
       deleteIndex: null,
       modal: this.dialog,
-      criteria: this.rubrics,
+      criteria: [],
       num: -999,
       criteria_form: {
         id: '',
@@ -159,14 +184,35 @@ __webpack_require__.r(__webpack_exports__);
       },
       valid: true,
       nameRules: [function (v) {
-        return !!v || ' required';
+        return !!v || 'Field is required';
       }],
       pointsRules: [function (v) {
+        return v && v >= 1 || "Points should be above or equal to 1";
+      }, function (v) {
+        return v && v <= 100 || "Points should not be above 100";
+      }, function (v) {
         return !!v || 'Points is required';
-      }]
+      }],
+      closeDialog: false,
+      newChanges: false,
+      tmpCriteria: []
     };
   },
   methods: {
+    SaveAndclose: function SaveAndclose(data) {
+      if (data) {
+        this.$emit('CloseAndSave', this.criteria);
+      } else {
+        this.$emit('CLoseRubricModal');
+      }
+    },
+    CheckChanges: function CheckChanges() {
+      if (this.newChanges) {
+        this.closeDialog = true;
+      } else {
+        this.$emit('CLoseRubricModal');
+      }
+    },
     closeModal: function closeModal() {
       var _this = this;
 
@@ -188,15 +234,20 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         _this2.loading = false;
 
-        _this2.$emit('CriteriaSave');
+        _this2.$emit('CloseAndSave', _this2.criteria);
       })["catch"](function (err) {
-        //console.log(err);
         _this2.toastError('Something went wrong');
 
         _this2.loading = false;
       });
     },
+    validate: function validate() {
+      if (this.$refs.form.validate()) {
+        this.saveAllCriteria();
+      }
+    },
     addCriteria: function addCriteria() {
+      this.newChanges = true;
       this.isSaved = false;
 
       if (!this.$refs.form.validate()) {
@@ -227,11 +278,13 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       this.loading = true;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete("/api/classwork/rubric/delete/".concat(this.$route.query.clwk, "/").concat(this.rubrics_id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().delete("/api/classwork/rubric/delete/".concat(this.$route.query.clwk, "/").concat(rubrics_id)).then(function (res) {
         _this3.loading = false;
         _this3.deleteDialog = false;
 
         _this3.criteria.splice(_this3.deleteIndex, 1);
+
+        _this3.$emit('deleteRubrics', rubrics_id);
       })["catch"](function (err) {
         //console.log(err);
         _this3.toastError('Something went wrong');
@@ -240,17 +293,29 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     CheckCriteria: function CheckCriteria() {
-      if (this.criteria.length == 0) {
+      var _this4 = this;
+
+      if (this.rubricsDetails.length == 0) {
         this.criteria.push({
           id: null,
           points: null,
           criteria_name: null,
           description: null
         });
+      } else {
+        this.rubricsDetails.forEach(function (item) {
+          _this4.criteria.push({
+            id: item.id,
+            points: item.points,
+            criteria_name: item.criteria_name,
+            description: item.description
+          });
+        });
       }
     }
   },
   mounted: function mounted() {
+    this.tmpCriteria = this.rubricsDetails;
     this.CheckCriteria();
   }
 });
@@ -273,7 +338,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-field>.v-input__control>.v-text-field__details>.error--text {\n    margin-top: -55px !important;\n    position: absolute !important;\n    z-index: 9999999 !important;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .text-field>.v-input__control>.v-text-field__details>.error--text {\n    margin-top: -55px !important;\n    position: absolute !important;\n    z-index: 9999999 !important;\n\n\n} */\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -411,6 +476,79 @@ var render = function() {
     "v-card",
     [
       _c(
+        "v-dialog",
+        {
+          attrs: { width: "350" },
+          model: {
+            value: _vm.closeDialog,
+            callback: function($$v) {
+              _vm.closeDialog = $$v
+            },
+            expression: "closeDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "pa-2" },
+            [
+              _c("v-card-text", { staticClass: "font-weight-bold" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "subtitle-1 ",
+                    staticStyle: { "line-height": "1.1" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    You have new changes you want to save?\n                  "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                { staticClass: "pb-5" },
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", rounded: "", outlined: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.SaveAndclose(false)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Cancel\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", rounded: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.SaveAndclose(true)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Confirm\n            ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-form",
         {
           ref: "form",
@@ -434,7 +572,7 @@ var render = function() {
                   attrs: { icon: "", dark: "" },
                   on: {
                     click: function($event) {
-                      return _vm.$emit("CLoseRubricModal")
+                      return _vm.CheckChanges()
                     }
                   }
                 },
@@ -463,7 +601,7 @@ var render = function() {
                       attrs: { dark: "", text: "" },
                       on: {
                         click: function($event) {
-                          return _vm.saveAllCriteria()
+                          return _vm.validate()
                         }
                       }
                     },
@@ -544,42 +682,11 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-row",
+                              { attrs: { "no-gutters": "" } },
                               [
                                 _c(
                                   "v-col",
-                                  {
-                                    staticStyle: { "margin-bottom": "-20px" },
-                                    attrs: { cols: "12" }
-                                  },
-                                  [
-                                    _c("v-text-field", {
-                                      staticClass: "text-field",
-                                      attrs: {
-                                        outlined: "",
-                                        label: "Points",
-                                        type: "number",
-                                        rules: _vm.pointsRules,
-                                        required: ""
-                                      },
-                                      model: {
-                                        value: item.points,
-                                        callback: function($$v) {
-                                          _vm.$set(item, "points", $$v)
-                                        },
-                                        expression: "item.points"
-                                      }
-                                    })
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-col",
-                                  {
-                                    staticClass: "py-0",
-                                    staticStyle: { "margin-bottom": "-20px" },
-                                    attrs: { cols: "12" }
-                                  },
+                                  { attrs: { cols: "12" } },
                                   [
                                     _c("v-text-field", {
                                       staticClass: "text-field",
@@ -604,11 +711,32 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "v-col",
-                                  {
-                                    staticClass: "py-0",
-                                    staticStyle: { "margin-bottom": "-20px" },
-                                    attrs: { cols: "12" }
-                                  },
+                                  { attrs: { cols: "12" } },
+                                  [
+                                    _c("v-text-field", {
+                                      staticClass: "text-field",
+                                      attrs: {
+                                        outlined: "",
+                                        label: "Points",
+                                        type: "number",
+                                        rules: _vm.pointsRules,
+                                        required: ""
+                                      },
+                                      model: {
+                                        value: item.points,
+                                        callback: function($$v) {
+                                          _vm.$set(item, "points", $$v)
+                                        },
+                                        expression: "item.points"
+                                      }
+                                    })
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-col",
+                                  { attrs: { cols: "12" } },
                                   [
                                     _c("v-textarea", {
                                       staticClass: "text-field",

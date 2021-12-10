@@ -61,6 +61,8 @@
 
         <v-dialog persistent v-model="dialog" width="500">
             <v-card>
+        
+                <v-form class="text-center " ref="form" v-model="valid" lazy-validation>
                 <v-card-title class="">
                     {{type == "add" ? 'Add Department' :  'Update Department'}}
                 </v-card-title>
@@ -68,111 +70,91 @@
             
                 <v-container class="mb-0 pb-0">
 
-                    <v-form class="text-center " ref="form" v-model="valid" lazy-validation>
-                        <v-row class="pa-5">
+                    
+                            <v-row class="pa-5">
 
-                              <v-col class="ma-0 pa-0 text-center" cols="12" md="12">
-                                 <v-avatar  :tile="form.logo != null && form.logo != ''" size="130" @click="$refs.refdepartment.$refs.input.click()">
-                                    <v-hover >
-                                        <template v-slot:default="{ hover }">
-                                            <div>
-                                            <v-avatar :tile="form.logo != null && form.logo != ''" :color="type == 'add' ? '#0D8ABC' : ''"  size="130" style="cursor: pointer">
-                                                <v-icon style="font-size:4rem" color="white"  v-if="form.logo == null || form.logo == ''">mdi-cloud-upload-outline</v-icon>
-                                            <v-img contain v-else alt="Proflie" 
-                                            :src="form.logo">
-                                            <v-row v-if="isUploading" class="fill-height ma-0" align="center" justify="center">
-                                                <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                            </v-row>
+                                <v-col class="ma-0 pa-0 text-center" cols="12" md="12">
+                                    <v-avatar  :tile="form.logo != null && form.logo != ''" size="130" @click="$refs.refdepartment.$refs.input.click()">
+                                        <v-hover >
+                                            <template v-slot:default="{ hover }">
+                                                <div>
+                                                <v-avatar :tile="form.logo != null && form.logo != ''" :color="type == 'add' ? '#0D8ABC' : ''"  size="130" style="cursor: pointer">
+                                                    <v-icon style="font-size:4rem" color="white"  v-if="form.logo == null || form.logo == ''">mdi-cloud-upload-outline</v-icon>
+                                                <v-img contain v-else alt="Proflie" 
+                                                :src="form.logo">
+                                                <v-row v-if="isUploading" class="fill-height ma-0" align="center" justify="center">
+                                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                                </v-row>
 
-                                            </v-img>
-                                            </v-avatar>
-                                                <v-fade-transition>
-                                                    <v-overlay v-if="hover" absolute color="#212121" style="cursor: pointer;">
-                                                        <div class=""><v-icon small>mdi-camera</v-icon> {{!isUploading ? 'Upload' : 'Uploading'}} </div>
-                                                    </v-overlay>
-                                                </v-fade-transition>
-                                            </div>
-                                        </template>
-                                    </v-hover>
-                                    </v-avatar>
-                                   <!--  <input
-                                    :disabled="isUploading"
-                                    ref="fileInput"
-                                    class="d-none"
-                                    type="file"
-                                    accept="image/jpeg"
-                                    @change="onFileChange"> -->
-                                      <v-file-input
-                                      @change="onFileChange"
-                                        class="d-none"
+                                                </v-img>
+                                                </v-avatar>
+                                                    <v-fade-transition>
+                                                        <v-overlay v-if="hover" absolute color="#212121" style="cursor: pointer;">
+                                                            <div class=""><v-icon small>mdi-camera</v-icon> {{!isUploading ? 'Upload' : 'Uploading'}} </div>
+                                                        </v-overlay>
+                                                    </v-fade-transition>
+                                                </div>
+                                            </template>
+                                        </v-hover>
+                                        </v-avatar>
+                                        <v-file-input
+                                        @change="onFileChange"
+                                            class="d-none"
+                                            outlined
+                                            ref="refdepartment"
+                                            v-model="file"
+                                            :rules="Logorules"
+                                            prepend-icon=""
+                                            accept="image/png, image/jpeg, image/bmp"
+                                            prepend-inner-icon="mdi-camera"
+                                            label="Department Logo">
+                                        </v-file-input>
+                                </v-col>
+                                <v-col class="ma-0 pa-0 mb-5" cols="12" md="12">
+                                    <h3> Department Logo</h3>
+                                </v-col>
+
+                                <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                    <HasError class="error--text" :form="form" field="short_name" />
+                                        <v-textarea
+                                        class="mb-0 pb-0"
+                                        v-model="form.short_name" 
+                                        type="text" 
+                                        rows="1"
+                                        name="name"
+                                        label="Short Name"
+                                        placeholder="Eg. CCSICT, COC, COE , etc"
+                                        auto-grow
                                         outlined
-                                        ref="refdepartment"
-                                        v-model="file"
-                                        :rules="Logorules"
-                                        prepend-icon=""
-                                        accept="image/png, image/jpeg, image/bmp"
-                                        prepend-inner-icon="mdi-camera"
-                                        label="Department Logo">
-                                    </v-file-input>
-                             </v-col>
-                             <v-col class="ma-0 pa-0 mb-5" cols="12" md="12">
-                                <h3> Department Logo</h3>
-                            </v-col>
+                                        :rules="rules"
+                                        ></v-textarea>
+                                </v-col>
 
-                              <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="short_name" />
-                                     <v-textarea
-                                    class="mb-0 pb-0"
-                                    v-model="form.short_name" 
-                                    type="text" 
-                                    rows="1"
-                                    name="name"
-                                    label="Short Name"
-                                    placeholder="Eg. CCSICT, COC, COE , etc"
-                                    auto-grow
-                                    outlined
-                                    ></v-textarea>
-                            </v-col>
+                                <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                    <HasError class="error--text" :form="form" field="name" />
+                                        <v-textarea
+                                        class="mb-0 pb-0"
+                                    v-model="form.name" 
+                                        type="text" 
+                                        rows="1"
+                                        name="name"
+                                        :rules="rules"
+                                        label="Department Name"
+                                        auto-grow
+                                        outlined
+                                        ></v-textarea>
+                                </v-col>
+                            </v-row>
+                       
+                    </v-container>
+                    <v-card-actions>
 
-                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <HasError class="error--text" :form="form" field="name" />
-                                     <v-textarea
-                                    class="mb-0 pb-0"
-                                   v-model="form.name" 
-                                    type="text" 
-                                    rows="1"
-                                    name="name"
-
-                                    label="Department Name"
-                                    auto-grow
-                                    outlined
-                                    ></v-textarea>
-                            </v-col>
-
-                           <!--  <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                    <v-file-input
-                                    outlined
-                                    v-model="file"
-                                    :rules="Logorules"
-                                    prepend-icon=""
-                                    accept="image/png, image/jpeg, image/bmp"
-                                    prepend-inner-icon="mdi-camera"
-                                    label="Department Logo"
-                                    ></v-file-input>
-                                </v-col> -->
-
-                        
-                           
-                        </v-row>
-                    </v-form>
-                </v-container>
-                <v-card-actions>
-
-                    <v-spacer></v-spacer>
-                    <v-btn text @click="clearData()">Cancel</v-btn>
-                    <v-btn :loading="isAdding" text color="primary" @click="validate()">
-                        {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
-                </v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="clearData()">Cancel</v-btn>
+                        <v-btn :loading="isAdding" text color="primary" @click="validate()">
+                            {{this.type == "add" ? 'Add' :  'Update'}}</v-btn>
+                    </v-card-actions>
+                 </v-form>
             </v-card>
         </v-dialog>
 
@@ -235,7 +217,7 @@
                 valid: true,
                 dialog: false,
                 Deldialog: false,
-                Rules: [
+                rules: [
                     v => !!v || "Field is required",
                 ],
                  form: new Form({
