@@ -47,7 +47,7 @@ class CourseOverviewController extends Controller
             $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = '.$userId.' AND course_id = tbl_teacher_courses.course_id) AS total_classworks';
             $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
             LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = '.$userId.' AND course_id = tbl_teacher_courses.course_id ) AS sub_modules_count';
-            $student_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE course_id = tbl_teacher_courses.course_id ) AS total_students'; 
+            $student_count = '(SELECT COUNT(*) FROM tbl_userclasses  left join users on users.id = tbl_userclasses.user_id  WHERE users.role = "Student" AND course_id = tbl_teacher_courses.course_id ) AS total_students'; 
 
            
      
