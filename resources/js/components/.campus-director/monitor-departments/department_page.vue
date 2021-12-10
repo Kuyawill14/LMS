@@ -68,7 +68,7 @@
 
             <v-col cols="12" lg="9" md="9" :class="windowSize == 'Small' ? 'pt-6' : 'pt-0'">
                 <!-- <v-card elevation="1" outlined class="pt-5"> -->
-
+      <!-- {{$route.name}} -->
                 <router-view></router-view>
 
 

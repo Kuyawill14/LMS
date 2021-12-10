@@ -24,7 +24,7 @@
             <link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
       
             <style>
-              #fb-root > div.fb_dialog.fb_dialog_advanced > div > iframe {
+              /* #fb-root > div.fb_dialog.fb_dialog_advanced > div > iframe {
                 height: 60px !important;
     width: 60px  !important;
               }
@@ -32,7 +32,7 @@
               #fb-customer-chat > span > iframe {
                 min-height: 300px !important;
     width: 399px !important;
-              }
+              } */
 
               html {
                 scroll-behavior: smooth !important;

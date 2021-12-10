@@ -17,10 +17,10 @@
                     <td @click="expandRow(index)">
                         {{item['created_date']= format_date(item.created_at)}} </td>
                     <td class="text-center" @click="expandRow(index)">
-                        {{item['submission_count']= item.submittion_count}} /
-                        {{  item.total_student}} </td>
-                    <td @click="expandRow(index)">
-                        {{item['submission_rate']= ((item.submittion_count / item.total_student)* 100).toFixed(2)}}%
+                        {{
+                            item.total_student != 0  ? item['submission_count']= item.submittion_count + '/' +  item.total_student : 0}} </td>
+                    <td @click="expandRow(index)" class="text-center" >
+                        {{item['submission_rate']= item.total_student != 0 ? ((item.submittion_count / item.total_student)* 100).toFixed(2) : 0}}%
                     </td>
                     <td @click="expandRow(index)">
                         <v-icon v-if="!isExpanded">mdi-chevron-up</v-icon>
@@ -50,8 +50,8 @@
                                 <tr v-for="(cl, index) in item.publish_in" :key="index">
                                     <td>{{cl.class_name}}</td>
                                     <td>{{format_date(cl.to_date)}}</td>
-                                    <td>{{cl.submission}} / {{cl.student_count}}</td>
-                                    <td>{{((cl.submission/cl.student_count)* 100).toFixed(2)}}%</td>
+                                    <td>{{cl.student_count != 0 ? cl.submission +'/'+ cl.student_count : 0}}</td>
+                                    <td>{{ cl.student_count != 0 ? ((cl.submission/cl.student_count)* 100).toFixed(2) : 0}}%</td>
                                 </tr>
                             </tbody>
                         </template>

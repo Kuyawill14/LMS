@@ -2519,7 +2519,7 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_department_page_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/.campus-director/monitor-departments/department_page */ "./resources/js/components/.campus-director/monitor-departments/department_page.vue"));
   },
   children: [{
-    path: "",
+    path: "overview",
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_components_campus-director_monitor-departments_overview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/.campus-director/monitor-departments/overview */ "./resources/js/components/.campus-director/monitor-departments/overview.vue"));
     },
@@ -3083,27 +3083,21 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: "/monitor-teachers",
   component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_monitorTeachersComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/.monitor-teachers/monitorTeachersComponent */ "./resources/js/components/.monitor-teachers/monitorTeachersComponent.vue"));
+    return __webpack_require__.e(/*! import() */ "resources_js_components_program-chair_dashboard_programChair-dashboard_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/.program-chair/dashboard/programChair-dashboard */ "./resources/js/components/.program-chair/dashboard/programChair-dashboard.vue"));
   },
-  name: "monitorTeachers",
-  beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
-      path: '/page-access-denied',
-      replace: true
-    });
-  }
-}, {
-  path: "/monitor-teacher/:id/",
-  component: function component() {
-    return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_teacherProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/.monitor-teachers/teacherProfile/teacherProfile */ "./resources/js/components/.monitor-teachers/teacherProfile/teacherProfile.vue"));
-  },
-  name: "monitorTeacher_id",
-  beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
-      path: '/page-access-denied',
-      replace: true
-    });
-  }
+  children: [{
+    path: ":id",
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_teacherProfile_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/.monitor-teachers/teacherProfile/teacherProfile */ "./resources/js/components/.monitor-teachers/teacherProfile/teacherProfile.vue"));
+    },
+    name: "monitorTeacher_id",
+    beforeEnter: function beforeEnter(to, from, next) {
+      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+        path: '/page-access-denied',
+        replace: true
+      });
+    }
+  }]
 }, {
   path: "/program_chair/announcement",
   component: function component() {
@@ -38011,7 +38005,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

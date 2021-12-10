@@ -1,6 +1,10 @@
 <template>
     <div>
-
+        <v-btn @click="goBack()"  v-if="$route.name != 'dashboard' ||  $route.name != 'campus_director-monitor_deparments-id'" icon class="py-2">
+            <v-icon>
+                mdi-arrow-left
+            </v-icon>
+        </v-btn>
         <v-row>
             <v-col cols="12" md="12">
                 <v-card v-if="UserDetails == null" class="py-3">
@@ -287,6 +291,15 @@
                     ////console.log(e);
                 })
             },
+            goBack() {
+                if(this.$route.name =='monitorTeacher_id') {
+                    this.$router.push({path: '/'})
+                }
+                 if(this.$route.name =='departmentMonitorTeacher_id') {
+                    this.$router.push({path: 'overview'})
+                }
+
+            }
 
 
 

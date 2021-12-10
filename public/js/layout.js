@@ -1402,9 +1402,9 @@ var render = function() {
               {
                 attrs: {
                   color: "none",
-                  value: "false",
+                  value: false,
                   link: "",
-                  "prepend-icon": "mdi-contacts"
+                  "prepend-icon": "mdi-account-group"
                 },
                 scopedSlots: _vm._u(
                   [
@@ -1437,7 +1437,7 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      [_c("v-icon", [_vm._v("mdi-account-tie")])],
                       1
                     ),
                     _vm._v(" "),
@@ -1468,7 +1468,7 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
                       1
                     ),
                     _vm._v(" "),
@@ -1499,7 +1499,9 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
+                      [
+                        _c("v-icon", [_vm._v("mdi-account-supervisor-outline")])
+                      ],
                       1
                     ),
                     _vm._v(" "),
@@ -1564,7 +1566,7 @@ var render = function() {
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-account-group")])],
+                  [_c("v-icon", [_vm._v("mdi-calendar-month")])],
                   1
                 ),
                 _vm._v(" "),
@@ -2465,7 +2467,9 @@ var render = function() {
                   "v-list-item-content",
                   [
                     _c("v-list-item-title", [
-                      _vm._v("\n                    Go Back\n                ")
+                      _vm._v(
+                        "\n                        Go Back\n                    "
+                      )
                     ])
                   ],
                   1
@@ -2491,32 +2495,7 @@ var render = function() {
               "v-list-item-content",
               [
                 _c("v-list-item-title", [
-                  _vm._v("\n                    Dashboard\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v(
-                    "\n                    Monitor Teachers\n                "
-                  )
+                  _vm._v("\n                        Home\n                    ")
                 ])
               ],
               1
