@@ -56,12 +56,12 @@ class AnalyticsController extends Controller
                 $wrongCount = 0;
                 foreach($submission as $sub){
                     if($sub->Submitted_Answers != null && $sub->Submitted_Answers != ''){
-                        if($item->type == 'Multiple Choice' || $item->type == 'Identification' ){
-                            foreach(unserialize($sub->Submitted_Answers)  as $sub_answers){
+                        $answers = unserialize($sub->Submitted_Answers);
+                            foreach($answers as $sub_answers){
                                 if($item->id == $sub_answers['Question_id']){
                                     $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
                                     $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
-    
+
                                     if($userAns == $questionAns){
                                         $checkCount++;
                                     }
@@ -69,18 +69,7 @@ class AnalyticsController extends Controller
                                         $wrongCount++;
                                     }
                                 }
-                            }   
-                        }
-                        else{
-                            $userAns = $item->sensitivity ? $sub->Answer : strtolower($sub->Answer);
-                            $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
-                            if($userAns == $questionAns){
-                                $checkCount++;
-                            }
-                            else{
-                                $wrongCount++;
-                            }
-                        }  
+                            }  
                        
                     }
                 }
