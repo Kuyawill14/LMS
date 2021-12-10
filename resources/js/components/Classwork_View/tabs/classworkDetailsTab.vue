@@ -96,7 +96,7 @@
                                         </v-col>
                                         <v-col class="text-right">
                                             
-                                        <v-btn color="primary" rounded dark @click="rubricsDialog = true">
+                                        <v-btn color="primary" rounded dark @click="OpenRubricsDialog()">
                                             <v-icon > mdi-plus </v-icon>
                                             Add
                                         </v-btn>
@@ -105,12 +105,12 @@
                                 
                                     <v-list>
                                         <v-list-item v-for="(item, index) in Details.rubrics" :key="index">
-                                            <v-list-item-avatar tile>
+                                            <v-list-item-icon >
                                                 <div class="font-weight-bold text-h6">
                                                     {{item.points}}%
                                                 </div>
                                                 
-                                            </v-list-item-avatar>
+                                            </v-list-item-icon>
                                             <v-list-item-content>
                                                 <v-list-item-title class="font-weight-medium">{{item.criteria_name}}</v-list-item-title>
                                                 <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
@@ -239,8 +239,10 @@
             </v-row>
             <v-row justify="center">
                 <v-dialog v-model="rubricsDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-
-                    <rubrics :rubrics="Details.rubrics" v-on:CLoseRubricModal="rubricsDialog = false" v-on:CriteriaSave="rubricsDialog = false" 
+                    <rubrics :rubricsDetails="rubricsDetails"
+                    v-on:CloseAndSave="SaveRubrics"
+                    v-on:deleteRubrics="RemoveRubrics"
+                     v-on:CLoseRubricModal="rubricsDialog = false" v-on:CriteriaSave="rubricsDialog = false" 
                     :total_points="Details.points" :title="Details.title"/>
                 </v-dialog>
             </v-row>
@@ -277,6 +279,7 @@
                 uploadPercentage: 0,
                 uploadIndex: null,
                 rubricsDialog: false,
+                rubricsDetails: [],
                 isRemoving: false,
                 isNewChanges: false,
                 rules: [
@@ -337,12 +340,52 @@
                     }
 
                 },
-
+            OpenRubricsDialog(){
+                this.rubricsDialog = true;
+                this.rubricsDetails = this.Details.rubrics;
+            },
             validate () {
                 if(this.$refs.UpdateClassworkForm.validate()){
                     this.UpdateClasswork();
                 }
                 
+            },
+            SaveRubrics(data){
+                console.log(data);
+                console.log(this.Details.rubrics);
+                this.rubricsDialog = false;
+                if(this.Details.rubrics.length == 0){
+                    this.Details.rubrics = [];
+                    data.forEach(item => {
+                        this.Details.rubrics.push(item)
+                    });
+                }
+                else{
+                    data.forEach(item => {
+                        let check = false;
+                         this.Details.rubrics.forEach(element => {
+                            if(element.id == item.id){
+                                element.points = item.points;
+                                element.criteria_name = item.criteria_name;
+                                element.description = item.description;
+                                check = true;
+                            }
+                           
+                        });
+                        if(!check){
+                            this.Details.rubrics.push(item)
+                        }
+                    });
+                }
+            },
+            async RemoveRubrics(id){
+                let count = 0
+                this.Details.rubrics.forEach(item => {
+                    if(id == item.id){
+                        this.Details.rubrics.splice(count, 1);
+                    }
+                    count++;
+                });
             },
             async UpdateClasswork() {
                 this.isUpdatingSnackBar = true;

@@ -56,19 +56,32 @@ class AnalyticsController extends Controller
                 $wrongCount = 0;
                 foreach($submission as $sub){
                     if($sub->Submitted_Answers != null && $sub->Submitted_Answers != ''){
-                        foreach(unserialize($sub->Submitted_Answers)  as $sub_answers){
-                            if($item->id == $sub_answers['Question_id']){
-                                $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
-                                $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
-
-                                if($userAns == $questionAns){
-                                    $checkCount++;
+                        if($item->type == 'Multiple Choice' || $item->type == 'Identification' ){
+                            foreach(unserialize($sub->Submitted_Answers)  as $sub_answers){
+                                if($item->id == $sub_answers['Question_id']){
+                                    $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
+                                    $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
+    
+                                    if($userAns == $questionAns){
+                                        $checkCount++;
+                                    }
+                                    else{
+                                        $wrongCount++;
+                                    }
                                 }
-                                else{
-                                    $wrongCount++;
-                                }
-                            }
+                            }   
                         }
+                        else{
+                            $userAns = $item->sensitivity ? $sub->Answer : strtolower($sub->Answer);
+                            $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
+                            if($userAns == $questionAns){
+                                $checkCount++;
+                            }
+                            else{
+                                $wrongCount++;
+                            }
+                        }  
+                       
                     }
                 }
                 $item->correct_count = $checkCount;

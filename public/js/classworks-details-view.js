@@ -161,8 +161,7 @@ var teacherStartPage = function teacherStartPage() {
       this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
         _this.classworkDetails = _this.get_classwork_show_details;
         _this.totalPoints = _this.get_classwork_show_details.totalpoints;
-        _this.totalQuestion = _this.get_classwork_show_details.ItemsCount; //this.checkStatus(res.data.Details.type);
-
+        _this.totalQuestion = _this.get_classwork_show_details.ItemsCount;
         _this.iChange = false;
         _this.isloading = false;
       });
@@ -1954,6 +1953,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -1989,6 +1990,7 @@ var rubrics = function rubrics() {
       uploadPercentage: 0,
       uploadIndex: null,
       rubricsDialog: false,
+      rubricsDetails: [],
       isRemoving: false,
       isNewChanges: false,
       rules: [function (v) {
@@ -2040,43 +2042,105 @@ var rubrics = function rubrics() {
         return 'primary';
       }
     },
+    OpenRubricsDialog: function OpenRubricsDialog() {
+      this.rubricsDialog = true;
+      this.rubricsDetails = this.Details.rubrics;
+    },
     validate: function validate() {
       if (this.$refs.UpdateClassworkForm.validate()) {
         this.UpdateClasswork();
       }
     },
-    UpdateClasswork: function UpdateClasswork() {
+    SaveRubrics: function SaveRubrics(data) {
       var _this = this;
 
+      console.log(data);
+      console.log(this.Details.rubrics);
+      this.rubricsDialog = false;
+
+      if (this.Details.rubrics.length == 0) {
+        this.Details.rubrics = [];
+        data.forEach(function (item) {
+          _this.Details.rubrics.push(item);
+        });
+      } else {
+        data.forEach(function (item) {
+          var check = false;
+
+          _this.Details.rubrics.forEach(function (element) {
+            if (element.id == item.id) {
+              element.points = item.points;
+              element.criteria_name = item.criteria_name;
+              element.description = item.description;
+              check = true;
+            }
+          });
+
+          if (!check) {
+            _this.Details.rubrics.push(item);
+          }
+        });
+      }
+    },
+    RemoveRubrics: function RemoveRubrics(id) {
+      var _this2 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var fd;
+        var count;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.isUpdatingSnackBar = true;
-                _this.isUpdating = true; ////console.log(this.Details);
+                count = 0;
 
-                fd = new FormData();
-                fd.append('course_id', _this.Details.course_id);
-                fd.append('duration', _this.Details.duration);
-                fd.append('instruction', _this.Details.instruction);
-                fd.append('id', _this.Details.id);
-                fd.append('module_id', _this.Details.module_id);
-                fd.append('points', _this.Details.points);
-                fd.append('title', _this.Details.title);
-                fd.append('type', _this.Details.type);
-                _context.next = 13;
-                return axios.post('/api/classwork/update', fd).then(function (res) {
-                  _this.isUpdating = false, _this.toastSuccess("Classwork successfully updated");
-                })["catch"](function (e) {});
+                _this2.Details.rubrics.forEach(function (item) {
+                  if (id == item.id) {
+                    _this2.Details.rubrics.splice(count, 1);
+                  }
 
-              case 13:
+                  count++;
+                });
+
+              case 2:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }))();
+    },
+    UpdateClasswork: function UpdateClasswork() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var fd;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this3.isUpdatingSnackBar = true;
+                _this3.isUpdating = true; ////console.log(this.Details);
+
+                fd = new FormData();
+                fd.append('course_id', _this3.Details.course_id);
+                fd.append('duration', _this3.Details.duration);
+                fd.append('instruction', _this3.Details.instruction);
+                fd.append('id', _this3.Details.id);
+                fd.append('module_id', _this3.Details.module_id);
+                fd.append('points', _this3.Details.points);
+                fd.append('title', _this3.Details.title);
+                fd.append('type', _this3.Details.type);
+                _context2.next = 13;
+                return axios.post('/api/classwork/update', fd).then(function (res) {
+                  _this3.isUpdating = false, _this3.toastSuccess("Classwork successfully updated");
+                })["catch"](function (e) {});
+
+              case 13:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     },
     TestUpload: function TestUpload() {
@@ -2121,7 +2185,7 @@ var rubrics = function rubrics() {
       window.open(path, '_blank');
     },
     addFile: function addFile() {
-      var _this2 = this;
+      var _this4 = this;
 
       //console.log(this.Details.attachment.length);
       this.uploadIndex = this.Details.attachment.length - 1;
@@ -2137,23 +2201,23 @@ var rubrics = function rubrics() {
           var totalLength = progressEvent.lengthComputable ? total : null;
 
           if (totalLength != null) {
-            _this2.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+            _this4.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
           }
         }
       }).then(function (res) {
-        _this2.counter++;
-        _this2.uploadIndex = null;
+        _this4.counter++;
+        _this4.uploadIndex = null;
       });
     },
     RemoveFile: function RemoveFile(index) {
-      var _this3 = this;
+      var _this5 = this;
 
       if (this.Details.attachment[index].attachment != null) {
         axios.put('/api/classwork/deleteAttachment/' + this.Details.id, {
           attachment: this.Details.attachment[index].attachment
         }).then(function (res) {
           if (res.data.success == true) {
-            _this3.Details.attachment.splice(index, 1);
+            _this5.Details.attachment.splice(index, 1);
           }
         });
       } else {
@@ -15441,7 +15505,7 @@ var render = function() {
                                                         click: function(
                                                           $event
                                                         ) {
-                                                          _vm.rubricsDialog = true
+                                                          return _vm.OpenRubricsDialog()
                                                         }
                                                       }
                                                     },
@@ -15471,28 +15535,24 @@ var render = function() {
                                                   "v-list-item",
                                                   { key: index },
                                                   [
-                                                    _c(
-                                                      "v-list-item-avatar",
-                                                      { attrs: { tile: "" } },
-                                                      [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "font-weight-bold text-h6"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                    " +
-                                                                _vm._s(
-                                                                  item.points
-                                                                ) +
-                                                                "%\n                                                "
-                                                            )
-                                                          ]
-                                                        )
-                                                      ]
-                                                    ),
+                                                    _c("v-list-item-icon", [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-bold text-h6"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                    " +
+                                                              _vm._s(
+                                                                item.points
+                                                              ) +
+                                                              "%\n                                                "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]),
                                                     _vm._v(" "),
                                                     _c(
                                                       "v-list-item-content",
@@ -15948,11 +16008,13 @@ var render = function() {
                     [
                       _c("rubrics", {
                         attrs: {
-                          rubrics: _vm.Details.rubrics,
+                          rubricsDetails: _vm.rubricsDetails,
                           total_points: _vm.Details.points,
                           title: _vm.Details.title
                         },
                         on: {
+                          CloseAndSave: _vm.SaveRubrics,
+                          deleteRubrics: _vm.RemoveRubrics,
                           CLoseRubricModal: function($event) {
                             _vm.rubricsDialog = false
                           },
@@ -17000,25 +17062,7 @@ var render = function() {
                     ? _c("h1", [_vm._v(" Empty Submission ")])
                     : _c("h2", [_vm._v(" Empty Submission ")]),
                   _vm._v(" "),
-                  _c("p", [
-                    _vm._v(" Your classwork is not publish to any class yet!")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { color: "primary" },
-                      on: {
-                        click: function($event) {
-                          return _vm.$router.push({
-                            name: "publish-to",
-                            query: { clwk: _vm.$route.query.clwk }
-                          })
-                        }
-                      }
-                    },
-                    [_vm._v(" Publish classwork ")]
-                  )
+                  _c("p", [_vm._v(" Your classwork has no submssion yet!")])
                 ],
                 1
               )

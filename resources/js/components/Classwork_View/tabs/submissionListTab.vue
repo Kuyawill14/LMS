@@ -79,8 +79,8 @@
         </v-icon>
         <h1 v-if="$vuetify.breakpoint.mdAndUp"> Empty Submission </h1>
         <h2 v-else> Empty Submission </h2>
-        <p> Your classwork is not publish to any class yet!</p>
-         <v-btn color="primary" @click="$router.push({name: 'publish-to',query: {clwk: $route.query.clwk} })"> Publish classwork </v-btn>
+        <p> Your classwork has no submssion yet!</p>
+        <!--  <v-btn color="primary" @click="$router.push({name: 'publish-to',query: {clwk: $route.query.clwk} })"> Publish classwork </v-btn> -->
     </v-col>
 </v-row>
 
