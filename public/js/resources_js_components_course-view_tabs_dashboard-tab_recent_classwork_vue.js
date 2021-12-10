@@ -22515,10 +22515,13 @@ var render = function() {
                         _vm._v(
                           "\n                    " +
                             _vm._s(
-                              (item["submission_count"] = item.submittion_count)
+                              item.total_student != 0
+                                ? (item["submission_count"] =
+                                    item.submittion_count +
+                                    "/" +
+                                    item.total_student)
+                                : 0
                             ) +
-                            " /\n                    " +
-                            _vm._s(item.total_student) +
                             " "
                         )
                       ]
@@ -22527,6 +22530,7 @@ var render = function() {
                     _c(
                       "td",
                       {
+                        staticClass: "text-center",
                         on: {
                           click: function($event) {
                             return _vm.expandRow(index)
@@ -22537,10 +22541,14 @@ var render = function() {
                         _vm._v(
                           "\n                    " +
                             _vm._s(
-                              (item["submission_rate"] = (
-                                (item.submittion_count / item.total_student) *
-                                100
-                              ).toFixed(2))
+                              (item["submission_rate"] =
+                                item.total_student != 0
+                                  ? (
+                                      (item.submittion_count /
+                                        item.total_student) *
+                                      100
+                                    ).toFixed(2)
+                                  : 0)
                             ) +
                             "%\n                "
                         )
@@ -22624,20 +22632,26 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
-                                          _vm._s(cl.submission) +
-                                            " / " +
-                                            _vm._s(cl.student_count)
+                                          _vm._s(
+                                            cl.student_count != 0
+                                              ? cl.submission +
+                                                  "/" +
+                                                  cl.student_count
+                                              : 0
+                                          )
                                         )
                                       ]),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(
                                           _vm._s(
-                                            (
-                                              (cl.submission /
-                                                cl.student_count) *
-                                              100
-                                            ).toFixed(2)
+                                            cl.student_count != 0
+                                              ? (
+                                                  (cl.submission /
+                                                    cl.student_count) *
+                                                  100
+                                                ).toFixed(2)
+                                              : 0
                                           ) + "%"
                                         )
                                       ])

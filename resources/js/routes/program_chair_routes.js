@@ -1,25 +1,20 @@
 import store from '../store/store'
-const routes = [
-  
-    {
+const routes = [{
         path: "/monitor-teachers",
-        component: () => import ("../components/.monitor-teachers/monitorTeachersComponent"),
-        name: "monitorTeachers",
-        beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
-            else next({ path: '/page-access-denied', replace: true })
-        }
+        component: () =>
+            import ("../components/.program-chair/dashboard/programChair-dashboard"),
+        children: [{
+            path: ":id",
+            component: () =>
+                import ("../components/.monitor-teachers/teacherProfile/teacherProfile"),
+            name: "monitorTeacher_id",
+            beforeEnter: (to, from, next) => {
+                if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
+                else next({ path: '/page-access-denied', replace: true })
+            }
+        }, ]
     },
 
-    {
-        path: "/monitor-teacher/:id/",
-        component: () => import ("../components/.monitor-teachers/teacherProfile/teacherProfile"),
-        name: "monitorTeacher_id",
-        beforeEnter: (to, from, next) => {
-            if (store.state.CurrentUser.UserRole == 'ProgramChair' || store.state.CurrentUser.UserRole == 'Admin') next()
-            else next({ path: '/page-access-denied', replace: true })
-        }
-    },
     {
         path: "/program_chair/announcement",
         component: () =>
@@ -32,5 +27,5 @@ const routes = [
     },
 
 ]
-  
+
 export default routes

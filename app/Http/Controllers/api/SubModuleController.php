@@ -67,15 +67,31 @@ class SubModuleController extends Controller
 
 
     public function deleteSubmodule( $id) {
+
+        $message = array();
+        $allSubModulesProgressCount = DB::table('tbl_student_sub_module_progress')
+        ->select('tbl_student_sub_module_progress.*')
+        ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+        ->where('tbl_student_sub_module_progress.sub_module_id', $id )
+        ->orderBy('tbl_sub_modules.id', 'ASC')
+        ->count();
+
         $submodule =  tbl_sub_modules::find($id);
 
         if($submodule) {
-            $submodule->delete();
-            return array( 
-                'message' => 'Successfully Deleted'
-            );
+            if( $allSubModulesProgressCount > 0) {
+                $message = [ 'status'=> 0, 'message' => 'Unable to delete! some students have already progress on this item, 
+                        You can still edit the title, file/link, description  and the required time input.'];
+            } else {
+                $submodule->delete();
+                $message = [ 'status'=> 1, 'message' => 'Item deleted successfully'];
+            }
+     
+           
     
         }
+
+        return  $message;
 
     
     }

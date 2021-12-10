@@ -169,9 +169,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       numberRule: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
-        return v && v >= 1 || "Points should be above or 0";
+        return v && v >= 1 || "Percentage should not be equal or less than 0";
       }, function (v) {
-        return v && v <= 100 || "Points should not be above 100";
+        return v && v <= 100 || "Percentage should not be greater than 100";
       }]
     };
   },

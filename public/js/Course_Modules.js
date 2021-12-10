@@ -55,12 +55,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['propModule', 'type'],
@@ -725,7 +719,7 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      _vm.moduleLength == 0
+      _vm.getmain_module.length == 0
         ? _c(
             "v-row",
             {
@@ -789,7 +783,7 @@ var render = function() {
                         _vm.moduleDialog = false
                       },
                       createdModule: function($event) {
-                        _vm.moduleLength++
+                        _vm.moduleDialog = false
                       }
                     }
                   })
@@ -851,7 +845,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.moduleLength > 0
+      _vm.getmain_module.length > 0
         ? _c(
             "div",
             [
@@ -938,6 +932,9 @@ var render = function() {
                       _c("ModuleForm", {
                         on: {
                           closeModal: function($event) {
+                            _vm.moduleDialog = false
+                          },
+                          createdModule: function($event) {
                             _vm.moduleDialog = false
                           }
                         }

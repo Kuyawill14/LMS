@@ -1,6 +1,6 @@
 <template>
     <div class="pt-4">
-
+     
 
         <v-row style="margin-bottom: -35px;">
             <v-col>
@@ -12,7 +12,7 @@
             <v-spacer></v-spacer>
 
             <v-col lg="1" class="text-right mt-2">
-                 <v-btn hidden icon @click="getTeacherSummary(true);summarryLoading =true"
+                <v-btn hidden icon @click="getTeacherSummary(true);summarryLoading =true"
                     v-if="school_year_id != null || semester_id != null  ">
                     <v-icon>
                         mdi-close
@@ -50,7 +50,8 @@
                         </v-text-field>
                     </v-card-title>
 
-                    <v-data-table :headers="headers" :items="filteredItems"   v-if="!loading" :items-per-page="10" class="elevation-1">
+                    <v-data-table :headers="headers" :items="filteredItems" v-if="!loading" :items-per-page="10"
+                        class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="item in items" :key="item.id">
@@ -62,8 +63,8 @@
                                     <td class="text-center"> {{item.sub_modules_count}} </td>
                                     <td class="text-center"> {{item.classwork_count}} </td>
                                     <td class="text-center">
-                                      
-                                         <v-btn icon color="success" link
+
+                                        <v-btn icon color="success" link
                                             :to="{name: 'monitorTeacher_id', params: {id: item.user_id}}">
                                             <v-icon>
                                                 mdi-eye
@@ -83,6 +84,8 @@
                 </v-card>
             </v-col>
         </v-row>
+
+     
 
 
     </div>
@@ -165,7 +168,7 @@
 
         },
         computed: {
-          
+
             filteredItems() {
                 if (this.search) {
                     return this.teacherSummary.filter((item) => {
@@ -213,7 +216,7 @@
                         if (res.status == 200) {
 
                             this.teacherSummary = res.data;
-                        console.log(res.data);
+                            console.log(res.data);
 
                         } else {
                             this.toastError('Oops! Something went wrong, please reload the page')

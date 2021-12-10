@@ -23,12 +23,12 @@
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>
-                        Dashboard
+                        Home
                     </v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
 
-
+<!-- 
             <v-list-item link :to="{name: 'monitorTeachers'}" exact>
                 <v-list-item-action>
                     <v-icon>mdi-chart-box-outline</v-icon>
@@ -38,7 +38,7 @@
                         Monitor Teachers
                     </v-list-item-title>
                 </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
 
 
         </template>

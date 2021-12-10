@@ -12,19 +12,13 @@
                             </v-text-field>
                         </v-col>
                         <v-col cols="12 " class="py-0 my-0">
-                        
-                             <!-- <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
+
+                            <!-- <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
                                 theme="snow" :options="options"></editor>
   -->
 
-                         
-                             <v-textarea
-                                outlined
-                              
-                                v-model="moduleForm.description"
-                                label="Description"
-                                auto-grow
-                                >
+
+                            <v-textarea outlined v-model="moduleForm.description" label="Description" auto-grow>
                             </v-textarea>
 
                         </v-col>
@@ -37,7 +31,7 @@
                 <v-btn text @click="$emit('closeModal');">
                     Close
                 </v-btn>
-                <v-btn  color="primary" text @click="type == 'edit' ? updateModule() : createModule()"
+                <v-btn color="primary" text @click="type == 'edit' ? updateModule() : createModule()"
                     :loading="isSubmitting">
                     Save
                 </v-btn>
@@ -108,7 +102,7 @@
                         .then((res) => {
                             // ////console.log(res);
 
-          this.moduleForm.reset();
+                            this.moduleForm.reset();
                             this.isSubmitting = false;
                             this.$emit('closeModal');
                             this.$emit('createdModule');

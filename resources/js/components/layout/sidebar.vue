@@ -77,7 +77,7 @@
 
         <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
         <!--  ######### sidebar ################ -->
-        <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'">
+        <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'  && UserDetails.role != 'ProgramChair'">
             <v-navigation-drawer :expand-on-hover="$vuetify.breakpoint.lgAndUp" v-model="drawer"
                 :clipped="$vuetify.breakpoint.lgAndUp"
                 v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>

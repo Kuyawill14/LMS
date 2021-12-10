@@ -591,6 +591,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -732,7 +736,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.list-nav[data-v-6b4be5de] {\r\n    margin-bottom: 0px !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.list-nav[data-v-6b4be5de] {\n    margin-bottom: 0px !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -1402,9 +1406,9 @@ var render = function() {
               {
                 attrs: {
                   color: "none",
-                  value: "false",
+                  value: false,
                   link: "",
-                  "prepend-icon": "mdi-contacts"
+                  "prepend-icon": "mdi-account-group"
                 },
                 scopedSlots: _vm._u(
                   [
@@ -1437,7 +1441,7 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      [_c("v-icon", [_vm._v("mdi-account-tie")])],
                       1
                     ),
                     _vm._v(" "),
@@ -1468,7 +1472,7 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-human-greeting")])],
+                      [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
                       1
                     ),
                     _vm._v(" "),
@@ -1499,7 +1503,9 @@ var render = function() {
                   [
                     _c(
                       "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-account-supervisor")])],
+                      [
+                        _c("v-icon", [_vm._v("mdi-account-supervisor-outline")])
+                      ],
                       1
                     ),
                     _vm._v(" "),
@@ -1564,7 +1570,7 @@ var render = function() {
               [
                 _c(
                   "v-list-item-action",
-                  [_c("v-icon", [_vm._v("mdi-account-group")])],
+                  [_c("v-icon", [_vm._v("mdi-calendar-month")])],
                   1
                 ),
                 _vm._v(" "),
@@ -1778,9 +1784,7 @@ var render = function() {
             "v-list-item-content",
             [
               _c("v-list-item-title", [
-                _vm._v(
-                  "\r\n                    Back to My Course\r\n                "
-                )
+                _vm._v("\n                Back to My Course\n            ")
               ])
             ],
             1
@@ -1825,41 +1829,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Overview\r\n                    "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.role == "Teacher"
-                  ? _c(
-                      "v-list-item",
-                      {
-                        staticClass: "list-nav",
-                        attrs: { link: "", to: { name: "classses" }, exact: "" }
-                      },
-                      [
-                        _c(
-                          "v-list-item-action",
-                          [_c("v-icon", [_vm._v("mdi-google-classroom")])],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-list-item-content",
-                          [
-                            _c(
-                              "v-list-item-title",
-                              { staticClass: "font-weight-medium" },
-                              [
-                                _vm._v(
-                                  "\r\n                        Classes\r\n                    "
+                                  "\n                        Overview\n                    "
                                 )
                               ]
                             )
@@ -1892,7 +1862,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\r\n                        Announcement\r\n                    "
+                              "\n                        Announcement\n                    "
                             )
                           ]
                         )
@@ -1903,42 +1873,39 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _c(
-                  "v-list-item",
-                  {
-                    staticClass: "list-nav",
-                    attrs: { link: "", to: { name: "classwork" }, exact: "" }
-                  },
-                  [
-                    _c(
-                      "v-list-item-action",
-                      [_c("v-icon", [_vm._v("mdi-book-open-variant")])],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-list-item-content",
+                _vm.role == "Teacher"
+                  ? _c(
+                      "v-list-item",
+                      {
+                        staticClass: "list-nav",
+                        attrs: { link: "", to: { name: "classses" }, exact: "" }
+                      },
                       [
                         _c(
-                          "v-list-item-title",
-                          { staticClass: "font-weight-medium" },
+                          "v-list-item-action",
+                          [_c("v-icon", [_vm._v("mdi-google-classroom")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-item-content",
                           [
-                            _vm._v("\r\n                        Classwork"),
-                            _c("br"),
-                            _vm._v(" "),
                             _c(
-                              "small",
-                              { staticClass: "font-weight-regular" },
-                              [_vm._v("Quiz & Activities")]
+                              "v-list-item-title",
+                              { staticClass: "font-weight-medium" },
+                              [
+                                _vm._v(
+                                  "\n                        Classes\n                    "
+                                )
+                              ]
                             )
-                          ]
+                          ],
+                          1
                         )
                       ],
                       1
                     )
-                  ],
-                  1
-                ),
+                  : _vm._e(),
                 _vm._v(" "),
                 _vm.role == "Teacher"
                   ? _c(
@@ -1962,7 +1929,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Modules\r\n                    "
+                                  "\n                        Modules\n                    "
                                 )
                               ]
                             )
@@ -1973,6 +1940,43 @@ var render = function() {
                       1
                     )
                   : _vm._e(),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    staticClass: "list-nav",
+                    attrs: { link: "", to: { name: "classwork" }, exact: "" }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-book-open-variant")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c(
+                          "v-list-item-title",
+                          { staticClass: "font-weight-medium" },
+                          [
+                            _vm._v("\n                        Classwork"),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "small",
+                              { staticClass: "font-weight-regular" },
+                              [_vm._v("Quiz & Activities")]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _vm.role == "Teacher"
                   ? _c(
@@ -2000,7 +2004,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Student's Progress\r\n                    "
+                                  "\n                        Student's Progress\n                    "
                                 )
                               ]
                             )
@@ -2038,7 +2042,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Modules\r\n                    "
+                                  "\n                        Modules\n                    "
                                 )
                               ]
                             )
@@ -2076,7 +2080,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        My Progress\r\n                    "
+                                  "\n                        My Progress\n                    "
                                 )
                               ]
                             )
@@ -2114,7 +2118,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        My Grades\r\n                    "
+                                  "\n                        My Grades\n                    "
                                 )
                               ]
                             )
@@ -2167,7 +2171,7 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-                            _vm._v("\r\n                        People"),
+                            _vm._v("\n                        People"),
                             _c("br"),
                             _vm._v(" "),
                             _c(
@@ -2210,7 +2214,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Grade Book\r\n                    "
+                                  "\n                        Grade Book\n                    "
                                 )
                               ]
                             )
@@ -2239,7 +2243,7 @@ var render = function() {
                           [
                             _c("v-icon", [
                               _vm._v(
-                                "mdi-chart-timeline-variant-shimmer\r\n                    "
+                                "mdi-chart-timeline-variant-shimmer\n                    "
                               )
                             ])
                           ],
@@ -2254,7 +2258,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Grading Criteria\r\n                    "
+                                  "\n                        Grading Criteria\n                    "
                                 )
                               ]
                             )
@@ -2287,7 +2291,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\r\n                        About\r\n                    "
+                              "\n                        About\n                    "
                             )
                           ]
                         )
@@ -2320,7 +2324,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\r\n                        Settings\r\n                    "
+                                  "\n                        Settings\n                    "
                                 )
                               ]
                             )
@@ -2465,7 +2469,9 @@ var render = function() {
                   "v-list-item-content",
                   [
                     _c("v-list-item-title", [
-                      _vm._v("\n                    Go Back\n                ")
+                      _vm._v(
+                        "\n                        Go Back\n                    "
+                      )
                     ])
                   ],
                   1
@@ -2491,32 +2497,7 @@ var render = function() {
               "v-list-item-content",
               [
                 _c("v-list-item-title", [
-                  _vm._v("\n                    Dashboard\n                ")
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-list-item",
-          { attrs: { link: "", to: { name: "monitorTeachers" }, exact: "" } },
-          [
-            _c(
-              "v-list-item-action",
-              [_c("v-icon", [_vm._v("mdi-chart-box-outline")])],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-list-item-content",
-              [
-                _c("v-list-item-title", [
-                  _vm._v(
-                    "\n                    Monitor Teachers\n                "
-                  )
+                  _vm._v("\n                        Home\n                    ")
                 ])
               ],
               1

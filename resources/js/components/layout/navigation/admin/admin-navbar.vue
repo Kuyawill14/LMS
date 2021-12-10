@@ -41,14 +41,14 @@
                 </v-list-item-content>
             </v-list-item> -->
 
-            <v-list-group color="none" value="false" link prepend-icon="mdi-contacts">
+            <v-list-group color="none" :value="false" link prepend-icon="mdi-account-group">
                 <template v-slot:activator>
                     <v-list-item-title>Manage Users</v-list-item-title>
                 </template>
 
                 <v-list-item link :to="{name: 'manageCampusDirector'}" exact>
                     <v-list-item-action>
-                        <v-icon>mdi-human-greeting</v-icon>
+                        <v-icon>mdi-account-tie</v-icon>
                     </v-list-item-action>
 
                     <v-list-item-content>
@@ -59,7 +59,7 @@
                 </v-list-item>
                 <v-list-item link :to="{name: 'manageProgramChair'}" exact>
                     <v-list-item-action>
-                        <v-icon>mdi-human-greeting</v-icon>
+                        <v-icon>mdi-account-supervisor</v-icon>
                     </v-list-item-action>
 
                     <v-list-item-content>
@@ -70,7 +70,7 @@
                 </v-list-item>
                 <v-list-item link :to="{name: 'manageteachers'}" exact>
                     <v-list-item-action>
-                        <v-icon>mdi-account-supervisor</v-icon>
+                        <v-icon>mdi-account-supervisor-outline</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>
@@ -97,7 +97,7 @@
 
             <v-list-item link :to="{name: 'schoolyear_semester'}" exact>
                 <v-list-item-action>
-                    <v-icon>mdi-account-group</v-icon>
+                    <v-icon>mdi-calendar-month</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>

@@ -158,6 +158,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 var coursesProgress = function coursesProgress() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_coursesProgress_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./coursesProgress */ "./resources/js/components/.monitor-teachers/teacherProfile/coursesProgress.vue"));
 };
@@ -281,6 +286,19 @@ var coursesProgress = function coursesProgress() {
         _this3.isloading = !_this3.isloading; ////console.log(res.data);
       })["catch"](function (e) {////console.log(e);
       });
+    },
+    goBack: function goBack() {
+      if (this.$route.name == 'monitorTeacher_id') {
+        this.$router.push({
+          path: '/'
+        });
+      }
+
+      if (this.$route.name == 'departmentMonitorTeacher_id') {
+        this.$router.push({
+          path: 'overview'
+        });
+      }
     }
   }),
   mounted: function mounted() {
@@ -446,6 +464,29 @@ var render = function() {
   return _c(
     "div",
     [
+      _vm.$route.name != "dashboard" ||
+      _vm.$route.name != "campus_director-monitor_deparments-id"
+        ? _c(
+            "v-btn",
+            {
+              staticClass: "mb-1",
+              attrs: { rounded: "", text: "" },
+              on: {
+                click: function($event) {
+                  return _vm.goBack()
+                }
+              }
+            },
+            [
+              _c("v-icon", { attrs: { color: "grey lighten-1", left: "" } }, [
+                _vm._v("\n            mdi-arrow-left\n        ")
+              ]),
+              _vm._v("\n        back\n    ")
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "v-row",
         [

@@ -1529,7 +1529,9 @@ var render = function() {
                         )
                       ]
                     ),
-                    _vm._v("\n                    ALl Grades\n                ")
+                    _vm._v(
+                      "\n                    Download Grades\n                "
+                    )
                   ],
                   1
                 )

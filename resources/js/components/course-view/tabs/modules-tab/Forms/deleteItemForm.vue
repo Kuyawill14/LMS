@@ -5,14 +5,14 @@
                 <span class="headline">Confirmation</span>
             </v-card-title>
             <v-card-text>
-                Are you sure you want to delete this module?
+                Are you sure you want to delete this item?
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn text @click="$emit('closeModal');">
                     Cancel
                 </v-btn>
-                <v-btn color="red" text @click="deleteModule()" :loading="loading">
+                <v-btn color="red" text @click="deleteModule()" :loading="isDeleting" :disabled="isDeleting">
                     Delete
                 </v-btn>
             </v-card-actions>
@@ -40,7 +40,8 @@
                     course_id: ''
                 }),
                 class_details: '',
-                id: ''
+                id: '',
+                isDeleting: false,
             }
         },
         methods: {
@@ -54,20 +55,29 @@
             },
 
             deleteModule() {
-
+                this.isDeleting = true;
                 axios.delete(`/api/sub_module/delete/${this.sub_module_id}`)
                     .then((res) => {
                         this.loading = false;
                         this.$emit('closeModal');
-                        // this.toastSuccess("Module Successfully Deleted");
-                            
-                    this.$store.dispatch('fetchMainModule', this.$route.params.id);
+                        if (res.data.status == 1) {
+                            this.toastSuccess(res.data.message);
+                            this.$store.dispatch('fetchMainModule', this.$route.params.id);
+                        } else {
+                            this.toastError(res.data.message);
+                        }
+
+
+                        this.isDeleting = false;
+                    }).catch((err) => {
+                        this.toastError('Something went wrong')
+                        this.isDeleting = false;
                     });
 
             },
         },
         mounted() {
-           
+
         }
 
     }

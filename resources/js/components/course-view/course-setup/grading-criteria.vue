@@ -152,8 +152,8 @@
                 ],
                 numberRule:[
                     v => !!v || 'Field is required',
-                    v => ( v && v >= 1 ) || "Points should be above or 0",
-                    v => ( v && v <= 100 ) || "Points should not be above 100",
+                    v => ( v && v >= 1 ) || "Percentage should not be equal or less than 0",
+                    v => ( v && v <= 100 ) || "Percentage should not be greater than 100",
                 ],
             }
 

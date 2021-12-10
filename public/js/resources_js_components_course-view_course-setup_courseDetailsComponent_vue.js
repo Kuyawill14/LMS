@@ -544,6 +544,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-text-field", {
                     attrs: {
+                      rules: _vm.rules,
                       outlined: "",
                       color: "primary",
                       label: "Video Conference Link *",
@@ -573,6 +574,7 @@ var render = function() {
                   _c("v-select", {
                     attrs: {
                       items: _vm.school_year,
+                      rules: _vm.rules,
                       "item-text": "schoolyear",
                       "item-value": "id",
                       label: "School Year *",
@@ -597,6 +599,7 @@ var render = function() {
                   _c("v-select", {
                     attrs: {
                       items: _vm.semester,
+                      rules: _vm.rules,
                       "item-text": "semester",
                       "item-value": "id",
                       label: "Semester *",
@@ -624,7 +627,7 @@ var render = function() {
                         attrs: {
                           "show-size": "",
                           outlined: "",
-                          label: "Course Guide *",
+                          label: "Course Guide",
                           "prepend-inner-icon": "mdi-file",
                           "prepend-icon": ""
                         },
