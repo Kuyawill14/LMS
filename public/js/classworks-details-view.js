@@ -1042,7 +1042,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         }, _callee2);
       }));
     },
-    AddNewQuestion: function AddNewQuestion() {
+    GetQuestion: function GetQuestion() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -1050,24 +1050,88 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this.isAddingNewQuestion = true;
+                _this.$store.dispatch('fetchQuestions', _this.$route.query.clwk).then(function (res) {
+                  if (res.status == 200) {
+                    _this.selectedData = [];
+                    var tmp = _this.getAll_questions.Question;
+                    tmp.forEach(function (item) {
+                      _this.selectedData.push({
+                        id: item.id,
+                        selected: false,
+                        isEditing: false
+                      });
+                    });
+                    _this.isloading = false;
+                    _this.Qlength = tmp.length;
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    ReloadQuestion: function ReloadQuestion() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this2.$store.dispatch('fetchQuestions', _this2.$route.query.clwk).then(function (res) {
+                  if (res.status == 200) {
+                    _this2.selectedData = [];
+                    var tmp = _this2.getAll_questions.Question;
+                    tmp.forEach(function (item) {
+                      _this2.selectedData.push({
+                        id: item.id,
+                        selected: false,
+                        isEditing: false
+                      });
+                    });
+                    _this2.isloading = false;
+                    _this2.Qlength = tmp.length;
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    AddNewQuestion: function AddNewQuestion() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this3.isAddingNewQuestion = true;
                 axios.post('/api/question/add_new_question', {
-                  classwork_id: _this.$route.query.clwk,
-                  new_number: _this.getAll_questions.Question.length + 1
+                  classwork_id: _this3.$route.query.clwk,
+                  new_number: _this3.getAll_questions.Question.length + 1
                 }).then(function (res) {
                   if (res.data.success == true) {
-                    _this.Qlength += 1;
+                    _this3.Qlength += 1;
 
-                    _this.getAll_questions.Question.push({
+                    _this3.getAll_questions.Question.push({
                       id: res.data.question_id,
-                      question: '<p>' + 'New Question ' + (_this.getAll_questions.Question.length + 1) + '</p>',
+                      question: '<p>' + 'New Question ' + (_this3.getAll_questions.Question.length + 1) + '</p>',
                       answer: '<p>' + 'Option 1' + '</p>',
                       points: 0,
                       type: 'Multiple Choice',
                       sensitivity: 0
                     });
 
-                    _this.getAll_questions.Answer.push({
+                    _this3.getAll_questions.Answer.push({
                       options: [{
                         id: res.data.choice1_id,
                         Choice: '<p>' + 'Option 1' + '</p>',
@@ -1078,86 +1142,24 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     }); //this.getAll_questions.Question.forEach(item => {
 
 
-                    _this.selectedData.push({
+                    _this3.selectedData.push({
                       id: res.data.question_id,
                       selected: false,
                       isEditing: true
                     }); //});
 
 
-                    _this.$toasted.show('New Question Added', {
+                    _this3.$toasted.show('New Question Added', {
                       theme: "toasted-primary",
                       position: "top-center",
                       duration: 3000
                     });
                   }
 
-                  _this.isAddingNewQuestion = false;
+                  _this3.isAddingNewQuestion = false;
                   setTimeout(function () {
                     return window.scrollTo(0, document.body.scrollHeight);
                   }, 100);
-                });
-
-              case 2:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3);
-      }))();
-    },
-    AddAnswer: function AddAnswer(id, Mainindex) {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _this2.isNewChanges = true;
-
-                if (_this2.getAll_questions.Answer[Mainindex].options.length == 0) {
-                  _this2.getAll_questions.Answer[Mainindex].options.push({
-                    id: '',
-                    Choice: _this2.getAll_questions.Question[Mainindex].answer,
-                    question_id: id
-                  });
-
-                  _this2.getAll_questions.Answer[Mainindex].options.push({
-                    id: '',
-                    Choice: '<p>' + 'Answer ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
-                    question_id: id
-                  });
-                } else {
-                  _this2.getAll_questions.Answer[Mainindex].options.push({
-                    id: '',
-                    Choice: '<p>' + 'Answer ' + (_this2.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
-                    question_id: id
-                  });
-                }
-
-              case 2:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    AddNewOption: function AddNewOption(id, Mainindex) {
-      var _this3 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _this3.isNewChanges = true;
-
-                _this3.getAll_questions.Answer[Mainindex].options.push({
-                  id: '',
-                  Choice: '<p>' + 'Option ' + (_this3.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
-                  question_id: id
                 });
 
               case 2:
@@ -1168,7 +1170,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         }, _callee5);
       }))();
     },
-    AddNewMatch: function AddNewMatch(id, mainIndex) {
+    AddAnswer: function AddAnswer(id, Mainindex) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
@@ -1177,6 +1179,68 @@ var studentViewForTeacher = function studentViewForTeacher() {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _this4.isNewChanges = true;
+
+                if (_this4.getAll_questions.Answer[Mainindex].options.length == 0) {
+                  _this4.getAll_questions.Answer[Mainindex].options.push({
+                    id: '',
+                    Choice: _this4.getAll_questions.Question[Mainindex].answer,
+                    question_id: id
+                  });
+
+                  _this4.getAll_questions.Answer[Mainindex].options.push({
+                    id: '',
+                    Choice: '<p>' + 'Answer ' + (_this4.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    question_id: id
+                  });
+                } else {
+                  _this4.getAll_questions.Answer[Mainindex].options.push({
+                    id: '',
+                    Choice: '<p>' + 'Answer ' + (_this4.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    question_id: id
+                  });
+                }
+
+              case 2:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    AddNewOption: function AddNewOption(id, Mainindex) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _this5.isNewChanges = true;
+
+                _this5.getAll_questions.Answer[Mainindex].options.push({
+                  id: '',
+                  Choice: '<p>' + 'Option ' + (_this5.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                  question_id: id
+                });
+
+              case 2:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
+    },
+    AddNewMatch: function AddNewMatch(id, mainIndex) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _this6.isNewChanges = true;
                 /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
                     
                     this.getAll_questions.Answer[mainIndex].SubQuestion = [{
@@ -1194,13 +1258,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 }
                 else{ */
 
-                _this4.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                _this6.getAll_questions.Answer[mainIndex].SubQuestion.push({
                   id: null,
                   answer_id: null,
                   sub_question: ''
                 });
 
-                _this4.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                _this6.getAll_questions.Answer[mainIndex].SubAnswer.push({
                   id: null,
                   Choice: '',
                   question_id: id
@@ -1209,64 +1273,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 3:
               case "end":
-                return _context6.stop();
-            }
-          }
-        }, _callee6);
-      }))();
-    },
-    RemoveOption: function RemoveOption(id, Mainindex, AnsIndex, type) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                if (id == null || id == '') {
-                  _this5.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
-                } else {
-                  axios.put('/api/question/remove_question_option/' + id, {
-                    type: type
-                  }).then(function (res) {
-                    _this5.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
-                  });
-                }
-
-              case 1:
-              case "end":
-                return _context7.stop();
-            }
-          }
-        }, _callee7);
-      }))();
-    },
-    RemoveMatch: function RemoveMatch(main_id, sub_quesId, answer_id, main_index, match_index) {
-      var _this6 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                axios.put('/api/question/remove_question_match/' + main_id, {
-                  sub_question_id: sub_quesId,
-                  answer_id: answer_id
-                }).then(function (res) {
-                  _this6.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
-
-                  _this6.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
-                });
-
-              case 1:
-              case "end":
                 return _context8.stop();
             }
           }
         }, _callee8);
       }))();
     },
-    UpdateQuestion: function UpdateQuestion(id, Mainindex) {
+    RemoveOption: function RemoveOption(id, Mainindex, AnsIndex, type) {
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
@@ -1274,10 +1287,15 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                axios.put('/api/question/update_question_details/' + id, {
-                  question: _this7.getAll_questions.Question[Mainindex],
-                  answer: _this7.getAll_questions.Answer[Mainindex]
-                }).then(function (res) {});
+                if (id == null || id == '') {
+                  _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                } else {
+                  axios.put('/api/question/remove_question_option/' + id, {
+                    type: type
+                  }).then(function (res) {
+                    _this7.getAll_questions.Answer[Mainindex].options.splice(AnsIndex, 1);
+                  });
+                }
 
               case 1:
               case "end":
@@ -1285,6 +1303,52 @@ var studentViewForTeacher = function studentViewForTeacher() {
             }
           }
         }, _callee9);
+      }))();
+    },
+    RemoveMatch: function RemoveMatch(main_id, sub_quesId, answer_id, main_index, match_index) {
+      var _this8 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                axios.put('/api/question/remove_question_match/' + main_id, {
+                  sub_question_id: sub_quesId,
+                  answer_id: answer_id
+                }).then(function (res) {
+                  _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+
+                  _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
+                });
+
+              case 1:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    UpdateQuestion: function UpdateQuestion(id, Mainindex) {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                axios.put('/api/question/update_question_details/' + id, {
+                  question: _this9.getAll_questions.Question[Mainindex],
+                  answer: _this9.getAll_questions.Answer[Mainindex]
+                }).then(function (res) {});
+
+              case 1:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
       }))();
     },
     CheckType: function CheckType(id, type, mainIndex) {
@@ -1316,34 +1380,37 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }
     },
     SaveAllQuestion: function SaveAllQuestion() {
-      var _this8 = this;
+      var _this10 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _this8.isAddingNewQuestion = true;
-                _this8.showSnackbar = true;
-                _this8.isSavingAllQuestion = true;
-                axios.put('/api/question/save_all_question/' + _this8.$route.query.clwk, _this8.getAll_questions).then(function (res) {
+                _this10.isAddingNewQuestion = true;
+                _this10.showSnackbar = true;
+                _this10.isSavingAllQuestion = true;
+                axios.put('/api/question/save_all_question/' + _this10.$route.query.clwk, _this10.getAll_questions).then(function (res) {
                   if (res.data.success == true) {
-                    _this8.isSavingAllQuestion = false;
-                    _this8.isNewChanges = false;
+                    _this10.isSavingAllQuestion = false;
+                    _this10.isNewChanges = false;
+
+                    _this10.GetQuestion();
+
                     setTimeout(function () {
-                      _this8.showSnackbar = false;
+                      _this10.showSnackbar = false;
                     }, 3000);
                   }
 
-                  _this8.isAddingNewQuestion = false;
+                  _this10.isAddingNewQuestion = false;
                 });
 
               case 4:
               case "end":
-                return _context10.stop();
+                return _context12.stop();
             }
           }
-        }, _callee10);
+        }, _callee12);
       }))();
     },
     CheckSelectedCount: function CheckSelectedCount(check) {
@@ -1354,7 +1421,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }
     },
     SelectAll: function SelectAll() {
-      var _this9 = this;
+      var _this11 = this;
 
       if (this.selectedDataCount == this.getAll_questions.Question.length) {
         this.selectedData.forEach(function (item) {
@@ -1365,7 +1432,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         this.selectedDataCount = 0;
         this.selectedData.forEach(function (item) {
           item.selected = true;
-          _this9.selectedDataCount++;
+          _this11.selectedDataCount++;
         });
       }
     },
@@ -1376,7 +1443,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.selectedDataCount = 0;
     },
     DeleteSelected: function DeleteSelected() {
-      var _this10 = this;
+      var _this12 = this;
 
       this.isAddingNewQuestion = true;
       var question_id_list = [];
@@ -1394,34 +1461,34 @@ var studentViewForTeacher = function studentViewForTeacher() {
         question: question_id_list
       }).then(function (res) {
         if (res.data.success == true) {
-          _this10.Deletedialog = !_this10.Deletedialog;
+          _this12.Deletedialog = !_this12.Deletedialog;
           question_id_list.forEach(function (item) {
-            var tmp_question = _this10.getAll_questions.Question;
+            var tmp_question = _this12.getAll_questions.Question;
 
             for (var index = 0; index < tmp_question.length; index++) {
               if (item.question_id == tmp_question[index].id) {
-                _this10.getAll_questions.Question.splice(index, 1);
+                _this12.getAll_questions.Question.splice(index, 1);
 
-                _this10.getAll_questions.Answer.splice(index, 1);
+                _this12.getAll_questions.Answer.splice(index, 1);
 
-                _this10.selectedData.splice(index, 1);
+                _this12.selectedData.splice(index, 1);
               }
             }
           });
 
-          _this10.$toasted.show('Question has been deleted', {
+          _this12.$toasted.show('Question has been deleted', {
             theme: "toasted-primary",
             position: "top-center",
             duration: 5000
           });
 
-          _this10.selectedDataCount = 0;
+          _this12.selectedDataCount = 0;
 
-          if (_this10.getAll_questions.Question.length == 0) {
-            _this10.Qlength = 0;
+          if (_this12.getAll_questions.Question.length == 0) {
+            _this12.Qlength = 0;
           }
 
-          _this10.isAddingNewQuestion = false;
+          _this12.isAddingNewQuestion = false;
         }
       });
     },
@@ -1431,30 +1498,30 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.DeleteSingledialog = true;
     },
     deleteSingleQuestion: function deleteSingleQuestion() {
-      var _this11 = this;
+      var _this13 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                axios["delete"]('/api/question/remove/' + _this11.DeleteDetails.id).then(function (res) {
-                  _this11.getAll_questions.Question.splice(_this11.DeleteIndex, 1);
+                axios["delete"]('/api/question/remove/' + _this13.DeleteDetails.id).then(function (res) {
+                  _this13.getAll_questions.Question.splice(_this13.DeleteIndex, 1);
 
-                  _this11.getAll_questions.Answer.splice(_this11.DeleteIndex, 1);
+                  _this13.getAll_questions.Answer.splice(_this13.DeleteIndex, 1);
 
-                  _this11.selectedData.splice(_this11.DeleteIndex, 1);
+                  _this13.selectedData.splice(_this13.DeleteIndex, 1);
 
-                  _this11.DeleteSingledialog = false;
-                  _this11.DeleteDetails = null;
+                  _this13.DeleteSingledialog = false;
+                  _this13.DeleteDetails = null;
                 });
 
               case 1:
               case "end":
-                return _context11.stop();
+                return _context13.stop();
             }
           }
-        }, _callee11);
+        }, _callee13);
       }))();
     },
     singleDuplicate: function singleDuplicate(question, answer) {
@@ -1480,69 +1547,70 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.DuplicateQuestionAction();
     },
     DuplicateQuestionAction: function DuplicateQuestionAction() {
-      var _this12 = this;
+      var _this14 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                axios.put('/api/question/store_duplicate_question/' + _this12.$route.query.clwk, {
-                  question: _this12.DuplicateQuestion,
-                  answer: _this12.DuplicateAnswers
+                axios.put('/api/question/store_duplicate_question/' + _this14.$route.query.clwk, {
+                  question: _this14.DuplicateQuestion,
+                  answer: _this14.DuplicateAnswers
                 }).then(function (res) {
-                  _this12.isNewChanges = false;
-
+                  //this.isNewChanges = false;
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    _this12.getAll_questions.Question.push({
+                    console.log(res.data.question_id[i]);
+
+                    _this14.getAll_questions.Question.push({
                       id: res.data.question_id[i],
-                      question: _this12.DuplicateQuestion[i].question,
-                      answer: _this12.DuplicateQuestion[i].answer,
-                      points: _this12.DuplicateQuestion[i].points,
-                      type: _this12.DuplicateQuestion[i].type,
-                      sensitivity: _this12.DuplicateQuestion[i].sensitivity
+                      question: _this14.DuplicateQuestion[i].question,
+                      answer: _this14.DuplicateQuestion[i].answer,
+                      points: _this14.DuplicateQuestion[i].points,
+                      type: _this14.DuplicateQuestion[i].type,
+                      sensitivity: _this14.DuplicateQuestion[i].sensitivity
                     });
 
-                    _this12.selectedData.push({
-                      id: res.data.question_id,
+                    _this14.selectedData.push({
+                      id: res.data.question_id[i],
                       selected: false,
                       isEditing: true
                     });
 
-                    _this12.getAll_questions.Answer.push({
+                    _this14.getAll_questions.Answer.push({
                       options: [],
                       SubQuestion: [],
                       SubAnswer: []
                     });
 
-                    if (_this12.DuplicateQuestion[i].type == 'Multiple Choice' || _this12.DuplicateQuestion[i].type == 'Identification') {
+                    if (_this14.DuplicateQuestion[i].type == 'Multiple Choice' || _this14.DuplicateQuestion[i].type == 'Identification') {
                       for (var j = 0; j < res.data.answer_id[i].options_id.length; j++) {
-                        _this12.getAll_questions.Answer[_this12.getAll_questions.Answer.length - 1].options.push({
+                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].options.push({
                           id: res.data.answer_id[i].options_id[j],
-                          Choice: _this12.DuplicateAnswers[i].options[j].Choice,
+                          Choice: _this14.DuplicateAnswers[i].options[j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
-                    } else if (_this12.DuplicateQuestion[i].type == 'Matching type') {
+                    } else if (_this14.DuplicateQuestion[i].type == 'Matching type') {
                       for (var _j = 0; _j < res.data.answer_id[i].SubQuestion_id.length; _j++) {
-                        _this12.getAll_questions.Answer[_this12.getAll_questions.Answer.length - 1].SubQuestion.push({
+                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].SubQuestion.push({
                           id: res.data.answer_id[i].SubQuestion_id[_j],
-                          sub_question: _this12.DuplicateAnswers[i].SubQuestion[_j].sub_question,
+                          sub_question: _this14.DuplicateAnswers[i].SubQuestion[_j].sub_question,
                           answer_id: res.data.answer_id[i].SubAnswer_id[_j]
                         });
 
-                        _this12.getAll_questions.Answer[_this12.getAll_questions.Answer.length - 1].SubAnswer.push({
+                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].SubAnswer.push({
                           id: res.data.answer_id[i].SubAnswer_id[_j],
-                          Choice: _this12.DuplicateAnswers[i].SubAnswer[_j].Choice,
+                          Choice: _this14.DuplicateAnswers[i].SubAnswer[_j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
                     }
                   }
 
-                  _this12.isAddingNewQuestion = false;
+                  _this14.isAddingNewQuestion = false;
 
-                  _this12.UnselectAll();
+                  _this14.UnselectAll();
 
                   setTimeout(function () {
                     return window.scrollTo(0, document.body.scrollHeight);
@@ -1551,10 +1619,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
               case 1:
               case "end":
-                return _context12.stop();
+                return _context14.stop();
             }
           }
-        }, _callee12);
+        }, _callee14);
       }))();
     },
     studenView: function studenView() {
@@ -1583,10 +1651,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
     }
   },
   created: function created() {
-    var _this13 = this;
+    var _this15 = this;
 
     this.$nextTick(function () {
-      _this13.quill_disabled = false;
+      _this15.quill_disabled = false;
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -1607,25 +1675,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
     window.removeEventListener('beforeunload', this.beforeWindowUnload);
   },
   mounted: function mounted() {
-    var _this14 = this;
-
     this.isHaveSubmission = this.classworkDetails.submitted_count == 0 ? false : true;
     this.isHaveSubmissionDialog = this.classworkDetails.submitted_count == 0 ? false : true;
     var top = window.pageYOffset || 0;
-    this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
-      if (res.status == 200) {
-        var tmp = _this14.getAll_questions.Question;
-        tmp.forEach(function (item) {
-          _this14.selectedData.push({
-            id: item.id,
-            selected: false,
-            isEditing: false
-          });
-        });
-        _this14.isloading = false;
-        _this14.Qlength = tmp.length;
-      }
-    });
+    this.GetQuestion();
   },
   beforeMount: function beforeMount() {
     window.addEventListener('beforeunload', this.beforeWindowUnload);
@@ -5782,6 +5835,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -5931,9 +5985,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -5958,7 +6012,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -6048,6 +6102,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 

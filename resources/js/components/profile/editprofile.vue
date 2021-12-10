@@ -216,6 +216,30 @@
                     </v-col>
                 </v-row>
             </v-col>
+<!-- 
+            <v-col cols="12" class="mt-0 pt-0 mb-2">
+                <v-row>
+                    <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                        Logged In Sessions
+                    </v-col>
+                    <v-col cols="12" md="6" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                       <v-card outlined elevation="0">
+                           <v-list>
+                               <v-list-item v-for="item in  UserDetails.sessions" :key="item.id">
+                                   <v-list-item-content>
+                                       <v-list-item-title>
+                                           {{item.ip_address}} - {{item.user_agent}} 
+                                       </v-list-item-title>
+                                       <v-list-item-subtitle>
+                                           {{format_date(item.last_activity)}}
+                                       </v-list-item-subtitle>
+                                   </v-list-item-content>
+                               </v-list-item>
+                           </v-list>
+                       </v-card>
+                    </v-col>
+                </v-row>
+            </v-col> -->
 
         
        <!--   <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
@@ -267,8 +291,10 @@
  </v-form>
 </template>
 <script>
+import moment from 'moment-timezone';
 export default {
     props:['UserDetails'],
+    
     data(){
         return{
             valid:false,
@@ -298,7 +324,15 @@ export default {
         }
     },
     methods:{
-        
+            /*  format_date(value) {
+                let time = moment(value).format();
+                console.log()
+                console.log(time);
+                if (value) {
+                    return moment(String(time)).startOf('hour').fromNow();  
+                }
+            }, */
+
             isNumber(val) {
                 if (isNaN(Number(val.key)) ) {
                     return val.preventDefault();

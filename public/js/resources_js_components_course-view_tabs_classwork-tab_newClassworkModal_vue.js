@@ -164,6 +164,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -9093,6 +9094,7 @@ var render = function() {
                               ),
                               _vm._v(" "),
                               _c("v-file-input", {
+                                ref: "inputFile",
                                 staticClass: "d-none",
                                 attrs: {
                                   multiple: "",

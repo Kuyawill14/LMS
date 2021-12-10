@@ -20,6 +20,7 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_teacher_course;
 use Carbon\Carbon;
+use Session;
 
 
 use Illuminate\Support\Str;
@@ -39,9 +40,12 @@ class UserProfileController extends Controller
         $currentUser = auth('sanctum')->user();
         $userDetails  = auth('sanctum')->user()->tbl_userDetails;
         $department = auth('sanctum')->user()->tbl_user_departments;
+        //$user_sessions = DB::table('sessions')->where('user_id', $currentUser->id)->get();
 
         $userDetails->email = $currentUser->email;
         $userDetails->role = $currentUser->role;
+        // $userDetails->sessions =  $user_sessions;
+        // $userDetails->current_sessions = Session::getId();
         $userDetails->department_id = $department != null ? $department->department_id : null;
 
         if($currentUser->email == 'admin@gmail.com'){
@@ -64,18 +68,8 @@ class UserProfileController extends Controller
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
+ 
+ 
     /**
      * Display the specified resource.
      *
