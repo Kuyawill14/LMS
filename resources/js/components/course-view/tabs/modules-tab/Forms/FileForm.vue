@@ -354,10 +354,20 @@
 
                     this.$emit('CloseLecture');
                     // this.toastSuccess();
-                    setTimeout(() => {
+               
                         this.sending = false;
-                    }, 1000);
+                   
 
+                }).catch((err)=>{
+                    this.toastError('There is something went wrong on the file')
+                    this.isSaving = false;
+                    this.sending = false;
+                           if (this.$refs.inputFile != null) {
+                        this.$refs.inputFile.reset();
+                    }
+                    this.uploadPercentage = 0;
+
+                    console.log(err);
                 })
 
             }

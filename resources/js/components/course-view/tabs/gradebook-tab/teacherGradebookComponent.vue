@@ -15,7 +15,7 @@
                         <v-icon color="grey lighten-1" left>
                             download
                         </v-icon>
-                        ALl Grades
+                        Download Grades
                     </v-btn>
 
 

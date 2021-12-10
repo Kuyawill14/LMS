@@ -1,202 +1,206 @@
 <template>
-<div>
-     <v-list-item link :to="{name: 'courses'}" exact>
-        <v-list-item-action>
+    <div>
+        <v-list-item link :to="{name: 'courses'}" exact>
+            <v-list-item-action>
                 <v-icon>mdi-arrow-left</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-                <v-list-item-title >
+                <v-list-item-title>
                     Back to My Course
                 </v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-    <v-divider></v-divider>
-    <v-list nav  v-if="role!= undefined">
-        <template>
-
-
-            
-              <v-list-item link class="list-nav" :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-view-dashboard-variant</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Overview
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-            <v-list-item link class="list-nav" :to="{name: 'classses'}" v-if="role == 'Teacher'" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-google-classroom</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Classes
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-
-            <v-list-item link class="list-nav" :to="{name: 'announcement'}" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-message-alert</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Announcement
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-
-            <v-list-item link class="list-nav" :to="{name: 'classwork'}" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-book-open-variant</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Classwork<br>
-                        <small class="font-weight-regular">Quiz & Activities</small>
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-
-            <v-list-item link class="list-nav" :to="{name: 'modules'}" exact v-if="role == 'Teacher'">
-                <v-list-item-action>
-                    <v-icon>mdi-book-variant-multiple</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Modules
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-            <v-list-item link class="list-nav" :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
-                <v-list-item-action>
-                    <v-icon>mdi-chart-box-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Student's Progress
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-
-            <v-list-item link class="list-nav" :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
-                <v-list-item-action>
-                    <v-icon>mdi-book-variant-multiple</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Modules
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-            <v-list-item link class="list-nav" :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
-                <v-list-item-action>
-                    <v-icon>mdi-chart-box-outline</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        My Progress
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item link class="list-nav" :to="{name: 'studentGradebook'}" exact v-if="role == 'Student'">
-                <v-list-item-action>
-                             <v-icon>mdi-book-open</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        My Grades
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-
-           
-                                 
-                            
-            <v-list-item link class="list-nav" :to="{name: 'Student-list'}"  exact>
-                <v-list-item-action>
-                    <v-badge offset-x="8" offset-y="18" :color="getcourseInfo.join_request_count != 0 && role == 'Teacher' ? 'red' : ''" 
-                    :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
-                        <v-icon>mdi-account-group</v-icon>
-                    </v-badge>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        People<br>
-                        <small class="font-weight-regular">Instructors & Students</small>
-                    </v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
-
-            
-
-            <v-list-item link class="list-nav" :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
-                <v-list-item-action>
-                    <v-icon>mdi-book-open</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Grade Book
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
+        <v-divider></v-divider>
+        <v-list nav v-if="role!= undefined">
+            <template>
 
 
 
-            <v-list-item link class="list-nav" :to="{name: 'gradingCriteria'}" v-if="role == 'Teacher'" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-chart-timeline-variant-shimmer
-                    </v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Grading Criteria
-                    </v-list-item-title>
-                </v-list-item-content>
+                <v-list-item link class="list-nav" :to="{name: 'coursePage'}" v-if="role == 'Teacher'" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-view-dashboard-variant</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Overview
+                        </v-list-item-title>
+                    </v-list-item-content>
 
-            </v-list-item>
-
-
-            <v-list-item link class="list-nav" :to="{name: 'about'}" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-information</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        About
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-
-            <v-list-item link class="list-nav" :to="{name: 'settings'}" v-if="role == 'Teacher'" exact>
-                <v-list-item-action>
-                    <v-icon>mdi-tune-vertical-variant</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium">
-                        Settings
-                    </v-list-item-title>
-                </v-list-item-content>
-
-            </v-list-item>
-        </template>
-    </v-list>
+                </v-list-item>
 
 
-    <!--     
+                <v-list-item link class="list-nav" :to="{name: 'announcement'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-message-alert</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Announcement
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+                <v-list-item link class="list-nav" :to="{name: 'classses'}" v-if="role == 'Teacher'" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-google-classroom</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Classes
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+        
+
+                <v-list-item link class="list-nav" :to="{name: 'modules'}" exact v-if="role == 'Teacher'">
+                    <v-list-item-action>
+                        <v-icon>mdi-book-variant-multiple</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Modules
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+                        <v-list-item link class="list-nav" :to="{name: 'classwork'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-book-open-variant</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Classwork<br>
+                            <small class="font-weight-regular">Quiz & Activities</small>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                
+                <v-list-item link class="list-nav" :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
+                    <v-list-item-action>
+                        <v-icon>mdi-chart-box-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Student's Progress
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+
+                <v-list-item link class="list-nav" :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
+                    <v-list-item-action>
+                        <v-icon>mdi-book-variant-multiple</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Modules
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+                <v-list-item link class="list-nav" :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
+                    <v-list-item-action>
+                        <v-icon>mdi-chart-box-outline</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            My Progress
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item link class="list-nav" :to="{name: 'studentGradebook'}" exact v-if="role == 'Student'">
+                    <v-list-item-action>
+                        <v-icon>mdi-book-open</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            My Grades
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+
+
+
+
+                <v-list-item link class="list-nav" :to="{name: 'Student-list'}" exact>
+                    <v-list-item-action>
+                        <v-badge offset-x="8" offset-y="18"
+                            :color="getcourseInfo.join_request_count != 0 && role == 'Teacher' ? 'red' : ''"
+                            :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
+                            <v-icon>mdi-account-group</v-icon>
+                        </v-badge>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            People<br>
+                            <small class="font-weight-regular">Instructors & Students</small>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+
+
+                <v-list-item link class="list-nav" :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
+                    <v-list-item-action>
+                        <v-icon>mdi-book-open</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Grade Book
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+
+
+                <v-list-item link class="list-nav" :to="{name: 'gradingCriteria'}" v-if="role == 'Teacher'" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-chart-timeline-variant-shimmer
+                        </v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Grading Criteria
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+
+                <v-list-item link class="list-nav" :to="{name: 'about'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-information</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            About
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+
+                <v-list-item link class="list-nav" :to="{name: 'settings'}" v-if="role == 'Teacher'" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-tune-vertical-variant</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Settings
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+            </template>
+        </v-list>
+
+
+        <!--     
     <md-list>
         <router-link :to="{name: 'coursePage'}" exact>
             <md-list-item>
@@ -244,23 +248,25 @@
             <span class="md-list-item-text">Settings</span>
         </md-list-item>
     </md-list> -->
-</div>
+    </div>
 </template>
 
 
 <script>
-    import { mapGetters } from 'vuex'
+    import {
+        mapGetters
+    } from 'vuex'
     export default {
         props: ['role'],
         computed: mapGetters(["getcourseInfo"]),
     }
 
-
 </script>
 
 
 <style scoped>
-.list-nav {
-    margin-bottom: 0px !important;
-}
+    .list-nav {
+        margin-bottom: 0px !important;
+    }
+
 </style>

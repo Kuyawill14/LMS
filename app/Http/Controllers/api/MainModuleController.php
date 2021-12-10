@@ -69,6 +69,16 @@ class MainModuleController extends Controller
         return $allSubModules;
 }
 
+public function countSubmoduleOnMainModule($id ) {
+    //
+    $count = DB::table('tbl_sub_modules')
+    ->select('tbl_sub_modules.id')
+    ->where('tbl_sub_modules.main_module_id', $id )
+    
+    ->count();
+    return $count;
+}
+
     /**
      * Show the form for creating a new resource.
      *
@@ -170,11 +180,32 @@ class MainModuleController extends Controller
     }
     public function deleteModule($id)
     {
+       $subModuleCount =  $this->countSubmoduleOnMainModule($id);
+        $message = array();
+        $allSubModulesProgressCount = DB::table('tbl_student_sub_module_progress')
+        ->select('tbl_student_sub_module_progress.*')
+        ->leftJoin('tbl_sub_modules', 'tbl_sub_modules.id', '=', 'tbl_student_sub_module_progress.sub_module_id')
+        ->where('tbl_student_sub_module_progress.main_module_id', $id )
+        ->orderBy('tbl_sub_modules.id', 'ASC')
+        ->count();
+
         $mainModule = tbl_main_modules::find($id);
-        if($mainModule){
-            $mainModule->delete();
-            return $mainModule;
+
+        if($mainModule) {
+            if( $allSubModulesProgressCount > 0 || $subModuleCount > 0) {
+                $message = [ 'status'=> 0, 'message' => 'Unable to delete this module, It already have Items on it, 
+                        You can still edit the title and description input.'];
+            } else {
+                $mainModule->delete();
+                $message = [ 'status'=> 1, 'message' => 'Module deleted successfully'];
+            }
+     
+           
+    
         }
+
+        return  $message ;
+    
        
     }
 

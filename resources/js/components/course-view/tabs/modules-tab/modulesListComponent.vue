@@ -3,10 +3,10 @@
     <v-col>
         <vue-element-loading :active="isDrag" spinner="bar-fade-scale" color="#FF6700" />
         <v-expansion-panels focusable>
-            <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
+            <draggable v-model="getmain_module" style="width: 100%" @change="onEnd" @start="isDragging = true"
                 @end="isDragging = false" v-bind="dragOptions">
                 <transition-group type="transition" name="flip-list">
-                    <v-expansion-panel v-for="(itemModule, i) in mainModule" :key="'module'+i" draggable="true">
+                    <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i" draggable="true">
                         <span class="text-right pannel-btn">
 
 
@@ -241,7 +241,7 @@
             onEnd() {
                 this.isDrag = true;
                 axios.post(`/api/main_module/arrange`, {
-                        mainModules: this.mainModule
+                        mainModules: this.getmain_module
                     })
                     .then((res) => {
                         this.isDrag = false;

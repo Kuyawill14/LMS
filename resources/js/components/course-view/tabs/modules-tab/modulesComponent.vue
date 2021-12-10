@@ -7,7 +7,7 @@
                 </v-breadcrumbs-item>
             </template>
         </v-breadcrumbs>
-        <v-row align="center" justify="center" class="pt-10" v-if="moduleLength == 0">
+        <v-row align="center" justify="center" class="pt-10" v-if="getmain_module.length == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
                     mdi-book-variant-multiple
@@ -20,7 +20,7 @@
 
             <v-dialog v-model="moduleDialog" persistent max-width="600px">
 
-                <ModuleForm v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleLength++" />
+                <ModuleForm v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false" />
             </v-dialog>
         </v-row>
 
@@ -42,7 +42,7 @@
 
 
 
-        <div v-if="moduleLength > 0">
+        <div v-if="getmain_module.length > 0">
             <v-row class="pt-3" justify="center" align="center">
                 <v-col cols="1">
                     <h2 class="pb-0"> Materials</h2>
@@ -70,7 +70,7 @@
 
 
                 <v-dialog v-model="moduleDialog" persistent max-width="600px">
-                    <ModuleForm v-on:closeModal="moduleDialog = false" />
+                    <ModuleForm v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false"  />
                 </v-dialog>
             </v-row>
 

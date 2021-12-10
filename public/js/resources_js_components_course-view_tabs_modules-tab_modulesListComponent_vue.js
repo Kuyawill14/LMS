@@ -332,9 +332,19 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$emit('CloseLecture'); // this.toastSuccess();
 
 
-        setTimeout(function () {
-          _this2.sending = false;
-        }, 1000);
+        _this2.sending = false;
+      })["catch"](function (err) {
+        _this2.toastError('There is something went wrong on the file');
+
+        _this2.isSaving = false;
+        _this2.sending = false;
+
+        if (_this2.$refs.inputFile != null) {
+          _this2.$refs.inputFile.reset();
+        }
+
+        _this2.uploadPercentage = 0;
+        console.log(err);
       });
     }
   },
@@ -668,7 +678,8 @@ __webpack_require__.r(__webpack_exports__);
         course_id: ''
       }),
       class_details: '',
-      id: ''
+      id: '',
+      isDeleting: false
     };
   },
   methods: {
@@ -683,13 +694,21 @@ __webpack_require__.r(__webpack_exports__);
     deleteModule: function deleteModule() {
       var _this = this;
 
-      this.$store.dispatch('deleteMainModule', this.id).then(function (res) {
+      this.isDeleting = true;
+      axios["delete"]("/api/main_module/delete/".concat(this.moduleId)).then(function (res) {
         _this.loading = false;
 
         _this.$emit('closeModal');
 
-        _this.toastSuccess("Module Successfully Deleted"); //   this.$store.dispatch('fetchMainModule', this.$route.params.id)
+        if (res.data.status == 1) {
+          _this.toastSuccess(res.data.message);
 
+          _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
+        } else {
+          _this.toastError(res.data.message);
+        }
+
+        _this.isDeleting = false;
       });
     }
   },
@@ -750,7 +769,8 @@ __webpack_require__.r(__webpack_exports__);
         course_id: ''
       }),
       class_details: '',
-      id: ''
+      id: '',
+      isDeleting: false
     };
   },
   methods: {
@@ -765,13 +785,25 @@ __webpack_require__.r(__webpack_exports__);
     deleteModule: function deleteModule() {
       var _this = this;
 
+      this.isDeleting = true;
       axios["delete"]("/api/sub_module/delete/".concat(this.sub_module_id)).then(function (res) {
         _this.loading = false;
 
-        _this.$emit('closeModal'); // this.toastSuccess("Module Successfully Deleted");
+        _this.$emit('closeModal');
 
+        if (res.data.status == 1) {
+          _this.toastSuccess(res.data.message);
 
-        _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
+          _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
+        } else {
+          _this.toastError(res.data.message);
+        }
+
+        _this.isDeleting = false;
+      })["catch"](function (err) {
+        _this.toastError('Something went wrong');
+
+        _this.isDeleting = false;
       });
     }
   },
@@ -1053,7 +1085,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.isDrag = true;
       axios.post("/api/main_module/arrange", {
-        mainModules: this.mainModule
+        mainModules: this.getmain_module
       }).then(function (res) {
         _this2.isDrag = false;
       });
@@ -3948,7 +3980,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -4099,9 +4130,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                    'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
-                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -4126,7 +4157,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function (x) {
+            localeFamilies[name].forEach(function(x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -4216,7 +4247,6 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
-
 
 /***/ }),
 
@@ -14979,9 +15009,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("v-card-text", [
-        _vm._v(
-          "\n             Are you sure you want to delete this module?\n        "
-        )
+        _vm._v("\n        Are you sure you want to delete this module?\n    ")
       ]),
       _vm._v(" "),
       _c(
@@ -14999,20 +15027,25 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                Cancel\n            ")]
+            [_vm._v("\n            Cancel\n        ")]
           ),
           _vm._v(" "),
           _c(
             "v-btn",
             {
-              attrs: { color: "red", text: "", loading: _vm.loading },
+              attrs: {
+                color: "red",
+                text: "",
+                loading: _vm.isDeleting,
+                disabled: _vm.isDeleting
+              },
               on: {
                 click: function($event) {
                   return _vm.deleteModule()
                 }
               }
             },
-            [_vm._v("\n                Delete\n            ")]
+            [_vm._v("\n            Delete\n        ")]
           )
         ],
         1
@@ -15057,7 +15090,7 @@ var render = function() {
           _vm._v(" "),
           _c("v-card-text", [
             _vm._v(
-              "\n            Are you sure you want to delete this module?\n        "
+              "\n            Are you sure you want to delete this item?\n        "
             )
           ]),
           _vm._v(" "),
@@ -15082,7 +15115,12 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "red", text: "", loading: _vm.loading },
+                  attrs: {
+                    color: "red",
+                    text: "",
+                    loading: _vm.isDeleting,
+                    disabled: _vm.isDeleting
+                  },
                   on: {
                     click: function($event) {
                       return _vm.deleteModule()
@@ -15154,11 +15192,11 @@ var render = function() {
                   }
                 },
                 model: {
-                  value: _vm.mainModule,
+                  value: _vm.getmain_module,
                   callback: function($$v) {
-                    _vm.mainModule = $$v
+                    _vm.getmain_module = $$v
                   },
-                  expression: "mainModule"
+                  expression: "getmain_module"
                 }
               },
               "draggable",
@@ -15169,7 +15207,7 @@ var render = function() {
               _c(
                 "transition-group",
                 { attrs: { type: "transition", name: "flip-list" } },
-                _vm._l(_vm.mainModule, function(itemModule, i) {
+                _vm._l(_vm.getmain_module, function(itemModule, i) {
                   return _c(
                     "v-expansion-panel",
                     { key: "module" + i, attrs: { draggable: "true" } },

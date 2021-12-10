@@ -1,9 +1,10 @@
 <template>
     <div>
-        <v-btn @click="goBack()"  v-if="$route.name != 'dashboard' ||  $route.name != 'campus_director-monitor_deparments-id'" icon class="py-2">
-            <v-icon>
+        <v-btn @click="goBack()"   rounded v-if="$route.name != 'dashboard' ||  $route.name != 'campus_director-monitor_deparments-id'" text class="mb-1">
+            <v-icon color="grey lighten-1" left>
                 mdi-arrow-left
             </v-icon>
+            back
         </v-btn>
         <v-row>
             <v-col cols="12" md="12">

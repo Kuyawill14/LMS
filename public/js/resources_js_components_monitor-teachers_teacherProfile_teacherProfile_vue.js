@@ -162,6 +162,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var coursesProgress = function coursesProgress() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_monitor-teachers_teacherProfile_coursesProgress_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./coursesProgress */ "./resources/js/components/.monitor-teachers/teacherProfile/coursesProgress.vue"));
 };
@@ -468,15 +469,20 @@ var render = function() {
         ? _c(
             "v-btn",
             {
-              staticClass: "py-2",
-              attrs: { icon: "" },
+              staticClass: "mb-1",
+              attrs: { rounded: "", text: "" },
               on: {
                 click: function($event) {
                   return _vm.goBack()
                 }
               }
             },
-            [_c("v-icon", [_vm._v("\n            mdi-arrow-left\n        ")])],
+            [
+              _c("v-icon", { attrs: { color: "grey lighten-1", left: "" } }, [
+                _vm._v("\n            mdi-arrow-left\n        ")
+              ]),
+              _vm._v("\n        back\n    ")
+            ],
             1
           )
         : _vm._e(),
