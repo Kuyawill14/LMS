@@ -105,12 +105,12 @@
                 </div>
                <div >
                   <v-btn v-if="selectedEvent.type == 'classwork'" @click="$router.push({path: '/classwork/'+selectedEvent.course_id+'/classwork-details?clwk='+selectedEvent.classwork_id})" 
-                      rounded text :color="selectedEvent.color">
+                      rounded text :color="selectedEvent.color" >
                         View Classwork
                     <v-icon right>mdi-eye</v-icon>
                   </v-btn>
 
-                  <v-btn v-if="selectedEvent.type == 'class_sched'" @click="$router.push({path: '/classwork/'+selectedEvent.course_id+'/classwork-details?clwk='+selectedEvent.classwork_id})" 
+                  <v-btn v-if="selectedEvent.type == 'class_sched'" @click="$router.push({name: 'coursePage', params:{id:selectedEvent.course_id } })"
                       rounded text :color="selectedEvent.color">
                         View Schedule
                     <v-icon right>mdi-eye</v-icon>
@@ -132,7 +132,7 @@ import moment from 'moment-timezone';
     data: () => ({
       CalendarSched:[],
       focus: '',
-      type: 'week',
+      type: 'month',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
@@ -229,9 +229,7 @@ import moment from 'moment-timezone';
     },
     setClassSched(data){
         
-        
       data.forEach(item => {
-
         if(item.schedule != false){
             item.schedule.forEach(element => {
                 let tmpday = element.day.toLowerCase();
@@ -242,7 +240,7 @@ import moment from 'moment-timezone';
                 
                 this.events.push({
                   type:'class_sched',
-                  name: 'Class Schedule',
+                  name: item.course_code+' - '+item.class_name,
                   start: start,
                   end: end,
                   day:element.day,

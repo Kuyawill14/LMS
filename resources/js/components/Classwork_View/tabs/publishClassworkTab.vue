@@ -23,6 +23,7 @@
     
         <v-dialog v-model="dialog" persistent max-width="600">
             <publishDialog 
+            :classworkDetails="classworkDetails"
             :Details="Details"
             :datetoday="datetoday"
             v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isAdding= !isAdding"
@@ -152,6 +153,7 @@ const unpublishConfirmDialog = () => import('./dialogs/unpublishConfirmDialog')
 const updatePublishDialog = () => import('./dialogs/UpdatePublishDialog')
 
 export default {
+    props:['classworkDetails'],
     components:{
         publishDialog,
         unpublishConfirmDialog,

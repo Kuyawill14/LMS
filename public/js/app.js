@@ -2212,13 +2212,24 @@ router.beforeEach(function (to, from, next) {
                 if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
                   if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
                     if (to.name == 'courseSetup') {
-                      next({
-                        name: "announcement",
+                      if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole == 'Teacher') next({
+                        name: 'coursePage',
+                        params: {
+                          id: to.params.id
+                        },
+                        replace: true
+                      });else next({
+                        name: 'announcement',
                         params: {
                           id: to.params.id
                         },
                         replace: true
                       });
+                      /*  next({
+                           name: "announcement",
+                           params: { id: to.params.id },
+                           replace: true
+                       }) */
                     } else {
                       next();
                     }

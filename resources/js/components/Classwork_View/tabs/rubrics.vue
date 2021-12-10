@@ -181,6 +181,7 @@
                 closeDialog: false,
                 newChanges: false,
                 tmpCriteria: [],
+                totalPoints: 0,
             }
         },
         methods: {
@@ -213,7 +214,19 @@
                 this.criteria_form.description = '';
             },
             saveAllCriteria() {
-                this.loading = true;       
+                if(this.criteria.length != 0){
+                    this.totalPoints = 0;
+                    this.criteria.forEach(element => {
+                        this.totalPoints+=element.points;
+                    });
+                }
+
+
+                if(this.totalPoints > 100){
+                    this.toastError('The total points for the rubrics is above 100!') 
+                }
+                else{
+                    this.loading = true;       
                 axios.post(`/api/classwork/rubrics-save/${this.$route.query.clwk}`, {
                     rubrics: this.criteria
                 })
@@ -225,6 +238,9 @@
                     this.toastError('Something went wrong');
                     this.loading = false;
                 })
+                }
+
+                
             },
             validate(){
                 if(this.$refs.form.validate()){
@@ -232,18 +248,35 @@
                 }
             },
             addCriteria() {
-                this.newChanges = true;
-                this.isSaved = false;
-                if (!this.$refs.form.validate()) {
-                    this.toastError('Please Complete the fields')
-                }else{
-                     this.criteria.push({
-                        id: null,
-                        points: null,
-                        criteria_name: null,
-                        description: null,
-                    })
+                if(this.criteria.length != 0){
+                    this.totalPoints = 0;
+                    this.criteria.forEach(element => {
+                        this.totalPoints+=element.points;
+                    });
                 }
+
+                if(this.totalPoints > 100){
+                    this.toastError('The total points is already 100') 
+                }
+                else{
+                    this.newChanges = true;
+                    this.isSaved = false;
+                    if (!this.$refs.form.validate()) {
+                        this.toastError('Please Complete the fields')
+                    }else{
+                        this.criteria.push({
+                            id: null,
+                            points: null,
+                            criteria_name: null,
+                            description: null,
+                        })
+                    }
+                }
+                
+                
+            
+
+                
             },
            /*  fetchAllRubrics() {
                 this.loading = true;
@@ -288,6 +321,8 @@
                             criteria_name: item.criteria_name,
                             description: item.description,
                         })
+
+                        this.totalPoints+= item.points;
                     });
                 }
             }

@@ -64,7 +64,7 @@
                 <v-card>
                     <v-form  ref="Schedform" v-model="Schedvalid" lazy-validation>
                         <v-card-title class="">
-                            <v-btn @click="addScheduleDialog = !addScheduleDialog, isUpdateSched = !isUpdateSched" icon>
+                            <v-btn @click="addScheduleDialog = false, isUpdateSched = false" icon>
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                             New Schedule
@@ -85,7 +85,7 @@
                                             ></v-select>
                                         </v-col>
                                         <v-col cols="12" md="6">
-                                            <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" type="time" v-model="start_time" label="End time"></v-text-field>
+                                            <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" type="time" v-model="start_time" label="Start time"></v-text-field>
                                         </v-col>
                                         <v-col cols="12" md="6">
                                             <v-text-field outlined :rules="Schedrules" dense :hide-details="Schedvalid" v-model="end_time" type="time" label="End time"></v-text-field>

@@ -2011,7 +2011,7 @@ var render = function() {
                                           },
                                           [
                                             _c(
-                                              "v-list-item-avatar",
+                                              "v-list-item-icon",
                                               { attrs: { tile: "" } },
                                               [
                                                 _c(
@@ -2062,7 +2062,11 @@ var render = function() {
                                             _vm._v(" "),
                                             _c(
                                               "v-list-item-action",
-                                              { staticStyle: { width: "30%" } },
+                                              {
+                                                staticStyle: {
+                                                  width: "40% !important"
+                                                }
+                                              },
                                               [
                                                 _c("v-text-field", {
                                                   staticClass: "ma-0 pa-0",

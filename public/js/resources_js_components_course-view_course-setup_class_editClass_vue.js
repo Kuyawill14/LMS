@@ -22630,7 +22630,7 @@ var render = function() {
                             attrs: { icon: "" },
                             on: {
                               click: function($event) {
-                                _vm.addScheduleDialog = !_vm.addScheduleDialog
+                                _vm.addScheduleDialog = true
                               }
                             }
                           },
@@ -22836,7 +22836,7 @@ var render = function() {
                           attrs: { icon: "" },
                           on: {
                             click: function($event) {
-                              ;(_vm.addScheduleDialog = !_vm.addScheduleDialog),
+                              ;(_vm.addScheduleDialog = false),
                                 (_vm.is_edit = false)
                             }
                           }
@@ -22906,7 +22906,7 @@ var render = function() {
                                           dense: "",
                                           "hide-details": "",
                                           type: "time",
-                                          label: "End time"
+                                          label: "Start time"
                                         },
                                         model: {
                                           value: _vm.start_time,

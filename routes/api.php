@@ -155,6 +155,7 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
 
     //rubrics
     Route::post('/rubrics-save/{id}', [SubjectiveTypeRubrics::class, 'saveRubrics']);
+    Route::post('/rubrics-update/{id}', [SubjectiveTypeRubrics::class, 'updateRubrics']);
     Route::get('/rubric/all/{id}', [SubjectiveTypeRubrics::class, 'fetchRubrics']);
     Route::delete('/rubric/delete/{classwork_id}/{rubrics_id}', [SubjectiveTypeRubrics::class, 'deleteRubrics']);
     

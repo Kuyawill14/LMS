@@ -41,6 +41,51 @@
                 v-on:toggleconfirm="RemoveFile(removeIndex)"></removeAttachment>
         </v-dialog>
 
+         <v-dialog v-model="rubricsDialog" persistent max-width="400">
+            <v-card>
+                <v-container fluid class="pt-0 mt-0">
+                    
+                    <v-card-title class="mb-0">
+                        <span class="h6">{{modalType == 'add' ? 'New Rubrics' : 'Update Rubrics'}}</span>
+                        <v-spacer></v-spacer>
+                        <v-btn  large icon color="secondary" text @click="rubricsDialog = false" >
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                        
+                 </v-card-title>
+                <v-form ref="Rubricsform" v-model="rubrics_valid" lazy-validation>
+                    <v-row  no-gutters >
+                        <v-col class="mb-0 mt-0 pt-0" cols="12" >
+                            <v-text-field outlined label="Criteria name *" v-model="criteria_form.criteria_name"
+                                :rules="nameRules" type="text" class="text-field" required>
+                            </v-text-field>
+                        </v-col>
+
+                        <v-col cols="12" class="mb-0">
+                            <v-text-field outlined label="Points *" class="text-field" v-model="criteria_form.points"
+                                type="number" :rules="RubricsPointsRules" required>
+                            </v-text-field>
+                        </v-col>
+
+                          <v-col cols="12" class="mb-0">
+                                <v-textarea label="Description" class="text-field" v-model="criteria_form.description"
+                                    outlined auto-grow>
+                                </v-textarea>
+                        </v-col>
+
+                        <v-btn color="primary" block rounded  @click="validateRubricsForm()" >
+                           <!--  <v-icon>
+                                mdi-plus
+                            </v-icon> -->
+                            
+                            {{modalType == 'add' ? 'Add' : 'Update'}}
+                        </v-btn>
+                    </v-row>
+                </v-form>
+            </v-container>
+            </v-card>
+        </v-dialog>
+
 
 
 
@@ -91,32 +136,64 @@
                                 <v-col v-if="Details.type == 'Subjective Type'" class="mb-0  pt-0 mt-0" cols="12">
 
                                     <v-row>
-                                        <v-col class="text-left">
+                                        <v-col cols="6" class="text-left">
                                               <div class="text-h5">Rubrics</div>
                                         </v-col>
-                                        <v-col class="text-right">
+                                        <v-col cols="6" class="text-right">
                                             
-                                        <v-btn color="primary" rounded dark @click="OpenRubricsDialog()">
+                                        <v-btn v-if="Details.submitted_count  == 0" color="primary" rounded dark @click="OpenRubricsDialog()">
                                             <v-icon > mdi-plus </v-icon>
                                             Add
                                         </v-btn>
                                         </v-col>
-                                    </v-row>
-                                
-                                    <v-list>
+
+                                         <v-col cols="12">
+                                            
+                                               <v-list>
                                         <v-list-item v-for="(item, index) in Details.rubrics" :key="index">
-                                            <v-list-item-icon >
-                                                <div class="font-weight-bold text-h6">
+                                            <v-list-item-content >
+                                                <div class="d-flex justify-start">
+                                                <div class="mr-5">
+                                                     <div class="font-weight-bold text-h6">
                                                     {{item.points}}%
+                                                    </div>
                                                 </div>
+                                                <div>
+                                                    <v-list-item-title class="font-weight-medium">{{item.criteria_name}}</v-list-item-title>
+                                                    <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
+                                                </div>
+                                                 </div>
                                                 
-                                            </v-list-item-icon>
-                                            <v-list-item-content>
-                                                <v-list-item-title class="font-weight-medium">{{item.criteria_name}}</v-list-item-title>
-                                                <v-list-item-subtitle>{{item.description}}</v-list-item-subtitle>
                                             </v-list-item-content>
+                                            <v-list-item-action >
+                                                <div class="d-flex">
+                                                     <v-btn @click="criteria_form.id = item.id,
+                                                        criteria_form.criteria_name = item.criteria_name,
+                                                        criteria_form.points = item.points, 
+                                                        criteria_form.description = item.description, 
+                                                        modalType = 'update',
+                                                        updateIndex = index
+                                                        rubricsDialog = true" icon>
+                                                    <v-icon>
+                                                        mdi-pencil
+                                                    </v-icon>
+                                                </v-btn>
+                                                 <v-btn @click="deleteDialog = true, deleteRubrics_id = item.id, deleteIndex = index" color="red" icon>
+                                                    <v-icon>
+                                                        mdi-delete
+                                                    </v-icon>
+                                                </v-btn>
+                                                </div>
+                                               
+                                            </v-list-item-action>
                                         </v-list-item>
                                     </v-list>
+                                        </v-col>
+
+                                        
+                                    </v-row>
+                                
+                                  
 
                                     
                                   <!--   <v-row justify="center" align="center">
@@ -237,7 +314,7 @@
                     </v-card>
                 </v-col>
             </v-row>
-            <v-row justify="center">
+          <!--   <v-row justify="center">
                 <v-dialog v-model="rubricsDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                     <rubrics :rubricsDetails="rubricsDetails"
                     v-on:CloseAndSave="SaveRubrics"
@@ -245,7 +322,27 @@
                      v-on:CLoseRubricModal="rubricsDialog = false" v-on:CriteriaSave="rubricsDialog = false" 
                     :total_points="Details.points" :title="Details.title"/>
                 </v-dialog>
-            </v-row>
+            </v-row> -->
+
+            <v-dialog v-model="deleteDialog" persistent max-width="400">
+                <v-card>
+                    <v-card-title>
+                        <span class="headline">Confirmation</span>
+                    </v-card-title>
+                    <v-card-text>
+                        Are you sure you want to delete this Item?
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text @click="deleteDialog =false">
+                            Cancel
+                        </v-btn>
+                        <v-btn color="red" text @click="deleteRubrics()" :loading="loading">
+                            Delete
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-container>
     </div>
 </template>
@@ -294,6 +391,27 @@
                     v => !!v || 'Duration is required',
                     v => ( v && v >= 1 ) || "Duration should be above or eqaul to 1min",
                 ],
+                rubrics_valid: true,
+                criteria_form: {
+                    id: '',
+                    points: '',
+                    criteria_name: '',
+                    description: '',
+                },
+                nameRules: [
+                    v => !!v || 'Field is required',
+
+                ],
+                RubricsPointsRules: [
+                    v => ( v && v >= 1 ) || "Points should be above or equal to 1",
+                    v => ( v && v <= 100 ) || "Points should not be above 100",
+                    v => !!v || 'Points is required'
+                ],
+                modalType: '',
+                deleteRubrics_id: null,
+                deleteDialog: false,
+                deleteIndex: null,
+                updateIndex: null
             }
         },
         computed: {
@@ -341,8 +459,19 @@
 
                 },
             OpenRubricsDialog(){
+                this.clearInputs();
                 this.rubricsDialog = true;
+                this.modalType = 'add';
+                this.$refs.Rubricsform.resetValidation();
                 this.rubricsDetails = this.Details.rubrics;
+            },
+            clearInputs(){
+
+                this.criteria_form.id = '';
+                this.criteria_form.points = '';
+                this.criteria_form.criteria_name = '';
+                this.criteria_form.description = '';
+                 
             },
             validate () {
                 if(this.$refs.UpdateClassworkForm.validate()){
@@ -350,6 +479,46 @@
                 }
                 
             },
+
+            validateRubricsForm () {
+                if(this.$refs.Rubricsform.validate()){
+                    if(this.modalType == 'add'){
+                        this.AddNewRubrics();
+                    }else{
+                        this.UpdateRubrics();
+                    }
+                }
+                
+            },
+            async AddNewRubrics(){
+                 axios.post(`/api/classwork/rubrics-save/${this.$route.query.clwk}`,this.criteria_form)
+                 .then((res)=>{
+                     if(res){
+                         this.Details.rubrics.push(res.data);
+                         this.rubricsDialog = false;
+                     }
+                 })
+            },
+            async UpdateRubrics(){
+                  axios.post(`/api/classwork/rubrics-update/${this.$route.query.clwk}`,this.criteria_form)
+                 .then((res)=>{
+                     if(res){
+                         this.Details.rubrics[this.updateIndex] = res.data;
+                         this.rubricsDialog = false;
+                     }
+                 })
+            },
+            async deleteRubrics(rubrics_id) {
+                axios.delete(`/api/classwork/rubric/delete/${this.$route.query.clwk}/${this.deleteRubrics_id}`)
+                    .then((res) => {
+                        this.deleteDialog = false;
+                        this.Details.rubrics.splice(this.deleteIndex, 1);
+                    }).catch((err) => {
+                        this.toastError('Something went wrong');
+                    })
+            },
+
+            
             SaveRubrics(data){
                 console.log(data);
                 console.log(this.Details.rubrics);

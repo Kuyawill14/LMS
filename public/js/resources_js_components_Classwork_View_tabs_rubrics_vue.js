@@ -195,7 +195,8 @@ __webpack_require__.r(__webpack_exports__);
       }],
       closeDialog: false,
       newChanges: false,
-      tmpCriteria: []
+      tmpCriteria: [],
+      totalPoints: 0
     };
   },
   methods: {
@@ -228,18 +229,29 @@ __webpack_require__.r(__webpack_exports__);
     saveAllCriteria: function saveAllCriteria() {
       var _this2 = this;
 
-      this.loading = true;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/classwork/rubrics-save/".concat(this.$route.query.clwk), {
-        rubrics: this.criteria
-      }).then(function (res) {
-        _this2.loading = false;
+      if (this.criteria.length != 0) {
+        this.totalPoints = 0;
+        this.criteria.forEach(function (element) {
+          _this2.totalPoints += element.points;
+        });
+      }
 
-        _this2.$emit('CloseAndSave', _this2.criteria);
-      })["catch"](function (err) {
-        _this2.toastError('Something went wrong');
+      if (this.totalPoints > 100) {
+        this.toastError('The total points for the rubrics is above 100!');
+      } else {
+        this.loading = true;
+        axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/classwork/rubrics-save/".concat(this.$route.query.clwk), {
+          rubrics: this.criteria
+        }).then(function (res) {
+          _this2.loading = false;
 
-        _this2.loading = false;
-      });
+          _this2.$emit('CloseAndSave', _this2.criteria);
+        })["catch"](function (err) {
+          _this2.toastError('Something went wrong');
+
+          _this2.loading = false;
+        });
+      }
     },
     validate: function validate() {
       if (this.$refs.form.validate()) {
@@ -247,18 +259,31 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addCriteria: function addCriteria() {
-      this.newChanges = true;
-      this.isSaved = false;
+      var _this3 = this;
 
-      if (!this.$refs.form.validate()) {
-        this.toastError('Please Complete the fields');
-      } else {
-        this.criteria.push({
-          id: null,
-          points: null,
-          criteria_name: null,
-          description: null
+      if (this.criteria.length != 0) {
+        this.totalPoints = 0;
+        this.criteria.forEach(function (element) {
+          _this3.totalPoints += element.points;
         });
+      }
+
+      if (this.totalPoints > 100) {
+        this.toastError('The total points is already 100');
+      } else {
+        this.newChanges = true;
+        this.isSaved = false;
+
+        if (!this.$refs.form.validate()) {
+          this.toastError('Please Complete the fields');
+        } else {
+          this.criteria.push({
+            id: null,
+            points: null,
+            criteria_name: null,
+            description: null
+          });
+        }
       }
     },
 
@@ -275,25 +300,25 @@ __webpack_require__.r(__webpack_exports__);
              })
      }, */
     deleteRubrics: function deleteRubrics(rubrics_id) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.loading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().delete("/api/classwork/rubric/delete/".concat(this.$route.query.clwk, "/").concat(rubrics_id)).then(function (res) {
-        _this3.loading = false;
-        _this3.deleteDialog = false;
+        _this4.loading = false;
+        _this4.deleteDialog = false;
 
-        _this3.criteria.splice(_this3.deleteIndex, 1);
+        _this4.criteria.splice(_this4.deleteIndex, 1);
 
-        _this3.$emit('deleteRubrics', rubrics_id);
+        _this4.$emit('deleteRubrics', rubrics_id);
       })["catch"](function (err) {
         //console.log(err);
-        _this3.toastError('Something went wrong');
+        _this4.toastError('Something went wrong');
 
-        _this3.loading = false;
+        _this4.loading = false;
       });
     },
     CheckCriteria: function CheckCriteria() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (this.rubricsDetails.length == 0) {
         this.criteria.push({
@@ -304,12 +329,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         this.rubricsDetails.forEach(function (item) {
-          _this4.criteria.push({
+          _this5.criteria.push({
             id: item.id,
             points: item.points,
             criteria_name: item.criteria_name,
             description: item.description
           });
+
+          _this5.totalPoints += item.points;
         });
       }
     }
@@ -338,7 +365,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .text-field>.v-input__control>.v-text-field__details>.error--text {\n    margin-top: -55px !important;\n    position: absolute !important;\n    z-index: 9999999 !important;\n\n\n} */\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* .text-field>.v-input__control>.v-text-field__details>.error--text {\n    margin-top: -55px !important;\n    position: absolute !important;\n    z-index: 9999999 !important;\n\n\n} */\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
