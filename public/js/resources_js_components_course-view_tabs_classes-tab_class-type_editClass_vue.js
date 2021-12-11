@@ -132,6 +132,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['class_id', 'class_name', 'class_details'],
@@ -22690,6 +22692,8 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
+                  _c("v-divider"),
+                  _vm._v(" "),
                   _c(
                     "v-col",
                     { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
@@ -22716,34 +22720,38 @@ var render = function() {
                                         "d-flex justify-space-between"
                                     },
                                     [
-                                      _c("div", { staticClass: "d-flex" }, [
-                                        _c(
-                                          "span",
-                                          { staticClass: "pr-1" },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              { attrs: { color: "red" } },
-                                              [_vm._v("mdi-calendar")]
+                                      _c(
+                                        "div",
+                                        { staticClass: "d-flex mt-2" },
+                                        [
+                                          _c(
+                                            "span",
+                                            { staticClass: "pr-1" },
+                                            [
+                                              _c(
+                                                "v-icon",
+                                                { attrs: { color: "red" } },
+                                                [_vm._v("mdi-calendar")]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v(_vm._s(item.day) + "- ")
+                                          ]),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v(
+                                              _vm._s(
+                                                item.display_start +
+                                                  " to " +
+                                                  item.display_end
+                                              )
                                             )
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c("span", [
-                                          _vm._v(_vm._s(item.day) + "- ")
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("span", [
-                                          _vm._v(
-                                            _vm._s(
-                                              item.display_start +
-                                                " to " +
-                                                item.display_end
-                                            )
-                                          )
-                                        ])
-                                      ]),
+                                          ])
+                                        ]
+                                      ),
                                       _vm._v(" "),
                                       _c("div", [
                                         _c(
@@ -22833,6 +22841,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card-actions",
+            { staticClass: "mt-2" },
             [
               _c("v-spacer"),
               _vm._v(" "),

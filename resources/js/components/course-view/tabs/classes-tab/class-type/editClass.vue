@@ -39,11 +39,13 @@
                         </div>
                         
                     </v-col>
+                    <v-divider></v-divider>
                     <v-col cols="12" class="pa-0 ma-0 mt-2">
                         <v-row v-if="class_details.schedule != false">
+                            
                             <v-col class="mb-0 pb-0" cols="12" v-for="(item , index) in class_details.schedule" :key="index">
                                 <div class="d-flex justify-space-between">
-                                    <div class="d-flex">
+                                    <div class="d-flex mt-2">
                                         <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
                                     
                                         <span>{{item.day}}- </span>
@@ -62,7 +64,7 @@
 
                 </v-row>
             </v-container>
-            <v-card-actions>
+            <v-card-actions class="mt-2">
 
                 <v-spacer></v-spacer>
                 <v-btn text color="secondary" @click="$emit('closeModal');">Cancel</v-btn>

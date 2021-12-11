@@ -226,10 +226,12 @@ var deleteClass = function deleteClass() {
           _this.$store.dispatch('setCourseStatus', _this.$route.params.id);
 
           _this.$store.dispatch('fetchMyCoursesStatusAgain');
+          /*    this.$router.push({
+                 name: 'coursePage'
+             }) */
 
-          _this.$router.push({
-            path: '/course/' + _this.$route.params.id + '/'
-          });
+
+          location.reload();
 
           _this.$store.dispatch('fetchScourse', _this.$route.params.id);
         });

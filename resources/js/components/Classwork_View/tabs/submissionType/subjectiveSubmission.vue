@@ -54,7 +54,7 @@
                     </v-col>
                      <v-col  cols="6" sm="3" md="2">
                          <div class="d-flex flex-column">
-                            <h1>{{Graded}}</h1>
+                            <h1>{{GradedStudent}}</h1>
                             <small>Graded</small>
                         </div>
                     </v-col>
@@ -240,6 +240,20 @@ export default {
         }
     },
      computed: {
+
+         GradedStudent() {
+              let Filterddata = this.ListData;
+                Filterddata =  Filterddata.filter((item) => {
+                    if(this.Class == this.$route.params.id){
+                        return (item.graded == 1)
+                    }
+                    else{
+                        return (item.graded == 1 && item.class_id == this.Class)
+                    }
+            })
+
+            return Filterddata.length;
+         },
         studentSubmissionList() {
            if (this.search) {
                 let data = this.search;
@@ -249,6 +263,8 @@ export default {
             } else {
                 if(this.selectedStatus == "All"){
                     let Filterddata = this.ListData;
+
+                    
                     //this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
                         if(this.selectedShowNumber != 'all'){
