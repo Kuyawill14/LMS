@@ -22846,8 +22846,8 @@ var render = function() {
                                   attrs: { icon: "" },
                                   on: {
                                     click: function($event) {
-                                      ;(_vm.addScheduleDialog = !_vm.addScheduleDialog),
-                                        (_vm.isUpdateSched = !_vm.isUpdateSched)
+                                      ;(_vm.addScheduleDialog = false),
+                                        (_vm.isUpdateSched = false)
                                     }
                                   }
                                 },
@@ -22916,7 +22916,7 @@ var render = function() {
                                                   "hide-details":
                                                     _vm.Schedvalid,
                                                   type: "time",
-                                                  label: "End time"
+                                                  label: "Start time"
                                                 },
                                                 model: {
                                                   value: _vm.start_time,

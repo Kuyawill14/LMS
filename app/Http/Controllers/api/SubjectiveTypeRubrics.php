@@ -30,8 +30,17 @@ class SubjectiveTypeRubrics extends Controller
     public function saveRubrics(Request $request, $classwork_id) {
 
 
+
+        $rubrics = new tbl_subjective_rubrics;
+        $rubrics->criteria_name = $request->criteria_name;
+        $rubrics->points = $request->points;
+        $rubrics->description = $request->description;
+        $rubrics->classwork_id =  $classwork_id;
+        $rubrics->save();
+
+        return $rubrics;
   
-        $data = $request->rubrics;
+       /*  $data = $request->rubrics;
         
         for($i = 0; $i < count( $data ); $i++) {
             $oldRubrics =  tbl_subjective_rubrics::find($data[$i]['id']);
@@ -52,13 +61,30 @@ class SubjectiveTypeRubrics extends Controller
                 }
              
             }
-
-
-
         }
 
-        return $oldRubrics;
+        return $oldRubrics; */
 
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateRubrics(Request $request, $id)
+    {
+
+        $rubrics = tbl_subjective_rubrics::find($request->id);
+        if($rubrics){
+            $rubrics->criteria_name = $request->criteria_name;
+            $rubrics->points = $request->points;
+            $rubrics->description = $request->description;
+            $rubrics->save();
+            return $rubrics;
+        }
     }
 
     public function deleteRubrics($classwork_id, $rubrics_id) {
@@ -79,7 +105,7 @@ class SubjectiveTypeRubrics extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -115,17 +141,7 @@ class SubjectiveTypeRubrics extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    
 
     /**
      * Remove the specified resource from storage.

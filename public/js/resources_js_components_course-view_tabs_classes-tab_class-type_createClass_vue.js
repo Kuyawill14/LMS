@@ -22914,7 +22914,7 @@ var render = function() {
                                                   "hide-details":
                                                     _vm.Schedvalid,
                                                   type: "time",
-                                                  label: "End time"
+                                                  label: "Start time"
                                                 },
                                                 model: {
                                                   value: _vm.start_time,

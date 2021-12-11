@@ -116,11 +116,15 @@ router.beforeEach((to, from, next) => {
                                 if (store.state.CurrentUser.CurrentStatus.exist == true) {
                                     if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                         if (to.name == 'courseSetup') {
-                                            next({
+                                            if (store.state.CurrentUser.UserRole == 'Teacher')
+                                            next({ name: 'coursePage', params: {id: to.params.id}, replace: true })
+                                            else next({ name: 'announcement', params: {id: to.params.id}, replace: true })
+
+                                           /*  next({
                                                 name: "announcement",
                                                 params: { id: to.params.id },
                                                 replace: true
-                                            })
+                                            }) */
                                         } else {
                                             next();
                                         }

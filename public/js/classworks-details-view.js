@@ -1955,6 +1955,103 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2005,7 +2102,29 @@ var rubrics = function rubrics() {
         return !!v || 'Duration is required';
       }, function (v) {
         return v && v >= 1 || "Duration should be above or eqaul to 1min";
-      }]
+      }],
+      rubrics_valid: true,
+      criteria_form: {
+        id: '',
+        points: '',
+        criteria_name: '',
+        description: ''
+      },
+      nameRules: [function (v) {
+        return !!v || 'Field is required';
+      }],
+      RubricsPointsRules: [function (v) {
+        return v && v >= 1 || "Points should be above or equal to 1";
+      }, function (v) {
+        return v && v <= 100 || "Points should not be above 100";
+      }, function (v) {
+        return !!v || 'Points is required';
+      }],
+      modalType: '',
+      deleteRubrics_id: null,
+      deleteDialog: false,
+      deleteIndex: null,
+      updateIndex: null
     };
   },
   computed: {
@@ -2043,16 +2162,105 @@ var rubrics = function rubrics() {
       }
     },
     OpenRubricsDialog: function OpenRubricsDialog() {
+      this.clearInputs();
       this.rubricsDialog = true;
+      this.modalType = 'add';
+      this.$refs.Rubricsform.resetValidation();
       this.rubricsDetails = this.Details.rubrics;
+    },
+    clearInputs: function clearInputs() {
+      this.criteria_form.id = '';
+      this.criteria_form.points = '';
+      this.criteria_form.criteria_name = '';
+      this.criteria_form.description = '';
     },
     validate: function validate() {
       if (this.$refs.UpdateClassworkForm.validate()) {
         this.UpdateClasswork();
       }
     },
-    SaveRubrics: function SaveRubrics(data) {
+    validateRubricsForm: function validateRubricsForm() {
+      if (this.$refs.Rubricsform.validate()) {
+        if (this.modalType == 'add') {
+          this.AddNewRubrics();
+        } else {
+          this.UpdateRubrics();
+        }
+      }
+    },
+    AddNewRubrics: function AddNewRubrics() {
       var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                axios.post("/api/classwork/rubrics-save/".concat(_this.$route.query.clwk), _this.criteria_form).then(function (res) {
+                  if (res) {
+                    _this.Details.rubrics.push(res.data);
+
+                    _this.rubricsDialog = false;
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    UpdateRubrics: function UpdateRubrics() {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                axios.post("/api/classwork/rubrics-update/".concat(_this2.$route.query.clwk), _this2.criteria_form).then(function (res) {
+                  if (res) {
+                    _this2.Details.rubrics[_this2.updateIndex] = res.data;
+                    _this2.rubricsDialog = false;
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    deleteRubrics: function deleteRubrics(rubrics_id) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                axios["delete"]("/api/classwork/rubric/delete/".concat(_this3.$route.query.clwk, "/").concat(_this3.deleteRubrics_id)).then(function (res) {
+                  _this3.deleteDialog = false;
+
+                  _this3.Details.rubrics.splice(_this3.deleteIndex, 1);
+                })["catch"](function (err) {
+                  _this3.toastError('Something went wrong');
+                });
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    SaveRubrics: function SaveRubrics(data) {
+      var _this4 = this;
 
       console.log(data);
       console.log(this.Details.rubrics);
@@ -2061,13 +2269,13 @@ var rubrics = function rubrics() {
       if (this.Details.rubrics.length == 0) {
         this.Details.rubrics = [];
         data.forEach(function (item) {
-          _this.Details.rubrics.push(item);
+          _this4.Details.rubrics.push(item);
         });
       } else {
         data.forEach(function (item) {
           var check = false;
 
-          _this.Details.rubrics.forEach(function (element) {
+          _this4.Details.rubrics.forEach(function (element) {
             if (element.id == item.id) {
               element.points = item.points;
               element.criteria_name = item.criteria_name;
@@ -2077,25 +2285,25 @@ var rubrics = function rubrics() {
           });
 
           if (!check) {
-            _this.Details.rubrics.push(item);
+            _this4.Details.rubrics.push(item);
           }
         });
       }
     },
     RemoveRubrics: function RemoveRubrics(id) {
-      var _this2 = this;
+      var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         var count;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 count = 0;
 
-                _this2.Details.rubrics.forEach(function (item) {
+                _this5.Details.rubrics.forEach(function (item) {
                   if (id == item.id) {
-                    _this2.Details.rubrics.splice(count, 1);
+                    _this5.Details.rubrics.splice(count, 1);
                   }
 
                   count++;
@@ -2103,44 +2311,44 @@ var rubrics = function rubrics() {
 
               case 2:
               case "end":
-                return _context.stop();
+                return _context4.stop();
             }
           }
-        }, _callee);
+        }, _callee4);
       }))();
     },
     UpdateClasswork: function UpdateClasswork() {
-      var _this3 = this;
+      var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         var fd;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _this3.isUpdatingSnackBar = true;
-                _this3.isUpdating = true; ////console.log(this.Details);
+                _this6.isUpdatingSnackBar = true;
+                _this6.isUpdating = true; ////console.log(this.Details);
 
                 fd = new FormData();
-                fd.append('course_id', _this3.Details.course_id);
-                fd.append('duration', _this3.Details.duration);
-                fd.append('instruction', _this3.Details.instruction);
-                fd.append('id', _this3.Details.id);
-                fd.append('module_id', _this3.Details.module_id);
-                fd.append('points', _this3.Details.points);
-                fd.append('title', _this3.Details.title);
-                fd.append('type', _this3.Details.type);
-                _context2.next = 13;
+                fd.append('course_id', _this6.Details.course_id);
+                fd.append('duration', _this6.Details.duration);
+                fd.append('instruction', _this6.Details.instruction);
+                fd.append('id', _this6.Details.id);
+                fd.append('module_id', _this6.Details.module_id);
+                fd.append('points', _this6.Details.points);
+                fd.append('title', _this6.Details.title);
+                fd.append('type', _this6.Details.type);
+                _context5.next = 13;
                 return axios.post('/api/classwork/update', fd).then(function (res) {
-                  _this3.isUpdating = false, _this3.toastSuccess("Classwork successfully updated");
+                  _this6.isUpdating = false, _this6.toastSuccess("Classwork successfully updated");
                 })["catch"](function (e) {});
 
               case 13:
               case "end":
-                return _context2.stop();
+                return _context5.stop();
             }
           }
-        }, _callee2);
+        }, _callee5);
       }))();
     },
     TestUpload: function TestUpload() {
@@ -2185,7 +2393,7 @@ var rubrics = function rubrics() {
       window.open(path, '_blank');
     },
     addFile: function addFile() {
-      var _this4 = this;
+      var _this7 = this;
 
       //console.log(this.Details.attachment.length);
       this.uploadIndex = this.Details.attachment.length - 1;
@@ -2201,23 +2409,23 @@ var rubrics = function rubrics() {
           var totalLength = progressEvent.lengthComputable ? total : null;
 
           if (totalLength != null) {
-            _this4.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
+            _this7.uploadPercentage = Math.round(progressEvent.loaded * 100 / totalLength);
           }
         }
       }).then(function (res) {
-        _this4.counter++;
-        _this4.uploadIndex = null;
+        _this7.counter++;
+        _this7.uploadIndex = null;
       });
     },
     RemoveFile: function RemoveFile(index) {
-      var _this5 = this;
+      var _this8 = this;
 
       if (this.Details.attachment[index].attachment != null) {
         axios.put('/api/classwork/deleteAttachment/' + this.Details.id, {
           attachment: this.Details.attachment[index].attachment
         }).then(function (res) {
           if (res.data.success == true) {
-            _this5.Details.attachment.splice(index, 1);
+            _this8.Details.attachment.splice(index, 1);
           }
         });
       } else {
@@ -2405,6 +2613,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var publishDialog = function publishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
@@ -2418,6 +2627,7 @@ var updatePublishDialog = function updatePublishDialog() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['classworkDetails'],
   components: {
     publishDialog: publishDialog,
     unpublishConfirmDialog: unpublishConfirmDialog,
@@ -15244,6 +15454,206 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.rubricsDialog,
+            callback: function($$v) {
+              _vm.rubricsDialog = $$v
+            },
+            expression: "rubricsDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c(
+                "v-container",
+                { staticClass: "pt-0 mt-0", attrs: { fluid: "" } },
+                [
+                  _c(
+                    "v-card-title",
+                    { staticClass: "mb-0" },
+                    [
+                      _c("span", { staticClass: "h6" }, [
+                        _vm._v(
+                          _vm._s(
+                            _vm.modalType == "add"
+                              ? "New Rubrics"
+                              : "Update Rubrics"
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-spacer"),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            large: "",
+                            icon: "",
+                            color: "secondary",
+                            text: ""
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.rubricsDialog = false
+                            }
+                          }
+                        },
+                        [_c("v-icon", [_vm._v("mdi-close")])],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-form",
+                    {
+                      ref: "Rubricsform",
+                      attrs: { "lazy-validation": "" },
+                      model: {
+                        value: _vm.rubrics_valid,
+                        callback: function($$v) {
+                          _vm.rubrics_valid = $$v
+                        },
+                        expression: "rubrics_valid"
+                      }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        { attrs: { "no-gutters": "" } },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "mb-0 mt-0 pt-0",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "text-field",
+                                attrs: {
+                                  outlined: "",
+                                  label: "Criteria name *",
+                                  rules: _vm.nameRules,
+                                  type: "text",
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.criteria_form.criteria_name,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.criteria_form,
+                                      "criteria_name",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "criteria_form.criteria_name"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { staticClass: "mb-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "text-field",
+                                attrs: {
+                                  outlined: "",
+                                  label: "Points *",
+                                  type: "number",
+                                  rules: _vm.RubricsPointsRules,
+                                  required: ""
+                                },
+                                model: {
+                                  value: _vm.criteria_form.points,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.criteria_form, "points", $$v)
+                                  },
+                                  expression: "criteria_form.points"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            { staticClass: "mb-0", attrs: { cols: "12" } },
+                            [
+                              _c("v-textarea", {
+                                staticClass: "text-field",
+                                attrs: {
+                                  label: "Description",
+                                  outlined: "",
+                                  "auto-grow": ""
+                                },
+                                model: {
+                                  value: _vm.criteria_form.description,
+                                  callback: function($$v) {
+                                    _vm.$set(
+                                      _vm.criteria_form,
+                                      "description",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "criteria_form.description"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "primary",
+                                block: "",
+                                rounded: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.validateRubricsForm()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            \n                            " +
+                                  _vm._s(
+                                    _vm.modalType == "add" ? "Add" : "Update"
+                                  ) +
+                                  "\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
       !_vm.isLeaving
         ? _c(
             "v-container",
@@ -15477,7 +15887,10 @@ var render = function() {
                                             [
                                               _c(
                                                 "v-col",
-                                                { staticClass: "text-left" },
+                                                {
+                                                  staticClass: "text-left",
+                                                  attrs: { cols: "6" }
+                                                },
                                                 [
                                                   _c(
                                                     "div",
@@ -15489,105 +15902,228 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "v-col",
-                                                { staticClass: "text-right" },
+                                                {
+                                                  staticClass: "text-right",
+                                                  attrs: { cols: "6" }
+                                                },
+                                                [
+                                                  _vm.Details.submitted_count ==
+                                                  0
+                                                    ? _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: {
+                                                            color: "primary",
+                                                            rounded: "",
+                                                            dark: ""
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.OpenRubricsDialog()
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("v-icon", [
+                                                            _vm._v(" mdi-plus ")
+                                                          ]),
+                                                          _vm._v(
+                                                            "\n                                            Add\n                                        "
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-col",
+                                                { attrs: { cols: "12" } },
                                                 [
                                                   _c(
-                                                    "v-btn",
-                                                    {
-                                                      attrs: {
-                                                        color: "primary",
-                                                        rounded: "",
-                                                        dark: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.OpenRubricsDialog()
-                                                        }
+                                                    "v-list",
+                                                    _vm._l(
+                                                      _vm.Details.rubrics,
+                                                      function(item, index) {
+                                                        return _c(
+                                                          "v-list-item",
+                                                          { key: index },
+                                                          [
+                                                            _c(
+                                                              "v-list-item-content",
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "d-flex justify-start"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "div",
+                                                                      {
+                                                                        staticClass:
+                                                                          "mr-5"
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "div",
+                                                                          {
+                                                                            staticClass:
+                                                                              "font-weight-bold text-h6"
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                    " +
+                                                                                _vm._s(
+                                                                                  item.points
+                                                                                ) +
+                                                                                "%\n                                                    "
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "div",
+                                                                      [
+                                                                        _c(
+                                                                          "v-list-item-title",
+                                                                          {
+                                                                            staticClass:
+                                                                              "font-weight-medium"
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                item.criteria_name
+                                                                              )
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "v-list-item-subtitle",
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                item.description
+                                                                              )
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "v-list-item-action",
+                                                              [
+                                                                _c(
+                                                                  "div",
+                                                                  {
+                                                                    staticClass:
+                                                                      "d-flex"
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          icon:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.criteria_form.id =
+                                                                              item.id),
+                                                                              (_vm.criteria_form.criteria_name =
+                                                                                item.criteria_name),
+                                                                              (_vm.criteria_form.points =
+                                                                                item.points),
+                                                                              (_vm.criteria_form.description =
+                                                                                item.description),
+                                                                              (_vm.modalType =
+                                                                                "update"),
+                                                                              (_vm.updateIndex = index)
+                                                                            _vm.rubricsDialog = true
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                        mdi-pencil\n                                                    "
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          color:
+                                                                            "red",
+                                                                          icon:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.deleteDialog = true),
+                                                                              (_vm.deleteRubrics_id =
+                                                                                item.id),
+                                                                              (_vm.deleteIndex = index)
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          [
+                                                                            _vm._v(
+                                                                              "\n                                                        mdi-delete\n                                                    "
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              ]
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
                                                       }
-                                                    },
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v(" mdi-plus ")
-                                                      ]),
-                                                      _vm._v(
-                                                        "\n                                            Add\n                                        "
-                                                      )
-                                                    ],
+                                                    ),
                                                     1
                                                   )
                                                 ],
                                                 1
                                               )
                                             ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list",
-                                            _vm._l(
-                                              _vm.Details.rubrics,
-                                              function(item, index) {
-                                                return _c(
-                                                  "v-list-item",
-                                                  { key: index },
-                                                  [
-                                                    _c("v-list-item-icon", [
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass:
-                                                            "font-weight-bold text-h6"
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            "\n                                                    " +
-                                                              _vm._s(
-                                                                item.points
-                                                              ) +
-                                                              "%\n                                                "
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "v-list-item-content",
-                                                      [
-                                                        _c(
-                                                          "v-list-item-title",
-                                                          {
-                                                            staticClass:
-                                                              "font-weight-medium"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                item.criteria_name
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "v-list-item-subtitle",
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                item.description
-                                                              )
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              }
-                                            ),
                                             1
                                           )
                                         ],
@@ -15984,43 +16520,78 @@ var render = function() {
               ),
               _vm._v(" "),
               _c(
-                "v-row",
-                { attrs: { justify: "center" } },
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "400" },
+                  model: {
+                    value: _vm.deleteDialog,
+                    callback: function($$v) {
+                      _vm.deleteDialog = $$v
+                    },
+                    expression: "deleteDialog"
+                  }
+                },
                 [
                   _c(
-                    "v-dialog",
-                    {
-                      attrs: {
-                        fullscreen: "",
-                        "hide-overlay": "",
-                        transition: "dialog-bottom-transition"
-                      },
-                      model: {
-                        value: _vm.rubricsDialog,
-                        callback: function($$v) {
-                          _vm.rubricsDialog = $$v
-                        },
-                        expression: "rubricsDialog"
-                      }
-                    },
+                    "v-card",
                     [
-                      _c("rubrics", {
-                        attrs: {
-                          rubricsDetails: _vm.rubricsDetails,
-                          total_points: _vm.Details.points,
-                          title: _vm.Details.title
-                        },
-                        on: {
-                          CloseAndSave: _vm.SaveRubrics,
-                          deleteRubrics: _vm.RemoveRubrics,
-                          CLoseRubricModal: function($event) {
-                            _vm.rubricsDialog = false
-                          },
-                          CriteriaSave: function($event) {
-                            _vm.rubricsDialog = false
-                          }
-                        }
-                      })
+                      _c("v-card-title", [
+                        _c("span", { staticClass: "headline" }, [
+                          _vm._v("Confirmation")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("v-card-text", [
+                        _vm._v(
+                          "\n                        Are you sure you want to delete this Item?\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.deleteDialog = false
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Cancel\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: {
+                                color: "red",
+                                text: "",
+                                loading: _vm.loading
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteRubrics()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Delete\n                        "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
@@ -16128,7 +16699,11 @@ var render = function() {
         [
           _vm.isAdding
             ? _c("publishDialog", {
-                attrs: { Details: _vm.Details, datetoday: _vm.datetoday },
+                attrs: {
+                  classworkDetails: _vm.classworkDetails,
+                  Details: _vm.Details,
+                  datetoday: _vm.datetoday
+                },
                 on: {
                   toggleDialog: function($event) {
                     ;(_vm.dialog = !_vm.dialog),

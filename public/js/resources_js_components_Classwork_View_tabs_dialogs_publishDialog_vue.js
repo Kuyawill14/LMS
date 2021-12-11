@@ -259,7 +259,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['Details', 'datetoday'],
+  props: ['Details', 'datetoday', 'classworkDetails'],
   data: function data() {
     return {
       InputAvailability: ['Always available', 'Set date & time', 'Unavailable'],
@@ -23099,31 +23099,33 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "text-left pb-0 mb-0 mt-0 pt-2",
-                          attrs: { cols: "12" }
-                        },
-                        [
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c("v-switch", {
-                            attrs: {
-                              "hide-details": "",
-                              label: "Review answer after submit"
+                      _vm.classworkDetails.type == "Objective Type"
+                        ? _c(
+                            "v-col",
+                            {
+                              staticClass: "text-left pb-0 mb-0 mt-0 pt-2",
+                              attrs: { cols: "12" }
                             },
-                            model: {
-                              value: _vm.ReviewAnswer,
-                              callback: function($$v) {
-                                _vm.ReviewAnswer = $$v
-                              },
-                              expression: "ReviewAnswer"
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                            [
+                              _c("v-divider"),
+                              _vm._v(" "),
+                              _c("v-switch", {
+                                attrs: {
+                                  "hide-details": "",
+                                  label: "Review answer after submit"
+                                },
+                                model: {
+                                  value: _vm.ReviewAnswer,
+                                  callback: function($$v) {
+                                    _vm.ReviewAnswer = $$v
+                                  },
+                                  expression: "ReviewAnswer"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _vm.ReviewAnswer
                         ? _c(

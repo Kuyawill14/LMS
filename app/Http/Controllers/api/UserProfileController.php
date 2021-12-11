@@ -266,8 +266,9 @@ class UserProfileController extends Controller
 
 
         $user_class = tbl_userclass::where('tbl_userclasses.user_id', $userId)
-        ->select('tbl_userclasses.class_id','tbl_userclasses.course_id','tbl_classes.schedule')
+        ->select('tbl_userclasses.class_id','tbl_userclasses.course_id','tbl_classes.schedule','tbl_classes.class_name','tbl_subject_courses.course_name', 'tbl_subject_courses.course_code')
         ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_userclasses.class_id')
+        ->leftJoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_userclasses.course_id')
         ->get();
 
         foreach($user_class as $class){

@@ -31,7 +31,7 @@
                              Schedule: 
                          </div>
                          <div>
-                             <v-btn icon  @click="addScheduleDialog = !addScheduleDialog">
+                             <v-btn icon  @click="addScheduleDialog = true">
                                 <v-icon >mdi-plus</v-icon>
                             </v-btn>
                          </div>
@@ -73,7 +73,7 @@
               <v-dialog persistent v-model="addScheduleDialog"  width="400px">
                 <v-card >
                     <v-card-title class="">
-                        <v-btn @click="addScheduleDialog = !addScheduleDialog, is_edit = false" icon>
+                        <v-btn @click="addScheduleDialog = false, is_edit = false" icon>
                             <v-icon>mdi-close</v-icon>
                         </v-btn>
                         {{!is_edit ? 'New Schedule' : 'Update Schedule'}}
@@ -93,7 +93,7 @@
                                         ></v-select>
                                     </v-col>
                                     <v-col cols="12" md="6">
-                                        <v-text-field outlined dense hide-details type="time" v-model="start_time" label="End time"></v-text-field>
+                                        <v-text-field outlined dense hide-details type="time" v-model="start_time" label="Start time"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="6">
                                         <v-text-field outlined dense hide-details v-model="end_time" type="time" label="End time"></v-text-field>

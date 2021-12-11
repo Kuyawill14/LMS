@@ -134,7 +134,7 @@
                              </v-row>
                            
                             </v-col>
-                             <v-col class="text-left pb-0 mb-0 mt-0 pt-2" cols="12">
+                             <v-col v-if="classworkDetails.type == 'Objective Type'" class="text-left pb-0 mb-0 mt-0 pt-2" cols="12">
                                  <v-divider></v-divider>
                               <!--   <v-checkbox
                                     class="pa-0 ma-0"
@@ -222,7 +222,7 @@
                 </v-container>
             </v-card-text>
             <v-card-actions class="pb-2 pl-5 pr-5">
-               
+
                
                 <v-btn rounded block color="primary" :loading="isPublishing"  @click="validate()" :disabled="loading">
                     Publish
@@ -237,7 +237,7 @@
 <script>
 import moment from 'moment-timezone';
 export default {
-    props:['Details', 'datetoday'],
+    props:['Details', 'datetoday','classworkDetails'],
   
     data(){
         return{

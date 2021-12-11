@@ -151,9 +151,9 @@
                                         </div>
                                         <v-list v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted' && !isReloadRubrics">
                                         <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
-                                            <v-list-item-avatar tile>
+                                            <v-list-item-icon tile>
                                                 <div class="font-weight-bold">{{item.points}}%</div>
-                                            </v-list-item-avatar>
+                                            </v-list-item-icon>
                                             <v-list-item-content>
                                                 <v-list-item-title class="font-weight-medium">
                                                     {{item.criteria_name}}
@@ -162,7 +162,7 @@
                                                     <p>{{item.description}}</p>
                                                 </div>
                                             </v-list-item-content>
-                                                <v-list-item-action style="width:30%" >
+                                                <v-list-item-action style="width:40% !important" >
                                                     <v-text-field rounded hide-details v-model="CheckData.rubrics_score[index].points" type="number" :suffix="'/' +item.points" class="ma-0 pa-0" dense outlined :label="item.criteria_name" >
                                                     </v-text-field>
                                                 </v-list-item-action>
