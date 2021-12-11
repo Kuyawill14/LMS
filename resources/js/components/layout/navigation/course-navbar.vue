@@ -78,6 +78,20 @@
                     </v-list-item-content>
                 </v-list-item>
                 
+
+
+                <v-list-item link class="list-nav" :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
+                    <v-list-item-action>
+                        <v-icon>mdi-book-open</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Grade Book
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item>
+                
                 <v-list-item link class="list-nav" :to="{name: 'studentProgress'}" exact v-if="role == 'Teacher'">
                     <v-list-item-action>
                         <v-icon>mdi-chart-box-outline</v-icon>
@@ -143,19 +157,6 @@
                     </v-list-item-content>
                 </v-list-item>
 
-
-
-                <v-list-item link class="list-nav" :to="{name: 'gradebook'}" exact v-if="role == 'Teacher'">
-                    <v-list-item-action>
-                        <v-icon>mdi-book-open</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title class="font-weight-medium">
-                            Grade Book
-                        </v-list-item-title>
-                    </v-list-item-content>
-
-                </v-list-item>
 
 
 
