@@ -279,40 +279,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -22701,7 +22667,7 @@ var render = function() {
                   ? "text-h6 font-weight-bold"
                   : "font-weight-bold"
               },
-              [_vm._v("EDIT PROFILE")]
+              [_vm._v("EDIT PROFILE\n                ")]
             )
           ]),
           _vm._v(" "),
@@ -22808,7 +22774,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                        Student ID\n                    "
+                                    "\n                            Student ID\n                        "
                                   )
                                 ]
                               ),
@@ -22882,7 +22848,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        First Name\n                    "
+                                "\n                            First Name\n                        "
                               )
                             ]
                           ),
@@ -22950,7 +22916,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Middle Name\n                    "
+                                "\n                            Middle Name\n                        "
                               )
                             ]
                           ),
@@ -23018,7 +22984,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Last Name\n                    "
+                                "\n                            Last Name\n                        "
                               )
                             ]
                           ),
@@ -23054,76 +23020,6 @@ var render = function() {
                                     _vm.$set(_vm.UserDetails, "lastName", $$v)
                                   },
                                   expression: "UserDetails.lastName"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { staticClass: "mb-0 pb-0", attrs: { cols: "12" } },
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            {
-                              class: _vm.$vuetify.breakpoint.xs
-                                ? "mb-0 pb-0"
-                                : "mt-2",
-                              attrs: { cols: "12", md: "2" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                        Department\n                    "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              class: _vm.$vuetify.breakpoint.lgAndUp
-                                ? "pb-0 mb-0"
-                                : "pb-0 mb-0 mt-0 pt-0",
-                              attrs: { cols: "12", md: "6" }
-                            },
-                            [
-                              _c("v-select", {
-                                staticClass: "mr-2",
-                                class: _vm.$vuetify.breakpoint.lgAndUp
-                                  ? ""
-                                  : "ma-0 pa-0",
-                                attrs: {
-                                  items: _vm.departmentsList,
-                                  "item-text": "name",
-                                  "item-value": "id",
-                                  dense: "",
-                                  outlined: ""
-                                },
-                                on: {
-                                  change: function($event) {
-                                    _vm.isNeChanges = true
-                                  }
-                                },
-                                model: {
-                                  value: _vm.UserDetails.department_id,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.UserDetails,
-                                      "department_id",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "UserDetails.department_id"
                                 }
                               })
                             ],
@@ -23194,7 +23090,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Email Address.\n                    "
+                                "\n                            Email Address.\n                        "
                               )
                             ]
                           ),
@@ -23265,7 +23161,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "mdi-" +
+                                        "\n                                    mdi-" +
                                           _vm._s(
                                             _vm.editEmail
                                               ? "pencil-off-outline"
@@ -23307,7 +23203,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Phone No.\n                    "
+                                "\n                            Phone No.\n                        "
                               )
                             ]
                           ),
@@ -23374,7 +23270,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "mdi-" +
+                                        "\n                                    mdi-" +
                                           _vm._s(
                                             _vm.editPhone
                                               ? "pencil-off-outline"
@@ -23454,7 +23350,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Facebook\n                    "
+                                "\n                            Facebook\n                        "
                               )
                             ]
                           ),
@@ -23547,11 +23443,12 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    _vm._s(
-                                      _vm.isSaving
-                                        ? "Saving..."
-                                        : "Save Changes"
-                                    )
+                                    "\n                                " +
+                                      _vm._s(
+                                        _vm.isSaving
+                                          ? "Saving..."
+                                          : "Save Changes"
+                                      )
                                   )
                                 ]
                               )
