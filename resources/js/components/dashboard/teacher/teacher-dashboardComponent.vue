@@ -9,9 +9,9 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col lg="8" class="pt-0">
+            <v-col cols="12" >
                 <v-row>
-                    <v-col lg="6" class="pt-0">
+                    <v-col cols="12" md="4" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
                                 {{allCourse.length}}
@@ -22,7 +22,7 @@
                         </v-card>
                     </v-col>
 
-                    <v-col lg="6" class="pt-0">
+                    <v-col cols="12" md="4" class="pt-0">
                         <v-card>
                             <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
                                 {{class_count}}
@@ -32,46 +32,50 @@
                             </div>
                         </v-card>
                     </v-col>
+
+                    <v-col cols="12" md="4" class="pt-0">
+                        <v-card>
+                            <div class="text-center" style="font-size: 3rem;color:#FF5400 ">
+                                {{student_count}}
+                            </div>
+                            <div class="text-center">
+                                My Total Student
+                            </div>
+                        </v-card>
+                    </v-col>
                 </v-row>
 
-                <v-row>
-                    <v-col cols="12">
+                <v-row  >
+                    <v-col cols="12" md="8">
                         <progressChart :allCourse="allCourse"> </progressChart>
                     </v-col>
-                    <v-col>
-
+                    <v-col cols="12" md="4">
+                         <v-card @click="calendarDialog = true">
+                                <v-dialog transition="dialog-bottom-transition" max-width="1000px"  v-model="calendarDialog" id="calendar_modal">
+                                    <v-card class="pt-3">
+                                        <myCalendar :role="role"></myCalendar>
+                                        <br> 
+                                    </v-card>
+                                </v-dialog>
+                            <myCalendar :role="role"></myCalendar>
+                        </v-card>
                     </v-col>
                 </v-row>
 
 
-                <v-row class="mt-0">
-                    <v-col>
+                <v-row >
+                    <v-col class="12" >
                         <teacherCourses></teacherCourses>
                     </v-col>
+                   
                 </v-row>
 
             </v-col>
 
-            <v-col lg="4" >
+           <!--  <v-col lg="4" >
                 <v-row>
                     <v-col class="pt-0">
-                        <v-card @click="calendarDialog = true">
-
-                            <v-dialog transition="dialog-bottom-transition" max-width="1000px"  v-model="calendarDialog" id="calendar_modal">
-
-                                <v-card class="pt-3">
-                                  <!--   <v-card-actions>
-                                    <v-btn icon  @click="calendarDialog = false"> <v-icon>mdi-close</v-icon> </v-btn>
-                                </v-card-actions> -->
-                                    <myCalendar :role="role"></myCalendar>
-                                    <br> 
-                                  
-                                </v-card>
-
-                            </v-dialog>
-
-                            <myCalendar :role="role"></myCalendar>
-                        </v-card>
+                        
                     </v-col>
                 </v-row>
 
@@ -85,7 +89,7 @@
                 </v-row>
 
 
-            </v-col>
+            </v-col> -->
 
 
 
@@ -118,6 +122,7 @@
         data() {
             return {
                 class_count: 0,
+                student_count: 0,
                 calendarDialog: false,
             };
         },
@@ -128,7 +133,8 @@
 
                 axios.get('/api/class/count')
                     .then(res => {
-                        this.class_count = res.data;
+                        this.class_count = res.data.classCount;
+                        this.student_count = res.data.studentCount;
                     })
 
             },

@@ -9,21 +9,20 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\tbl_classpost;
+use App\Models\tbl_userclass;
 
-class NewPost implements ShouldBroadcast
+class NewUserCLass implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
-    public $newPost;
+    public $newUserClass;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(tbl_classpost $newPost)
+    public function __construct(tbl_userclass $newUserClass)
     {
-        $this->newPost = $newPost;
+        $this->newUserClass = $newUserClass;
     }
 
     /**
@@ -33,11 +32,11 @@ class NewPost implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('post.'. $this->newPost->course_id);
+        return new PrivateChannel('newuserclass');
     }
 
     public function broadcastWith()
     {
-        return ['post' =>  $this->newPost];
+        return ['newuserclass' => $this->newUserClass];
     }
 }

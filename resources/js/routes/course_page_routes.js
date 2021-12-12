@@ -14,12 +14,12 @@ const routes = [
                 name: "coursePage",
                 path: "",
                 component: () => import (/* webpackChunkName: "Course_Page" */"../components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent"),
-               /*  beforeEnter: (to, from, next) => {
+                beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
                     else next({ name: 'announcement', params: {id: to.params.id}, replace: true })
-                } */
+                }
 
-                beforeEnter: (to, from, next) => {
+              /*   beforeEnter: (to, from, next) => {
                     store.dispatch('fetchMyCoursesStatus').then((res) => {
                         if (res.status == 200) {
                             store.dispatch('CheckMyCourse', to.params.id).then(response => {
@@ -50,7 +50,7 @@ const routes = [
                         }
                     })
 
-                },
+                }, */
             },
             {
                 path: "setup",

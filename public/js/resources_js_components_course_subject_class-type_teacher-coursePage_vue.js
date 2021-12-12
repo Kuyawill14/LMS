@@ -381,6 +381,13 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
         });
       }
     },
+    connect: function connect() {
+      var newVm = this;
+      this.fetchCourses();
+      window.Echo["private"]("newuserclass").listen('newuserclass', function (e) {
+        newVm.fetchCourses();
+      });
+    },
     fetchCourses: function fetchCourses() {
       var _this4 = this;
 

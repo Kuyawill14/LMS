@@ -191,10 +191,10 @@
                             this.toastSuccess('Course setup completed!');
                             this.$store.dispatch('setCourseStatus', this.$route.params.id);
                             this.$store.dispatch('fetchMyCoursesStatusAgain');
-                         /*    this.$router.push({
+                            this.$router.push({
                                 name: 'coursePage'
-                            }) */
-                            location.reload();
+                            })
+                            //location.reload();
                             this.$store.dispatch('fetchScourse', this.$route.params.id);
                         })
                 }

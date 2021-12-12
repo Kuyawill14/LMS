@@ -19,7 +19,7 @@
         <v-row class="pt-2" align="center" justify="center">
 
 
-            <v-col cols="12" md="10">
+            <v-col cols="12" md="12">
                 <v-card elevation="2">
                     <v-simple-table>
                         <template v-slot:default>
@@ -48,7 +48,7 @@
                                             </v-icon>
 
                                         </v-btn>
-                                        <v-btn icon color="red"  @click="openDelete(gradeCriteria.id)">
+                                        <v-btn icon color="red"  @click="openDelete(gradeCriteria)">
                                             <v-icon>
                                                 mdi-delete
                                             </v-icon>
@@ -105,19 +105,18 @@
 
 
 
-        <v-dialog v-model="Deldialog" persistent max-width="290">
+        <v-dialog v-model="Deldialog" persistent max-width="390">
            
             <v-card>
-                <v-card-title class="headline">
+                <v-card-title >
                     Are you sure you want to delete this?
                 </v-card-title>
-                <v-card-text>{some message} </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn  text  @click="Deldialog = false" >
+                    <v-btn rounded text  @click="Deldialog = false" >
                         No
                     </v-btn>
-                    <v-btn color="primary" text  @click="removeGradeCriteria()">
+                    <v-btn rounded color="primary" text  @click="removeGradeCriteria()">
                         Yes
                     </v-btn>
                 </v-card-actions>
@@ -201,9 +200,15 @@
                 this.grading_criteria_form.id = id;
                 this.grading_criteria_form.course_id = this.$route.params.id;;
             },
-             openDelete(id) {
-              this.delId = id;
-                this.Deldialog = true;
+             openDelete(data) {
+                 if(data.publish_count == 0){
+                    this.delId = data.id;
+                    this.Deldialog = true;
+                 }else{
+                     this.toastError('There is already published classwork in this criteria!')
+                 }
+
+               
             },
             addGradeCriteria() {
 

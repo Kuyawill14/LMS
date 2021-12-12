@@ -115,6 +115,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var myNotification = function myNotification() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
 };
@@ -143,6 +147,7 @@ var progressChart = function progressChart() {
   data: function data() {
     return {
       class_count: 0,
+      student_count: 0,
       calendarDialog: false
     };
   },
@@ -152,7 +157,8 @@ var progressChart = function progressChart() {
       var _this = this;
 
       axios.get('/api/class/count').then(function (res) {
-        _this.class_count = res.data;
+        _this.class_count = res.data.classCount;
+        _this.student_count = res.data.studentCount;
       });
     }
   }),
@@ -390,14 +396,14 @@ var render = function() {
         [
           _c(
             "v-col",
-            { staticClass: "pt-0", attrs: { lg: "8" } },
+            { attrs: { cols: "12" } },
             [
               _c(
                 "v-row",
                 [
                   _c(
                     "v-col",
-                    { staticClass: "pt-0", attrs: { lg: "6" } },
+                    { staticClass: "pt-0", attrs: { cols: "12", md: "4" } },
                     [
                       _c("v-card", [
                         _c(
@@ -430,7 +436,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "pt-0", attrs: { lg: "6" } },
+                    { staticClass: "pt-0", attrs: { cols: "12", md: "4" } },
                     [
                       _c("v-card", [
                         _c(
@@ -459,6 +465,39 @@ var render = function() {
                       ])
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pt-0", attrs: { cols: "12", md: "4" } },
+                    [
+                      _c("v-card", [
+                        _c(
+                          "div",
+                          {
+                            staticClass: "text-center",
+                            staticStyle: {
+                              "font-size": "3rem",
+                              color: "#FF5400"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.student_count) +
+                                "\n                        "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "text-center" }, [
+                          _vm._v(
+                            "\n                            My Total Student\n                        "
+                          )
+                        ])
+                      ])
+                    ],
+                    1
                   )
                 ],
                 1
@@ -469,7 +508,7 @@ var render = function() {
                 [
                   _c(
                     "v-col",
-                    { attrs: { cols: "12" } },
+                    { attrs: { cols: "12", md: "8" } },
                     [
                       _c("progressChart", {
                         attrs: { allCourse: _vm.allCourse }
@@ -478,31 +517,9 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("v-col")
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-row",
-                { staticClass: "mt-0" },
-                [_c("v-col", [_c("teacherCourses")], 1)],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { lg: "4" } },
-            [
-              _c(
-                "v-row",
-                [
                   _c(
                     "v-col",
-                    { staticClass: "pt-0" },
+                    { attrs: { cols: "12", md: "4" } },
                     [
                       _c(
                         "v-card",
@@ -560,7 +577,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                [_c("v-col", [_c("v-card", [_c("myNotification")], 1)], 1)],
+                [_c("v-col", { staticClass: "12" }, [_c("teacherCourses")], 1)],
                 1
               )
             ],

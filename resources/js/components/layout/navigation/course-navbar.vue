@@ -151,8 +151,9 @@
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title class="font-weight-medium">
-                            People<br>
-                            <small class="font-weight-regular">Instructors & Students</small>
+                            {{role == 'Student' ? 'People' : 'Student'}}
+                            <br v-if="role == 'Student'">
+                            <small v-if="role == 'Student'" class="font-weight-regular">Instructors & Students</small>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>

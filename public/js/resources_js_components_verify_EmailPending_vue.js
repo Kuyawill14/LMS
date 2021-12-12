@@ -80,86 +80,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 var resendAndChangeEmail = function resendAndChangeEmail() {
   return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./ResendAndChangeEmail */ "./resources/js/components/verify/ResendAndChangeEmail.vue"));
 };
 
+var loginRegisterFooter = function loginRegisterFooter() {
+  return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterFooter */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterFooter.vue"));
+};
+
+var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
+  return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterImageConatiner */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterImageConatiner.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    resendAndChangeEmail: resendAndChangeEmail
+    resendAndChangeEmail: resendAndChangeEmail,
+    loginRegisterImageConatiner: loginRegisterImageConatiner,
+    loginRegisterFooter: loginRegisterFooter
   },
   data: function data() {
     return {
@@ -168,8 +107,7 @@ var resendAndChangeEmail = function resendAndChangeEmail() {
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["get_CurrentUser"]),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchCurrentUser"])),
-  mounted: function mounted() {
-    this.fetchCurrentUser();
+  mounted: function mounted() {//this.fetchCurrentUser();
   }
 });
 
@@ -274,6 +212,7 @@ var render = function() {
         [
           _c(
             "v-row",
+            { attrs: { align: "center", justify: "center" } },
             [
               _c(
                 "v-col",
@@ -295,179 +234,7 @@ var render = function() {
                       attrs: { align: "center", justify: "center" }
                     },
                     [
-                      _c(
-                        "v-col",
-                        {
-                          staticClass: "primary ma-0 pa-0 d-flex flex-column",
-                          style:
-                            _vm.$vuetify.breakpoint.xs ||
-                            _vm.$vuetify.breakpoint.sm
-                              ? "height:35vh;"
-                              : "height:100vh",
-                          attrs: { cols: "12", md: "4" }
-                        },
-                        [
-                          _vm.$vuetify.breakpoint.xs ||
-                          _vm.$vuetify.breakpoint.sm
-                            ? _c(
-                                "v-container",
-                                {
-                                  staticClass:
-                                    "pb-0 mb-0 pl-5 d-flex justify-space-between"
-                                },
-                                [
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/isu_logo1.png"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/ccsict_logo_2.png"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-container",
-                            {
-                              staticClass: "fill-height",
-                              attrs: { fluid: "" }
-                            },
-                            [
-                              _c(
-                                "v-card-text",
-                                [
-                                  _c(
-                                    "v-form",
-                                    { staticClass: "text-center" },
-                                    [
-                                      _c(
-                                        "v-row",
-                                        {
-                                          attrs: {
-                                            align: "center",
-                                            justify: "center"
-                                          }
-                                        },
-                                        [
-                                          _c(
-                                            "v-col",
-                                            { attrs: { cols: "12" } },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "display-2 white--text font-weight-bold"
-                                                },
-                                                [_vm._v("ORANGE")]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                { staticClass: "white--text" },
-                                                [
-                                                  _c(
-                                                    "b",
-                                                    { staticClass: "text-h6" },
-                                                    [_vm._v("O")]
-                                                  ),
-                                                  _vm._v("nline "),
-                                                  _c(
-                                                    "b",
-                                                    { staticClass: "text-h6" },
-                                                    [_vm._v("R")]
-                                                  ),
-                                                  _vm._v("esources "),
-                                                  _c(
-                                                    "b",
-                                                    { staticClass: "text-h6" },
-                                                    [_vm._v("A")]
-                                                  ),
-                                                  _vm._v("pp for a "),
-                                                  _c(
-                                                    "b",
-                                                    { staticClass: "text-h6" },
-                                                    [_vm._v("N")]
-                                                  ),
-                                                  _vm._v("ew "),
-                                                  _c(
-                                                    "b",
-                                                    { staticClass: "text-h6" },
-                                                    [_vm._v("G")]
-                                                  ),
-                                                  _vm._v("uild of "),
-                                                  _c(
-                                                    "b",
-                                                    { staticClass: "text-h6" },
-                                                    [_vm._v("E")]
-                                                  ),
-                                                  _vm._v("ducation")
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          !_vm.$vuetify.breakpoint.xs &&
-                          !_vm.$vuetify.breakpoint.sm
-                            ? _c(
-                                "v-container",
-                                {
-                                  staticClass:
-                                    "pb-0 mb-0 pl-5 d-flex justify-center"
-                                },
-                                [
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/isu_logo1.png"
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("v-img", {
-                                    attrs: {
-                                      height: "70",
-                                      width: "70",
-                                      "max-height": "70",
-                                      "max-width": "70",
-                                      src: "../images/ccsict_logo_2.png"
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _vm._e()
-                        ],
-                        1
-                      ),
+                      _c("loginRegisterImageConatiner"),
                       _vm._v(" "),
                       _c(
                         "v-col",
@@ -475,238 +242,260 @@ var render = function() {
                           class: _vm.$vuetify.breakpoint.xs
                             ? "ma-0 pa-3"
                             : "ma-0 pa-0",
-                          attrs: { cols: "12", md: "8" }
+                          attrs: { cols: "12", md: "5" }
                         },
                         [
+                          _c("vue-element-loading", {
+                            attrs: {
+                              active: _vm.isLoggin,
+                              spinner: "bar-fade-scale",
+                              color: "#EF6C00"
+                            }
+                          }),
+                          _vm._v(" "),
                           _c(
-                            "v-container",
-                            {
-                              staticClass: "d-flex align-start",
-                              attrs: { "ma-0": "", "pa-0": "", fluid: "" }
-                            },
+                            "v-row",
+                            { attrs: { align: "center", justify: "center" } },
                             [
                               _c(
-                                "v-card-text",
+                                "v-col",
+                                {
+                                  staticClass: "text-left",
+                                  attrs: {
+                                    cols: "12",
+                                    md: "12",
+                                    lg: "12",
+                                    sm: "7"
+                                  }
+                                },
                                 [
                                   _c(
-                                    "v-form",
-                                    { staticClass: "text-center" },
+                                    "v-card-text",
                                     [
                                       _c(
-                                        "v-row",
-                                        {
-                                          attrs: {
-                                            align: "center",
-                                            justify: "center"
-                                          }
-                                        },
+                                        "v-form",
+                                        { staticClass: "text-center" },
                                         [
                                           _c(
-                                            "v-col",
-                                            { attrs: { cols: "12" } },
+                                            "v-row",
+                                            {
+                                              attrs: {
+                                                align: "center",
+                                                justify: "center"
+                                              }
+                                            },
                                             [
                                               _c(
-                                                "v-row",
-                                                {
-                                                  attrs: {
-                                                    align: "center",
-                                                    justify: "center"
-                                                  }
-                                                },
+                                                "v-col",
+                                                { attrs: { cols: "12" } },
                                                 [
-                                                  !_vm.isResending
-                                                    ? _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "text-center",
-                                                          attrs: {
-                                                            cols: "12",
-                                                            md: "8",
-                                                            xl: "5",
-                                                            lg: "5"
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-avatar",
+                                                  _c(
+                                                    "v-row",
+                                                    {
+                                                      attrs: {
+                                                        align: "center",
+                                                        justify: "center"
+                                                      }
+                                                    },
+                                                    [
+                                                      !_vm.isResending
+                                                        ? _c(
+                                                            "v-col",
                                                             {
+                                                              staticClass:
+                                                                "text-center",
                                                               attrs: {
-                                                                size: "100",
-                                                                color: "primary"
+                                                                cols: "12",
+                                                                md: "8",
+                                                                xl: "8",
+                                                                lg: "8"
                                                               }
                                                             },
                                                             [
                                                               _c(
-                                                                "v-icon",
+                                                                "v-avatar",
                                                                 {
-                                                                  staticStyle: {
-                                                                    "font-size":
-                                                                      "3.5rem"
-                                                                  },
                                                                   attrs: {
+                                                                    size: "100",
                                                                     color:
-                                                                      "white"
+                                                                      "primary"
                                                                   }
                                                                 },
                                                                 [
-                                                                  _vm._v(
-                                                                    "\n                                                            mdi-email\n                                                        "
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      staticStyle: {
+                                                                        "font-size":
+                                                                          "3.5rem"
+                                                                      },
+                                                                      attrs: {
+                                                                        color:
+                                                                          "white"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                                                                  mdi-email\n                                                              "
+                                                                      )
+                                                                    ]
                                                                   )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "text-h5"
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "Verification Pending"
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c("p", [
-                                                            _vm._v(
-                                                              "We've sent and email to "
-                                                            ),
-                                                            _c(
-                                                              "a",
-                                                              {
-                                                                attrs: {
-                                                                  href: ""
-                                                                }
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  _vm._s(
-                                                                    _vm
-                                                                      .get_CurrentUser
-                                                                      .email
-                                                                  )
-                                                                )
-                                                              ]
-                                                            ),
-                                                            _vm._v(
-                                                              " \n                                                        to verify your email address and active your account. If you cannot find the mail, please also check the Junk/Spam folder.\n                                                    "
-                                                            )
-                                                          ]),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "p",
-                                                            {
-                                                              staticClass:
-                                                                "pl-5 pr-5"
-                                                            },
-                                                            [
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
                                                               _c(
-                                                                "a",
+                                                                "div",
                                                                 {
-                                                                  attrs: {
-                                                                    href: ""
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      $event.preventDefault()
-                                                                      _vm.isResending = true
-                                                                    }
-                                                                  }
+                                                                  staticClass:
+                                                                    "text-h5"
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    " Click here "
+                                                                    "Verification Pending"
                                                                   )
                                                                 ]
                                                               ),
-                                                              _vm._v(
-                                                                "\n                                                      if you did not receive an email or would like to change the email address you signup up with.\n                                                    "
-                                                              )
-                                                            ]
-                                                          )
-                                                        ],
-                                                        1
-                                                      )
-                                                    : _vm._e(),
-                                                  _vm._v(" "),
-                                                  _vm.isResending
-                                                    ? _c(
-                                                        "v-col",
-                                                        {
-                                                          staticClass:
-                                                            "text-center",
-                                                          attrs: {
-                                                            cols: "12",
-                                                            md: "8",
-                                                            xl: "5",
-                                                            lg: "5"
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-avatar",
-                                                            {
-                                                              attrs: {
-                                                                size: "100",
-                                                                color: "primary"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  staticStyle: {
-                                                                    "font-size":
-                                                                      "3.5rem"
+                                                              _vm._v(" "),
+                                                              _c("p", [
+                                                                _vm._v(
+                                                                  "We've sent an email to "
+                                                                ),
+                                                                _c(
+                                                                  "a",
+                                                                  {
+                                                                    attrs: {
+                                                                      href: ""
+                                                                    }
                                                                   },
-                                                                  attrs: {
-                                                                    color:
-                                                                      "white"
-                                                                  }
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        _vm
+                                                                          .get_CurrentUser
+                                                                          .email
+                                                                      )
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(
+                                                                  " \n                                                              to verify your email address and active your account. If you cannot find the e-mail, please also check the Junk/Spam folder.\n                                                          "
+                                                                )
+                                                              ]),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "p",
+                                                                {
+                                                                  staticClass:
+                                                                    "pl-5 pr-5"
                                                                 },
                                                                 [
+                                                                  _c(
+                                                                    "a",
+                                                                    {
+                                                                      attrs: {
+                                                                        href: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          $event.preventDefault()
+                                                                          _vm.isResending = true
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        " Click here "
+                                                                      )
+                                                                    ]
+                                                                  ),
                                                                   _vm._v(
-                                                                    "\n                                                            mdi-email\n                                                        "
+                                                                    "\n                                                            if you did not receive an email or would like to change the email address you signup up with.\n                                                          "
                                                                   )
                                                                 ]
                                                               )
                                                             ],
                                                             1
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "div",
+                                                          )
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _vm.isResending
+                                                        ? _c(
+                                                            "v-col",
                                                             {
                                                               staticClass:
-                                                                "text-h5"
+                                                                "text-center",
+                                                              attrs: {
+                                                                cols: "12",
+                                                                md: "10",
+                                                                xl: "8",
+                                                                lg: "8"
+                                                              }
                                                             },
                                                             [
-                                                              _vm._v(
-                                                                "Resend Verification"
+                                                              _c(
+                                                                "v-avatar",
+                                                                {
+                                                                  attrs: {
+                                                                    size: "100",
+                                                                    color:
+                                                                      "primary"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      staticStyle: {
+                                                                        "font-size":
+                                                                          "3.5rem"
+                                                                      },
+                                                                      attrs: {
+                                                                        color:
+                                                                          "white"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                                                                    mdi-email\n                                                                "
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ],
+                                                                1
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-h5"
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "Resend Verification"
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "resendAndChangeEmail",
+                                                                {
+                                                                  attrs: {
+                                                                    get_CurrentUser:
+                                                                      _vm.get_CurrentUser
+                                                                  }
+                                                                }
                                                               )
-                                                            ]
-                                                          ),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "resendAndChangeEmail",
-                                                            {
-                                                              attrs: {
-                                                                get_CurrentUser:
-                                                                  _vm.get_CurrentUser
-                                                              }
-                                                            }
+                                                            ],
+                                                            1
                                                           )
-                                                        ],
-                                                        1
-                                                      )
-                                                    : _vm._e()
+                                                        : _vm._e()
+                                                    ],
+                                                    1
+                                                  )
                                                 ],
                                                 1
                                               )
@@ -727,7 +516,9 @@ var render = function() {
                           )
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _c("loginRegisterFooter")
                     ],
                     1
                   )

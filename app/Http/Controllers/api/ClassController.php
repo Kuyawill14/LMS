@@ -10,6 +10,8 @@ use App\Models\Tbl_class;
 use App\Models\tbl_userclass;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
+use App\Models\tbl_teacher_course;
+use App\Models\tbl_subject_course;
 
 class ClassController extends Controller
 {
@@ -228,14 +230,32 @@ class ClassController extends Controller
 
     public function classCount() {
         $userId = auth('sanctum')->id();
-        $classCount = tbl_userclass::
-        select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_name')
+        $classCount = tbl_userclass::where('tbl_userclasses.user_id', $userId)
         ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-        ->where('tbl_userclasses.user_id', $userId)
-        ->orderBy('tbl_classes.created_at', 'ASC')
         ->count();
 
-        return $classCount;
+
+        
+        
+        
+        $studentCount = 0;
+        if(auth('sanctum')->user()->role == 'Teacher'){
+            $course_list = tbl_teacher_course::where('user_id', $userId)->get();
+            foreach($course_list as $item){
+                $tmpCount = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id)
+                ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
+                ->where('users.role', 'Student')
+                ->count();
+                $studentCount += $tmpCount;
+            }
+        }
+
+        //return [$classCount, ];
+
+        return response()->json([
+            "classCount"=>$classCount, 
+            "studentCount"=>$studentCount
+        ]);
     }
 
    

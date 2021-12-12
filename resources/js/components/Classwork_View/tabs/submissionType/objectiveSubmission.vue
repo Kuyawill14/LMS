@@ -66,7 +66,7 @@
                         </v-select>
                     </v-col>
                     <v-col cols="12" md="2" sm="12" lg="2" xl="2" class="pt-0 mt-0 pb-0 mb-0 pt-1 pb-3">
-                        <v-select outlined hide-details dense @change="ShowLoading" label="Sort By"
+                        <v-select outlined :disabled="selectedStatus == 'All'" hide-details dense @change="ShowLoading" label="Sort By"
                             v-model="selectedSort" class="mb-0 pb-0" :items="SortType">
                         </v-select>
                     </v-col>
@@ -190,7 +190,7 @@
     </v-col> -->
             <v-row>
                 <v-dialog v-model="resetdialog" persistent max-width="550">
-                    <resetStudentSubmissionDialog scrollable v-on:toggleDialog="resetdialog = !resetdialog"
+                        <resetStudentSubmissionDialog scrollable v-on:toggleDialog="resetdialog = !resetdialog"
                         v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList"
                         v-if="resetdialog"></resetStudentSubmissionDialog>
                 </v-dialog>
@@ -246,8 +246,8 @@
                 Details: [],
                 Reload: true,
                 Class: this.$route.params.id,
-                StatusType: ['Submitted', 'Taking', 'No Submission'],
-                selectedStatus: 'Submitted',
+                StatusType: ['All','Submitted', 'Taking', 'No Submission'],
+                selectedStatus: 'All',
                 SortType: ['Name', 'Highest Score', 'Lowest Score'],
                 selectedShowNumber: 24,
                 ShowNumber: [24, 36, 48, 'all'],
@@ -276,19 +276,7 @@
                 return this.indexStart + this.pageSize;
             },
             studentSubmissionList() {
-                /*  if(this.selectedStatus == "All"){
-                    if (this.search) {
-                            let data = this.search;
-                            return this.ListData.filter((element) => {
-                                return data.toLowerCase().split(' ').every(v => element.firstName.toLowerCase()
-                                .includes(v) || element.lastName.toLowerCase()
-                                .includes(v))
-                        })
-                    }
-                    else{
-                        return this.ListData;
-                    }
-                } */
+                
                 if (this.search) {
                     let data = this.search;
                     return this.ListData.filter((element) => {
@@ -297,7 +285,19 @@
                             .includes(v))
                     })
                 } else {
-                    if (this.selectedStatus == "Submitted") {
+                    if(this.selectedStatus == "All"){
+                        let Filterddata = this.ListData;
+                        if(this.selectedSort == "Name"){
+                            if(this.selectedShowNumber != 'all'){
+                                let data2 = Filterddata.sort();
+                                return data2.splice(0, this.selectedShowNumber)
+                            }
+                            else{
+                                return Filterddata.sort();
+                            }
+                        }
+                    }
+                    else if (this.selectedStatus == "Submitted") {
                         let Filterddata = this.ListData;
                         Filterddata = Filterddata.filter((item) => {
                             if (this.Class == this.$route.params.id) {

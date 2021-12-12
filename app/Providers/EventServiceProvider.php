@@ -25,6 +25,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listener\SendNewNotification'
         ],
 
+        'App\Events\NewUserCLass' =>[
+            'App\Listener\NewUserClassListener'
+        ],
+
     ];
 
     /**

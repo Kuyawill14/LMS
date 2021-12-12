@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\tbl_Submission;
 use App\Models\User;
 use App\Models\tbl_notification;
@@ -23,7 +24,10 @@ use App\Mail\SendInviteMail;
 use App\Mail\AlertStudentMail;
 use App\Jobs\ProcessEmails;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use App\Events\NewUserCLass;
+
+
+
 
 
 class TeacherController extends Controller
@@ -454,7 +458,10 @@ class TeacherController extends Controller
             $JoinClass->user_id = $checkJoinRequest->user_id;
             $JoinClass->course_id = $checkJoinRequest->course_id;
             $JoinClass->save();
+            broadcast(new NewUserCLass($JoinClass))->toOthers();
             $checkJoinRequest->delete();
+
+         
 
             return response()->json([
             'course_id'=>$JoinClass->course_id, 

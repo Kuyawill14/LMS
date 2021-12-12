@@ -116,68 +116,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['ListData', 'ClassList'],
   data: function data() {
@@ -186,7 +124,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       Class: this.$route.params.id,
       selectAll: null,
       SelectedAll_submission_id: [],
-      iReseting: false
+      iReseting: false,
+      resetConfirm: false
     };
   },
   methods: {
@@ -247,6 +186,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _this3.iReseting = true;
+                _this3.resetConfirm = false;
                 ResetData = [];
 
                 _this3.SelectedAll_submission_id.forEach(function (item) {
@@ -283,7 +223,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }) */
 
 
-              case 4:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -475,11 +415,11 @@ var render = function() {
                       { staticClass: "d-flex" },
                       [
                         _vm._v(
-                          "\n                         \n                         " +
+                          "\n                        \n                        " +
                             _vm._s(
                               _vm.selectAll ? "Unselect all" : "Select all"
                             ) +
-                            "\n                         "
+                            "\n                        "
                         ),
                         _c("v-checkbox", {
                           attrs: { color: "primary" },
@@ -631,11 +571,83 @@ var render = function() {
               },
               on: {
                 click: function($event) {
-                  return _vm.ResetSubmission()
+                  _vm.resetConfirm = true
                 }
               }
             },
-            [_vm._v("\n                 Reset Submissions\n             ")]
+            [_vm._v("\n                Reset Submissions\n            ")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "400" },
+          model: {
+            value: _vm.resetConfirm,
+            callback: function($$v) {
+              _vm.resetConfirm = $$v
+            },
+            expression: "resetConfirm"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", [_vm._v("Confirm Reset")]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "\n                    Are you sure to reset the submission of this student?\n                "
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { rounded: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.resetConfirm = false
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                       Cancel\n                    "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { rounded: "", text: "", color: "primary" },
+                      on: {
+                        click: function($event) {
+                          return _vm.ResetSubmission()
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                        Confirm\n                    "
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
           )
         ],
         1

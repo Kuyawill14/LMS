@@ -117,6 +117,7 @@
                     .then(res => {
                         this.mytask = res.data;
                         this.isGetting = false;
+                        this.$emit('RecieveTotalClasswork',this.mytask.length)
                     })
             }
             

@@ -161,7 +161,7 @@ var myTask = function myTask() {
       var _this = this;
 
       axios.get('/api/class/count').then(function (res) {
-        _this.class_count = res.data;
+        _this.class_count = res.data.classCount;
       });
     },
     TotalClasswork: function TotalClasswork(data) {
@@ -517,7 +517,13 @@ var render = function() {
                           _c(
                             "v-card",
                             { attrs: { outlined: "", elevation: "2" } },
-                            [_c("myTask")],
+                            [
+                              _c("myTask", {
+                                on: {
+                                  RecieveTotalClasswork: _vm.TotalClasswork
+                                }
+                              })
+                            ],
                             1
                           )
                         ],
@@ -585,12 +591,7 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _c("myCalendar", {
-                                attrs: { role: _vm.role },
-                                on: {
-                                  RecieveTotalClasswork: _vm.TotalClasswork
-                                }
-                              })
+                              _c("myCalendar", { attrs: { role: _vm.role } })
                             ],
                             1
                           )

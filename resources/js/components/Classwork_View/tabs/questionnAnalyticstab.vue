@@ -40,14 +40,13 @@
             <v-col cols="12" md="8">
                 <v-card elevation="1" outlined class="pa-5">
                     <v-card-title>
-                    <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        placeholder="Search question"
-                        label="Search"
-                        single-line
-                        hide-details>
-                        
+                        <v-text-field
+                            v-model="search"
+                            append-icon="mdi-magnify"
+                            placeholder="Search question"
+                            label="Search"
+                            single-line
+                            hide-details>
                         </v-text-field>
                     </v-card-title>
                     <v-data-table
@@ -77,39 +76,20 @@ export default {
 
     data(){
         return{
-            isLeaving: false,
-            List:[],
-            search:'',
-            selectedTasks: [],
-            isloading: true,
-        
+           isLeaving: false,
+           List:[],
+           search:'',
+           selectedTasks: [],
+           isloading: true,
            isSettingData: false,
            isSelected: null,
            submissionLength: 0,
            isMaintenance: false,
-            headers: [
+           headers: [
                 { text: 'Question', align: 'start',value: 'question'},
                 { text: 'Correct Student',   filterable: false, align: 'center', value: 'correct_count'},
-                { text: 'Wrong Student',   filterable: false, align: 'center', value: 'wrong_count' },
+                { text: 'Incorrect Student',   filterable: false, align: 'center', value: 'wrong_count' },
             ],
-           desserts: [
-            {
-                name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                iron: '1%',
-            },
-            {
-                name: 'Ice cream sandwich',
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                iron: '1%',
-            },
-           ]
         }
     },
     methods:{

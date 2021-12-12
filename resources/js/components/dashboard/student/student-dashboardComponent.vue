@@ -51,7 +51,7 @@
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 1">
                     <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'mt-0 pt-0 ' :''">
                         <v-card outlined elevation="2">
-                            <myTask> </myTask>
+                            <myTask v-on:RecieveTotalClasswork="TotalClasswork"> </myTask>
                          </v-card>
                     </v-col>
                 </v-row>
@@ -66,7 +66,7 @@
                                          <br> 
                                     </v-card>
                                 </v-dialog>
-                            <myCalendar :role="role" v-on:RecieveTotalClasswork="TotalClasswork"></myCalendar>
+                            <myCalendar :role="role" ></myCalendar>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -126,7 +126,7 @@
             classCount() {
                 axios.get('/api/class/count')
                     .then(res => {
-                        this.class_count = res.data;
+                        this.class_count = res.data.classCount;
                     })
             },
             TotalClasswork(data) {

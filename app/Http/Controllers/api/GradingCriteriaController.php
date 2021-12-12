@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\tbl_main_gradeCategory;
+use App\Models\tbl_classClassworks;
+
+
 class GradingCriteriaController extends Controller
 {
     /**
@@ -21,6 +24,10 @@ class GradingCriteriaController extends Controller
         ->orderBy('id', 'asc')
         ->get();
 
+        foreach($gradingCriteria as $item){
+            $classwork_count = tbl_classClassworks::where('grading_criteria', $item->id)->count();
+            $item->publish_count =  $classwork_count;
+        }
         return  $gradingCriteria;
     }
 

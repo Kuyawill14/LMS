@@ -151,6 +151,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return axios.get('/api/profile/taskToday').then(function (res) {
                   _this4.mytask = res.data;
                   _this4.isGetting = false;
+
+                  _this4.$emit('RecieveTotalClasswork', _this4.mytask.length);
                 });
 
               case 2:

@@ -297,11 +297,26 @@ const confirmUnenroll = () => import("./dialog/confirmUnenroll")
                     }
                 });
             },
+            connect(){
+                let newVm = this;
+                this.fetchClasses();
+                window.Echo.private("newuserclass")
+                .listen('NewUserCLass', e => {
+                    newVm.fetchClassesAgain();
+                }) 
+            },
             Unenroll(id) {
                 this.isloading = true;
                 this.$store.dispatch("Unenroll", id);
                 this.fetchClasses();
                 setTimeout(() => (this.isloading = false), 1000);
+            },
+            fetchClassesAgain() {
+                this.$store.dispatch('fetchClassList').then(() => {
+                    this.allClassesData = this.allClass;
+                    this.coursesLength = this.allClass.length;
+                });
+                this.$store.dispatch('fetchMyCoursesStatusAgain');
             },
             fetchClasses() {
                 this.isGetting = true;
@@ -374,8 +389,11 @@ const confirmUnenroll = () => import("./dialog/confirmUnenroll")
             }
         },
         mounted() {
-            this.fetchClasses();
+            this.connect();
             this.fetchAllSchoolyear_semester();
+        },
+        beforeDestroy(){
+            window.Echo.leave('newuserclass');
         }
     };
 

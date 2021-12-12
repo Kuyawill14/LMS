@@ -94,6 +94,7 @@
                     @change="ShowLoading"
                     hide-details
                     label="Sort By"
+                    :disabled="selectedStatus == 'All'"
                     v-model="selectedSort"
                     class="mb-0 pb-0"
                     :items="SortType">
@@ -146,19 +147,18 @@
                                               <span class="red--text"  v-else>No Submission</span>
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
-                                    <v-list-item-action style="max-width:150px !important">
+                                    <v-list-item-action v-if="item.status != null && item.status != 'Submitting'" style="max-width:150px !important">
                                         <v-form ref="pointsform" v-model="valid" lazy-validation>
-                                     
-                                        <v-text-field 
-                                            :hide-details="valid"
-                                            class="ma-0 pa-0"
-                                            label="Score"
-                                            rounded
-                                            :rules="pointsRules"
-                                            :loading="isSavingScore" 
-                                            @keyup="validate(item.id, item.points)"  v-model="item.points" 
-                                            dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" min="0">
-                                        </v-text-field>
+                                            <v-text-field
+                                                :hide-details="valid"
+                                                class="ma-0 pa-0"
+                                                label="Score"
+                                                rounded
+                                             
+                                                :loading="isSavingScore" 
+                                                @keyup="validate(item.id, item.points)"  v-model="item.points" 
+                                                dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" >
+                                            </v-text-field>
                                        </v-form>
                                 </v-list-item-action>
                             </v-list-item>
@@ -220,8 +220,8 @@ export default {
             ],
             isSavingScore: false,
             score: null,
-            StatusType: ['Submitted', 'Graded', 'No Submission'],
-            selectedStatus:'Submitted',
+            StatusType: ['All','Submitted', 'Graded', 'No Submission'],
+            selectedStatus:'All',
             SortType: ['Name', 'Highest Score', 'Lowest Score'],
             selectedShowNumber: 24,
             ShowNumber:[24, 36, 48, 'all'],
@@ -232,9 +232,8 @@ export default {
             Submitted_count : 0,
             selected_index: null,
             AllData: null,
-              pointsRules:[
-                v => !!v || 'Points is required',
-                v => ( v && v >= 0 ) || "Points should be above or equal to 0",
+            pointsRules:[
+                v => ( v && v > 0 ) || "Points should be above or equal to 0",
             ],
             valid:true
         }
@@ -263,9 +262,6 @@ export default {
             } else {
                 if(this.selectedStatus == "All"){
                     let Filterddata = this.ListData;
-
-                    
-                    //this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
                         if(this.selectedShowNumber != 'all'){
                             let data2 = Filterddata.sort();
@@ -273,29 +269,6 @@ export default {
                         }
                         else{
                             return Filterddata.sort();
-                        }
-                    }
-                    else if(this.selectedSort == "Lowest Score"){
-                        let data = Filterddata.sort((a, b) => {
-                            return a.points - b.points; 
-                        })
-                        if(this.selectedShowNumber != 'all'){
-                            return data.splice(0, this.selectedShowNumber)
-                        }
-                        else{
-                            return data;
-                        }
-                    }
-                    else if(this.selectedSort == "Highest Score"){
-                        let data = Filterddata.sort((a, b) => {
-                            return a.points - b.points; 
-                        })
-                        if(this.selectedShowNumber != 'all'){
-                            let data2 = data.reverse();
-                            return data2.splice(0, this.selectedShowNumber)
-                        }
-                        else{
-                            return data.reverse();
                         }
                     }
                 }

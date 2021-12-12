@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <v-card class="pa-2">
+ 
+    <v-card>
         <v-row class="pa-2">
-           <v-col cols="12" class="d-flex justify-space-between mb-0 pb-0">
+           <v-col cols="12" class="d-flex justify-space-between mb-0 pb-2">
                  
                  <v-row>
                     <v-col cols="12" md="12" lg="7" xl="7" class="text-left">
-                      <h3>Course/Classes Progress</h3>
+                      <h3 class="mt-2 pl-2">Course/Classes Progress</h3>
                     </v-col>
                     <v-col cols="12" lg="5" xl="5" md="12"  >
                          <div class="d-flex">
                           <v-select
+                          
                           dense
                           :items="allCourse"
                           @change="fetchClassList()"
                           v-model="selectedCourse_id"
                           item-text="course_code"
+                          hide-details
                           item-value="course_id"
                           label="Course"
                           class="pr-1"
@@ -23,6 +25,7 @@
                         ></v-select>
                         <v-select
                           dense
+                          hide-details
                           v-if="selectedCourse_id != null"
                           :items="allClass"
                           @change="setChartData()"
@@ -34,11 +37,13 @@
                         ></v-select>
                       </div>
                     </v-col>
+                    
                  </v-row>
                 
            </v-col>
             <v-col cols="12" class="mt-0 pt-0">
-                <v-container class="fill-height" v-if="!isLoaded" style="height: 500px;">
+               <v-divider></v-divider>
+                <v-container class="fill-height" v-if="!isLoaded" style="height: 362px;">
                     <v-row  align-content="center" justify="center">
                       <!--   <v-col class="text-subtitle-1 text-center" cols="12">
                             Loading Chart
@@ -54,7 +59,7 @@
                     </v-row>
                 </v-container>
 
-                <v-container class="fill-height" v-if="isLoaded && selected_classid == null" style="height: 500px;">
+                <v-container class="fill-height" v-if="isLoaded && selected_classid == null" style="height: 363px;">
                     <v-row  align-content="center" justify="center">
                        
                         <v-col cols="12" class="text-center">
@@ -77,7 +82,7 @@
     
 
    
-  </div>
+
 </template>
 
 <script>

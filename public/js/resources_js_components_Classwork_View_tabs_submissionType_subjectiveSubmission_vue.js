@@ -255,8 +255,8 @@ var checksubjective = function checksubjective() {
       }],
       isSavingScore: false,
       score: null,
-      StatusType: ['Submitted', 'Graded', 'No Submission'],
-      selectedStatus: 'Submitted',
+      StatusType: ['All', 'Submitted', 'Graded', 'No Submission'],
+      selectedStatus: 'All',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
       selectedShowNumber: 24,
       ShowNumber: [24, 36, 48, 'all'],
@@ -268,9 +268,7 @@ var checksubjective = function checksubjective() {
       selected_index: null,
       AllData: null,
       pointsRules: [function (v) {
-        return !!v || 'Points is required';
-      }, function (v) {
-        return v && v >= 0 || "Points should be above or equal to 0";
+        return v && v > 0 || "Points should be above or equal to 0";
       }],
       valid: true
     };
@@ -299,7 +297,7 @@ var checksubjective = function checksubjective() {
         });
       } else {
         if (this.selectedStatus == "All") {
-          var Filterddata = this.ListData; //this.Submitted_count = Filterddata.length;
+          var Filterddata = this.ListData;
 
           if (this.selectedSort == "Name") {
             if (this.selectedShowNumber != 'all') {
@@ -307,28 +305,6 @@ var checksubjective = function checksubjective() {
               return data2.splice(0, this.selectedShowNumber);
             } else {
               return Filterddata.sort();
-            }
-          } else if (this.selectedSort == "Lowest Score") {
-            var _data = Filterddata.sort(function (a, b) {
-              return a.points - b.points;
-            });
-
-            if (this.selectedShowNumber != 'all') {
-              return _data.splice(0, this.selectedShowNumber);
-            } else {
-              return _data;
-            }
-          } else if (this.selectedSort == "Highest Score") {
-            var _data2 = Filterddata.sort(function (a, b) {
-              return a.points - b.points;
-            });
-
-            if (this.selectedShowNumber != 'all') {
-              var _data3 = _data2.reverse();
-
-              return _data3.splice(0, this.selectedShowNumber);
-            } else {
-              return _data2.reverse();
             }
           }
         } else if (this.selectedStatus == "Submitted") {
@@ -343,33 +319,33 @@ var checksubjective = function checksubjective() {
 
           if (this.selectedSort == "Name") {
             if (this.selectedShowNumber != 'all') {
-              var _data4 = _Filterddata.sort();
+              var _data = _Filterddata.sort();
 
-              return _data4.splice(0, this.selectedShowNumber);
+              return _data.splice(0, this.selectedShowNumber);
             } else {
               return _Filterddata.sort();
             }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data5 = _Filterddata.sort(function (a, b) {
+            var _data2 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
             });
 
             if (this.selectedShowNumber != 'all') {
-              return _data5.splice(0, this.selectedShowNumber);
+              return _data2.splice(0, this.selectedShowNumber);
             } else {
-              return _data5;
+              return _data2;
             }
           } else if (this.selectedSort == "Highest Score") {
-            var _data6 = _Filterddata.sort(function (a, b) {
+            var _data3 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
             });
 
             if (this.selectedShowNumber != 'all') {
-              var _data7 = _data6.reverse();
+              var _data4 = _data3.reverse();
 
-              return _data7.splice(0, this.selectedShowNumber);
+              return _data4.splice(0, this.selectedShowNumber);
             } else {
-              return _data6.reverse();
+              return _data3.reverse();
             }
           }
         } else if (this.selectedStatus == "Graded") {
@@ -385,33 +361,33 @@ var checksubjective = function checksubjective() {
 
           if (this.selectedSort == "Name") {
             if (this.selectedShowNumber != 'all') {
-              var _data8 = _Filterddata2.sort();
+              var _data5 = _Filterddata2.sort();
 
-              return _data8.splice(0, this.selectedShowNumber);
+              return _data5.splice(0, this.selectedShowNumber);
             } else {
               return _Filterddata2.sort();
             }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data9 = _Filterddata2.sort(function (a, b) {
+            var _data6 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
             });
 
             if (this.selectedShowNumber != 'all') {
-              return _data9.splice(0, this.selectedShowNumber);
+              return _data6.splice(0, this.selectedShowNumber);
             } else {
-              return _data9;
+              return _data6;
             }
           } else if (this.selectedSort == "Highest Score") {
-            var _data10 = _Filterddata2.sort(function (a, b) {
+            var _data7 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
             });
 
             if (this.selectedShowNumber != 'all') {
-              var _data11 = _data10.reverse();
+              var _data8 = _data7.reverse();
 
-              return _data11.splice(0, this.selectedShowNumber);
+              return _data8.splice(0, this.selectedShowNumber);
             } else {
-              return _data10.reverse();
+              return _data7.reverse();
             }
           }
         } else if (this.selectedStatus == "No Submission") {
@@ -427,33 +403,33 @@ var checksubjective = function checksubjective() {
 
           if (this.selectedSort == "Name") {
             if (this.selectedShowNumber != 'all') {
-              var _data12 = _Filterddata3.sort();
+              var _data9 = _Filterddata3.sort();
 
-              return _data12.splice(0, this.selectedShowNumber);
+              return _data9.splice(0, this.selectedShowNumber);
             } else {
               return _Filterddata3.sort();
             }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data13 = _Filterddata3.sort(function (a, b) {
+            var _data10 = _Filterddata3.sort(function (a, b) {
               return a.points - b.points;
             });
 
             if (this.selectedShowNumber != 'all') {
-              return _data13.splice(0, this.selectedShowNumber);
+              return _data10.splice(0, this.selectedShowNumber);
             } else {
-              return _data13;
+              return _data10;
             }
           } else if (this.selectedSort == "Highest Score") {
-            var _data14 = _Filterddata3.sort(function (a, b) {
+            var _data11 = _Filterddata3.sort(function (a, b) {
               return a.points - b.points;
             });
 
             if (this.selectedShowNumber != 'all') {
-              var _data15 = _data14.reverse();
+              var _data12 = _data11.reverse();
 
-              return _data15.splice(0, this.selectedShowNumber);
+              return _data12.splice(0, this.selectedShowNumber);
             } else {
-              return _data14.reverse();
+              return _data11.reverse();
             }
           }
         }
@@ -23234,6 +23210,7 @@ var render = function() {
                               dense: "",
                               "hide-details": "",
                               label: "Sort By",
+                              disabled: _vm.selectedStatus == "All",
                               items: _vm.SortType
                             },
                             on: { change: _vm.ShowLoading },
@@ -23504,87 +23481,93 @@ var render = function() {
                                               1
                                             ),
                                             _vm._v(" "),
-                                            _c(
-                                              "v-list-item-action",
-                                              {
-                                                staticStyle: {
-                                                  "max-width":
-                                                    "150px !important"
-                                                }
-                                              },
-                                              [
-                                                _c(
-                                                  "v-form",
+                                            item.status != null &&
+                                            item.status != "Submitting"
+                                              ? _c(
+                                                  "v-list-item-action",
                                                   {
-                                                    ref: "pointsform",
-                                                    refInFor: true,
-                                                    attrs: {
-                                                      "lazy-validation": ""
-                                                    },
-                                                    model: {
-                                                      value: _vm.valid,
-                                                      callback: function($$v) {
-                                                        _vm.valid = $$v
-                                                      },
-                                                      expression: "valid"
+                                                    staticStyle: {
+                                                      "max-width":
+                                                        "150px !important"
                                                     }
                                                   },
                                                   [
-                                                    _c("v-text-field", {
-                                                      staticClass: "ma-0 pa-0",
-                                                      attrs: {
-                                                        "hide-details":
-                                                          _vm.valid,
-                                                        label: "Score",
-                                                        rounded: "",
-                                                        rules: _vm.pointsRules,
-                                                        loading:
-                                                          _vm.isSavingScore,
-                                                        dense: "",
-                                                        outlined: "",
-                                                        type: "number",
-                                                        suffix:
-                                                          "/" +
-                                                          _vm.classworkDetails
-                                                            .points,
-                                                        max:
-                                                          _vm.classworkDetails
-                                                            .points,
-                                                        maxlength: _vm.classworkDetails.points.toString()
-                                                          .length,
-                                                        min: "0"
-                                                      },
-                                                      on: {
-                                                        keyup: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.validate(
-                                                            item.id,
-                                                            item.points
-                                                          )
+                                                    _c(
+                                                      "v-form",
+                                                      {
+                                                        ref: "pointsform",
+                                                        refInFor: true,
+                                                        attrs: {
+                                                          "lazy-validation": ""
+                                                        },
+                                                        model: {
+                                                          value: _vm.valid,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.valid = $$v
+                                                          },
+                                                          expression: "valid"
                                                         }
                                                       },
-                                                      model: {
-                                                        value: item.points,
-                                                        callback: function(
-                                                          $$v
-                                                        ) {
-                                                          _vm.$set(
-                                                            item,
-                                                            "points",
-                                                            $$v
-                                                          )
-                                                        },
-                                                        expression:
-                                                          "item.points"
-                                                      }
-                                                    })
+                                                      [
+                                                        _c("v-text-field", {
+                                                          staticClass:
+                                                            "ma-0 pa-0",
+                                                          attrs: {
+                                                            "hide-details":
+                                                              _vm.valid,
+                                                            label: "Score",
+                                                            rounded: "",
+                                                            loading:
+                                                              _vm.isSavingScore,
+                                                            dense: "",
+                                                            outlined: "",
+                                                            type: "number",
+                                                            suffix:
+                                                              "/" +
+                                                              _vm
+                                                                .classworkDetails
+                                                                .points,
+                                                            max:
+                                                              _vm
+                                                                .classworkDetails
+                                                                .points,
+                                                            maxlength: _vm.classworkDetails.points.toString()
+                                                              .length
+                                                          },
+                                                          on: {
+                                                            keyup: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.validate(
+                                                                item.id,
+                                                                item.points
+                                                              )
+                                                            }
+                                                          },
+                                                          model: {
+                                                            value: item.points,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.$set(
+                                                                item,
+                                                                "points",
+                                                                $$v
+                                                              )
+                                                            },
+                                                            expression:
+                                                              "item.points"
+                                                          }
+                                                        })
+                                                      ],
+                                                      1
+                                                    )
                                                   ],
                                                   1
                                                 )
-                                              ],
-                                              1
-                                            )
+                                              : _vm._e()
                                           ],
                                           1
                                         )

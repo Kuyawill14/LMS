@@ -5,7 +5,7 @@
         <div v-if="allCourse.length != 0 && isGetting == false">
             
 
-            <v-row style="margin-top: -40px">
+            <v-row >
                 <v-col>
                     <v-card class="mx-auto pa-2">
                         <v-row class="mt-0">

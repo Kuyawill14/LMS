@@ -1,85 +1,5 @@
 <template>
-    <!--  <v-card class="pa-2" >
-          <div>
-            <v-btn  large icon color="secondary" text @click="$emit('toggleDialog')" >
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <span class="text-h6 mt-2">Reset Submissions</span>
-        </div>
-        <v-card-text style="height: 200px;">
-
-    
-         <v-list class="pt-0 mt-0">
-
-              <v-list-item class="mb-0 pb-0">
-                
-                <v-list-item-icon class="pt-4" color="secondary">
-                     <v-select
-                    outlined
-                    dense
-                    label="Class"
-                    v-model="Class"
-                    class="mb-0 pb-0"
-                    :items="ClassList"
-                    item-text="class_name"
-                    item-value="class_id">
-                    </v-select>
-                </v-list-item-icon>
-              
-                 <v-list-item-content>
-                     <v-list-item-subtitle>
-                           <v-list-item-title class="font-weight-medium"></v-list-item-title>
-                     </v-list-item-subtitle>
-                 </v-list-item-content>
-                 <v-list-item-action>
-                   
-                     <div class="d-flex">
-                            
-                            {{selectAll ? 'Unselect all' : 'Select all'}}
-                            <v-checkbox
-                            @change="SelectAllStudent()"
-                            v-model="selectAll"
-                            color="primary">
-                        </v-checkbox>
-                     </div>
-                   
-                 </v-list-item-action>
-            
-             </v-list-item>
-    <v-divider ></v-divider>
-             <v-list-item v-show="Class == $route.params.id || Class == item.class_id" v-for="(item ,index) in student" :key="index">
-                
-                <v-list-item-avatar color="secondary">
-                    <v-img alt="Profile"
-                        :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + item.firstName +' '+item.lastName : item.profile_pic">
-                    </v-img>
-                </v-list-item-avatar>
-              
-                 <v-list-item-content>
-                     <v-list-item-subtitle>
-                           <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
-                     </v-list-item-subtitle>
-                 </v-list-item-content>
-                 <v-list-item-action>
-                    <v-checkbox
-                    v-model=" item.Sumissionstatus"
-                        color="primary">
-                    </v-checkbox>
-                 </v-list-item-action>
-             </v-list-item>
-         </v-list>
-            </v-card-text>
-          <v-card-actions class="pb-2 pl-5 pr-5">
-               
-               
-                <v-btn rounded block color="primary" :loading="iReseting" :disabled="iReseting">
-                    Reset Submissions
-                </v-btn>
-             
-            </v-card-actions> -->
-
-
-             <v-card>
+    <v-card>
         <v-card-title> <v-btn  large icon color="secondary" text @click="$emit('toggleDialog')" >
                 <v-icon>mdi-close</v-icon>
             </v-btn>Reset Submissions</v-card-title>
@@ -150,12 +70,30 @@
             <v-divider></v-divider>
             <v-card-actions>
            
-           <v-btn rounded block color="primary" @click="ResetSubmission()" :loading="iReseting" :disabled="iReseting">
+           <v-btn rounded block color="primary" @click="resetConfirm = true" :loading="iReseting" :disabled="iReseting">
                     Reset Submissions
                 </v-btn>
             </v-card-actions>
+
+            <v-dialog v-model="resetConfirm" width="400">
+                <v-card>
+                     <v-card-title>Confirm Reset</v-card-title>
+                    <v-card-text>
+                        Are you sure to reset the submission of this student?
+                    </v-card-text>
+
+                     <v-card-actions>
+                         <v-spacer></v-spacer>
+                          <v-btn @click="resetConfirm = false" rounded text >
+                           Cancel
+                        </v-btn>
+                        <v-btn rounded @click="ResetSubmission()" text color="primary">
+                            Confirm
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-card>
-   <!--    </v-card> -->
 </template>
 <script>
 export default {
@@ -166,7 +104,8 @@ export default {
             Class: this.$route.params.id,
             selectAll: null,
             SelectedAll_submission_id:[],
-            iReseting: false
+            iReseting: false,
+            resetConfirm: false,
         }
     },
     methods:{
@@ -208,10 +147,10 @@ export default {
         },
         async ResetSubmission(){
             this.iReseting = true;
+            this.resetConfirm = false;
             let ResetData = [];
             this.SelectedAll_submission_id.forEach(item => {
                 if(item.status == true){
-                  
                     ResetData.push({id: item.id, status: 1});
                 }
             });

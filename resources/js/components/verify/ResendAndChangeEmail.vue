@@ -42,8 +42,8 @@
         </v-card>
         </v-dialog>
 
-        <p >If you hvae not received a verification email or if you have mistyped your email
-            address, you can resend the verification mail. </p>
+        <p >If you have not received a verification email or if you have mistyped your email
+            address, you can resend the verification. </p>
        
         <v-text-field outlined label="Email" 
         v-model="get_CurrentUser.email"

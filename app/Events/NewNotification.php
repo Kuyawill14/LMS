@@ -32,7 +32,6 @@ class NewNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        //return new PrivateChannel('notification');
         return new PrivateChannel('notification');
     }
 

@@ -3,71 +3,12 @@
         <v-container :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'fill-height'" fluid>
             <v-row align="center" justify="center">
                 <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'ma-0 pa-0'" cols="12" sm="12" md="12">
-                    <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''"
-                        align="center" justify="center">
-                        <v-col
-                            :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'height:35vh;':'height:100vh'"
-                            cols="12" md="4" class="primary ma-0 pa-0 d-flex flex-column">
-                            <v-container v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
-                                class="pb-0 mb-0 pl-5 d-flex justify-space-between">
-                                <v-img height="70" width="70" max-height="70" max-width="70"
-                                    src="../images/isu_logo1.png"></v-img>
-
-                                <v-img height="70" width="70" max-height="70" max-width="70"
-                                    src="../images/ccsict_logo_2.png"></v-img>
-                            </v-container>
-
-                            <v-container v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
-                                class="pt-10 mb-0 pl-5 d-flex justify-center">
-                                <div style="width: 250px;">
-                                    <v-img class="float-right" height="100" width="100" max-height="100" max-width="100"
-                                        src="../images/isu_logo1.png"></v-img>
-
-                                    <v-img height="100" width="100" max-height="100" max-width="100"
-                                        src="../images/ccsict_logo_2.png"></v-img>
-                                </div>
-                            </v-container>
-
-
-
-                            <v-container class="fill-height " fluid :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'padding-top: 35px;'">
-                                <v-card-text>
-                                    <v-form class="text-center">
-                                        <v-row align="center" justify="center">
-                                            <v-col cols="12">
-                                                <div class="display-2 white--text font-weight-bold">ORANGE</div>
-                                                <div class="white--text"><b class="text-h6">O</b>nline <b
-                                                        class="text-h6">R</b>esources <b class="text-h6">A</b>pp for a
-                                                    <b class="text-h6">N</b>ew <b class="text-h6">G</b>uild of <b
-                                                        class="text-h6">E</b>ducation</div>
-                                            </v-col>
-                                        </v-row>
-                                    </v-form>
-                                </v-card-text>
-
-                            </v-container>
-
-                            <v-container :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'd-none' : ''"
-                                class="fill-height" fluid>
-                                <v-row align="center" justify="center">
-                                    <v-col cols="12" class="text-center">
-
-
-                                        <iframe
-                                            src="https://player.vimeo.com/video/597374601?h=d67ddce656&muted=1&autoplay=1&loop=1&title=0&byline=0&portrait=0&muted=0&#t=150s"
-                                            width="440" height="250" frameborder="0"
-                                            allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                                    </v-col>
-                                </v-row>
-                            </v-container>
-
-                        </v-col>
-
-                        <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="8">
+                    <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
+                        <loginRegisterImageConatiner></loginRegisterImageConatiner>
+                        <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3 mb-10' :'ma-0 pa-0'" cols="12" md="5">
                             <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
                             <v-row align="center" justify="center">
-                                <v-col class="text-left " cols="12" md="8" lg="6" sm="7">
-
+                                <v-col cols="12" md="12" lg="12" sm="7">
                                     <v-card-text>
                                         <v-form autocomplete="off" class="text-center " ref="RegisterForm"
                                             v-model="valid" lazy-validation>
@@ -135,22 +76,6 @@
                                                         @click:append="show1 = !show1" />
                                                 </v-col>
 
-                                                <!--   <v-col class="ma-0 pa-0 " cols="12" md="8">
-                                                        
-                                                         <span class="error--text text-left"> {{invalid_classcode_message}}</span>
-                                                        <v-text-field 
-                                                         outlined dense class="mb-0 pb-0" label="Class Code" :rules="[ClassCodeRules.required]" name="class_code"
-                                                        hint="Please provide a valid class code to be able to register"
-                                                            v-model="form.class_code" type="text" color="primary" />
-                                                            
-                                                    </v-col> -->
-
-
-                                                <!--  <v-col class="ma-0 pa-0 mb-1" cols="12" md="8">
-                                                        <v-select dense :items="role" v-model="form.role" :rules="RoleRules"
-                                                        label="Role"></v-select>
-                                                    </v-col> -->
-
                                                 <v-col class="ma-0 pa-0 text-left mt-2" cols="12" md="8">
                                                     <v-btn :loading="isRegistering" :disabled="!valid" @click="validate"
                                                     :block="!$vuetify.breakpoint.mdAndUp"
@@ -166,25 +91,9 @@
                                     </v-card-text>
                                 </v-col>
                             </v-row>
-
-                            <v-container ma-0 pa-0 class="pb-5 pl-5 pr-5">
-
-
-                                <!--   <v-container ma-0 pa-0 class="mt-2">
-                                        <h3>Sign Up with Social media</h3>
-                                        <v-btn color="blue" class="mb-3 mt-1 mr-5 white--text">
-                                            <v-icon class="mr-3">mdi-facebook</v-icon>
-                                            Facebook
-                                        </v-btn>
-
-                                        <v-btn color="red darken-1" class="mb-3 mt-1 white--text">
-                                            <v-icon class="mr-3">mdi-google-plus</v-icon>
-                                            Google Plus
-                                        </v-btn>
-                                    </v-container> -->
-
-                            </v-container>
                         </v-col>
+
+                         <loginRegisterFooter></loginRegisterFooter>
                     </v-row>
 
                 </v-col>
@@ -195,7 +104,15 @@
 </template>
 
 <script>
+    const loginRegisterFooter = () => import( /* webpackChunkName: "login_layout" */ "../layout/LoginRegisterLayout/LoginRegisterFooter")
+    const loginRegisterImageConatiner = () => import( /* webpackChunkName: "login_layout" */ "../layout/LoginRegisterLayout/LoginRegisterImageConatiner")
+
     export default {
+        components:{
+            loginRegisterImageConatiner,
+            loginRegisterFooter
+        },
+
         data: () => ({
             isRegistering: false,
             valid: true,
@@ -243,12 +160,10 @@
             }
         },
         methods: {
-
             isNumber(val) {
                 if (isNaN(Number(val.key)) ) {
                     return val.preventDefault();
                 }
-               
             },
             validate() {
                 if (this.$refs.RegisterForm.validate()) {

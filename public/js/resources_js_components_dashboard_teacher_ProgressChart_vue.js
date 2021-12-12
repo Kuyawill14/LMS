@@ -164,6 +164,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -38318,140 +38323,184 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-card",
     [
       _c(
-        "v-card",
+        "v-row",
         { staticClass: "pa-2" },
         [
           _c(
-            "v-row",
-            { staticClass: "pa-2" },
+            "v-col",
+            {
+              staticClass: "d-flex justify-space-between mb-0 pb-2",
+              attrs: { cols: "12" }
+            },
             [
               _c(
-                "v-col",
-                {
-                  staticClass: "d-flex justify-space-between mb-0 pb-0",
-                  attrs: { cols: "12" }
-                },
+                "v-row",
                 [
                   _c(
-                    "v-row",
+                    "v-col",
+                    {
+                      staticClass: "text-left",
+                      attrs: { cols: "12", md: "12", lg: "7", xl: "7" }
+                    },
+                    [
+                      _c("h3", { staticClass: "mt-2 pl-2" }, [
+                        _vm._v("Course/Classes Progress")
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "12", lg: "5", xl: "5", md: "12" } },
                     [
                       _c(
-                        "v-col",
-                        {
-                          staticClass: "text-left",
-                          attrs: { cols: "12", md: "12", lg: "7", xl: "7" }
-                        },
-                        [_c("h3", [_vm._v("Course/Classes Progress")])]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { attrs: { cols: "12", lg: "5", xl: "5", md: "12" } },
+                        "div",
+                        { staticClass: "d-flex" },
                         [
-                          _c(
-                            "div",
-                            { staticClass: "d-flex" },
-                            [
-                              _c("v-select", {
-                                staticClass: "pr-1",
+                          _c("v-select", {
+                            staticClass: "pr-1",
+                            attrs: {
+                              dense: "",
+                              items: _vm.allCourse,
+                              "item-text": "course_code",
+                              "hide-details": "",
+                              "item-value": "course_id",
+                              label: "Course",
+                              outlined: ""
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.fetchClassList()
+                              }
+                            },
+                            model: {
+                              value: _vm.selectedCourse_id,
+                              callback: function($$v) {
+                                _vm.selectedCourse_id = $$v
+                              },
+                              expression: "selectedCourse_id"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.selectedCourse_id != null
+                            ? _c("v-select", {
                                 attrs: {
                                   dense: "",
-                                  items: _vm.allCourse,
-                                  "item-text": "course_code",
-                                  "item-value": "course_id",
-                                  label: "Course",
+                                  "hide-details": "",
+                                  items: _vm.allClass,
+                                  "item-text": "class_name",
+                                  "item-value": "class_id",
+                                  label: "Class",
                                   outlined: ""
                                 },
                                 on: {
                                   change: function($event) {
-                                    return _vm.fetchClassList()
+                                    return _vm.setChartData()
                                   }
                                 },
                                 model: {
-                                  value: _vm.selectedCourse_id,
+                                  value: _vm.selected_classid,
                                   callback: function($$v) {
-                                    _vm.selectedCourse_id = $$v
+                                    _vm.selected_classid = $$v
                                   },
-                                  expression: "selectedCourse_id"
+                                  expression: "selected_classid"
                                 }
-                              }),
-                              _vm._v(" "),
-                              _vm.selectedCourse_id != null
-                                ? _c("v-select", {
-                                    attrs: {
-                                      dense: "",
-                                      items: _vm.allClass,
-                                      "item-text": "class_name",
-                                      "item-value": "class_id",
-                                      label: "Class",
-                                      outlined: ""
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        return _vm.setChartData()
-                                      }
-                                    },
-                                    model: {
-                                      value: _vm.selected_classid,
-                                      callback: function($$v) {
-                                        _vm.selected_classid = $$v
-                                      },
-                                      expression: "selected_classid"
-                                    }
-                                  })
-                                : _vm._e()
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-col",
+            { staticClass: "mt-0 pt-0", attrs: { cols: "12" } },
+            [
+              _c("v-divider"),
+              _vm._v(" "),
+              !_vm.isLoaded
+                ? _c(
+                    "v-container",
+                    {
+                      staticClass: "fill-height",
+                      staticStyle: { height: "362px" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        {
+                          attrs: {
+                            "align-content": "center",
+                            justify: "center"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "text-center",
+                              attrs: { cols: "12" }
+                            },
+                            [
+                              _c("v-progress-circular", {
+                                attrs: {
+                                  size: 50,
+                                  color: "primary",
+                                  indeterminate: ""
+                                }
+                              })
                             ],
                             1
                           )
-                        ]
+                        ],
+                        1
                       )
                     ],
                     1
                   )
-                ],
-                1
-              ),
+                : _vm._e(),
               _vm._v(" "),
-              _c(
-                "v-col",
-                { staticClass: "mt-0 pt-0", attrs: { cols: "12" } },
-                [
-                  !_vm.isLoaded
-                    ? _c(
-                        "v-container",
+              _vm.isLoaded && _vm.selected_classid == null
+                ? _c(
+                    "v-container",
+                    {
+                      staticClass: "fill-height",
+                      staticStyle: { height: "363px" }
+                    },
+                    [
+                      _c(
+                        "v-row",
                         {
-                          staticClass: "fill-height",
-                          staticStyle: { height: "500px" }
+                          attrs: {
+                            "align-content": "center",
+                            justify: "center"
+                          }
                         },
                         [
                           _c(
-                            "v-row",
+                            "v-col",
                             {
-                              attrs: {
-                                "align-content": "center",
-                                justify: "center"
-                              }
+                              staticClass: "text-center",
+                              attrs: { cols: "12" }
                             },
                             [
                               _c(
-                                "v-col",
+                                "v-icon",
                                 {
-                                  staticClass: "text-center",
-                                  attrs: { cols: "12" }
+                                  staticStyle: { "font-size": "8rem" },
+                                  attrs: { large: "" }
                                 },
-                                [
-                                  _c("v-progress-circular", {
-                                    attrs: {
-                                      size: 50,
-                                      color: "primary",
-                                      indeterminate: ""
-                                    }
-                                  })
-                                ],
-                                1
+                                [_vm._v("mdi-chart-bar")]
                               )
                             ],
                             1
@@ -38459,64 +38508,21 @@ var render = function() {
                         ],
                         1
                       )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.isLoaded && _vm.selected_classid == null
-                    ? _c(
-                        "v-container",
-                        {
-                          staticClass: "fill-height",
-                          staticStyle: { height: "500px" }
-                        },
-                        [
-                          _c(
-                            "v-row",
-                            {
-                              attrs: {
-                                "align-content": "center",
-                                justify: "center"
-                              }
-                            },
-                            [
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "text-center",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "v-icon",
-                                    {
-                                      staticStyle: { "font-size": "8rem" },
-                                      attrs: { large: "" }
-                                    },
-                                    [_vm._v("mdi-chart-bar")]
-                                  )
-                                ],
-                                1
-                              )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _vm.isLoaded && _vm.selected_classid != null
-                    ? _c("bar-chart", {
-                        attrs: {
-                          ChartLabel: _vm.ChartLabel,
-                          ChartData: _vm.ChartData,
-                          ChartBarColor: _vm.ChartBarColor,
-                          ChartBorder: _vm.ChartBorder
-                        }
-                      })
-                    : _vm._e()
-                ],
-                1
-              )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.isLoaded && _vm.selected_classid != null
+                ? _c("bar-chart", {
+                    attrs: {
+                      ChartLabel: _vm.ChartLabel,
+                      ChartData: _vm.ChartData,
+                      ChartBarColor: _vm.ChartBarColor,
+                      ChartBorder: _vm.ChartBorder
+                    }
+                  })
+                : _vm._e()
             ],
             1
           )

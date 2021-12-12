@@ -95,9 +95,9 @@
                          this.isGetting = false;
                      }
                  })
-                /*  window.Echo.private("post."+ this.$route.params.id)
+               /*   window.Echo.private("post."+ this.$route.params.id)
                  .listen('NewPost', e =>{
-                     vm.fetchClassPost(this.$route.params.id);
+                    vm.fetchClassPost(this.$route.params.id);
                      
                  }) */
 
@@ -128,6 +128,9 @@
         beforeDestroy(){
             //this.classNames.destroy();
             //this.getclass_post.destroy();
+           
+            window.Echo.leave("post."+ this.$route.params.id);
+        
         }
     }
 

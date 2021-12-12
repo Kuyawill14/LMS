@@ -41,7 +41,7 @@ export default {
                 link: 'courses',
                 },
                 {
-                text: 'People',
+                text: this.role == 'Student' ? 'People' : 'Student',
                 disabled: true,
                 link: 'Student-list',
                 },

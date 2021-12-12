@@ -328,6 +328,13 @@ var confirmUnenroll = function confirmUnenroll() {
         }
       });
     },
+    connect: function connect() {
+      var newVm = this;
+      this.fetchClasses();
+      window.Echo["private"]("newuserclass").listen('NewUserCLass', function (e) {
+        newVm.fetchClassesAgain();
+      });
+    },
     Unenroll: function Unenroll(id) {
       var _this2 = this;
 
@@ -338,22 +345,31 @@ var confirmUnenroll = function confirmUnenroll() {
         return _this2.isloading = false;
       }, 1000);
     },
-    fetchClasses: function fetchClasses() {
+    fetchClassesAgain: function fetchClassesAgain() {
       var _this3 = this;
 
-      this.isGetting = true;
       this.$store.dispatch('fetchClassList').then(function () {
         _this3.allClassesData = _this3.allClass;
         _this3.coursesLength = _this3.allClass.length;
-        _this3.isGetting = false;
+      });
+      this.$store.dispatch('fetchMyCoursesStatusAgain');
+    },
+    fetchClasses: function fetchClasses() {
+      var _this4 = this;
+
+      this.isGetting = true;
+      this.$store.dispatch('fetchClassList').then(function () {
+        _this4.allClassesData = _this4.allClass;
+        _this4.coursesLength = _this4.allClass.length;
+        _this4.isGetting = false;
       });
     },
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
-        _this4.school_year = res.data.school_year;
-        _this4.semester = res.data.semester;
+        _this5.school_year = res.data.school_year;
+        _this5.semester = res.data.semester;
       });
     },
     schoolYearFilter: function schoolYearFilter() {
@@ -396,7 +412,7 @@ var confirmUnenroll = function confirmUnenroll() {
       }
     },
     UnenrollInCourse: function UnenrollInCourse() {
-      var _this5 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -404,11 +420,11 @@ var confirmUnenroll = function confirmUnenroll() {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios["delete"]('/api/student/unenroll/' + _this5.ArchiveDetails.id).then(function () {
-                  _this5.allClassesData.splice(_this5.ArchiveDetails.index, 1);
+                return axios["delete"]('/api/student/unenroll/' + _this6.ArchiveDetails.id).then(function () {
+                  _this6.allClassesData.splice(_this6.ArchiveDetails.index, 1);
 
-                  _this5.Archivedialog = false;
-                  _this5.coursesLength--;
+                  _this6.Archivedialog = false;
+                  _this6.coursesLength--;
                 });
 
               case 2:
@@ -421,8 +437,11 @@ var confirmUnenroll = function confirmUnenroll() {
     }
   }),
   mounted: function mounted() {
-    this.fetchClasses();
+    this.connect();
     this.fetchAllSchoolyear_semester();
+  },
+  beforeDestroy: function beforeDestroy() {
+    window.Echo.leave('newuserclass');
   }
 });
 

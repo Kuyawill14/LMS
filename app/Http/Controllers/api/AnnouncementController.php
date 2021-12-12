@@ -140,8 +140,10 @@ class AnnouncementController extends Controller
           $NewPost->user_id = $userId ;
           $NewPost->save();
 
+          $NewPost->course_id =  $request->announcement["course_id"];
 
-          //broadcast(new NewPost($NewPost))->toOthers();
+
+          broadcast(new NewPost($NewPost))->toOthers();
           //New notification
          /* $userInClass = tbl_subject_course::where("tbl_subject_courses.id", $NewPost->course_id)
           ->first(); */

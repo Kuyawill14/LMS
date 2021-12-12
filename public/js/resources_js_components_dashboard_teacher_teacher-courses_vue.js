@@ -374,7 +374,6 @@ var render = function() {
           [
             _c(
               "v-row",
-              { staticStyle: { "margin-top": "-40px" } },
               [
                 _c(
                   "v-col",

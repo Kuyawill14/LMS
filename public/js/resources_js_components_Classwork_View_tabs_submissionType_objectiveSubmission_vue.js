@@ -262,8 +262,8 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       Details: [],
       Reload: true,
       Class: this.$route.params.id,
-      StatusType: ['Submitted', 'Taking', 'No Submission'],
-      selectedStatus: 'Submitted',
+      StatusType: ['All', 'Submitted', 'Taking', 'No Submission'],
+      selectedStatus: 'All',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
       selectedShowNumber: 24,
       ShowNumber: [24, 36, 48, 'all'],
@@ -294,19 +294,6 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
     studentSubmissionList: function studentSubmissionList() {
       var _this = this;
 
-      /*  if(this.selectedStatus == "All"){
-          if (this.search) {
-                  let data = this.search;
-                  return this.ListData.filter((element) => {
-                      return data.toLowerCase().split(' ').every(v => element.firstName.toLowerCase()
-                      .includes(v) || element.lastName.toLowerCase()
-                      .includes(v))
-              })
-          }
-          else{
-              return this.ListData;
-          }
-      } */
       if (this.search) {
         var data = this.search;
         return this.ListData.filter(function (element) {
@@ -315,103 +302,70 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
           });
         });
       } else {
-        if (this.selectedStatus == "Submitted") {
+        if (this.selectedStatus == "All") {
           var Filterddata = this.ListData;
-          Filterddata = Filterddata.filter(function (item) {
-            if (_this.Class == _this.$route.params.id) {
-              return item.status == "Submitted";
-            } else {
-              return item.status == "Submitted" && item.class_id == _this.Class;
-            }
-          });
-          this.Submitted_count = Filterddata.length;
 
           if (this.selectedSort == "Name") {
-            this.totalPage = Math.round((Filterddata.length - 1) / this.pageSize);
-
             if (this.selectedShowNumber != 'all') {
               var data2 = Filterddata.sort();
               return data2.splice(0, this.selectedShowNumber);
             } else {
               return Filterddata.sort();
             }
-          } else if (this.selectedSort == "Lowest Score") {
-            var _data = Filterddata.sort(function (a, b) {
-              return a.points - b.points;
-            }); //return data;
-
-
-            if (this.selectedShowNumber != 'all') {
-              return _data.splice(0, this.selectedShowNumber);
-            } else {
-              return _data;
-            }
-          } else if (this.selectedSort == "Highest Score") {
-            var _data2 = Filterddata.sort(function (a, b) {
-              return a.points - b.points;
-            }); //return data.reverse();
-
-
-            if (this.selectedShowNumber != 'all') {
-              var _data3 = _data2.reverse();
-
-              return _data3.splice(0, this.selectedShowNumber);
-            } else {
-              return _data2.reverse();
-            }
           }
-        } else if (this.selectedStatus == "Taking") {
+        } else if (this.selectedStatus == "Submitted") {
           var _Filterddata = this.ListData;
           _Filterddata = _Filterddata.filter(function (item) {
             if (_this.Class == _this.$route.params.id) {
-              return item.status == "Taking";
+              return item.status == "Submitted";
             } else {
-              return item.status == "Taking" && item.class_id == _this.Class;
+              return item.status == "Submitted" && item.class_id == _this.Class;
             }
           });
           this.Submitted_count = _Filterddata.length;
 
           if (this.selectedSort == "Name") {
-            //return Filterddata.sort();
-            if (this.selectedShowNumber != 'all') {
-              var _data4 = _Filterddata.sort();
+            this.totalPage = Math.round((_Filterddata.length - 1) / this.pageSize);
 
-              return _data4.splice(0, this.selectedShowNumber);
+            if (this.selectedShowNumber != 'all') {
+              var _data = _Filterddata.sort();
+
+              return _data.splice(0, this.selectedShowNumber);
             } else {
               return _Filterddata.sort();
             }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data5 = _Filterddata.sort(function (a, b) {
+            var _data2 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
             }); //return data;
 
 
             if (this.selectedShowNumber != 'all') {
-              return _data5.splice(0, this.selectedShowNumber);
+              return _data2.splice(0, this.selectedShowNumber);
             } else {
-              return _data5;
+              return _data2;
             }
           } else if (this.selectedSort == "Highest Score") {
-            var _data6 = _Filterddata.sort(function (a, b) {
+            var _data3 = _Filterddata.sort(function (a, b) {
               return a.points - b.points;
             }); //return data.reverse();
 
 
             if (this.selectedShowNumber != 'all') {
-              var _data7 = _data6.reverse();
+              var _data4 = _data3.reverse();
 
-              return _data7.splice(0, this.selectedShowNumber);
+              return _data4.splice(0, this.selectedShowNumber);
             } else {
-              return _data6.reverse();
+              return _data3.reverse();
             }
           }
-        } else if (this.selectedStatus == "No Submission") {
+        } else if (this.selectedStatus == "Taking") {
           var _Filterddata2 = this.ListData;
           _Filterddata2 = _Filterddata2.filter(function (item) {
             if (_this.Class == _this.$route.params.id) {
-              return item.status == null || item.status == '';
+              return item.status == "Taking";
             } else {
-              return (item.status == null || item.status == '') && item.class_id == _this.Class;
+              return item.status == "Taking" && item.class_id == _this.Class;
             }
           });
           this.Submitted_count = _Filterddata2.length;
@@ -419,35 +373,80 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
           if (this.selectedSort == "Name") {
             //return Filterddata.sort();
             if (this.selectedShowNumber != 'all') {
-              var _data8 = _Filterddata2.sort();
+              var _data5 = _Filterddata2.sort();
 
-              return _data8.splice(0, this.selectedShowNumber);
+              return _data5.splice(0, this.selectedShowNumber);
             } else {
               return _Filterddata2.sort();
             }
           } else if (this.selectedSort == "Lowest Score") {
-            var _data9 = _Filterddata2.sort(function (a, b) {
+            var _data6 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
             }); //return data;
 
 
             if (this.selectedShowNumber != 'all') {
-              return _data9.splice(0, this.selectedShowNumber);
+              return _data6.splice(0, this.selectedShowNumber);
             } else {
-              return _data9;
+              return _data6;
             }
           } else if (this.selectedSort == "Highest Score") {
-            var _data10 = _Filterddata2.sort(function (a, b) {
+            var _data7 = _Filterddata2.sort(function (a, b) {
               return a.points - b.points;
             }); //return data.reverse();
 
 
             if (this.selectedShowNumber != 'all') {
-              var _data11 = _data10.reverse();
+              var _data8 = _data7.reverse();
 
-              return _data11.splice(0, this.selectedShowNumber);
+              return _data8.splice(0, this.selectedShowNumber);
             } else {
-              return _data10.reverse();
+              return _data7.reverse();
+            }
+          }
+        } else if (this.selectedStatus == "No Submission") {
+          var _Filterddata3 = this.ListData;
+          _Filterddata3 = _Filterddata3.filter(function (item) {
+            if (_this.Class == _this.$route.params.id) {
+              return item.status == null || item.status == '';
+            } else {
+              return (item.status == null || item.status == '') && item.class_id == _this.Class;
+            }
+          });
+          this.Submitted_count = _Filterddata3.length;
+
+          if (this.selectedSort == "Name") {
+            //return Filterddata.sort();
+            if (this.selectedShowNumber != 'all') {
+              var _data9 = _Filterddata3.sort();
+
+              return _data9.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata3.sort();
+            }
+          } else if (this.selectedSort == "Lowest Score") {
+            var _data10 = _Filterddata3.sort(function (a, b) {
+              return a.points - b.points;
+            }); //return data;
+
+
+            if (this.selectedShowNumber != 'all') {
+              return _data10.splice(0, this.selectedShowNumber);
+            } else {
+              return _data10;
+            }
+          } else if (this.selectedSort == "Highest Score") {
+            var _data11 = _Filterddata3.sort(function (a, b) {
+              return a.points - b.points;
+            }); //return data.reverse();
+
+
+            if (this.selectedShowNumber != 'all') {
+              var _data12 = _data11.reverse();
+
+              return _data12.splice(0, this.selectedShowNumber);
+            } else {
+              return _data11.reverse();
             }
           }
         }
@@ -919,6 +918,7 @@ var render = function() {
                                 staticClass: "mb-0 pb-0",
                                 attrs: {
                                   outlined: "",
+                                  disabled: _vm.selectedStatus == "All",
                                   "hide-details": "",
                                   dense: "",
                                   label: "Sort By",

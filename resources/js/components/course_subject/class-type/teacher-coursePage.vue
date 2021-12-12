@@ -352,6 +352,15 @@
                 }
 
             },
+
+             connect(){
+                let newVm = this;
+                this.fetchCourses();
+                window.Echo.private("newuserclass")
+                .listen('newuserclass', e => {
+                    newVm.fetchCourses();
+                }) 
+            },
             fetchCourses() {
                 this.school_year_id = 0;
                 this.semester_id = 0;

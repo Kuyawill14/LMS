@@ -9,7 +9,7 @@
         </v-breadcrumbs>
 
         <v-row align="center" justify="center">
-            <v-col cols="12" md="10">
+            <v-col cols="12" >
                 <v-form ref="form" v-model="valid" lazy-validation>
                     <v-card elevation="2" class="pa-3 mt-5">
 

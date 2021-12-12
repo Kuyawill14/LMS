@@ -7,17 +7,13 @@ const routes = [
             import ( /*webpackChunkName: "login"*/ "../components/login/login.vue"),
         name: "login",
         beforeEnter: (to, form, next) => {
-            store.dispatch('IsAuthenticated').then(() => {
-                if (!store.state.CurrentUser.IsAuthenticated) {
-                    next()
-                } else {
-                    return next({
-                        path: "/"
-                    });
-                }
-             }).catch(()=>{
+            if (!store.state.CurrentUser.IsAuthenticated) {
                 next()
-             })
+            } else {
+                return next({
+                    path: "/"
+                });
+            }
         },
     },
 
@@ -27,17 +23,13 @@ const routes = [
             import ( /*webpackChunkName: "register"*/ "../components/register/register.vue"),
         name: "register",
         beforeEnter: (to, form, next) => {
-            store.dispatch('IsAuthenticated').then(() => {
-                if (!store.state.CurrentUser.IsAuthenticated) {
-                    next()
-                } else {
-                    return next({
-                        path: "/"
-                    });
-                }
-             }).catch(()=>{
+            if (!store.state.CurrentUser.IsAuthenticated) {
                 next()
-             })
+            } else {
+                return next({
+                    path: "/"
+                });
+            }
         },
     },
 

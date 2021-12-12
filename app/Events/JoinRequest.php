@@ -32,10 +32,10 @@ class JoinRequest
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('course.'. $this->newJoinRequest->course_id);
+        return new PrivateChannel('Join_Request.'. $this->newJoinRequest->course_id);
     }
     public function broadcastWith()
     {
-        return ['course' => $this->newJoinRequest->course_id];
+        return ['Join_Request' => $this->newJoinRequest->course_id];
     }
 }
