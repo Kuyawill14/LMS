@@ -14,7 +14,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta name="csrf-token" content="{{ csrf_token() }}">
             <title>{{config('app.name')}}</title>
-            <link rel="icon" type="image/png" href="storage/system_logo/orange_title.png">
+            <link rel="icon" type="image/png" href="{{URL::asset('/images/orange_title.png')}}">
             <!-- Fonts -->
             <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
           <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
@@ -26,12 +26,12 @@
             <style>
               /* #fb-root > div.fb_dialog.fb_dialog_advanced > div > iframe {
                 height: 60px !important;
-    width: 60px  !important;
+                width: 60px  !important;
               }
 
               #fb-customer-chat > span > iframe {
                 min-height: 300px !important;
-    width: 399px !important;
+                width: 399px !important;
               } */
 
               html {

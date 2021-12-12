@@ -596,10 +596,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-<<<<<<< HEAD
 //
-=======
->>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -2214,7 +2211,6 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-<<<<<<< HEAD
                             _vm._v(
                               "\n                        " +
                                 _vm._s(
@@ -2231,16 +2227,6 @@ var render = function() {
                                   [_vm._v("Instructors & Students")]
                                 )
                               : _vm._e()
-=======
-                            _vm._v("\n                        People"),
-                            _c("br"),
-                            _vm._v(" "),
-                            _c(
-                              "small",
-                              { staticClass: "font-weight-regular" },
-                              [_vm._v("Instructors & Students")]
-                            )
->>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                           ]
                         )
                       ],
