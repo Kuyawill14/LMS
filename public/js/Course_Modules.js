@@ -719,7 +719,7 @@ var render = function() {
         ])
       }),
       _vm._v(" "),
-      !_vm.isGetting
+      _vm.getmain_module.length > 0
         ? _c(
             "v-row",
             {

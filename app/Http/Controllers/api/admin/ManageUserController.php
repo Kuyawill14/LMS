@@ -62,7 +62,7 @@ class ManageUserController extends Controller
                 $middle_name = $user['middle_name'] == null ? ' ' :  $user['middle_name'];
                 $last_name = $user['last_name']  == null ? ' ' :  $user['last_name'];
            
-                $email = $user['email'];
+                $email = preg_replace('/\s+/', '', $user['email']); ;
 
                 $userFind = User::where('email',$email)->count();
 
