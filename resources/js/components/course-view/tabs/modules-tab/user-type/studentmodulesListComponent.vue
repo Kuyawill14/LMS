@@ -117,6 +117,7 @@
         },
         data() {
             return {
+                isBlur: false,
                 renderComponent: true,
                 warning_count: 0,
                 idleTimer: 30,
@@ -428,7 +429,7 @@
                         //execute your code here
 
                         //we only want to listen for the first time we click into the iframe
-                      setInterval(() => {
+                      this.isBlur = setInterval(() => {
                          document.activeElement.blur();
 
                       }, 1000);
@@ -453,6 +454,7 @@
         beforeDestroy() {
             clearInterval(this.ctrTime);
             clearInterval(this.updateTime);
+            clearInterval(this.isBlur);
         }
 
 
