@@ -3094,7 +3094,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var objectiveSubmission = function objectiveSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_objectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/objectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/objectiveSubmission.vue"));
 };

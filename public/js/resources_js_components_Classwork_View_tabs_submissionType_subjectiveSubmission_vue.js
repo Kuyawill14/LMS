@@ -276,13 +276,26 @@ var checksubjective = function checksubjective() {
     };
   },
   computed: {
-    studentSubmissionList: function studentSubmissionList() {
+    GradedStudent: function GradedStudent() {
       var _this = this;
+
+      var Filterddata = this.ListData;
+      Filterddata = Filterddata.filter(function (item) {
+        if (_this.Class == _this.$route.params.id) {
+          return item.graded == 1;
+        } else {
+          return item.graded == 1 && item.class_id == _this.Class;
+        }
+      });
+      return Filterddata.length;
+    },
+    studentSubmissionList: function studentSubmissionList() {
+      var _this2 = this;
 
       if (this.search) {
         var data = this.search;
         return this.ListData.filter(function (item) {
-          return item.firstName.toLowerCase().includes(_this.search.toLowerCase()) || item.lastName.toLowerCase().includes(_this.search.toLowerCase());
+          return item.firstName.toLowerCase().includes(_this2.search.toLowerCase()) || item.lastName.toLowerCase().includes(_this2.search.toLowerCase());
         });
       } else {
         if (this.selectedStatus == "All") {
@@ -321,10 +334,10 @@ var checksubjective = function checksubjective() {
         } else if (this.selectedStatus == "Submitted") {
           var _Filterddata = this.ListData;
           _Filterddata = _Filterddata.filter(function (item) {
-            if (_this.Class == _this.$route.params.id) {
+            if (_this2.Class == _this2.$route.params.id) {
               return item.status == "Submitted" && item.graded == 0;
             } else {
-              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this.Class;
+              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this2.Class;
             }
           }); //this.Submitted_count = Filterddata.length;
 
@@ -362,10 +375,10 @@ var checksubjective = function checksubjective() {
         } else if (this.selectedStatus == "Graded") {
           var _Filterddata2 = this.ListData;
           _Filterddata2 = _Filterddata2.filter(function (item) {
-            if (_this.Class == _this.$route.params.id) {
+            if (_this2.Class == _this2.$route.params.id) {
               return item.graded == 1;
             } else {
-              return item.graded == 1 && item.class_id == _this.Class;
+              return item.graded == 1 && item.class_id == _this2.Class;
             }
           });
           this.Submitted_count = _Filterddata2.length;
@@ -404,10 +417,10 @@ var checksubjective = function checksubjective() {
         } else if (this.selectedStatus == "No Submission") {
           var _Filterddata3 = this.ListData;
           _Filterddata3 = _Filterddata3.filter(function (item) {
-            if (_this.Class == _this.$route.params.id) {
+            if (_this2.Class == _this2.$route.params.id) {
               return item.status != 'Submitted';
             } else {
-              return item.status != 'Submitted' && item.class_id == _this.Class;
+              return item.status != 'Submitted' && item.class_id == _this2.Class;
             }
           });
           this.Submitted_count = _Filterddata3.length;
@@ -497,7 +510,7 @@ var checksubjective = function checksubjective() {
       }, 1000);
     },
     UpdateScore: function UpdateScore(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var rubrics_score;
@@ -507,19 +520,19 @@ var checksubjective = function checksubjective() {
               case 0:
                 rubrics_score = [];
 
-                if (_this2.score <= _this2.classworkDetails.points && _this2.score >= 0) {
+                if (_this3.score <= _this3.classworkDetails.points && _this3.score >= 0) {
                   axios.put('/api/submission/update-score/' + id, {
-                    score: _this2.score,
+                    score: _this3.score,
                     data: rubrics_score
                   }).then(function (res) {
                     if (res.status == 200) {
-                      _this2.toastSuccess("Score Updated");
+                      _this3.toastSuccess("Score Updated");
 
-                      _this2.isSavingScore = !_this2.isSavingScore;
+                      _this3.isSavingScore = !_this3.isSavingScore;
 
-                      _this2.$emit('UpdateSubmission');
+                      _this3.$emit('UpdateSubmission');
 
-                      _this2.ListData.forEach(function (data) {
+                      _this3.ListData.forEach(function (data) {
                         if (data.id == id) {
                           data.graded = 1;
                         }
@@ -527,9 +540,9 @@ var checksubjective = function checksubjective() {
                     }
                   });
                 } else {
-                  _this2.isSavingScore = !_this2.isSavingScore;
+                  _this3.isSavingScore = !_this3.isSavingScore;
 
-                  _this2.toastError('The set points is invalid!');
+                  _this3.toastError('The set points is invalid!');
                 }
 
               case 2:
@@ -541,14 +554,14 @@ var checksubjective = function checksubjective() {
       }))();
     },
     ResetSubmission: function ResetSubmission(id) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.studentSubmissionList.forEach(function (item) {
+                _this4.studentSubmissionList.forEach(function (item) {
                   if (item.id == id) {
                     item.id = null;
                     item.Submitted_Answers = null;
@@ -571,14 +584,14 @@ var checksubjective = function checksubjective() {
       }))();
     },
     MarkAsGraded: function MarkAsGraded(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this4.studentSubmissionList.forEach(function (item) {
+                _this5.studentSubmissionList.forEach(function (item) {
                   if (id == item.id) {
                     item.graded = 1;
                   }
@@ -593,33 +606,33 @@ var checksubjective = function checksubjective() {
       }))();
     },
     ShowLoading: function ShowLoading() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.isFiltered = true;
       setTimeout(function () {
-        return _this5.isFiltered = false;
+        return _this6.isFiltered = false;
       }, 400);
     },
     FilteredClass: function FilteredClass() {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this6.Over_total = 0;
-                _this6.Submitted_count = 0;
+                _this7.Over_total = 0;
+                _this7.Submitted_count = 0;
 
-                _this6.ShowLoading(); //if(this.Class != this.$route.params.id){
+                _this7.ShowLoading(); //if(this.Class != this.$route.params.id){
 
 
-                _this6.ListData.forEach(function (item) {
-                  if (item.class_id == _this6.Class) {
-                    _this6.Over_total++;
+                _this7.ListData.forEach(function (item) {
+                  if (item.class_id == _this7.Class) {
+                    _this7.Over_total++;
 
                     if (item.status == 'Submitted') {
-                      _this6.Submitted_count++;
+                      _this7.Submitted_count++;
                     }
                   }
                 }); //}
@@ -634,20 +647,20 @@ var checksubjective = function checksubjective() {
       }))();
     },
     ViewSubmission: function ViewSubmission(data, index) {
-      var _this7 = this;
+      var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this7.AllData = _this7.studentSubmissionList;
-                _this7.CheckData = data;
-                _this7.selected_index = index;
-                _this7.dialog = true;
-                _this7.isStarting = true;
+                _this8.AllData = _this8.studentSubmissionList;
+                _this8.CheckData = data;
+                _this8.selected_index = index;
+                _this8.dialog = true;
+                _this8.isStarting = true;
 
-                _this7.$store.dispatch("isViewingSubmission");
+                _this8.$store.dispatch("isViewingSubmission");
 
               case 6:
               case "end":
@@ -23129,7 +23142,9 @@ var render = function() {
                                     "div",
                                     { staticClass: "d-flex flex-column" },
                                     [
-                                      _c("h1", [_vm._v(_vm._s(_vm.Graded))]),
+                                      _c("h1", [
+                                        _vm._v(_vm._s(_vm.GradedStudent))
+                                      ]),
                                       _vm._v(" "),
                                       _c("small", [_vm._v("Graded")])
                                     ]

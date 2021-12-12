@@ -14,19 +14,83 @@ const routes = [
                 name: "coursePage",
                 path: "",
                 component: () => import (/* webpackChunkName: "Course_Page" */"../components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent"),
-                beforeEnter: (to, from, next) => {
+               /*  beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
                     else next({ name: 'announcement', params: {id: to.params.id}, replace: true })
-                }
+                } */
+
+                beforeEnter: (to, from, next) => {
+                    store.dispatch('fetchMyCoursesStatus').then((res) => {
+                        if (res.status == 200) {
+                            store.dispatch('CheckMyCourse', to.params.id).then(response => {
+                                if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                    if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                        if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                           next()
+                                        } else {
+                                            return next({
+                                                name: "announcement",
+                                                params: { id: to.params.id }
+                                            })
+                                        }
+
+                                    } else {
+                                        return next({
+                                            name: "courseSetup",
+                                            params: { id: to.params.id }
+                                        })
+                                    }
+                                } else {
+                                    return next({
+                                        name: "course-not-found",
+                                        params: { id: to.params.id }
+                                    })
+                                }
+                            })
+                        }
+                    })
+
+                },
             },
             {
                 path: "setup",
                 component: () => import (/* webpackChunkName: "Course_Setup" */"../components/course-view/course-setup/courseSetupComponent"),
                 name: "courseSetup",
-                beforeEnter: (to, from, next) => {
+               /*  beforeEnter: (to, from, next) => {
                     if (store.state.CurrentUser.UserRole == 'Teacher') next()
                     else next({ path: '/page-access-denied', replace: true })
-                }
+                } */
+                beforeEnter: (to, from, next) => {
+                    store.dispatch('fetchMyCoursesStatus').then(() => {
+                        store.dispatch('fetchCurrentUser').then(() => {
+                            if (store.state.CurrentUser.UserRole == 'Teacher') {
+                                store.dispatch('CheckMyCourse', to.params.id).then(res => {
+                                    if (store.state.CurrentUser.CurrentStatus.exist == true) {
+                                        if (store.state.CurrentUser.CurrentStatus.status == 1) {
+                                            return next({
+                                                name: "coursePage",
+                                                params: { id: to.params.id }
+                                            })
+                                        } else {
+                                            next();
+                                        }
+                                    } else {
+                                        return next({
+                                            name: "course-not-found",
+                                            params: { id: to.params.id }
+                                        })
+                                    }
+                                })
+                            } else {
+                                return next({
+                                    name: "courses",
+
+                                })
+                            }
+                        })
+                    })
+                },
+
             },
             {
                 name: "classses",

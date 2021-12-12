@@ -46,7 +46,6 @@ const router = new Router({
                         replace: true
                     });
                 })
-
             },
             children: [{
                     path: "",
@@ -107,7 +106,7 @@ router.beforeEach((to, from, next) => {
     ];
     if (to.name != 'login' && to.name != 'register') {
 
-        store.dispatch('IsAuthenticated').then(() => {
+        store.dispatch('IsAuthenticated').then((res) => {
             if (store.state.CurrentUser.IsAuthenticated == true) {
                 if (protectedRoutes.includes(to.name)) {
                     store.dispatch('fetchMyCoursesStatus').then(() => {
@@ -117,14 +116,9 @@ router.beforeEach((to, from, next) => {
                                     if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                         if (to.name == 'courseSetup') {
                                             if (store.state.CurrentUser.UserRole == 'Teacher')
-                                            next({ name: 'coursePage', params: {id: to.params.id}, replace: true })
-                                            else next({ name: 'announcement', params: {id: to.params.id}, replace: true })
+                                            return next({ name: 'coursePage', params: {id: to.params.id}, replace: true })
+                                            else return next({ name: 'announcement', params: {id: to.params.id}, replace: true })
 
-                                           /*  next({
-                                                name: "announcement",
-                                                params: { id: to.params.id },
-                                                replace: true
-                                            }) */
                                         } else {
                                             next();
                                         }

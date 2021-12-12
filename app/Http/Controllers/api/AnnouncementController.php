@@ -141,7 +141,7 @@ class AnnouncementController extends Controller
           $NewPost->save();
 
 
-        
+          //broadcast(new NewPost($NewPost))->toOthers();
           //New notification
          /* $userInClass = tbl_subject_course::where("tbl_subject_courses.id", $NewPost->course_id)
           ->first(); */
@@ -156,7 +156,7 @@ class AnnouncementController extends Controller
           
 
          /*  broadcast(new NewNotification($newNotification))->toOthers(); */
-          //broadcast(new NewPost($NewPost))->toOthers();
+          
 
 
           return response()->json([
@@ -169,6 +169,7 @@ class AnnouncementController extends Controller
             "profile_pic" => $username->profile_pic,
             "comment_count" => 0,
             "likes_count" => 0,
+            "class_id" => $NewPost->class_id,
             "u_id"=> $userId
         ]);
      

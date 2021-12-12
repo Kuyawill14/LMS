@@ -118,6 +118,7 @@ var announcementPostList = function announcementPostList() {
       /*  window.Echo.private("post."+ this.$route.params.id)
        .listen('NewPost', e =>{
            vm.fetchClassPost(this.$route.params.id);
+           
        }) */
     },
     SetClassname: function SetClassname(data) {

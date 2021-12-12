@@ -108,7 +108,7 @@ const actions = {
 
         state.CurrentStatus.exist = exist;
         state.CurrentStatus.status = status;
-        return { 'exist': exist, 'status': status };
+        //return { 'exist': exist, 'status': status };
     },
     async setAsOffline({ commit }){
         axios.post('/api/logout')

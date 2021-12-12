@@ -2203,7 +2203,7 @@ router.beforeEach(function (to, from, next) {
   var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'classses', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
 
   if (to.name != 'login' && to.name != 'register') {
-    _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function () {
+    _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function (res) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
         if (protectedRoutes.includes(to.name)) {
           _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('fetchMyCoursesStatus').then(function () {
@@ -2212,24 +2212,19 @@ router.beforeEach(function (to, from, next) {
                 if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.exist == true) {
                   if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.CurrentStatus.status == 1) {
                     if (to.name == 'courseSetup') {
-                      if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole == 'Teacher') next({
+                      if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole == 'Teacher') return next({
                         name: 'coursePage',
                         params: {
                           id: to.params.id
                         },
                         replace: true
-                      });else next({
+                      });else return next({
                         name: 'announcement',
                         params: {
                           id: to.params.id
                         },
                         replace: true
                       });
-                      /*  next({
-                           name: "announcement",
-                           params: { id: to.params.id },
-                           replace: true
-                       }) */
                     } else {
                       next();
                     }
@@ -2740,13 +2735,45 @@ var routes = [{
     component: function component() {
       return __webpack_require__.e(/*! import() | Course_Page */ "Course_Page").then(__webpack_require__.bind(__webpack_require__, /*! ../components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent */ "./resources/js/components/course-view/tabs/dashboard-tab/teacher_course_dashboardComponent.vue"));
     },
+
+    /*  beforeEnter: (to, from, next) => {
+         if (store.state.CurrentUser.UserRole == 'Teacher') next()
+         else next({ name: 'announcement', params: {id: to.params.id}, replace: true })
+     } */
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        name: 'announcement',
-        params: {
-          id: to.params.id
-        },
-        replace: true
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('fetchMyCoursesStatus').then(function (res) {
+        if (res.status == 200) {
+          _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('CheckMyCourse', to.params.id).then(function (response) {
+            if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.CurrentStatus.exist == true) {
+              if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.CurrentStatus.status == 1) {
+                if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') {
+                  next();
+                } else {
+                  return next({
+                    name: "announcement",
+                    params: {
+                      id: to.params.id
+                    }
+                  });
+                }
+              } else {
+                return next({
+                  name: "courseSetup",
+                  params: {
+                    id: to.params.id
+                  }
+                });
+              }
+            } else {
+              return next({
+                name: "course-not-found",
+                params: {
+                  id: to.params.id
+                }
+              });
+            }
+          });
+        }
       });
     }
   }, {
@@ -2755,10 +2782,42 @@ var routes = [{
       return __webpack_require__.e(/*! import() | Course_Setup */ "Course_Setup").then(__webpack_require__.bind(__webpack_require__, /*! ../components/course-view/course-setup/courseSetupComponent */ "./resources/js/components/course-view/course-setup/courseSetupComponent.vue"));
     },
     name: "courseSetup",
+
+    /*  beforeEnter: (to, from, next) => {
+         if (store.state.CurrentUser.UserRole == 'Teacher') next()
+         else next({ path: '/page-access-denied', replace: true })
+     } */
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') next();else next({
-        path: '/page-access-denied',
-        replace: true
+      _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('fetchMyCoursesStatus').then(function () {
+        _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('fetchCurrentUser').then(function () {
+          if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Teacher') {
+            _store_store__WEBPACK_IMPORTED_MODULE_0__.default.dispatch('CheckMyCourse', to.params.id).then(function (res) {
+              if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.CurrentStatus.exist == true) {
+                if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.CurrentStatus.status == 1) {
+                  return next({
+                    name: "coursePage",
+                    params: {
+                      id: to.params.id
+                    }
+                  });
+                } else {
+                  next();
+                }
+              } else {
+                return next({
+                  name: "course-not-found",
+                  params: {
+                    id: to.params.id
+                  }
+                });
+              }
+            });
+          } else {
+            return next({
+              name: "courses"
+            });
+          }
+        });
       });
     }
   }, {
@@ -3418,13 +3477,9 @@ var actions = {
                 }
               });
               state.CurrentStatus.exist = exist;
-              state.CurrentStatus.status = status;
-              return _context6.abrupt("return", {
-                'exist': exist,
-                'status': status
-              });
+              state.CurrentStatus.status = status; //return { 'exist': exist, 'status': status };
 
-            case 7:
+            case 6:
             case "end":
               return _context6.stop();
           }
@@ -38016,7 +38071,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
