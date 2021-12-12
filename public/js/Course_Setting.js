@@ -488,7 +488,11 @@ var render = function() {
         [
           _c(
             "v-col",
+<<<<<<< HEAD
             { attrs: { cols: "12" } },
+=======
+            { attrs: { cols: "12", md: "10" } },
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
             [
               _c(
                 "v-form",

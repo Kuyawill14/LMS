@@ -152,6 +152,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+<<<<<<< HEAD
+=======
+//
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -210,6 +214,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.grading_criteria_form.course_id = this.$route.params.id;
       ;
     },
+<<<<<<< HEAD
     openDelete: function openDelete(data) {
       if (data.publish_count == 0) {
         this.delId = data.id;
@@ -217,6 +222,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         this.toastError('There is already published classwork in this criteria!');
       }
+=======
+    openDelete: function openDelete(id) {
+      this.delId = id;
+      this.Deldialog = true;
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
     },
     addGradeCriteria: function addGradeCriteria() {
       var _this = this;
@@ -483,7 +493,11 @@ var render = function() {
         [
           _c(
             "v-col",
+<<<<<<< HEAD
             { attrs: { cols: "12", md: "12" } },
+=======
+            { attrs: { cols: "12", md: "10" } },
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
             [
               _c(
                 "v-card",
@@ -576,7 +590,11 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   return _vm.openDelete(
+<<<<<<< HEAD
                                                     gradeCriteria
+=======
+                                                    gradeCriteria.id
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                                                   )
                                                 }
                                               }
@@ -800,7 +818,11 @@ var render = function() {
       _c(
         "v-dialog",
         {
+<<<<<<< HEAD
           attrs: { persistent: "", "max-width": "390" },
+=======
+          attrs: { persistent: "", "max-width": "290" },
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
           model: {
             value: _vm.Deldialog,
             callback: function($$v) {
@@ -813,12 +835,21 @@ var render = function() {
           _c(
             "v-card",
             [
+<<<<<<< HEAD
               _c("v-card-title", [
+=======
+              _c("v-card-title", { staticClass: "headline" }, [
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                 _vm._v(
                   "\n                Are you sure you want to delete this?\n            "
                 )
               ]),
               _vm._v(" "),
+<<<<<<< HEAD
+=======
+              _c("v-card-text", [_vm._v("{some message} ")]),
+              _vm._v(" "),
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
               _c(
                 "v-card-actions",
                 [
@@ -827,7 +858,11 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
+<<<<<<< HEAD
                       attrs: { rounded: "", text: "" },
+=======
+                      attrs: { text: "" },
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                       on: {
                         click: function($event) {
                           _vm.Deldialog = false
@@ -840,7 +875,11 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
+<<<<<<< HEAD
                       attrs: { rounded: "", color: "primary", text: "" },
+=======
+                      attrs: { color: "primary", text: "" },
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                       on: {
                         click: function($event) {
                           return _vm.removeGradeCriteria()

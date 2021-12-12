@@ -115,11 +115,19 @@ var announcementPostList = function announcementPostList() {
           _this.isGetting = false;
         }
       });
+<<<<<<< HEAD
       /*   window.Echo.private("post."+ this.$route.params.id)
         .listen('NewPost', e =>{
            vm.fetchClassPost(this.$route.params.id);
             
         }) */
+=======
+      /*  window.Echo.private("post."+ this.$route.params.id)
+       .listen('NewPost', e =>{
+           vm.fetchClassPost(this.$route.params.id);
+           
+       }) */
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
     },
     SetClassname: function SetClassname(data) {
       this.ClassName = data;
@@ -147,10 +155,15 @@ var announcementPostList = function announcementPostList() {
     this.connect();
     this.fetchClassnames();
   },
+<<<<<<< HEAD
   beforeDestroy: function beforeDestroy() {
     //this.classNames.destroy();
     //this.getclass_post.destroy();
     window.Echo.leave("post." + this.$route.params.id);
+=======
+  beforeDestroy: function beforeDestroy() {//this.classNames.destroy();
+    //this.getclass_post.destroy();
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
   }
 });
 
@@ -2834,7 +2847,10 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -2984,9 +3000,15 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
+<<<<<<< HEAD
                     'an existing locale. moment.defineLocale(localeName, ' +
                     'config) should only be used for creating a new locale ' +
                     'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+=======
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3011,7 +3033,11 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
+<<<<<<< HEAD
             localeFamilies[name].forEach(function (x) {
+=======
+            localeFamilies[name].forEach(function(x) {
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                 defineLocale(x.name, x.config);
             });
         }
@@ -3102,7 +3128,10 @@ function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/ordinal.js":

@@ -56,7 +56,11 @@ var studentView = function studentView() {
         disabled: false,
         link: 'courses'
       }, {
+<<<<<<< HEAD
         text: this.role == 'Student' ? 'People' : 'Student',
+=======
+        text: 'People',
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
         disabled: true,
         link: 'Student-list'
       }]

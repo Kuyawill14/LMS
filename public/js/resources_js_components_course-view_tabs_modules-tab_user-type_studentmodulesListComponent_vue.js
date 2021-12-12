@@ -141,6 +141,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
   },
   data: function data() {
     return {
+      isBlur: false,
       renderComponent: true,
       warning_count: 0,
       idleTimer: 30,
@@ -413,7 +414,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
         //console.log(document.activeElement.tagName);
         //execute your code here
         //we only want to listen for the first time we click into the iframe
-        setInterval(function () {
+        this.isBlur = setInterval(function () {
           document.activeElement.blur();
         }, 1000); // clearInterval(blurTimer);
       } else {
@@ -426,6 +427,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
   beforeDestroy: function beforeDestroy() {
     clearInterval(this.ctrTime);
     clearInterval(this.updateTime);
+    clearInterval(this.isBlur);
   }
 });
 

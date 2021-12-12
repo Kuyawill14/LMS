@@ -134,6 +134,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
 var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | forgot_password */ "forgot_password").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };
@@ -144,6 +145,78 @@ var loginRegisterFooter = function loginRegisterFooter() {
 
 var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
   return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterImageConatiner */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterImageConatiner.vue"));
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var forgotPassword = function forgotPassword() {
+  return __webpack_require__.e(/*! import() | verify-email */ "verify-email").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
 };
 
 
@@ -158,9 +231,13 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   title: 'Orange',
   components: {
+<<<<<<< HEAD
     forgotPassword: forgotPassword,
     loginRegisterFooter: loginRegisterFooter,
     loginRegisterImageConatiner: loginRegisterImageConatiner
+=======
+    forgotPassword: forgotPassword
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
   },
   data: function data() {
     return {
@@ -22808,7 +22885,206 @@ var render = function() {
                       attrs: { align: "center", justify: "center" }
                     },
                     [
+<<<<<<< HEAD
                       _c("loginRegisterImageConatiner"),
+=======
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "primary ma-0 pa-0 d-flex flex-column",
+                          staticStyle: {
+                            "justify-content": "center",
+                            background:
+                              "linear-gradient(rgba(255, 130, 0, 0.85), rgba(255, 153, 0, 0.85)) 50% center / cover no-repeat, url('https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/ISU-Gate-Copy.jpg')",
+                            height: "100vh",
+                            "background-position-x": "center",
+                            "background-repeat": "no-repeat",
+                            "background-size": "cover"
+                          },
+                          style:
+                            _vm.$vuetify.breakpoint.xs ||
+                            _vm.$vuetify.breakpoint.sm
+                              ? "height:35vh;"
+                              : "height:100vh",
+                          attrs: { cols: "12", md: "7" }
+                        },
+                        [
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pb-0 mb-0 pl-5 d-flex justify-space-between"
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/isu_logo1.png"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/ccsict_logo_2.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          !_vm.$vuetify.breakpoint.xs &&
+                          !_vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pt-10 mb-0 pl-5 d-flex justify-center"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticStyle: { width: "250px" } },
+                                    [
+                                      _c("v-img", {
+                                        staticClass: "float-right",
+                                        attrs: {
+                                          height: "100",
+                                          width: "100",
+                                          "max-height": "100",
+                                          "max-width": "100",
+                                          src: "../images/isu_logo1.png"
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c("v-img", {
+                                        attrs: {
+                                          height: "100",
+                                          width: "100",
+                                          "max-height": "100",
+                                          "max-width": "100",
+                                          src: "../images/ccsict_logo_2.png"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            {
+                              staticClass: " ",
+                              style:
+                                _vm.$vuetify.breakpoint.xs ||
+                                _vm.$vuetify.breakpoint.sm
+                                  ? ""
+                                  : "padding-top: 35px;",
+                              attrs: { fluid: "" }
+                            },
+                            [
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-form",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "text-h2 white--text font-weight-bold"
+                                                },
+                                                [_vm._v("ISUE ORANGE")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "white--text" },
+                                                [
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("O")]
+                                                  ),
+                                                  _vm._v("nline "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("R")]
+                                                  ),
+                                                  _vm._v("esources "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("A")]
+                                                  ),
+                                                  _vm._v(
+                                                    "pp for a\n                                                "
+                                                  ),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("N")]
+                                                  ),
+                                                  _vm._v("ew "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("G")]
+                                                  ),
+                                                  _vm._v("uild of "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h5" },
+                                                    [_vm._v("E")]
+                                                  ),
+                                                  _vm._v("ducation")
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                       _vm._v(" "),
                       _c(
                         "v-col",
@@ -22899,7 +23175,11 @@ var render = function() {
                                                         },
                                                         [
                                                           _vm._v(
+<<<<<<< HEAD
                                                             "\n                                                        Login to your "
+=======
+                                                            "\n                                                    Login to your "
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                                                           ),
                                                           _c(
                                                             "span",
@@ -22933,7 +23213,11 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
+<<<<<<< HEAD
                                                                 "Create one here\n                                                        "
+=======
+                                                                "Create one here\n                                                    "
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                                                               )
                                                             ]
                                                           )
@@ -23150,7 +23434,11 @@ var render = function() {
                                                             ]
                                                           ),
                                                           _vm._v(
+<<<<<<< HEAD
                                                             "\n                                                        Login\n                                                    "
+=======
+                                                            "\n                                                    Login\n                                                "
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                                                           )
                                                         ],
                                                         1
@@ -23215,7 +23503,80 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
+<<<<<<< HEAD
                       _c("loginRegisterFooter")
+=======
+                      _c(
+                        "div",
+                        {
+                          staticStyle: {
+                            position: "absolute",
+                            bottom: "5px",
+                            right: "5px"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticStyle: {
+                                "text-transform": "unset !important"
+                              },
+                              attrs: {
+                                id: "help-btn",
+                                "active-class": "act-btn",
+                                depressed: "",
+                                rounded: "",
+                                text: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openFbPage()
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-facebook")
+                              ]),
+                              _vm._v(
+                                "    @ISUE-Orange \n                        "
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              staticStyle: {
+                                "text-transform": "unset !important"
+                              },
+                              attrs: {
+                                id: "help-btn",
+                                "active-class": "act-btn",
+                                depressed: "",
+                                rounded: "",
+                                text: ""
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.openFbMessage()
+                                }
+                              }
+                            },
+                            [
+                              _c("v-icon", { attrs: { left: "" } }, [
+                                _vm._v("mdi-account-question")
+                              ]),
+                              _vm._v("  Help \n                        ")
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                     ],
                     1
                   )

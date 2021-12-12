@@ -59,6 +59,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+<<<<<<< HEAD
 
 
 var loginRegisterFooter = function loginRegisterFooter() {
@@ -74,6 +75,78 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
     loginRegisterImageConatiner: loginRegisterImageConatiner,
     loginRegisterFooter: loginRegisterFooter
   },
+=======
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["verifyEmail"])),
   created: function created() {
     this.verifyEmail(this.$route.query).then(function (response) {//this.$router.push({name: 'login'});
@@ -182,7 +255,10 @@ var render = function() {
         [
           _c(
             "v-row",
+<<<<<<< HEAD
             { attrs: { align: "center", justify: "center" } },
+=======
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
             [
               _c(
                 "v-col",
@@ -204,7 +280,183 @@ var render = function() {
                       attrs: { align: "center", justify: "center" }
                     },
                     [
+<<<<<<< HEAD
                       _c("loginRegisterImageConatiner"),
+=======
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "primary ma-0 pa-0 d-flex flex-column",
+                          style:
+                            _vm.$vuetify.breakpoint.xs ||
+                            _vm.$vuetify.breakpoint.sm
+                              ? "height:35vh;"
+                              : "height:100vh",
+                          attrs: { cols: "12", md: "4" }
+                        },
+                        [
+                          _vm.$vuetify.breakpoint.xs ||
+                          _vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pb-0 mb-0 pl-5 d-flex justify-space-between"
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/isu_logo1.png"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/ccsict_logo_2.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            {
+                              staticClass: "fill-height",
+                              attrs: { fluid: "" }
+                            },
+                            [
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-form",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "display-2 white--text font-weight-bold"
+                                                },
+                                                [_vm._v("ORANGE")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                { staticClass: "white--text" },
+                                                [
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("O")]
+                                                  ),
+                                                  _vm._v("nline "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("R")]
+                                                  ),
+                                                  _vm._v("esources "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("A")]
+                                                  ),
+                                                  _vm._v("pp for a "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("N")]
+                                                  ),
+                                                  _vm._v("ew "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("G")]
+                                                  ),
+                                                  _vm._v("uild of "),
+                                                  _c(
+                                                    "b",
+                                                    { staticClass: "text-h6" },
+                                                    [_vm._v("E")]
+                                                  ),
+                                                  _vm._v("ducation")
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          !_vm.$vuetify.breakpoint.xs &&
+                          !_vm.$vuetify.breakpoint.sm
+                            ? _c(
+                                "v-container",
+                                {
+                                  staticClass:
+                                    "pb-0 mb-0 pl-5 d-flex justify-center"
+                                },
+                                [
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/isu_logo1.png"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-img", {
+                                    attrs: {
+                                      height: "70",
+                                      width: "70",
+                                      "max-height": "70",
+                                      "max-width": "70",
+                                      src: "../images/ccsict_logo_2.png"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      ),
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                       _vm._v(" "),
                       _c(
                         "v-col",
@@ -212,6 +464,7 @@ var render = function() {
                           class: _vm.$vuetify.breakpoint.xs
                             ? "ma-0 pa-3"
                             : "ma-0 pa-0",
+<<<<<<< HEAD
                           attrs: { cols: "12", md: "5" }
                         },
                         [
@@ -265,10 +518,62 @@ var render = function() {
                                                       attrs: {
                                                         align: "center",
                                                         justify: "center"
+=======
+                          attrs: { cols: "12", md: "8" }
+                        },
+                        [
+                          _c(
+                            "v-container",
+                            {
+                              staticClass: "d-flex align-start",
+                              attrs: { fluid: "" }
+                            },
+                            [
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c(
+                                    "v-form",
+                                    { staticClass: "text-center" },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "v-row",
+                                                {
+                                                  attrs: {
+                                                    align: "center",
+                                                    justify: "center"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-col",
+                                                    {
+                                                      staticClass:
+                                                        "text-center",
+                                                      attrs: {
+                                                        cols: "12",
+                                                        md: "5",
+                                                        xl: "5",
+                                                        lg: "5"
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                                                       }
                                                     },
                                                     [
                                                       _c(
+<<<<<<< HEAD
                                                         "v-col",
                                                         {
                                                           staticClass:
@@ -344,6 +649,64 @@ var render = function() {
                                                           )
                                                         ],
                                                         1
+=======
+                                                        "v-icon",
+                                                        {
+                                                          staticStyle: {
+                                                            "font-size": "4rem"
+                                                          },
+                                                          attrs: {
+                                                            "x-large": "",
+                                                            color: "success"
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                  mdi-check\n                                              "
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass: "text-h5"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "Email Verified"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("p", [
+                                                        _vm._v(
+                                                          "Your email address was successfully verified"
+                                                        )
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-btn",
+                                                        {
+                                                          staticClass:
+                                                            "primary",
+                                                          attrs: {
+                                                            rounded: ""
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.$router.push(
+                                                                {
+                                                                  name: "login"
+                                                                }
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [_vm._v("Continue")]
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                                                       )
                                                     ],
                                                     1
@@ -368,9 +731,13 @@ var render = function() {
                           )
                         ],
                         1
+<<<<<<< HEAD
                       ),
                       _vm._v(" "),
                       _c("loginRegisterFooter")
+=======
+                      )
+>>>>>>> 736ee3a14cebaa5e4a00e494107d3e4fcd74eb13
                     ],
                     1
                   )

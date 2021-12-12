@@ -41,10 +41,10 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-
+        $file = $request->logo;
 
         if($file){
-            $file = $request->logo;
+
             $upload_file = Storage::disk('DO_spaces')->putFile('Department_Logos', $file, 'public');
             $path = \Config::get('app.do_url').'/'.$upload_file;
         }
