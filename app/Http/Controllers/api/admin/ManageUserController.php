@@ -58,9 +58,9 @@ class ManageUserController extends Controller
              
             foreach($users_data as $user) {
 
-                $first_name = $user['first_name'];
-                $middle_name = $user['middle_name'];
-                $last_name = $user['last_name'];
+                $first_name = $user['first_name'] == null ? ' ' : $user['first_name'];
+                $middle_name = $user['middle_name'] == null ? ' ' :  $user['middle_name'];
+                $last_name = $user['last_name']  == null ? ' ' :  $user['last_name'];
            
                 $email = $user['email'];
 

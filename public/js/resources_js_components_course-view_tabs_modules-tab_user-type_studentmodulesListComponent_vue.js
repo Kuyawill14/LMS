@@ -400,10 +400,10 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
     });
     $(window).bind('touchmove', function () {
       self.forceRerender();
-    });
-    document.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
+    }); // document.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault();
+    // });
+
     window.addEventListener("onbeforeunload", this.preventNav);
     $(window).blur(function () {
       // let blurTimer = setTimeout(() => {
