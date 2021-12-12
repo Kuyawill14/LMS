@@ -9,8 +9,8 @@
             <router-link to="/">
                 <v-toolbar-title class="ml-0 white--text">
                     <span class="pointer">ISUE ORANGE</span>
-                    <!-- <v-img contain :height="$vuetify.breakpoint.mdAndUp ? '48' : '45'" width="140" 
-            src="/storage/system_logo/Orange.png"></v-img> -->
+                  <!--   <v-img contain :height="$vuetify.breakpoint.mdAndUp ? '48' : '45'" width="140" 
+            src="../images/Orange.png"></v-img> -->
                 </v-toolbar-title>
             </router-link>
 
