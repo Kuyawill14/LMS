@@ -1,6 +1,6 @@
 <template>
     <div class="pt-1">
-        <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
+        <v-row align="center" justify="center" class="pt-10" v-if="allClass.length == 0 && !isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:10rem">
                     mdi-google-classroom
@@ -51,7 +51,7 @@
         <v-dialog v-model="removeDialog" width="400">
             <deleteClass v-if="removeDialog" v-on:toggleCancelDialog="removeDialog = false" v-on:toggleConfirm="removeClass()"></deleteClass>
         </v-dialog>
-        <div v-if="!isGetting && classLength > 0">
+        <div v-if="!isGetting && allClass.length != 0">
 
 
         <v-row>

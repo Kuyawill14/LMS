@@ -537,7 +537,7 @@ var render = function() {
     "div",
     { staticClass: "pt-1" },
     [
-      _vm.classLength == 0
+      _vm.allClass.length == 0 && !_vm.isGetting
         ? _c(
             "v-row",
             {
@@ -743,7 +743,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      !_vm.isGetting && _vm.classLength > 0
+      !_vm.isGetting && _vm.allClass.length != 0
         ? _c(
             "div",
             [

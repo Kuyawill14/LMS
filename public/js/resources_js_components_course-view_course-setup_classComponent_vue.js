@@ -149,18 +149,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var VueElementLoading = function VueElementLoading() {
   return Promise.resolve(/*! import() */).then(__webpack_require__.t.bind(__webpack_require__, /*! vue-element-loading */ "./node_modules/vue-element-loading/lib/vue-element-loading.min.js", 23));
 };
@@ -203,13 +191,14 @@ var deleteClass = function deleteClass() {
       class_details: []
     };
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
   methods: _objectSpread(_objectSpread({
     back: function back() {
       this.$emit('changeStep', 2);
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
     reloadClass: function reloadClass() {
-      this.getTeacherClasses();
+      this.reloadClasses();
       this.showModal = false;
     },
     closeModal: function closeModal() {
@@ -264,7 +253,6 @@ var deleteClass = function deleteClass() {
       this.fetchSubjectCourseClassList(this.$route.params.id).then(function () {
         setTimeout(function () {
           _this2.isGetting = false;
-          _this2.classLength = _this2.allClass.length;
         }, 500);
       });
     },
@@ -276,9 +264,7 @@ var deleteClass = function deleteClass() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this3.fetchSubjectCourseClassList(_this3.$route.params.id).then(function () {
-                  _this3.classLength = _this3.allClass.length;
-                });
+                _this3.fetchSubjectCourseClassList(_this3.$route.params.id);
 
               case 1:
               case "end":
@@ -289,7 +275,6 @@ var deleteClass = function deleteClass() {
       }))();
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
   mounted: function mounted() {
     this.getTeacherClasses();
   }
@@ -450,7 +435,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.classLength == 0 && !this.isGetting
+      _vm.allClass.length == 0 && !this.isGetting
         ? _c(
             "v-row",
             {
@@ -621,7 +606,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      !_vm.isGetting && _vm.classLength > 0
+      !_vm.isGetting && _vm.allClass.length != 0
         ? _c(
             "div",
             [
