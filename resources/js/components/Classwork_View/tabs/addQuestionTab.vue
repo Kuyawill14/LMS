@@ -696,9 +696,9 @@ export default {
                                [{ 'list': 'bullet' }],
                                ['image']
                             ],
-                            handlers: {
+                            /* handlers: {
                                 image: this.imageHandler
-                            }
+                            } */
                         },
                     syntax: {
                         highlight: text => hljs.highlightAuto(text).value

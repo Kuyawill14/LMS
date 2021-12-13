@@ -115,7 +115,6 @@
                 </v-col>
             </v-row>
         </v-container>
-
     </v-app>
 </template>
 

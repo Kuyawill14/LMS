@@ -144,9 +144,9 @@ export default {
                                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                                 ['link', 'image', 'video'],
                             ],
-                            handlers: {
+                            /* handlers: {
                                 image: this.imageHandler
-                            }
+                            } */
                         },           
                     },
                     
