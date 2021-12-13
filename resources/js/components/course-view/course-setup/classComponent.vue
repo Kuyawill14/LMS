@@ -178,7 +178,7 @@
             ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
             reloadClass() {
                 this.getTeacherClasses();
-                this.showModal = false
+                this.showModal = false;
             },
             closeModal() {
                 this.showModal = false;

@@ -45,7 +45,7 @@
                                 ></v-checkbox>
                                 </v-container> -->
 
-                                <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
+                                <v-radio-group :rules="rules" hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                                 <v-radio
                                     v-for="(n, index) in InputAvailability"
                                     :key="index"
@@ -161,7 +161,7 @@
                                 </v-col>
 
                              <v-col v-if="showAns"  class="text-left pl-7 pa-0 ma-0" cols="12">
-                                <v-radio-group class="ml-12 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
+                                <v-radio-group :rules="rules" class="ml-12 mt-0 pt-0 mb-0 pb-0" v-model="showAnsType">
                                 <v-radio
                                     v-for="(n, index) in InputShowAnswer"
                                     :key="index"
@@ -282,7 +282,10 @@ export default {
             test: '',
             disabledDates: {
                 to: new Date(Date.now() - 8640000)
-            }
+            },
+            rules: [
+                v => !!v || 'Field is required',
+            ],
             
         }
     },

@@ -208,7 +208,10 @@
                 this.showModal = false
             },
            reloadClass() {
-                this.fetchSubjectCourseClassList(this.$route.params.id);
+                this.fetchSubjectCourseClassList(this.$route.params.id)
+                 .then(() => {
+                        this.classLength = this.allClass.length;
+                    })
                 this.showModal = false
             },
             openAddmodal() {

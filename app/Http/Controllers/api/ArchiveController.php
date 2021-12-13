@@ -206,7 +206,7 @@ class ArchiveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function StudentrestoreClass($id)
+    public function StudentRestoreClass($id)
     {
      
         $CheckClass = tbl_userclass::withTrashed()->where("id", $id)->restore();

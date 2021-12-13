@@ -169,25 +169,25 @@
                 if (this.$refs.RegisterForm.validate()) {
                     this.isRegistering = true;
                     this.form.post('/api/register')
-                        .then((res) => {
-                            if (res.data.success == true) {
-                                this.toastSuccess(res.data.message);
-                                this.login(this.form.email, this.form.password);
-                                this.valid = true;
-                                this.isRegistering = false;
-                                 this.$refs.RegisterForm.reset();
-
-                            } else {
-                                this.toastError(res.data.message);
-                                this.invalid_classcode_message = res.data.message;
-                                this.isRegistering = false;
-                            }
-
-                        })
-                        .catch(e => {
-                            this.toastError(e.response.data.message);
+                    .then((res) => {
+                        if (res.data.success == true) {
+                            this.toastSuccess(res.data.message);
+                            this.login(this.form.email, this.form.password);
+                            this.valid = true;
                             this.isRegistering = false;
-                        })
+                                this.$refs.RegisterForm.reset();
+
+                        } else {
+                            this.toastError(res.data.message);
+                            this.invalid_classcode_message = res.data.message;
+                            this.isRegistering = false;
+                        }
+
+                    })
+                    .catch(e => {
+                        this.toastError(e.response.data.message);
+                        this.isRegistering = false;
+                    })
 
                 }
             },
@@ -196,19 +196,17 @@
                 this.loginForm.password = password;
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     this.loginForm.post('/api/login')
-                        .then((res) => {
-                            if (res.data.success == true) {
-                                this.$store.dispatch('clear_current_user');
-                                this.$router.push({
-                                    path: "/"
-                                })
-                            } else {
-                                this.toastError(res.data.message);
-                            }
-                        })
-
+                    .then((res) => {
+                        if (res.data.success == true) {
+                            this.$store.dispatch('clear_current_user');
+                            this.$router.push({
+                                path: "/"
+                            })
+                        } else {
+                            this.toastError(res.data.message);
+                        }
+                    })
                 });
-
             },
 
         }

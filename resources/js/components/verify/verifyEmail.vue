@@ -49,7 +49,7 @@ export default {
     loginRegisterFooter
   },
   methods: {
-          ...mapActions(["verifyEmail"])
+        ...mapActions(["verifyEmail"])
       },
   created(){
       this.verifyEmail(this.$route.query).then((response) => {

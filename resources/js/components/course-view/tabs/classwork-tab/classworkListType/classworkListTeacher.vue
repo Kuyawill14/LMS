@@ -15,15 +15,21 @@
 
 
 
-        <v-btn  v-if="ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
-            <v-icon>mdi-plus</v-icon>
-        </v-btn>
+    <v-btn  v-if="ClassworkLength != 0" bottom color="primary" dark fab fixed right @click="dialog = !dialog">
+        <v-icon>mdi-plus</v-icon>
+    </v-btn>
 
     <v-dialog v-model="dialog"  persistent max-width="650">
             <newClassworkModal v-on:CloseDialog="dialog = !dialog" v-if="dialog"></newClassworkModal>
     </v-dialog>
 
 
+     <v-dialog v-model="duplicateDialog"  persistent max-width="400">
+            <duplicateClassworkDialog v-on:CloseDialog="duplicateDialog = !duplicateDialog" v-if="duplicateDialog"></duplicateClassworkDialog>
+    </v-dialog>
+
+
+    
 
 
     
@@ -78,30 +84,6 @@
                             <!--  <v-hover v-slot="{ hover }"> -->
                             
                                 <v-expansion-panel-header  class="pa-5" disable-icon-rotate hide-actions>
-                                        <!-- <div class="d-flex flex-row justify-space-between">
-                                        <div class="d-flex flex-row">
-                                            <v-avatar size="45"
-                                                color="blue" class="mr-2">
-                                                    <v-icon  color="white" >
-                                                    mdi-book-open-variant
-                                                </v-icon>
-                                            </v-avatar>
-                                            <div>
-                                                <div ma-0 pa-0 class="h1 ml-1 mt-2"> 
-                                                    <span 
-                                                        style="width: 250px;overflow-x: hidden;white-space: nowrap;text-overflow: ellipsis;"
-                                                        class="font-weight-bold">
-                                                        {{item.title}}
-                                                        <small class="primary--text font-weight-regular" v-if="item.type == 'Subjective Type'">({{item.points}} points)</small>
-                                                    </span>
-                                                </div> 
-                                                <div>
-                                                    <small class="card-subtitle text-50 mb-0 pb-0">Created: {{format_date(item.created_at)}}<br></small>
-                                                </div>
-                                                
-                                            </div>
-                                        </div> -->
-
                                         <v-list class="ma-0 pa-0">
                                             <v-list-item class="ma-0 pa-0">
                                                 <v-list-item-avatar size="48" color="blue">                                    
@@ -139,9 +121,12 @@
                                                             <v-list-item link @click="ArchiveClasswork(item, i, index)" ma-0 pa-0>
                                                                 <v-list-item-title><v-icon left>mdi-archive</v-icon>Archive</v-list-item-title>
                                                             </v-list-item>
-                                                            <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
+                                                             <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
                                                                 <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
                                                             </v-list-item>
+                                                           <!--  <v-list-item link @click="duplicateDialog = true"  ma-0 pa-0>
+                                                                <v-list-item-title><v-icon left>mdi-content-copy</v-icon>Duplicate classwork</v-list-item-title>
+                                                            </v-list-item> -->
                                                         </v-list>
                                                     </v-menu>
                                                 </v-list-item-action>
@@ -276,6 +261,7 @@
     const deleteDialog = () => import('../dialogs/deleteDiaglog');
     const archiveClassworkDialog = () => import('../dialogs/archiveClassworkDialog');
     const newClassworkModal = () => import('../newClassworkModal')
+    const duplicateClassworkDialog = () => import('../dialogs/duplicateClassworkDialog')
     import moment from 'moment-timezone';
 
     export default {
@@ -283,12 +269,14 @@
         components: {
             deleteDialog,
             newClassworkModal,
-            archiveClassworkDialog
+            archiveClassworkDialog,
+            duplicateClassworkDialog
         },
         data() {
             return {
                 Removedialog: false,
                 dialog: false,
+                duplicateDialog: false,
                 DeleteDetails:[],
                 DateToday:'',
                 ClassworkType: ['Objective Type', 'Subjective Type'],

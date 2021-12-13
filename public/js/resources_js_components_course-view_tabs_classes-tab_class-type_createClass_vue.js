@@ -115,12 +115,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -176,8 +170,8 @@ __webpack_require__.r(__webpack_exports__);
     createClass: function createClass() {
       this.form.course_id = this.$route.params.id;
       this.$store.dispatch('createClass', this.form);
-      this.clearFormInputs();
       this.$emit('newClassAdded');
+      this.clearFormInputs();
       this.toastSuccess();
     },
     AddSchedule: function AddSchedule() {
@@ -195,6 +189,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.addScheduleDialog = !this.addScheduleDialog;
       this.clearInputs();
+      this.$refs.Schedform.resetValidation();
     },
     clearInputs: function clearInputs() {
       this.day = null;
@@ -22645,27 +22640,33 @@ var render = function() {
                           _c("v-icon", [_vm._v("mdi-plus")])
                         ],
                         1
-                      )
+                      ),
+                      _vm._v(" "),
+                      _vm.form.schedule.length != 0 ? _c("v-divider") : _vm._e()
                     ],
                     1
                   ),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
+                    { staticClass: "pa-0 ma-0 mt-4", attrs: { cols: "12" } },
                     [
                       _c(
                         "v-row",
                         _vm._l(_vm.form.schedule, function(item, index) {
                           return _c(
                             "v-col",
-                            { key: index, attrs: { cols: "12" } },
+                            {
+                              key: index,
+                              staticClass: "mb-0 pb-0 mt-0 pt-0",
+                              attrs: { cols: "12" }
+                            },
                             [
                               _c(
                                 "div",
                                 { staticClass: "d-flex justify-space-between" },
                                 [
-                                  _c("div", { staticClass: "d-flex" }, [
+                                  _c("div", { staticClass: "d-flex mt-2" }, [
                                     _c(
                                       "span",
                                       { staticClass: "pr-1" },
@@ -22683,7 +22684,7 @@ var render = function() {
                                       _vm._v(_vm._s(item.day) + "- ")
                                     ]),
                                     _vm._v(" "),
-                                    _c("span", [
+                                    _c("span", { staticClass: "ml-1" }, [
                                       _vm._v(
                                         _vm._s(
                                           item.display_start +
@@ -22694,69 +22695,59 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("div", [
-                                    _c(
-                                      "span",
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.OpenEdit(item, index)
-                                              }
+                                  _c(
+                                    "div",
+                                    { staticClass: "d-flex mb-0 pb-0" },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.OpenEdit(item, index)
                                             }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                attrs: {
-                                                  color: "blue",
-                                                  small: ""
-                                                }
-                                              },
-                                              [_vm._v("mdi-pencil")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "span",
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.DeleteSchedule(index)
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                color: "blue",
+                                                small: ""
                                               }
+                                            },
+                                            [_vm._v("mdi-pencil")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.DeleteSchedule(index)
                                             }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                attrs: {
-                                                  color: "red",
-                                                  small: ""
-                                                }
-                                              },
-                                              [_vm._v("mdi-delete")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: { color: "red", small: "" }
+                                            },
+                                            [_vm._v("mdi-delete")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
                                 ]
                               )
                             ]
@@ -22776,6 +22767,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-card-actions",
+            { staticClass: "mt-3" },
             [
               _c("v-spacer"),
               _vm._v(" "),

@@ -37,19 +37,19 @@
                                 </v-btn>
                             </div>
                         </div>
-                        
+                         <v-divider v-if="class_details.schedule.length != 0"></v-divider>
                     </v-col>
                     <v-divider></v-divider>
-                    <v-col cols="12" class="pa-0 ma-0 mt-2">
+                    <v-col cols="12" class="pa-0 ma-0 mt-4">
                         <v-row v-if="class_details.schedule != false">
                             
-                            <v-col class="mb-0 pb-0" cols="12" v-for="(item , index) in class_details.schedule" :key="index">
+                            <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" v-for="(item , index) in class_details.schedule" :key="index">
                                 <div class="d-flex justify-space-between">
                                     <div class="d-flex mt-2">
                                         <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
                                     
                                         <span>{{item.day}}- </span>
-                                        <span>{{item.display_start+' to '+item.display_end}}</span>
+                                        <span class="ml-1">{{item.display_start+' to '+item.display_end}}</span>
                                     </div>
                                     <div>
                                         <span><v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn></span>

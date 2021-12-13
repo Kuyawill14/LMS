@@ -237,10 +237,10 @@
         },
         methods: {
             openFbMessage() {
- window.open('https://www.messenger.com/t/102514265611526/', '_blank').focus();
+                window.open('https://www.messenger.com/t/102514265611526/', '_blank').focus();
             },
             openFbPage() {
-  window.open('https://www.facebook.com/ISUE-Orange-102514265611526', '_blank').focus();
+                window.open('https://www.facebook.com/ISUE-Orange-102514265611526', '_blank').focus();
             },
             validate() {
                 if (this.$refs.loginForm.validate()) {

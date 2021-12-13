@@ -67,7 +67,7 @@
                                 v-model="post.content" theme="bubble" :options="options"></editor>
                                 <div class="d-flex justify-end mt-1">
                                      <v-btn small depressed dark :disabled="post.content == ''" color="success" @click="updatePost(post)" class="mt-1 ml-2" >Update post</v-btn>
-                                      <v-btn @click="post.content = tempOldPost, isEditingPost = false, isEditingPost_id = null" small depressed dark  color="red"  class="mt-1 ml-2" >Cancel</v-btn>
+                                    <v-btn @click="post.content = tempOldPost, isEditingPost = false, isEditingPost_id = null" small depressed dark  color="red"  class="mt-1 ml-2" >Cancel</v-btn>
                                 </div>
                                
                             </div>
@@ -243,7 +243,6 @@ import axios from 'axios';
                     this.isEditingPost_id = post_id;
                     this.tempOldPost = content;
                 }
-                
             },
             async updatePost(data){
                 this.$store.dispatch('updateClasspost', data).then(()=>{

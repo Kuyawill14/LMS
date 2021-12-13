@@ -301,7 +301,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       test: '',
       disabledDates: {
         to: new Date(Date.now() - 8640000)
-      }
+      },
+      rules: [function (v) {
+        return !!v || 'Field is required';
+      }]
     };
   },
   methods: {
@@ -22920,7 +22923,7 @@ var render = function() {
                             "v-radio-group",
                             {
                               staticClass: "ml-2 mt-0 pt-0 mb-0 pb-0",
-                              attrs: { "hide-details": "" },
+                              attrs: { rules: _vm.rules, "hide-details": "" },
                               model: {
                                 value: _vm.availability,
                                 callback: function($$v) {
@@ -23166,6 +23169,7 @@ var render = function() {
                                 "v-radio-group",
                                 {
                                   staticClass: "ml-12 mt-0 pt-0 mb-0 pb-0",
+                                  attrs: { rules: _vm.rules },
                                   model: {
                                     value: _vm.showAnsType,
                                     callback: function($$v) {

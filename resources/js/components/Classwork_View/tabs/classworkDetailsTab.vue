@@ -62,7 +62,7 @@
                         </v-col>
 
                         <v-col cols="12" class="mb-0">
-                            <v-text-field outlined label="Points *" class="text-field" v-model="criteria_form.points"
+                            <v-text-field outlined label="Percentage *" class="text-field" v-model="criteria_form.points"
                                 type="number" :rules="RubricsPointsRules" required>
                             </v-text-field>
                         </v-col>

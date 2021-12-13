@@ -22688,15 +22688,20 @@ var render = function() {
                             1
                           )
                         ]
-                      )
-                    ]
+                      ),
+                      _vm._v(" "),
+                      _vm.class_details.schedule.length != 0
+                        ? _c("v-divider")
+                        : _vm._e()
+                    ],
+                    1
                   ),
                   _vm._v(" "),
                   _c("v-divider"),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
+                    { staticClass: "pa-0 ma-0 mt-4", attrs: { cols: "12" } },
                     [
                       _vm.class_details.schedule != false
                         ? _c(
@@ -22709,7 +22714,7 @@ var render = function() {
                                 "v-col",
                                 {
                                   key: index,
-                                  staticClass: "mb-0 pb-0",
+                                  staticClass: "mb-0 pb-0 mt-0 pt-0",
                                   attrs: { cols: "12" }
                                 },
                                 [
@@ -22741,7 +22746,7 @@ var render = function() {
                                             _vm._v(_vm._s(item.day) + "- ")
                                           ]),
                                           _vm._v(" "),
-                                          _c("span", [
+                                          _c("span", { staticClass: "ml-1" }, [
                                             _vm._v(
                                               _vm._s(
                                                 item.display_start +

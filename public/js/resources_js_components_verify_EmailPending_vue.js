@@ -336,7 +336,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "\n                                                                  mdi-email\n                                                              "
+                                                                        "\r\n                                                              mdi-email\r\n                                                          "
                                                                       )
                                                                     ]
                                                                   )
@@ -379,7 +379,7 @@ var render = function() {
                                                                   ]
                                                                 ),
                                                                 _vm._v(
-                                                                  " \n                                                              to verify your email address and active your account. If you cannot find the e-mail, please also check the Junk/Spam folder.\n                                                          "
+                                                                  " \r\n                                                          to verify your email address and active your account. If you cannot find the e-mail, please also check the Junk/Spam folder.\r\n                                                      "
                                                                 )
                                                               ]),
                                                               _vm._v(" "),
@@ -412,7 +412,7 @@ var render = function() {
                                                                     ]
                                                                   ),
                                                                   _vm._v(
-                                                                    "\n                                                            if you did not receive an email or would like to change the email address you signup up with.\n                                                          "
+                                                                    "\r\n                                                        if you did not receive an email or would like to change the email address you signup up with.\r\n                                                      "
                                                                   )
                                                                 ]
                                                               )
@@ -459,7 +459,7 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "\n                                                                    mdi-email\n                                                                "
+                                                                        "\r\n                                                                mdi-email\r\n                                                            "
                                                                       )
                                                                     ]
                                                                   )

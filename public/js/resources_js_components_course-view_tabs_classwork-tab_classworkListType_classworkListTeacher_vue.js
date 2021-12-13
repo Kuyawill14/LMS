@@ -280,21 +280,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -307,18 +292,24 @@ var newClassworkModal = function newClassworkModal() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_newClassworkModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../newClassworkModal */ "./resources/js/components/course-view/tabs/classwork-tab/newClassworkModal.vue"));
 };
 
+var duplicateClassworkDialog = function duplicateClassworkDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_duplicateClassworkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/duplicateClassworkDialog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/duplicateClassworkDialog.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworks', 'ClassworkLength', 'role'],
   components: {
     deleteDialog: deleteDialog,
     newClassworkModal: newClassworkModal,
-    archiveClassworkDialog: archiveClassworkDialog
+    archiveClassworkDialog: archiveClassworkDialog,
+    duplicateClassworkDialog: duplicateClassworkDialog
   },
   data: function data() {
     return {
       Removedialog: false,
       dialog: false,
+      duplicateDialog: false,
       DeleteDetails: [],
       DateToday: '',
       ClassworkType: ['Objective Type', 'Subjective Type'],
@@ -22839,6 +22830,32 @@ var render = function() {
                 on: {
                   CloseDialog: function($event) {
                     _vm.dialog = !_vm.dialog
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.duplicateDialog,
+            callback: function($$v) {
+              _vm.duplicateDialog = $$v
+            },
+            expression: "duplicateDialog"
+          }
+        },
+        [
+          _vm.duplicateDialog
+            ? _c("duplicateClassworkDialog", {
+                on: {
+                  CloseDialog: function($event) {
+                    _vm.duplicateDialog = !_vm.duplicateDialog
                   }
                 }
               })

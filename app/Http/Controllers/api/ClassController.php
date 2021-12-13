@@ -230,32 +230,35 @@ class ClassController extends Controller
 
     public function classCount() {
         $userId = auth('sanctum')->id();
-        $classCount = tbl_userclass::where('tbl_userclasses.user_id', $userId)
-        ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
-        ->count();
-
-
-        
-        
-        
+        $classCount = 0;
         $studentCount = 0;
         if(auth('sanctum')->user()->role == 'Teacher'){
             $course_list = tbl_teacher_course::where('user_id', $userId)->get();
             foreach($course_list as $item){
-                $tmpCount = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id)
+                $tmpStudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id)
                 ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
                 ->where('users.role', 'Student')
                 ->count();
-                $studentCount += $tmpCount;
+
+                $studentCount += $tmpStudentCount;
+                $tmpClassCount = Tbl_class::where('tbl_classes.course_id', $item->course_id)->count();
+                $classCount += $tmpClassCount;
             }
+
+            return response()->json([
+                "classCount"=>$classCount, 
+                "studentCount"=>$studentCount
+            ]);
+        }
+        else if(auth('sanctum')->user()->role == 'Student'){
+            $classCount = tbl_userclass::where('tbl_userclasses.user_id', $userId)->count();
+            return response()->json([
+                "classCount"=>$classCount
+            ]);
         }
 
-        //return [$classCount, ];
 
-        return response()->json([
-            "classCount"=>$classCount, 
-            "studentCount"=>$studentCount
-        ]);
+       
     }
 
    
