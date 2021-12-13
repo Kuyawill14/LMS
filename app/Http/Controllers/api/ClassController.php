@@ -344,6 +344,7 @@ class ClassController extends Controller
             "class_name"=>$NewClass->class_name,
             "course_code"=>$course->course_code,
             "course_name"=>$course->course_name,
+            "is_auto_accept"=>$NewClass->is_auto_accept,
             "schedule"=>unserialize($NewClass->schedule),
             "student_count"=> 0,
         ]);
