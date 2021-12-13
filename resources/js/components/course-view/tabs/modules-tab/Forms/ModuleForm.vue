@@ -111,7 +111,7 @@
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('createMainModule', this.moduleForm)
                         .then((res) => {
-                            this.$emit('closeModal');
+                            this.$emit('createdModule');
                             this.moduleForm.reset();
                             this.$refs.form.resetValidation();
                            

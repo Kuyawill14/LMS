@@ -367,6 +367,7 @@
         },
         async mounted() {
             this.getdata();
+            this.$emit('closeModuleDialog');
         },
         created() {
 
