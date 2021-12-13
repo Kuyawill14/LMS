@@ -328,7 +328,6 @@ class ClassController extends Controller
         $NewClass->is_auto_accept =  $request->class['auto_accept'];
         $NewClass->save();
 
-
         //users class
         $UserClass  = new tbl_userclass;
         $userId = auth('sanctum')->id();
@@ -338,7 +337,17 @@ class ClassController extends Controller
         $UserClass->progress = 0;
         $UserClass->save();
 
-        return $NewClass;
+        $course = tbl_subject_course::find($NewClass->course_id);
+        return response()->json([
+            "class_code"=>$NewClass->class_code, 
+            "class_id"=>$NewClass->id,
+            "class_name"=>$NewClass->class_name,
+            "course_code"=>$course->course_code,
+            "course_name"=>$course->course_name,
+            "schedule"=>unserialize($NewClass->schedule),
+            "student_count"=> 0,
+        ]);
+        //return $NewClass;
     }
 
     /**

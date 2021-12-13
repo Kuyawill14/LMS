@@ -241,11 +241,6 @@ var deleteClass = function deleteClass() {
       this.showModal = false;
     },
     reloadClass: function reloadClass() {
-      var _this = this;
-
-      this.fetchSubjectCourseClassList(this.$route.params.id).then(function () {
-        _this.classLength = _this.allClass.length;
-      });
       this.showModal = false;
     },
     openAddmodal: function openAddmodal() {
@@ -261,19 +256,19 @@ var deleteClass = function deleteClass() {
       this.class_details = details;
     },
     getTeacherClasses: function getTeacherClasses() {
-      var _this2 = this;
+      var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.isGetting = true;
+                _this.isGetting = true;
 
-                _this2.fetchSubjectCourseClassList(_this2.$route.params.id).then(function () {
+                _this.fetchSubjectCourseClassList(_this.$route.params.id).then(function () {
                   //setTimeout(() => {
-                  _this2.isGetting = false;
-                  _this2.classLength = _this2.allClass.length; //}, 1000);
+                  _this.isGetting = false;
+                  _this.classLength = _this.allClass.length; //}, 1000);
                 });
 
               case 2:
@@ -285,17 +280,17 @@ var deleteClass = function deleteClass() {
       }))();
     },
     archiveClass: function archiveClass(data, index) {
-      var _this3 = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.removeIndex = index;
-                _this3.ArchiveDetails = data;
-                _this3.showModal = true;
-                _this3.modalType = "archive";
+                _this2.removeIndex = index;
+                _this2.ArchiveDetails = data;
+                _this2.showModal = true;
+                _this2.modalType = "archive";
 
               case 4:
               case "end":
@@ -306,16 +301,16 @@ var deleteClass = function deleteClass() {
       }))();
     },
     SuccessArchive: function SuccessArchive() {
-      var _this4 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this4.showModal = false;
+                _this3.showModal = false;
 
-                _this4.allClass.splice(_this4.removeIndex, 1);
+                _this3.allClass.splice(_this3.removeIndex, 1);
 
               case 2:
               case "end":
@@ -326,7 +321,7 @@ var deleteClass = function deleteClass() {
       }))();
     },
     CopyClassCode: function CopyClassCode(code) {
-      var _this5 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         var CodeText;
@@ -337,7 +332,7 @@ var deleteClass = function deleteClass() {
                 CodeText = code;
                 navigator.clipboard.writeText(CodeText); //this.copied = true;
 
-                _this5.toastNormal('Class code copied');
+                _this4.toastNormal('Class code copied');
 
               case 3:
               case "end":
@@ -348,23 +343,23 @@ var deleteClass = function deleteClass() {
       }))();
     },
     removeClass: function removeClass() {
-      var _this6 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(_this6.removeDetails.student_count == 0)) {
+                if (!(_this5.removeDetails.student_count == 0)) {
                   _context5.next = 3;
                   break;
                 }
 
                 _context5.next = 3;
-                return axios["delete"]('/api/class/delete/' + _this6.removeDetails.class_id).then(function () {
-                  _this6.allClass.splice(_this6.removeDetails.index, 1);
+                return axios["delete"]('/api/class/delete/' + _this5.removeDetails.class_id).then(function () {
+                  _this5.allClass.splice(_this5.removeDetails.index, 1);
 
-                  _this6.removeDialog = false;
+                  _this5.removeDialog = false;
                 });
 
               case 3:

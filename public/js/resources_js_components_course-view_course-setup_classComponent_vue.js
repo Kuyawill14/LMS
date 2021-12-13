@@ -198,15 +198,29 @@ var deleteClass = function deleteClass() {
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
     reloadClass: function reloadClass() {
-      this.reloadClasses();
-      this.showModal = false;
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.showModal = false;
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     closeModal: function closeModal() {
-      this.showModal = false;
       this.reloadClasses();
+      this.showModal = false;
     },
     completed: function completed() {
-      var _this = this;
+      var _this2 = this;
 
       localStorage.removeItem("step");
 
@@ -214,18 +228,18 @@ var deleteClass = function deleteClass() {
         this.toastError('Please add atleast one class to complete the course setup');
       } else {
         axios.post('/api/course/completed/' + this.$route.params.id).then(function (res) {
-          _this.toastSuccess('Course setup completed!');
+          _this2.toastSuccess('Course setup completed!');
 
-          _this.$store.dispatch('setCourseStatus', _this.$route.params.id);
+          _this2.$store.dispatch('setCourseStatus', _this2.$route.params.id);
 
-          _this.$store.dispatch('fetchMyCoursesStatusAgain');
+          _this2.$store.dispatch('fetchMyCoursesStatusAgain');
 
-          _this.$router.push({
+          _this2.$router.push({
             name: 'coursePage'
           }); //location.reload();
 
 
-          _this.$store.dispatch('fetchScourse', _this.$route.params.id);
+          _this2.$store.dispatch('fetchScourse', _this2.$route.params.id);
         });
       }
     },
@@ -247,31 +261,31 @@ var deleteClass = function deleteClass() {
       this.class_id = class_id;
     },
     getTeacherClasses: function getTeacherClasses() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isGetting = true;
       this.fetchSubjectCourseClassList(this.$route.params.id).then(function () {
         setTimeout(function () {
-          _this2.isGetting = false;
+          _this3.isGetting = false;
         }, 500);
       });
     },
     reloadClasses: function reloadClasses() {
-      var _this3 = this;
+      var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.fetchSubjectCourseClassList(_this3.$route.params.id);
+                _this4.fetchSubjectCourseClassList(_this4.$route.params.id);
 
               case 1:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     }
   }),

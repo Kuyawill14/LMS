@@ -23,6 +23,8 @@ const actions = {
 
     async createClass({ commit }, classItem) {
         let res = await axios.post(`/api/class/insert`, { class: classItem });
+        let newClass = res.data;
+        state.classList.push({...newClass });
     },
 
     async updateClass({ commit }, classItem) {

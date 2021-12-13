@@ -13,7 +13,7 @@
         <v-card>
             <v-form ref="form" v-model="valid" lazy-validation>
                 <v-card-title>
-                    <span class="headline">Add Module1</span>
+                    <span class="headline">Add Module</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container>

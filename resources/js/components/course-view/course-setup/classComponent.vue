@@ -163,13 +163,12 @@
                 this.$emit('changeStep', 2)
             },
             ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
-            reloadClass() {
-                this.reloadClasses();
+            async reloadClass() {
                 this.showModal = false;
             },
             closeModal() {
-                this.showModal = false;
                 this.reloadClasses();
+                this.showModal = false;
             },
             completed() {
                 localStorage.removeItem("step");
