@@ -177,7 +177,7 @@ __webpack_require__.r(__webpack_exports__);
       this.form.course_id = this.$route.params.id;
       this.$store.dispatch('createClass', this.form);
       this.clearFormInputs();
-      this.$emit('closeModal');
+      this.$emit('newClassAdded');
       this.toastSuccess();
     },
     AddSchedule: function AddSchedule() {

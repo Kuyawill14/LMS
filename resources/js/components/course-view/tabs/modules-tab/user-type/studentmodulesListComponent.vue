@@ -423,23 +423,23 @@
                     let activeElement = document.activeElement;
                     let iframeElement = document.querySelector('iframe');
                                           
-                    
+                   /*  
                     if (activeElement === iframeElement) {
-                        //console.log(document.activeElement.tagName);
-                        //execute your code here
+                        console.log(document.activeElement.tagName);
+                        execute your code here
 
-                        //we only want to listen for the first time we click into the iframe
+                        we only want to listen for the first time we click into the iframe
                       this.isBlur = setInterval(() => {
                          document.activeElement.blur();
 
                       }, 1000);
-                        // clearInterval(blurTimer);
+                        clearInterval(blurTimer);
 
                     } else {
-                        //console.log(document.activeElement.tagName);
+                        console.log(document.activeElement.tagName);
                         self.triggerWarning()
                     }
-                // }, 0);
+                }, 0); */
 
 
 

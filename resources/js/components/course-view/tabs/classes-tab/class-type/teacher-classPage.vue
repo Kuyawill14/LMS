@@ -39,7 +39,7 @@
        </div>
 
         <v-dialog v-model="showModal" width="400">
-            <createClassForm v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
+            <createClassForm v-on:newClassAdded="reloadClass()" v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_details="class_details" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
@@ -171,6 +171,7 @@
             archiveClass,
             deleteClass
         },
+        computed: mapGetters(['allClass']),
         data: () => ({
 
             isGetting: false,
@@ -204,10 +205,12 @@
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
             closeModal() {
+                this.showModal = false
+            },
+           reloadClass() {
                 this.fetchSubjectCourseClassList(this.$route.params.id);
                 this.showModal = false
             },
-
             openAddmodal() {
                 this.form.class_name = "";
                 this.modalType = "add";
@@ -256,7 +259,7 @@
                }
             }   
         },
-        computed: mapGetters(['allClass']),
+        
         mounted() {
             this.getTeacherClasses();
         },

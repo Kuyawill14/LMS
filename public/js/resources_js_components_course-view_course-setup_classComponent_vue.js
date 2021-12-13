@@ -208,6 +208,10 @@ var deleteClass = function deleteClass() {
       this.$emit('changeStep', 2);
     }
   }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList', 'setCourseStatus'])), {}, {
+    reloadClass: function reloadClass() {
+      this.getTeacherClasses();
+      this.showModal = false;
+    },
     closeModal: function closeModal() {
       this.showModal = false;
       this.reloadClasses();
@@ -569,6 +573,9 @@ var render = function() {
           _vm.modalType == "add"
             ? _c("createClassForm", {
                 on: {
+                  newClassAdded: function($event) {
+                    return _vm.reloadClass()
+                  },
                   closeModal: function($event) {
                     return _vm.closeModal()
                   },

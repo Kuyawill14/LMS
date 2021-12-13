@@ -30,7 +30,7 @@
         </v-container>
 
         <v-dialog persistent v-model="showModal" width="400px">
-            <createClassForm v-on:closeModal="closeModal()" v-on:cancelCreate="showModal = !showModal" v-if="modalType == 'add'"
+            <createClassForm v-on:newClassAdded="reloadClass()" v-on:closeModal="closeModal()" v-on:cancelCreate="showModal = !showModal" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm :class_details="class_details" v-on:cancelUpdate="showModal = !showModal" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
                 v-if="modalType == 'edit'" />
@@ -176,6 +176,10 @@
                 this.$emit('changeStep', 2)
             },
             ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
+            reloadClass() {
+                this.getTeacherClasses();
+                this.showModal = false
+            },
             closeModal() {
                 this.showModal = false;
                 this.reloadClasses();

@@ -164,7 +164,7 @@ import moment from 'moment-timezone';
                 this.form.course_id = this.$route.params.id;
                 this.$store.dispatch('createClass', this.form);
                 this.clearFormInputs();
-                this.$emit('closeModal')
+                this.$emit('newClassAdded')
                 this.toastSuccess();
 
             },
