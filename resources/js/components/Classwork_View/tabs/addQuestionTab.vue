@@ -843,7 +843,7 @@ export default {
                    this.getAll_questions.Question.push({
                    id: res.data.question_id,
                    question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
-                   answer: '',
+                   answer: 'N/A Answer',
                    points: 0,
                    type: 'Multiple Choice',
                    sensitivity: 0,
