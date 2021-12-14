@@ -133,7 +133,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | forgot_password */ "forgot_password").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };

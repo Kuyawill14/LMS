@@ -50,7 +50,7 @@
                         </v-col>
 
                         <v-col  ma-0 pa-0 class="text-left mb-0 pb-0" cols="12">
-                                <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
+                                <v-radio-group :rules="rules" hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                                 <v-radio
                                     v-for="(n, index) in InputAvailability"
                                     :key="index"
@@ -118,7 +118,7 @@
                              <v-col v-if="PublishDetails.showAnswer"  ma-0 pa-0 class="text-left pl-8 mb-0 pb-0 mt-0 pt-0 " cols="12">
                                
 
-                                <v-radio-group hide-details class="ml-12 mt-1 pt-0 mb-0 pb-0" v-model="showAnsType">
+                                <v-radio-group :rules="rules" hide-details class="ml-12 mt-1 pt-0 mb-0 pb-0" v-model="showAnsType">
                                 <v-radio
                                     v-for="(n, index) in InputShowAnswer"
                                     :key="index"
@@ -218,6 +218,9 @@ export default {
             ],
             isPublishing: false,
             isLoading: true,
+            rules: [
+                v => !!v || 'Field is required',
+            ],
         }
     },
     methods:{

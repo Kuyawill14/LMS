@@ -299,7 +299,6 @@
                         this.criteria.splice(this.deleteIndex, 1);
                         this.$emit('deleteRubrics',rubrics_id);
                     }).catch((err) => {
-                        //console.log(err);
                         this.toastError('Something went wrong');
                         this.loading = false;
                     })

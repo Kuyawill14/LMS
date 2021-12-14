@@ -24,26 +24,20 @@
                         <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
                             Add Schedule <v-icon>mdi-plus</v-icon>
                         </v-btn>
+                        <v-divider v-if="form.schedule.length != 0"></v-divider>
                     </v-col>
-                    <v-col cols="12" class="pa-0 ma-0 mt-2">
+                    <v-col cols="12" class="pa-0 ma-0 mt-4">
                         <v-row>
-                            <v-col cols="12" v-for="(item , index) in form.schedule" :key="index">
-                               <!--  <div class="d-flex">
-                                    <v-icon color="red" class="pr-1">mdi-calendar</v-icon>
-                                    <span>{{item.day}},- </span>
-                                    <span>{{item.display_start+' to '+item.display_end}}</span>
-                                </div> -->
+                            <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" v-for="(item , index) in form.schedule" :key="index">
                                  <div class="d-flex justify-space-between">
-                                    <div class="d-flex">
+                                    <div class="d-flex mt-2">
                                         <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
-                                    
                                         <span>{{item.day}}- </span>
-                                        <span>{{item.display_start+' to '+item.display_end}}</span>
+                                        <span class="ml-1">{{item.display_start+' to '+item.display_end}}</span>
                                     </div>
-                                    <div>
-                                        <span><v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn></span>
-                                        <span> <v-btn @click="DeleteSchedule(index)" icon><v-icon color="red" small >mdi-delete</v-icon></v-btn></span>
-                                        
+                                    <div class="d-flex mb-0 pb-0">
+                                        <v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn>
+                                       <v-btn @click="DeleteSchedule(index)" icon><v-icon color="red" small >mdi-delete</v-icon></v-btn>
                                     </div>
                                 </div>
                             </v-col>
@@ -52,7 +46,7 @@
                 </v-row>
           
         </v-container>
-        <v-card-actions>
+        <v-card-actions class="mt-3">
 
             <v-spacer></v-spacer>
             <v-btn text @click="$emit('closeModal'),$refs.form.resetValidation()">Cancel</v-btn>
@@ -163,8 +157,8 @@ import moment from 'moment-timezone';
                
                 this.form.course_id = this.$route.params.id;
                 this.$store.dispatch('createClass', this.form);
+                this.$emit('newClassAdded');
                 this.clearFormInputs();
-                this.$emit('closeModal')
                 this.toastSuccess();
 
             },
@@ -187,6 +181,7 @@ import moment from 'moment-timezone';
 
                 this.addScheduleDialog = !this.addScheduleDialog;
                 this.clearInputs();
+                this.$refs.Schedform.resetValidation();
             },
             clearInputs(){
                 this.day = null;

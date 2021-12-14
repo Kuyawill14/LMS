@@ -125,8 +125,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['class_id', 'class_name', 'class_details'],
@@ -22640,13 +22638,18 @@ var render = function() {
                       ],
                       1
                     )
-                  ])
-                ]
+                  ]),
+                  _vm._v(" "),
+                  _vm.class_details.schedule.length != 0
+                    ? _c("v-divider")
+                    : _vm._e()
+                ],
+                1
               ),
               _vm._v(" "),
               _c(
                 "v-col",
-                { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
+                { staticClass: "pa-0 ma-0 mt-4", attrs: { cols: "12" } },
                 [
                   _vm.class_details.schedule != false
                     ? _c(
@@ -22659,7 +22662,7 @@ var render = function() {
                             "v-col",
                             {
                               key: index,
-                              staticClass: "mb-0 pb-0",
+                              staticClass: "mb-0 pb-0 pt-0 mt-0",
                               attrs: { cols: "12" }
                             },
                             [
@@ -22667,7 +22670,7 @@ var render = function() {
                                 "div",
                                 { staticClass: "d-flex justify-space-between" },
                                 [
-                                  _c("div", { staticClass: "d-flex" }, [
+                                  _c("div", { staticClass: "d-flex mt-2" }, [
                                     _c(
                                       "span",
                                       { staticClass: "pr-1" },
@@ -22685,7 +22688,7 @@ var render = function() {
                                       _vm._v(_vm._s(item.day) + "- ")
                                     ]),
                                     _vm._v(" "),
-                                    _c("span", [
+                                    _c("span", { staticClass: "ml-1" }, [
                                       _vm._v(
                                         _vm._s(
                                           item.display_start +
@@ -22696,69 +22699,59 @@ var render = function() {
                                     ])
                                   ]),
                                   _vm._v(" "),
-                                  _c("div", [
-                                    _c(
-                                      "span",
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.OpenEdit(item, index)
-                                              }
+                                  _c(
+                                    "div",
+                                    { staticClass: "d-flex" },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.OpenEdit(item, index)
                                             }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                attrs: {
-                                                  color: "blue",
-                                                  small: ""
-                                                }
-                                              },
-                                              [_vm._v("mdi-pencil")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "span",
-                                      [
-                                        _c(
-                                          "v-btn",
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.DeleteSchedule(index)
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                color: "blue",
+                                                small: ""
                                               }
+                                            },
+                                            [_vm._v("mdi-pencil")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { icon: "" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.DeleteSchedule(index)
                                             }
-                                          },
-                                          [
-                                            _c(
-                                              "v-icon",
-                                              {
-                                                attrs: {
-                                                  color: "red",
-                                                  small: ""
-                                                }
-                                              },
-                                              [_vm._v("mdi-delete")]
-                                            )
-                                          ],
-                                          1
-                                        )
-                                      ],
-                                      1
-                                    )
-                                  ])
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: { color: "red", small: "" }
+                                            },
+                                            [_vm._v("mdi-delete")]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
                                 ]
                               )
                             ]
@@ -22779,6 +22772,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-card-actions",
+        { staticClass: "mt-2" },
         [
           _c("v-spacer"),
           _vm._v(" "),

@@ -696,9 +696,9 @@ export default {
                                [{ 'list': 'bullet' }],
                                ['image']
                             ],
-                            handlers: {
+                            /* handlers: {
                                 image: this.imageHandler
-                            }
+                            } */
                         },
                     syntax: {
                         highlight: text => hljs.highlightAuto(text).value
@@ -838,7 +838,7 @@ export default {
                    this.getAll_questions.Question.push({
                    id: res.data.question_id,
                    question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
-                   answer: '<p>'+'Option 1'+'</p>',
+                   answer: '',
                    points: 0,
                    type: 'Multiple Choice',
                    sensitivity: 0,

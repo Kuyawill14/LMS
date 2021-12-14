@@ -409,19 +409,20 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
       // let blurTimer = setTimeout(() => {
       var activeElement = document.activeElement;
       var iframeElement = document.querySelector('iframe');
-
-      if (activeElement === iframeElement) {
-        //console.log(document.activeElement.tagName);
-        //execute your code here
-        //we only want to listen for the first time we click into the iframe
-        this.isBlur = setInterval(function () {
-          document.activeElement.blur();
-        }, 1000); // clearInterval(blurTimer);
-      } else {
-        //console.log(document.activeElement.tagName);
-        self.triggerWarning();
-      } // }, 0);
-
+      /*  
+       if (activeElement === iframeElement) {
+           console.log(document.activeElement.tagName);
+           execute your code here
+            we only want to listen for the first time we click into the iframe
+         this.isBlur = setInterval(() => {
+            document.activeElement.blur();
+          }, 1000);
+           clearInterval(blurTimer);
+        } else {
+           console.log(document.activeElement.tagName);
+           self.triggerWarning()
+       }
+      }, 0); */
     });
   },
   beforeDestroy: function beforeDestroy() {

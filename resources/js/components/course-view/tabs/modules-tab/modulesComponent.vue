@@ -18,9 +18,8 @@
                 <v-btn color="primary" @click=" openModal()"> CREATE MODULE </v-btn>
             </v-col>
 
-            <v-dialog v-model="moduleDialog" persistent max-width="600px">
-
-                <ModuleForm v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false" />
+            <v-dialog  v-model="moduleDialog" persistent max-width="600px">
+                <moduleForm  v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false"></moduleForm>
             </v-dialog>
         </v-row>
 
@@ -55,7 +54,7 @@
 
                 </v-col>
                 <v-col class="text-right">
-                    <v-btn bottom color="primary" @click="openModal()">
+                    <v-btn bottom color="primary" @click="openAddNewModal()">
                         <v-icon left>mdi-plus</v-icon>
                         Create Module
                     </v-btn>
@@ -69,28 +68,21 @@
                 </v-btn> -->
 
 
-                <v-dialog v-model="moduleDialog" persistent max-width="600px">
-                    <ModuleForm v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false"  />
+                <v-dialog  v-model="newModuleDialog" persistent max-width="600px">
+                    <moduleForm  v-on:closeModal="newModuleDialog = false" v-on:createdModule="newModuleDialog = false"></moduleForm>
                 </v-dialog>
             </v-row>
 
             <v-row>
-
-                <modulesListComponent :role="role" />
-
+                <modulesListComponent v-on:closeModuleDialog="moduleDialog = false" :role="role" />
             </v-row>
-
         </div>
-
-
     </div>
-
-
 </template>
 
 <script>
     //import modulesListComponent from './modulesListComponent'
-    import ModuleForm from './Forms/ModuleForm'
+    const moduleForm = () => import("./Forms/ModuleForm")
     const modulesListComponent = () => import("./modulesListComponent")
     import {
         mapGetters,
@@ -100,12 +92,13 @@
         props: ['role'],
         components: {
             modulesListComponent,
-            ModuleForm,
+            moduleForm,
 
         },
         data() {
             return {
                 moduleDialog: false,
+                newModuleDialog: false,
                 loading: false,
                 isGetting: false,
                 moduleLength: null,
@@ -128,6 +121,9 @@
         methods: {
             openModal() {
                 this.moduleDialog = !this.moduleDialog;
+            },
+            openAddNewModal() {
+                this.newModuleDialog = !this.newModuleDialog;
             },
             preview() {
                 var id = this.$route.params.id;

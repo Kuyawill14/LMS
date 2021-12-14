@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0 &&   !this.isGetting">
+        <v-row align="center" justify="center" class="pt-10" v-if="allClass.length == 0 && !this.isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:8rem">
                     mdi-google-classroom
@@ -30,21 +30,18 @@
         </v-container>
 
         <v-dialog persistent v-model="showModal" width="400px">
-            <createClassForm v-on:closeModal="closeModal()" v-on:cancelCreate="showModal = !showModal" v-if="modalType == 'add'"
+            <createClassForm v-on:newClassAdded="reloadClass()" v-on:closeModal="closeModal()" v-on:cancelCreate="showModal = !showModal" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm :class_details="class_details" v-on:cancelUpdate="showModal = !showModal" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
                 v-if="modalType == 'edit'" />
 
             <deleteClass :class_id="class_id" v-on:closeModal="closeModal()" v-if="modalType == 'delete'" />
         </v-dialog>
-        <div v-if="!isGetting && classLength > 0">
-
-
+        <div v-if="!isGetting && allClass.length != 0">
             <v-row>
                 <v-col>
                     <h2>Class</h2>
                 </v-col>
-
                 <v-col class="text-right">
                     <v-btn color="primary" class="ma-2" outlined @click="openAddmodal()">
                         <v-icon left>
@@ -55,8 +52,6 @@
                     </v-btn>
                 </v-col>
             </v-row>
-
-
             <v-row>
                 <v-col cols="12" class="pl-5 pr-5">
                     <v-card elevation="2" v-for="(item, index) in allClass" :key="index" class="mt-3">
@@ -112,7 +107,6 @@
         <br>
         <v-row>
             <v-col>
-
                 <v-btn class="float-right" color="primary" @click="completed()" :disabled="allClass.length == 0">
                     Complete
                 </v-btn>
@@ -121,13 +115,7 @@
                     back
                 </v-btn>
             </v-col>
-
         </v-row>
-
-
-
-
-
     </div>
 
 </template>
@@ -169,16 +157,18 @@
             },
             class_details:[]
         }),
-
-
+        computed: mapGetters(['allClass']),
         methods: {
             back() {
                 this.$emit('changeStep', 2)
             },
             ...mapActions(['fetchSubjectCourseClassList', 'setCourseStatus']),
-            closeModal() {
+            async reloadClass() {
                 this.showModal = false;
+            },
+            closeModal() {
                 this.reloadClasses();
+                this.showModal = false;
             },
             completed() {
                 localStorage.removeItem("step");
@@ -226,24 +216,18 @@
                     .then(() => {
                         setTimeout(() => {
                             this.isGetting = false;
-                            this.classLength = this.allClass.length;
                         }, 500);
 
 
                     })
             },
             async reloadClasses() {
-                this.fetchSubjectCourseClassList(this.$route.params.id)
-                    .then(() => {
-                        this.classLength = this.allClass.length;
-                    })
+                this.fetchSubjectCourseClassList(this.$route.params.id);
             },
 
 
-
-
         },
-        computed: mapGetters(['allClass']),
+       
         mounted() {
 
             this.getTeacherClasses();

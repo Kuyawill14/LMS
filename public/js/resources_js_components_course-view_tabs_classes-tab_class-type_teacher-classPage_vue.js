@@ -207,6 +207,7 @@ var deleteClass = function deleteClass() {
     archiveClass: archiveClass,
     deleteClass: deleteClass
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
   data: function data() {
     return {
       isGetting: false,
@@ -237,7 +238,9 @@ var deleteClass = function deleteClass() {
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)(['fetchSubjectCourseClassList'])), {}, {
     closeModal: function closeModal() {
-      this.fetchSubjectCourseClassList(this.$route.params.id);
+      this.showModal = false;
+    },
+    reloadClass: function reloadClass() {
       this.showModal = false;
     },
     openAddmodal: function openAddmodal() {
@@ -368,7 +371,6 @@ var deleteClass = function deleteClass() {
       }))();
     }
   }),
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['allClass']),
   mounted: function mounted() {
     this.getTeacherClasses();
   }
@@ -530,7 +532,7 @@ var render = function() {
     "div",
     { staticClass: "pt-1" },
     [
-      _vm.classLength == 0
+      _vm.allClass.length == 0 && !_vm.isGetting
         ? _c(
             "v-row",
             {
@@ -659,6 +661,9 @@ var render = function() {
           _vm.modalType == "add"
             ? _c("createClassForm", {
                 on: {
+                  newClassAdded: function($event) {
+                    return _vm.reloadClass()
+                  },
                   OpenNewSched: function($event) {
                     _vm.addScheduleDialog = !_vm.addScheduleDialog
                   },
@@ -733,7 +738,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      !_vm.isGetting && _vm.classLength > 0
+      !_vm.isGetting && _vm.allClass.length != 0
         ? _c(
             "div",
             [

@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-form ref="registerForm">
+        <v-form ref="form"  v-model="valid" lazy-validation>
             <v-card-title>
                 <span class="headline">{{type == 'edit' ?  'Edit Module' : 'Add Module' }}</span>
             </v-card-title>
@@ -8,21 +8,17 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" class="py-0 my-0">
-                            <v-text-field label="Module Name*" outlined v-model="moduleForm.module_name" required>
+                            <v-text-field 
+                            :rules="rules"
+                            label="Module Name*" outlined v-model="moduleForm.module_name" required>
                             </v-text-field>
                         </v-col>
                         <v-col cols="12 " class="py-0 my-0">
-
-                            <!-- <editor style="outline:none;" placeholder="Description" v-model="moduleForm.description"
-                                theme="snow" :options="options"></editor>
-  -->
-
-
-                            <v-textarea outlined v-model="moduleForm.description" label="Description" auto-grow>
+                            <v-textarea 
+                            :rules="rules"
+                            outlined v-model="moduleForm.description" label="Description" auto-grow>
                             </v-textarea>
-
                         </v-col>
-
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -31,7 +27,7 @@
                 <v-btn text @click="$emit('closeModal');">
                     Close
                 </v-btn>
-                <v-btn color="primary" text @click="type == 'edit' ? updateModule() : createModule()"
+                <v-btn color="primary" text @click="validate"
                     :loading="isSubmitting">
                     Save
                 </v-btn>
@@ -60,6 +56,10 @@
                     course_id: ''
                 }),
                 class_details: '',
+                valid: true,
+                rules: [
+                    v => !!v || 'Field is required',
+                ],
                 options: {
                     modules: {
                         'toolbar': [
@@ -93,6 +93,17 @@
                     duration: 5000
                 });
             },
+            validate() {
+                if(this.$refs.form.validate()){
+                    if(this.type == 'edit'){
+                        this.updateModule();
+                    }else{
+                        this.createModule();
+                    }
+                }else{
+                    this.toastError('Please Fill up all the fields!.')
+                }
+            },
             createModule() {
 
                 this.isSubmitting = true;
@@ -100,17 +111,12 @@
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('createMainModule', this.moduleForm)
                         .then((res) => {
-                            // ////console.log(res);
-
-                            this.moduleForm.reset();
-                            this.isSubmitting = false;
-                            this.$emit('closeModal');
                             this.$emit('createdModule');
+                            this.moduleForm.reset();
+                            this.$refs.form.resetValidation();
+                           
+                            this.isSubmitting = false;
                             this.toastSuccess("Module Successfully Created");
-                            // this.$store.dispatch('fetchSubModule', this.$route.params.id);
-
-
-
                         })
                 } else {
                     this.toastError('Please Fill up all the fields!.')
@@ -118,33 +124,22 @@
                 }
             },
             updateModule() {
-
                 this.isSubmitting = true;
                 this.moduleForm.course_id = this.$route.params.id;
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('updateMainModule', this.moduleForm)
                         .then((res) => {
-                            // ////console.log(res);
-
-
-                            this.isSubmitting = false;
                             this.$emit('closeModal');
-
+                            this.isSubmitting = false;
                             this.toastSuccess("Module Successfully updated");
-
-
-
-
                         })
                 } else {
                     this.toastError('Please Fill up all the fields!.')
                     this.isSubmitting = false;
                 }
             },
-
         },
         mounted() {
-
             if (this.type == 'edit') {
                 this.moduleForm = this.propModule;
             }

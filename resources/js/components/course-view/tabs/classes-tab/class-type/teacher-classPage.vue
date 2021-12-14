@@ -1,6 +1,6 @@
 <template>
     <div class="pt-1">
-        <v-row align="center" justify="center" class="pt-10" v-if="classLength == 0">
+        <v-row align="center" justify="center" class="pt-10" v-if="allClass.length == 0 && !isGetting">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:10rem">
                     mdi-google-classroom
@@ -39,7 +39,7 @@
        </div>
 
         <v-dialog v-model="showModal" width="400">
-            <createClassForm v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
+            <createClassForm v-on:newClassAdded="reloadClass()" v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_details="class_details" :class_name="form.class_name" :class_id="form.class_id"
                 v-if="modalType == 'edit'" />
@@ -51,7 +51,7 @@
         <v-dialog v-model="removeDialog" width="400">
             <deleteClass v-if="removeDialog" v-on:toggleCancelDialog="removeDialog = false" v-on:toggleConfirm="removeClass()"></deleteClass>
         </v-dialog>
-        <div v-if="!isGetting && classLength > 0">
+        <div v-if="!isGetting && allClass.length != 0">
 
 
         <v-row>
@@ -171,6 +171,7 @@
             archiveClass,
             deleteClass
         },
+        computed: mapGetters(['allClass']),
         data: () => ({
 
             isGetting: false,
@@ -204,10 +205,11 @@
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
             closeModal() {
-                this.fetchSubjectCourseClassList(this.$route.params.id);
                 this.showModal = false
             },
-
+           reloadClass() {
+                this.showModal = false
+            },
             openAddmodal() {
                 this.form.class_name = "";
                 this.modalType = "add";
@@ -256,7 +258,7 @@
                }
             }   
         },
-        computed: mapGetters(['allClass']),
+        
         mounted() {
             this.getTeacherClasses();
         },

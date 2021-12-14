@@ -932,10 +932,11 @@ var studentViewForTeacher = function studentViewForTeacher() {
           toolbar: {
             container: [['bold', 'italic', 'underline'], [{
               'list': 'bullet'
-            }], ['image']],
-            handlers: {
-              image: this.imageHandler
-            }
+            }], ['image']]
+            /* handlers: {
+                image: this.imageHandler
+            } */
+
           },
           syntax: {
             highlight: function highlight(text) {
@@ -1124,7 +1125,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     _this3.getAll_questions.Question.push({
                       id: res.data.question_id,
                       question: '<p>' + 'New Question ' + (_this3.getAll_questions.Question.length + 1) + '</p>',
-                      answer: '<p>' + 'Option 1' + '</p>',
+                      answer: '',
                       points: 0,
                       type: 'Multiple Choice',
                       sensitivity: 0
@@ -6092,10 +6093,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b58e8370b2b87a291732dc18944704a9c24ef069
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -6245,15 +6243,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-<<<<<<< HEAD
                     'an existing locale. moment.defineLocale(localeName, ' +
                     'config) should only be used for creating a new locale ' +
                     'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
-=======
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
->>>>>>> b58e8370b2b87a291732dc18944704a9c24ef069
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -6278,11 +6270,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-<<<<<<< HEAD
             localeFamilies[name].forEach(function (x) {
-=======
-            localeFamilies[name].forEach(function(x) {
->>>>>>> b58e8370b2b87a291732dc18944704a9c24ef069
                 defineLocale(x.name, x.config);
             });
         }
@@ -6373,10 +6361,7 @@ function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> b58e8370b2b87a291732dc18944704a9c24ef069
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/ordinal.js":
@@ -15571,7 +15556,7 @@ var render = function() {
                                 staticClass: "text-field",
                                 attrs: {
                                   outlined: "",
-                                  label: "Points *",
+                                  label: "Percentage *",
                                   type: "number",
                                   rules: _vm.RubricsPointsRules,
                                   required: ""

@@ -29,6 +29,7 @@ class CourseOverviewController extends Controller
             $overview['classworks_list'] = $this->classworkList($id);
             $overview['course_summary'] = $this->courseSummary($id);
             $overview['modules_list'] = $this->moduleList($id);
+            
             return $overview;
         
        

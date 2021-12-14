@@ -11,7 +11,7 @@
             </v-btn>
         </template>
         <v-card>
-            <v-form ref="registerForm">
+            <v-form ref="form" v-model="valid" lazy-validation>
                 <v-card-title>
                     <span class="headline">Add Module</span>
                 </v-card-title>
@@ -20,12 +20,16 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-text-field
-                                 outlined label="Module Name*" v-model="moduleForm.module_name" required>
+                                :rules="rules"
+                                 outlined label="Module Name*" 
+                                 v-model="moduleForm.module_name" required>
                                 </v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea clearable clear-icon="mdi-close-circle" label="Description"
-                                    v-model="moduleForm.description"></v-textarea>
+                                <v-textarea 
+                                :rules="rules"
+                                clearable clear-icon="mdi-close-circle" label="Description"
+                                v-model="moduleForm.description"></v-textarea>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -35,7 +39,7 @@
                     <v-btn color="orange darken-1" text @click="openModal = false">
                         Close
                     </v-btn>
-                    <v-btn color="secondary" text @click="createModule()" :loading="isSubmitting">
+                    <v-btn color="secondary" text @click="validate" :loading="isSubmitting">
                         Save
                     </v-btn>
                 </v-card-actions>
@@ -64,6 +68,10 @@
                     course_id: ''
                 }),
                 class_details: '',
+                valid: true,
+                rules: [
+                    v => !!v || 'Field is required',
+                ]
             }
         },
         methods: {
@@ -75,27 +83,30 @@
                     duration: 5000
                 });
             },
+            validate () {
+                if(this.$refs.form.validate()){
+                    this.createModule();
+                }else{
+                    this.toastError('Please Fill up all the fields!.')
+                }
+            },
             createModule() {
                 this.isSubmitting = true;
                 this.moduleForm.course_id = this.$route.params.id;
                 if (this.moduleForm.module_name.trim().length > 0 && this.moduleForm.description.trim().length > 0) {
                     this.$store.dispatch('createMainModule', this.moduleForm)
                         .then((res) => {
-                            ////console.log(res);
                             if (res.status == 201) {
+                                this.openModal = false;
                                 this.moduleForm.reset()
                                 this.isSubmitting = false;
                                 this.$emit('createdModal');
-                                this.openModal = false;
                                 this.toastSuccess();
-
                             }
-
-
                         })
                 } else {
                     this.toastError('Please Fill up all the fields!.')
-                       this.isSubmitting = false;
+                    this.isSubmitting = false;
                 }
 
             },

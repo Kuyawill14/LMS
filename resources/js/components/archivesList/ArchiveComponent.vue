@@ -19,7 +19,7 @@
     const studentArchive = () => import('./studentArchive')
     
     export default {
-         title: 'Archives',
+        title: 'Archives',
         props:['role','UserDetails'],
         components:{
             teacherArchive,

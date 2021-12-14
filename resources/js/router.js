@@ -104,7 +104,7 @@ router.beforeEach((to, from, next) => {
         'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'classses',
         'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'
     ];
-    if (to.name != 'login' && to.name != 'register') {
+    if (to.name != 'login' && to.name != 'register' && to.name != 'resetPassword') {
 
         store.dispatch('IsAuthenticated').then((res) => {
             if (store.state.CurrentUser.IsAuthenticated == true) {

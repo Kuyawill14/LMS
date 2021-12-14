@@ -169,10 +169,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               'list': 'ordered'
             }, {
               'list': 'bullet'
-            }], ['link', 'image', 'video']],
-            handlers: {
-              image: this.imageHandler
-            }
+            }], ['link', 'image', 'video']]
+            /* handlers: {
+                image: this.imageHandler
+            } */
+
           }
         }
       },
