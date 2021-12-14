@@ -413,7 +413,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img {\n    max-height: 23rem !important;\n    max-width: 100%;\n}\n.post-content iframe{\n    width: 100% !important;\n    height: 25rem !important;\n}\n\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img {\n    max-height: 23rem !important;\n    max-width: 100%;\n}\n.post-content iframe{\n    width: 100% !important;\n    height: 25rem !important;\n}\n.EditAnnoumentEditor .ql-editor iframe{\n        max-width: 90% !important;\n        max-height: 15rem !important;\n}\n.EditAnnoumentEditor .ql-editor img{\n    max-height: 13rem !important;\n    max-width: 90% !important;\n}\n    \n\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -22959,10 +22959,10 @@ var render = function() {
                                 _vm.isEditingPost &&
                                 _vm.isEditingPost_id == post.post_id
                                   ? _c("editor", {
-                                      staticClass: "AnnoumentEditor",
+                                      staticClass: "EditAnnoumentEditor",
                                       staticStyle: {
                                         width: "100%",
-                                        height: "100px"
+                                        height: "280px !important"
                                       },
                                       attrs: {
                                         placeholder:

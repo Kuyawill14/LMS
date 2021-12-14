@@ -98,6 +98,7 @@
                 v-if="UserDetails.role != 'Student'"
                 class="mr-2 ma-0 pa-0"
                 hide-details
+ 
                  :items="classNames"
                 item-text="class_name"
                 item-value="class_id"
@@ -106,7 +107,7 @@
                 dense
                 solo
                 ></v-select>
-                <v-btn class="mb-0 pb-0" depressed :disabled="announcement.content == '' || announcement.content == null" type="submit" name="create_post" color="primary"
+                <v-btn class="mb-0 pb-0 mt-1" depressed :disabled="announcement.content == '' || announcement.content == null" type="submit" name="create_post" color="primary"
                     @click="createPost">Post</v-btn>
                 </v-container>
             </v-col>
@@ -267,7 +268,6 @@ export default {
 .AnnoumentEditor > .quill-editor {
         position: relative;
         background: #d0cece;
-
     }
 
     .AnnoumentEditor >  .ql-container.ql-snow {
@@ -291,16 +291,12 @@ export default {
         .AnnoumentEditor >  .ql-tooltip, .ql-editing{
         z-index: 1;
     }
-        .AnnoumentEditor >  iframe{
-            width: 100% !important;
-        height: 20rem !important;
+        .AnnoumentEditor iframe{
+            width: 60% !important;
+            height: 20rem !important;
         }
-        .AnnoumentEditor >  .ql-editor img{
-
+        .AnnoumentEditor .ql-editor img{
             max-height: 25rem !important;
-        }
-        .AnnoumentEditor >  .ql-container{
-            max-height: 70rem;
         }
         
     

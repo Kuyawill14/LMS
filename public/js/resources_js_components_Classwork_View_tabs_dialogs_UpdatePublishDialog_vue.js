@@ -318,12 +318,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 axios.get('/api/classwork/publishClassworkDetails/' + _this4.Details.classwork_id).then(function (res) {
-                  ////console.log(res.data);
                   _this4.PublishDetails = res.data;
                   _this4.availability = _this4.PublishDetails.availability == 1 ? 'Set date & time' : _this4.PublishDetails.availability == 2 ? 'Unavailable' : 'Always available';
                   _this4.showAnsType = _this4.PublishDetails.showAnswerType != null ? _this4.showAnsType = _this4.PublishDetails.showAnswerType ? 'Set Date' : 'After Classwork Done' : _this4.showAnsType = '';
                   _this4.PublishDetails.from_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                   _this4.PublishDetails.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
+                  _this4.PublishDetails.showDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
+                  _this4.PublishDetails.showDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this4.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                   _this4.isLoading = !_this4.isLoading;
                 });
 

@@ -63,7 +63,7 @@
                     <v-col cols="12">
                         <div class="pa-5 " >
                             <div  v-if="isEditingPost && isEditingPost_id == post.post_id" >
-                                  <editor style="width:100%;height:100px" v-if="isEditingPost && isEditingPost_id == post.post_id" class="AnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)"   placeholder="Announce something in your class!" 
+                                  <editor style="width:100%;height:280px !important" v-if="isEditingPost && isEditingPost_id == post.post_id" class="EditAnnoumentEditor" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)"   placeholder="Announce something in your class!" 
                                 v-model="post.content" theme="bubble" :options="options"></editor>
                                 <div class="d-flex justify-end mt-1">
                                      <v-btn small depressed dark :disabled="post.content == ''" color="success" @click="updatePost(post)" class="mt-1 ml-2" >Update post</v-btn>
@@ -313,6 +313,17 @@ import axios from 'axios';
         width: 100% !important;
         height: 25rem !important;
     }
+
+
+     .EditAnnoumentEditor .ql-editor iframe{
+            max-width: 90% !important;
+            max-height: 15rem !important;
+        }
+    .EditAnnoumentEditor .ql-editor img{
+        max-height: 13rem !important;
+        max-width: 90% !important;
+    }
+        
 
    
     

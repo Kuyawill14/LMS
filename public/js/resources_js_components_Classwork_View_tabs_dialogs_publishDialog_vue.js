@@ -255,8 +255,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Details', 'datetoday', 'classworkDetails'],
@@ -373,22 +371,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 form.showAnswer = _this2.showAns;
                 form.ReviewAnswer = _this2.ReviewAnswer;
                 form.showAnswerType = _this2.showAnsType;
-                form.showAnswerDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+                form.showAnswerDateFrom = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.showAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 form.showAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
                 form.response_late = _this2.response_late;
                 form.grading_id = _this2.GradingCriteria_id;
-                /* fd.append("classwork_id", this.ClassDetails.id);
-                fd.append("class_id", this.ClassDetails.class_id);
-                fd.append("availability", this.availability);
-                fd.append("from_date", moment(this.from_date).format("YYYY-MM-DD HH:MM:SS"));
-                fd.append("to_date", moment(this.to_date).format("YYYY-MM-DD HH:MM:SS"));
-                fd.append("showAnswer", this.showAns);
-                fd.append("showAnswerType", this.showAnsType);
-                fd.append("showAnswerDateFrom", moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS"));
-                fd.append("showAnswerDateTo", moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"));
-                fd.append("response_late", this.response_late);
-                fd.append("grading_id", this.GradingCriteria_id); */
-
                 axios.post('/api/classwork/share', form).then(function (res) {
                   if (res.dat != 'Unshare') {
                     var tmpDue = res.data.availability == 1 ? 'Due ' + moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("MMMM D") + ' at ' + moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(_this2.to_date).format("h:mm a") : '';
@@ -23223,11 +23209,11 @@ var render = function() {
                                             color: "primary"
                                           },
                                           model: {
-                                            value: _vm.ShowAnswerDateFrom,
+                                            value: _vm.showAnswerDateFrom,
                                             callback: function($$v) {
-                                              _vm.ShowAnswerDateFrom = $$v
+                                              _vm.showAnswerDateFrom = $$v
                                             },
-                                            expression: "ShowAnswerDateFrom"
+                                            expression: "showAnswerDateFrom"
                                           }
                                         },
                                         [

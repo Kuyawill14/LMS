@@ -7,6 +7,8 @@
                 </v-breadcrumbs-item>
             </template>
         </v-breadcrumbs>
+
+       
         <v-row align="center" justify="center" class="pt-10" v-if="isGetting == false && getmain_module.length == 0">
             <v-col cols="12" sm="8" md="4" class="text-center">
                 <v-icon style="font-size:14rem">
@@ -15,12 +17,10 @@
 
                 <h1> Empty Course Module </h1>
                 <p> Creating Module, you'll be able to upload and share it with your class. </p>
-                <v-btn color="primary" @click=" openModal()"> CREATE MODULE </v-btn>
+                <v-btn color="primary" @click="openModal()"> CREATE MODULE </v-btn>
             </v-col>
 
-            <v-dialog  v-model="moduleDialog" persistent max-width="600px">
-                <moduleForm  v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false"></moduleForm>
-            </v-dialog>
+         
         </v-row>
 
 
@@ -41,7 +41,7 @@
 
 
 
-        <div v-if="getmain_module.length > 0">
+        <div v-if="!isGetting && getmain_module.length > 0">
             <v-row class="pt-3" justify="center" align="center">
                 <v-col cols="1">
                     <h2 class="pb-0"> Materials</h2>
@@ -54,7 +54,7 @@
 
                 </v-col>
                 <v-col class="text-right">
-                    <v-btn bottom color="primary" @click="openAddNewModal()">
+                    <v-btn bottom color="primary" @click="openModal()">
                         <v-icon left>mdi-plus</v-icon>
                         Create Module
                     </v-btn>
@@ -68,15 +68,20 @@
                 </v-btn> -->
 
 
-                <v-dialog  v-model="newModuleDialog" persistent max-width="600px">
+              <!--   <v-dialog  v-model="newModuleDialog" persistent max-width="600px">
                     <moduleForm  v-on:closeModal="newModuleDialog = false" v-on:createdModule="newModuleDialog = false"></moduleForm>
-                </v-dialog>
+                </v-dialog> -->
             </v-row>
 
             <v-row>
-                <modulesListComponent v-on:closeModuleDialog="moduleDialog = false" :role="role" />
+                <modulesListComponent :role="role" />
             </v-row>
         </div>
+
+
+         <v-dialog  v-model="moduleDialog" persistent max-width="600px">
+            <moduleForm  v-on:closeModal="moduleDialog = false" v-on:createdModule="moduleDialog = false"></moduleForm>
+        </v-dialog>
     </div>
 </template>
 

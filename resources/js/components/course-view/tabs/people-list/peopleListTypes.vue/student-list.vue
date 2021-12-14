@@ -155,9 +155,9 @@
                                                     <v-list-item link @click="RemoveConfirm(item.firstName, item.lastName, item.class_name,item.class_id, item.user_id)" >
                                                         <v-list-item-title>Remove student</v-list-item-title>
                                                     </v-list-item>
-                                                    <v-list-item link>
+                                                  <!--   <v-list-item link>
                                                         <v-list-item-title>View Student</v-list-item-title>
-                                                    </v-list-item>
+                                                    </v-list-item> -->
                                                     
                                                 </v-list>
                                             </v-menu>

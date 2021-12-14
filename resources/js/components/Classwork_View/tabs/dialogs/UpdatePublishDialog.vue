@@ -262,7 +262,7 @@ export default {
         async getPublishDetails(){
             axios.get('/api/classwork/publishClassworkDetails/'+this.Details.classwork_id)
             .then(res=>{
-                ////console.log(res.data);
+
                 this.PublishDetails = res.data;
                 this.availability = this.PublishDetails.availability == 1 ? 'Set date & time' : this.PublishDetails.availability == 2 ? 'Unavailable' : 'Always available';
                 this.showAnsType = this.PublishDetails.showAnswerType != null ? 
@@ -270,6 +270,9 @@ export default {
                 this.showAnsType = '';
                 this.PublishDetails.from_date =  moment(this.PublishDetails.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                 this.PublishDetails.to_date = moment(this.PublishDetails.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
+
+                this.PublishDetails.showDateFrom =  moment(this.PublishDetails.showDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
+                this.PublishDetails.showDateTo = moment(this.PublishDetails.showDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm');
                 this.isLoading = !this.isLoading;
             })
         },

@@ -24,7 +24,6 @@ Route::get('/evaluation', function () {
     return redirect('https://forms.gle/2WFvZJmJFF22EY838');
 });
 
-
 Route::get('/testView', function () {
     return view('errors.429');
 });

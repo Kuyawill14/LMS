@@ -985,22 +985,6 @@ var render = function() {
                                                         )
                                                       ],
                                                       1
-                                                    ),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "v-list-item",
-                                                      { attrs: { link: "" } },
-                                                      [
-                                                        _c(
-                                                          "v-list-item-title",
-                                                          [
-                                                            _vm._v(
-                                                              "View Student"
-                                                            )
-                                                          ]
-                                                        )
-                                                      ],
-                                                      1
                                                     )
                                                   ],
                                                   1

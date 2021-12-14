@@ -877,6 +877,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -931,6 +934,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
         modules: {
           toolbar: {
             container: [['bold', 'italic', 'underline'], [{
+              'color': []
+            }], [{
               'list': 'bullet'
             }], ['image']]
             /* handlers: {
@@ -1313,14 +1318,20 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                axios.put('/api/question/remove_question_match/' + main_id, {
-                  sub_question_id: sub_quesId,
-                  answer_id: answer_id
-                }).then(function (res) {
+                if (sub_quesId == '' || sub_quesId == null) {
                   _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
 
                   _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
-                });
+                } else {
+                  axios.put('/api/question/remove_question_match/' + main_id, {
+                    sub_question_id: sub_quesId,
+                    answer_id: answer_id
+                  }).then(function (res) {
+                    _this8.getAll_questions.Answer[main_index].SubQuestion.splice(match_index, 1);
+
+                    _this8.getAll_questions.Answer[main_index].SubAnswer.splice(match_index, 1);
+                  });
+                }
 
               case 1:
               case "end":
@@ -3223,7 +3234,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n  \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n      min-height: 60px !important;\n}\r\n\r\n\r\n \r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n  \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n    min-height: 70px !important;\n}\r\n\r\n\r\n \r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13598,9 +13609,17 @@ var render = function() {
                                                                           focus: function(
                                                                             $event
                                                                           ) {
-                                                                            return _vm.onEditorFocus(
+                                                                            _vm.onEditorFocus(
                                                                               $event
-                                                                            )
+                                                                            ),
+                                                                              (item.question =
+                                                                                item.question ==
+                                                                                "<p>New Question " +
+                                                                                  (mainIndex +
+                                                                                    1) +
+                                                                                  "</p>"
+                                                                                  ? ""
+                                                                                  : item.question)
                                                                           },
                                                                           ready: function(
                                                                             $event
@@ -13830,6 +13849,18 @@ var render = function() {
                                                                                                 _vm.editorOption
                                                                                             },
                                                                                             on: {
+                                                                                              focus: function(
+                                                                                                $event
+                                                                                              ) {
+                                                                                                Ans.Choice =
+                                                                                                  Ans.Choice ==
+                                                                                                  "<p>Option " +
+                                                                                                    (i +
+                                                                                                      1) +
+                                                                                                    "</p>"
+                                                                                                    ? ""
+                                                                                                    : Ans.Choice
+                                                                                              },
                                                                                               change: function(
                                                                                                 $event
                                                                                               ) {
@@ -14107,6 +14138,15 @@ var render = function() {
                                                                                     $event
                                                                                   ) {
                                                                                     _vm.isNewChanges = true
+                                                                                  },
+                                                                                  focus: function(
+                                                                                    $event
+                                                                                  ) {
+                                                                                    item.answer =
+                                                                                      item.answer ==
+                                                                                      "<p>Option 1</p>"
+                                                                                        ? ""
+                                                                                        : item.answer
                                                                                   }
                                                                                 },
                                                                                 model: {
@@ -14261,6 +14301,23 @@ var render = function() {
                                                                                         _vm.editorOption
                                                                                     },
                                                                                     on: {
+                                                                                      focus: function(
+                                                                                        $event
+                                                                                      ) {
+                                                                                        Answer.Choice =
+                                                                                          Answer.Choice ==
+                                                                                            "<p>Option " +
+                                                                                              (i +
+                                                                                                1) +
+                                                                                              "</p>" ||
+                                                                                          Answer.Choice ==
+                                                                                            "<p>Answer " +
+                                                                                              (i +
+                                                                                                1) +
+                                                                                              "</p>"
+                                                                                            ? ""
+                                                                                            : Answer.Choice
+                                                                                      },
                                                                                       change: function(
                                                                                         $event
                                                                                       ) {
@@ -14832,7 +14889,7 @@ var render = function() {
                                                                                                   ]
                                                                                                     .SubAnswer[
                                                                                                     sub_index
-                                                                                                  ][0]
+                                                                                                  ]
                                                                                                     .id,
                                                                                                   mainIndex,
                                                                                                   sub_index

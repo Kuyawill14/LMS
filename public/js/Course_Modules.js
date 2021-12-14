@@ -100,6 +100,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 //import modulesListComponent from './modulesListComponent'
 var moduleForm = function moduleForm() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_Forms_ModuleForm_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./Forms/ModuleForm */ "./resources/js/components/course-view/tabs/modules-tab/Forms/ModuleForm.vue"));
@@ -399,33 +404,6 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-dialog",
-                {
-                  attrs: { persistent: "", "max-width": "600px" },
-                  model: {
-                    value: _vm.moduleDialog,
-                    callback: function($$v) {
-                      _vm.moduleDialog = $$v
-                    },
-                    expression: "moduleDialog"
-                  }
-                },
-                [
-                  _c("moduleForm", {
-                    on: {
-                      closeModal: function($event) {
-                        _vm.moduleDialog = false
-                      },
-                      createdModule: function($event) {
-                        _vm.moduleDialog = false
-                      }
-                    }
-                  })
-                ],
-                1
               )
             ],
             1
@@ -482,7 +460,7 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _vm.getmain_module.length > 0
+      !_vm.isGetting && _vm.getmain_module.length > 0
         ? _c(
             "div",
             [
@@ -535,7 +513,7 @@ var render = function() {
                           attrs: { bottom: "", color: "primary" },
                           on: {
                             click: function($event) {
-                              return _vm.openAddNewModal()
+                              return _vm.openModal()
                             }
                           }
                         },
@@ -551,33 +529,6 @@ var render = function() {
                       )
                     ],
                     1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-dialog",
-                    {
-                      attrs: { persistent: "", "max-width": "600px" },
-                      model: {
-                        value: _vm.newModuleDialog,
-                        callback: function($$v) {
-                          _vm.newModuleDialog = $$v
-                        },
-                        expression: "newModuleDialog"
-                      }
-                    },
-                    [
-                      _c("moduleForm", {
-                        on: {
-                          closeModal: function($event) {
-                            _vm.newModuleDialog = false
-                          },
-                          createdModule: function($event) {
-                            _vm.newModuleDialog = false
-                          }
-                        }
-                      })
-                    ],
-                    1
                   )
                 ],
                 1
@@ -585,22 +536,40 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "v-row",
-                [
-                  _c("modulesListComponent", {
-                    attrs: { role: _vm.role },
-                    on: {
-                      closeModuleDialog: function($event) {
-                        _vm.moduleDialog = false
-                      }
-                    }
-                  })
-                ],
+                [_c("modulesListComponent", { attrs: { role: _vm.role } })],
                 1
               )
             ],
             1
           )
-        : _vm._e()
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "600px" },
+          model: {
+            value: _vm.moduleDialog,
+            callback: function($$v) {
+              _vm.moduleDialog = $$v
+            },
+            expression: "moduleDialog"
+          }
+        },
+        [
+          _c("moduleForm", {
+            on: {
+              closeModal: function($event) {
+                _vm.moduleDialog = false
+              },
+              createdModule: function($event) {
+                _vm.moduleDialog = false
+              }
+            }
+          })
+        ],
+        1
+      )
     ],
     1
   )

@@ -286,7 +286,7 @@
                                                     <quill-editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
-                                                    @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"  @ready="onEditorReady($event)" 
+                                                    @blur="onEditorBlur($event)" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
                                                      @change="isNewChanges = true"
                                                     ref="myTextEditor"
                                                     placeholder="Question" 
@@ -320,6 +320,7 @@
                                                         </v-radio-group>
                                                           <div style="width:100%" class="mb-3">
                                                                 <quill-editor
+                                                                 @focus="Ans.Choice = Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
@@ -374,6 +375,7 @@
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
                                                         class="editor"
+                                                        @focus="item.answer = item.answer == '<p>Option 1</p>' ? '' : item.answer"
                                                         placeholder="Answer"
                                                         ref="myTextEditor"
                                                         v-model="item.answer"
@@ -394,6 +396,7 @@
                                                   <v-container fluid class="d-flex flex-row ma-0 pa-0">
                                                       <div style="width:100%" class="mb-3">
                                                         <quill-editor
+                                                        @focus="Answer.Choice = Answer.Choice == '<p>Option '+(i+1)+'</p>' || Answer.Choice == '<p>Answer '+(i+1)+'</p>' ? '' : Answer.Choice"
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
                                                         class="editor"
@@ -500,7 +503,7 @@
 
                                                      <v-btn
                                                         v-if="!isHaveSubmission" 
-                                                        @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index][0].id, mainIndex,  sub_index)"
+                                                        @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index].id, mainIndex,  sub_index)"
                                                         icon class="mt-3 pl-2 pr-2">
                                                         <v-icon>mdi-close</v-icon>
                                                     </v-btn>
@@ -693,8 +696,10 @@ export default {
                      toolbar: {
                             container:[
                                ['bold', 'italic', 'underline'],
+                               [{ 'color': [] }],
                                [{ 'list': 'bullet' }],
                                ['image']
+                               
                             ],
                             /* handlers: {
                                 image: this.imageHandler
@@ -955,12 +960,18 @@ export default {
             }
            
         },
-        async RemoveMatch(main_id, sub_quesId, answer_id, main_index,match_index){
-              axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
-            .then((res)=>{
+        async RemoveMatch(main_id, sub_quesId, answer_id, main_index,match_index){             
+            if(sub_quesId == '' || sub_quesId == null){
                 this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                 this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
-            })
+            }else{
+                axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
+                .then((res)=>{
+                    this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
+                    this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
+                })
+            }
+              
         },
         async UpdateQuestion(id, Mainindex){
             axios.put('/api/question/update_question_details/'+id, {
@@ -1291,7 +1302,7 @@ export default {
     max-height: 50rem;
 }
 .editor .ql-editor{
-      min-height: 60px !important;
+    min-height: 70px !important;
 }
 
 

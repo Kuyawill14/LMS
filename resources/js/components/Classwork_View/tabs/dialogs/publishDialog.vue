@@ -175,9 +175,7 @@
                                 <v-row>
                                     <v-col cols="6">
                                          <v-datetime-picker label="From"
-                                            
-                                            v-model="ShowAnswerDateFrom"
-                                         
+                                            v-model="showAnswerDateFrom"
                                             class="mt-0 pt-0"
                                             :text-field-props="textFieldProps"
                                             :date-picker-props="dateProps"
@@ -354,22 +352,13 @@ export default {
             form.showAnswer = this.showAns;
             form.ReviewAnswer = this.ReviewAnswer
             form.showAnswerType = this.showAnsType;
-            form.showAnswerDateFrom = moment(this.ShowAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+            form.showAnswerDateFrom = moment(this.showAnswerDateFrom).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             form.showAnswerDateTo = moment(this.ShowAnswerDateTo).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             form.response_late = this.response_late;
             form.grading_id = this.GradingCriteria_id;
 
-            /* fd.append("classwork_id", this.ClassDetails.id);
-            fd.append("class_id", this.ClassDetails.class_id);
-            fd.append("availability", this.availability);
-            fd.append("from_date", moment(this.from_date).format("YYYY-MM-DD HH:MM:SS"));
-            fd.append("to_date", moment(this.to_date).format("YYYY-MM-DD HH:MM:SS"));
-            fd.append("showAnswer", this.showAns);
-            fd.append("showAnswerType", this.showAnsType);
-            fd.append("showAnswerDateFrom", moment(this.ShowAnswerDateFrom).format("YYYY-MM-DD HH:MM:SS"));
-            fd.append("showAnswerDateTo", moment(this.ShowAnswerDateTo).format("YYYY-MM-DD HH:MM:SS"));
-            fd.append("response_late", this.response_late);
-            fd.append("grading_id", this.GradingCriteria_id); */
+
+
             axios.post('/api/classwork/share', form)
                 .then(res => {
                     if(res.dat != 'Unshare'){
