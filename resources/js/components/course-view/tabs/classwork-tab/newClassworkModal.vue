@@ -73,12 +73,19 @@
                         </v-col>
 
                           <v-col v-if="form.type == 'Subjective Type'"  class="mb-0 pb-0 pt-0 mt-0" cols="12">
-                              <v-btn color="primary" class="mb-2" @click="$refs.inputFile.$refs.input.click()" text rounded>
-                                  <v-icon left>
-                                      mdi-attachment
-                                  </v-icon>
-                                  Attach file
-                              </v-btn>
+                             
+
+                              <v-tooltip top>
+                                <template v-slot:activator="{ on, attrs }">
+                                     <v-btn color="primary" v-bind="attrs" v-on="on" class="mb-2" @click="$refs.inputFile.$refs.input.click()" text rounded>
+                                        <v-icon left>
+                                            mdi-attachment
+                                        </v-icon>
+                                        Attach file
+                                    </v-btn>
+                                </template>
+                                <span>Attach File</span>
+                                </v-tooltip>
                              <v-file-input
                                 multiple
                                 ref="inputFile"
@@ -88,14 +95,10 @@
 
                             <v-list dense class="ma-0 pa-0">
                                 <v-list-item v-for="(item, index) in file_name" :key="index" class="ma-0 pa-0">
-                                    <v-list-item-avatar >
-                                            <v-icon large
-                                             :color="item.extension == 'pdf' ? 'red' : item.extension == 'docx'? 'blue': item.extension == 'link' ? 'green':
-                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'info': ''"
-                                            >
-                                                  {{item.extension == 'pdf' ? 'mdi-file-pdf': item.extension == 'txt' ? 'mdi-file-pdf' :  item.extension == 'docx'? 'mdi-file-word': item.extension == 'link'? 'mdi-file-link': 
-                                          item.extension == 'jpg' ||  item.extension == 'jpeg' || item.extension == 'gif' ||  item.extension == 'svg' || item.extension == 'png' ||  item.extension == 'bmp' ? 'mdi-image' :''}}
-                                            </v-icon>
+                                    <v-list-item-avatar>
+                                        <v-icon large :color="CheckFileIconColor(item.extension)">
+                                                {{CheckFileIcon(item.extension)}}
+                                        </v-icon>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
                                         <v-list-item-title>{{item.name}}</v-list-item-title>
@@ -216,8 +219,6 @@ export default {
         RemoveFile(index){
             this.file_name.splice(index,1);
             this.file.splice(index,1);
-            //console.log(this.file);
-
         },
          validate() {
             this.loading = !this.loading;
@@ -270,13 +271,8 @@ export default {
                 else if(this.form.type == 'Subjective Type'){
                     this.$router.push({name: 'clwk',params: {id: res.data.course_id},query: {clwk: res.data.id}})
                 }
-                
-                //this.$refs.NewClassworkForm.reset()
-                //this.loading = !this.loading;
                 this.$emit('realodClassworks');
               }
-               
-
               
             })
         },
@@ -297,6 +293,7 @@ export default {
             })
             .then((res)=>{
                 this.counter++;
+                this.uploadIndex = null;
             })
         },
 
@@ -321,18 +318,31 @@ export default {
                 this.file_name.push({
                     name: element[0].name,
                     size: this.fileSize[this.counter],
-                    extesion: this.extension
+                    extension: this.extension
                 });
+                console.log(this.file_name);
                 this.addFile();
-                //this.counter++;
-             
-               
-
-                //this.ext = this.getFileExt(file.name);
-
-               
-                //this.file = file;
-
+            },
+             CheckFileIcon(ext){
+                    if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp') return 'mdi-image';
+                    else if(ext == 'pdf') return 'mdi-file-pdf';
+                    else if(ext == 'txt' ) return 'mdi-note-text-outline';
+                    else if(ext == 'docx' || ext == 'doc') return 'mdi-file-word';
+                    else if(ext == 'link' ) return 'mdi-file-link';
+                    else if(ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'mdi-microsoft-excel';
+                    else if(ext == 'ppt' || ext == 'pptx') return 'mdi-microsoft-powerpoint';
+                    else return 'mdi-circle-off-outline';
+            },
+            CheckFileIconColor(ext){
+                if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp') return 'info';
+                else if(ext == 'pdf') return 'red';
+                else if(ext == 'txt' ) return 'primary';
+                else if(ext == 'docx' || ext == 'doc') return 'blue';
+                else if(ext == 'link' ) return 'green';
+                else if(ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'green';
+                else if(ext == 'ppt' || ext == 'pptx') return 'red';
+                else return 'primary';
+        
 
             },
     },

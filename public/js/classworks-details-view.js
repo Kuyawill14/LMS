@@ -2064,6 +2064,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 var removeAttachment = function removeAttachment() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_removeAttachment_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/removeAttachment */ "./resources/js/components/Classwork_View/tabs/dialogs/removeAttachment.vue"));
 };
@@ -2080,6 +2083,7 @@ var rubrics = function rubrics() {
   },
   data: function data() {
     return {
+      loading: false,
       valid: false,
       Details: {},
       isUpdating: false,
@@ -2146,32 +2150,10 @@ var rubrics = function rubrics() {
   },
   methods: {
     CheckFileIcon: function CheckFileIcon(ext) {
-      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
-        return 'mdi-image';
-      } else if (ext == 'pdf') {
-        return 'mdi-file-pdf';
-      } else if (ext == 'txt') {
-        return 'mdi-note-text-outline';
-      } else if (ext == 'docx' || ext == 'doc') {
-        return 'mdi-file-word';
-      } else if (ext == 'link') {
-        return 'mdi-file-link';
-      }
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') return 'mdi-image';else if (ext == 'pdf') return 'mdi-file-pdf';else if (ext == 'txt') return 'mdi-note-text-outline';else if (ext == 'docx' || ext == 'doc') return 'mdi-file-word';else if (ext == 'link') return 'mdi-file-link';else if (ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'mdi-microsoft-excel';else if (ext == 'ppt' || ext == 'pptx') return 'mdi-microsoft-powerpoint';else return 'mdi-circle-off-outline';
     },
     CheckFileIconColor: function CheckFileIconColor(ext) {
-      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
-        return 'info';
-      } else if (ext == 'pdf') {
-        return 'red';
-      } else if (ext == 'txt') {
-        return 'primary';
-      } else if (ext == 'docx' || ext == 'doc') {
-        return 'blue';
-      } else if (ext == 'link') {
-        return 'green';
-      } else {
-        return 'primary';
-      }
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') return 'info';else if (ext == 'pdf') return 'red';else if (ext == 'txt') return 'primary';else if (ext == 'docx' || ext == 'doc') return 'blue';else if (ext == 'link') return 'green';else if (ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'green';else if (ext == 'ppt' || ext == 'pptx') return 'red';else return 'primary';
     },
     OpenRubricsDialog: function OpenRubricsDialog() {
       this.clearInputs();
@@ -2398,10 +2380,12 @@ var rubrics = function rubrics() {
       this.addFile();
     },
     DownLoadFile: function DownLoadFile(file) {
-      window.open(file, '_blank');
+      var path = file.replace('.cdn', '');
+      window.open(path, '_blank');
     },
     EditDocument: function EditDocument(link) {
-      var path = "https://docs.google.com/gview?url=" + link + "&embedded=true";
+      var tmp = link.replace('.cdn', '');
+      var path = "https://docs.google.com/gview?url=" + tmp + "&embedded=true";
       window.open(path, '_blank');
     },
     addFile: function addFile() {
@@ -16185,35 +16169,79 @@ var render = function() {
                                         },
                                         [
                                           _c(
-                                            "v-btn",
+                                            "v-tooltip",
                                             {
-                                              staticClass: "mb-2",
-                                              attrs: {
-                                                color: "primary",
-                                                text: "",
-                                                rounded: ""
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.$refs.inputFile.$refs.input.click()
-                                                }
-                                              }
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var on = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                staticClass:
+                                                                  "mb-2",
+                                                                attrs: {
+                                                                  color:
+                                                                    "primary",
+                                                                  text: "",
+                                                                  rounded: ""
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.$refs.inputFile.$refs.input.click()
+                                                                  }
+                                                                }
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _c(
+                                                              "v-icon",
+                                                              {
+                                                                attrs: {
+                                                                  left: ""
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                mdi-attachment\n                                            "
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(
+                                                              "\n                                            Attach file\n                                        "
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                false,
+                                                393675965
+                                              )
                                             },
                                             [
-                                              _c(
-                                                "v-icon",
-                                                { attrs: { left: "" } },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            mdi-attachment\n                                        "
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(
-                                                "\n                                        Attach file\n                                    "
-                                              )
-                                            ],
-                                            1
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Attach File")
+                                              ])
+                                            ]
                                           ),
                                           _vm._v(" "),
                                           _c("v-file-input", {

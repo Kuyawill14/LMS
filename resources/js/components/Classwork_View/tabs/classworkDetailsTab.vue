@@ -215,14 +215,17 @@
 
 
                                 <v-col v-if="Details.type == 'Subjective Type'" :class="isUploading ? 'b-0 pb-0 pt-0 mt-0': 'b-0 pb-0 pt-0 mt-0 '" cols="12">
-
-                                    <v-btn color="primary" class="mb-2" @click="$refs.inputFile.$refs.input.click()"
-                                        text rounded>
-                                        <v-icon left>
-                                            mdi-attachment
-                                        </v-icon>
-                                        Attach file
-                                    </v-btn>
+                                    <v-tooltip top>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn color="primary" v-bind="attrs" v-on="on" class="mb-2" @click="$refs.inputFile.$refs.input.click()" text rounded>
+                                            <v-icon left>
+                                                mdi-attachment
+                                            </v-icon>
+                                            Attach file
+                                        </v-btn>
+                                    </template>
+                                    <span>Attach File</span>
+                                    </v-tooltip>
                                     <v-file-input multiple @change="onFileChange" accept=".xlsx,.xls,image/*,.doc,.docx,.ppt, .pptx,.txt,.pdf,text/plain" ref="inputFile" class="d-none">
                                     </v-file-input>
 
@@ -357,6 +360,7 @@
         },
         data() {
             return {
+                loading: false,
                 valid: false,
                 Details: {},
                 isUpdating: false,
@@ -420,44 +424,26 @@
             }
         },
         methods: {
-               CheckFileIcon(ext){
-                    if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
-                    return 'mdi-image';
-                    }
-                    else if(ext == 'pdf'){
-                    return 'mdi-file-pdf';
-                    }
-                    else if(ext == 'txt' ){
-                    return 'mdi-note-text-outline';
-                    }
-                    else if(ext == 'docx' || ext == 'doc'){
-                    return 'mdi-file-word';
-                    }
-                    else if(ext == 'link' ){
-                    return 'mdi-file-link';
-                    }
+            CheckFileIcon(ext){
+                if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp') return 'mdi-image';
+                else if(ext == 'pdf') return 'mdi-file-pdf';
+                else if(ext == 'txt' ) return 'mdi-note-text-outline';
+                else if(ext == 'docx' || ext == 'doc') return 'mdi-file-word';
+                else if(ext == 'link' ) return 'mdi-file-link';
+                else if(ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'mdi-microsoft-excel';
+                else if(ext == 'ppt' || ext == 'pptx') return 'mdi-microsoft-powerpoint';
+                else return 'mdi-circle-off-outline';
             },
             CheckFileIconColor(ext){
-                if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
-                    return 'info';
-                    }
-                    else if(ext == 'pdf'){
-                    return 'red';
-                    }
-                    else if(ext == 'txt' ){
-                    return 'primary';
-                    }
-                    else if(ext == 'docx' || ext == 'doc'){
-                    return 'blue';
-                    }
-                    else if(ext == 'link' ){
-                    return 'green';
-                    }
-                    else{
-                    return 'primary';
-                    }
-
-                },
+                if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp') return 'info';
+                else if(ext == 'pdf') return 'red';
+                else if(ext == 'txt' ) return 'primary';
+                else if(ext == 'docx' || ext == 'doc') return 'blue';
+                else if(ext == 'link' ) return 'green';
+                else if(ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'green';
+                else if(ext == 'ppt' || ext == 'pptx') return 'red';
+                else return 'primary';
+            },
             OpenRubricsDialog(){
                 this.clearInputs();
                 this.rubricsDialog = true;
@@ -466,7 +452,6 @@
                 this.rubricsDetails = this.Details.rubrics;
             },
             clearInputs(){
-
                 this.criteria_form.id = '';
                 this.criteria_form.points = '';
                 this.criteria_form.criteria_name = '';
@@ -615,10 +600,12 @@
 
             },
             DownLoadFile(file) {
-                window.open(file, '_blank');
+                let path = file.replace('.cdn','');
+                window.open(path, '_blank');
             },
             EditDocument(link){
-                let path = "https://docs.google.com/gview?url="+link+"&embedded=true"
+                let tmp = link.replace('.cdn','');
+                let path = "https://docs.google.com/gview?url="+tmp+"&embedded=true"
           
                  window.open(path, '_blank');
             },

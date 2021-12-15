@@ -165,6 +165,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -241,7 +244,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     RemoveFile: function RemoveFile(index) {
       this.file_name.splice(index, 1);
-      this.file.splice(index, 1); //console.log(this.file);
+      this.file.splice(index, 1);
     },
     validate: function validate() {
       var _this = this;
@@ -320,9 +323,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                           clwk: res.data.id
                         }
                       });
-                    } //this.$refs.NewClassworkForm.reset()
-                    //this.loading = !this.loading;
-
+                    }
 
                     _this2.$emit('realodClassworks');
                   }
@@ -353,6 +354,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       }).then(function (res) {
         _this3.counter++;
+        _this3.uploadIndex = null;
       });
     },
     onFileChange: function onFileChange(element) {
@@ -376,11 +378,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.file_name.push({
         name: element[0].name,
         size: this.fileSize[this.counter],
-        extesion: this.extension
+        extension: this.extension
       });
-      this.addFile(); //this.counter++;
-      //this.ext = this.getFileExt(file.name);
-      //this.file = file;
+      console.log(this.file_name);
+      this.addFile();
+    },
+    CheckFileIcon: function CheckFileIcon(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') return 'mdi-image';else if (ext == 'pdf') return 'mdi-file-pdf';else if (ext == 'txt') return 'mdi-note-text-outline';else if (ext == 'docx' || ext == 'doc') return 'mdi-file-word';else if (ext == 'link') return 'mdi-file-link';else if (ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'mdi-microsoft-excel';else if (ext == 'ppt' || ext == 'pptx') return 'mdi-microsoft-powerpoint';else return 'mdi-circle-off-outline';
+    },
+    CheckFileIconColor: function CheckFileIconColor(ext) {
+      if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') return 'info';else if (ext == 'pdf') return 'red';else if (ext == 'txt') return 'primary';else if (ext == 'docx' || ext == 'doc') return 'blue';else if (ext == 'link') return 'green';else if (ext == 'xlsx' || ext == 'xlsm' || ext == 'xls') return 'green';else if (ext == 'ppt' || ext == 'pptx') return 'red';else return 'primary';
     }
   },
   beforeMount: function beforeMount() {
@@ -9066,31 +9073,69 @@ var render = function() {
                             },
                             [
                               _c(
-                                "v-btn",
+                                "v-tooltip",
                                 {
-                                  staticClass: "mb-2",
-                                  attrs: {
-                                    color: "primary",
-                                    text: "",
-                                    rounded: ""
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.$refs.inputFile.$refs.input.click()
-                                    }
-                                  }
+                                  attrs: { top: "" },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-btn",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    staticClass: "mb-2",
+                                                    attrs: {
+                                                      color: "primary",
+                                                      text: "",
+                                                      rounded: ""
+                                                    },
+                                                    on: {
+                                                      click: function($event) {
+                                                        return _vm.$refs.inputFile.$refs.input.click()
+                                                      }
+                                                    }
+                                                  },
+                                                  "v-btn",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              ),
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                        mdi-attachment\n                                    "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                    Attach file\n                                "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    3314141885
+                                  )
                                 },
                                 [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v(
-                                      "\n                                  mdi-attachment\n                              "
-                                    )
-                                  ]),
-                                  _vm._v(
-                                    "\n                              Attach file\n                          "
-                                  )
-                                ],
-                                1
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Attach File")])
+                                ]
                               ),
                               _vm._v(" "),
                               _c("v-file-input", {
@@ -9123,51 +9168,20 @@ var render = function() {
                                             {
                                               attrs: {
                                                 large: "",
-                                                color:
-                                                  item.extension == "pdf"
-                                                    ? "red"
-                                                    : item.extension == "docx"
-                                                    ? "blue"
-                                                    : item.extension == "link"
-                                                    ? "green"
-                                                    : item.extension == "jpg" ||
-                                                      item.extension ==
-                                                        "jpeg" ||
-                                                      item.extension == "gif" ||
-                                                      item.extension == "svg" ||
-                                                      item.extension == "png" ||
-                                                      item.extension == "bmp"
-                                                    ? "info"
-                                                    : ""
+                                                color: _vm.CheckFileIconColor(
+                                                  item.extension
+                                                )
                                               }
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                              " +
+                                                "\n                                            " +
                                                   _vm._s(
-                                                    item.extension == "pdf"
-                                                      ? "mdi-file-pdf"
-                                                      : item.extension == "txt"
-                                                      ? "mdi-file-pdf"
-                                                      : item.extension == "docx"
-                                                      ? "mdi-file-word"
-                                                      : item.extension == "link"
-                                                      ? "mdi-file-link"
-                                                      : item.extension ==
-                                                          "jpg" ||
-                                                        item.extension ==
-                                                          "jpeg" ||
-                                                        item.extension ==
-                                                          "gif" ||
-                                                        item.extension ==
-                                                          "svg" ||
-                                                        item.extension ==
-                                                          "png" ||
-                                                        item.extension == "bmp"
-                                                      ? "mdi-image"
-                                                      : ""
+                                                    _vm.CheckFileIcon(
+                                                      item.extension
+                                                    )
                                                   ) +
-                                                  "\n                                        "
+                                                  "\n                                    "
                                               )
                                             ]
                                           )

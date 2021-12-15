@@ -189,9 +189,15 @@
 
                 </v-col>
                 <v-col class="text-right">
-                <v-btn bottom color="primary" dark fab fixed right @click="openJoinmodal">
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
+                
+                 <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on" bottom color="primary" dark fab fixed right @click="openJoinmodal">
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                </template>
+                <span>Join Class</span>
+                </v-tooltip>
             </v-col>
             </v-row>
         </div>

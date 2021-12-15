@@ -90,7 +90,7 @@
                                     <span class="font-weight-medium">Schedule: </span>
                                     <div class="pl-1" v-for="(data, index) in item.schedule" :key="index">
                                         <span class="pr-1">&bull; </span>
-                                        {{data.day+' - '+data.display_start}} <span class="font-weight-medium">to</span> {{data.display_end}}</div>
+                                        {{data.day+' - '+formatDisplay(data.day,data.start_time)}} <span class="font-weight-medium">to</span> {{formatDisplay(data.day,data.end_time)}}</div>
                                 </v-list-item-subtitle>
                                 
                                 <v-list-item-subtitle v-else>
@@ -156,6 +156,7 @@
 
 
 <script>
+    import moment from 'moment-timezone';
     const createClassForm = () => import("./createClass")
     const editClassForm = () => import("./editClass")
     const archiveClass = () => import("./archiveClass")
@@ -204,9 +205,15 @@
 
         methods: {
             ...mapActions(['fetchSubjectCourseClassList']),
+            formatDisplay(day,time){
+                let tmp = Date.parse('next '+day).at(time);
+                let finalTime = moment(tmp).format('LT');
+                return finalTime;
+            },
             closeModal() {
                 this.showModal = false
             },
+            
            reloadClass() {
                 this.showModal = false
             },

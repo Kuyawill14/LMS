@@ -35,7 +35,7 @@
                                         <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
                                     
                                         <span>{{item.day}}- </span>
-                                        <span class="ml-1">{{item.display_start+' to '+item.display_end}}</span>
+                                        <span class="ml-1">{{formatDisplay(item.day,item.display_start)+' to '+formatDisplay(item.day,item.display_end)}}</span>
                                     </div>
                                     <div class="d-flex">
                                        <v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn>
@@ -48,7 +48,7 @@
                 </v-row>
           
         </v-container>
-        <v-card-actions class="mt-2">
+        <v-card-actions class="mt-3">
 
             <v-spacer></v-spacer>
             <v-btn text @click="$emit('cancelCreate'),$refs.form.resetValidation()">Cancel</v-btn>
@@ -90,7 +90,7 @@
                                 </v-col>
                             </v-row>
                         </v-container>
-                        <v-card-actions >
+                        <v-card-actions>
                             <v-btn v-if="!isUpdateSched" rounded @click="validateSched" block color="primary" >Add</v-btn>
                             <v-btn v-else rounded @click="updateSchedule" block color="primary" >Update</v-btn>
                         </v-card-actions>
@@ -162,13 +162,18 @@ import moment from 'moment-timezone';
                 this.clearFormInputs();
                 this.toastSuccess();
             },
+            formatDisplay(day,time){
+                let tmp = Date.parse('next '+day).at(time);
+                let finalTime = moment(tmp).format('LT');
+                return finalTime;
+            },
             AddSchedule(){
             
                 let tmpday = this.day.toLowerCase();
                 let tmp_start = Date.parse('next '+tmpday).at(this.start_time);
                 let tmp_end = Date.parse('next '+tmpday).at(this.end_time);
-                let display_start = moment(tmp_start).tz("Asia/Manila").format('LT');
-                let display_end = moment(tmp_end).tz("Asia/Manila").format('LT');
+                let display_start = moment(tmp_start).format('LT');
+                let display_end = moment(tmp_end).format('LT');
 
                   this.form.schedule.push({
                     day: this.day,
@@ -177,6 +182,8 @@ import moment from 'moment-timezone';
                     start_time: this.start_time,
                     end_time:this.end_time
                 })
+
+
 
                 this.addScheduleDialog = !this.addScheduleDialog;
                 this.clearInputs();
@@ -225,7 +232,7 @@ import moment from 'moment-timezone';
             DeleteSchedule(index){
                 this.form.schedule.splice(index, 1)
             }
-        }
+        },
     }
 
 </script>

@@ -38,12 +38,17 @@
                     </v-btn> -->
 
                      <v-menu  offset-y >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn icon v-bind="attrs" v-on="on">
+                        <template v-slot:activator="{ on : menu, attrs }">
+                        <v-tooltip top>
+                            <template v-slot:activator="{ on: tooltip }">
+                                <v-btn icon v-bind="attrs" v-on="{...tooltip, ...menu}" class="mb-2">
                                 <v-icon >mdi-dots-vertical</v-icon>
-                            </v-btn> 
+                                </v-btn>
+                            </template>
+                            <span>Menu</span>
+                        </v-tooltip>
                         </template>
-                        <v-list dense nav >
+                        <v-list dense rounded >
                             <v-list-item link @click="editPost(post.post_id, post.content)">
                                 <v-list-item-title>Edit</v-list-item-title>
                             </v-list-item>

@@ -33,7 +33,7 @@
                                     <div class="d-flex mt-2">
                                         <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
                                         <span>{{item.day}}- </span>
-                                        <span class="ml-1">{{item.display_start+' to '+item.display_end}}</span>
+                                        <span class="ml-1">{{formatDisplay(item.start_time)+' to '+formatDisplay(item.end_time)}}</span>
                                     </div>
                                     <div class="d-flex mb-0 pb-0">
                                         <v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn>
@@ -162,14 +162,19 @@ import moment from 'moment-timezone';
                 this.toastSuccess();
 
             },
+            formatDisplay(day,time){
+                let tmp = Date.parse('next '+day).at(time);
+                let finalTime = moment(tmp).format('LT');
+                return finalTime;
+            },
             AddSchedule(){
               
                
                 let tmpday = this.day.toLowerCase();
                 let tmp_start = Date.parse('next '+tmpday).at(this.start_time);
                 let tmp_end = Date.parse('next '+tmpday).at(this.end_time);
-                let display_start = moment(tmp_start).tz("Asia/Manila").format('LT');
-                let display_end = moment(tmp_end).tz("Asia/Manila").format('LT');
+                let display_start = moment(tmp_start).format('LT');
+                let display_end = moment(tmp_end).format('LT');
 
                   this.form.schedule.push({
                     day: this.day,

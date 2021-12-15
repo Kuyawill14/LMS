@@ -101,21 +101,20 @@
                                                     </v-list-item-subtitle>
                                                 </v-list-item-content>
                                                 <v-list-item-action>
-                                                    <v-menu  bottom offset-y>
-                                                        <template v-slot:activator="{ on, attrs }">
-                                                            <v-btn
-                                                            icon
-                                                            v-bind="attrs"
-                                                            v-on="on"
-                                                    
-                                                            >
-                                                            <v-icon >mdi-dots-vertical</v-icon>
-                                                        </v-btn>
-                                                    
+
+                                                      <v-menu  offset-y >
+                                                        <template v-slot:activator="{ on : menu, attrs }">
+                                                        <v-tooltip top>
+                                                            <template v-slot:activator="{ on: tooltip }">
+                                                                <v-btn icon v-bind="attrs" v-on="{...tooltip, ...menu}" class="mb-2">
+                                                                    <v-icon >mdi-dots-vertical</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Menu</span>
+                                                        </v-tooltip>
                                                         </template>
-                                                    
-                                                        <v-list rounded >
-                                                            <v-list-item link :to="{name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}}" ma-0 pa-0>
+                                                        <v-list dense rounded >
+                                                             <v-list-item link :to="{name: 'clwk',params: {id: $route.params.id},query: {clwk: item.id}}" ma-0 pa-0>
                                                                 <v-list-item-title> <v-icon left>mdi-notebook-edit-outline</v-icon>Edit classwork</v-list-item-title>
                                                             </v-list-item>
                                                             <v-list-item link @click="ArchiveClasswork(item, i, index)" ma-0 pa-0>
@@ -129,6 +128,7 @@
                                                             </v-list-item> -->
                                                         </v-list>
                                                     </v-menu>
+                                                 
                                                 </v-list-item-action>
                                             </v-list-item>
                                         </v-list>

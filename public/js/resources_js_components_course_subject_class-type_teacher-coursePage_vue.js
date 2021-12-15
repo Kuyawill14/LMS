@@ -237,6 +237,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -925,24 +932,55 @@ var render = function() {
             "div",
             [
               _c(
-                "v-btn",
+                "v-tooltip",
                 {
-                  attrs: {
-                    bottom: "",
-                    color: "primary",
-                    dark: "",
-                    fab: "",
-                    fixed: "",
-                    right: ""
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.openAddmodal()
-                    }
-                  }
+                  attrs: { top: "" },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "activator",
+                        fn: function(ref) {
+                          var on = ref.on
+                          var attrs = ref.attrs
+                          return [
+                            _c(
+                              "v-btn",
+                              _vm._g(
+                                _vm._b(
+                                  {
+                                    attrs: {
+                                      bottom: "",
+                                      color: "primary",
+                                      dark: "",
+                                      fab: "",
+                                      fixed: "",
+                                      right: ""
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.openAddmodal()
+                                      }
+                                    }
+                                  },
+                                  "v-btn",
+                                  attrs,
+                                  false
+                                ),
+                                on
+                              ),
+                              [_c("v-icon", [_vm._v("mdi-plus")])],
+                              1
+                            )
+                          ]
+                        }
+                      }
+                    ],
+                    null,
+                    false,
+                    2562925070
+                  )
                 },
-                [_c("v-icon", [_vm._v("mdi-plus")])],
-                1
+                [_vm._v(" "), _c("span", [_vm._v("Add New Course")])]
               ),
               _vm._v(" "),
               _c(

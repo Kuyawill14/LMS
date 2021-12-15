@@ -23131,7 +23131,6 @@ var render = function() {
                                                             "v-menu",
                                                             {
                                                               attrs: {
-                                                                bottom: "",
                                                                 "offset-y": ""
                                                               },
                                                               scopedSlots: _vm._u(
@@ -23142,38 +23141,84 @@ var render = function() {
                                                                     fn: function(
                                                                       ref
                                                                     ) {
-                                                                      var on =
+                                                                      var menu =
                                                                         ref.on
                                                                       var attrs =
                                                                         ref.attrs
                                                                       return [
                                                                         _c(
-                                                                          "v-btn",
-                                                                          _vm._g(
-                                                                            _vm._b(
-                                                                              {
-                                                                                attrs: {
-                                                                                  icon:
-                                                                                    ""
+                                                                          "v-tooltip",
+                                                                          {
+                                                                            attrs: {
+                                                                              top:
+                                                                                ""
+                                                                            },
+                                                                            scopedSlots: _vm._u(
+                                                                              [
+                                                                                {
+                                                                                  key:
+                                                                                    "activator",
+                                                                                  fn: function(
+                                                                                    ref
+                                                                                  ) {
+                                                                                    var tooltip =
+                                                                                      ref.on
+                                                                                    return [
+                                                                                      _c(
+                                                                                        "v-btn",
+                                                                                        _vm._g(
+                                                                                          _vm._b(
+                                                                                            {
+                                                                                              staticClass:
+                                                                                                "mb-2",
+                                                                                              attrs: {
+                                                                                                icon:
+                                                                                                  ""
+                                                                                              }
+                                                                                            },
+                                                                                            "v-btn",
+                                                                                            attrs,
+                                                                                            false
+                                                                                          ),
+                                                                                          Object.assign(
+                                                                                            {},
+                                                                                            tooltip,
+                                                                                            menu
+                                                                                          )
+                                                                                        ),
+                                                                                        [
+                                                                                          _c(
+                                                                                            "v-icon",
+                                                                                            [
+                                                                                              _vm._v(
+                                                                                                "mdi-dots-vertical"
+                                                                                              )
+                                                                                            ]
+                                                                                          )
+                                                                                        ],
+                                                                                        1
+                                                                                      )
+                                                                                    ]
+                                                                                  }
                                                                                 }
-                                                                              },
-                                                                              "v-btn",
-                                                                              attrs,
-                                                                              false
-                                                                            ),
-                                                                            on
-                                                                          ),
+                                                                              ],
+                                                                              null,
+                                                                              true
+                                                                            )
+                                                                          },
                                                                           [
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
                                                                             _c(
-                                                                              "v-icon",
+                                                                              "span",
                                                                               [
                                                                                 _vm._v(
-                                                                                  "mdi-dots-vertical"
+                                                                                  "Menu"
                                                                                 )
                                                                               ]
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
                                                                         )
                                                                       ]
                                                                     }
@@ -23189,6 +23234,7 @@ var render = function() {
                                                                 "v-list",
                                                                 {
                                                                   attrs: {
+                                                                    dense: "",
                                                                     rounded: ""
                                                                   }
                                                                 },

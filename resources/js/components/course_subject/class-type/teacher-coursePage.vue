@@ -88,9 +88,16 @@
             </v-row>
         </div>
         <div v-if="coursesLength != 0 && isGetting == false">
-            <v-btn bottom color="primary" dark fab fixed right @click="openAddmodal()">
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
+           
+
+            <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                     <v-btn v-bind="attrs" v-on="on" bottom color="primary" dark fab fixed right @click="openAddmodal()">
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                </template>
+                <span>Add New Course</span>
+                </v-tooltip>
             <v-row style="margin-bottom: -40px;" >
                 <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
                     <h2>My Courses</h2>

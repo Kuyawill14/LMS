@@ -132,6 +132,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 var announcementList = function announcementList() {
@@ -22856,26 +22861,59 @@ var render = function() {
                                 {
                                   key: "activator",
                                   fn: function(ref) {
-                                    var on = ref.on
+                                    var menu = ref.on
                                     var attrs = ref.attrs
                                     return [
                                       _c(
-                                        "v-btn",
-                                        _vm._g(
-                                          _vm._b(
-                                            { attrs: { icon: "" } },
-                                            "v-btn",
-                                            attrs,
-                                            false
-                                          ),
-                                          on
-                                        ),
+                                        "v-tooltip",
+                                        {
+                                          attrs: { top: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var tooltip = ref.on
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            staticClass: "mb-2",
+                                                            attrs: { icon: "" }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        Object.assign(
+                                                          {},
+                                                          tooltip,
+                                                          menu
+                                                        )
+                                                      ),
+                                                      [
+                                                        _c("v-icon", [
+                                                          _vm._v(
+                                                            "mdi-dots-vertical"
+                                                          )
+                                                        ])
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
                                         [
-                                          _c("v-icon", [
-                                            _vm._v("mdi-dots-vertical")
-                                          ])
-                                        ],
-                                        1
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Menu")])
+                                        ]
                                       )
                                     ]
                                   }
@@ -22889,7 +22927,7 @@ var render = function() {
                             _vm._v(" "),
                             _c(
                               "v-list",
-                              { attrs: { dense: "", nav: "" } },
+                              { attrs: { dense: "", rounded: "" } },
                               [
                                 _c(
                                   "v-list-item",
