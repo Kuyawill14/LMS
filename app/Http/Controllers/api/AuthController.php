@@ -57,7 +57,7 @@ class AuthController extends Controller
             //$authToken = $user->createToken('auth-token')->plainTextToken;
             $token = $request->user()->createToken('auth-token');          
             //$request->session()->regenerate();
-            //Auth::logoutOtherDevices($request->password);
+            Auth::logoutOtherDevices($request->password);
             if($request->email != "admin@gmail.com"){
                 return response()->json([
                     "message" => "Login Success",

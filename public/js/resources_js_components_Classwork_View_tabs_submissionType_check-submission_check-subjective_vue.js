@@ -481,7 +481,8 @@ var resetConfirmation = function resetConfirmation() {
     DownloadFile: function DownloadFile(link) {
       //var host = window.location.protocol + "//" + window.location.host;
       //window.location = link
-      window.open(link, '_blank');
+      var path = link.replace('.cdn', '');
+      window.open(path, '_blank');
     },
     validate: function validate() {
       if (this.$refs.pointsform.validate()) {
@@ -595,7 +596,7 @@ var resetConfirmation = function resetConfirmation() {
 
       if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
         this.OpenFileType = 'media';
-        this.path = link;
+        this.path = link.replace('.cdn', '');
         setTimeout(function () {
           return _this4.isOpening = false;
         }, 500);
@@ -624,7 +625,7 @@ var resetConfirmation = function resetConfirmation() {
         }, 500);
       } else {
         this.OpenFileType = 'document';
-        this.path = link;
+        this.path = link.replace('.cdn', '');
         setTimeout(function () {
           return _this4.isOpening = false;
         }, 500);

@@ -27,10 +27,10 @@
                                                     <div class=" text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">
                                                         Login to your <span class="font-weight-regular">Account</span>
                                                     </div>
-                                                    <p class="mt-2">Don't have an account? <router-link
+                                                    <!-- <p class="mt-2">Don't have an account? <router-link
                                                             class="blue--text" :to="{name: 'register'}">Create one here
                                                         </router-link>
-                                                    </p>
+                                                    </p> -->
                                                 </v-col>
 
                                                 <v-col class="ma-0 pa-0 mt-4" cols="12" md="8">

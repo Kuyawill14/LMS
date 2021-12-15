@@ -462,7 +462,11 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         DownloadFile(link){
             //var host = window.location.protocol + "//" + window.location.host;
             //window.location = link
-            window.open(link,'_blank');
+
+            let path = link.replace('.cdn', '');
+            window.open(path,'_blank');
+
+            
         },
         validate() {
             if (this.$refs.pointsform.validate()) {
@@ -536,8 +540,8 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
               this.SelectedNav = 1;
               this.isOpening = true;
               if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
-                          this.OpenFileType = 'media';
-                  this.path = link;
+                  this.OpenFileType = 'media';
+                  this.path = link.replace('.cdn', '');
                  setTimeout(() => (this.isOpening = false), 500);
               }
               else if(extension == 'link'){
@@ -566,7 +570,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
               }
               else{
                   this.OpenFileType = 'document'
-                  this.path = link;
+                  this.path = link.replace('.cdn', '');
                  setTimeout(() => (this.isOpening = false), 500);
               }
           },

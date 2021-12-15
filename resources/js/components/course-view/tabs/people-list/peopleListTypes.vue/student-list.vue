@@ -130,7 +130,7 @@
                                 <v-list-item class="mb-0 pb-0" >
                                     <v-list-item-avatar color="secondary" >
                                         <v-img 
-                                            :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
+                                            :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : trimProfile(item.profile_pic)">
                                         </v-img>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
@@ -271,6 +271,10 @@ import { mapGetters } from 'vuex'
             OpenmoveStudentDialog(data){
                 this.MoveStudent = !this.MoveStudent;
                 this.MoveDetails = data;
+            },
+            trimProfile(path){
+                let str = path.replace('.cdn', '');
+                return str;
             }
         },
         

@@ -372,7 +372,8 @@ const confirmUnenroll = () => import("./dialog/confirmUnenroll")
             CheckBackgroundPath(path){
                 if(path != null){
                     if(path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
-                    return path;
+                        let str = path.replace('.cdn', '');
+                        return str;
                     }
                     else{
                         return '../images/' + path;
@@ -386,7 +387,7 @@ const confirmUnenroll = () => import("./dialog/confirmUnenroll")
                     this.Archivedialog = false;
                     this.coursesLength--;
                 })
-            }
+            },
         },
         mounted() {
             this.connect();

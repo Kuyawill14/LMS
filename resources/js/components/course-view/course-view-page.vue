@@ -254,8 +254,9 @@
             },
             CheckBackgroundPath(path){
                if(path != null){
-                     if(path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
-                    return path;
+                if(path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
+                    let str = path.replace('.cdn', '');
+                    return str;
                 }
                 else{
                     return '../../images/' + path;

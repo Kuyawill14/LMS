@@ -350,6 +350,10 @@ var classJoinRequest = function classJoinRequest() {
     OpenmoveStudentDialog: function OpenmoveStudentDialog(data) {
       this.MoveStudent = !this.MoveStudent;
       this.MoveDetails = data;
+    },
+    trimProfile: function trimProfile(path) {
+      var str = path.replace('.cdn', '');
+      return str;
     }
   },
   mounted: function mounted() {
@@ -830,7 +834,9 @@ var render = function() {
                                                   (item.firstName +
                                                     " " +
                                                     item.lastName)
-                                                : item.profile_pic
+                                                : _vm.trimProfile(
+                                                    item.profile_pic
+                                                  )
                                           }
                                         })
                                       ],

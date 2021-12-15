@@ -17,10 +17,10 @@ const routes = [
         },
     },
 
-    {
+   /*  {
         path: "/register",
         component: () =>
-            import ( /*webpackChunkName: "register"*/ "../components/register/register.vue"),
+            import (  "../components/register/register.vue"),
         name: "register",
         beforeEnter: (to, form, next) => {
             if (!store.state.CurrentUser.IsAuthenticated) {
@@ -31,7 +31,7 @@ const routes = [
                 });
             }
         },
-    },
+    }, */
 
     {
         path: "/verify-email",

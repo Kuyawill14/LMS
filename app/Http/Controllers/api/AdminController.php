@@ -27,7 +27,7 @@ class AdminController extends Controller
         $teacher = User::where("role","Teacher")->count();
         $student = User::where("role","Student")->count();
 
-        $isActive = '(SELECT COUNT(*) FROM sessions WHERE user_id =  tbl_user_details.user_id) AS isActive';
+        
         $ActiveStudent = User::where("role","Student")
         ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
         ->whereNotNull('sessions.user_id')

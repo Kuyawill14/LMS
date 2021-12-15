@@ -2427,22 +2427,23 @@ var routes = [{
       });
     }
   }
-}, {
-  path: "/register",
-  component: function component() {
-    return __webpack_require__.e(/*! import() | register */ "register").then(__webpack_require__.bind(__webpack_require__, /*! ../components/register/register.vue */ "./resources/js/components/register/register.vue"));
-  },
-  name: "register",
-  beforeEnter: function beforeEnter(to, form, next) {
-    if (!_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated) {
-      next();
-    } else {
-      return next({
-        path: "/"
-      });
-    }
-  }
-}, {
+},
+/*  {
+     path: "/register",
+     component: () =>
+         import (  "../components/register/register.vue"),
+     name: "register",
+     beforeEnter: (to, form, next) => {
+         if (!store.state.CurrentUser.IsAuthenticated) {
+             next()
+         } else {
+             return next({
+                 path: "/"
+             });
+         }
+     },
+ }, */
+{
   path: "/verify-email",
   name: "verifyEmail",
   component: function component() {

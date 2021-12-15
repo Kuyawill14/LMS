@@ -441,7 +441,8 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
     CheckBackgroundPath: function CheckBackgroundPath(path) {
       if (path != null) {
         if (path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
-          return path;
+          var str = path.replace('.cdn', '');
+          return str;
         } else {
           return '../images/' + path;
         }
