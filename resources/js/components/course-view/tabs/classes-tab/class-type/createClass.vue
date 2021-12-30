@@ -21,7 +21,7 @@
                     </v-col>
 
                     <v-col cols="12" class="pa-0 ma-0 mt-5">
-                        <v-btn text rounded small @click="addScheduleDialog = !addScheduleDialog">
+                        <v-btn text rounded small @click="addScheduleDialog = true">
                             Add Schedule <v-icon>mdi-plus</v-icon>
                         </v-btn>
                         <v-divider v-if="form.schedule.length != 0"></v-divider>
@@ -33,7 +33,7 @@
                                     <div class="d-flex mt-2">
                                         <span class="pr-1"> <v-icon color="red" >mdi-calendar</v-icon></span>
                                         <span>{{item.day}}- </span>
-                                        <span class="ml-1">{{formatDisplay(item.start_time)+' to '+formatDisplay(item.end_time)}}</span>
+                                        <span class="ml-1">{{formatDisplay(item.day,item.start_time)+' to '+formatDisplay(item.day,item.end_time)}}</span>
                                     </div>
                                     <div class="d-flex mb-0 pb-0">
                                         <v-btn @click="OpenEdit(item, index)"  icon><v-icon color="blue" small >mdi-pencil</v-icon></v-btn>
@@ -58,7 +58,7 @@
                 <v-card>
                     <v-form  ref="Schedform" v-model="Schedvalid" lazy-validation>
                         <v-card-title class="">
-                            <v-btn @click="addScheduleDialog = !addScheduleDialog, isUpdateSched = !isUpdateSched" icon>
+                            <v-btn @click="addScheduleDialog = false, isUpdateSched = false" icon>
                                 <v-icon>mdi-close</v-icon>
                             </v-btn>
                             New Schedule
