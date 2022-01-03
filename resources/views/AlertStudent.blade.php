@@ -53,7 +53,7 @@
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
                                         <a href="{{ url($url) }}"
                                             style="background:#FF5400;width: 10rem;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
-                                            OK
+                                           View Classwork
                                         </a>
                                         
 

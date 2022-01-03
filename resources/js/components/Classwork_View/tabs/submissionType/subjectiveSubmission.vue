@@ -46,18 +46,52 @@
             </v-col>
             <v-col cols="12">
                 <v-row class="pb-1">
-                    <v-col cols="6" sm="3"  md="2">
+                    <v-col cols="3" sm="3"  md="2">
                          <div class="d-flex flex-column">
                               <h1>{{Class == $route.params.id && selectedStatus == "Submitted"   ? Submitted : Submitted_count}} / {{Class == $route.params.id ? ListData.length : Over_total}}</h1>
                             <small>Submitted</small>
                         </div>
                     </v-col>
-                     <v-col  cols="6" sm="3" md="2">
+                     <v-col  cols="3" sm="3" md="2">
                          <div class="d-flex flex-column">
                             <h1>{{GradedStudent}}</h1>
                             <small>Graded</small>
                         </div>
                     </v-col>
+
+                    <v-col class="text-right" cols="6" sm="6" md="8">
+                                <div class="pt-5">
+                                    <!-- <v-btn @click="resetdialog = !resetdialog" small text rounded>
+                                        <v-icon left>mdi-restart</v-icon>
+                                        Reset Submission
+                                    </v-btn> -->
+                             
+
+                                <v-menu offset-y>
+                                    <template v-slot:activator="{ on: menu, attrs }">
+                                        <v-tooltip top>
+                                        <template v-slot:activator="{ on: tooltip }">
+                                            <v-btn text rounded   v-bind="attrs" 
+                                            v-on="{ ...tooltip, ...menu }"
+                                            >
+                                            Settings
+                                            <v-icon  right>mdi-cog-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Menu</span>
+                                        </v-tooltip>
+                                    </template>
+                                    <v-list class="pa-2">
+                                        <v-list-item @click="resetdialog = !resetdialog">
+                                            <v-list-item-title><v-icon left>mdi-restart</v-icon> Reset Submission</v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item @click="alertDialog = !alertDialog">
+                                            <v-list-item-title><v-icon left>mdi-account-alert</v-icon> Alert Students</v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
+                            </div>
+                        </v-col>
                 </v-row>
                 <v-divider></v-divider>
             </v-col>
@@ -187,15 +221,35 @@
 <!-- </v-card> -->
 <!-- v-if="!$vuetify.breakpoint.mdAndUp " -->
 
+    <v-row v-if="resetdialog">
+        <v-dialog v-model="resetdialog" persistent max-width="650">
+                <resetStudentSubjectiveSubmission scrollable v-on:toggleDialog="resetdialog = !resetdialog"
+                v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList"
+                v-if="resetdialog"></resetStudentSubjectiveSubmission>
+        </v-dialog>
+    </v-row>
+
+    <v-row v-if="alertDialog">
+        <v-dialog v-model="alertDialog" persistent max-width="650">
+                <multipleAlertStudent scrollable v-on:toggleDialog="alertDialog = !alertDialog"
+                v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList" :classworkDetails="classworkDetails"
+                v-if="alertDialog"></multipleAlertStudent>
+        </v-dialog>
+    </v-row>
+
 </div>
 </template>
 <script>
 import moment from 'moment-timezone';
 const checksubjective = () => import('./check-submission/check-subjective')
+const resetStudentSubjectiveSubmission = () => import('./resetAllSubmission/resetStudentSubjectiveSubmission')
+const multipleAlertStudent = () => import('./AlertSudent/MultipleAlertStudent')
 export default {
     props:["ListData","classworkDetails","Submitted", "Graded","ClassList"],
     components:{
         checksubjective,
+        resetStudentSubjectiveSubmission,
+        multipleAlertStudent
     },
     data(){
         return{
@@ -235,7 +289,9 @@ export default {
             pointsRules:[
                 v => ( v && v > 0 ) || "Points should be above or equal to 0",
             ],
-            valid:true
+            valid:true,
+            resetdialog: false,
+            alertDialog:false,
         }
     },
      computed: {
@@ -508,6 +564,24 @@ export default {
                     return false;
                 }
             });
+        },
+        async MultipleResetSubmission(data) {
+            let ResetData = {};
+            ResetData.data = data;
+            ResetData.type = 'Subjective_Type';
+            axios.post('/api/teacher/resetStudentSubmissions', ResetData)
+                .then(() => {
+                    data.forEach(item => {
+                        this.studentSubmissionList.forEach(sb => {
+                            if (item.id == sb.id) {
+                                sb.status = null;
+                                sb.points = 0;
+                                sb.Submitted_Answers = null;
+                            }
+                        });
+                    });
+                    this.resetdialog = !this.resetdialog
+                })
         },
         async MarkAsGraded(id){
             this.studentSubmissionList.forEach(item => {

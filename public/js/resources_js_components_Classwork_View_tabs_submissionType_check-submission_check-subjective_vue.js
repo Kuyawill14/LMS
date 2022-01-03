@@ -2341,144 +2341,133 @@ var render = function() {
                                                           ]
                                                         ),
                                                         _vm._v(" "),
-                                                        item.u_id ==
-                                                        _vm.get_CurrentUser
-                                                          .user_id
-                                                          ? _c(
-                                                              "div",
+                                                        _c(
+                                                          "div",
+                                                          [
+                                                            _c(
+                                                              "v-menu",
+                                                              {
+                                                                attrs: {
+                                                                  "offset-x": ""
+                                                                },
+                                                                scopedSlots: _vm._u(
+                                                                  [
+                                                                    {
+                                                                      key:
+                                                                        "activator",
+                                                                      fn: function(
+                                                                        ref
+                                                                      ) {
+                                                                        var on =
+                                                                          ref.on
+                                                                        var attrs =
+                                                                          ref.attrs
+                                                                        return [
+                                                                          _c(
+                                                                            "v-btn",
+                                                                            _vm._g(
+                                                                              _vm._b(
+                                                                                {
+                                                                                  attrs: {
+                                                                                    icon:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                "v-btn",
+                                                                                attrs,
+                                                                                false
+                                                                              ),
+                                                                              on
+                                                                            ),
+                                                                            [
+                                                                              _c(
+                                                                                "v-icon",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    dark:
+                                                                                      "",
+                                                                                    small:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "mdi-dots-vertical"
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        ]
+                                                                      }
+                                                                    }
+                                                                  ],
+                                                                  null,
+                                                                  true
+                                                                )
+                                                              },
                                                               [
+                                                                _vm._v(" "),
                                                                 _c(
-                                                                  "v-menu",
+                                                                  "v-list",
                                                                   {
                                                                     attrs: {
-                                                                      "offset-x":
-                                                                        ""
-                                                                    },
-                                                                    scopedSlots: _vm._u(
-                                                                      [
-                                                                        {
-                                                                          key:
-                                                                            "activator",
-                                                                          fn: function(
-                                                                            ref
-                                                                          ) {
-                                                                            var on =
-                                                                              ref.on
-                                                                            var attrs =
-                                                                              ref.attrs
-                                                                            return [
-                                                                              _c(
-                                                                                "v-btn",
-                                                                                _vm._g(
-                                                                                  _vm._b(
-                                                                                    {
-                                                                                      attrs: {
-                                                                                        icon:
-                                                                                          ""
-                                                                                      }
-                                                                                    },
-                                                                                    "v-btn",
-                                                                                    attrs,
-                                                                                    false
-                                                                                  ),
-                                                                                  on
-                                                                                ),
-                                                                                [
-                                                                                  _c(
-                                                                                    "v-icon",
-                                                                                    {
-                                                                                      attrs: {
-                                                                                        dark:
-                                                                                          "",
-                                                                                        small:
-                                                                                          ""
-                                                                                      }
-                                                                                    },
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        "mdi-dots-vertical"
-                                                                                      )
-                                                                                    ]
-                                                                                  )
-                                                                                ],
-                                                                                1
-                                                                              )
-                                                                            ]
-                                                                          }
-                                                                        }
-                                                                      ],
-                                                                      null,
-                                                                      true
-                                                                    )
+                                                                      dense: "",
+                                                                      nav: ""
+                                                                    }
                                                                   },
                                                                   [
-                                                                    _vm._v(" "),
                                                                     _c(
-                                                                      "v-list",
+                                                                      "v-list-item",
                                                                       {
-                                                                        attrs: {
-                                                                          dense:
-                                                                            "",
-                                                                          nav:
-                                                                            ""
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.isUpdatingComment = true),
+                                                                              (_vm.isUpdatingComment_id =
+                                                                                item.id),
+                                                                              (_vm.isUpdatingComment_old_data =
+                                                                                item.content)
+                                                                          }
                                                                         }
                                                                       },
                                                                       [
                                                                         _c(
-                                                                          "v-list-item",
-                                                                          {
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                ;(_vm.isUpdatingComment = true),
-                                                                                  (_vm.isUpdatingComment_id =
-                                                                                    item.id),
-                                                                                  (_vm.isUpdatingComment_old_data =
-                                                                                    item.content)
-                                                                              }
-                                                                            }
-                                                                          },
+                                                                          "v-list-item-title",
                                                                           [
-                                                                            _c(
-                                                                              "v-list-item-title",
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "Edit"
-                                                                                )
-                                                                              ]
+                                                                            _vm._v(
+                                                                              "Edit"
                                                                             )
-                                                                          ],
-                                                                          1
-                                                                        ),
-                                                                        _vm._v(
-                                                                          " "
-                                                                        ),
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.DeleteComment(
+                                                                              item.id,
+                                                                              i
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
                                                                         _c(
-                                                                          "v-list-item",
-                                                                          {
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                return _vm.DeleteComment(
-                                                                                  item.id,
-                                                                                  i
-                                                                                )
-                                                                              }
-                                                                            }
-                                                                          },
+                                                                          "v-list-item-title",
                                                                           [
-                                                                            _c(
-                                                                              "v-list-item-title",
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "Remove"
-                                                                                )
-                                                                              ]
+                                                                            _vm._v(
+                                                                              "Remove"
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
                                                                         )
                                                                       ],
                                                                       1
@@ -2489,7 +2478,9 @@ var render = function() {
                                                               ],
                                                               1
                                                             )
-                                                          : _vm._e()
+                                                          ],
+                                                          1
+                                                        )
                                                       ]
                                                     )
                                                   ]),

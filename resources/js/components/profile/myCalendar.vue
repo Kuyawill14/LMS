@@ -129,16 +129,27 @@
                         <v-icon>mdi-close</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <v-card-text>
-                      <div> <span class="font-weight-bold">Due date: </span> {{format_date(selectedEvent.end)}}</div>
+                    <v-card-text >
+       
+                        <div v-if="selectedEvent.type == 'classwork'"> <span class="font-weight-bold">Due date: </span> {{format_date(selectedEvent.end)}}</div>
+                          <div v-if="selectedEvent.type == 'class_sched'"> 
+                            <span class="font-weight-bold">{{selectedEvent.day}} </span> 
+                            <span class="font-weight-bold">{{selectedEvent.display_start}} </span> to <span class="font-weight-bold">{{selectedEvent.display_end}} </span>
+                          </div>
                         <div >
-                            <v-btn @click="$router.push({path: '/classwork/'+selectedEvent.course_id+'/classwork-details?clwk='+selectedEvent.classwork_id})" 
-                            rounded text :color="selectedEvent.color">
-                              View Classwork
-                          <v-icon right>mdi-eye</v-icon>
-                        </v-btn>
+                            <v-btn v-if="selectedEvent.type == 'classwork'" @click="$router.push({path: '/classwork/'+selectedEvent.course_id+'/classwork-details?clwk='+selectedEvent.classwork_id})" 
+                                rounded text :color="selectedEvent.color" >
+                                  View Classwork
+                              <v-icon right>mdi-eye</v-icon>
+                            </v-btn>
+
+                            <v-btn v-if="selectedEvent.type == 'class_sched'" @click="$router.push({name: 'coursePage', params:{id:selectedEvent.course_id } })"
+                                rounded text :color="selectedEvent.color">
+                                  View Schedule
+                              <v-icon right>mdi-eye</v-icon>
+                            </v-btn>
                         </div>
-                    </v-card-text>
+                      </v-card-text>
                   
                   </v-card>
                 </v-menu>
@@ -221,6 +232,7 @@ import moment from 'moment/src/moment';
                     color = this.colors[this.rnd(0, this.colors.length - 1)];
                   }
                   events.push({
+                      type:'classwork',
                       name: name,
                       start: moment(this.CalendarSched[index].from_date)._d,
                       end: moment(this.CalendarSched[index].to_date)._d,
@@ -235,13 +247,42 @@ import moment from 'moment/src/moment';
                   
            
             this.events = events;
-
-            this.isloading = !this.isloading;
+            this.setClassSched(res.data.class_sched);
+            //this.isloading = !this.isloading;
            /*  setTimeout(() => {
                 this.isloading = !this.isloading;
         }, 1000); */
             //this.$refs.calendar.checkChange()
         })
+    },
+    setClassSched(data){
+      data.forEach(item => {
+        if(item.schedule != false){
+            item.schedule.forEach(element => {
+                let tmpday = element.day.toLowerCase();
+                let tmp_start = Date.parse('next '+tmpday).at(element.start_time);
+                let tmp_end = Date.parse('next '+tmpday).at(element.end_time);
+                let start = moment(tmp_start).format('YYYY-MM-DD HH:mm');
+                let end = moment(tmp_end).format('YYYY-MM-DD HH:mm');
+                
+                this.events.push({
+                  type:'class_sched',
+                  name: item.course_code+' - '+item.class_name,
+                  start: start,
+                  end: end,
+                  day:element.day,
+                  display_start:element.display_start,
+                  display_end:element.display_end,
+                  color: this.colors[this.rnd(0, this.colors.length - 1)],
+                  classwork_id: null,
+                  course_id: item.course_id,
+                  class_id: item.class_id
+                })
+            });
+        }
+        
+      });
+       this.isloading = !this.isloading;
     },
       viewDay ({ date }) {
         this.focus = date

@@ -112,7 +112,7 @@ class ArchiveController extends Controller
             ->get();
 
             foreach($allClass as $key => $value) {
-                $StudentCount = tbl_userclass::onlyTrashed()
+                $StudentCount = tbl_userclass::withTrashed()
                 ->where("class_id", $value ->class_id)
                 ->leftJoin("users","users.id","=","tbl_userclasses.user_id")
                 ->where("users.role","Student")
@@ -192,8 +192,7 @@ class ArchiveController extends Controller
     public function restoreClass($id)
     {
      
-        $CheckClass = tbl_userclass::withTrashed()->where("class_id", $id)
-        ->restore();
+        $CheckClass = tbl_userclass::withTrashed()->where("class_id", $id)->restore();
          if($CheckClass){
             return "Class Restored";
          }

@@ -25,8 +25,8 @@ use App\Mail\AlertStudentMail;
 use App\Jobs\ProcessEmails;
 use Carbon\Carbon;
 use App\Events\NewUserCLass;
-
-
+use App\Jobs\DeleteUploadedFiles;
+use App\Jobs\AlertSelectedStudents;
 
 
 
@@ -156,25 +156,91 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function AlertMultipleStudent(Request $request)
+    {   
+        //return $request;
+
+        $course = tbl_subject_course::find($request->course_id);
+        $userEmail = [];
+        $userFirstName = [];
+        foreach($request->data as $item){
+            $user = User::find($item['id']);
+            $userEmail[] = $user->email;
+            $userFirstName[] = $item['firstName'];
+            
+        }
+        //return $userFirstName;
+
+        AlertSelectedStudents::dispatch($userEmail, $userFirstName, $request->course_id, $course->course_name, $request->classwork_id, $request->classwork_name);
+        return response()->json([
+            "message" => "Alert message has been send successfully.",
+            "success" => true
+        ]);
+
+  
+       
+     
+      /*   ProcessEmails::dispatch($user->email,$request->classwork_id, $request->classwork_name, $request->course_id, $course->course_name, $request->firstName)->delay(Carbon::now()->addSeconds(30));
+        return response()->json([
+            "message" => "Alert message has been send successfully.",
+            "success" => true
+        ]); */
+    }
+
+       /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function ResetStudentSubmission(Request $request)
     {   
 
  
 
-        for ($i= 0; $i < count($request[0]); $i++) { 
+        //return $request;
+       
+        if($request->type == 'Objective_Type'){
+            foreach($request->data as $item){
+                $ResetSubmission = tbl_Submission::find($item['id']);
+                if($ResetSubmission){
+                  $ResetSubmission->forceDelete(); 
+                }
+            }
+        }
+        else if($request->type == 'Subjective_Type'){
+            $files = [];
+            foreach($request->data as $item){
+                $ResetSubmission = tbl_Submission::find($item['id']);
+                if($ResetSubmission){
+                    foreach(unserialize($ResetSubmission->Submitted_Answers) as $sub){
+                        if($sub['fileExte'] != 'link'){
+                            $path =  str_replace(\Config::get('app.do_url').'/', "", $sub['link']);
+                            $files[] = $path;
+                            //Storage::disk('DO_spaces')->delete($path);
+                        }
+                    }
+                    $ResetSubmission->forceDelete();
+                }
+            }
+            DeleteUploadedFiles::dispatch($files);
+        }
+        
+
+        /* for ($i= 0; $i < count($request[0]); $i++) { 
 
             $ResetSubmission = tbl_Submission::find($request[0]['id']);
             if($ResetSubmission){
                 $ResetSubmission->forceDelete();
-              /*   $ResetSubmission->status = null;
+                $ResetSubmission->status = null;
                 $ResetSubmission->points = null;
                 $ResetSubmission->Submitted_Answers = null;
                 $ResetSubmission->created_at = null;
                 $ResetSubmission->updated_at = null;
-                $ResetSubmission->save(); */
+                $ResetSubmission->save();
             }
          
-        }
+        } */
     
         return "Submission reset Success";
     }
@@ -226,6 +292,23 @@ class TeacherController extends Controller
         return $StudentGradeList;
     }
 
+
+    
+    /**
+     * Update the specified resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function ReUpdateScore(Request $request, $id){
+        $updateObj = tbl_Submission::find($id);
+        if($updateObj){
+            $updateObj->points = $request->points;
+            $updateObj->save();
+            return;
+        }
+        return;
+    }
 
     /**
      * Update the specified resource in storage.

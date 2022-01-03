@@ -285,6 +285,74 @@ class ClassworkController extends Controller
   
     }
 
+
+    /**
+     * Display the specified resource.
+     *
+     *  @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function MultipleShareClasswork(Request $request)
+    {
+        //return $request;
+        $userId = auth('sanctum')->id();
+        $sharedClassworks = [];
+        $count = 0;
+        foreach($request->class_id as $item){       
+          
+            $Check = tbl_classClassworks::withTrashed()->where('class_id','=', $item)
+            ->where('classwork_id','=',$request->get('classwork_id'))
+            ->first();
+            
+            if($Check){
+                $Check->restore();
+                $Check->availability = $request->availability== 'Set date & time' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+                $Check->from_date = $request->from_date;
+                $Check->to_date = $request->to_date;
+                $Check->reviewAnswer =  $request->ReviewAnswer == true ? 1 : 0;
+                $Check->showAnswer = $request->showAnswer == true ? 1 : 0;
+                if($request->showAnswer == true){
+                    $Check->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
+                    $Check->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
+                    $Check->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
+                }
+                $Check->response_late = $request->response_late == true  ? 1 : 0;
+                $Check->grading_criteria = $request->grading_id;
+                $Check->save();
+                $sharedClassworks[$count] = $Check;
+            }else{
+                $shareClasswork = new tbl_classClassworks;
+                $shareClasswork->class_id = $item;
+                $shareClasswork->classwork_id = $request->classwork_id;
+                $shareClasswork->availability = $request->availability == 'Set date & time' ? 1 : ($request->availability == 'Unavailable' ? 2 : 0);
+                $shareClasswork->from_date = $request->from_date;
+                $shareClasswork->to_date = $request->to_date;
+                $shareClasswork->reviewAnswer =  $request->ReviewAnswer == true ? 1 : 0;
+                $shareClasswork->showAnswer =  $request->showAnswer == true ? 1 : 0;
+            
+                if($request->showAnswer == true){
+                    $shareClasswork->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
+                    $shareClasswork->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
+                    $shareClasswork->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
+                }
+                $shareClasswork->response_late = $request->response_late == 'true'  ? 1 : 0;
+                $shareClasswork->grading_criteria = $request->grading_id;
+                $shareClasswork->save();
+                $sharedClassworks[$count] = $shareClasswork;
+            }
+
+            
+            $count++;
+        }
+
+
+        return $sharedClassworks;
+  
+    }
+
+
+    
+
     /**
      * Display the specified resource.
      *

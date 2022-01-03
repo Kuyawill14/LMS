@@ -22914,9 +22914,7 @@ var render = function() {
               _c(
                 "v-row",
                 [
-                  _c("v-col", { attrs: { cols: "6" } }, [
-                    _c("h2", [_vm._v("My Class")])
-                  ]),
+                  _c("v-col", { attrs: { cols: "6" } }),
                   _vm._v(" "),
                   _c(
                     "v-col",

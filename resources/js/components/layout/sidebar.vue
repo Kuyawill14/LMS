@@ -28,24 +28,28 @@
             <div class="text-center">
                 <v-menu bottom min-width="200px" rounded offset-y>
                     <template v-slot:activator="{ on }">
+                        
                         <v-btn icon x-large v-on="on">
                             <!--   <v-badge :content="get_invite_count" :value="get_invite_count" offset-x="12" offset-y="12" color="red darken-4"> -->
-                            <v-avatar color="brown" size="40">
-                                <v-img alt="Proflie"
-                                    :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
-                                </v-img>
-                            </v-avatar>
-                            <!--   </v-badge> -->
-                        </v-btn>
-                    </template>
-                    <v-card>
-                        <v-list-item-content class="justify-center">
-                            <div class="mx-auto text-center">
+                            <v-badge bordered bottom  color="green" dot offset-x="10" offset-y="10">
                                 <v-avatar color="brown" size="40">
                                     <v-img alt="Proflie"
                                         :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
                                     </v-img>
                                 </v-avatar>
+                            </v-badge>
+                        </v-btn>
+                    </template>
+                    <v-card>
+                        <v-list-item-content class="justify-center">
+                            <div class="mx-auto text-center">
+                                 <v-badge bordered bottom  color="green" dot offset-x="10" offset-y="10">
+                                    <v-avatar color="brown" size="40">
+                                        <v-img alt="Proflie"
+                                            :src="UserDetails.profile_pic == null || UserDetails.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                                        </v-img>
+                                    </v-avatar>
+                                 </v-badge>
 
                                 <h4>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h4>
                                 <p class="text-caption mt-1">

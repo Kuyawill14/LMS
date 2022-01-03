@@ -508,7 +508,7 @@ var viewSubmission = function viewSubmission() {
             clwk: this.classworkDetails.id
           }
         });
-        window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+        window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
         this.saveActivityLog('Student started taking the exam').then(function () {
           location.reload();
         });
@@ -528,7 +528,7 @@ var viewSubmission = function viewSubmission() {
           clwk: id
         }
       });
-      window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+      window.open(routeData.href, 'winname', "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" + screen.availWidth + ",height=" + screen.availHeight, "screenX=1,screenY=1,left=1,top=1,fullscreen=1");
       this.saveActivityLog('Student continue taking the exam').then(function () {
         location.reload();
       });
@@ -665,6 +665,15 @@ var viewSubmission = function viewSubmission() {
     },
     DownLoadFile: function DownLoadFile(file) {
       window.open(file, '_blank');
+    },
+    CheckScore: function CheckScore() {
+      var _this7 = this;
+
+      if (this.classworkDetails.Sub_id != null) {
+        axios.get('/api/question/StudentScore/' + this.classworkDetails.Sub_id).then(function (res) {
+          _this7.classworkDetails.score = res.data;
+        });
+      }
     }
   },
   created: function created() {//this.checkStatus();
@@ -686,6 +695,7 @@ var viewSubmission = function viewSubmission() {
     this.isLoaded = false;
     var newDate = new Date();
     this.DateToday = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+    this.CheckScore();
   }
   /*   beforeRouteEnter(to, from, next) {
        next(vm => {

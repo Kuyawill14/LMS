@@ -344,7 +344,7 @@ var render = function() {
                                   src:
                                     item.profile_pic == null ||
                                     item.profile_pic == ""
-                                      ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
+                                      ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                         (item.firstName + " " + item.lastName)
                                       : item.profile_pic
                                 }

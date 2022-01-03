@@ -44,6 +44,15 @@
             v-on:UnpublishSuccess="UnpublishDiaglog = !UnpublishDiaglog,fetchClassnames()"
             ></unpublishConfirmDialog>
         </v-dialog>
+
+         <v-dialog  v-model="multiplePublish" persistent max-width="600">
+            <multiplePublishDialog v-if="multiplePublish" :multiplePublishDetails="multiplePublishDetails"
+            v-on:toggleCancelDialog="multiplePublish = !multiplePublish"
+            v-on:successMultiplePublish="successMultiplePublishNotify"
+            v-on:UnpublishSuccess="multiplePublish = !multiplePublish,fetchClassnames()"
+            ></multiplePublishDialog>
+        </v-dialog>
+        
     
         
 
@@ -83,7 +92,9 @@
             <v-col cols="12"  md="8">
                 <v-card elevation="1" outlined class="pa-5" >
                     <v-row>
-
+                        <v-col cols="12" class="text-right">
+                            <v-btn @click="OpenMultiplePublishDialog(classNames, $route.query.clwk)" rounded color="primary">Publish Classwork <v-icon right>mdi-share</v-icon></v-btn>
+                        </v-col>
                         <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 
                             <v-container v-for="(details, index) in classNames" :key="index">
                                 <v-list-item>
@@ -93,18 +104,21 @@
                                         <v-list-item-content>
                                             <v-list-item-title>{{details.class_name}} </v-list-item-title>
                                         </v-list-item-content>
-                                            <div class="">
-                                    
-                                                <v-btn
+                                            <div >
+                                            
+                                            <v-btn v-if="details.status == 0" rounded disabled>
+                                                Not publish
+                                            </v-btn>
+                                              <!--   <v-btn
                                                     :loading="isPublishing && isPublishing_id == details.class_id"
                                                     @click="OpenPublishDialog($route.query.clwk, details.class_id, details.class_name, details.status)" 
-                                                    v-if="details.status == 0"
+                                                    
                                                     color="primary" :outlined="details.status == 0" rounded dark>
                                                     {{$vuetify.breakpoint.xs ? '': 'Publish'}}
-                                                <v-icon>
+                                                <v-icon right>
                                                     mdi-share
                                                 </v-icon>
-                                            </v-btn>
+                                            </v-btn> -->
                                             <v-menu  v-if="details.status == 1"  offset-y>
                                                 <template v-slot:activator="{ on, attrs }">
                                                     <v-btn
@@ -151,13 +165,15 @@
 const publishDialog = () => import('./dialogs/publishDialog')
 const unpublishConfirmDialog = () => import('./dialogs/unpublishConfirmDialog')
 const updatePublishDialog = () => import('./dialogs/UpdatePublishDialog')
+const multiplePublishDialog = () => import('./dialogs/multiplePublishDialog')
 
 export default {
     props:['classworkDetails'],
     components:{
         publishDialog,
         unpublishConfirmDialog,
-        updatePublishDialog
+        updatePublishDialog,
+        multiplePublishDialog
     },
     data(){
         return{
@@ -173,10 +189,28 @@ export default {
             isUpdate: false,
             notifyDetails:{},
             isLeaving: false,
-            datetoday: new Date()
+            datetoday: new Date(),
+            multiplePublish: false,
+            multiplePublishDetails:{}
         }
     },
     methods:{
+        OpenMultiplePublishDialog(classes, id){
+
+            let tmpClass = []
+            classes.forEach(item => {
+                if(item.status != 1){
+                    tmpClass.push(item);
+                }
+            });
+
+            this.multiplePublishDetails.classes = tmpClass;
+            this.multiplePublishDetails.id = id;
+             this.multiplePublishDetails.type = this.classworkDetails.type;
+            this.multiplePublish = true;
+            
+
+        },
         OpenPublishDialog(item_id, class_id,class_name){
             this.isPublishing = !this.isPublishing;
             this.isPublishing_id = class_id;
@@ -248,12 +282,31 @@ export default {
                 ////console.log(e)
             })
         },
-        async SuccessPublishNotify(data){
 
+        async SuccessPublishNotify(data){
             this.fetchClassFornotify(data)
         },
+        async successMultiplePublishNotify(data){
+             this.multiplePublish = false;
+             axios.get('/api/class/allnames/' + this.$route.params.id+'/'+ this.$route.query.clwk).then(res => {
+                this.classNames = res.data;
+                this.isloading = false;
+                this.NewMultipleNotification(data)
+            }).catch(e => {
+                ////console.log(e)
+            })
+        },
+
+        async NewMultipleNotification(data){
+            this.notifyDetails.data = data;
+            this.notifyDetails.course_id = this.$route.params.id;
+            this.notifyDetails.type = 'classwork';
+            axios.post('/api/notification/new', this.notifyDetails)
+            .then(res=>{
+               
+            })
+        },
         async NewNotification(data){
-            ////console.log(data);
             this.notifyDetails.from_date = data.from_date;
             this.notifyDetails.classwork_id = data.classwork_id;
             this.notifyDetails.class_id = data.class_id;

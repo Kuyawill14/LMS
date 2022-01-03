@@ -2,13 +2,12 @@
     <v-card>
         <v-card-title class="pa-0 pl-1 pt-1 pb-1"> <v-btn  large icon color="secondary" text @click="$emit('toggleDialog')" >
                 <v-icon>mdi-close</v-icon>
-            </v-btn>Reset Submissions</v-card-title>
+            </v-btn>Alert Students</v-card-title>
         <v-divider></v-divider>
             <v-card-text class="pa-0" style="height: 550px;overflow-y:scroll;overflow-x:hidden">
                  <v-list class="pt-0 mt-0">
 
               <v-list-item class="mb-0 pb-0">
-                
                 <v-list-item-icon class="pt-4" color="secondary">
                      <v-select
                     outlined
@@ -74,15 +73,15 @@
             <v-card-actions>
            
            <v-btn rounded block color="primary" @click="resetConfirm = true" :loading="iReseting" :disabled="resetCount == 0">
-                    Reset Submissions
+                    Alert Students
                 </v-btn>
             </v-card-actions>
 
             <v-dialog v-model="resetConfirm" width="400">
                 <v-card>
-                     <v-card-title>Confirm Reset</v-card-title>
+                     <v-card-title>Confirm Alert</v-card-title>
                     <v-card-text>
-                        Are you sure to reset the submission of this student?
+                        Are you sure to send alert to this students?
                     </v-card-text>
 
                      <v-card-actions>
@@ -90,7 +89,7 @@
                           <v-btn @click="resetConfirm = false" rounded text >
                            Cancel
                         </v-btn>
-                        <v-btn rounded @click="ResetSubmission()" text color="primary">
+                        <v-btn rounded @click="alertStudent()" text color="primary">
                             Confirm
                         </v-btn>
                     </v-card-actions>
@@ -100,7 +99,7 @@
 </template>
 <script>
 export default {
-    props:['ListData', 'ClassList'],
+    props:['ListData', 'ClassList','classworkDetails'],
     data(){
         return{
             student:[],
@@ -116,10 +115,10 @@ export default {
     methods:{
         getSubmittedStudents(){
             this.ListData.forEach(item => {
-                if(item.status == 'Submitted'){
+                if(item.status == null || item.status == ''){
                     this.studentCount++;
                     item.Sumissionstatus =  false;
-                    this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
+                    this.SelectedAll_submission_id.push({id: item.user_id, status : item.Sumissionstatus, firstName: item.firstName});
                     this.student.push(item);
                 }
             });
@@ -131,18 +130,18 @@ export default {
                 this.resetCount = 0;
                 if(this.Class == this.$route.params.id){
                   this.ListData.forEach(item => {
-                      if(item.status == 'Submitted'){
+                      if(item.status == null || item.status == ''){
                         this.resetCount++;
                         item.Sumissionstatus =  true;
-                        this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
+                        this.SelectedAll_submission_id.push({id: item.user_id, status : item.Sumissionstatus, firstName: item.firstName}); 
                       }
                   });
                 }else{
                     this.ListData.forEach(item => {
-                      if(item.status == 'Submitted' && item.class_id == this.Class){
+                      if((item.status == null || item.status == '') && item.class_id == this.Class){
                         this.resetCount++;
                         item.Sumissionstatus =  true;
-                        this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
+                        this.SelectedAll_submission_id.push({id: item.user_id, status : item.Sumissionstatus, firstName: item.firstName}); 
                       }
                   }); 
                 }
@@ -161,39 +160,36 @@ export default {
             this.SelectedAll_submission_id[index].status = this.ListData[index].Sumissionstatus;
              this.resetCount = !this.ListData[index].Sumissionstatus ? this.resetCount+1 : this.resetCount-1;
         },
-        async ResetSubmission(){
+        async alertStudent(){
             this.iReseting = true;
             this.resetConfirm = false;
-            let ResetData = [];
+            let alertData = {};
+            alertData.course_id = this.$route.params.id;
+            alertData.classwork_id = this.$route.query.clwk;
+            alertData.classwork_name = this.classworkDetails.title;
+            alertData.data = []
             this.SelectedAll_submission_id.forEach(item => {
                 if(item.status == true){
-                    ResetData.push({id: item.id, status: 1});
+                    alertData.data.push({id: item.id, firstName: item.firstName});
                 }
             });
-            if(ResetData.length != 0){
+            axios.post('/api/teacher/alert-multiple-student', alertData )
+            .then((res)=>{
+                this.toastSuccess(res.data.message);
+                this.iReseting = false;
+                this.$emit('toggleDialog');
+            })
+
+            
+            /* if(ResetData.length != 0){
                 this.iReseting = false;
                 this.$emit("StartReset", ResetData)
             }
             else{
                 this.iReseting = false;
                 this.toastError('You must select atleast one data!');
-            }
+            } */
              
-          /*   axios.post('/api/teacher/resetStudentSubmissions',ResetData)
-            .then((res)=>{
-                 this.iReseting = false;
-
-                 for (let i = 0; i < this.ListData.length; i++) {
-                     for (let j = 0; j < ResetData.length; j++) {
-                          if(this.ListData[i].id == ResetData[j].id){
-                             this.ListData[i].status = null;
-                             this.ListData[i].Sumissionstatus =  0;
-                         }
-                         
-                     }
-                 }
-                
-            }) */
             
         }
     },

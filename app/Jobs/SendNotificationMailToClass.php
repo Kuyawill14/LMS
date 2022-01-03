@@ -49,9 +49,15 @@ class SendNotificationMailToClass implements ShouldQueue
         ->leftjoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
         ->where('users.role','Student')
         ->get();
+        $counter = 1;
         foreach($emails as $email){
+            $latercount = 5;
+            $delay = $latercount*$counter;
             $MailData = new SendClassNotificationEmail($this->title, $this->instruction, $this->due, $this->class_name, $this->lastName, $this->url);
-            Mail::to($email->email)->send($MailData);
+            Mail::to($email->email)
+            ->cc($emails)
+            ->later($delay, $MailData);
+            $counter++;
         }
        
     }

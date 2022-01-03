@@ -178,6 +178,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() | user_profile */ "user_profile").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -237,7 +241,8 @@ var myCalendar = function myCalendar() {
         name: "change_password",
         text: "Change Password",
         icon: "mdi-lock"
-      }]
+      }],
+      tmpProfile: null
     };
   },
   methods: {
@@ -264,12 +269,13 @@ var myCalendar = function myCalendar() {
     onFileChange: function onFileChange(element) {
       this.imageFile = element.target.files[0];
 
-      if (this.imageFile.size <= 5000000) {
+      if (this.imageFile.size <= 3000000) {
         this.isUploading = true;
         this.UpdateProfile();
+        this.tmpProfile = this.UserDetails.profile_pic;
         this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
       } else {
-        this.toastError('The File is more than 5mb');
+        this.toastError('The File is more than 3mb');
       }
     },
     UpdateProfile: function UpdateProfile() {
@@ -288,7 +294,11 @@ var myCalendar = function myCalendar() {
 
                   _this2.isUploading = false;
                 })["catch"](function (e) {
-                  _this2.toastError(e.response.data.message);
+                  _this2.UserDetails.profile_pic = _this2.tmpProfile;
+
+                  _this2.toastError(e.response.data.errors.file[2]);
+
+                  _this2.isUploading = false;
                 });
 
               case 3:
@@ -505,89 +515,163 @@ var render = function() {
                             },
                             [
                               _c(
-                                "v-avatar",
+                                "v-badge",
                                 {
-                                  attrs: { size: "80" },
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.TestUpload()
-                                    }
+                                  attrs: {
+                                    bordered: "",
+                                    bottom: "",
+                                    color: "green",
+                                    dot: "",
+                                    "offset-x": "23",
+                                    "offset-y": "10"
                                   }
                                 },
                                 [
-                                  _c("v-hover", {
-                                    scopedSlots: _vm._u(
-                                      [
-                                        {
-                                          key: "default",
-                                          fn: function(ref) {
-                                            var hover = ref.hover
-                                            return [
-                                              _c(
-                                                "div",
-                                                [
+                                  _c(
+                                    "v-avatar",
+                                    {
+                                      attrs: { size: "80" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.TestUpload()
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-hover", {
+                                        scopedSlots: _vm._u(
+                                          [
+                                            {
+                                              key: "default",
+                                              fn: function(ref) {
+                                                var hover = ref.hover
+                                                return [
                                                   _c(
-                                                    "v-avatar",
-                                                    {
-                                                      staticStyle: {
-                                                        cursor: "pointer"
-                                                      },
-                                                      attrs: { size: "80" }
-                                                    },
+                                                    "div",
                                                     [
                                                       _c(
-                                                        "v-img",
+                                                        "v-avatar",
                                                         {
-                                                          attrs: {
-                                                            alt: "Proflie",
-                                                            src:
-                                                              _vm.UserDetails
-                                                                .profile_pic ==
-                                                                null ||
-                                                              _vm.UserDetails
-                                                                .profile_pic ==
-                                                                ""
-                                                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                                  (_vm
-                                                                    .UserDetails
-                                                                    .firstName +
-                                                                    " " +
-                                                                    _vm
-                                                                      .UserDetails
-                                                                      .lastName)
-                                                                : _vm
-                                                                    .UserDetails
-                                                                    .profile_pic
-                                                          }
+                                                          staticStyle: {
+                                                            cursor: "pointer"
+                                                          },
+                                                          attrs: { size: "80" }
                                                         },
                                                         [
-                                                          _vm.isUploading
+                                                          _c(
+                                                            "v-img",
+                                                            {
+                                                              attrs: {
+                                                                alt: "Proflie",
+                                                                src:
+                                                                  _vm
+                                                                    .UserDetails
+                                                                    .profile_pic ==
+                                                                    null ||
+                                                                  _vm
+                                                                    .UserDetails
+                                                                    .profile_pic ==
+                                                                    ""
+                                                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                                      (_vm
+                                                                        .UserDetails
+                                                                        .firstName +
+                                                                        " " +
+                                                                        _vm
+                                                                          .UserDetails
+                                                                          .lastName)
+                                                                    : _vm
+                                                                        .UserDetails
+                                                                        .profile_pic
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm.isUploading
+                                                                ? _c(
+                                                                    "v-row",
+                                                                    {
+                                                                      staticClass:
+                                                                        "fill-height ma-0",
+                                                                      attrs: {
+                                                                        align:
+                                                                          "center",
+                                                                        justify:
+                                                                          "center"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-progress-circular",
+                                                                        {
+                                                                          attrs: {
+                                                                            indeterminate:
+                                                                              "",
+                                                                            color:
+                                                                              "grey lighten-5"
+                                                                          }
+                                                                        }
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                : _vm._e()
+                                                            ],
+                                                            1
+                                                          )
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-fade-transition",
+                                                        [
+                                                          hover
                                                             ? _c(
-                                                                "v-row",
+                                                                "v-overlay",
                                                                 {
-                                                                  staticClass:
-                                                                    "fill-height ma-0",
+                                                                  staticStyle: {
+                                                                    cursor:
+                                                                      "pointer"
+                                                                  },
                                                                   attrs: {
-                                                                    align:
-                                                                      "center",
-                                                                    justify:
-                                                                      "center"
+                                                                    absolute:
+                                                                      "",
+                                                                    color:
+                                                                      "#212121"
                                                                   }
                                                                 },
                                                                 [
                                                                   _c(
-                                                                    "v-progress-circular",
-                                                                    {
-                                                                      attrs: {
-                                                                        indeterminate:
-                                                                          "",
-                                                                        color:
-                                                                          "grey lighten-5"
-                                                                      }
-                                                                    }
+                                                                    "div",
+                                                                    {},
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            small:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-camera"
+                                                                          )
+                                                                        ]
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " " +
+                                                                          _vm._s(
+                                                                            !_vm.isUploading
+                                                                              ? "Update"
+                                                                              : "Uploading"
+                                                                          ) +
+                                                                          " "
+                                                                      )
+                                                                    ],
+                                                                    1
                                                                   )
-                                                                ],
-                                                                1
+                                                                ]
                                                               )
                                                             : _vm._e()
                                                         ],
@@ -595,73 +679,19 @@ var render = function() {
                                                       )
                                                     ],
                                                     1
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-fade-transition",
-                                                    [
-                                                      hover
-                                                        ? _c(
-                                                            "v-overlay",
-                                                            {
-                                                              staticStyle: {
-                                                                cursor:
-                                                                  "pointer"
-                                                              },
-                                                              attrs: {
-                                                                absolute: "",
-                                                                color: "#212121"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "div",
-                                                                {},
-                                                                [
-                                                                  _c(
-                                                                    "v-icon",
-                                                                    {
-                                                                      attrs: {
-                                                                        small:
-                                                                          ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "mdi-camera"
-                                                                      )
-                                                                    ]
-                                                                  ),
-                                                                  _vm._v(
-                                                                    " " +
-                                                                      _vm._s(
-                                                                        !_vm.isUploading
-                                                                          ? "Update"
-                                                                          : "Uploading"
-                                                                      ) +
-                                                                      " "
-                                                                  )
-                                                                ],
-                                                                1
-                                                              )
-                                                            ]
-                                                          )
-                                                        : _vm._e()
-                                                    ],
-                                                    1
                                                   )
-                                                ],
-                                                1
-                                              )
-                                            ]
-                                          }
-                                        }
-                                      ],
-                                      null,
-                                      false,
-                                      1865174112
-                                    )
-                                  })
+                                                ]
+                                              }
+                                            }
+                                          ],
+                                          null,
+                                          false,
+                                          1865174112
+                                        )
+                                      })
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               ),
@@ -714,57 +744,6 @@ var render = function() {
                                 [_vm._v(_vm._s(_vm.UserDetails.email))]
                               )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass:
-                                "mb-0 pb-0 mt-1 pt-0 d-flex justify-center",
-                              attrs: { cols: "12" }
-                            },
-                            [
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { icon: "", text: "" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.UserDetails.social_account != null
-                                        ? _vm.OpenSocialAccount(
-                                            _vm.UserDetails.social_account
-                                          )
-                                        : ""
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { color: "blue" } }, [
-                                    _vm._v(
-                                      "\n                                mdi-facebook\n                            "
-                                    )
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  staticClass: "ml-2",
-                                  attrs: { icon: "", text: "" }
-                                },
-                                [
-                                  _c("v-icon", { attrs: { color: "red" } }, [
-                                    _vm._v(
-                                      "\n                                mdi-google-plus\n                            "
-                                    )
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
-                            1
                           )
                         ],
                         1

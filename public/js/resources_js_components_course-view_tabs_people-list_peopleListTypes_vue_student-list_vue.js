@@ -246,7 +246,8 @@ var classJoinRequest = function classJoinRequest() {
       isSearching: false,
       MoveStudent: false,
       MoveDetails: null,
-      isShowJoinRequest: false
+      isShowJoinRequest: false,
+      timeout: null
     };
   },
   computed: _objectSpread({
@@ -272,21 +273,23 @@ var classJoinRequest = function classJoinRequest() {
       this.RemoveDetails.user_id = user_id;
       this.dialog = !this.dialog;
     },
-    removeStudent: function removeStudent() {
+    startSearch: function startSearch() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var self;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios["delete"]('/api/student/removeFromClass/' + _this2.RemoveDetails.class_id + '/' + _this2.RemoveDetails.user_id).then(function (res) {
-                  _this2.getStudents();
+                _this2.isSearching = true;
+                clearTimeout(_this2.timeout);
+                self = _this2;
+                _this2.timeout = setTimeout(function () {
+                  self.isSearching = false;
+                }, 1000);
 
-                  _this2.dialog = !_this2.dialog;
-                });
-
-              case 1:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -294,7 +297,7 @@ var classJoinRequest = function classJoinRequest() {
         }, _callee);
       }))();
     },
-    getStudents: function getStudents() {
+    removeStudent: function removeStudent() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -302,14 +305,10 @@ var classJoinRequest = function classJoinRequest() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                /*  axios.get('/api/student/all/'+this.$route.params.id)
-                 .then((res)=>{
-                     this.students = res.data.StudentList;
-                      this.isGetting = false;
-                 }).catch((error)=>{
-                 }) */
-                _this3.$store.dispatch('fetchAllStudents', _this3.$route.params.id).then(function () {
-                  _this3.isGetting = false;
+                axios["delete"]('/api/student/removeFromClass/' + _this3.RemoveDetails.class_id + '/' + _this3.RemoveDetails.user_id).then(function (res) {
+                  _this3.getStudents();
+
+                  _this3.dialog = !_this3.dialog;
                 });
 
               case 1:
@@ -320,7 +319,7 @@ var classJoinRequest = function classJoinRequest() {
         }, _callee2);
       }))();
     },
-    fetchClassnames: function fetchClassnames() {
+    getStudents: function getStudents() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -328,12 +327,14 @@ var classJoinRequest = function classJoinRequest() {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.get('/api/class/allnames/' + _this4.$route.params.id + '/' + 0).then(function (res) {
-                  _this4.getStudents();
-
-                  _this4.classNames = res.data;
-                  _this4.Class_id = res.data[0].class_id;
-                  _this4.isloading = false;
+                /*  axios.get('/api/student/all/'+this.$route.params.id)
+                 .then((res)=>{
+                     this.students = res.data.StudentList;
+                      this.isGetting = false;
+                 }).catch((error)=>{
+                 }) */
+                _this4.$store.dispatch('fetchAllStudents', _this4.$route.params.id).then(function () {
+                  _this4.isGetting = false;
                 });
 
               case 1:
@@ -342,6 +343,30 @@ var classJoinRequest = function classJoinRequest() {
             }
           }
         }, _callee3);
+      }))();
+    },
+    fetchClassnames: function fetchClassnames() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                axios.get('/api/class/allnames/' + _this5.$route.params.id + '/' + 0).then(function (res) {
+                  _this5.getStudents();
+
+                  _this5.classNames = res.data;
+                  _this5.Class_id = res.data[0].class_id;
+                  _this5.isloading = false;
+                });
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     },
     OpenaddStudentDialog: function OpenaddStudentDialog() {
@@ -830,7 +855,7 @@ var render = function() {
                                             src:
                                               item.profile_pic == null ||
                                               item.profile_pic == ""
-                                                ? "https://ui-avatars.com/api/?background=random&color=white&name=" +
+                                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
                                                   (item.firstName +
                                                     " " +
                                                     item.lastName)

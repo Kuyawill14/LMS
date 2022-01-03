@@ -2,14 +2,31 @@
    <v-card >
         <v-form ref="publishForm" v-model="valid" lazy-validation>
             <v-card-title>
-                <v-btn  large icon color="secondary" text @click="$emit('toggleDialog')" :disabled="loading">
+                <v-btn  large icon color="secondary" text @click="$emit('toggleCancelDialog')" :disabled="loading">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <span class="h6">Publish to <span class="primary--text">"{{ClassDetails.class_name}}"</span></span>
+                <span class="h6">Publish Classwork</span>
             </v-card-title>
+           
             <v-card-text>
                 <v-container mb-0 pb-0>
                     <v-row>
+                        <v-col   class="pb-0 mb-0 mt-0 pt-0" cols="12">
+                            <v-select
+                            class="mb-0 pb-0"
+                                dense
+                                multiple
+                                :rules="FieldRules"
+                                :items="multiplePublishDetails.classes"
+                                item-text="class_name"
+                                v-model="classes_id"
+                                item-value="class_id"
+                                outlined
+                                label="Class"
+                                >
+                                
+                            </v-select>
+                       </v-col>
                         <v-col   class="pb-0 mb-0 mt-0 pt-0" cols="12">
                             <v-select
                             class="mb-0 pb-0"
@@ -134,13 +151,8 @@
                              </v-row>
                            
                             </v-col>
-                             <v-col v-if="classworkDetails.type == 'Objective Type'" class="text-left pb-0 mb-0 mt-0 pt-2" cols="12">
+                             <v-col v-if="multiplePublishDetails.type == 'Objective Type'" class="text-left pb-0 mb-0 mt-0 pt-2" cols="12">
                                  <v-divider></v-divider>
-                              <!--   <v-checkbox
-                                    class="pa-0 ma-0"
-                                    v-model="ReviewAnswer"
-                                    label="Enable Review Answer After Submit"
-                                    ></v-checkbox> -->
                                     <v-switch
                                   
                                     hide-details
@@ -235,7 +247,7 @@
 <script>
 import moment from 'moment-timezone';
 export default {
-    props:['Details', 'datetoday','classworkDetails'],
+    props:['multiplePublishDetails'],
   
     data(){
         return{
@@ -282,6 +294,7 @@ export default {
             rules: [
                 v => !!v || 'Field is required',
             ],
+            classes_id:[],
             
         }
     },
@@ -345,8 +358,8 @@ export default {
             
             const fd = new FormData();
             let form = {};
-            form.classwork_id = this.ClassDetails.id;
-            form.class_id = this.ClassDetails.class_id;
+            form.classwork_id = this.multiplePublishDetails.id;
+            form.class_id = this.classes_id;
             form.availability = this.availability;
             form.from_date = moment(this.from_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             form.to_date = moment(this.to_date).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
@@ -360,12 +373,14 @@ export default {
 
 
 
-            axios.post('/api/classwork/share', form)
+            axios.post('/api/classwork/multiple_share', form)
                 .then(res => {
-                    if(res.dat != 'Unshare'){
-                        let tmpDue = res.data.availability == 1 ? 'Due '+moment(this.to_date).format("MMMM D")+' at '+moment(this.to_date).format("h:mm a") : '';
-                        res.data.to_date = tmpDue;
-                        this.$emit('successPublish', res.data)
+                    if(res.data != 'Unshare'){
+                        res.data.forEach(item => {
+                            let tmpDue = item.availability == 1 ? 'Due '+moment(this.to_date).format("MMMM D, YYYY")+' at '+moment(this.to_date).format("h:mm a") : '';
+                            item.to_date = tmpDue;
+                        });
+                        this.$emit('successMultiplePublish', res.data)
                          this.toastSuccess("Classwork Successfully publish");
                          this.isPublishing = !this.isPublishing;
                     }
@@ -398,7 +413,7 @@ export default {
         this.showAnswerDateFrom = Newdate;
         this.ShowAnswerDateTo = Newdate;
         this.getGradingCriteria();
-        this.getPublishDetails();
+        //this.getPublishDetails();
     }
 }
 </script>

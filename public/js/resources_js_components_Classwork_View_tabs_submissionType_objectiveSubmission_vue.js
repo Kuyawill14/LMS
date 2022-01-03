@@ -213,6 +213,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -225,12 +255,17 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_resetAllSubmission_resetStudentSub-cfe23a").then(__webpack_require__.bind(__webpack_require__, /*! ./resetAllSubmission/resetStudentSubmissionDialog */ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue"));
 };
 
+var multipleAlertStudent = function multipleAlertStudent() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_AlertSudent_MultipleAlertStudent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./AlertSudent/MultipleAlertStudent */ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["ListData", "classworkDetails", "Submitted", "Graded", "ClassList"],
   components: {
     checkobjective: checkobjective,
     resetConfirmation: resetConfirmation,
-    resetStudentSubmissionDialog: resetStudentSubmissionDialog
+    resetStudentSubmissionDialog: resetStudentSubmissionDialog,
+    multipleAlertStudent: multipleAlertStudent
   },
   data: function data() {
     return {
@@ -281,7 +316,8 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
       pageSize: 12,
       currentPage: 1,
       totalPage: 0,
-      currentTotalData: 0
+      currentTotalData: 0,
+      alertDialog: false
     };
   },
   computed: {
@@ -506,7 +542,10 @@ var resetStudentSubmissionDialog = function resetStudentSubmissionDialog() {
     MultipleResetSubmission: function MultipleResetSubmission(data) {
       var _this3 = this;
 
-      axios.post('/api/teacher/resetStudentSubmissions', data).then(function () {
+      var ResetData = {};
+      ResetData.data = data;
+      ResetData.type = 'Objective_Type';
+      axios.post('/api/teacher/resetStudentSubmissions', ResetData).then(function () {
         data.forEach(function (item) {
           _this3.studentSubmissionList.forEach(function (sb) {
             if (item.id == sb.id) {
@@ -787,30 +826,185 @@ var render = function() {
                                     [
                                       _c(
                                         "div",
-                                        { staticClass: "pt-7" },
+                                        { staticClass: "pt-5" },
                                         [
                                           _c(
-                                            "v-btn",
+                                            "v-menu",
                                             {
-                                              attrs: {
-                                                small: "",
-                                                text: "",
-                                                rounded: ""
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.resetdialog = !_vm.resetdialog
-                                                }
-                                              }
+                                              attrs: { "offset-y": "" },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "activator",
+                                                    fn: function(ref) {
+                                                      var menu = ref.on
+                                                      var attrs = ref.attrs
+                                                      return [
+                                                        _c(
+                                                          "v-tooltip",
+                                                          {
+                                                            attrs: { top: "" },
+                                                            scopedSlots: _vm._u(
+                                                              [
+                                                                {
+                                                                  key:
+                                                                    "activator",
+                                                                  fn: function(
+                                                                    ref
+                                                                  ) {
+                                                                    var tooltip =
+                                                                      ref.on
+                                                                    return [
+                                                                      _c(
+                                                                        "v-btn",
+                                                                        _vm._g(
+                                                                          _vm._b(
+                                                                            {
+                                                                              attrs: {
+                                                                                text:
+                                                                                  "",
+                                                                                rounded:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            "v-btn",
+                                                                            attrs,
+                                                                            false
+                                                                          ),
+                                                                          Object.assign(
+                                                                            {},
+                                                                            tooltip,
+                                                                            menu
+                                                                          )
+                                                                        ),
+                                                                        [
+                                                                          _vm._v(
+                                                                            "\n                                            Settings\n                                            "
+                                                                          ),
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                right:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "mdi-cog-outline"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ]
+                                                                  }
+                                                                }
+                                                              ],
+                                                              null,
+                                                              true
+                                                            )
+                                                          },
+                                                          [
+                                                            _vm._v(" "),
+                                                            _c("span", [
+                                                              _vm._v("Menu")
+                                                            ])
+                                                          ]
+                                                        )
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                false,
+                                                3883216841
+                                              )
                                             },
                                             [
+                                              _vm._v(" "),
                                               _c(
-                                                "v-icon",
-                                                { attrs: { left: "" } },
-                                                [_vm._v("mdi-restart")]
-                                              ),
-                                              _vm._v(
-                                                "\n                                        Reset Submission\n                                    "
+                                                "v-list",
+                                                { staticClass: "pa-2" },
+                                                [
+                                                  _c(
+                                                    "v-list-item",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.resetdialog = !_vm.resetdialog
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-restart"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " Reset Submission"
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-list-item",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.alertDialog = !_vm.alertDialog
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-account-alert"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " Alert Students"
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
                                               )
                                             ],
                                             1
@@ -1405,43 +1599,86 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _c(
-                "v-row",
-                [
-                  _c(
-                    "v-dialog",
-                    {
-                      attrs: { persistent: "", "max-width": "550" },
-                      model: {
-                        value: _vm.resetdialog,
-                        callback: function($$v) {
-                          _vm.resetdialog = $$v
-                        },
-                        expression: "resetdialog"
-                      }
-                    },
+              _vm.resetdialog
+                ? _c(
+                    "v-row",
                     [
-                      _vm.resetdialog
-                        ? _c("resetStudentSubmissionDialog", {
-                            attrs: {
-                              scrollable: "",
-                              ListData: _vm.ListData,
-                              ClassList: _vm.ClassList
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "650" },
+                          model: {
+                            value: _vm.resetdialog,
+                            callback: function($$v) {
+                              _vm.resetdialog = $$v
                             },
-                            on: {
-                              toggleDialog: function($event) {
-                                _vm.resetdialog = !_vm.resetdialog
-                              },
-                              StartReset: _vm.MultipleResetSubmission
-                            }
-                          })
-                        : _vm._e()
+                            expression: "resetdialog"
+                          }
+                        },
+                        [
+                          _vm.resetdialog
+                            ? _c("resetStudentSubmissionDialog", {
+                                attrs: {
+                                  scrollable: "",
+                                  ListData: _vm.ListData,
+                                  ClassList: _vm.ClassList
+                                },
+                                on: {
+                                  toggleDialog: function($event) {
+                                    _vm.resetdialog = !_vm.resetdialog
+                                  },
+                                  StartReset: _vm.MultipleResetSubmission
+                                }
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.alertDialog
+                ? _c(
+                    "v-row",
+                    [
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "650" },
+                          model: {
+                            value: _vm.alertDialog,
+                            callback: function($$v) {
+                              _vm.alertDialog = $$v
+                            },
+                            expression: "alertDialog"
+                          }
+                        },
+                        [
+                          _vm.alertDialog
+                            ? _c("multipleAlertStudent", {
+                                attrs: {
+                                  scrollable: "",
+                                  ListData: _vm.ListData,
+                                  ClassList: _vm.ClassList,
+                                  classworkDetails: _vm.classworkDetails
+                                },
+                                on: {
+                                  toggleDialog: function($event) {
+                                    _vm.alertDialog = !_vm.alertDialog
+                                  },
+                                  StartReset: _vm.MultipleResetSubmission
+                                }
+                              })
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           )

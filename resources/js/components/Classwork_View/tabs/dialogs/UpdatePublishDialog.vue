@@ -128,7 +128,7 @@
                                 </v-radio-group>
                             </v-col>
 
-                            <v-col v-if="showAnsType == 'Set Date'"  ma-0 pa-0 class="text-left mb-0 pb-0 mt-0 pt-0" cols="12">
+                            <v-col v-if="showAnsType == 'Set Date'"  class="pt-0 mt-0 pb-0 mb-0" cols="12">
                                 <v-row class="mt-0 pt-0">
                                     <v-col cols="6" class="mt-0 pt-0">
                                          <v-datetime-picker label="From"
@@ -201,7 +201,7 @@ export default {
                 headerColor: 'primary'
             },
             timeProps: {
-                useSeconds: true,
+                useSeconds: false,
                 ampmInTitle: true
             },
             showAns: false,

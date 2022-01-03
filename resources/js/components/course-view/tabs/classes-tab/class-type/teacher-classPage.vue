@@ -56,7 +56,7 @@
 
         <v-row>
             <v-col cols="6">
-                <h2>My Class</h2>
+                <!-- <h2>My Class</h2> -->
             </v-col>
 
             <v-col cols="6" class="text-right">

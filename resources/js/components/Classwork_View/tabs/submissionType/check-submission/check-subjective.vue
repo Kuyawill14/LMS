@@ -205,7 +205,7 @@
                                                 <v-list-item-title> 
                                                     <div class="d-flex justify-space-between">
                                                         <div :class="item.u_id == get_CurrentUser.id ? 'mb-0 pb-0 pt-2' : 'pt-2 pb-2'" style="max-width:90%">{{item.name}}</div>
-                                                        <div v-if="item.u_id == get_CurrentUser.user_id">
+                                                        <div >
                                                             <v-menu offset-x >
                                                                 <template v-slot:activator="{ on, attrs }">
                                                                     <v-btn icon v-bind="attrs" v-on="on">

@@ -270,8 +270,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       ShowAnswerDateTo: null,
       from_date: null,
       to_date: null,
-      datetimeString: '2021-01-01 12:00:00',
-      formattedDatetime: '09-01-2021 12:00:00',
+      datetimeString: '2021-01-01 12:00',
+      formattedDatetime: '09-01-2021 12:00',
       textFieldProps: {
         appendIcon: 'event'
       },
@@ -280,7 +280,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
       },
       timeProps: {
-        useSeconds: true,
+        useSeconds: false,
         ampmInTitle: true
       },
       showAns: false,
@@ -336,6 +336,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this.isPublishing = !_this.isPublishing;
         }, 1000);
       }
+    },
+    setToDateStart: function setToDateStart() {
+      this.to_date = this.from_date;
+      console.log('test');
     },
     shareClasswork: function shareClasswork() {
       if (this.availability == 'Set date & time') {
@@ -23184,8 +23188,8 @@ var render = function() {
                         ? _c(
                             "v-col",
                             {
-                              staticClass: "text-left pa-0 ma-0",
-                              attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                              staticClass: "pt-0 mt-0 pb-0 mb-0",
+                              attrs: { cols: "12" }
                             },
                             [
                               _c(

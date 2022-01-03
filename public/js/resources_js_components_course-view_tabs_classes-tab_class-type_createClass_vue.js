@@ -476,7 +476,7 @@ var render = function() {
                           attrs: { text: "", rounded: "", small: "" },
                           on: {
                             click: function($event) {
-                              _vm.addScheduleDialog = !_vm.addScheduleDialog
+                              _vm.addScheduleDialog = true
                             }
                           }
                         },
@@ -532,9 +532,15 @@ var render = function() {
                                     _c("span", { staticClass: "ml-1" }, [
                                       _vm._v(
                                         _vm._s(
-                                          _vm.formatDisplay(item.start_time) +
+                                          _vm.formatDisplay(
+                                            item.day,
+                                            item.start_time
+                                          ) +
                                             " to " +
-                                            _vm.formatDisplay(item.end_time)
+                                            _vm.formatDisplay(
+                                              item.day,
+                                              item.end_time
+                                            )
                                         )
                                       )
                                     ])
@@ -681,8 +687,8 @@ var render = function() {
                                   attrs: { icon: "" },
                                   on: {
                                     click: function($event) {
-                                      ;(_vm.addScheduleDialog = !_vm.addScheduleDialog),
-                                        (_vm.isUpdateSched = !_vm.isUpdateSched)
+                                      ;(_vm.addScheduleDialog = false),
+                                        (_vm.isUpdateSched = false)
                                     }
                                   }
                                 },

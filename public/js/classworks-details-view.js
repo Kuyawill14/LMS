@@ -1131,15 +1131,27 @@ var studentViewForTeacher = function studentViewForTeacher() {
                       id: res.data.question_id,
                       question: '<p>' + 'New Question ' + (_this3.getAll_questions.Question.length + 1) + '</p>',
                       answer: 'N/A Answer',
-                      points: 0,
+                      points: 1,
                       type: 'Multiple Choice',
                       sensitivity: 0
                     });
 
                     _this3.getAll_questions.Answer.push({
                       options: [{
-                        id: res.data.choice1_id,
-                        Choice: '<p>' + 'Option 1' + '</p>',
+                        id: res.data.choices_id[0],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[1],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[2],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[3],
+                        Choice: '',
                         question_id: res.data.question_id
                       }],
                       SubQuestion: [],
@@ -1404,9 +1416,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 axios.put('/api/question/save_all_question/' + _this10.$route.query.clwk, _this10.getAll_questions).then(function (res) {
                   if (res.data.success == true) {
                     _this10.isSavingAllQuestion = false;
-                    _this10.isNewChanges = false;
-
-                    _this10.GetQuestion();
+                    _this10.isNewChanges = false; //this.GetQuestion();
 
                     setTimeout(function () {
                       _this10.showSnackbar = false;
@@ -1571,8 +1581,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 }).then(function (res) {
                   //this.isNewChanges = false;
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    console.log(res.data.question_id[i]);
-
                     _this14.getAll_questions.Question.push({
                       id: res.data.question_id[i],
                       question: _this14.DuplicateQuestion[i].question,
@@ -2610,6 +2618,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var publishDialog = function publishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_publishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/publishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/publishDialog.vue"));
 };
@@ -2622,12 +2644,17 @@ var updatePublishDialog = function updatePublishDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_UpdatePublishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/UpdatePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/UpdatePublishDialog.vue"));
 };
 
+var multiplePublishDialog = function multiplePublishDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_multiplePublishDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialogs/multiplePublishDialog */ "./resources/js/components/Classwork_View/tabs/dialogs/multiplePublishDialog.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   components: {
     publishDialog: publishDialog,
     unpublishConfirmDialog: unpublishConfirmDialog,
-    updatePublishDialog: updatePublishDialog
+    updatePublishDialog: updatePublishDialog,
+    multiplePublishDialog: multiplePublishDialog
   },
   data: function data() {
     return {
@@ -2643,10 +2670,24 @@ var updatePublishDialog = function updatePublishDialog() {
       isUpdate: false,
       notifyDetails: {},
       isLeaving: false,
-      datetoday: new Date()
+      datetoday: new Date(),
+      multiplePublish: false,
+      multiplePublishDetails: {}
     };
   },
   methods: {
+    OpenMultiplePublishDialog: function OpenMultiplePublishDialog(classes, id) {
+      var tmpClass = [];
+      classes.forEach(function (item) {
+        if (item.status != 1) {
+          tmpClass.push(item);
+        }
+      });
+      this.multiplePublishDetails.classes = tmpClass;
+      this.multiplePublishDetails.id = id;
+      this.multiplePublishDetails.type = this.classworkDetails.type;
+      this.multiplePublish = true;
+    },
     OpenPublishDialog: function OpenPublishDialog(item_id, class_id, class_name) {
       this.isPublishing = !this.isPublishing;
       this.isPublishing_id = class_id;
@@ -2762,7 +2803,7 @@ var updatePublishDialog = function updatePublishDialog() {
         }, _callee3);
       }))();
     },
-    NewNotification: function NewNotification(data) {
+    successMultiplePublishNotify: function successMultiplePublishNotify(data) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
@@ -2770,21 +2811,66 @@ var updatePublishDialog = function updatePublishDialog() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                ////console.log(data);
-                _this5.notifyDetails.from_date = data.from_date;
-                _this5.notifyDetails.classwork_id = data.classwork_id;
-                _this5.notifyDetails.class_id = data.class_id;
-                _this5.notifyDetails.course_id = _this5.$route.params.id;
-                _this5.notifyDetails.due = data.to_date;
-                _this5.notifyDetails.type = 'classwork';
-                axios.post('/api/notification/new', _this5.notifyDetails).then(function (res) {});
+                _this5.multiplePublish = false;
+                axios.get('/api/class/allnames/' + _this5.$route.params.id + '/' + _this5.$route.query.clwk).then(function (res) {
+                  _this5.classNames = res.data;
+                  _this5.isloading = false;
 
-              case 7:
+                  _this5.NewMultipleNotification(data);
+                })["catch"](function (e) {////console.log(e)
+                });
+
+              case 2:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
+      }))();
+    },
+    NewMultipleNotification: function NewMultipleNotification(data) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this6.notifyDetails.data = data;
+                _this6.notifyDetails.course_id = _this6.$route.params.id;
+                _this6.notifyDetails.type = 'classwork';
+                axios.post('/api/notification/new', _this6.notifyDetails).then(function (res) {});
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    NewNotification: function NewNotification(data) {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this7.notifyDetails.from_date = data.from_date;
+                _this7.notifyDetails.classwork_id = data.classwork_id;
+                _this7.notifyDetails.class_id = data.class_id;
+                _this7.notifyDetails.course_id = _this7.$route.params.id;
+                _this7.notifyDetails.due = data.to_date;
+                _this7.notifyDetails.type = 'classwork';
+                axios.post('/api/notification/new', _this7.notifyDetails).then(function (res) {});
+
+              case 7:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   },
@@ -16837,6 +16923,38 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "600" },
+          model: {
+            value: _vm.multiplePublish,
+            callback: function($$v) {
+              _vm.multiplePublish = $$v
+            },
+            expression: "multiplePublish"
+          }
+        },
+        [
+          _vm.multiplePublish
+            ? _c("multiplePublishDialog", {
+                attrs: { multiplePublishDetails: _vm.multiplePublishDetails },
+                on: {
+                  toggleCancelDialog: function($event) {
+                    _vm.multiplePublish = !_vm.multiplePublish
+                  },
+                  successMultiplePublish: _vm.successMultiplePublishNotify,
+                  UnpublishSuccess: function($event) {
+                    ;(_vm.multiplePublish = !_vm.multiplePublish),
+                      _vm.fetchClassnames()
+                  }
+                }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.isloading
         ? _c(
             "v-container",
@@ -16901,6 +17019,38 @@ var render = function() {
                               _c(
                                 "v-col",
                                 {
+                                  staticClass: "text-right",
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { rounded: "", color: "primary" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.OpenMultiplePublishDialog(
+                                            _vm.classNames,
+                                            _vm.$route.query.clwk
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v("Publish Classwork "),
+                                      _c("v-icon", { attrs: { right: "" } }, [
+                                        _vm._v("mdi-share")
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
                                   staticClass: "pt-2 pl-3 pr-3",
                                   attrs: { cols: "12", md: "12" }
                                 },
@@ -16940,55 +17090,21 @@ var render = function() {
                                           _vm._v(" "),
                                           _c(
                                             "div",
-                                            {},
                                             [
                                               details.status == 0
                                                 ? _c(
                                                     "v-btn",
                                                     {
                                                       attrs: {
-                                                        loading:
-                                                          _vm.isPublishing &&
-                                                          _vm.isPublishing_id ==
-                                                            details.class_id,
-                                                        color: "primary",
-                                                        outlined:
-                                                          details.status == 0,
                                                         rounded: "",
-                                                        dark: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.OpenPublishDialog(
-                                                            _vm.$route.query
-                                                              .clwk,
-                                                            details.class_id,
-                                                            details.class_name,
-                                                            details.status
-                                                          )
-                                                        }
+                                                        disabled: ""
                                                       }
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\r\n                                                    " +
-                                                          _vm._s(
-                                                            _vm.$vuetify
-                                                              .breakpoint.xs
-                                                              ? ""
-                                                              : "Publish"
-                                                          ) +
-                                                          "\r\n                                                "
-                                                      ),
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "\r\n                                                    mdi-share\r\n                                                "
-                                                        )
-                                                      ])
-                                                    ],
-                                                    1
+                                                        "\r\n                                                Not publish\r\n                                            "
+                                                      )
+                                                    ]
                                                   )
                                                 : _vm._e(),
                                               _vm._v(" "),

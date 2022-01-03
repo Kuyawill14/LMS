@@ -844,15 +844,31 @@ export default {
                    id: res.data.question_id,
                    question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
                    answer: 'N/A Answer',
-                   points: 0,
+                   points: 1,
                    type: 'Multiple Choice',
                    sensitivity: 0,
                })
+
                this.getAll_questions.Answer.push({options:
                    [
                        {
-                            id : res.data.choice1_id,
-                            Choice : '<p>'+'Option 1'+'</p>',
+                            id : res.data.choices_id[0],
+                            Choice : '',
+                            question_id : res.data.question_id,
+                       },
+                        {
+                            id : res.data.choices_id[1],
+                            Choice : '',
+                            question_id : res.data.question_id,
+                       },
+                        {
+                            id : res.data.choices_id[2],
+                            Choice : '',
+                            question_id : res.data.question_id,
+                       },
+                        {
+                            id : res.data.choices_id[3],
+                            Choice : '',
                             question_id : res.data.question_id,
                        }
                    ],
@@ -1017,7 +1033,7 @@ export default {
                 if(res.data.success == true){
                     this.isSavingAllQuestion = false;
                     this.isNewChanges = false;
-                    this.GetQuestion();
+                    //this.GetQuestion();
                      setTimeout(() => {
                           this.showSnackbar = false;
                     }, 3000);
@@ -1141,7 +1157,6 @@ export default {
             .then((res)=>{
                 //this.isNewChanges = false;
                 for (let i = 0; i < res.data.question_id.length; i++) {
-                    console.log(res.data.question_id[i]);
                     this.getAll_questions.Question.push({
                         id: res.data.question_id[i],
                         question: this.DuplicateQuestion[i].question,
