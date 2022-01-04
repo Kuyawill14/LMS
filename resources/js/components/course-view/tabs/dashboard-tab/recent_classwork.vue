@@ -75,22 +75,27 @@
                         align: 'start',
                         sortable: false,
                         value: 'classwork_name',
-                        width: '25%'
+                        width: '35%'
                     },
                     {
                         text: 'Date Created',
                         value: 'created_date',
                         sortable: false,
+                         align: 'left',
                     },
                     {
                         text: 'Submission Count',
                         value: 'submission_count',
                         sortable: false,
+                        width: '30px',
+                          align: 'center',
                     },
                     {
                         text: 'Submission Rate',
                         value: 'submission_rate',
                         sortable: false,
+                           width: '30px',
+                             align: 'center',
                     },
                     {
                         text: '',

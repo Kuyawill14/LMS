@@ -475,6 +475,7 @@ clearInterval( this.timerChange);
             this.fetchStudentModuleProgress();
             this.getClassList();
             this.loading = false;
+             $('head > title').text('Students Progress');
 
 
 

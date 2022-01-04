@@ -130,6 +130,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
 
@@ -172,7 +186,18 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
   methods: {
+    closeHandlerModule: function closeHandlerModule() {
+      if (this.role == 'Teacher') {
+        this.$router.push({
+          path: 'modules'
+        });
+      } else {
+        this.$emit('listClose');
+      }
+    },
     subModuleClick: function subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
+      $(window).scrollTop(0);
+
       if (isPublished || this.role == 'Teacher') {
         this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
         this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
@@ -295,7 +320,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
         }, 1000);
         this.updateTime = setInterval(function () {
           _this2.updateStudentTimeProgress(mainModule_id, subModule_id, _this2.timespent);
-        }, 30000);
+        }, 20000);
       }
     },
     updateStudentTimeProgress: function updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
@@ -410,18 +435,18 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_1___default()));
       var activeElement = document.activeElement;
       var iframeElement = document.querySelector('iframe');
       /*  
-       if (activeElement === iframeElement) {
-           console.log(document.activeElement.tagName);
-           execute your code here
-            we only want to listen for the first time we click into the iframe
-         this.isBlur = setInterval(() => {
-            document.activeElement.blur();
-          }, 1000);
-           clearInterval(blurTimer);
-        } else {
-           console.log(document.activeElement.tagName);
-           self.triggerWarning()
-       }
+          if (activeElement === iframeElement) {
+              console.log(document.activeElement.tagName);
+              execute your code here
+               we only want to listen for the first time we click into the iframe
+            this.isBlur = setInterval(() => {
+               document.activeElement.blur();
+             }, 1000);
+              clearInterval(blurTimer);
+           } else {
+              console.log(document.activeElement.tagName);
+              self.triggerWarning()
+          }
       }, 0); */
     });
   },
@@ -565,7 +590,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.pannel-btn {\n    position: absolute;\n    top: 15px;\n    right: 47px;\n    z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n    padding: 0 !important;\n}\n.course_content_header {\n    display: flex;\n    align-items: center;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.pannel-btn {\n    position: absolute;\n    top: 15px;\n    right: 47px;\n    z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n    padding: 0 !important;\n}\n.course_content_header {\n    display: flex;\n    align-items: center;\n}\n.expansion-pannel-container {\n    height: 100vh;\n    overflow-y: auto;\n    overflow-x:hidden;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -588,7 +613,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.v-list-item--disabled[data-v-167dc25c] {\n    background: #F6F6F6;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.v-list-item--disabled[data-v-167dc25c] {\n    background: #F6F6F6;\n}\n\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -890,7 +915,7 @@ var render = function() {
                     { staticClass: "course_content_header" },
                     [
                       _vm._v(
-                        "\n                    Modules Content\n                    "
+                        "\n                       Modules Content\n                       "
                       ),
                       _c("v-spacer"),
                       _vm._v(" "),
@@ -962,7 +987,7 @@ var render = function() {
                           _c("span", [
                             _vm._v(
                               _vm._s(_vm.getStudentModuleProgress.completed) +
-                                " of\n                            " +
+                                " of\n                               " +
                                 _vm._s(
                                   _vm.getStudentModuleProgress.submodules_count
                                 ) +
@@ -983,21 +1008,67 @@ var render = function() {
                     "v-list-item-action",
                     [
                       _c(
-                        "v-btn",
+                        "v-tooltip",
                         {
-                          attrs: { icon: "" },
-                          on: {
-                            click: function($event) {
-                              return _vm.$emit("listClose")
-                            }
-                          }
+                          attrs: { bottom: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-btn",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            attrs: { icon: "" },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.closeHandlerModule()
+                                              }
+                                            }
+                                          },
+                                          "v-btn",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _c(
+                                          "v-icon",
+                                          {
+                                            attrs: { color: "grey lighten-1" }
+                                          },
+                                          [_vm._v("mdi-close")]
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            609812686
+                          )
                         },
                         [
-                          _c("v-icon", { attrs: { color: "grey lighten-1" } }, [
-                            _vm._v("mdi-close")
+                          _vm._v(" "),
+                          _c("span", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.role == "Teacher"
+                                  ? "Close Preview"
+                                  : "Close Modules Content"
+                              )
+                            )
                           ])
-                        ],
-                        1
+                        ]
                       )
                     ],
                     1
@@ -1011,161 +1082,180 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "v-expansion-panels",
-        { staticStyle: { "margin-left": "1px" }, attrs: { focusable: "" } },
-        _vm._l(_vm.getmain_module, function(itemModule, i) {
-          return _c(
-            "v-expansion-panel",
-            { key: "module" + i },
-            [
-              _c("v-expansion-panel-header", [
-                _c(
-                  "span",
-                  { staticStyle: { "font-size": "1.0rem" } },
-                  [
-                    _c("v-icon", { staticStyle: { "font-size": "1.0rem" } }, [
-                      _vm._v(
-                        "\n                        mdi-folder\n                    "
-                      )
-                    ]),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(itemModule.module_name) +
-                        " "
-                    ),
-                    _c("br"),
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(
-                          _vm.getCount(
-                            _vm.studentSubModuleProgress,
-                            itemModule.id
-                          ) +
-                            " / " +
-                            _vm.getSub_module(itemModule.id).length
-                        ) +
-                        "\n\n\n                "
+        "div",
+        { staticClass: "expansion-pannel-container" },
+        [
+          _c(
+            "v-expansion-panels",
+            { staticStyle: { "margin-left": "1px" }, attrs: { focusable: "" } },
+            _vm._l(_vm.getmain_module, function(itemModule, i) {
+              return _c(
+                "v-expansion-panel",
+                { key: "module" + i },
+                [
+                  _c("v-expansion-panel-header", [
+                    _c(
+                      "span",
+                      { staticStyle: { "font-size": "1.0rem" } },
+                      [
+                        _c(
+                          "v-icon",
+                          { staticStyle: { "font-size": "1.0rem" } },
+                          [
+                            _vm._v(
+                              "\n                           mdi-folder\n                       "
+                            )
+                          ]
+                        ),
+                        _vm._v(
+                          "\n                       " +
+                            _vm._s(itemModule.module_name) +
+                            " "
+                        ),
+                        _c("br"),
+                        _vm._v(
+                          "\n                       " +
+                            _vm._s(
+                              _vm.getCount(
+                                _vm.studentSubModuleProgress,
+                                itemModule.id
+                              ) +
+                                " / " +
+                                _vm.getSub_module(itemModule.id).length
+                            ) +
+                            "\n\n\n                   "
+                        )
+                      ],
+                      1
                     )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "v-expansion-panel-content",
-                { staticClass: "pa-0" },
-                _vm._l(_vm.getSub_module(itemModule.id), function(
-                  itemSubModule,
-                  i
-                ) {
-                  return _c(
-                    "v-list-item",
-                    {
-                      key: "Submodule" + i,
-                      staticClass: "pl-8",
-                      attrs: {
-                        link: "",
-                        disabled: _vm.click_id == itemSubModule.id
-                      },
-                      on: {
-                        click: function($event) {
-                          ;(_vm.click_id = itemSubModule.id),
-                            _vm.subModuleClick(
-                              itemModule.isPublished,
-                              itemModule.id,
-                              itemSubModule.id,
-                              itemSubModule.type,
-                              _vm.studentSubModuleProgress
-                            )
-                        }
-                      }
-                    },
-                    [
-                      _c(
-                        "v-list-item-avatar",
-                        [
-                          _c(
-                            "v-icon",
-                            {
-                              staticClass: "grey lighten-1",
-                              attrs: { dark: "" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            mdi-folder\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-item-content",
-                        [
-                          _c("v-list-item-title", [
-                            _vm._v(" " + _vm._s(itemSubModule.sub_module_name))
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-item-subtitle", [
-                            _vm._v(" " + _vm._s(itemSubModule.type))
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-item-subtitle", [
-                            _vm._v(
-                              " Time spent:\n                            " +
-                                _vm._s(_vm.convertTime(itemSubModule.id, -1)) +
-                                "\n\n                        "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("v-list-item-subtitle", [
-                            _vm._v(
-                              " Required time:\n                            " +
-                                _vm._s(
-                                  _vm.convertTime(
-                                    -1,
-                                    itemSubModule.required_time
-                                  )
-                                ) +
-                                "\n\n                        "
-                            )
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-list-item-action",
-                        [
-                          _c(
-                            "v-icon",
-                            {
-                              attrs: {
-                                color: _vm.checkTimeSpent(
-                                  _vm.studentSubModuleProgress,
-                                  itemSubModule,
-                                  itemSubModule.required_time
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "v-expansion-panel-content",
+                    { staticClass: "pa-0" },
+                    _vm._l(_vm.getSub_module(itemModule.id), function(
+                      itemSubModule,
+                      i
+                    ) {
+                      return _c(
+                        "v-list-item",
+                        {
+                          key: "Submodule" + i,
+                          staticClass: "pl-8",
+                          attrs: {
+                            link: "",
+                            disabled: _vm.click_id == itemSubModule.id
+                          },
+                          on: {
+                            click: function($event) {
+                              ;(_vm.click_id = itemSubModule.id),
+                                _vm.subModuleClick(
+                                  itemModule.isPublished,
+                                  itemModule.id,
+                                  itemSubModule.id,
+                                  itemSubModule.type,
+                                  _vm.studentSubModuleProgress
                                 )
-                                  ? "success"
-                                  : "lighten"
-                              }
-                            },
-                            [_vm._v("\n                            mdi-check")]
+                            }
+                          }
+                        },
+                        [
+                          _c(
+                            "v-list-item-avatar",
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  staticClass: "grey lighten-1",
+                                  attrs: { dark: "" }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                               mdi-folder\n                           "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-content",
+                            [
+                              _c("v-list-item-title", [
+                                _vm._v(
+                                  " " + _vm._s(itemSubModule.sub_module_name)
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-item-subtitle", [
+                                _vm._v(" " + _vm._s(itemSubModule.type))
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-item-subtitle", [
+                                _vm._v(
+                                  " Time spent:\n                               " +
+                                    _vm._s(
+                                      _vm.convertTime(itemSubModule.id, -1)
+                                    ) +
+                                    "\n\n                           "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("v-list-item-subtitle", [
+                                _vm._v(
+                                  " Required time:\n                               " +
+                                    _vm._s(
+                                      _vm.convertTime(
+                                        -1,
+                                        itemSubModule.required_time
+                                      )
+                                    ) +
+                                    "\n\n                           "
+                                )
+                              ])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item-action",
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  attrs: {
+                                    color: _vm.checkTimeSpent(
+                                      _vm.studentSubModuleProgress,
+                                      itemSubModule,
+                                      itemSubModule.required_time
+                                    )
+                                      ? "success"
+                                      : "lighten"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                               mdi-check"
+                                  )
+                                ]
+                              )
+                            ],
+                            1
                           )
                         ],
                         1
                       )
-                    ],
+                    }),
                     1
                   )
-                }),
+                ],
                 1
               )
-            ],
+            }),
             1
           )
-        }),
+        ],
         1
       )
     ],

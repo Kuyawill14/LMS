@@ -341,6 +341,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getAllGradeCriteria();
     this.getClassList();
     this.loading = false;
+    $('head > title').text('Gradebook');
   }
 });
 

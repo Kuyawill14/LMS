@@ -142,6 +142,7 @@
         mounted() {
           this.getStudentList();
             this.isloading = false;
+              $('head > title').text('People');
         }
     }
 

@@ -156,6 +156,9 @@
         beforeDestroy(){
             this.$store.dispatch("ClearClasswork");
         },
+        mounted() {
+             $('head > title').text('Classworks');
+        }
 
     }
 

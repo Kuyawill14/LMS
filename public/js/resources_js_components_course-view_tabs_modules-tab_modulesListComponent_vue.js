@@ -855,17 +855,19 @@ __webpack_require__.r(__webpack_exports__);
       axios["delete"]("/api/main_module/delete/".concat(this.moduleId)).then(function (res) {
         _this.loading = false;
 
-        _this.$emit('closeModal');
-
         if (res.data.status == 1) {
           _this.toastSuccess(res.data.message);
 
-          _this.$store.dispatch('fetchMainModule', _this.$route.params.id);
+          _this.$store.dispatch('fetchMainModule', _this.$route.params.id).then(function () {
+            _this.$emit('deleted_module');
+          });
         } else {
           _this.toastError(res.data.message);
         }
 
         _this.isDeleting = false;
+
+        _this.$emit('closeModal');
       });
     }
   },
@@ -1159,6 +1161,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1181,6 +1201,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      tip: true,
+      tipCheckBox: false,
       pass_submodule: null,
       isPublishing: false,
       isPublishing_id: null,
@@ -1213,13 +1235,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   methods: (_methods = {
+    deleteModule: function deleteModule() {
+      var _this = this;
+
+      alert('asdfsadfsd');
+      this.mainModule = this.mainModule.filter(function (item) {
+        return item.id != _this.module_id;
+      });
+    },
+    showHandler: function showHandler() {
+      localStorage.setItem("tip_module_show", !this.tipCheckBox);
+    },
     format_date: function format_date(value) {
       if (value) {
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
       }
     },
     publishModule: function publishModule(module_name, id, isPublished) {
-      var _this = this;
+      var _this2 = this;
 
       this.isPublishing = true;
       isPublished = isPublished ? 1 : 0;
@@ -1227,24 +1260,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         isPublished: isPublished
       }).then(function (res) {
         if (isPublished == 1) {
-          _this.toastSuccess(module_name + ' Successfully Published');
+          _this2.toastSuccess(module_name + ' Successfully Published');
 
-          _this.isPublishing = false;
+          _this2.isPublishing = false;
         } else {
-          _this.toastSuccess(module_name + ' Successfully Unpublished');
+          _this2.toastSuccess(module_name + ' Successfully Unpublished');
 
-          _this.isPublishing = false;
+          _this2.isPublishing = false;
         }
       });
     },
     onEnd: function onEnd() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.isDrag = true;
       axios.post("/api/main_module/arrange", {
-        mainModules: this.getmain_module
+        mainModules: this.mainModule
       }).then(function (res) {
-        _this2.isDrag = false;
+        //  this.getmain_module = this.mainModule;
+        _this3.$store.dispatch('fetchMainModule', _this3.$route.params.id).then(function () {
+          _this3.isDrag = false;
+        });
       });
     },
     getdata: function getdata() {
@@ -1347,18 +1383,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return check;
   }), _methods),
   mounted: function mounted() {
-    var _this3 = this;
+    var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this3.getdata();
+              _this4.getdata();
 
-              _this3.$emit('closeModuleDialog');
+              _this4.$emit('closeModuleDialog');
 
-            case 2:
+              if (localStorage.getItem("tip_module_show") === null) {
+                _this4.tip = true;
+              } else {
+                _this4.tip = localStorage.getItem("tip_module_show") == true;
+              }
+
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -4139,7 +4181,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -4290,9 +4331,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                    'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
-                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -4317,7 +4358,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function (x) {
+            localeFamilies[name].forEach(function(x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -4407,7 +4448,6 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
-
 
 /***/ }),
 
@@ -15557,6 +15597,47 @@ var render = function() {
       }),
       _vm._v(" "),
       _c(
+        "v-alert",
+        {
+          attrs: {
+            border: "bottom",
+            "close-text": "Close Alert",
+            type: "info",
+            dismissible: ""
+          },
+          model: {
+            value: _vm.tip,
+            callback: function($$v) {
+              _vm.tip = $$v
+            },
+            expression: "tip"
+          }
+        },
+        [
+          _vm._v(
+            "\nTips: You can change your modules arrangement by dragging your modules into a certain position.\n\n    "
+          ),
+          _c("v-checkbox", {
+            staticClass: "pa-0 mb-0",
+            attrs: { label: "Don't show me again." },
+            on: {
+              change: function($event) {
+                return _vm.showHandler()
+              }
+            },
+            model: {
+              value: _vm.tipCheckBox,
+              callback: function($$v) {
+                _vm.tipCheckBox = $$v
+              },
+              expression: "tipCheckBox"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-expansion-panels",
         { attrs: { focusable: "" } },
         [
@@ -15575,11 +15656,11 @@ var render = function() {
                   }
                 },
                 model: {
-                  value: _vm.getmain_module,
+                  value: _vm.mainModule,
                   callback: function($$v) {
-                    _vm.getmain_module = $$v
+                    _vm.mainModule = $$v
                   },
-                  expression: "getmain_module"
+                  expression: "mainModule"
                 }
               },
               "draggable",
@@ -15753,14 +15834,14 @@ var render = function() {
                               { staticStyle: { "font-size": "2.25rem" } },
                               [
                                 _vm._v(
-                                  "\n                                mdi-folder\n                            "
+                                  "\n                                   mdi-folder\n                               "
                                 )
                               ]
                             ),
                             _vm._v(
-                              "\n                            " +
+                              "\n                               " +
                                 _vm._s(itemModule.module_name) +
-                                "\n\n                        "
+                                "\n\n                           "
                             )
                           ],
                           1
@@ -15793,7 +15874,7 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(
-                                          "\n                                    mdi-folder\n                                "
+                                          "\n                                       mdi-folder\n                                   "
                                         )
                                       ]
                                     )
@@ -15823,7 +15904,7 @@ var render = function() {
                                               itemSubModule.created_at
                                             )
                                           ) +
-                                          "\n                                "
+                                          "\n                                   "
                                       )
                                     ])
                                   ],
@@ -16004,12 +16085,12 @@ var render = function() {
                                                       { attrs: { left: "" } },
                                                       [
                                                         _vm._v(
-                                                          "\n                                                mdi-plus\n                                            "
+                                                          "\n                                                   mdi-plus\n                                               "
                                                         )
                                                       ]
                                                     ),
                                                     _vm._v(
-                                                      "\n                                            Add item\n                                        "
+                                                      "\n                                               Add item\n                                           "
                                                     )
                                                   ],
                                                   1
@@ -16159,7 +16240,8 @@ var render = function() {
                   closeModal: function($event) {
                     _vm.itemDialog = false
                     _vm.itemType = ""
-                  }
+                  },
+                  deleted_module: _vm.deleteModule
                 }
               })
             : _vm._e(),

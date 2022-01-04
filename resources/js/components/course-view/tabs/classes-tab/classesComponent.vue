@@ -43,7 +43,11 @@
                 ],
             }
         },
-        
+        mounted() {
+            
+               $('head > title').text('Classes');
+    
+        }
      }
 
       

@@ -192,6 +192,9 @@ var newClassworkModal = function newClassworkModal() {
   },
   beforeDestroy: function beforeDestroy() {
     this.$store.dispatch("ClearClasswork");
+  },
+  mounted: function mounted() {
+    $('head > title').text('Classworks');
   }
 });
 

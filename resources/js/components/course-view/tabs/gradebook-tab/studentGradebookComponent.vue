@@ -338,6 +338,9 @@
             this.getClassList();
         
             this.loading = false;
+            
+               $('head > title').text('Gradebook');
+    
         }
 
 

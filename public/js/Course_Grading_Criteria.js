@@ -268,6 +268,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.loading = true;
     this.getAllGradeCriteria();
     this.loading = false;
+    $('head > title').text('Grading Criteria');
   }
 });
 

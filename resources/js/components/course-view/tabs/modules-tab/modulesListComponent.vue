@@ -2,8 +2,26 @@
 
     <v-col>
         <vue-element-loading :active="isDrag" spinner="bar-fade-scale" color="#FF6700" />
+       
+    
+        <v-alert
+      v-model="tip"
+      border="bottom"
+      close-text="Close Alert"
+    type="info"
+
+      dismissible
+    >
+ Tips: You can change your modules arrangement by dragging your modules into a certain position.
+
+     <v-checkbox class="pa-0 mb-0"
+      v-model="tipCheckBox" @change="showHandler()"
+      label="Don't show me again."
+    ></v-checkbox>
+
+    </v-alert>
         <v-expansion-panels focusable>
-            <draggable v-model="getmain_module" style="width: 100%" @change="onEnd" @start="isDragging = true"
+            <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
                 @end="isDragging = false" v-bind="dragOptions">
                 <transition-group type="transition" name="flip-list">
                     <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i" draggable="true">
@@ -140,7 +158,7 @@
                 :sub_module_id="sub_module_id" :moduleId="mainModule_id"
                 v-if="itemType == 'add_link'|| itemType == 'edit_link'" :type_action="itemType" />
             <deleteForm v-on:closeModal="itemDialog = false; itemType = ''" :moduleId="mainModule_id"
-                :type="'delete_module'" v-if="itemType == 'delete_module'" />
+                :type="'delete_module'" v-on:deleted_module="deleteModule" v-if="itemType == 'delete_module'" />
             <deleteItemForm v-on:closeModal="itemDialog = false; itemType = ''" :sub_module_id="sub_module_id"
                 :type="'delete_module'" v-if="itemType == 'delete_item_module'" />
         </v-dialog>
@@ -178,6 +196,8 @@
         },
         data() {
             return {
+                tip: true,
+                tipCheckBox: false,
                 pass_submodule: null,
                 isPublishing: false,
                 isPublishing_id: null,
@@ -197,6 +217,7 @@
                 propModule: [],
                 studentSubModuleProgress: [],
                 studentSubModuleProgressForm: {},
+           
             }
         },
         computed: {
@@ -212,6 +233,16 @@
 
         },
         methods: {
+            deleteModule() {
+                   alert('asdfsadfsd');
+                this.mainModule = this.mainModule.filter(item => item.id != this.module_id);
+ 
+            },
+            showHandler() {
+                
+                localStorage.setItem("tip_module_show", !this.tipCheckBox);
+
+            },
             format_date(value) {
                 if (value) {
                     return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
@@ -241,10 +272,18 @@
             onEnd() {
                 this.isDrag = true;
                 axios.post(`/api/main_module/arrange`, {
-                        mainModules: this.getmain_module
+                        mainModules: this.mainModule
                     })
                     .then((res) => {
-                        this.isDrag = false;
+                        
+
+//  this.getmain_module = this.mainModule;
+   this.$store.dispatch('fetchMainModule', this.$route.params.id).then(()=>{
+                      
+                                        
+                   this.isDrag = false;
+                        });
+                
                     })
             },
             getdata() {
@@ -368,6 +407,13 @@
         async mounted() {
             this.getdata();
             this.$emit('closeModuleDialog');
+
+            if( localStorage.getItem("tip_module_show") ===null) {
+                this.tip = true;
+            } else {
+                this.tip = localStorage.getItem("tip_module_show") == true;
+            }
+
         },
         created() {
 

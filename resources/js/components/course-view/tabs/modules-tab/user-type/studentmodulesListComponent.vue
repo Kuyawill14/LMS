@@ -15,7 +15,7 @@
                         Modules Content
                         <v-spacer></v-spacer>
                         <v-idle @idle="onidle" :reminders="idleTimer_reminder" :loop="true" :duration="idleTimer"
-                            v-if="isSelectedModule && renderComponent" style="opacity: 0%"/>
+                            v-if="isSelectedModule && renderComponent" style="opacity: 0%" />
                         <v-spacer></v-spacer>
                         <v-tooltip bottom>
                             <template v-slot:activator="{ on, attrs }">
@@ -34,13 +34,22 @@
                 </v-list-item-content>
 
                 <v-list-item-action v-if="expand">
-                    <v-btn icon @click="$emit('listClose')">
-                        <v-icon color="grey lighten-1">mdi-close</v-icon>
-                    </v-btn>
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+
+
+                            <v-btn v-bind="attrs" v-on="on" icon @click="closeHandlerModule();">
+                                <v-icon color="grey lighten-1">mdi-close</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>{{role == 'Teacher' ? 'Close Preview' : 'Close Modules Content'}}</span>
+                    </v-tooltip>
+
                 </v-list-item-action>
             </v-list-item>
         </v-card>
-        <v-expansion-panels focusable style="margin-left: 1px;">
+        <div class="expansion-pannel-container">
+ <v-expansion-panels focusable style="margin-left: 1px;">
             <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
 
                 <v-expansion-panel-header>
@@ -94,6 +103,11 @@
                 </v-expansion-panel-content>
             </v-expansion-panel>
         </v-expansion-panels>
+
+        </div>
+
+
+       
 
     </div>
 </template>
@@ -151,7 +165,18 @@
         },
         methods: {
 
+            closeHandlerModule() {
+                if (this.role == 'Teacher') {
+                    this.$router.push({
+                        path: 'modules'
+                    })
+                } else {
+                    this.$emit('listClose');
+                }
+            },
+
             subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
+    $(window).scrollTop(0);
 
 
                 if (isPublished || this.role == 'Teacher') {
@@ -302,7 +327,7 @@
                     }, 1000);
                     this.updateTime = setInterval(() => {
                         this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
-                    }, 30000);
+                    }, 20000);
                 }
             },
             updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
@@ -355,7 +380,7 @@
             },
 
             triggerWarning() {
-                if (this.isSelectedModule &&  this.role != 'Teacher' ) {
+                if (this.isSelectedModule && this.role != 'Teacher') {
                     this.warningDialog = true;
                     this.confirmWarning = false;
                     clearInterval(this.ctrTime);
@@ -419,11 +444,11 @@
             $(window).blur(function () {
 
                 // let blurTimer = setTimeout(() => {
-                    
-                    let activeElement = document.activeElement;
-                    let iframeElement = document.querySelector('iframe');
-                                          
-                   /*  
+
+                let activeElement = document.activeElement;
+                let iframeElement = document.querySelector('iframe');
+
+                /*  
                     if (activeElement === iframeElement) {
                         console.log(document.activeElement.tagName);
                         execute your code here
@@ -477,6 +502,11 @@
         display: flex;
         align-items: center;
     }
+     .expansion-pannel-container {
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x:hidden;
+    }
 
 </style>
 
@@ -484,5 +514,7 @@
     .v-list-item--disabled {
         background: #F6F6F6;
     }
+
+   
 
 </style>

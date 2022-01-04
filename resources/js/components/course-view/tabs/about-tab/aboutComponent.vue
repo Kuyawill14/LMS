@@ -50,6 +50,9 @@
                     },
                 ],
             }
+        },
+        mounted() {
+               $('head > title').text('About');
         }
       
     }

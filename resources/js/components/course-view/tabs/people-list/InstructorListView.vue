@@ -75,6 +75,7 @@
         },
         mounted(){
             this.isloading = !this.isloading;
+             $('head > title').text('Students');
         }
     }
 </script>

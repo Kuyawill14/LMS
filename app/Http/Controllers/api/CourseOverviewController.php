@@ -132,7 +132,10 @@ class CourseOverviewController extends Controller
                 foreach($publishIn as $pub){
                     $submissionCount = tbl_Submission::where('tbl_submissions.class_classwork_id', $pub->id)
                     ->where('tbl_submissions.status', 'Submitted')->count();
-                    $student_count = tbl_userclass::where('tbl_userclasses.class_id', $pub->class_id)->count();
+                    $student_count = tbl_userclass::leftJoin('users', 'users.id', '=','tbl_userclasses.user_id')
+                                    ->where('tbl_userclasses.class_id', $pub->class_id)
+                                    ->where('users.role', 'Student')
+                                    ->count();
                     $pub->student_count =  $student_count;
                     $total_student +=  $student_count;
                     $pub->submission =  $submissionCount;
@@ -153,11 +156,20 @@ class CourseOverviewController extends Controller
             // $classworkList = [ 0 => $ClassworksListObjective, 1 => $ClassworksListSubjective];
 
             $mergeClasswork = array_merge($ClassworksListObjective,$ClassworksListSubjective);
-            $classworkList = array_slice($mergeClasswork, 0, 5, true);
-            return  $classworkList;
+
+     
+            $sortedArr = collect($mergeClasswork)->sortByDesc('created_at')->values();
+
+
+
+            $classworkList = array_slice($mergeClasswork, 0, 10, true);
+            return  $sortedArr;
             
     }
 
+    public function cb($a, $b) {
+        return strtotime($a->date) - strtotime($b->date);
+    }
 
     public function moduleList($course_id) {
       
@@ -179,7 +191,7 @@ class CourseOverviewController extends Controller
             ->leftJoin('tbl_main_modules', 'tbl_main_modules.id', '=', 'tbl_sub_modules.main_module_id')
             ->where('tbl_main_modules.course_id', $course_id )
             ->orderBy('tbl_sub_modules.id', 'ASC')
-            ->limit(5)
+            ->limit(10)
             ->get();
             $allSubModules = json_decode($allSubModules, true);
         
@@ -198,7 +210,10 @@ class CourseOverviewController extends Controller
                 for($j = 0; $j < count($class_list) ; $j++) {
                     
                     
-                    $student_count = tbl_userclass::where('class_id', $class_list[$j]['id'])->count();
+                    $student_count = tbl_userclass::leftJoin('users', 'users.id', '=','tbl_userclasses.user_id')
+                    ->where('class_id', $class_list[$j]['id']) 
+                    ->where('users.role', 'Student')
+                    ->count();
                     // $submodule['total_student'] = $student_count;
              
 
@@ -234,9 +249,6 @@ class CourseOverviewController extends Controller
 
         
            
-         
-          
-          
 
 
         return $allSubModules;

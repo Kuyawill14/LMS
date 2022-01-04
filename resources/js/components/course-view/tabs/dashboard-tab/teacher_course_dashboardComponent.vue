@@ -121,6 +121,9 @@
         },
         mounted() {
             this.getGeneralClassworks();
+            
+               $('head > title').text('Overview');
+    
        
         },
 

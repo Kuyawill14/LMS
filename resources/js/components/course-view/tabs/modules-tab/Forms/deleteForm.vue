@@ -57,14 +57,18 @@
                 this.isDeleting = true;
                 axios.delete(`/api/main_module/delete/${this.moduleId}`).then((res) => {
                     this.loading = false;
-                    this.$emit('closeModal');
+                  
+                   
                     if (res.data.status == 1) {
                         this.toastSuccess(res.data.message);
-                        this.$store.dispatch('fetchMainModule', this.$route.params.id);
+                        this.$store.dispatch('fetchMainModule', this.$route.params.id).then(()=>{
+                            this.$emit('deleted_module');
+                        });
                     } else {
                         this.toastError(res.data.message);
                     }
                     this.isDeleting = false;
+                      this.$emit('closeModal');
                 })
 
 
