@@ -56,7 +56,7 @@ const actions = {
 
         var newMainModule = res.data;
         commit("EDIT_MODULE", newMainModule);
-        state.main_module.push({...newMainModule })
+        // state.main_module.push({...newMainModule })
 
 
         return res;

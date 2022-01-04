@@ -5369,11 +5369,11 @@ var actions = {
             case 4:
               res = _context3.sent;
               newMainModule = res.data;
-              commit("EDIT_MODULE", newMainModule);
-              state.main_module.push(_objectSpread({}, newMainModule));
+              commit("EDIT_MODULE", newMainModule); // state.main_module.push({...newMainModule })
+
               return _context3.abrupt("return", res);
 
-            case 9:
+            case 8:
             case "end":
               return _context3.stop();
           }
@@ -38070,7 +38070,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);
