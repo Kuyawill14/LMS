@@ -275,7 +275,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               day: element.day,
               display_start: element.display_start,
               display_end: element.display_end,
-              color: 'blue',
+              color: _this2.colors[_this2.rnd(0, _this2.colors.length - 1)],
               classwork_id: null,
               course_id: item.course_id,
               class_id: item.class_id

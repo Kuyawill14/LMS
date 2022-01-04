@@ -212,16 +212,76 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_check-submission_check-subjective_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./check-submission/check-subjective */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-subjective.vue"));
 };
 
+var resetStudentSubjectiveSubmission = function resetStudentSubjectiveSubmission() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_resetAllSubmission_resetStudentSub-646f9a").then(__webpack_require__.bind(__webpack_require__, /*! ./resetAllSubmission/resetStudentSubjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubjectiveSubmission.vue"));
+};
+
+var multipleAlertStudent = function multipleAlertStudent() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_AlertSudent_MultipleAlertStudent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./AlertSudent/MultipleAlertStudent */ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["ListData", "classworkDetails", "Submitted", "Graded", "ClassList"],
   components: {
-    checksubjective: checksubjective
+    checksubjective: checksubjective,
+    resetStudentSubjectiveSubmission: resetStudentSubjectiveSubmission,
+    multipleAlertStudent: multipleAlertStudent
   },
   data: function data() {
     return {
@@ -270,7 +330,9 @@ var checksubjective = function checksubjective() {
       pointsRules: [function (v) {
         return v && v > 0 || "Points should be above or equal to 0";
       }],
-      valid: true
+      valid: true,
+      resetdialog: false,
+      alertDialog: false
     };
   },
   computed: {
@@ -559,21 +621,32 @@ var checksubjective = function checksubjective() {
         }, _callee2);
       }))();
     },
-    MarkAsGraded: function MarkAsGraded(id) {
+    MultipleResetSubmission: function MultipleResetSubmission(data) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var ResetData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this5.studentSubmissionList.forEach(function (item) {
-                  if (id == item.id) {
-                    item.graded = 1;
-                  }
+                ResetData = {};
+                ResetData.data = data;
+                ResetData.type = 'Subjective_Type';
+                axios.post('/api/teacher/resetStudentSubmissions', ResetData).then(function () {
+                  data.forEach(function (item) {
+                    _this5.studentSubmissionList.forEach(function (sb) {
+                      if (item.id == sb.id) {
+                        sb.status = null;
+                        sb.points = 0;
+                        sb.Submitted_Answers = null;
+                      }
+                    });
+                  });
+                  _this5.resetdialog = !_this5.resetdialog;
                 });
 
-              case 1:
+              case 4:
               case "end":
                 return _context3.stop();
             }
@@ -581,40 +654,21 @@ var checksubjective = function checksubjective() {
         }, _callee3);
       }))();
     },
-    ShowLoading: function ShowLoading() {
+    MarkAsGraded: function MarkAsGraded(id) {
       var _this6 = this;
-
-      this.isFiltered = true;
-      setTimeout(function () {
-        return _this6.isFiltered = false;
-      }, 400);
-    },
-    FilteredClass: function FilteredClass() {
-      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this7.Over_total = 0;
-                _this7.Submitted_count = 0;
-
-                _this7.ShowLoading(); //if(this.Class != this.$route.params.id){
-
-
-                _this7.ListData.forEach(function (item) {
-                  if (item.class_id == _this7.Class) {
-                    _this7.Over_total++;
-
-                    if (item.status == 'Submitted') {
-                      _this7.Submitted_count++;
-                    }
+                _this6.studentSubmissionList.forEach(function (item) {
+                  if (id == item.id) {
+                    item.graded = 1;
                   }
-                }); //}
+                });
 
-
-              case 4:
+              case 1:
               case "end":
                 return _context4.stop();
             }
@@ -622,7 +676,15 @@ var checksubjective = function checksubjective() {
         }, _callee4);
       }))();
     },
-    ViewSubmission: function ViewSubmission(data, index) {
+    ShowLoading: function ShowLoading() {
+      var _this7 = this;
+
+      this.isFiltered = true;
+      setTimeout(function () {
+        return _this7.isFiltered = false;
+      }, 400);
+    },
+    FilteredClass: function FilteredClass() {
       var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -630,20 +692,53 @@ var checksubjective = function checksubjective() {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this8.AllData = _this8.studentSubmissionList;
-                _this8.CheckData = data;
-                _this8.selected_index = index;
-                _this8.dialog = true;
-                _this8.isStarting = true;
+                _this8.Over_total = 0;
+                _this8.Submitted_count = 0;
 
-                _this8.$store.dispatch("isViewingSubmission");
+                _this8.ShowLoading(); //if(this.Class != this.$route.params.id){
 
-              case 6:
+
+                _this8.ListData.forEach(function (item) {
+                  if (item.class_id == _this8.Class) {
+                    _this8.Over_total++;
+
+                    if (item.status == 'Submitted') {
+                      _this8.Submitted_count++;
+                    }
+                  }
+                }); //}
+
+
+              case 4:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5);
+      }))();
+    },
+    ViewSubmission: function ViewSubmission(data, index) {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this9.AllData = _this9.studentSubmissionList;
+                _this9.CheckData = data;
+                _this9.selected_index = index;
+                _this9.dialog = true;
+                _this9.isStarting = true;
+
+                _this9.$store.dispatch("isViewingSubmission");
+
+              case 6:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     },
     isNotViewing: function isNotViewing() {
@@ -23081,7 +23176,7 @@ var render = function() {
                             [
                               _c(
                                 "v-col",
-                                { attrs: { cols: "6", sm: "3", md: "2" } },
+                                { attrs: { cols: "3", sm: "3", md: "2" } },
                                 [
                                   _c(
                                     "div",
@@ -23112,7 +23207,7 @@ var render = function() {
                               _vm._v(" "),
                               _c(
                                 "v-col",
-                                { attrs: { cols: "6", sm: "3", md: "2" } },
+                                { attrs: { cols: "3", sm: "3", md: "2" } },
                                 [
                                   _c(
                                     "div",
@@ -23124,6 +23219,185 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("small", [_vm._v("Graded")])
                                     ]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                {
+                                  staticClass: "text-right",
+                                  attrs: { cols: "6", sm: "6", md: "8" }
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "pt-5" },
+                                    [
+                                      _c(
+                                        "v-menu",
+                                        {
+                                          attrs: { "offset-y": "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var menu = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-tooltip",
+                                                      {
+                                                        attrs: { top: "" },
+                                                        scopedSlots: _vm._u(
+                                                          [
+                                                            {
+                                                              key: "activator",
+                                                              fn: function(
+                                                                ref
+                                                              ) {
+                                                                var tooltip =
+                                                                  ref.on
+                                                                return [
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    _vm._g(
+                                                                      _vm._b(
+                                                                        {
+                                                                          attrs: {
+                                                                            text:
+                                                                              "",
+                                                                            rounded:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        "v-btn",
+                                                                        attrs,
+                                                                        false
+                                                                      ),
+                                                                      Object.assign(
+                                                                        {},
+                                                                        tooltip,
+                                                                        menu
+                                                                      )
+                                                                    ),
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\r\n                                            Settings\r\n                                            "
+                                                                      ),
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            right:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-cog-outline"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ]
+                                                              }
+                                                            }
+                                                          ],
+                                                          null,
+                                                          true
+                                                        )
+                                                      },
+                                                      [
+                                                        _vm._v(" "),
+                                                        _c("span", [
+                                                          _vm._v("Menu")
+                                                        ])
+                                                      ]
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            2517787081
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list",
+                                            { staticClass: "pa-2" },
+                                            [
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.resetdialog = !_vm.resetdialog
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [_vm._v("mdi-restart")]
+                                                      ),
+                                                      _vm._v(
+                                                        " Reset Submission"
+                                                      )
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.alertDialog = !_vm.alertDialog
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-list-item-title",
+                                                    [
+                                                      _c(
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [
+                                                          _vm._v(
+                                                            "mdi-account-alert"
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" Alert Students")
+                                                    ],
+                                                    1
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
                                   )
                                 ]
                               )
@@ -23638,6 +23912,87 @@ var render = function() {
                     ],
                     1
                   )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.resetdialog
+        ? _c(
+            "v-row",
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "650" },
+                  model: {
+                    value: _vm.resetdialog,
+                    callback: function($$v) {
+                      _vm.resetdialog = $$v
+                    },
+                    expression: "resetdialog"
+                  }
+                },
+                [
+                  _vm.resetdialog
+                    ? _c("resetStudentSubjectiveSubmission", {
+                        attrs: {
+                          scrollable: "",
+                          ListData: _vm.ListData,
+                          ClassList: _vm.ClassList
+                        },
+                        on: {
+                          toggleDialog: function($event) {
+                            _vm.resetdialog = !_vm.resetdialog
+                          },
+                          StartReset: _vm.MultipleResetSubmission
+                        }
+                      })
+                    : _vm._e()
+                ],
+                1
+              )
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.alertDialog
+        ? _c(
+            "v-row",
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "650" },
+                  model: {
+                    value: _vm.alertDialog,
+                    callback: function($$v) {
+                      _vm.alertDialog = $$v
+                    },
+                    expression: "alertDialog"
+                  }
+                },
+                [
+                  _vm.alertDialog
+                    ? _c("multipleAlertStudent", {
+                        attrs: {
+                          scrollable: "",
+                          ListData: _vm.ListData,
+                          ClassList: _vm.ClassList,
+                          classworkDetails: _vm.classworkDetails
+                        },
+                        on: {
+                          toggleDialog: function($event) {
+                            _vm.alertDialog = !_vm.alertDialog
+                          },
+                          StartReset: _vm.MultipleResetSubmission
+                        }
+                      })
+                    : _vm._e()
                 ],
                 1
               )

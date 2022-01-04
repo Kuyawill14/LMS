@@ -21,7 +21,7 @@ use App\Models\tbl_classClassworks;
 use App\Models\tbl_teacher_course;
 use Carbon\Carbon;
 use Session;
-
+use Image;
 
 use Illuminate\Support\Str;
 //use Image;
@@ -170,12 +170,23 @@ class UserProfileController extends Controller
     public function updatePicture(Request $request)
     {
        
-       
+        $request->validate([
+            'file' => ['required', 'image','mimes:jpeg,png,jpg', 'max:3072'],
+        ]);
+
         $userId = auth('sanctum')->id();
         $UpdatePicture = tbl_userDetails::where("tbl_user_details.user_id",$userId)->first();
         if($UpdatePicture){
             $file = $request->file('file');
+
             if($file){
+
+
+               /*  $image_resize = Image::make($file->getRealPath());
+                $image_resize = $image_resize->resize(50, 50, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->encode('jpg');
+                Storage::disk('spaces')->put($thumb_uploads .'/'.$image->hashName(), (string) $image_resize); */
             
                 if($UpdatePicture->profile_pic != null){
                     $path =  str_replace(\Config::get('app.do_url').'/', "", $UpdatePicture->profile_pic);

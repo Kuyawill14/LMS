@@ -609,7 +609,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -657,7 +656,8 @@ var resetConfirmation = function resetConfirmation() {
         return !!v || 'Points is required';
       }, function (v) {
         return v && v >= 0 || "Points should be above or equal to 0";
-      }]
+      }],
+      StudentScore: 0
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
@@ -675,6 +675,7 @@ var resetConfirmation = function resetConfirmation() {
     fetchQuestions: function fetchQuestions() {
       var _this = this;
 
+      this.ViewDetails.points = 0;
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
         var Submitted_length = _this.ViewDetails.Submitted_Answers.length;
         var Question_length = _this.getAll_questions.Question.length;
@@ -752,6 +753,7 @@ var resetConfirmation = function resetConfirmation() {
 
                       if (Question_answer == student_ans) {
                         _this.Check[i] = true;
+                        _this.StudentScore += _this.getAll_questions.Question[i].points;
                       } else {
                         _this.Check[i] = false;
                       }
@@ -763,6 +765,7 @@ var resetConfirmation = function resetConfirmation() {
 
                         if (student_ans == Question_answer) {
                           _this.Check[i] = true;
+                          _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
                         }
                       });
                     }
@@ -771,6 +774,7 @@ var resetConfirmation = function resetConfirmation() {
 
                     if (_Question_answer == student_ans) {
                       _this.Check[i] = true;
+                      _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
                     } else {
                       _this.Check[i] = false;
                     }
@@ -779,6 +783,10 @@ var resetConfirmation = function resetConfirmation() {
               } else if (_this.getAll_questions.Question[i].type == 'Essay') {
                 _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
                 _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check;
+
+                if (_this.Check[i]) {
+                  _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                }
               } else if (_this.getAll_questions.Question[i].type == 'Matching type') {
                 (function () {
                   var Ans = new Array();
@@ -839,11 +847,14 @@ var resetConfirmation = function resetConfirmation() {
         _this.isLoaded = true;
 
         _this.$emit('isMounted');
+
+        _this.ReSaveScore();
       });
     },
     ReMatchQuestions: function ReMatchQuestions() {
       var _this2 = this;
 
+      this.ViewDetails.points = 0;
       var Submitted_length = this.ViewDetails.Submitted_Answers.length;
       var Question_length = this.getAll_questions.Question.length;
       var diff = Question_length - Submitted_length;
@@ -921,6 +932,7 @@ var resetConfirmation = function resetConfirmation() {
 
                     if (Question_answer == student_ans) {
                       _this2.Check[i] = true;
+                      _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
                     } else {
                       _this2.Check[i] = false;
                     }
@@ -932,6 +944,7 @@ var resetConfirmation = function resetConfirmation() {
 
                       if (student_ans == Question_answer) {
                         _this2.Check[i] = true;
+                        _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
                       }
                     });
                   }
@@ -940,6 +953,7 @@ var resetConfirmation = function resetConfirmation() {
 
                   if (_Question_answer2 == student_ans) {
                     _this2.Check[i] = true;
+                    _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
                   } else {
                     _this2.Check[i] = false;
                   }
@@ -947,6 +961,10 @@ var resetConfirmation = function resetConfirmation() {
               } else if (_this2.getAll_questions.Question[i].type == 'Essay') {
                 _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
                 _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check;
+
+                if (_this2.Check[i]) {
+                  _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
+                }
               } else if (_this2.getAll_questions.Question[i].type == 'Matching type') {
                 var Ans = new Array();
                 var match_check = new Array();
@@ -1004,6 +1022,7 @@ var resetConfirmation = function resetConfirmation() {
       }
 
       this.isLoaded = true;
+      this.ReSaveScore();
     },
     UpdateScore: function UpdateScore(type, id, data, points, index, answer) {
       var _this3 = this;
@@ -1047,7 +1066,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee);
       }))();
     },
-    ResetSubmission: function ResetSubmission() {
+    ReSaveScore: function ReSaveScore() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -1055,21 +1074,11 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                //////console.log(this.ListData[this.resetIndex].points)
-                _this4.isReseting = true;
+                axios.put('/api/teacher/re_update-score/' + _this4.ViewDetails.id, {
+                  points: _this4.ViewDetails.points
+                }).then(function (res) {});
 
-                if (_this4.ViewDetails.status != null && _this4.ViewDetails.status != '') {
-                  axios.put('/api/teacher/reset-obj/' + _this4.ViewDetails.id).then(function (res) {
-                    if (res.status == 200) {
-                      _this4.dialog = !_this4.dialog;
-                      _this4.isReseting = false;
-
-                      _this4.$emit('RestSubmission');
-                    }
-                  });
-                }
-
-              case 2:
+              case 1:
               case "end":
                 return _context2.stop();
             }
@@ -1077,39 +1086,29 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee2);
       }))();
     },
-    addComment: function addComment(details) {
+    ResetSubmission: function ResetSubmission() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                data = {};
-                _this5.isCommenting = true;
-                data.classwork_id = details.classwork_id;
-                data.course_id = _this5.$route.params.id;
-                data.to_user = details.user_id;
-                data.type = 'Private';
-                data.comment = _this5.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  if (res.status == 200) {
-                    _this5.ViewDetails.comments.push({
-                      content: res.data.comment,
-                      id: res.data.id,
-                      name: _this5.get_CurrentUser.firstName + ' ' + _this5.get_CurrentUser.lastName,
-                      profile_pic: _this5.get_CurrentUser.profile_pic,
-                      u_id: _this5.get_CurrentUser.user_id,
-                      comment_date: new Date()
-                    });
+                //////console.log(this.ListData[this.resetIndex].points)
+                _this5.isReseting = true;
 
-                    _this5.comment = '';
-                  }
-                });
-                _this5.isCommenting = false;
+                if (_this5.ViewDetails.status != null && _this5.ViewDetails.status != '') {
+                  axios.put('/api/teacher/reset-obj/' + _this5.ViewDetails.id).then(function (res) {
+                    if (res.status == 200) {
+                      _this5.dialog = !_this5.dialog;
+                      _this5.isReseting = false;
 
-              case 9:
+                      _this5.$emit('RestSubmission');
+                    }
+                  });
+                }
+
+              case 2:
               case "end":
                 return _context3.stop();
             }
@@ -1117,21 +1116,39 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee3);
       }))();
     },
-    DeleteComment: function DeleteComment(id, index) {
+    addComment: function addComment(details) {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
-                  if (res.data.success == true) {
-                    _this6.ViewDetails.comments.splice(index, 1);
+                data = {};
+                _this6.isCommenting = true;
+                data.classwork_id = details.classwork_id;
+                data.course_id = _this6.$route.params.id;
+                data.to_user = details.user_id;
+                data.type = 'Private';
+                data.comment = _this6.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  if (res.status == 200) {
+                    _this6.ViewDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: _this6.get_CurrentUser.firstName + ' ' + _this6.get_CurrentUser.lastName,
+                      profile_pic: _this6.get_CurrentUser.profile_pic,
+                      u_id: _this6.get_CurrentUser.user_id,
+                      comment_date: new Date()
+                    });
+
+                    _this6.comment = '';
                   }
                 });
+                _this6.isCommenting = false;
 
-              case 1:
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -1139,7 +1156,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee4);
       }))();
     },
-    UpdateComment: function UpdateComment(content, id) {
+    DeleteComment: function DeleteComment(id, index) {
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
@@ -1147,12 +1164,10 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios.put('/api/post/comment/update/' + id, {
-                  comment: content
-                }).then(function (res) {
-                  _this7.isUpdatingComment = false;
-                  _this7.isUpdatingComment_id = null;
-                  _this7.isUpdatingComment_old_data = null;
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this7.ViewDetails.comments.splice(index, 1);
+                  }
                 });
 
               case 1:
@@ -1163,31 +1178,23 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee5);
       }))();
     },
-    alertStudent: function alertStudent() {
+    UpdateComment: function UpdateComment(content, id) {
       var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                data = {};
-                _this8.isAlerting = true;
-                data.user_id = _this8.ViewDetails.user_id;
-                data.classwork_name = _this8.classworkDetails.title;
-                data.classwork_id = _this8.classworkDetails.id;
-                data.course_id = _this8.classworkDetails.course_id;
-                data.firstName = _this8.ViewDetails.firstName;
-                axios.post('/api/teacher/alert-student', data).then(function (res) {
-                  if (res.data.success == true) {
-                    _this8.toastSuccess(res.data.message);
-
-                    _this8.isAlerting = false;
-                  }
+                axios.put('/api/post/comment/update/' + id, {
+                  comment: content
+                }).then(function (res) {
+                  _this8.isUpdatingComment = false;
+                  _this8.isUpdatingComment_id = null;
+                  _this8.isUpdatingComment_old_data = null;
                 });
 
-              case 8:
+              case 1:
               case "end":
                 return _context6.stop();
             }
@@ -1195,26 +1202,31 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee6);
       }))();
     },
-    NextStudent: function NextStudent() {
+    alertStudent: function alertStudent() {
       var _this9 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                _this9.questionIndex = 0;
-                _this9.SubmittedAnswer = [];
-                _this9.Check = [];
-                _this9.isLoaded = false;
+                data = {};
+                _this9.isAlerting = true;
+                data.user_id = _this9.ViewDetails.user_id;
+                data.classwork_name = _this9.classworkDetails.title;
+                data.classwork_id = _this9.classworkDetails.id;
+                data.course_id = _this9.classworkDetails.course_id;
+                data.firstName = _this9.ViewDetails.firstName;
+                axios.post('/api/teacher/alert-student', data).then(function (res) {
+                  if (res.data.success == true) {
+                    _this9.toastSuccess(res.data.message);
 
-                _this9.$emit("nextStudent");
+                    _this9.isAlerting = false;
+                  }
+                });
 
-                setTimeout(function () {
-                  return _this9.ReMatchQuestions();
-                }, 300);
-
-              case 6:
+              case 8:
               case "end":
                 return _context7.stop();
             }
@@ -1222,7 +1234,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee7);
       }))();
     },
-    PrevStudent: function PrevStudent() {
+    NextStudent: function NextStudent() {
       var _this10 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
@@ -1235,7 +1247,7 @@ var resetConfirmation = function resetConfirmation() {
                 _this10.Check = [];
                 _this10.isLoaded = false;
 
-                _this10.$emit("prevStudent");
+                _this10.$emit("nextStudent");
 
                 setTimeout(function () {
                   return _this10.ReMatchQuestions();
@@ -1249,8 +1261,35 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee8);
       }))();
     },
-    fetchStudentActivity: function fetchStudentActivity() {
+    PrevStudent: function PrevStudent() {
       var _this11 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _this11.questionIndex = 0;
+                _this11.SubmittedAnswer = [];
+                _this11.Check = [];
+                _this11.isLoaded = false;
+
+                _this11.$emit("prevStudent");
+
+                setTimeout(function () {
+                  return _this11.ReMatchQuestions();
+                }, 300);
+
+              case 6:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    fetchStudentActivity: function fetchStudentActivity() {
+      var _this12 = this;
 
       this.loading_activity = true;
       axios.get('/api/objective-logs/get_logs', {
@@ -1259,12 +1298,12 @@ var resetConfirmation = function resetConfirmation() {
           student_id: this.ViewDetails.user_id
         }
       }).then(function (res) {
-        _this11.student_activity_logs = res.data;
-        _this11.loading_activity = false;
+        _this12.student_activity_logs = res.data;
+        _this12.loading_activity = false;
       })["catch"](function (err) {
-        _this11.loading_activity = false;
+        _this12.loading_activity = false;
 
-        _this11.toastError('Something went wrong');
+        _this12.toastError('Something went wrong');
       });
     }
   },
@@ -1900,16 +1939,17 @@ var render = function() {
                                                   min: "0"
                                                 },
                                                 model: {
-                                                  value: _vm.ViewDetails.points,
+                                                  value: this.ViewDetails
+                                                    .points,
                                                   callback: function($$v) {
                                                     _vm.$set(
-                                                      _vm.ViewDetails,
+                                                      this.ViewDetails,
                                                       "points",
                                                       $$v
                                                     )
                                                   },
                                                   expression:
-                                                    "ViewDetails.points"
+                                                    "this.ViewDetails.points"
                                                 }
                                               })
                                             : _vm._e()
@@ -2187,144 +2227,133 @@ var render = function() {
                                                           ]
                                                         ),
                                                         _vm._v(" "),
-                                                        item.u_id ==
-                                                        _vm.get_CurrentUser
-                                                          .user_id
-                                                          ? _c(
-                                                              "div",
+                                                        _c(
+                                                          "div",
+                                                          [
+                                                            _c(
+                                                              "v-menu",
+                                                              {
+                                                                attrs: {
+                                                                  "offset-x": ""
+                                                                },
+                                                                scopedSlots: _vm._u(
+                                                                  [
+                                                                    {
+                                                                      key:
+                                                                        "activator",
+                                                                      fn: function(
+                                                                        ref
+                                                                      ) {
+                                                                        var on =
+                                                                          ref.on
+                                                                        var attrs =
+                                                                          ref.attrs
+                                                                        return [
+                                                                          _c(
+                                                                            "v-btn",
+                                                                            _vm._g(
+                                                                              _vm._b(
+                                                                                {
+                                                                                  attrs: {
+                                                                                    icon:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                "v-btn",
+                                                                                attrs,
+                                                                                false
+                                                                              ),
+                                                                              on
+                                                                            ),
+                                                                            [
+                                                                              _c(
+                                                                                "v-icon",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    dark:
+                                                                                      "",
+                                                                                    small:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "mdi-dots-vertical"
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        ]
+                                                                      }
+                                                                    }
+                                                                  ],
+                                                                  null,
+                                                                  true
+                                                                )
+                                                              },
                                                               [
+                                                                _vm._v(" "),
                                                                 _c(
-                                                                  "v-menu",
+                                                                  "v-list",
                                                                   {
                                                                     attrs: {
-                                                                      "offset-x":
-                                                                        ""
-                                                                    },
-                                                                    scopedSlots: _vm._u(
-                                                                      [
-                                                                        {
-                                                                          key:
-                                                                            "activator",
-                                                                          fn: function(
-                                                                            ref
-                                                                          ) {
-                                                                            var on =
-                                                                              ref.on
-                                                                            var attrs =
-                                                                              ref.attrs
-                                                                            return [
-                                                                              _c(
-                                                                                "v-btn",
-                                                                                _vm._g(
-                                                                                  _vm._b(
-                                                                                    {
-                                                                                      attrs: {
-                                                                                        icon:
-                                                                                          ""
-                                                                                      }
-                                                                                    },
-                                                                                    "v-btn",
-                                                                                    attrs,
-                                                                                    false
-                                                                                  ),
-                                                                                  on
-                                                                                ),
-                                                                                [
-                                                                                  _c(
-                                                                                    "v-icon",
-                                                                                    {
-                                                                                      attrs: {
-                                                                                        dark:
-                                                                                          "",
-                                                                                        small:
-                                                                                          ""
-                                                                                      }
-                                                                                    },
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        "mdi-dots-vertical"
-                                                                                      )
-                                                                                    ]
-                                                                                  )
-                                                                                ],
-                                                                                1
-                                                                              )
-                                                                            ]
-                                                                          }
-                                                                        }
-                                                                      ],
-                                                                      null,
-                                                                      true
-                                                                    )
+                                                                      dense: "",
+                                                                      nav: ""
+                                                                    }
                                                                   },
                                                                   [
-                                                                    _vm._v(" "),
                                                                     _c(
-                                                                      "v-list",
+                                                                      "v-list-item",
                                                                       {
-                                                                        attrs: {
-                                                                          dense:
-                                                                            "",
-                                                                          nav:
-                                                                            ""
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            ;(_vm.isUpdatingComment = true),
+                                                                              (_vm.isUpdatingComment_id =
+                                                                                item.id),
+                                                                              (_vm.isUpdatingComment_old_data =
+                                                                                item.content)
+                                                                          }
                                                                         }
                                                                       },
                                                                       [
                                                                         _c(
-                                                                          "v-list-item",
-                                                                          {
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                ;(_vm.isUpdatingComment = true),
-                                                                                  (_vm.isUpdatingComment_id =
-                                                                                    item.id),
-                                                                                  (_vm.isUpdatingComment_old_data =
-                                                                                    item.content)
-                                                                              }
-                                                                            }
-                                                                          },
+                                                                          "v-list-item-title",
                                                                           [
-                                                                            _c(
-                                                                              "v-list-item-title",
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "Edit"
-                                                                                )
-                                                                              ]
+                                                                            _vm._v(
+                                                                              "Edit"
                                                                             )
-                                                                          ],
-                                                                          1
-                                                                        ),
-                                                                        _vm._v(
-                                                                          " "
-                                                                        ),
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    ),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "v-list-item",
+                                                                      {
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.DeleteComment(
+                                                                              item.id,
+                                                                              i
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
                                                                         _c(
-                                                                          "v-list-item",
-                                                                          {
-                                                                            on: {
-                                                                              click: function(
-                                                                                $event
-                                                                              ) {
-                                                                                return _vm.DeleteComment(
-                                                                                  item.id,
-                                                                                  i
-                                                                                )
-                                                                              }
-                                                                            }
-                                                                          },
+                                                                          "v-list-item-title",
                                                                           [
-                                                                            _c(
-                                                                              "v-list-item-title",
-                                                                              [
-                                                                                _vm._v(
-                                                                                  "Remove"
-                                                                                )
-                                                                              ]
+                                                                            _vm._v(
+                                                                              "Remove"
                                                                             )
-                                                                          ],
-                                                                          1
+                                                                          ]
                                                                         )
                                                                       ],
                                                                       1
@@ -2335,7 +2364,9 @@ var render = function() {
                                                               ],
                                                               1
                                                             )
-                                                          : _vm._e()
+                                                          ],
+                                                          1
+                                                        )
                                                       ]
                                                     )
                                                   ]),

@@ -25,12 +25,14 @@ Route::get('/evaluation', function () {
 });
 
 Route::get('/testView', function () {
-    return view('errors.429');
+    return view('EmailTemplates.NewAnnouncement');
 });
 
 Route::get('/', function () {
     return view('welcome');
 })->name('login');
+
+
 
 /* middleware(['throttle:WebRouteLimiter'])-> */
 Route::get('/{any}', function () {

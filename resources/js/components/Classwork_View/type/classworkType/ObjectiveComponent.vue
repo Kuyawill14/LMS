@@ -481,7 +481,7 @@
                     })
                    
                     window.open(routeData.href, 'winname',
-                        "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" +
+                        "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" +
                         screen.availWidth + ",height=" + screen.availHeight,
                         "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
 
@@ -509,9 +509,9 @@
                 })
 
                 window.open(routeData.href, 'winname',
-                    "directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=" +
+                    "directories=0,titlebar=0,toolbar=no,location=0,status=0,menubar=no,scrollbars=yes,resizable=no,width=" +
                     screen.availWidth + ",height=" + screen.availHeight,
-                    "screenX=1,screenY=1,left=1,top=1,fullscreen=yes");
+                    "screenX=1,screenY=1,left=1,top=1,fullscreen=1");
                 this.saveActivityLog('Student continue taking the exam').then(() => {
                     location.reload();
                 });
@@ -594,15 +594,28 @@
             DownLoadFile(file) {
                 window.open(file, '_blank');
             },
+             CheckScore(){
+                 if(this.classworkDetails.Sub_id != null){
+                     axios.get('/api/question/StudentScore/'+this.classworkDetails.Sub_id)
+                    .then(res=>{
+                        this.classworkDetails.score = res.data;
+                    })
+                 }
+                
+            }
         },
         async created() {
+            
             //this.checkStatus();
             //this.isLoaded = false;
         },
         mounted() {
+           
             this.isLoaded = false;
+            
             const newDate = new Date();
             this.DateToday = moment(newDate).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
+             this.CheckScore();
         },
 
         /*   beforeRouteEnter(to, from, next) {

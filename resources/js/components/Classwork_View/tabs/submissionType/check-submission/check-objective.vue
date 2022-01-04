@@ -109,7 +109,7 @@
                                         </v-list-item-content>
                                         <v-list-item-action class="mt-8">
                                             <v-text-field hide-details rounded :rules="pointsRules"
-                                                v-if="ViewDetails.status == 'Submitted'" v-model="ViewDetails.points"
+                                                v-if="ViewDetails.status == 'Submitted'" v-model="this.ViewDetails.points"
                                                 dense outlined label="Score" type="number"
                                                 :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"
                                                 min="0"></v-text-field>
@@ -163,7 +163,7 @@
                                                     <div class="d-flex justify-space-between">
                                                         <div :class="item.u_id == get_CurrentUser.id ? 'mb-0 pb-0 pt-2' : 'pt-2 pb-2'"
                                                             style="max-width:90%">{{item.name}}</div>
-                                                        <div v-if="item.u_id == get_CurrentUser.user_id">
+                                                        <div >
                                                             <v-menu offset-x>
                                                                 <template v-slot:activator="{ on, attrs }">
                                                                     <v-btn icon v-bind="attrs" v-on="on">
@@ -288,7 +288,6 @@
                                                     </v-list-item>
                                                 </v-list>
                                             </v-menu>
-
                                             <div class="pl-1 mt-2">Question {{questionIndex+1}}</div>
                                         </div>
                                         <v-spacer></v-spacer>
@@ -639,6 +638,7 @@
                     v => !!v || 'Points is required',
                     v => (v && v >= 0) || "Points should be above or equal to 0",
                 ],
+                StudentScore: 0,
             }
         },
         computed: mapGetters(['get_CurrentUser', 'getAll_questions']),
@@ -656,6 +656,7 @@
                 }
             },
             fetchQuestions() {
+                this.ViewDetails.points = 0;
                 this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res) => {
 
                     let Submitted_length = this.ViewDetails.Submitted_Answers.length;
@@ -746,6 +747,7 @@
                                                 .getAll_questions.Question[i].answer;
                                             if (Question_answer == student_ans) {
                                                 this.Check[i] = true;
+                                                this.StudentScore += this.getAll_questions.Question[i].points;
                                             } else {
                                                 this.Check[i] = false;
                                             }
@@ -758,6 +760,7 @@
                                                     .Choice.toLowerCase() : item.Choice;
                                                 if (student_ans == Question_answer) {
                                                     this.Check[i] = true;
+                                                   this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
@@ -772,6 +775,7 @@
                                                 i].answer;
                                         if (Question_answer == student_ans) {
                                             this.Check[i] = true;
+                                             this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                         } else {
                                             this.Check[i] = false;
                                         }
@@ -779,6 +783,9 @@
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
+                                    if(this.Check[i]){
+                                        this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                    }
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     let Ans = new Array();
                                     let match_check = new Array();
@@ -839,11 +846,12 @@
 
                     this.isLoaded = true;
                     this.$emit('isMounted');
+                    this.ReSaveScore();
                 });
 
             },
             ReMatchQuestions() {
-
+                this.ViewDetails.points = 0;
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
                 let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length - Submitted_length;
@@ -924,6 +932,7 @@
                                             .toLowerCase() : this.getAll_questions.Question[i].answer;
                                         if (Question_answer == student_ans) {
                                             this.Check[i] = true;
+                                            this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                         } else {
                                             this.Check[i] = false;
                                         }
@@ -936,6 +945,7 @@
                                                 .toLowerCase() : item.Choice;
                                             if (student_ans == Question_answer) {
                                                 this.Check[i] = true;
+                                                this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             }
 
                                         });
@@ -949,6 +959,7 @@
                                         .toLowerCase() : this.getAll_questions.Question[i].answer;
                                     if (Question_answer == student_ans) {
                                         this.Check[i] = true;
+                                        this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                     } else {
                                         this.Check[i] = false;
                                     }
@@ -957,6 +968,10 @@
                             } else if (this.getAll_questions.Question[i].type == 'Essay') {
                                 this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                 this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
+
+                                if(this.Check[i]){
+                                    this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                }
                             } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                 let Ans = new Array();
                                 let match_check = new Array();
@@ -1016,7 +1031,7 @@
                 }
 
                 this.isLoaded = true;
-
+                this.ReSaveScore();
 
 
             },
@@ -1048,6 +1063,12 @@
                             }
 
                         }
+                    })
+            },
+            async ReSaveScore(){
+                axios.put('/api/teacher/re_update-score/' + this.ViewDetails.id, {points : this.ViewDetails.points})
+                    .then(res => {
+                       
                     })
             },
             async ResetSubmission() {
@@ -1158,8 +1179,6 @@
                     this.toastError('Something went wrong');
                 })
             }
-
-
         },
         beforeDestroy() {
             this.$emit('closeDialog');

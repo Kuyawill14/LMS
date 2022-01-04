@@ -37,6 +37,7 @@
                 >
                  <v-row >
                      <v-col cols="12" class="mb-0 pb-0 d-flex justify-center">
+                         <v-badge bordered bottom  color="green" dot offset-x="23" offset-y="10">
                             <v-avatar
                             size="80"
                             @click="TestUpload()"
@@ -45,6 +46,7 @@
                             <v-hover >
                                  <template v-slot:default="{ hover }">
                                      <div>
+                                         
                                      <v-avatar
                                     size="80"
                                     style="cursor: pointer"
@@ -61,6 +63,7 @@
 
                                      </v-img>
                                     </v-avatar>
+                                        
                                       <v-fade-transition>
                                         <v-overlay
                                             v-if="hover"
@@ -77,6 +80,7 @@
                                 </template>
                              </v-hover>
                             </v-avatar>
+                             </v-badge>
                             <input
                             :disabled="isUploading"
                             ref="fileInput"
@@ -93,7 +97,7 @@
                       <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
                           <div class="grey--text font-italic">{{UserDetails.email}}</div>
                      </v-col>
-                      <v-col cols="12" class="mb-0 pb-0 mt-1 pt-0 d-flex justify-center">
+                     <!--  <v-col cols="12" class="mb-0 pb-0 mt-1 pt-0 d-flex justify-center">
                         
                             <v-btn icon text @click="UserDetails.social_account != null ? OpenSocialAccount(UserDetails.social_account) : ''">
                             <v-icon color="blue"  >
@@ -106,7 +110,7 @@
                                 mdi-google-plus
                             </v-icon>
                             </v-btn>
-                     </v-col>
+                     </v-col> -->
                     </v-row>
 
                     <v-row>
@@ -199,6 +203,7 @@
                     { name: "my_calendar", text: "My Calendar", icon:"mdi-calendar"},
                     { name: "change_password", text: "Change Password", icon:"mdi-lock"},
                 ],
+                tmpProfile: null
             }
         },
         methods: {
@@ -224,13 +229,14 @@
             },
             onFileChange(element) {          
                 this.imageFile = element.target.files[0];
-                if( this.imageFile.size <= 5000000){
+                if( this.imageFile.size <= 3000000){
                     this.isUploading = true;
                     this.UpdateProfile();
+                    this.tmpProfile = this.UserDetails.profile_pic;
                     this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
                 }
                 else{
-                    this.toastError('The File is more than 5mb');
+                    this.toastError('The File is more than 3mb');
                 }
             },
             async UpdateProfile(){
@@ -243,7 +249,9 @@
                    this.isUploading = false;
                 })
                 .catch(e=>{
-                    this.toastError(e.response.data.message);
+                    this.UserDetails.profile_pic = this.tmpProfile;
+                    this.toastError(e.response.data.errors.file[2]);
+                    this.isUploading = false;
                 })
             },
             OpenSocialAccount(link){

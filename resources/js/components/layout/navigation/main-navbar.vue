@@ -20,7 +20,8 @@
                     </v-list-item-action>
                     <v-list-item-content>
                         <v-list-item-title>
-                            Course Page
+                            {{role == 'Student' ? 'Classes' : 'Course Page'}}
+                            
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -32,7 +33,7 @@
 
 <script>
     export default {
-
+        props:['role']
 
     }
 

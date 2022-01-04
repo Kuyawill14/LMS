@@ -393,6 +393,7 @@ class StudentController extends Controller
                 $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$submissionCount." others Submit in your ".$classwork_details->title." classwork";
             }
             $CheckNotif->from_id =  $userId;
+            $CheckNotif->updated_at =  date('Y-m-d H:i:s');
             $CheckNotif->save();
             broadcast(new NewNotification($CheckNotif))->toOthers();
 
@@ -677,6 +678,7 @@ class StudentController extends Controller
                 }
             }
             $CheckNotif->from_id =  $userId;
+            $CheckNotif->updated_at =  date('Y-m-d H:i:s');
             $CheckNotif->save();
             broadcast(new NewNotification($CheckNotif))->toOthers();
 
@@ -916,5 +918,8 @@ class StudentController extends Controller
         }
         return "Student Not found";
     }
+
+    
+
 
 }

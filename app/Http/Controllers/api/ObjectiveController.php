@@ -368,7 +368,7 @@ class ObjectiveController extends Controller
         $newQuestion->classwork_id = $request->classwork_id;
         $newQuestion->question = '<p>'.'New Question '.$request->new_number.'</p>';
         $newQuestion->answer = '<p>Option 1</p>';
-        $newQuestion->points = 0;
+        $newQuestion->points = 1;
         $newQuestion->type = "Multiple Choice";
         $newQuestion->save();
 
@@ -379,15 +379,22 @@ class ObjectiveController extends Controller
             ]);
         }
 
-        $QuestionChoice  = new tbl_choice;
-        $QuestionChoice->question_id = $newQuestion->id;
-        $QuestionChoice->Choice = '<p>'.'Option 1'.'</p>';
-        $QuestionChoice->save();
+
+        $choices_id = [];
+        for ($i=0; $i < 4; $i++) { 
+            $QuestionChoice  = new tbl_choice;
+            $QuestionChoice->question_id = $newQuestion->id;
+            $QuestionChoice->Choice = '';
+            $QuestionChoice->save();
+            $choices_id[$i] = $QuestionChoice->id;
+        }
+
+       
 
         return response()->json([
             "message" => "Question Succesfully Added!",
             "question_id"=> $newQuestion->id,
-            "choice1_id"=> $QuestionChoice->id,
+            "choices_id"=> $choices_id,
             "success" => true
         ]);
       
@@ -1206,6 +1213,7 @@ class ObjectiveController extends Controller
                  $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$submissionCount." others Submit in your ".$classwork_details->title." classwork";
              }
              $CheckNotif->from_id =  $userId;
+             $CheckNotif->updated_at =  date('Y-m-d H:i:s');
              $CheckNotif->save();
          }
          else{
@@ -1225,6 +1233,81 @@ class ObjectiveController extends Controller
              $newNotification->notification_type = 6;
              $newNotification->save();
          }
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function CheckStudentScore($id)
+    {
+        $userId = auth('sanctum')->id();
+        $Submission = tbl_Submission::find($id);
+
+        if($Submission){
+            $SubmittedAnswer = unserialize($Submission->Submitted_Answers);
+        
+            $Questions = tbl_Questions::where('tbl_questions.classwork_id', $Submission->classwork_id)
+            ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
+            ->get();
+
+            $score = 0;
+            foreach($SubmittedAnswer as $cl){
+                    foreach($Questions as $ques){
+                    if($ques['id'] == $cl['Question_id']){
+                        if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+                            $userAns = $ques['sensitivity'] ? $cl['Answer'] : strtolower($cl['Answer']);
+                            $questionAns = $ques['sensitivity'] ? $ques['answer'] : strtolower($ques['answer']);
+
+                            if($cl['type'] == 'Identification'){
+                                if($questionAns == $userAns){
+                                    $score += $ques['points'];
+                                }
+                                else{
+                                    $answer_list = tbl_choice::where('question_id', $ques['id'])->get();
+                                    $check = false;
+                                    foreach($answer_list as $answer){
+                                        $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
+                                        if($other_answer == $userAns){
+                                            $check = true;
+                                        }
+                                    }
+
+                                    if($check == true){
+                                        $score += $ques['points'];
+                                    }
+                                }
+                            }
+                            else{
+                                $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
+                            }           
+                        }
+                        elseif($cl['type'] == 'Matching type'){
+                            $Tempoints =  $ques['points'] / count($cl['Answer']);
+                            foreach($cl['Answer'] as $item){
+                                $CheckMatch = tbl_SubQuestion::find($item['subquestion_id']);
+                                if($CheckMatch){
+                                    if($CheckMatch->answer_id == $item['Ans_id']){
+                                        $score += $Tempoints;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $Submission->points = $score;
+            $Submission->save();
+            return $Submission->points;
+
+        }
+        return;
+
+       
     }
  
 }

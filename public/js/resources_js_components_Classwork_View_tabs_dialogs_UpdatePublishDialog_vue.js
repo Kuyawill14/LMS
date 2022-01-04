@@ -223,7 +223,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         headerColor: 'primary'
       },
       timeProps: {
-        useSeconds: true,
+        useSeconds: false,
         ampmInTitle: true
       },
       showAns: false,
@@ -23043,8 +23043,8 @@ var render = function() {
                             ? _c(
                                 "v-col",
                                 {
-                                  staticClass: "text-left mb-0 pb-0 mt-0 pt-0",
-                                  attrs: { "ma-0": "", "pa-0": "", cols: "12" }
+                                  staticClass: "pt-0 mt-0 pb-0 mb-0",
+                                  attrs: { cols: "12" }
                                 },
                                 [
                                   _c(

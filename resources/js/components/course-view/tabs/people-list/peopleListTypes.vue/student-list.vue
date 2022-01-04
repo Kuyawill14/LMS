@@ -130,7 +130,7 @@
                                 <v-list-item class="mb-0 pb-0" >
                                     <v-list-item-avatar color="secondary" >
                                         <v-img 
-                                            :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=white&name=' + (item.firstName+' '+item.lastName) : trimProfile(item.profile_pic)">
+                                            :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (item.firstName+' '+item.lastName) : trimProfile(item.profile_pic)">
                                         </v-img>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
@@ -209,19 +209,19 @@ import { mapGetters } from 'vuex'
                 MoveStudent: false,
                 MoveDetails: null,
                 isShowJoinRequest: false,
-                
+                timeout: null,             
             }
 
         },
         computed: {
             getAllStudents() {
-                if (this.search) {
+                if(this.search) {
                     return this.getStudentList.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
                         .includes(v) || item.lastName.toLowerCase()
                         .includes(v))
                     })
-                } else {
+                }else {
                     return this.getStudentList;
                 }
             },
@@ -234,6 +234,14 @@ import { mapGetters } from 'vuex'
                 this.RemoveDetails.class_id = class_id;
                 this.RemoveDetails.user_id = user_id;
                 this.dialog = !this.dialog;
+            },
+            async startSearch(){
+                this.isSearching = true;
+                clearTimeout(this.timeout);
+                let self = this;
+                this.timeout = setTimeout(function () {
+                    self.isSearching = false;
+                }, 1000);
             },
             async removeStudent(){
                 axios.delete('/api/student/removeFromClass/'+this.RemoveDetails.class_id+'/'+this.RemoveDetails.user_id)

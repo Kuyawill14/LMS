@@ -1,10 +1,10 @@
 "use strict";
-(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_tabs_submissionType_resetAllSubmission_resetStudentSub-cfe23a"],{
+(self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_tabs_submissionType_AlertSudent_MultipleAlertStudent_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -118,9 +118,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['ListData', 'ClassList'],
+  props: ['ListData', 'ClassList', 'classworkDetails'],
   data: function data() {
     return {
       student: [],
@@ -138,13 +137,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       this.ListData.forEach(function (item) {
-        if (item.status == 'Submitted') {
+        if (item.status == null || item.status == '') {
           _this.studentCount++;
           item.Sumissionstatus = false;
 
           _this.SelectedAll_submission_id.push({
-            id: item.id,
-            status: item.Sumissionstatus
+            id: item.user_id,
+            status: item.Sumissionstatus,
+            firstName: item.firstName
           });
 
           _this.student.push(item);
@@ -159,25 +159,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         if (this.Class == this.$route.params.id) {
           this.ListData.forEach(function (item) {
-            if (item.status == 'Submitted') {
+            if (item.status == null || item.status == '') {
               _this2.resetCount++;
               item.Sumissionstatus = true;
 
               _this2.SelectedAll_submission_id.push({
-                id: item.id,
-                status: item.Sumissionstatus
+                id: item.user_id,
+                status: item.Sumissionstatus,
+                firstName: item.firstName
               });
             }
           });
         } else {
           this.ListData.forEach(function (item) {
-            if (item.status == 'Submitted' && item.class_id == _this2.Class) {
+            if ((item.status == null || item.status == '') && item.class_id == _this2.Class) {
               _this2.resetCount++;
               item.Sumissionstatus = true;
 
               _this2.SelectedAll_submission_id.push({
-                id: item.id,
-                status: item.Sumissionstatus
+                id: item.user_id,
+                status: item.Sumissionstatus,
+                firstName: item.firstName
               });
             }
           });
@@ -194,54 +196,49 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.SelectedAll_submission_id[index].status = this.ListData[index].Sumissionstatus;
       this.resetCount = !this.ListData[index].Sumissionstatus ? this.resetCount + 1 : this.resetCount - 1;
     },
-    ResetSubmission: function ResetSubmission() {
+    alertStudent: function alertStudent() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var ResetData;
+        var alertData;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _this3.iReseting = true;
                 _this3.resetConfirm = false;
-                ResetData = [];
+                alertData = {};
+                alertData.course_id = _this3.$route.params.id;
+                alertData.classwork_id = _this3.$route.query.clwk;
+                alertData.classwork_name = _this3.classworkDetails.title;
+                alertData.data = [];
 
                 _this3.SelectedAll_submission_id.forEach(function (item) {
                   if (item.status == true) {
-                    ResetData.push({
+                    alertData.data.push({
                       id: item.id,
-                      status: 1
+                      firstName: item.firstName
                     });
                   }
                 });
 
-                if (ResetData.length != 0) {
+                axios.post('/api/teacher/alert-multiple-student', alertData).then(function (res) {
+                  _this3.toastSuccess(res.data.message);
+
                   _this3.iReseting = false;
 
-                  _this3.$emit("StartReset", ResetData);
-                } else {
-                  _this3.iReseting = false;
-
-                  _this3.toastError('You must select atleast one data!');
+                  _this3.$emit('toggleDialog');
+                });
+                /* if(ResetData.length != 0){
+                    this.iReseting = false;
+                    this.$emit("StartReset", ResetData)
                 }
-                /*   axios.post('/api/teacher/resetStudentSubmissions',ResetData)
-                  .then((res)=>{
-                       this.iReseting = false;
-                         for (let i = 0; i < this.ListData.length; i++) {
-                           for (let j = 0; j < ResetData.length; j++) {
-                                if(this.ListData[i].id == ResetData[j].id){
-                                   this.ListData[i].status = null;
-                                   this.ListData[i].Sumissionstatus =  0;
-                               }
-                               
-                           }
-                       }
-                      
-                  }) */
+                else{
+                    this.iReseting = false;
+                    this.toastError('You must select atleast one data!');
+                } */
 
-
-              case 5:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -257,18 +254,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue":
-/*!************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue ***!
-  \************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue":
+/*!*********************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue ***!
+  \*********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _resetStudentSubmissionDialog_vue_vue_type_template_id_19c21490___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490& */ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490&");
-/* harmony import */ var _resetStudentSubmissionDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resetStudentSubmissionDialog.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=script&lang=js&");
+/* harmony import */ var _MultipleAlertStudent_vue_vue_type_template_id_0ceefd8a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a& */ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a&");
+/* harmony import */ var _MultipleAlertStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MultipleAlertStudent.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -278,9 +275,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _resetStudentSubmissionDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _resetStudentSubmissionDialog_vue_vue_type_template_id_19c21490___WEBPACK_IMPORTED_MODULE_0__.render,
-  _resetStudentSubmissionDialog_vue_vue_type_template_id_19c21490___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _MultipleAlertStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _MultipleAlertStudent_vue_vue_type_template_id_0ceefd8a___WEBPACK_IMPORTED_MODULE_0__.render,
+  _MultipleAlertStudent_vue_vue_type_template_id_0ceefd8a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
@@ -290,46 +287,46 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue"
+component.options.__file = "resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_resetStudentSubmissionDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./resetStudentSubmissionDialog.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_resetStudentSubmissionDialog_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleAlertStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MultipleAlertStudent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleAlertStudent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
-/***/ "./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490&":
-/*!*******************************************************************************************************************************************************!*\
-  !*** ./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490& ***!
-  \*******************************************************************************************************************************************************/
+/***/ "./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a&":
+/*!****************************************************************************************************************************************!*\
+  !*** ./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a& ***!
+  \****************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_resetStudentSubmissionDialog_vue_vue_type_template_id_19c21490___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_resetStudentSubmissionDialog_vue_vue_type_template_id_19c21490___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleAlertStudent_vue_vue_type_template_id_0ceefd8a___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleAlertStudent_vue_vue_type_template_id_0ceefd8a___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_resetStudentSubmissionDialog_vue_vue_type_template_id_19c21490___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MultipleAlertStudent_vue_vue_type_template_id_0ceefd8a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a&");
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490&":
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/resetAllSubmission/resetStudentSubmissionDialog.vue?vue&type=template&id=19c21490& ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/AlertSudent/MultipleAlertStudent.vue?vue&type=template&id=0ceefd8a& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -361,7 +358,7 @@ var render = function() {
             [_c("v-icon", [_vm._v("mdi-close")])],
             1
           ),
-          _vm._v("Reset Submissions")
+          _vm._v("Alert Students")
         ],
         1
       ),
@@ -598,7 +595,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n                Reset Submissions\n            ")]
+            [_vm._v("\n                Alert Students\n            ")]
           )
         ],
         1
@@ -620,11 +617,11 @@ var render = function() {
           _c(
             "v-card",
             [
-              _c("v-card-title", [_vm._v("Confirm Reset")]),
+              _c("v-card-title", [_vm._v("Confirm Alert")]),
               _vm._v(" "),
               _c("v-card-text", [
                 _vm._v(
-                  "\n                    Are you sure to reset the submission of this student?\n                "
+                  "\n                    Are you sure to send alert to this students?\n                "
                 )
               ]),
               _vm._v(" "),
@@ -656,7 +653,7 @@ var render = function() {
                       attrs: { rounded: "", text: "", color: "primary" },
                       on: {
                         click: function($event) {
-                          return _vm.ResetSubmission()
+                          return _vm.alertStudent()
                         }
                       }
                     },

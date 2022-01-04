@@ -702,6 +702,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
@@ -10778,23 +10782,48 @@ var render = function() {
                                   ),
                                   [
                                     _c(
-                                      "v-avatar",
-                                      { attrs: { color: "brown", size: "40" } },
+                                      "v-badge",
+                                      {
+                                        attrs: {
+                                          bordered: "",
+                                          bottom: "",
+                                          color: "green",
+                                          dot: "",
+                                          "offset-x": "10",
+                                          "offset-y": "10"
+                                        }
+                                      },
                                       [
-                                        _c("v-img", {
-                                          attrs: {
-                                            alt: "Proflie",
-                                            src:
-                                              _vm.UserDetails.profile_pic ==
-                                                null ||
-                                              _vm.UserDetails.profile_pic == ""
-                                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                  (_vm.UserDetails.firstName +
-                                                    " " +
-                                                    _vm.UserDetails.lastName)
-                                                : _vm.UserDetails.profile_pic
-                                          }
-                                        })
+                                        _c(
+                                          "v-avatar",
+                                          {
+                                            attrs: {
+                                              color: "brown",
+                                              size: "40"
+                                            }
+                                          },
+                                          [
+                                            _c("v-img", {
+                                              attrs: {
+                                                alt: "Proflie",
+                                                src:
+                                                  _vm.UserDetails.profile_pic ==
+                                                    null ||
+                                                  _vm.UserDetails.profile_pic ==
+                                                    ""
+                                                    ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                      (_vm.UserDetails
+                                                        .firstName +
+                                                        " " +
+                                                        _vm.UserDetails
+                                                          .lastName)
+                                                    : _vm.UserDetails
+                                                        .profile_pic
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
                                       ],
                                       1
                                     )
@@ -10807,7 +10836,7 @@ var render = function() {
                         ],
                         null,
                         false,
-                        1230171370
+                        1003588638
                       )
                     },
                     [
@@ -10824,23 +10853,42 @@ var render = function() {
                                 { staticClass: "mx-auto text-center" },
                                 [
                                   _c(
-                                    "v-avatar",
-                                    { attrs: { color: "brown", size: "40" } },
+                                    "v-badge",
+                                    {
+                                      attrs: {
+                                        bordered: "",
+                                        bottom: "",
+                                        color: "green",
+                                        dot: "",
+                                        "offset-x": "10",
+                                        "offset-y": "10"
+                                      }
+                                    },
                                     [
-                                      _c("v-img", {
-                                        attrs: {
-                                          alt: "Proflie",
-                                          src:
-                                            _vm.UserDetails.profile_pic ==
-                                              null ||
-                                            _vm.UserDetails.profile_pic == ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                (_vm.UserDetails.firstName +
-                                                  " " +
-                                                  _vm.UserDetails.lastName)
-                                              : _vm.UserDetails.profile_pic
-                                        }
-                                      })
+                                      _c(
+                                        "v-avatar",
+                                        {
+                                          attrs: { color: "brown", size: "40" }
+                                        },
+                                        [
+                                          _c("v-img", {
+                                            attrs: {
+                                              alt: "Proflie",
+                                              src:
+                                                _vm.UserDetails.profile_pic ==
+                                                  null ||
+                                                _vm.UserDetails.profile_pic ==
+                                                  ""
+                                                  ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                    (_vm.UserDetails.firstName +
+                                                      " " +
+                                                      _vm.UserDetails.lastName)
+                                                  : _vm.UserDetails.profile_pic
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                     ],
                                     1
                                   ),

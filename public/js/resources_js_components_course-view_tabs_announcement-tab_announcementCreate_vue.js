@@ -207,12 +207,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           if (res.status == 200) {
             _this.isloading = false;
 
-            _this.newNotification(res.data.announcement_id);
+            _this.newNotification(res.data.announcement_id, _this.announcement.content);
+
+            _this.announcement.content = '';
           } else {
             _this.isloading = false;
           }
         });
-        this.announcement.content = '';
         this.$emit("SetShowComment");
       }
     },
@@ -311,7 +312,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         });
       });
     }
-  }), _defineProperty(_methods, "newNotification", function newNotification(announcement_id) {
+  }), _defineProperty(_methods, "newNotification", function newNotification(announcement_id, content) {
     var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -323,10 +324,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this4.notifyDetails.course_id = _this4.$route.params.id == _this4.class_id ? _this4.$route.params.id : null;
               _this4.notifyDetails.course_find_id = _this4.$route.params.id;
               _this4.notifyDetails.announcement_id = announcement_id;
+              _this4.notifyDetails.content = content;
               _this4.notifyDetails.type = 'announcement';
               axios.post('/api/notification/new', _this4.notifyDetails);
 
-            case 6:
+            case 7:
             case "end":
               return _context3.stop();
           }

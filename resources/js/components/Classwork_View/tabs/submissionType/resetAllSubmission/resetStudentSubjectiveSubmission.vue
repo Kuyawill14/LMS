@@ -28,11 +28,10 @@
                            <v-list-item-title class="font-weight-medium"></v-list-item-title>
                      </v-list-item-subtitle>
                  </v-list-item-content>
-                 <v-list-item-action class="mt-3">
+                 <v-list-item-action class="mt-5">
                    
-                     <div class="d-flex " v-if="studentCount != 0">
-                            
-                            {{selectAll ? 'Unselect all' : 'Select all'}}
+                     <div v-if="studentCount != 0" class="d-flex mt-2">
+                        <span class="mr-1">{{selectAll ? 'Unselect all' : 'Select all'}}</span>
                             <v-checkbox
                             hide-details
                             @change="SelectAllStudent()"
@@ -105,12 +104,12 @@ export default {
         return{
             student:[],
             Class: this.$route.params.id,
-            selectAll: false,
+            selectAll: null,
             SelectedAll_submission_id:[],
             iReseting: false,
             resetConfirm: false,
-            studentCount: 0,
             resetCount: 0,
+            studentCount: 0
         }
     },
     methods:{
@@ -118,17 +117,15 @@ export default {
             this.ListData.forEach(item => {
                 if(item.status == 'Submitted'){
                     this.studentCount++;
-                    item.Sumissionstatus =  false;
+                     item.Sumissionstatus =  false;
                     this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
                     this.student.push(item);
                 }
             });
-
-
         },
         SelectAllStudent(){
             if(this.selectAll){
-                this.resetCount = 0;
+                 this.resetCount = 0;
                 if(this.Class == this.$route.params.id){
                   this.ListData.forEach(item => {
                       if(item.status == 'Submitted'){
@@ -146,7 +143,6 @@ export default {
                       }
                   }); 
                 }
-                
             }
             else{
                 this.resetCount = 0;
@@ -157,9 +153,8 @@ export default {
              
         },
         SelectData(status, index){
-            //this.ListData[index].Sumissionstatus = status == 1 ? 0 : 1;
             this.SelectedAll_submission_id[index].status = this.ListData[index].Sumissionstatus;
-             this.resetCount = !this.ListData[index].Sumissionstatus ? this.resetCount+1 : this.resetCount-1;
+            this.resetCount = !this.ListData[index].Sumissionstatus ? this.resetCount+1 : this.resetCount-1;
         },
         async ResetSubmission(){
             this.iReseting = true;

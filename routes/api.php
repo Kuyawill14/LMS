@@ -140,6 +140,9 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
     Route::get('/student-classworks/{id}', [ClassworkController::class, 'getIndividualClassClassworks']);
     Route::post('/insert', [ClassworkController::class, 'store']);
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
+    Route::post('/multiple_share', [ClassworkController::class, 'MultipleShareClasswork']);
+
+    
     Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);
     Route::post('/update', [ClassworkController::class, 'update']);
     Route::post('/addAttachment', [ClassworkController::class, 'AddAttachment']);
@@ -168,13 +171,13 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
     Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
     Route::get('/checking/{id}', [StudentController::class, 'CheckStatus']);
     Route::get('/fetch-score/{id}', [StudentController::class, 'FetchScoreDetails']);
-
+    
 
     Route::post('/join/{id}', [StudentController::class, 'JoinClass']);
     Route::post('/update-status', [StudentController::class, 'UpdateStatus']);
     Route::post('/linkAndstatus', [StudentController::class, 'AddLinkToSubmittedAnswer']);
     Route::post('/add-file', [StudentController::class, 'AddFileToSubmittedAnswer']);
-
+  
 
     Route::put('/markAsSubmitting/{id}', [StudentController::class, 'markAsSubmitting']);
     Route::put('/submit-classwork/{id}', [StudentController::class, 'SubmitClassworkSubj']);
@@ -188,15 +191,16 @@ Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
 //Teacher
 Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::put('/update-score/{id}', [TeacherController::class, 'updateScoreObj']);
+    Route::put('/re_update-score/{id}', [TeacherController::class, 'ReUpdateScore']);
     Route::put('/reset-obj/{id}', [TeacherController::class, 'resetStudentObjSubmission']);
     Route::put('/reset-sbj/{id}', [TeacherController::class, 'resetStudentSbjSubmission']);
     Route::post('/invite-student', [TeacherController::class, 'InviteStudent']);
     Route::post('/invite-instructor', [TeacherController::class, 'InviteInstructor']);
     Route::post('/alert-student', [TeacherController::class, 'AlertStudent']);
+    Route::post('/alert-multiple-student', [TeacherController::class, 'AlertMultipleStudent']);
     Route::get('/student-classGrades/{id}', [TeacherController::class, 'getStudentGradesInClass']);
     Route::post('/move-student', [TeacherController::class, 'MoveStudent']);
     Route::post('/resetStudentSubmissions', [TeacherController::class, 'ResetStudentSubmission']);
-    
     Route::post('/change_class_picture', [TeacherController::class, 'ChangeClassPicture']);
     Route::get('/fetch_student_join_request/{id}', [TeacherController::class, 'FetchClassJoinRequest']);
     Route::put('/accept_student_join_request/{id}', [TeacherController::class, 'AcceptJoinRequest']);
@@ -276,6 +280,8 @@ Route::middleware('auth:sanctum')->prefix('/objective-logs')->group(function () 
 /* middleware('auth:sanctum')-> */
 Route::prefix('/question')->group(function () {
     Route::get('/all/{id}', [ObjectiveController::class, 'fetctQuestions']);
+
+    Route::get('/StudentScore/{id}', [ObjectiveController::class, 'CheckStudentScore']);
 
     /* Route::get('/all/{id}', [ObjectiveController::class, 'checker']); */
     Route::get('/question-answer/{id}/{class_clwk_Id}', [ObjectiveController::class, 'fetchQuestionAnswerForViewSubmision']);

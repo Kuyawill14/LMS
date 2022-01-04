@@ -45,11 +45,34 @@
 
                             </v-col>
                             <v-col class="text-right" cols="6" sm="9" md="10">
-                                <div class="pt-7">
-                                    <v-btn @click="resetdialog = !resetdialog" small text rounded>
+                                <div class="pt-5">
+                                    <!-- <v-btn @click="resetdialog = !resetdialog" small text rounded>
                                         <v-icon left>mdi-restart</v-icon>
                                         Reset Submission
-                                    </v-btn>
+                                    </v-btn> -->
+                                    <v-menu offset-y>
+                                    <template v-slot:activator="{ on: menu, attrs }">
+                                        <v-tooltip top>
+                                        <template v-slot:activator="{ on: tooltip }">
+                                            <v-btn text rounded   v-bind="attrs" 
+                                            v-on="{ ...tooltip, ...menu }"
+                                            >
+                                            Settings
+                                            <v-icon  right>mdi-cog-outline</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Menu</span>
+                                        </v-tooltip>
+                                    </template>
+                                    <v-list class="pa-2">
+                                        <v-list-item @click="resetdialog = !resetdialog">
+                                            <v-list-item-title><v-icon left>mdi-restart</v-icon> Reset Submission</v-list-item-title>
+                                        </v-list-item>
+                                        <v-list-item @click="alertDialog = !alertDialog">
+                                            <v-list-item-title><v-icon left>mdi-account-alert</v-icon> Alert Students</v-list-item-title>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-menu>
                                 </div>
                             </v-col>
                         </v-row>
@@ -188,14 +211,21 @@
             </v-container>
          <checkobjective v-if="isLoadingData" v-show="isMounted" v-on:isMounted="isMounted = true" v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails" :ViewDetails="ViewDetails"  v-on:UpdateSubmission="$emit('UpdateSubmission')" v-on:closeDialog="isViewing = false"></checkobjective>
     </v-col> -->
-            <v-row>
-                <v-dialog v-model="resetdialog" persistent max-width="550">
-                        <resetStudentSubmissionDialog scrollable v-on:toggleDialog="resetdialog = !resetdialog"
-                        v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList"
-                        v-if="resetdialog"></resetStudentSubmissionDialog>
-                </v-dialog>
-            </v-row>
-
+        <v-row v-if="resetdialog">
+            <v-dialog v-model="resetdialog" persistent max-width="650">
+                    <resetStudentSubmissionDialog scrollable v-on:toggleDialog="resetdialog = !resetdialog"
+                    v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList"
+                    v-if="resetdialog"></resetStudentSubmissionDialog>
+            </v-dialog>
+        </v-row>
+        
+        <v-row v-if="alertDialog">
+            <v-dialog v-model="alertDialog" persistent max-width="650">
+                    <multipleAlertStudent scrollable v-on:toggleDialog="alertDialog = !alertDialog"
+                    v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList" :classworkDetails="classworkDetails"
+                    v-if="alertDialog"></multipleAlertStudent>
+            </v-dialog>
+        </v-row>
 
         </v-row>
     </div>
@@ -204,13 +234,14 @@
     const resetConfirmation = () => import('../dialogs/resetConfirmation')
     const checkobjective = () => import('./check-submission/check-objective')
     const resetStudentSubmissionDialog = () => import('./resetAllSubmission/resetStudentSubmissionDialog')
-
+    const multipleAlertStudent = () => import('./AlertSudent/MultipleAlertStudent')
     export default {
         props: ["ListData", "classworkDetails", "Submitted", "Graded", "ClassList"],
         components: {
             checkobjective,
             resetConfirmation,
-            resetStudentSubmissionDialog
+            resetStudentSubmissionDialog,
+            multipleAlertStudent
         },
         data() {
             return {
@@ -266,6 +297,7 @@
                 currentPage: 1,
                 totalPage: 0,
                 currentTotalData: 0,
+                alertDialog: false
             }
         },
         computed: {
@@ -480,7 +512,10 @@
                 //this.dialog = !this.dialog;
             },
             MultipleResetSubmission(data) {
-                axios.post('/api/teacher/resetStudentSubmissions', data)
+                let ResetData = {};
+                ResetData.data = data;
+                ResetData.type = 'Objective_Type';
+                axios.post('/api/teacher/resetStudentSubmissions', ResetData)
                     .then(() => {
                         data.forEach(item => {
                             this.studentSubmissionList.forEach(sb => {

@@ -180,12 +180,13 @@ export default {
                     .then(res=>{
                         if(res.status == 200){
                             this.isloading = false;
-                            this.newNotification(res.data.announcement_id);
+                            this.newNotification(res.data.announcement_id, this.announcement.content);
+                            this.announcement.content = '';
                         }else{
                              this.isloading = false;
                         }
                     })
-                    this.announcement.content = '';
+                   
                     this.$emit("SetShowComment");
                 } 
 
@@ -251,11 +252,12 @@ export default {
                     })
                 }
             },
-           async newNotification(announcement_id){
+           async newNotification(announcement_id, content){
                 this.notifyDetails.class_id = this.$route.params.id != this.class_id ? this.class_id : null;
                 this.notifyDetails.course_id = this.$route.params.id == this.class_id ?  this.$route.params.id : null;
                 this.notifyDetails.course_find_id = this.$route.params.id;
                 this.notifyDetails.announcement_id = announcement_id;
+                 this.notifyDetails.content = content;
                 this.notifyDetails.type = 'announcement';
                 axios.post('/api/notification/new', this.notifyDetails);
             },
