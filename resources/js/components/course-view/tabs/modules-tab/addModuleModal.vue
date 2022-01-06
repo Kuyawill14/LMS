@@ -19,19 +19,18 @@
                     <v-container>
                         <v-row>
                             <v-col cols="12">
-                                <v-text-field
-                                :rules="rules"
-                                 outlined label="Module Name*" 
-                                 v-model="moduleForm.module_name" required>
+                                <v-text-field :rules="rules" outlined label="Module Name*"
+                                    v-model="moduleForm.module_name" required>
                                 </v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea 
-                                :rules="rules"
-                                clearable clear-icon="mdi-close-circle" label="Description"
-                                v-model="moduleForm.description"></v-textarea>
+                                <v-textarea :rules="rules" clearable clear-icon="mdi-close-circle" label="Description"
+                                    v-model="moduleForm.description"></v-textarea>
                             </v-col>
                         </v-row>
+
+
+                      
                     </v-container>
                 </v-card-text>
                 <v-card-actions>
@@ -83,10 +82,10 @@
                     duration: 5000
                 });
             },
-            validate () {
-                if(this.$refs.form.validate()){
+            validate() {
+                if (this.$refs.form.validate()) {
                     this.createModule();
-                }else{
+                } else {
                     this.toastError('Please Fill up all the fields!.')
                 }
             },
