@@ -128,6 +128,7 @@ var latestModules = function latestModules() {
   },
   mounted: function mounted() {
     this.getGeneralClassworks();
+    $('head > title').text('Overview');
   }
 });
 

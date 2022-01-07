@@ -269,6 +269,7 @@
             this.loading = true;
             this.getAllGradeCriteria();
             this.loading = false;
+              $('head > title').text('Grading Criteria');
         }
 
 

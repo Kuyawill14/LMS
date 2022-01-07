@@ -341,6 +341,7 @@
             setTimeout(() => {
                 this.isloading = !this.isloading;
             }, 1000);
+             $('head > title').text('My Profile');
         }
     }
 

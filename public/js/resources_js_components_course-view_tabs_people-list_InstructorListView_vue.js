@@ -90,6 +90,7 @@ var instructorList = function instructorList() {
   methods: {},
   mounted: function mounted() {
     this.isloading = !this.isloading;
+    $('head > title').text('Students');
   }
 });
 

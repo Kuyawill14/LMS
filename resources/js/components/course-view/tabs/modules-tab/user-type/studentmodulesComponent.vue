@@ -11,43 +11,43 @@
                                 v-if="isExpand && contentHover" @click="isExpand =false ">
                                 <v-icon>mdi-arrow-left</v-icon>
                             </v-btn>
-                            <v-card style="height: 620px;"
+                            <v-card style="height: 522px;"
                                 v-if="type=='Link' && subModuleData.link.search('youtube') != -1">
                                 <LazyYoutube ref="youtubeLazyVideo" :src="subModuleData.link"
-                                    style="width: 100% !important;height: 620px !important;position:relative;z-index: 0"
+                                    style="width: 100% !important;height: 522px !important;position:relative;z-index: 0"
                                     aspect-ratio="16:9" thumbnail-quality="standard" />
 
                             </v-card>
 
                         
-                            <v-card style="height: 620px;"
+                            <v-card style="height: 522px;"
                                 v-if="type=='Link'  &&  subModuleData.link.search('youtube') == -1">
                                 <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
                                     :src="  subModuleData.link != null ? scrapeDocID(subModuleData.link) : ''"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="width: 100% !important;height: 620px !important"></iframe>
+                                    style="width: 100% !important;height: 522px !important"></iframe>
 
                             </v-card>
 
                             
-                            <v-card style="height: 620px;"
+                            <v-card style="height: 522px;"
                                v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
                                 <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
                                     :src="'https://view.officeapps.live.com/op/embed.aspx?src=' +docpath + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="width: 100% !important;height: 620px !important"></iframe>
+                                    style="width: 100% !important;height: 522px !important"></iframe>
 
                             </v-card>
 
 
                             <div class="player-container">
 
-                                <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"   style="width: 100% !important;height: 620px !important"
+                                <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"   style="width: 100% !important;height: 522px !important"
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
                             <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
-                            <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;height: 620px !important"
+                            <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;height: 522px !important"
                                 v-if="type=='Document' && ext == 'pdf'  && isSelectedModule " :title="subModuleData.sub_module_name"
                                 :pdf_file="'/storage/' + subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" />
@@ -60,7 +60,7 @@
 
                 </v-row>
 
-                <v-row v-if="isSelectedModule" class="px-5 pt-0">
+                <v-row v-if="isSelectedModule" class="px-5 pt-0 mt-0">
                     <v-col>
 
                         <v-tabs color="primary" center>
@@ -87,9 +87,9 @@
                             <v-tab-item id="description">
 
                                 <v-card-text class="text--primary">
-                                    <div v-html="subModuleData.description"></div>
+                                    <div v-html="subModuleData.description == 'undefined' ? '' : subModuleData.description"></div>
 
-                                    <a :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
+                                    <a v-if="type != 'Link'" :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
 
                                 </v-card-text>
                             </v-tab-item>
@@ -118,9 +118,9 @@
             </v-col>
 
             <v-col lg="3" cols="12" sm="12" md="12" class="pa-0 border"
-                v-if="isExpand == false && isChangeSize == false">
+                v-if="isExpand == false && isChangeSize == false" style="height:100vh;">
                 <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
-                    :expand="removeX" style="height:100vh;" />
+                    :expand="removeX"  />
             </v-col>
 
             <v-dialog v-model="listDialaog" max-width="600px" class="list_modal" style="overflow-y:auto">
@@ -259,11 +259,12 @@
             setInterval(() => {
                 if (window.innerWidth < 1264) {
                     this.isChangeSize = true;
+                  $('#app > div.v-dialog__content > div > div > div.expansion-pannel-container').attr('style','height: auto !important');
                 } else {
                     this.isChangeSize = false;
                 }
 
-            }, 1000)
+            }, 500)
         },
 
     }
@@ -304,7 +305,7 @@
 <style>
    .ipOhDr > .ly-iframe-wrapper > iframe{
   width: 100% !important;
-  height: 620px !important
+  height: 522px !important
     }
     .v-dialog--active {
         overflow-x: hidden;

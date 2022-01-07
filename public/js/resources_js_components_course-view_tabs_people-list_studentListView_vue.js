@@ -194,6 +194,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     this.getStudentList();
     this.isloading = false;
+    $('head > title').text('People');
   }
 });
 

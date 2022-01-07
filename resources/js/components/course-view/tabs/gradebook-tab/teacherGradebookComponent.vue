@@ -684,6 +684,7 @@
 
             var students = this.students;
             this.loading = false;
+              $('head > title').text('Gradebook');
 
         },
 

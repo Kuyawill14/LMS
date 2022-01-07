@@ -395,6 +395,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setTimeout(function () {
       _this3.isloading = !_this3.isloading;
     }, 1000);
+    $('head > title').text('My Profile');
   }
 });
 

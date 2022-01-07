@@ -175,6 +175,7 @@ var modulesListComponent = function modulesListComponent() {
   },
   mounted: function mounted() {
     this.fetchAllModule();
+    $('head > title').text('Modules');
   }
 });
 

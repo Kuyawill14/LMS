@@ -169,7 +169,7 @@ class SubModuleController extends Controller
                     $subModule->main_module_id = $request->main_module_id;
                     $subModule->description = $request->description;
                     $subModule->required_time = $request->required_time * 60;
-                    $subModule->link =  $request->link;
+                    $subModule->link =  $this->checkLink($request->link);
                     $subModule->save();
                     return $subModule;
                 }
@@ -185,6 +185,21 @@ class SubModuleController extends Controller
 
         
  
+    }
+    public function checkLink($link) {
+        if (strpos($link, 'youtube') > 0 || strpos($link, 'youtu.be') > 0) {
+            preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $link, $match);
+            $youtube_id = $match[1];
+            return "https://www.youtube.com/watch?v=" . $youtube_id;
+        }
+
+            return $link;
+        
+
+
+
+
+
     }
 
     /**
@@ -250,7 +265,7 @@ class SubModuleController extends Controller
             $subModule->main_module_id = $request->main_module_id;
             $subModule->description = $request->description;
             $subModule->required_time = $request->required_time * 60;
-            $subModule->link =  $request->link;
+            $subModule->link = $this->checkLink($request->link);
             $subModule->save();
             return $subModule;
         }

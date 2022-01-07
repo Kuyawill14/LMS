@@ -340,10 +340,13 @@
             this.fetchStudentModuleProgress();
             this.getClassList();
             this.loading = false;
-
-
-
+             
+              $('head > title').text('My Progress');
         }
+
+
+
+        
 
 
 

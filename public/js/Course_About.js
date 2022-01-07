@@ -66,6 +66,9 @@ var classDescriptionCard = function classDescriptionCard() {
         link: 'about'
       }]
     };
+  },
+  mounted: function mounted() {
+    $('head > title').text('About');
   }
 });
 

@@ -297,6 +297,9 @@
         created() {
             this.fetchAllSchoolyear_semester();
         },
+        mounted() {
+              $('head > title').text('Settings');
+        }
 
 
     }

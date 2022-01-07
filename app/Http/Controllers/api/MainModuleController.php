@@ -91,7 +91,7 @@ public function countSubmoduleOnMainModule($id ) {
     public function newArrangement(Request $request) {
 
         $mainModulesReq =  $request->mainModules;
- 
+//  return $mainModulesReq ;
         $mainModule  = new tbl_main_modules;
         for($i =0 ; $i < count($mainModulesReq); $i++) {
             DB::table('tbl_main_modules')
@@ -99,6 +99,8 @@ public function countSubmoduleOnMainModule($id ) {
             ->limit(1)  // optional - to ensure only one record is updated.
             ->update(['position' => $i  ]);
         }
+
+        
 
 
 

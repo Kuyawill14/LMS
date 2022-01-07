@@ -123,6 +123,9 @@
         mounted() {
             this.connect();
             this.fetchClassnames();
+        
+               $('head > title').text('Announcement');
+    
            
         },
         beforeDestroy(){

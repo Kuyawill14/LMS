@@ -439,6 +439,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.fetchStudentModuleProgress();
     this.getClassList();
     this.loading = false;
+    $('head > title').text('Students Progress');
   }
 });
 

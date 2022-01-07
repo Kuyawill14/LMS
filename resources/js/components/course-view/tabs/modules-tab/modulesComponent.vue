@@ -164,6 +164,7 @@
         },
         mounted() {
             this.fetchAllModule();
+            $('head > title').text('Modules');
 
         },
 

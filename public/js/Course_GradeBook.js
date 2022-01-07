@@ -651,6 +651,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     this.getClassList();
     var students = this.students;
     this.loading = false;
+    $('head > title').text('Gradebook');
   }
 });
 

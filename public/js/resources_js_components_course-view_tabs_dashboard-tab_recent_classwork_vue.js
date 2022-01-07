@@ -89,19 +89,24 @@ __webpack_require__.r(__webpack_exports__);
         align: 'start',
         sortable: false,
         value: 'classwork_name',
-        width: '25%'
+        width: '35%'
       }, {
         text: 'Date Created',
         value: 'created_date',
-        sortable: false
+        sortable: false,
+        align: 'left'
       }, {
         text: 'Submission Count',
         value: 'submission_count',
-        sortable: false
+        sortable: false,
+        width: '30px',
+        align: 'center'
       }, {
         text: 'Submission Rate',
         value: 'submission_rate',
-        sortable: false
+        sortable: false,
+        width: '30px',
+        align: 'center'
       }, {
         text: '',
         value: '',

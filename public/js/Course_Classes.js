@@ -51,6 +51,9 @@ var teacherClassPage = function teacherClassPage() {
         link: 'coursePage'
       }]
     };
+  },
+  mounted: function mounted() {
+    $('head > title').text('Classes');
   }
 });
 
