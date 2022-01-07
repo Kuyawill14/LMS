@@ -21,7 +21,7 @@
                             </v-list-item-content>
                                 <v-list-item-action>
                                     <v-list-item-action-text>
-                                        <v-btn  @click="$emit('closeDialog')" small text rounded >
+                                        <v-btn  @click="CloseDialog()" small text rounded >
                                             <v-icon small>mdi-close</v-icon> Close
                                         </v-btn>  
                                     </v-list-item-action-text>
@@ -167,14 +167,44 @@
                                                         <div class="mb-5">
                                                                 <v-divider></v-divider>
                                                         </div>
-                                                        <v-container class="mb-0 pb-0 " v-for="(List, i) in Question.Answer[index].SubQuestion" :key="List.id">
-                                                            <v-row>
+                                                        <v-container class="mb-0 pb-0 " >
+
+                                                            <v-row class="mb-0 pb-0">
+                                                                <v-col cols="6" >
+                                                                    <v-row>
+                                                                        <v-col class="d-flex flex-row pa-0" cols="12" v-for="(List, i) in Question.Answer[index].SubQuestion" :key="List.id" >
+                                                                            <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                                                <v-text-field 
+                                                                                :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:80px'"
+                                                                                hide-details
+                                                                                class="centered-input pt-0 mt-0">
+                                                                                </v-text-field>
+                                                                            </div>
+                                                                            <div class="d-flex flex-row mt-3"> 
+                                                                                <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                                <span v-html="List.sub_question" class="subquestion-content"></span>
+                                                                            </div>
+                                                                        </v-col>
+                                                                    </v-row>
+                                                                </v-col>
+                                                                <v-col cols="6">
+                                                                    <v-row>
+                                                                        <v-col cols="12" v-for="(pairList, i) in Question.Answer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
+                                                                            <div class="d-flex flex-row mt-3"> 
+                                                                                <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                                <span v-html="pairList.Choice" class="subchoices-content"></span>
+                                                                            </div>
+                                                                        </v-col>
+                                                                    </v-row>
+                                                                </v-col>
+                                                            </v-row>
+                                                           <!--  <v-row>
                                                                 <v-col class="mb-0 pb-0 pt-0 mt-0"  cols="2" md="1">
                                                                     <div class="d-flex">
                                                                          <v-text-field 
-                                                                    hide-details
-                                                                    class="centered-input">
-                                                                    </v-text-field>
+                                                                        hide-details
+                                                                        class="centered-input">
+                                                                        </v-text-field>
                                                                     </div>
                                                                    
                                                                 </v-col>
@@ -191,7 +221,7 @@
                                                                         <span v-html="Question.Answer[index].SubAnswer[i].Choice" class="subchoices-content"></span>
                                                                     </div>
                                                                 </v-col>
-                                                            </v-row>
+                                                            </v-row> -->
                                                         </v-container>
                                                     </div>
                                                 </v-col>
@@ -288,6 +318,34 @@ export default {
         }
     },
     methods:{
+        CloseDialog(){
+            let counter = 0;
+
+
+
+            this.Question.Question.forEach(item => {
+                if(item.type == 'Matching type'){
+                    this.Question.Answer[counter].Destructors.forEach(des => {
+                        let tmp = 0;
+                        this.Question.Answer[counter].SubAnswer.forEach(sub => {
+                            if(des.id == sub.id){
+                                this.Question.Answer[counter].SubAnswer.splice(tmp, 1)
+                            }
+                            tmp++;
+                        });
+                    });
+                }
+              counter++;
+          });
+/* 
+          if(counter == this.Question.Question.length){
+              
+          } */
+
+        this.$emit('closeDialog');
+         
+        
+        },
       MakeTempAnswer(){
 
 
@@ -333,6 +391,17 @@ export default {
         console.log(this.Shuffle(this.Question.Question));
          
       },
+      LoadDestructor(){
+          let counter = 0;
+           this.Question.Question.forEach(item => {
+              if(item.type == 'Matching type'){
+                  this.Question.Answer[counter].Destructors.forEach(des => {
+                        this.Question.Answer[counter].SubAnswer.push(des)
+                  });
+              }
+              counter++;
+          });
+      },
       Shuffle(array){
         let currentIndex = array.length,  randomIndex;
         while (currentIndex != 0) {
@@ -357,6 +426,7 @@ export default {
     },
     mounted(){
         //this.SuffleQuestion();
+        this.LoadDestructor();
     },
     beforeDestroy(){
           this.$emit('closeDialog');
@@ -364,8 +434,8 @@ export default {
 }
 </script>
 <style scoped>
-.centered-input input {
-        text-align: center
+.centered-input>>>input{
+        text-align: center !important;
     }
 .post-content  img{
         max-height: 15rem !important;

@@ -880,6 +880,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1155,7 +1197,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
                         question_id: res.data.question_id
                       }],
                       SubQuestion: [],
-                      SubAnswer: []
+                      SubAnswer: [],
+                      Destructors: []
                     }); //this.getAll_questions.Question.forEach(item => {
 
 
@@ -1389,6 +1432,20 @@ var studentViewForTeacher = function studentViewForTeacher() {
         var tmp = this.getAll_questions.Answer[mainIndex].SubQuestion;
 
         if (tmp.length == 0) {
+          /*   if(this.getAll_questions.Answer[mainIndex].options.length != 0){
+                this.getAll_questions.Answer[mainIndex].options.forEach(item => {
+                     this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                        id: null,
+                        answer_id: null,
+                        sub_question: item.Choice
+                    })
+                      this.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                        id : null, 
+                        Choice : item.Choice,
+                        question_id : id
+                    })
+                  });
+            }else{ */
           this.getAll_questions.Answer[mainIndex].SubQuestion.push({
             id: null,
             answer_id: null,
@@ -1398,7 +1455,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
             id: null,
             Choice: '',
             question_id: id
-          });
+          }); //}
         }
       }
     },
@@ -1599,7 +1656,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     _this14.getAll_questions.Answer.push({
                       options: [],
                       SubQuestion: [],
-                      SubAnswer: []
+                      SubAnswer: [],
+                      Destructors: []
                     });
 
                     if (_this14.DuplicateQuestion[i].type == 'Multiple Choice' || _this14.DuplicateQuestion[i].type == 'Identification') {
@@ -1621,6 +1679,14 @@ var studentViewForTeacher = function studentViewForTeacher() {
                         _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].SubAnswer.push({
                           id: res.data.answer_id[i].SubAnswer_id[_j],
                           Choice: _this14.DuplicateAnswers[i].SubAnswer[_j].Choice,
+                          question_id: res.data.question_id[i]
+                        });
+                      }
+
+                      for (var x = 0; x < res.data.answer_id[i].Destructors_id.length; x++) {
+                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].Destructors.push({
+                          id: res.data.answer_id[i].Destructors_id[x],
+                          Choice: _this14.DuplicateAnswers[i].Destructors[x].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
@@ -1667,13 +1733,51 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
         e.returnValue = '';
       }
+    },
+    AddDestructor: function AddDestructor(mainIndex, id) {
+      var _this15 = this;
+
+      axios.post('/api/question/add_new_destructor', {
+        question_id: id
+      }).then(function (res) {
+        if (res.data.success == true) {
+          _this15.getAll_questions.Answer[mainIndex].Destructors.push({
+            question_id: id,
+            id: res.data.newDestructor_id,
+            Choice: null
+          });
+
+          _this15.$toasted.show('New Desctrutor has been added', {
+            theme: "toasted-primary",
+            position: "top-center",
+            duration: 5000
+          });
+        } else {
+          _this15.toastError('Something went wrong while adding new destructor');
+        }
+      });
+    },
+    removeDestructor: function removeDestructor(id, index, mainIndex) {
+      var _this16 = this;
+
+      axios["delete"]('/api/question/remove_destructor/' + id).then(function () {
+        _this16.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
+      });
+    },
+    UpdateDestructor: function UpdateDestructor(id, index, mainIndex, data) {
+      axios.put('/api/question/update_destructor/' + id, {
+        Choice: data
+      }).then(function (res) {});
+    },
+    CloseDialog: function CloseDialog() {
+      this.studentViewData = null, this.isStudentView = false, this.$store.dispatch('isNotViewingSubmission');
     }
   },
   created: function created() {
-    var _this15 = this;
+    var _this17 = this;
 
     this.$nextTick(function () {
-      _this15.quill_disabled = false;
+      _this17.quill_disabled = false;
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -3304,7 +3408,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n  \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n    min-height: 70px !important;\n}\r\n\r\n\r\n \r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n  \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n    min-height: 65px !important;\r\n    max-height: 300px !important;\n}\r\n\r\n\r\n \r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -12551,8 +12655,7 @@ var render = function() {
                   },
                   on: {
                     closeDialog: function($event) {
-                      ;(_vm.isStudentView = false),
-                        _vm.$store.dispatch("isNotViewingSubmission")
+                      return _vm.CloseDialog()
                     }
                   }
                 })
@@ -13653,7 +13756,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _c(
-                                                                      "quill-editor",
+                                                                      "editor",
                                                                       {
                                                                         ref:
                                                                           "myTextEditor",
@@ -13664,7 +13767,10 @@ var render = function() {
                                                                           disabled:
                                                                             _vm.quill_disabled,
                                                                           placeholder:
-                                                                            "Question",
+                                                                            item.type !=
+                                                                            "Matching type"
+                                                                              ? "Enter Question"
+                                                                              : "Enter Instuction",
                                                                           options:
                                                                             _vm.editorOption
                                                                         },
@@ -13905,7 +14011,7 @@ var render = function() {
                                                                                       },
                                                                                       [
                                                                                         _c(
-                                                                                          "quill-editor",
+                                                                                          "editor",
                                                                                           {
                                                                                             ref:
                                                                                               "myTextEditor",
@@ -13915,6 +14021,8 @@ var render = function() {
                                                                                             attrs: {
                                                                                               disabled:
                                                                                                 _vm.quill_disabled,
+                                                                                              placeholder:
+                                                                                                "Enter Answer",
                                                                                               options:
                                                                                                 _vm.editorOption
                                                                                             },
@@ -14188,7 +14296,7 @@ var render = function() {
                                                                           },
                                                                           [
                                                                             _c(
-                                                                              "quill-editor",
+                                                                              "editor",
                                                                               {
                                                                                 ref:
                                                                                   "myTextEditor",
@@ -14199,7 +14307,7 @@ var render = function() {
                                                                                   disabled:
                                                                                     _vm.quill_disabled,
                                                                                   placeholder:
-                                                                                    "Answer",
+                                                                                    "Enter Answer",
                                                                                   options:
                                                                                     _vm.editorOption
                                                                                 },
@@ -14355,7 +14463,7 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _c(
-                                                                                  "quill-editor",
+                                                                                  "editor",
                                                                                   {
                                                                                     ref:
                                                                                       "myTextEditor",
@@ -14366,7 +14474,7 @@ var render = function() {
                                                                                       disabled:
                                                                                         _vm.quill_disabled,
                                                                                       placeholder:
-                                                                                        "Answer",
+                                                                                        "Enter Answer",
                                                                                       options:
                                                                                         _vm.editorOption
                                                                                     },
@@ -14771,27 +14879,6 @@ var render = function() {
                                                                               },
                                                                               [
                                                                                 _c(
-                                                                                  "div",
-                                                                                  {
-                                                                                    staticClass:
-                                                                                      "font-weight-medium"
-                                                                                  },
-                                                                                  [
-                                                                                    _vm._v(
-                                                                                      _vm._s(
-                                                                                        "Pair "
-                                                                                      ) +
-                                                                                        _vm._s(
-                                                                                          sub_index +
-                                                                                            1
-                                                                                        )
-                                                                                    )
-                                                                                  ]
-                                                                                ),
-                                                                                _vm._v(
-                                                                                  " "
-                                                                                ),
-                                                                                _c(
                                                                                   "v-container",
                                                                                   {
                                                                                     staticClass:
@@ -14806,7 +14893,7 @@ var render = function() {
                                                                                       "div",
                                                                                       {
                                                                                         staticClass:
-                                                                                          " pr-2 mb-3",
+                                                                                          "mb-3",
                                                                                         staticStyle: {
                                                                                           width:
                                                                                             "100%"
@@ -14814,7 +14901,7 @@ var render = function() {
                                                                                       },
                                                                                       [
                                                                                         _c(
-                                                                                          "quill-editor",
+                                                                                          "editor",
                                                                                           {
                                                                                             ref:
                                                                                               "myTextEditor",
@@ -14825,9 +14912,7 @@ var render = function() {
                                                                                               disabled:
                                                                                                 _vm.quill_disabled,
                                                                                               placeholder:
-                                                                                                "Question " +
-                                                                                                (sub_index +
-                                                                                                  1),
+                                                                                                "Enter Question",
                                                                                               options:
                                                                                                 _vm.editorOption
                                                                                             },
@@ -14864,6 +14949,26 @@ var render = function() {
                                                                                     _c(
                                                                                       "div",
                                                                                       {
+                                                                                        class: _vm
+                                                                                          .$vuetify
+                                                                                          .breakpoint
+                                                                                          .mdAndUp
+                                                                                          ? "pl-4 pr-4 mt-8"
+                                                                                          : "pl-2 pr-2 mt-8",
+                                                                                        staticStyle: {
+                                                                                          height:
+                                                                                            "1px",
+                                                                                          "background-color":
+                                                                                            "#E0E0E0"
+                                                                                        }
+                                                                                      }
+                                                                                    ),
+                                                                                    _vm._v(
+                                                                                      " "
+                                                                                    ),
+                                                                                    _c(
+                                                                                      "div",
+                                                                                      {
                                                                                         staticClass:
                                                                                           "mb-3",
                                                                                         staticStyle: {
@@ -14873,7 +14978,7 @@ var render = function() {
                                                                                       },
                                                                                       [
                                                                                         _c(
-                                                                                          "quill-editor",
+                                                                                          "editor",
                                                                                           {
                                                                                             ref:
                                                                                               "myTextEditor",
@@ -14884,9 +14989,7 @@ var render = function() {
                                                                                               disabled:
                                                                                                 _vm.quill_disabled,
                                                                                               placeholder:
-                                                                                                "Answer " +
-                                                                                                (sub_index +
-                                                                                                  1),
+                                                                                                "Enter Answer",
                                                                                               options:
                                                                                                 _vm.editorOption
                                                                                             },
@@ -15000,7 +15103,11 @@ var render = function() {
                                                                       "v-col",
                                                                       {
                                                                         staticClass:
-                                                                          "ma-0 pa-0 text-right pb-2"
+                                                                          "ma-0 pa-0 text-right pb-6",
+                                                                        attrs: {
+                                                                          cols:
+                                                                            "12"
+                                                                        }
                                                                       },
                                                                       [
                                                                         _c(
@@ -15053,7 +15160,237 @@ var render = function() {
                                                                       ],
                                                                       1
                                                                     )
-                                                                  : _vm._e()
+                                                                  : _vm._e(),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-col",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ma-0 pa-0 text-left pb-5",
+                                                                    attrs: {
+                                                                      cols: "12"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c("div", [
+                                                                      _vm._v(
+                                                                        "Additional Answers"
+                                                                      )
+                                                                    ]),
+                                                                    _vm._v(" "),
+                                                                    _c(
+                                                                      "small",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "You can provide additional answers to increase the difficulty of matching question."
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ]
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-col",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ma-0 pa-0 text-left",
+                                                                    attrs: {
+                                                                      lg: "6",
+                                                                      cols: "12"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-row",
+                                                                      _vm._l(
+                                                                        _vm
+                                                                          .getAll_questions
+                                                                          .Answer[
+                                                                          mainIndex
+                                                                        ]
+                                                                          .Destructors,
+                                                                        function(
+                                                                          destruc,
+                                                                          destruc_index
+                                                                        ) {
+                                                                          return _c(
+                                                                            "v-col",
+                                                                            {
+                                                                              key: destruc_index,
+                                                                              staticClass:
+                                                                                "mb-0 pb-0 pt-0 mt-0 d-flex flex-row",
+                                                                              attrs: {
+                                                                                c:
+                                                                                  "",
+                                                                                cols:
+                                                                                  "12"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "div",
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "pb-3",
+                                                                                  staticStyle: {
+                                                                                    width:
+                                                                                      "100%"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _c(
+                                                                                    "editor",
+                                                                                    {
+                                                                                      ref:
+                                                                                        "myTextEditor",
+                                                                                      refInFor: true,
+                                                                                      staticClass:
+                                                                                        "editor",
+                                                                                      attrs: {
+                                                                                        disabled:
+                                                                                          _vm.quill_disabled,
+                                                                                        placeholder:
+                                                                                          "Enter Answer",
+                                                                                        options:
+                                                                                          _vm.editorOption
+                                                                                      },
+                                                                                      on: {
+                                                                                        blur: function(
+                                                                                          $event
+                                                                                        ) {
+                                                                                          return _vm.UpdateDestructor(
+                                                                                            destruc.id,
+                                                                                            destruc_index,
+                                                                                            mainIndex,
+                                                                                            destruc.Choice
+                                                                                          )
+                                                                                        }
+                                                                                      },
+                                                                                      model: {
+                                                                                        value:
+                                                                                          destruc.Choice,
+                                                                                        callback: function(
+                                                                                          $$v
+                                                                                        ) {
+                                                                                          _vm.$set(
+                                                                                            destruc,
+                                                                                            "Choice",
+                                                                                            $$v
+                                                                                          )
+                                                                                        },
+                                                                                        expression:
+                                                                                          "destruc.Choice"
+                                                                                      }
+                                                                                    }
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              ),
+                                                                              _vm._v(
+                                                                                " "
+                                                                              ),
+                                                                              !_vm.isHaveSubmission
+                                                                                ? _c(
+                                                                                    "v-btn",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "mt-3 pl-2 pr-2",
+                                                                                      attrs: {
+                                                                                        icon:
+                                                                                          ""
+                                                                                      },
+                                                                                      on: {
+                                                                                        click: function(
+                                                                                          $event
+                                                                                        ) {
+                                                                                          return _vm.removeDestructor(
+                                                                                            destruc.id,
+                                                                                            destruc_index,
+                                                                                            mainIndex
+                                                                                          )
+                                                                                        }
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "v-icon",
+                                                                                        [
+                                                                                          _vm._v(
+                                                                                            "mdi-close"
+                                                                                          )
+                                                                                        ]
+                                                                                      )
+                                                                                    ],
+                                                                                    1
+                                                                                  )
+                                                                                : _vm._e()
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        }
+                                                                      ),
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                ),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "v-col",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ma-0 pa-0 text-left pb-2 pt-3",
+                                                                    attrs: {
+                                                                      cols: "12"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          small:
+                                                                            "",
+                                                                          color:
+                                                                            "primary",
+                                                                          rounded:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.AddDestructor(
+                                                                              mainIndex,
+                                                                              item.id
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              left:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-plus"
+                                                                            )
+                                                                          ]
+                                                                        ),
+                                                                        _vm._v(
+                                                                          "\r\n                                               Add Additional Answer/Destructors\r\n                                           "
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
                                                               ],
                                                               2
                                                             )

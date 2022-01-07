@@ -240,6 +240,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewTimer = function previewTimer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_TeacherQuizPreview_previewTimer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewTimer */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/previewTimer.vue"));
 };
@@ -275,39 +305,67 @@ var previewTimer = function previewTimer() {
     };
   },
   methods: {
-    MakeTempAnswer: function MakeTempAnswer() {
+    CloseDialog: function CloseDialog() {
       var _this = this;
 
+      var counter = 0;
       this.Question.Question.forEach(function (item) {
-        _this.TempAnswers.push({
+        if (item.type == 'Matching type') {
+          _this.Question.Answer[counter].Destructors.forEach(function (des) {
+            var tmp = 0;
+
+            _this.Question.Answer[counter].SubAnswer.forEach(function (sub) {
+              if (des.id == sub.id) {
+                _this.Question.Answer[counter].SubAnswer.splice(tmp, 1);
+              }
+
+              tmp++;
+            });
+          });
+        }
+
+        counter++;
+      });
+      /* 
+                if(counter == this.Question.Question.length){
+                    
+                } */
+
+      this.$emit('closeDialog');
+    },
+    MakeTempAnswer: function MakeTempAnswer() {
+      var _this2 = this;
+
+      this.Question.Question.forEach(function (item) {
+        _this2.TempAnswers.push({
           answer: null
         });
       });
     },
     SuffleQuestion: function SuffleQuestion() {
-      var _this2 = this;
+      var _this3 = this;
 
       var tmpquestion = this.Question.Question;
       this.QuestionList = this.Shuffle(tmpquestion);
       this.QuestionList.forEach(function (item) {
         if (item.type == 'Multiple Choice' || item.type == 'Matching type') {
-          _this2.Question.Answer.forEach(function (element) {
+          _this3.Question.Answer.forEach(function (element) {
             if (item.type == 'Multiple Choice') {
               if (element.options.length != 0) {
                 if (element.options[0].question_id == item.id) {
-                  _this2.AnswerList.push(element);
+                  _this3.AnswerList.push(element);
                 }
               }
             } else if (item.type == 'Matching type') {
               if (element.SubAnswer.length != 0) {
                 if (element.SubAnswer[0].question_id == item.id) {
-                  _this2.AnswerList.push(element);
+                  _this3.AnswerList.push(element);
                 }
               }
             }
           });
         } else {
-          _this2.AnswerList.push({
+          _this3.AnswerList.push({
             options: [],
             SubQuestion: [],
             SubAnswer: []
@@ -315,6 +373,20 @@ var previewTimer = function previewTimer() {
         }
       });
       console.log(this.Shuffle(this.Question.Question));
+    },
+    LoadDestructor: function LoadDestructor() {
+      var _this4 = this;
+
+      var counter = 0;
+      this.Question.Question.forEach(function (item) {
+        if (item.type == 'Matching type') {
+          _this4.Question.Answer[counter].Destructors.forEach(function (des) {
+            _this4.Question.Answer[counter].SubAnswer.push(des);
+          });
+        }
+
+        counter++;
+      });
     },
     Shuffle: function Shuffle(array) {
       var currentIndex = array.length,
@@ -332,17 +404,19 @@ var previewTimer = function previewTimer() {
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this5 = this;
 
     //this.MakeTempAnswer();
     this.Question.Question.forEach(function (item) {
-      _this3.TempAnswers.push({
+      _this5.TempAnswers.push({
         answer: null
       });
     });
     this.isloaded = true;
   },
-  mounted: function mounted() {//this.SuffleQuestion();
+  mounted: function mounted() {
+    //this.SuffleQuestion();
+    this.LoadDestructor();
   },
   beforeDestroy: function beforeDestroy() {
     this.$emit('closeDialog');
@@ -367,7 +441,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input input[data-v-2f61b063] {\r\n        text-align: center\n}\n.post-content  img[data-v-2f61b063]{\r\n        max-height: 15rem !important;\n}\n.Essayeditor[data-v-2f61b063]{\r\n        height: 10rem !important;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.centered-input[data-v-2f61b063] input{\r\n        text-align: center !important;\n}\n.post-content  img[data-v-2f61b063]{\r\n        max-height: 15rem !important;\n}\n.Essayeditor[data-v-2f61b063]{\r\n        height: 10rem !important;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -592,7 +666,7 @@ var render = function() {
                                           },
                                           on: {
                                             click: function($event) {
-                                              return _vm.$emit("closeDialog")
+                                              return _vm.CloseDialog()
                                             }
                                           }
                                         },
@@ -1421,183 +1495,218 @@ var render = function() {
                                                                 1
                                                               ),
                                                               _vm._v(" "),
-                                                              _vm._l(
-                                                                _vm.Question
-                                                                  .Answer[index]
-                                                                  .SubQuestion,
-                                                                function(
-                                                                  List,
-                                                                  i
-                                                                ) {
-                                                                  return _c(
-                                                                    "v-container",
+                                                              _c(
+                                                                "v-container",
+                                                                {
+                                                                  staticClass:
+                                                                    "mb-0 pb-0 "
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-row",
                                                                     {
-                                                                      key:
-                                                                        List.id,
                                                                       staticClass:
-                                                                        "mb-0 pb-0 "
+                                                                        "mb-0 pb-0"
                                                                     },
                                                                     [
                                                                       _c(
-                                                                        "v-row",
+                                                                        "v-col",
+                                                                        {
+                                                                          attrs: {
+                                                                            cols:
+                                                                              "6"
+                                                                          }
+                                                                        },
                                                                         [
                                                                           _c(
-                                                                            "v-col",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mb-0 pb-0 pt-0 mt-0",
-                                                                              attrs: {
-                                                                                cols:
-                                                                                  "2",
-                                                                                md:
-                                                                                  "1"
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "div",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "d-flex"
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "v-text-field",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "centered-input",
-                                                                                      attrs: {
-                                                                                        "hide-details":
-                                                                                          ""
-                                                                                      }
+                                                                            "v-row",
+                                                                            _vm._l(
+                                                                              _vm
+                                                                                .Question
+                                                                                .Answer[
+                                                                                index
+                                                                              ]
+                                                                                .SubQuestion,
+                                                                              function(
+                                                                                List,
+                                                                                i
+                                                                              ) {
+                                                                                return _c(
+                                                                                  "v-col",
+                                                                                  {
+                                                                                    key:
+                                                                                      List.id,
+                                                                                    staticClass:
+                                                                                      "d-flex flex-row pa-0",
+                                                                                    attrs: {
+                                                                                      cols:
+                                                                                        "12"
                                                                                     }
-                                                                                  )
-                                                                                ],
-                                                                                1
-                                                                              )
-                                                                            ]
-                                                                          ),
-                                                                          _vm._v(
-                                                                            " "
-                                                                          ),
-                                                                          _c(
-                                                                            "v-col",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mb-1 pb-0 pt-0 mt-0",
-                                                                              attrs: {
-                                                                                cols:
-                                                                                  "5"
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "div",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "d-flex mt-7"
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "font-weight-medium mr-1"
-                                                                                    },
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        _vm._s(
-                                                                                          i +
-                                                                                            1 +
-                                                                                            ". "
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "div",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "mt-0 pt-0 mb-0 pb-0 pa-0"
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "v-text-field",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "centered-input pt-0 mt-0",
+                                                                                            style: _vm
+                                                                                              .$vuetify
+                                                                                              .breakpoint
+                                                                                              .mdAndUp
+                                                                                              ? "max-width:110px"
+                                                                                              : "max-width:80px",
+                                                                                            attrs: {
+                                                                                              "hide-details":
+                                                                                                ""
+                                                                                            }
+                                                                                          }
                                                                                         )
-                                                                                      )
-                                                                                    ]
-                                                                                  ),
-                                                                                  _vm._v(
-                                                                                    " "
-                                                                                  ),
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "subquestion-content",
-                                                                                      domProps: {
-                                                                                        innerHTML: _vm._s(
-                                                                                          List.sub_question
-                                                                                        )
-                                                                                      }
-                                                                                    }
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ]
-                                                                          ),
-                                                                          _vm._v(
-                                                                            " "
-                                                                          ),
-                                                                          _c(
-                                                                            "v-col",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mb-1 pb-0 pt-0 mt-0",
-                                                                              attrs: {
-                                                                                cols:
-                                                                                  "5"
-                                                                              }
-                                                                            },
-                                                                            [
-                                                                              _c(
-                                                                                "div",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "d-flex mt-7"
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "font-weight-medium mr-1"
-                                                                                    },
-                                                                                    [
-                                                                                      _vm._v(
-                                                                                        _vm._s(
-                                                                                          _vm
-                                                                                            .Alphabet[
-                                                                                            i
-                                                                                          ] +
-                                                                                            ". "
-                                                                                        )
-                                                                                      )
-                                                                                    ]
-                                                                                  ),
-                                                                                  _vm._v(
-                                                                                    " "
-                                                                                  ),
-                                                                                  _c(
-                                                                                    "span",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "subchoices-content",
-                                                                                      domProps: {
-                                                                                        innerHTML: _vm._s(
-                                                                                          _vm
-                                                                                            .Question
-                                                                                            .Answer[
-                                                                                            index
+                                                                                      ],
+                                                                                      1
+                                                                                    ),
+                                                                                    _vm._v(
+                                                                                      " "
+                                                                                    ),
+                                                                                    _c(
+                                                                                      "div",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "d-flex flex-row mt-3"
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "font-weight-medium mr-1"
+                                                                                          },
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              _vm._s(
+                                                                                                i +
+                                                                                                  1 +
+                                                                                                  ". "
+                                                                                              )
+                                                                                            )
                                                                                           ]
-                                                                                            .SubAnswer[
-                                                                                            i
-                                                                                          ]
-                                                                                            .Choice
+                                                                                        ),
+                                                                                        _vm._v(
+                                                                                          " "
+                                                                                        ),
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "subquestion-content",
+                                                                                            domProps: {
+                                                                                              innerHTML: _vm._s(
+                                                                                                List.sub_question
+                                                                                              )
+                                                                                            }
+                                                                                          }
                                                                                         )
-                                                                                      }
+                                                                                      ]
+                                                                                    )
+                                                                                  ]
+                                                                                )
+                                                                              }
+                                                                            ),
+                                                                            1
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      ),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "v-col",
+                                                                        {
+                                                                          attrs: {
+                                                                            cols:
+                                                                              "6"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-row",
+                                                                            _vm._l(
+                                                                              _vm
+                                                                                .Question
+                                                                                .Answer[
+                                                                                index
+                                                                              ]
+                                                                                .SubAnswer,
+                                                                              function(
+                                                                                pairList,
+                                                                                i
+                                                                              ) {
+                                                                                return _c(
+                                                                                  "v-col",
+                                                                                  {
+                                                                                    key: i,
+                                                                                    staticClass:
+                                                                                      "d-flex flex-row pa-0",
+                                                                                    attrs: {
+                                                                                      cols:
+                                                                                        "12"
                                                                                     }
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ]
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "div",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "d-flex flex-row mt-3"
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "font-weight-medium mr-1"
+                                                                                          },
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              _vm._s(
+                                                                                                _vm
+                                                                                                  .Alphabet[
+                                                                                                  i
+                                                                                                ] +
+                                                                                                  ". "
+                                                                                              )
+                                                                                            )
+                                                                                          ]
+                                                                                        ),
+                                                                                        _vm._v(
+                                                                                          " "
+                                                                                        ),
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          {
+                                                                                            staticClass:
+                                                                                              "subchoices-content",
+                                                                                            domProps: {
+                                                                                              innerHTML: _vm._s(
+                                                                                                pairList.Choice
+                                                                                              )
+                                                                                            }
+                                                                                          }
+                                                                                        )
+                                                                                      ]
+                                                                                    )
+                                                                                  ]
+                                                                                )
+                                                                              }
+                                                                            ),
+                                                                            1
                                                                           )
                                                                         ],
                                                                         1
@@ -1605,10 +1714,11 @@ var render = function() {
                                                                     ],
                                                                     1
                                                                   )
-                                                                }
+                                                                ],
+                                                                1
                                                               )
                                                             ],
-                                                            2
+                                                            1
                                                           )
                                                         ]
                                                       )

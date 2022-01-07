@@ -294,12 +294,16 @@ Route::prefix('/question')->group(function () {
 
     Route::put('/delete/{id}', [ObjectiveController::class, 'removeOption']);
     Route::delete('/remove/{id}', [ObjectiveController::class, 'deleteQuestion']);
-
+    
     Route::post('/add_new_question', [ObjectiveController::class, 'AddNewQuestion']);
+    Route::post('/add_new_destructor', [ObjectiveController::class, 'AddNewDesctructor']);
     Route::post('/add_new_option', [ObjectiveController::class, 'AddNewOption']);
     Route::put('/update_question_details/{id}', [ObjectiveController::class, 'UpdateQuestion']);
     Route::put('/remove_question_option/{id}', [ObjectiveController::class, 'removeQuestionOption']);
     Route::put('/remove_question_match/{id}', [ObjectiveController::class, 'removeQuestionMatch']);
+    Route::delete('/remove_destructor/{id}', [ObjectiveController::class, 'removeDestructor']);
+    
+    Route::put('/update_destructor/{id}', [ObjectiveController::class, 'UpdateDestructor']);
     Route::put('/save_all_question/{id}', [ObjectiveController::class, 'SaveAllQuestion']);
     Route::put('/delete_selected_question/{id}', [ObjectiveController::class, 'DeleteSelectedQuestion']);
     Route::put('/store_duplicate_question/{id}', [ObjectiveController::class, 'StoreDuplicateQuestion']);

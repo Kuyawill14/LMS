@@ -60,11 +60,13 @@ class ObjectiveController extends Controller
             $tempData1;
             $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
             ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+            ->whereNotNull('tbl_sub_questions.answer_id')
             ->get();
 
             if($cl->type != 'Matching type'){
                 $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                 ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                ->where('tbl_choices.isDestructor', false)
                 ->get();
                 $tempData2;
                 if(auth('sanctum')->user()->role == 'Student'){
@@ -82,16 +84,18 @@ class ObjectiveController extends Controller
                 }
                 else{
                     $tempData2 = $tempData1;
-                    $FinalAnswer[] =  ['options'=> $tempData2, 'SubQuestion'=> [], 'SubAnswer'=> []];
+                    $FinalAnswer[] =  ['options'=> $tempData2, 'SubQuestion'=> [], 'SubAnswer'=> [],'Destructors'=>[]];
                 }
                 
 
             }
             else{
                 $tempData1 = [];
+                $Destructors;
                 foreach($tempSubQuestion as $item){
                     $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->where('tbl_choices.isDestructor', false)
                     ->first();
                     if(auth('sanctum')->user()->role == 'Student'){
                         $item->answer_id = null;
@@ -99,14 +103,29 @@ class ObjectiveController extends Controller
                 }
         
                 if(auth('sanctum')->user()->role == 'Student'){
+                    $des = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->where('tbl_choices.isDestructor', true)
+                    ->get();
+
+                    foreach($des as $destruc){
+                        array_push($tempData1, $destruc);
+                    }
                     $tempAns =  Arr::shuffle($tempData1);
                     $temQues = $tempSubQuestion->shuffle();
+                    $Destructors = [];
                 }
                 else{
                     $tempAns =  $tempData1;
-                    $temQues = $tempSubQuestion;  
-                }
-                $tmp =  ['options'=> [], "SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
+                    $temQues = $tempSubQuestion;
+
+                    $Destructors = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->where('tbl_choices.isDestructor', true)
+                    ->get();
+                    }
+                    
+                $tmp =  ['options'=> [], "SubQuestion"=>$temQues , "SubAnswer"=>$tempAns, "Destructors"=>$Destructors];
                 $FinalAnswer[] = $tmp;
             }
 
@@ -400,6 +419,9 @@ class ObjectiveController extends Controller
       
     }
 
+
+
+
     
 
     /**
@@ -424,6 +446,31 @@ class ObjectiveController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function AddNewDesctructor(Request $request)
+    {
+
+        $NewDestructor  = new tbl_choice;
+        $NewDestructor->question_id = $request->question_id;
+        $NewDestructor->isDestructor = true;
+        $NewDestructor->save();
+        return response()->json([
+            "message" => "New Desctructor Added!",
+            "newDestructor_id"=> $NewDestructor->id,
+            "success" => true
+        ]);
+      
+    }
+
+
+    
+
+    /**
      * Remove the specified resource from storage.
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -438,6 +485,45 @@ class ObjectiveController extends Controller
         }
         return "Option not found";
     }
+
+      /**
+     * Remove the specified resource from storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeDestructor($id)
+    {
+        $RemoveDestructor = tbl_choice::find($id);
+        if($RemoveDestructor){
+            $RemoveDestructor->delete();
+            return "Destructor Successfully Remove.";
+        }
+        return "Item not found";
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function UpdateDestructor(Request $request, $id)
+    {
+        $UpdateDestructor = tbl_choice::find($id);
+        if($UpdateDestructor){
+            $UpdateDestructor->Choice = $request->Choice;
+            $UpdateDestructor->save();
+            return "Destructor Successfully Updated.";
+        }
+        return "Item not found";
+    }
+
+    
+
+
+    
 
     /**
      * Remove the specified resource from storage.
@@ -497,15 +583,17 @@ class ObjectiveController extends Controller
                     $choices_id[] = $NewChoice->id;
                     
                 }
-                $answer_id[] = ['options_id' =>  $choices_id, 'SubQuestion_id' =>[], 'SubAnswer_id'=>[]];
+                $answer_id[] = ['options_id' =>  $choices_id, 'SubQuestion_id' =>[], 'SubAnswer_id'=>[], 'Destructors_id'=>[]];
             }
             else{
                 $sub_counter = 0;
                 $sub_question_id = array();
                 $sub_answer_id = array();
+                $destructors = array();
                 foreach($request->answer[$counter]['SubAnswer'] as $sub_question){
                     $QuestionChoice  = new tbl_choice;
                     $QuestionChoice->question_id = $newQuestion->id;
+                    $QuestionChoice->isDestructor = false;
                     $QuestionChoice->Choice = $sub_question['Choice'];
                     $QuestionChoice->save();
                     $sub_answer_id[] = $QuestionChoice->id;
@@ -518,7 +606,17 @@ class ObjectiveController extends Controller
                     $sub_question_id[] = $SubQuestion->id;
                     $sub_counter++;
                 }
-                $answer_id[] = ['options_id' =>[], 'SubQuestion_id' => $sub_question_id, 'SubAnswer_id'=> $sub_answer_id];
+
+                foreach($request->answer[$counter]['Destructors'] as $des){
+                    $QuestionDestructor  = new tbl_choice;
+                    $QuestionDestructor->question_id = $newQuestion->id;
+                    $QuestionDestructor->isDestructor = true;
+                    $QuestionDestructor->Choice = $des['Choice'];
+                    $QuestionDestructor->save();
+                    $destructors[] = $QuestionDestructor->id;
+                }
+
+                $answer_id[] = ['options_id' =>[], 'SubQuestion_id' => $sub_question_id, 'SubAnswer_id'=> $sub_answer_id,'Destructors_id'=>$destructors];
             }
 
             $totalPoints += $mainItem['points'];

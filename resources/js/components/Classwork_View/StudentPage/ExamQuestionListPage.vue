@@ -362,12 +362,8 @@
                                                             :class="$vuetify.breakpoint.mdAndUp  ? 'pl-5 pr-5' : 'ma-0 pa-0'">
                                                             <v-container class="mb-0 pb-0">
                                                                 <v-row>
-                                                                    <v-col class="font-weight-bold" cols="2" md="1"
-                                                                        lg="1">
-
-                                                                    </v-col>
-                                                                    <v-col class="font-weight-bold" cols="5" md="6"
-                                                                        lg="6">
+                                                                   <v-col cols="1"></v-col>
+                                                                    <v-col class="font-weight-bold pl-10" cols="6" >
                                                                         Column A
                                                                     </v-col>
                                                                     <v-col class="font-weight-bold" cols="5">
@@ -377,7 +373,7 @@
                                                             </v-container>
                                                             <v-divider></v-divider>
 
-                                                            <v-container class="mb-0 pb-0"
+                                                           <!--  <v-container class="mb-0 pb-0"
                                                                 v-for="(List, i) in getAll_questions.Answer[index].SubQuestion"
                                                                 :key="List.id">
                                                                 <v-row>
@@ -410,6 +406,42 @@
                                                                                 v-html="getAll_questions.Answer[index].SubAnswer[i].Choice"
                                                                                 class="subchoices-content"></span>
                                                                         </div>
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-container> -->
+
+                                                             <v-container class="mb-0 pb-0 mt-2" >
+                                                                <v-row class="mb-0 pb-0">
+                                                                    <v-col cols="7" >
+                                                                        <v-row>
+                                                                            <v-col class="d-flex flex-row pa-0" cols="12" v-for="(List, i) in getAll_questions.Answer[index].SubQuestion" :key="List.id" >
+                                                                                <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                                                    <v-text-field 
+                                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:70px'"
+                                                                                    hide-details
+                                                                                    outlined
+                                                                                    dense
+                                                                                    v-model="FinalAnswers[index].Answer[i].Ans_letter"
+                                                                                    @change="SelectMatch(item.id, index, i)"
+                                                                                    class="centered-input pt-0 mt-0">
+                                                                                    </v-text-field>
+                                                                                </div>
+                                                                                <div class="d-flex flex-row mt-2 pl-2"> 
+                                                                                    <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                                    <span v-html="List.sub_question" class="subquestion-content"></span>
+                                                                                </div>
+                                                                            </v-col>
+                                                                        </v-row>
+                                                                    </v-col>
+                                                                    <v-col cols="5">
+                                                                        <v-row>
+                                                                            <v-col cols="12" v-for="(pairList, i) in getAll_questions.Answer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
+                                                                                <div class="d-flex flex-row mt-2 pl-4"> 
+                                                                                    <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                                    <span v-html="pairList.Choice" class="subchoices-content"></span>
+                                                                                </div>
+                                                                            </v-col>
+                                                                        </v-row>
                                                                     </v-col>
                                                                 </v-row>
                                                             </v-container>

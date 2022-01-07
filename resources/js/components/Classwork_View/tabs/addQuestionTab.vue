@@ -2,7 +2,7 @@
 <div>
 
 <div class="pa-0 ma-0" v-if="isStudentView">
-    <studentViewForTeacher v-on:closeDialog="isStudentView = false, $store.dispatch('isNotViewingSubmission')" :classworkDetails="classworkDetails"  :Question="studentViewData" v-if="isStudentView"></studentViewForTeacher>
+    <studentViewForTeacher v-on:closeDialog="CloseDialog()" :classworkDetails="classworkDetails"  :Question="studentViewData" v-if="isStudentView"></studentViewForTeacher>
 </div>
 
 <div class="pa-1" v-else>
@@ -283,13 +283,13 @@
                                     <v-row class="pa-0 ma-0">
                                         <v-col class="pa-0 ma-0 mt-2 mb-2" cols="12">
                                             <div style="width:100%" class="mb-3">
-                                                    <quill-editor
+                                                    <editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
                                                     @blur="onEditorBlur($event)" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
                                                      @change="isNewChanges = true"
                                                     ref="myTextEditor"
-                                                    placeholder="Question" 
+                                                    :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
                                                     v-model="item.question"
                                                     :options="editorOption"/>
                                                     <small v-if="!valid && item.question == ''" class="error--text">*This field is required</small>
@@ -319,11 +319,12 @@
                                                                 </v-radio>
                                                         </v-radio-group>
                                                           <div style="width:100%" class="mb-3">
-                                                                <quill-editor
+                                                                <editor
                                                                  @focus="Ans.Choice = Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
+                                                                placeholder="Enter Answer"
                                                                 ref="myTextEditor"
                                                                 v-model="Ans.Choice"
                                                                 :options="editorOption"/>
@@ -371,12 +372,12 @@
                                         <v-col v-show="getAll_questions.Answer[mainIndex].options.length == 0" ma-0 pa-0 class="ma-0 pa-0 mt-2" cols="12">
                                              <v-container fluid  class="d-flex flex-row ma-0 pa-0">
                                                       <div style="width:100%" class="mb-3">
-                                                        <quill-editor
+                                                        <editor
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
                                                         class="editor"
                                                         @focus="item.answer = item.answer == '<p>Option 1</p>' ? '' : item.answer"
-                                                        placeholder="Answer"
+                                                        placeholder="Enter Answer"
                                                         ref="myTextEditor"
                                                         v-model="item.answer"
                                                         :options="editorOption"/>
@@ -395,12 +396,12 @@
                                             <!--   <div style="width:100%" class="mb-3 d-flex flex-row"> -->
                                                   <v-container fluid class="d-flex flex-row ma-0 pa-0">
                                                       <div style="width:100%" class="mb-3">
-                                                        <quill-editor
+                                                        <editor
                                                         @focus="Answer.Choice = Answer.Choice == '<p>Option '+(i+1)+'</p>' || Answer.Choice == '<p>Answer '+(i+1)+'</p>' ? '' : Answer.Choice"
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
                                                         class="editor"
-                                                        placeholder="Answer"
+                                                        placeholder="Enter Answer"
                                                         ref="myTextEditor"
                                                         v-model="Answer.Choice"
                                                         :options="editorOption"/>
@@ -478,24 +479,27 @@
                                         <v-col  v-for="(SubQues, sub_index) in getAll_questions.Answer[mainIndex].SubQuestion" :key="SubQues.id" ma-0 pa-0 class="ma-0 pa-0" cols="12">
                                            <v-row>
                                                <v-col  cols="12">
-                                                    <div class="font-weight-medium">{{'Pair '}}{{sub_index+1}}</div>
+                                                    <!-- <div class="font-weight-medium">{{'Pair '}}{{sub_index+1}}</div> -->
                                                    <v-container fluid class="d-flex flex-row ma-0 pa-0">                                                                              
-                                                    <div style="width:100%"  class=" pr-2 mb-3">
-                                                          <quill-editor
+                                                    <div style="width:100%"  class="mb-3">
+                                                          <editor
                                                             :disabled="quill_disabled"
                                                              @change="isNewChanges = true"
                                                             class="editor"
-                                                            :placeholder="'Question '+(sub_index+1)" 
+                                                            placeholder="Enter Question" 
                                                             ref="myTextEditor"
                                                             v-model="SubQues.sub_question"
                                                             :options="editorOption"/>
                                                         </div>
+                                                        <div style="height:1px;background-color:#E0E0E0" :class="$vuetify.breakpoint.mdAndUp ? 'pl-4 pr-4 mt-8' : 'pl-2 pr-2 mt-8'">
+                                                            
+                                                        </div>
                                                      <div style="width:100%" class="mb-3" >
-                                                            <quill-editor
+                                                            <editor
                                                             @change="isNewChanges = true"
                                                              :disabled="quill_disabled"
                                                             class="editor"
-                                                            :placeholder="'Answer '+(sub_index+1)" 
+                                                            placeholder="Enter Answer" 
                                                             ref="myTextEditor"
                                                             v-model="getAll_questions.Answer[mainIndex].SubAnswer[sub_index].Choice"
                                                             :options="editorOption"/>
@@ -511,7 +515,7 @@
                                                </v-col>
                                            </v-row>
                                         </v-col>
-                                        <v-col v-if="!isHaveSubmission"  class="ma-0 pa-0 text-right pb-2">
+                                        <v-col cols="12" v-if="!isHaveSubmission"  class="ma-0 pa-0 text-right pb-6">
                                             <v-btn
                                             block 
                                             rounded
@@ -524,6 +528,44 @@
                                              Add  Match
                                             </v-btn>
                                         </v-col>
+                                        <v-col cols="12" class="ma-0 pa-0 text-left pb-5">
+                                           <div>Additional Answers</div>
+                                           <small>You can provide additional answers to increase the difficulty of matching question.</small>
+                                        </v-col>
+
+                                         
+                                        <v-col lg="6" cols="12" class="ma-0 pa-0 text-left">
+                                            <v-row>
+                                                <v-col c v-for="(destruc, destruc_index) in getAll_questions.Answer[mainIndex].Destructors" :key="destruc_index" cols="12" class="mb-0 pb-0 pt-0 mt-0 d-flex flex-row" >
+                                                    <div style="width:100%"  class="pb-3">
+                                                        <editor
+                                                        @blur="UpdateDestructor(destruc.id, destruc_index,mainIndex,destruc.Choice)"
+                                                        
+                                                        :disabled="quill_disabled"
+                                                        class="editor"
+                                                        placeholder="Enter Answer" 
+                                                        v-model="destruc.Choice"
+                                                        ref="myTextEditor"
+                                                        :options="editorOption"/>
+                                                    </div>
+                                                     <v-btn
+                                                        v-if="!isHaveSubmission"
+                                                        @click="removeDestructor(destruc.id, destruc_index,mainIndex)"
+                                                        icon class="mt-3 pl-2 pr-2">
+                                                        <v-icon>mdi-close</v-icon>
+                                                    </v-btn>
+                                                </v-col>
+                                            </v-row>
+                                        </v-col>
+
+
+                                        <v-col  cols="12" class="ma-0 pa-0 text-left pb-2 pt-3">
+                                            <v-btn @click="AddDestructor(mainIndex,item.id )" small color="primary" rounded>
+                                                <v-icon left>mdi-plus</v-icon>
+                                               Add Additional Answer/Destructors
+                                           </v-btn>
+                                        </v-col>
+                                       
                                     </v-row>
                                 </v-container>
 
@@ -873,7 +915,8 @@ export default {
                        }
                    ],
                    SubQuestion:[],
-                   SubAnswer:[]
+                   SubAnswer:[],
+                   Destructors:[]
 
                });
 
@@ -1011,16 +1054,36 @@ export default {
                 else if(type == 'Matching type'){
                     let tmp = this.getAll_questions.Answer[mainIndex].SubQuestion;
                     if(tmp.length == 0){
-                        this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                            id: null,
-                            answer_id: null,
-                            sub_question: ''
-                        })
-                        this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                            id : null, 
-                            Choice : '',
-                            question_id : id
-                        })
+
+                      /*   if(this.getAll_questions.Answer[mainIndex].options.length != 0){
+                            this.getAll_questions.Answer[mainIndex].options.forEach(item => {
+                                 this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                                    id: null,
+                                    answer_id: null,
+                                    sub_question: item.Choice
+                                })
+
+                                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                                    id : null, 
+                                    Choice : item.Choice,
+                                    question_id : id
+                                })
+
+                            });
+                        }else{ */
+                             this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                                id: null,
+                                answer_id: null,
+                                sub_question: ''
+                            })
+                            this.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                                id : null, 
+                                Choice : '',
+                                question_id : id
+                            })
+                        //}
+                       
+
                     }
                 }
         },
@@ -1171,7 +1234,7 @@ export default {
                         selected: false,
                         isEditing: true
                     }) 
-                    this.getAll_questions.Answer.push({options:[],SubQuestion:[], SubAnswer:[]});
+                    this.getAll_questions.Answer.push({options:[],SubQuestion:[], SubAnswer:[],Destructors:[]});
 
                      if(this.DuplicateQuestion[i].type == 'Multiple Choice' || this.DuplicateQuestion[i].type == 'Identification'){
                          for (let j = 0; j < res.data.answer_id[i].options_id.length; j++) {
@@ -1195,14 +1258,23 @@ export default {
                                 Choice : this.DuplicateAnswers[i].SubAnswer[j].Choice,
                                 question_id : res.data.question_id[i],
                             })
+
+                             
+                         }
+
+                         for (let x = 0; x < res.data.answer_id[i].Destructors_id.length; x++) {
+                             this.getAll_questions.Answer[this.getAll_questions.Answer.length-1].Destructors.push({
+                                id : res.data.answer_id[i].Destructors_id[x],
+                                Choice : this.DuplicateAnswers[i].Destructors[x].Choice,
+                                question_id : res.data.question_id[i],
+                            })
+                             
                          }
                      }
-                    
                 }
                 this.isAddingNewQuestion = false;
                 this.UnselectAll();
                 setTimeout(() => (window.scrollTo(0,document.body.scrollHeight)), 100);
-                
             })
         },
         studenView(){
@@ -1229,7 +1301,42 @@ export default {
             e.returnValue = ''
         }   
     },
+    AddDestructor(mainIndex, id){
+        axios.post('/api/question/add_new_destructor', {question_id: id})
+        .then((res)=>{
+            if(res.data.success == true){
+                 this.getAll_questions.Answer[mainIndex].Destructors.push({
+                    question_id: id,
+                    id: res.data.newDestructor_id,
+                    Choice: null
+                })
+                 this.$toasted.show('New Desctrutor has been added', {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        duration: 5000,
+                    });
+            }else{
+                this.toastError('Something went wrong while adding new destructor');
+            }
+        })
+    }, 
+    removeDestructor(id, index, mainIndex){
+        axios.delete('/api/question/remove_destructor/'+id)
+        .then(()=>{
+             this.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
+        })
+    },
+    UpdateDestructor(id,index, mainIndex, data){
+        axios.put('/api/question/update_destructor/'+id, {Choice: data})
+        .then((res)=>{
           
+        })
+    },
+     CloseDialog(){
+            this.studentViewData = null,
+            this.isStudentView = false, 
+            this.$store.dispatch('isNotViewingSubmission')
+        },
     },
     created(){
          this.$nextTick(()=>{
@@ -1317,7 +1424,8 @@ export default {
     max-height: 50rem;
 }
 .editor .ql-editor{
-    min-height: 70px !important;
+    min-height: 65px !important;
+    max-height: 300px !important;
 }
 
 
