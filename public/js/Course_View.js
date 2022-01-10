@@ -611,9 +611,11 @@ var render = function() {
                     staticClass: "text-lg-h5",
                     domProps: {
                       textContent: _vm._s(
-                        _vm.getcourseInfo.course_code +
-                          " - " +
-                          _vm.getcourseInfo.course_name
+                        _vm.getcourseInfo.length != 0
+                          ? _vm.getcourseInfo.course_code +
+                              " - " +
+                              _vm.getcourseInfo.course_name
+                          : "Course Code - Course Name"
                       )
                     }
                   }),

@@ -16,11 +16,14 @@ class CreateTblMainModules extends Migration
         Schema::create('tbl_main_modules', function (Blueprint $table) {
             $table->id();
             $table->integer('course_id');
-            $table->integer('isPublished');
+       
             $table->integer('created_by');
             $table->string('module_name');
             $table->string('description');
             $table->integer('position');
+            $table->integer('isPublished');
+            $table->date('date_from');
+            $table->date('date_to');
             $table->timestamps();
         });
     }

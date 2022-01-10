@@ -131,10 +131,16 @@ public function countSubmoduleOnMainModule($id ) {
     public function publishModule(Request $request, $id) {
         $mainModule = tbl_main_modules::find($id);
         if($mainModule){
-     
-            $mainModule->isPublished = $request->isPublished;
+            // return $request->publishSettings;
+            $mainModule->isPublished = $request->publishSettings['isPublished'];
+        
+          
+                $mainModule->date_to =$request->publishSettings['date_to'];
+                $mainModule->date_from =$request->publishSettings['date_from'];
+        
+   
             $mainModule->save();
-            return 'success';
+            return $request->publishSettings['isPublished'] == 1 ? 'publsihed' : 'unpublished';
         }
     }
     /**
