@@ -6278,6 +6278,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -6427,9 +6428,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -6454,7 +6455,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -6544,6 +6545,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -13251,7 +13253,7 @@ var render = function() {
                           ? _c("v-spacer")
                           : _vm._e(),
                         _vm._v(" "),
-                        !_vm.$vuetify.breakpoint.mdAndUp
+                        !_vm.$vuetify.breakpoint.mdAndUp && _vm.isNewChanges
                           ? _c(
                               "v-btn",
                               {
@@ -15333,62 +15335,65 @@ var render = function() {
                                                                   1
                                                                 ),
                                                                 _vm._v(" "),
-                                                                _c(
-                                                                  "v-col",
-                                                                  {
-                                                                    staticClass:
-                                                                      "ma-0 pa-0 text-left pb-2 pt-3",
-                                                                    attrs: {
-                                                                      cols: "12"
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "v-btn",
+                                                                !_vm.isHaveSubmission
+                                                                  ? _c(
+                                                                      "v-col",
                                                                       {
+                                                                        staticClass:
+                                                                          "ma-0 pa-0 text-left pb-2 pt-3",
                                                                         attrs: {
-                                                                          small:
-                                                                            "",
-                                                                          color:
-                                                                            "primary",
-                                                                          rounded:
-                                                                            ""
-                                                                        },
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            return _vm.AddDestructor(
-                                                                              mainIndex,
-                                                                              item.id
-                                                                            )
-                                                                          }
+                                                                          cols:
+                                                                            "12"
                                                                         }
                                                                       },
                                                                       [
                                                                         _c(
-                                                                          "v-icon",
+                                                                          "v-btn",
                                                                           {
                                                                             attrs: {
-                                                                              left:
+                                                                              small:
+                                                                                "",
+                                                                              color:
+                                                                                "primary",
+                                                                              rounded:
                                                                                 ""
+                                                                            },
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.AddDestructor(
+                                                                                  mainIndex,
+                                                                                  item.id
+                                                                                )
+                                                                              }
                                                                             }
                                                                           },
                                                                           [
+                                                                            _c(
+                                                                              "v-icon",
+                                                                              {
+                                                                                attrs: {
+                                                                                  left:
+                                                                                    ""
+                                                                                }
+                                                                              },
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "mdi-plus"
+                                                                                )
+                                                                              ]
+                                                                            ),
                                                                             _vm._v(
-                                                                              "mdi-plus"
+                                                                              "\r\n                                               Add Additional Answer/Destructors\r\n                                           "
                                                                             )
-                                                                          ]
-                                                                        ),
-                                                                        _vm._v(
-                                                                          "\r\n                                               Add Additional Answer/Destructors\r\n                                           "
+                                                                          ],
+                                                                          1
                                                                         )
                                                                       ],
                                                                       1
                                                                     )
-                                                                  ],
-                                                                  1
-                                                                )
+                                                                  : _vm._e()
                                                               ],
                                                               2
                                                             )

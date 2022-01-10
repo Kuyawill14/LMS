@@ -392,6 +392,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -399,10 +411,15 @@ var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
 
+var pdfviewer = function pdfviewer() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_check-submission_pdfviewer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfviewer */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/pdfviewer.vue"));
+};
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex'],
   components: {
-    resetConfirmation: resetConfirmation
+    resetConfirmation: resetConfirmation,
+    pdfviewer: pdfviewer
   },
   data: function data() {
     return {
@@ -424,6 +441,7 @@ var resetConfirmation = function resetConfirmation() {
       RubricsPoints: [],
       SaveRubricsData: [],
       OpenFileType: null,
+      OpenFileExtension: null,
       isOpening: true,
       SelectedNav: 0,
       isReloadRubrics: false,
@@ -596,11 +614,13 @@ var resetConfirmation = function resetConfirmation() {
 
       if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
         this.OpenFileType = 'media';
+        this.OpenFileExtension = extension;
         this.path = link.replace('.cdn', '');
         setTimeout(function () {
           return _this4.isOpening = false;
         }, 500);
       } else if (extension == 'link') {
+        this.OpenFileExtension = extension;
         this.OpenFileType = 'link';
         var str = link;
 
@@ -624,6 +644,7 @@ var resetConfirmation = function resetConfirmation() {
           return _this4.isOpening = false;
         }, 500);
       } else {
+        this.OpenFileExtension = extension;
         this.OpenFileType = 'document';
         this.path = link.replace('.cdn', '');
         setTimeout(function () {
@@ -841,11 +862,13 @@ var resetConfirmation = function resetConfirmation() {
       var extension = this.CheckData.Submitted_Answers[0].fileExte;
 
       if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
+        this.OpenFileExtension = extension;
         this.OpenFileType = 'media';
         this.path = path;
         this.isOpening = false;
       } else if (extension == 'link') {
         this.OpenFileType = 'link';
+        this.OpenFileExtension = extension;
         var str = path;
 
         if (str.includes('www.youtube.com')) {
@@ -863,14 +886,11 @@ var resetConfirmation = function resetConfirmation() {
 
         this.isOpening = false;
       } else {
+        this.OpenFileExtension = extension;
         this.OpenFileType = 'document';
         this.path = path;
         this.isOpening = false;
-      } //var host = window.location.protocol + "//" + window.location.host;
-      ////console.log(host)
-      //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
-      //this.pdf_path = path;
-
+      }
     }
 
     this.checkRubrics();
@@ -1632,7 +1652,12 @@ var render = function() {
                                               "Submitted"
                                                 ? _c(
                                                     "v-list-item-action",
-                                                    { staticClass: "mt-8" },
+                                                    {
+                                                      staticClass: "mt-8",
+                                                      staticStyle: {
+                                                        width: "25% !important"
+                                                      }
+                                                    },
                                                     [
                                                       _c(
                                                         "v-form",
@@ -1654,6 +1679,10 @@ var render = function() {
                                                         },
                                                         [
                                                           _c("v-text-field", {
+                                                            staticStyle: {
+                                                              width:
+                                                                "100% !important"
+                                                            },
                                                             attrs: {
                                                               rounded: "",
                                                               "hide-details":
@@ -2779,26 +2808,61 @@ var render = function() {
                                     _vm._v(" "),
                                     !_vm.isOpening &&
                                     _vm.OpenFileType == "document"
-                                      ? _c("div", [
-                                          _c("iframe", {
-                                            staticStyle: {
-                                              position: "absolute",
-                                              top: "0px",
-                                              left: "0px",
-                                              width: "100% !important",
-                                              height: "100% !important"
-                                            },
-                                            attrs: {
-                                              title: "google pdf viewer",
-                                              id: "pdf-iframe",
-                                              src:
-                                                "https://docs.google.com/viewer?embedded=true&url=" +
-                                                _vm.path,
-                                              sandbox:
-                                                "allow-same-origin allow-scripts allow-popups allow-forms"
-                                            }
-                                          })
-                                        ])
+                                      ? _c(
+                                          "div",
+                                          [
+                                            _vm.OpenFileExtension == "docx" ||
+                                            _vm.OpenFileExtension == "doc"
+                                              ? _c("iframe", {
+                                                  staticClass:
+                                                    "holds-the-iframe",
+                                                  staticStyle: {
+                                                    position: "absolute",
+                                                    top: "0px",
+                                                    left: "0px",
+                                                    width: "100% !important",
+                                                    height: "100% !important"
+                                                  },
+                                                  attrs: {
+                                                    title:
+                                                      "google drive viewer",
+                                                    id: "pdf-iframe",
+                                                    src:
+                                                      "https://view.officeapps.live.com/op/embed.aspx?src=" +
+                                                      _vm.path
+                                                  }
+                                                })
+                                              : _vm.OpenFileExtension == "pdf"
+                                              ? _c("pdfviewer", {
+                                                  staticStyle: {
+                                                    position: "absolute",
+                                                    top: "0px",
+                                                    left: "0px",
+                                                    width: "100% !important",
+                                                    height: "100% !important"
+                                                  },
+                                                  attrs: { pdf_file: _vm.path }
+                                                })
+                                              : _c("iframe", {
+                                                  staticStyle: {
+                                                    position: "absolute",
+                                                    top: "0px",
+                                                    left: "0px",
+                                                    width: "100% !important",
+                                                    height: "100% !important"
+                                                  },
+                                                  attrs: {
+                                                    title: "google pdf viewer",
+                                                    src:
+                                                      "https://docs.google.com/viewer?embedded=true&url=" +
+                                                      _vm.path,
+                                                    sandbox:
+                                                      "allow-same-origin allow-scripts allow-popups allow-forms"
+                                                  }
+                                                })
+                                          ],
+                                          1
+                                        )
                                       : _vm._e(),
                                     _vm._v(" "),
                                     !_vm.isOpening && _vm.OpenFileType == "link"

@@ -24,11 +24,11 @@
              <v-row>
                  <!-- Intructor -->
                  <v-col cols="12" class="mb-0 pb-0 mt-2 pt-0">
-                     <div><h3 class="font-weight-regular">Intructor</h3></div>
+                     <div><h3 class="font-weight-medium">Intructor</h3></div>
                  </v-col>
-                <v-col cols="12" class="ma-0 pa-0">
+                <v-col cols="12" md="4" lg="3" class="ma-0 pa-0" v-for="item in instructor" :key="item.user_id">
                      <v-list class="mb-0 pb-0">
-                        <v-list-item class="mb-0 pb-0" v-for="item in instructor" :key="item.user_id">
+                        <v-list-item class="mb-0 pb-0">
                             <v-list-item-avatar color="secondary" >
                                  <v-img 
                                     :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">
@@ -48,11 +48,11 @@
 
                 <!-- Students -->
                 <v-col cols="12" class="mb-0 pb-0 mt-3 pt-0">
-                    <div><h3 class="font-weight-regular">Classmates</h3></div>
+                    <div><h3 class="font-weight-medium">Classmates</h3></div>
                  </v-col>
-                <v-col class="ma-0 pa-0" cols="12">
+                <v-col class="ma-0 pa-0" cols="12" md="4" lg="3" v-for="item in students" :key="item.user_id">
                     <v-list class="mb-0 pb-0">
-                        <v-list-item class="mb-0 pb-0" v-for="item in students" :key="item.user_id">
+                        <v-list-item class="mb-0 pb-0">
                             <v-list-item-avatar color="secondary" >
                                  <v-img 
                                     :src="item.profile_pic == null || item.profile_pic == '' ? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (item.firstName+' '+item.lastName) : item.profile_pic">

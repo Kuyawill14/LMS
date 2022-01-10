@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use App\Models\tbl_userclass;
 use App\Models\User;
 use App\Models\Tbl_class;
@@ -21,6 +22,7 @@ use App\Models\tbl_userDetails;
 use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_join_request;
 use Carbon\Carbon;
+use App\Mail\SendSubmittedWorkMail;
 
 
 
@@ -343,13 +345,6 @@ class StudentController extends Controller
     }
 
     
-
-
-
-
-    
-
-
     /**
      * Display the specified resource.
      *
@@ -368,6 +363,8 @@ class StudentController extends Controller
        ->select('tbl_classes.id', 'tbl_classes.course_id')
        ->leftJoin('tbl_classes','tbl_classes.id','=','tbl_class_classworks.class_id')
        ->first();
+
+       
 
      
     
@@ -414,9 +411,22 @@ class StudentController extends Controller
             $newNotification->notification_attachments = $SubmitSubj->classwork_id;
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
-        }
 
-        return $SubmitSubj;
+            $mailDetails = tbl_Submission::where('tbl_submissions.id',$id)
+            ->select('users.email','tbl_classworks.title','tbl_classworks.course_id', 'tbl_classworks.id')
+            ->leftJoin('tbl_classworks','tbl_classworks.id','=', 'tbl_submissions.classwork_id')
+            ->leftJoin('users','users.id','=', 'tbl_classworks.user_id')
+            ->first();
+
+            $userDetails  = auth('sanctum')->user()->tbl_userDetails;
+            $name = $userDetails->firstName.' '.$userDetails->lastName;
+            $date_submitted = \Carbon\Carbon::parse($SubmitSubj->updated_at)->format('F d, Y h:i a');
+            $url = "/classwork"."/".$mailDetails->course_id."/submission-list?clwk=".$mailDetails->id;
+            $profile = $userDetails->profile_pic == null ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' : $userDetails->profile_pic;
+            Mail::to($mailDetails->email)->send(new SendSubmittedWorkMail($name, $profile, $mailDetails->title, $date_submitted, $url));
+        }
+    
+            return $SubmitSubj;
         }
 
     

@@ -236,6 +236,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -375,6 +376,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.$router.push({
           path: path
         });
+      }
+    } else if (data.notification_type == 6) {
+      var SubmissionPath = '/classwork/' + data.c_id + '/classwork-details';
+
+      if (this.$route.path != SubmissionPath) {
+        this.$router.push({
+          path: '/classwork/' + data.c_id + '/submission-list?clwk=' + data.notification_attachments
+        });
+      } else {
+        if (this.$route.query.clwk != data.notification_attachments) {
+          this.$router.push({
+            path: '/classwork/' + data.c_id + '/submission-list?clwk=' + data.notification_attachments
+          });
+        }
+      }
+    } else if (data.notification_type == 7) {
+      var _startPath = '/classwork/' + data.from_course + '/classwork-details';
+
+      if (this.$route.path != _startPath) {
+        this.$router.push({
+          path: '/classwork/' + data.from_course + '/classwork-details?clwk=' + data.notification_attachments
+        });
+      } else {
+        if (this.$route.query.clwk != data.notification_attachments) {
+          this.$router.push({
+            path: '/classwork/' + data.from_course + '/classwork-details?clwk=' + data.notification_attachments
+          });
+        }
       }
     }
   }), _objectSpread2)),
@@ -1003,6 +1032,19 @@ var render = function() {
                                                 },
                                                 [_vm._v(" mdi-notebook-check")]
                                               )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          item.notification_type == 7
+                                            ? _c(
+                                                "v-icon",
+                                                {
+                                                  attrs: {
+                                                    color: "green",
+                                                    large: ""
+                                                  }
+                                                },
+                                                [_vm._v("mdi-file-check")]
+                                              )
                                             : _vm._e()
                                         ],
                                         1
@@ -1050,7 +1092,11 @@ var render = function() {
                                                             2
                                                         ? "blue"
                                                         : item.notification_type ==
-                                                          4
+                                                            4 ||
+                                                          item.notification_type ==
+                                                            6 ||
+                                                          item.notification_type ==
+                                                            7
                                                         ? "green"
                                                         : ""
                                                   }

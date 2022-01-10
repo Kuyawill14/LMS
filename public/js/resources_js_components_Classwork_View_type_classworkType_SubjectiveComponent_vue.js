@@ -519,6 +519,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -2489,7 +2494,29 @@ var render = function() {
                                               )
                                             ],
                                             1
+                                          ),
+                                      _vm._v(" "),
+                                      _vm.classworkDetails.graded
+                                        ? _c(
+                                            "v-col",
+                                            { attrs: { cols: "12" } },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
+                                                    "font-weight-medium text-body-2 mt-3"
+                                                },
+                                                [_vm._v("Graded Work")]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("v-divider", {
+                                                staticClass: "pr-1 pl-1 mt-1"
+                                              })
+                                            ],
+                                            1
                                           )
+                                        : _vm._e()
                                     ],
                                     1
                                   )

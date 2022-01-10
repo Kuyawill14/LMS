@@ -25,7 +25,7 @@
                             <v-list-item-title><v-icon>mdi-bell</v-icon> Notification</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action>
-                            <v-btn @click="closing = true, $router.push({name: 'notifications', params:{slug: 'all'}})" class="white--text caption" color="blue" text depressed rounded>
+                            <v-btn @click="closing = true,MarkAsRead(), $router.push({name: 'notifications', params:{slug: 'all'}})" class="white--text caption" color="blue" text depressed rounded>
                                 See all
                             </v-btn>
                         </v-list-item-action>
@@ -73,6 +73,7 @@
                                     <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
                                     <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
                                     <v-icon color="green" v-if="item.notification_type == 6" large>mdi-notebook-check</v-icon>
+                                    <v-icon color="green" v-if="item.notification_type == 7" large>mdi-file-check</v-icon>
                                    
                                 
                                 </v-list-item-avatar>
@@ -81,7 +82,7 @@
                                     <v-list-item-title  class="font-weight-medium">
                                         <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
                                         :color="item.notification_type == 1 || item.notification_type == 5 ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
-                                        item.notification_type == 4 ? 'green' : ''" >
+                                        item.notification_type == 4 || item.notification_type == 6  || item.notification_type == 7  ? 'green' : ''" >
                                         {{ item.notification_type != 2 ? item.name : 'Join Class'}}   
                                         </v-badge>
                                         </v-list-item-title>
@@ -232,7 +233,18 @@
                 window.Echo.private("notification")
                 .listen('NewNotification', e => {
                     newVm.fetchNotificationCount();
-                }) 
+                        /* if(this.get_notification_count > 0){
+                              Notification.requestPermission( permission => {
+                                let notification = new Notification('ISUE-ORANGE', {
+                                    body: 'Testing Push Notification',
+                                    icon: "../images/orange_title.png"
+                                });
+                                notification.onclick = () => {
+                                    window.open(window.location.href);
+                                }
+                            });
+                        } */                    
+                }); 
 
                
             },
@@ -340,6 +352,16 @@
                             }
                         }
                 }
+                 else if(data.notification_type == 7){
+                  let startPath = '/classwork/'+data.from_course+'/classwork-details';
+                    if(this.$route.path != startPath){
+                        this.$router.push({path: '/classwork/'+data.from_course+'/classwork-details?clwk='+data.notification_attachments});
+                    }else{
+                        if(this.$route.query.clwk != data.notification_attachments){
+                            this.$router.push({path: '/classwork/'+data.from_course+'/classwork-details?clwk='+data.notification_attachments});
+                        }
+                    }
+                }
                
             },
             fetchNotificationall(on){
@@ -366,6 +388,11 @@
                     }
                     
                 }            
+            },
+            async MarkAsRead(){
+                if(this.get_notification_count != 0){
+                    this.markAllasRead();
+                }
             },
             async markAllasRead(){
                 axios.post('/api/notification/mark-all')

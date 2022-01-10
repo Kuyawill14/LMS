@@ -302,6 +302,11 @@
                                </v-col>
                              </v-row>
                           </v-col>
+
+                          <v-col cols="12" v-if="classworkDetails.graded">
+                            <div class="font-weight-medium text-body-2 mt-3">Graded Work</div>
+                            <v-divider class="pr-1 pl-1 mt-1"></v-divider>
+                          </v-col>
                    </v-col>
                 </v-row> 
           </v-card>

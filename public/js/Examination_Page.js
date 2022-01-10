@@ -1239,10 +1239,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
+                var Quest_Pattern = {};
+                Quest_Pattern.SubQuestion = [];
+                Quest_Pattern.SubAnswer = [];
 
                 _this7.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
+                  });
+                  Quest_Pattern.SubAnswer.push({
+                    id: item.id
                   });
                 });
 
@@ -1253,11 +1259,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     subquestion_id: item.id,
                     Answers: ''
                   });
+                  Quest_Pattern.SubQuestion.push({
+                    id: item.id
+                  });
                 });
 
                 _this7.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
+                  question_pattern: Quest_Pattern,
                   Question_id: _this7.getAll_questions.Question[index].id,
                   type: _this7.getAll_questions.Question[index].type,
                   timeConsume: null
@@ -1293,10 +1303,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
+                var Quest_Pattern = {};
+                Quest_Pattern.SubQuestion = [];
+                Quest_Pattern.SubAnswer = [];
 
                 _this7.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
+                  });
+                  Quest_Pattern.SubAnswer.push({
+                    id: item.id
                   });
                 });
 
@@ -1307,11 +1323,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     subquestion_id: item.id,
                     Answers: ''
                   });
+                  Quest_Pattern.SubQuestion.push({
+                    id: item.id
+                  });
                 });
 
                 _this7.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
+                  question_pattern: Quest_Pattern,
                   Question_id: _this7.getAll_questions.Question[_index].id,
                   type: _this7.getAll_questions.Question[_index].type,
                   timeConsume: null
@@ -1339,10 +1359,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 } else if (_this7.getAll_questions.Question[x].type == 'Matching type') {
                   var Ans = new Array();
                   var Choices_id = new Array();
+                  var Quest_Pattern = {};
+                  Quest_Pattern.SubQuestion = [];
+                  Quest_Pattern.SubAnswer = [];
 
                   _this7.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                     Choices_id.push({
                       choice_id: item.id
+                    });
+                    Quest_Pattern.SubAnswer.push({
+                      id: item.id
                     });
                   });
 
@@ -1355,21 +1381,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                       subquestion_id: item.id,
                       Answers: AnswersList[j].Answer[counter].Answers
                     });
+                    Quest_Pattern.SubQuestion.push({
+                      id: item.id
+                    });
                     counter++;
                   });
-                  /*     AnswersList[j].Answer.forEach(item => {
-                         Ans.push({
-                             Ans_letter: item.Ans_letter,
-                             Ans_id: item.Ans_id,
-                             subquestion_id: item.subquestion_id,
-                             Answers: item.Answers
-                         })
-                      }); */
-
 
                   _this7.FinalAnswers.push({
                     Answer: Ans,
                     Choices_id: Choices_id,
+                    question_pattern: Quest_Pattern,
                     Question_id: AnswersList[j].Question_id,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume

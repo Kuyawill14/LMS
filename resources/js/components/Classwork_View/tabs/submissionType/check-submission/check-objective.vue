@@ -102,10 +102,17 @@
                                         <v-list-item-content>
                                             <v-list-item-title class="font-weight-medium">
                                                 {{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
-                                            <v-list-item-subtitle
-                                                v-if="ViewDetails.status != null && ViewDetails.status != ''&&  ViewDetails.status != 'Taking'">
-                                                Submitted: {{format_date(ViewDetails.updated_at)}}
-                                            </v-list-item-subtitle>
+
+                                                <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-list-item-subtitle v-bind="attrs" v-on="on"
+                                                            v-if="ViewDetails.status != null && ViewDetails.status != ''&&  ViewDetails.status != 'Taking'">
+                                                            Submitted: {{format_date(ViewDetails.updated_at)}}
+                                                        </v-list-item-subtitle>
+                                                    </template>
+                                                    <span>Submitted: {{format_date(ViewDetails.updated_at)}}</span>
+                                                </v-tooltip>
+                                            
                                         </v-list-item-content>
                                         <v-list-item-action class="mt-8">
                                             <v-text-field hide-details rounded :rules="pointsRules"
@@ -221,18 +228,7 @@
                     </v-col>
                     <v-col cols="12" md="8" lg="8" class="">
 
-                        <v-card style="height:50vh" outlined elevation="1" class=" pa-4 mt-1" v-if="!isLoaded">
-                            <v-row class="mt-12 pt-12" justify="center" align-content="center">
-                                <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
-                                    <div style="margin-top:8rem">
-                                        <vue-element-loading :active="!isLoaded" text="Loading" duration="0.7"
-                                            :textStyle="{fontSize: '20px'}" spinner="line-scale" color="#EF6C00"
-                                            size="60" />
-                                    </div>
-
-                                </v-col>
-                            </v-row>
-                        </v-card>
+                        
 
 
                         <v-card outlined elevation="2" class=" pa-4 "
@@ -443,14 +439,10 @@
                                                     <v-row no-gutters>
                                                         <v-col ma-0 pa-0 class="ma-0 pa-0" cols="12">
                                                             <v-container class="ma-0 pa-0">
-                                                                <v-container>
+                                                                <v-container class="mb-0 pb-0">
                                                                     <v-row>
-                                                                        <v-col class="font-weight-bold" cols="2" md="2"
-                                                                            lg="2">
-
-                                                                        </v-col>
-                                                                        <v-col class="font-weight-bold" cols="5" md="5"
-                                                                            lg="5">
+                                                                    <v-col cols="1"></v-col>
+                                                                        <v-col class="font-weight-bold pl-10" cols="6" >
                                                                             Column A
                                                                         </v-col>
                                                                         <v-col class="font-weight-bold" cols="5">
@@ -458,8 +450,54 @@
                                                                         </v-col>
                                                                     </v-row>
                                                                 </v-container>
-                                                                <v-divider></v-divider>
-                                                                <v-container class="mb-0 pb-0"
+                                                            <v-divider></v-divider>
+
+                                                             <v-container class="mb-0 pb-0 mt-2" >
+                                                                <v-row class="mb-0 pb-0">
+                                                                    <v-col cols="7" >
+                                                                        <v-row>
+                                                                            <v-col class="d-flex flex-row pa-0" cols="12" v-for="(item, i) in SubmittedAnswer[index].SubQuestion" :key="item.id">
+                                                                                <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                                                    <v-checkbox hide-details
+                                                                                    class="ma-0 pa-0 mt-2" color="success"
+                                                                                    v-model="Check[index][i]">
+                                                                                </v-checkbox>
+                                                                                </div> 
+                                                                    
+                                                                                
+                                                                                <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
+                                                    
+                                                                                    <v-text-field 
+                                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'max-width:60px' : 'max-width:50px'"
+                                                                                    hide-details
+                                                                                    outlined
+                                                                                    readonly
+                                                                                    dense
+                                                                                    v-model="item.Ans_Letter"
+                                                                                    class="centered-input pt-0 mt-0">
+                                                                                    </v-text-field>
+                                                                                </div>
+                                                                                <div class="d-flex flex-row mt-2 pl-2"> 
+                                                                                    <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
+                                                                                    <span v-html="item.SubQuestion" class="subquestion-content"></span>
+                                                                                </div>
+                                                                            </v-col>
+                                                                        </v-row>
+                                                                    </v-col>
+                                                                    <v-col cols="5">
+                                                                        <v-row>
+                                                                            <v-col cols="12" v-for="(pairList, i) in SubmittedAnswer[index].SubAnswer" :key="i" class="d-flex flex-row pa-0">
+                                                                                <div class="d-flex flex-row mt-2 pl-4"> 
+                                                                                    <span class="font-weight-medium mr-1">{{(Alphabet[i]+'. ')}}</span>
+                                                                                    <span v-html="pairList.SubChoice" class="subchoices-content"></span>
+                                                                                </div>
+                                                                            </v-col>
+                                                                        </v-row>
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-container>
+
+                                                                <!-- <v-container class="mb-0 pb-0"
                                                                     v-for="(item, i) in SubmittedAnswer[index]"
                                                                     :key="item.id">
                                                                     <v-row>
@@ -488,8 +526,7 @@
                                                                                     v-html="item.SubQuestion"
                                                                                     class="subquestion-content"></span>
                                                                                 <small v-if="!Check[index][i]"
-                                                                                    class="primary--text">
-                                                                                    <!-- (correct answer: {{item.Correct_Answer}}) --></small>
+                                                                                    class="primary--text"></small>
                                                                             </div>
                                                                         </v-col>
                                                                         <v-col class="mb-1 pb-0 pt-0 mt-0" cols="4"
@@ -504,7 +541,10 @@
                                                                             </div>
                                                                         </v-col>
                                                                     </v-row>
-                                                                </v-container>
+                                                                </v-container> -->
+
+
+                                                                
                                                             </v-container>
                                                         </v-col>
                                                     </v-row>
@@ -540,7 +580,7 @@
 
 
                             <v-tab-item>
-                                <v-card elevation="5">
+                                <v-card elevation="5" v-if="isLoaded">
                                  
                                     <v-simple-table :loading="loading_activity">
                                         <template v-slot:default>
@@ -576,6 +616,17 @@
                         </v-tabs-items>
 
 
+                        <v-card style="height:50vh" outlined elevation="1" class=" pa-4 mt-1" v-if="!isLoaded">
+                            <v-row class="mt-12 pt-12" justify="center" align-content="center">
+                                <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
+                                    <div style="margin-top:8rem">
+                                        <vue-element-loading :active="!isLoaded" text="Loading" duration="0.7"
+                                            :textStyle="{fontSize: '20px'}" spinner="line-scale" color="#EF6C00"
+                                            size="60" />
+                                    </div>
+                                </v-col>
+                            </v-row>
+                        </v-card>
 
                     </v-col>
                 </v-row>
@@ -639,6 +690,7 @@
                     v => (v && v >= 0) || "Points should be above or equal to 0",
                 ],
                 StudentScore: 0,
+                
             }
         },
         computed: mapGetters(['get_CurrentUser', 'getAll_questions']),
@@ -747,7 +799,7 @@
                                                 .getAll_questions.Question[i].answer;
                                             if (Question_answer == student_ans) {
                                                 this.Check[i] = true;
-                                                this.StudentScore += this.getAll_questions.Question[i].points;
+                                                this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
                                                 this.Check[i] = false;
                                             }
@@ -787,38 +839,130 @@
                                         this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
+                                    
                                     let Ans = new Array();
                                     let match_check = new Array();
                                     let counter = 0;
+                                    let matchpoints = Math.round((this.getAll_questions.Question[i].points / this.getAll_questions.Answer[i].SubQuestion.length));
                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
                                         for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
                                             .length; x++) {
                                             if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
                                                 item.subquestion_id) {
-                                                Ans.push({
-                                                    Ans_Letter: item.Ans_letter,
-                                                    Answer: item.Answers,
-                                                    SubQuestion: this.getAll_questions.Answer[i]
-                                                        .SubQuestion[x].sub_question,
-                                                    SubChoice: this.getAll_questions.Answer[i]
-                                                        .SubAnswer[x].Choice,
-                                                    Correct_Answer: null
-                                                })
-
-                                                if (this.getAll_questions.Answer[i].SubAnswer[x]
-                                                    .Choice == item.Answers) {
+                                                if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
                                                     match_check[counter] = true;
+                                                    this.ViewDetails.points += matchpoints;
 
                                                 } else {
                                                     match_check[counter] = false;
-                                                    //Ans[x].Correct_Answer = this.Alphabet[x]
                                                 }
                                             }
 
                                         }
                                         counter += 1;
+                                    });
+
+
+                                    let Ans_list = {};
+                                    Ans_list.SubQuestion = [];
+                                    let subAndDes =  this.getAll_questions.Answer[i].SubAnswer.length + this.getAll_questions.Answer[i].Destructors.length;
+                                    Ans_list.SubAnswer = [];
+                                    let sub_ques_count = 0;
+
+                                   /*  this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                                        this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
+                                            if(sub_ans.subquestion_id == subQuestion.id){
+                                                Ans_list.SubQuestion.push({
+                                                    Ans_Letter: sub_ans.Ans_letter,
+                                                    Answer: sub_ans.Answers,
+                                                    SubQuestion: subQuestion.sub_question,
+                                                    SubQuestion_id: subQuestion.id,
+                                                    is_correct: true,
+                                                    Correct_Answer: null
+                                                });
+                                            }
+                                        });
+                                    }); */
+
+                                    
+                                    this.ViewDetails.Submitted_Answers[j].question_pattern.SubQuestion.forEach(sub_ques => {
+                                        this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
+                                            if(sub_ques.id == subQuestion.id){
+                                                Ans_list.SubQuestion.push({
+                                                    Ans_Letter: null,
+                                                    Answer: null,
+                                                    SubQuestion: subQuestion.sub_question,
+                                                    SubQuestion_id: subQuestion.id,
+                                                    Correct_Answer: null
+                                                });
+                                            }
+                                        });
+
+                                        this.ViewDetails.Submitted_Answers[j].Answer.forEach(user_ans => {
+                                            Ans_list.SubQuestion.forEach(ans => {
+                                                if(user_ans.subquestion_id == ans.SubQuestion_id){
+                                                    ans.Ans_Letter = user_ans.Ans_letter;
+                                                    ans.Answer = user_ans.Answers;
+                                                }
+                                            });
+                                        });
 
                                     });
+
+
+                                    this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
+                                        this.getAll_questions.Answer[i].SubAnswer.push(destruc);
+                                    });
+                                    
+                                    this.ViewDetails.Submitted_Answers[j].question_pattern.SubAnswer.forEach(sub_ans => {
+                                        this.getAll_questions.Answer[i].SubAnswer.forEach(subAnswer => {
+                                            if(sub_ans.id == subAnswer.id){
+                                                Ans_list.SubAnswer.push({
+                                                    SubChoice: subAnswer.Choice,
+                                                    SubChoice_id: subAnswer.id,
+                                                });
+                                            }
+                                        });
+                                    });
+                                    
+
+                                    
+
+                                /* 
+                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                                        let alpha_count = 0;
+                                         this.Alphabet.forEach(alpha => {
+                                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
+                                                  this.getAll_questions.Answer[i].SubAnswer.forEach(answer_list => {
+                                                    if(sub_ans.Ans_id == answer_list.id){
+                                                            Ans_list.SubAnswer[alpha_count] = {
+                                                            SubChoice: answer_list.Choice,
+                                                            SubChoice_id: answer_list.id,
+                                                            index: alpha_count
+                                                        }
+                                                    }
+                                                });                                                 
+                                             }
+                                             alpha_count++;
+                                         });
+                                    }); */
+
+                                   
+                                    /* console.log(Ans_list.SubAnswer);
+                           
+                                    let des_count = 0;
+                                
+                                    for (let v = 0; v <  Ans_list.SubAnswer.length; v++) {
+                                        if(Ans_list.SubAnswer[v] == null){
+                                            Ans_list.SubAnswer[v] = {
+                                                SubChoice: this.getAll_questions.Answer[i].Destructors[des_count].Choice,
+                                                SubChoice_id: this.getAll_questions.Answer[i].Destructors[des_count].id,
+                                                index: v
+                                            }
+                                           des_count++;
+                                        }
+                                    } */
+
                                     let tmpChoices = new Array();
                                     this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
                                         this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
@@ -831,11 +975,11 @@
                                         })
                                     });
 
-                                    for (let a = 0; a < Ans.length; a++) {
+                                   /*  for (let a = 0; a < Ans.length; a++) {
                                         Ans[a].SubChoice = tmpChoices[a].choice;
-                                    }
+                                    } */
 
-                                    this.SubmittedAnswer[i] = Ans;
+                                    this.SubmittedAnswer[i] = Ans_list;
                                     this.Check[i] = match_check;
                                 }
                             }
@@ -913,59 +1057,62 @@
 
                     for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
                         if (this.getAll_questions.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id) {
-                            let student_ans = this.getAll_questions.Question[i].sensitivity ? this.ViewDetails
-                                .Submitted_Answers[j].Answer :
-                                this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
-                                .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[j].Answer
-                                .toLowerCase() : this.ViewDetails.Submitted_Answers[j].Answer;
-                            if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this.getAll_questions
-                                .Question[i].type == 'Identification' || this.getAll_questions.Question[i].type ==
-                                'True or False') {
-                                this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+                           if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this
+                                    .getAll_questions.Question[i].type == 'Identification' || this
+                                    .getAll_questions.Question[i].type == 'True or False') {
+                                    let student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                        .ViewDetails.Submitted_Answers[j].Answer :
+                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                        .Answer;
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
 
-                                if (this.getAll_questions.Question[i].type == 'Identification') {
-                                    if (this.getAll_questions.Answer[i].options.length == 0) {
-                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ? this
-                                            .getAll_questions.Question[i].answer :
-                                            this.getAll_questions.Question[i].answer != null && this.getAll_questions
-                                            .Question[i].answer != '' ? this.getAll_questions.Question[i].answer
-                                            .toLowerCase() : this.getAll_questions.Question[i].answer;
+                                    if (this.getAll_questions.Question[i].type == 'Identification') {
+                                        if (this.getAll_questions.Answer[i].options.length == 0) {
+                                            let Question_answer = this.getAll_questions.Question[i]
+                                                .sensitivity ? this.getAll_questions.Question[i].answer :
+                                                this.getAll_questions.Question[i].answer != null && this
+                                                .getAll_questions.Question[i].answer != '' ? this
+                                                .getAll_questions.Question[i].answer.toLowerCase() : this
+                                                .getAll_questions.Question[i].answer;
+                                            if (Question_answer == student_ans) {
+                                                this.Check[i] = true;
+                                                this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                            } else {
+                                                this.Check[i] = false;
+                                            }
+                                        } else {
+                                            this.Check[i] = false;
+                                            this.getAll_questions.Answer[i].options.forEach(item => {
+                                                let Question_answer = this.getAll_questions.Question[i]
+                                                    .sensitivity ? item.Choice :
+                                                    item.Choice != null && item.Choice != '' ? item
+                                                    .Choice.toLowerCase() : item.Choice;
+                                                if (student_ans == Question_answer) {
+                                                    this.Check[i] = true;
+                                                   this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                                }
+
+                                            });
+                                        }
+
+                                    } else {
+                                        let Question_answer = this.getAll_questions.Question[i].sensitivity ?
+                                            this.getAll_questions.Question[i].answer :
+                                            this.getAll_questions.Question[i].answer != null && this
+                                            .getAll_questions.Question[i].answer != '' ? this.getAll_questions
+                                            .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
+                                                i].answer;
                                         if (Question_answer == student_ans) {
                                             this.Check[i] = true;
-                                            this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                             this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                         } else {
                                             this.Check[i] = false;
                                         }
-                                    } else {
-                                        this.Check[i] = false;
-                                        this.getAll_questions.Answer[i].options.forEach(item => {
-                                            let Question_answer = this.getAll_questions.Question[i]
-                                                .sensitivity ? item.Choice :
-                                                item.Choice != null && item.Choice != '' ? item.Choice
-                                                .toLowerCase() : item.Choice;
-                                            if (student_ans == Question_answer) {
-                                                this.Check[i] = true;
-                                                this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                            }
-
-                                        });
-                                    }
-
-                                } else {
-                                    let Question_answer = this.getAll_questions.Question[i].sensitivity ? this
-                                        .getAll_questions.Question[i].answer :
-                                        this.getAll_questions.Question[i].answer != null && this.getAll_questions
-                                        .Question[i].answer != '' ? this.getAll_questions.Question[i].answer
-                                        .toLowerCase() : this.getAll_questions.Question[i].answer;
-                                    if (Question_answer == student_ans) {
-                                        this.Check[i] = true;
-                                        this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                    } else {
-                                        this.Check[i] = false;
                                     }
                                 }
-
-                            } else if (this.getAll_questions.Question[i].type == 'Essay') {
+                                 else if (this.getAll_questions.Question[i].type == 'Essay') {
                                 this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                 this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
 
@@ -973,38 +1120,83 @@
                                     this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                 }
                             } else if (this.getAll_questions.Question[i].type == 'Matching type') {
+
                                 let Ans = new Array();
                                 let match_check = new Array();
                                 let counter = 0;
+                                let matchpoints = Math.round((this.getAll_questions.Question[i].points / this.getAll_questions.Answer[i].SubQuestion.length));
                                 this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
                                     for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
                                         .length; x++) {
-                                        if (this.getAll_questions.Answer[i].SubQuestion[x].id == item
-                                            .subquestion_id) {
-                                            Ans.push({
-                                                Ans_Letter: item.Ans_letter,
-                                                Answer: item.Answers,
-                                                SubQuestion: this.getAll_questions.Answer[i]
-                                                    .SubQuestion[x].sub_question,
-                                                SubChoice: this.getAll_questions.Answer[i].SubAnswer[x]
-                                                    .Choice,
-                                                Correct_Answer: null
-                                            })
-
-                                            if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item
-                                                .Answers) {
+                                        if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
+                                            item.subquestion_id) {
+                                            if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
                                                 match_check[counter] = true;
+                                                this.ViewDetails.points += matchpoints;
 
                                             } else {
                                                 match_check[counter] = false;
-                                                //Ans[x].Correct_Answer = this.Alphabet[x]
                                             }
                                         }
 
                                     }
                                     counter += 1;
-
                                 });
+
+
+                                let Ans_list = {};
+                                    Ans_list.SubQuestion = [];
+                                    Ans_list.SubAnswer = [];
+                                    let sub_ques_count = 0;
+
+                                    this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                                        this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
+                                            if(sub_ans.subquestion_id == subQuestion.id){
+                                                Ans_list.SubQuestion.push({
+                                                    Ans_Letter: sub_ans.Ans_letter,
+                                                    Answer: sub_ans.Answers,
+                                                    SubQuestion: subQuestion.sub_question,
+                                                    SubQuestion_id: subQuestion.id,
+                                                    is_correct: true,
+                                                    Correct_Answer: null
+                                                });
+                                            }
+                                        });
+                                    });
+                                    
+
+                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                                        let alpha_count = 0;
+                                         this.Alphabet.forEach(alpha => {
+                                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
+                                                  this.getAll_questions.Answer[i].SubAnswer.forEach(answer_list => {
+                                                    if(sub_ans.Ans_id == answer_list.id){
+                                                            Ans_list.SubAnswer[alpha_count] = {
+                                                            SubChoice: answer_list.Choice,
+                                                            SubChoice_id: answer_list.id,
+                                                            index: alpha_count
+                                                        }
+                                                    }
+                                                });                                                 
+                                             }
+                                             alpha_count++;
+                                         });
+                                    });
+
+                                    let des_count = 0;
+                                    for (let v = 0; v < Ans_list.SubAnswer.length; v++) {
+                                        if(Ans_list.SubAnswer[v] == null){
+                                            Ans_list.SubAnswer[v] = {
+                                                SubChoice: this.getAll_questions.Answer[i].Destructors[des_count].Choice,
+                                                SubChoice_id: this.getAll_questions.Answer[i].Destructors[des_count].id,
+                                                index: v
+                                            }
+                                           des_count++;
+                                        }
+                                    }
+
+
+
                                 let tmpChoices = new Array();
                                 this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
                                     this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
@@ -1017,11 +1209,11 @@
                                     })
                                 });
 
-                                for (let a = 0; a < Ans.length; a++) {
+                                /* for (let a = 0; a < Ans.length; a++) {
                                     Ans[a].SubChoice = tmpChoices[a].choice;
-                                }
+                                } */
 
-                                this.SubmittedAnswer[i] = Ans;
+                                this.SubmittedAnswer[i] = Ans_list;
                                 this.Check[i] = match_check;
                             }
                         }
@@ -1030,8 +1222,10 @@
 
                 }
 
+                this.fetchStudentActivity();
                 this.isLoaded = true;
                 this.ReSaveScore();
+                
 
 
             },

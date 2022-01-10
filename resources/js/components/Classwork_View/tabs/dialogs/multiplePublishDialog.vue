@@ -88,9 +88,10 @@
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
                                         class="mt-0 pt-0"
+                                        @input="setToDateStart()"
                                         :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        :date-picker-props="FromdateProps"
+                                        :time-picker-props="FromtimeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -116,10 +117,12 @@
                                  <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                      <v-datetime-picker label="To"
                                         v-model="to_date"
+                                        :disabled="from_date == null"
                                         class="Datetimepicker"
                                         :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        :date-picker-props="TodateProps"
+                                        :time-picker-props="TotimeProps"
+                                        @change="setToDateStart()"
                                         time-format="HH:mm"
                                         color="primary"
                                         >
@@ -188,10 +191,11 @@
                                     <v-col cols="6">
                                          <v-datetime-picker label="From"
                                             v-model="showAnswerDateFrom"
+                                            @input="setShowAnswerToDateStart()"
                                             class="mt-0 pt-0"
                                             :text-field-props="textFieldProps"
-                                            :date-picker-props="dateProps"
-                                            :time-picker-props="timeProps"
+                                            :date-picker-props="FromdateAnswerProps"
+                                            :time-picker-props="FromtimeAnswerProps"
                                             time-format="HH:mm"
                                             color="primary"
                                             > 
@@ -208,9 +212,10 @@
                                         <v-datetime-picker label="To"
                                         v-model="ShowAnswerDateTo"
                                         class="mt-0 pt-0"
+                                        :disabled="showAnswerDateFrom == null"
                                         :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        :date-picker-props="TodateAnswerProps"
+                                        :time-picker-props="TotimeAnswerProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -257,7 +262,7 @@ export default {
             ClassDetails:{},
             loading:false,
             duedate:null,
-            ShowAnswerDateFrom: null,
+            showAnswerDateFrom: null,
             ShowAnswerDateTo:null,
             from_date: null,
             to_date: null,
@@ -270,10 +275,48 @@ export default {
                 headerColor: 'primary',
                 min: moment(Date.now()).format('YYYY-MM-DD')
             },
+            FromdateProps: {
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+            },
+            FromdateAnswerProps: {
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+            },
+            TodateProps: {
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+            },
+            TodateAnswerProps: {
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+            },
+
             timeProps: {
                 useSeconds: false,
                 ampmInTitle: true
             },
+            FromtimeProps: {
+                useSeconds: false,
+                ampmInTitle: true,
+                min: null
+            },
+            FromtimeAnswerProps: {
+                useSeconds: false,
+                ampmInTitle: true,
+                min: null
+            },
+            TotimeProps: {
+                useSeconds: false,
+                ampmInTitle: true,
+                min: null
+            },
+            TotimeAnswerProps: {
+                useSeconds: false,
+                ampmInTitle: true,
+                min: null
+            },
+           
             showAns: false,
             ReviewAnswer: false,
             EnableDue: false,
@@ -331,8 +374,15 @@ export default {
             }
         },
         setToDateStart(){
-            this.to_date = this.from_date;
-            console.log('test');
+            this.to_date = moment(this.from_date).format('YYYY-MM-DD hh:mm');
+            this.TodateProps.min = moment(this.from_date).format('YYYY-MM-DD');
+            this.TotimeProps.min = moment(this.from_date).format('hh:mm');
+        },
+
+        setShowAnswerToDateStart(){
+            this.ShowAnswerDateTo = moment(this.showAnswerDateFrom).format('YYYY-MM-DD hh:mm');
+            this.TodateAnswerProps.min = moment(this.showAnswerDateFrom).format('YYYY-MM-DD');
+            this.TotimeAnswerProps.min = moment(this.showAnswerDateFrom).format('hh:mm');
         },
         shareClasswork(){
             if(this.availability == 'Set date & time'){
@@ -407,11 +457,6 @@ export default {
         
     },
     mounted(){
-        const Newdate = new Date();
-        this.from_date = Newdate;
-        this.to_date = Newdate;
-        this.showAnswerDateFrom = Newdate;
-        this.ShowAnswerDateTo = Newdate;
         this.getGradingCriteria();
         //this.getPublishDetails();
     }

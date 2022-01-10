@@ -9,7 +9,7 @@
                 v-if="dialog"></removeConfirmDialog>
             </v-dialog>
 
-            <v-dialog v-model="AddStudent" persistent max-width="600">
+            <v-dialog v-model="AddStudent" persistent max-width="450">
                 <addStudentDialog
                 v-on:toggleCancelDialog="AddStudent = !AddStudent"
                 v-on:toggleconfirm="AddStudent = !AddStudent"
@@ -83,12 +83,18 @@
                 <v-col   cols="12" >
                     <v-row>
                          <v-col cols="6" class=" pl-5 mb-0 pb-0 mt-0 pt-0 d-flex justify-start">
-                              <v-badge offset-x="13" offset-y="25" :color="getcourseInfo.join_request_count != 0 && !isShowJoinRequest ? 'red' : ''" 
-                                :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
-                                  <v-btn @click="isShowJoinRequest = !isShowJoinRequest" x-large icon><v-icon large>
-                                      
-                                      {{!isShowJoinRequest ? 'mdi-account-arrow-right-outline' : 'mdi-close'}}</v-icon></v-btn>
-                              </v-badge>
+                              
+
+                              <v-tooltip top>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <v-badge offset-x="13" offset-y="25" :color="getcourseInfo.join_request_count != 0 && !isShowJoinRequest ? 'red' : ''" 
+                                        :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
+                                        <v-btn v-bind="attrs" v-on="on" @click="isShowJoinRequest = !isShowJoinRequest" x-large icon><v-icon large>
+                                            {{!isShowJoinRequest ? 'mdi-account-arrow-right-outline' : 'mdi-close'}}</v-icon></v-btn>
+                                    </v-badge>
+                                </template>
+                                <span>{{!isShowJoinRequest ? 'Join Request' : 'Close'}}</span>
+                            </v-tooltip>
                             
                         </v-col>
                         <v-col cols="6" class=" mb-0 pb-0 mt-0 pt-0 d-flex justify-end">
@@ -125,7 +131,7 @@
                
                 <v-col v-if="!isGetting && !isShowJoinRequest"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                     <v-row>
-                        <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" v-show="item.class_id == Class_id || Class_id == $route.params.id" v-for="item in getAllStudents" v-bind:key="item.user_id">
+                        <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" md="4" lg="3" v-show="item.class_id == Class_id || Class_id == $route.params.id" v-for="item in getAllStudents" v-bind:key="item.user_id">
                               <v-list class="mb-0 pb-0">
                                 <v-list-item class="mb-0 pb-0" >
                                     <v-list-item-avatar color="secondary" >

@@ -398,7 +398,7 @@ class ClassworkController extends Controller
      */
     public function UpdatePublishClassworkDetails(Request $request,$id)
     {
-
+        //return $request;
         $UpdatePublishDetails = tbl_classClassworks::find($id);
         if($UpdatePublishDetails){
             //$UpdatePublishDetails->availability = $request->availability == 'Set Date' ? 1: 0;
@@ -411,8 +411,8 @@ class ClassworkController extends Controller
             
             if($request->showAnswer == true){
                 $UpdatePublishDetails->showAnswerType = $request->showAnswerType == 'Set Date' ? 1 : 0;
-                $UpdatePublishDetails->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateFrom : '';
-                $UpdatePublishDetails->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showAnswerDateTo : '';
+                $UpdatePublishDetails->showDateFrom = $request->showAnswerType == 'Set Date' ? $request->showDateFrom : '';
+                $UpdatePublishDetails->showDateTo = $request->showAnswerType == 'Set Date' ? $request->showDateTo : '';
             }
             $UpdatePublishDetails->response_late = $request->response_late == true ? 1 : 0;
             $UpdatePublishDetails->grading_criteria = $request->grading_criteria;

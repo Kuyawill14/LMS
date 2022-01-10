@@ -270,6 +270,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var previewTimer = function previewTimer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_TeacherQuizPreview_previewTimer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewTimer */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/previewTimer.vue"));
 };
@@ -657,30 +664,69 @@ var render = function() {
                                     "v-list-item-action-text",
                                     [
                                       _c(
-                                        "v-btn",
+                                        "v-tooltip",
                                         {
-                                          attrs: {
-                                            small: "",
-                                            text: "",
-                                            rounded: ""
-                                          },
-                                          on: {
-                                            click: function($event) {
-                                              return _vm.CloseDialog()
-                                            }
-                                          }
+                                          attrs: { bottom: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              small: "",
+                                                              color: "red",
+                                                              dark: "",
+                                                              rounded: ""
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.CloseDialog()
+                                                              }
+                                                            }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: { small: "" }
+                                                          },
+                                                          [_vm._v("mdi-close")]
+                                                        ),
+                                                        _vm._v(
+                                                          " Close\n                                            "
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            false,
+                                            4272770734
+                                          )
                                         },
                                         [
-                                          _c(
-                                            "v-icon",
-                                            { attrs: { small: "" } },
-                                            [_vm._v("mdi-close")]
-                                          ),
-                                          _vm._v(
-                                            " Close\n                                    "
-                                          )
-                                        ],
-                                        1
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("Close Preview")])
+                                        ]
                                       )
                                     ],
                                     1
@@ -1560,9 +1606,13 @@ var render = function() {
                                                                                               .$vuetify
                                                                                               .breakpoint
                                                                                               .mdAndUp
-                                                                                              ? "max-width:110px"
-                                                                                              : "max-width:80px",
+                                                                                              ? "max-width:80px"
+                                                                                              : "max-width:60px",
                                                                                             attrs: {
+                                                                                              outlined:
+                                                                                                "",
+                                                                                              dense:
+                                                                                                "",
                                                                                               "hide-details":
                                                                                                 ""
                                                                                             }
@@ -1578,7 +1628,7 @@ var render = function() {
                                                                                       "div",
                                                                                       {
                                                                                         staticClass:
-                                                                                          "d-flex flex-row mt-3"
+                                                                                          "d-flex flex-row mt-3 pl-2"
                                                                                       },
                                                                                       [
                                                                                         _c(

@@ -9,6 +9,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\tbl_notification;
+use App\Events\NewNotification;
+
 
 class SendClassworkNotification implements ShouldQueue
 {
@@ -46,5 +48,7 @@ class SendClassworkNotification implements ShouldQueue
         $newNotification->message =  $this->mesage;
         $newNotification->notification_type = $this->type;
         $newNotification->save();
+
+        broadcast(new NewNotification($newNotification))->toOthers();
     }
 }

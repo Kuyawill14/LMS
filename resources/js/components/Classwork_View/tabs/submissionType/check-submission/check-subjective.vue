@@ -95,9 +95,10 @@
                                                             <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                              <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
-                                                        <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
+                                                        <v-list-item-action style="width:25% !important"  v-if="CheckData.status == 'Submitted'" class="mt-8">
                                                             <v-form ref="pointsform" v-model="valid" lazy-validation>
                                                                 <v-text-field rounded 
+                                                                style="width:100% !important"
                                                                 :hide-details="valid"
                                                                 :loading="isSavingScore" 
                                                                 :rules="pointsRules"
@@ -290,11 +291,22 @@
                                         </div>
 
                                         <div v-if="!isOpening && OpenFileType == 'document'">
-                                            <iframe title="google pdf viewer" id="pdf-iframe" 
+                                        
+
+                                            <iframe v-if="OpenFileExtension == 'docx' || OpenFileExtension == 'doc'" title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
+                                            :src="'https://view.officeapps.live.com/op/embed.aspx?src='+path"
+                                         
+                                            style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
+
+
+                                            <pdfviewer  style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"
+                                            v-else-if="OpenFileExtension == 'pdf'" 
+                                            :pdf_file="path"/>
+
+                                            <iframe v-else title="google pdf viewer" 
                                             :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + path" 
                                             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                             style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
-                                           <!--   <iframe  style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;" :src="`${path}`" ></iframe>   -->
                                         </div> 
                     
                                         <div v-if="!isOpening && OpenFileType == 'link'">
@@ -366,10 +378,13 @@
 import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
 const resetConfirmation = () => import('../../dialogs/resetConfirmation')
+const pdfviewer = () => import('./pdfviewer');
+
   export default {
     props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex'],
     components:{
-        resetConfirmation
+        resetConfirmation,
+        pdfviewer
     },
     data () {
       return {
@@ -391,6 +406,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
         RubricsPoints:[],
         SaveRubricsData: [],
         OpenFileType: null,
+        OpenFileExtension: null,
         isOpening: true,
         SelectedNav: 0,
         isReloadRubrics: false,
@@ -541,10 +557,12 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
               this.isOpening = true;
               if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
                   this.OpenFileType = 'media';
+                  this.OpenFileExtension = extension;
                   this.path = link.replace('.cdn', '');
                  setTimeout(() => (this.isOpening = false), 500);
               }
               else if(extension == 'link'){
+                  this.OpenFileExtension = extension;
                   this.OpenFileType = 'link';
                     let str = link;
                     if(str.includes('www.youtube.com') || str.includes('m.youtube.com' )){
@@ -569,6 +587,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                   setTimeout(() => (this.isOpening = false), 500);
               }
               else{
+                  this.OpenFileExtension = extension;
                   this.OpenFileType = 'document'
                   this.path = link.replace('.cdn', '');
                  setTimeout(() => (this.isOpening = false), 500);
@@ -678,12 +697,14 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
+                 this.OpenFileExtension = extension;
                 this.OpenFileType = 'media';
                   this.path = path;
                   this.isOpening = false
               }
                else if(extension == 'link'){
                   this.OpenFileType = 'link';
+                  this.OpenFileExtension = extension;
                   let str = path;
                   if(str.includes('www.youtube.com')){
                     let res = str.split("=");
@@ -702,14 +723,11 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
                   this.isOpening = false
               }
               else {
+                this.OpenFileExtension = extension;
                 this.OpenFileType = 'document'
-                  this.path = path;
-                  this.isOpening = false
+                this.path = path;
+                this.isOpening = false
               }
-            //var host = window.location.protocol + "//" + window.location.host;
-               ////console.log(host)
-            //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
-            //this.pdf_path = path;
         }
         this.checkRubrics();
         this.$emit('isMounted');

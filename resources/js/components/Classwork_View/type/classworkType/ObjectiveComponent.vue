@@ -173,7 +173,7 @@
                                 <v-row style="height:4vh"></v-row>
                                 <v-divider v-if="classworkDetails.status == 'Submitted'"></v-divider>
                             </v-col>
-                            <v-col cols="12">
+                            <v-col cols="12" class="">
                                 <v-container ma-0 pa-0 class="d-flex flex-row justify-space-between">
                                     <v-btn class="mx-2" fab dark color="primary">
                                         <v-icon large>
@@ -189,7 +189,7 @@
                                         <div v-if="classworkDetails.status != 'Submitted'" class="caption ml-2">Due
                                             {{ classworkDetails.availability ? format_date(classworkDetails.to_date) : 'always Available'}}
                                         </div>
-                                        <div v-else class="caption ml-2">Submitted:
+                                        <div v-else class="caption ml-2 pr-1"><span class="font-weight-medium">Submitted:</span> 
                                             {{format_date(classworkDetails.Submitted_at)}}</div>
                                     </div>
                                 </v-container>
@@ -253,11 +253,24 @@
                                     <v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                 </v-btn>
 
-                                <v-btn :block="!$vuetify.breakpoint.mdAndUp "
-                                    v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1"
-                                    @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
-                                    Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                </v-btn>
+                               
+                                <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
+                                     <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                        v-if="classworkDetails.showAnswerType == 0"
+                                        @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
+                                        Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    </v-btn>
+
+                                    <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                        v-if="classworkDetails.showAnswerType == 1 && (format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.showDateFrom) && 
+                                        format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.showDateTo) )"
+                                        @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">
+                                        View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    </v-btn>
+
+                                </div>
+
+
                             </v-col>
 
                             <v-col v-else-if="classworkDetails.availability == 1" cols="12"
@@ -281,11 +294,26 @@
                                             Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                         </v-btn>
 
-                                        <v-btn :block="!$vuetify.breakpoint.mdAndUp "
-                                            v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1"
-                                            @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">
-                                            View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                        </v-btn>
+                                    
+
+                                          <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
+                                            <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                                v-if="classworkDetails.showAnswerType == 0"
+                                                @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
+                                                Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                            </v-btn>
+
+                                            <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                                v-if="classworkDetails.showAnswerType == 1 && (format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.showDateFrom) && 
+                                                format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.showDateTo) )"
+                                                @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">
+                                                View Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                            </v-btn>
+                                        </div>
+
+                                     
+
+                                        
                                     </v-col>
                                     <v-col v-else cols="12">
                                         <v-btn v-if="classworkDetails.publish == null"
@@ -435,7 +463,7 @@
             format_date(value) {
                 if (value) {
                     //return moment(String(value)).format('dddd, h:mm a')
-                    return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
+                    return moment(String(value)).tz("Asia/Manila").format('MMMM, D YYYY, h:mm a');
 
                 }
             },

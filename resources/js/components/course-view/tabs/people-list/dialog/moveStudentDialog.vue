@@ -3,10 +3,21 @@
 <v-card>
     <v-form class="text-center" ref="InviteForm" v-model="valid" lazy-validation>
         <v-card-title >
-            <v-btn  @click="$emit('toggleCancelDialog')" icon>
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-            Move Student
+             Move Student
+            <v-spacer></v-spacer>
+
+             <v-tooltip nudge-top top>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs"  v-on="on" @click="$emit('toggleCancelDialog')" icon>
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </template>
+                <span>Cancel</span>
+            </v-tooltip>
+
+
+          
+           
         </v-card-title>
         <v-card-text>
             <v-container ma-0 pa-0>

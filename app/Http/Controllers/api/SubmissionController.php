@@ -5,10 +5,13 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Models\tbl_Submission;
 use App\Models\tbl_userclass;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use App\Models\tbl_notification;
+use App\Models\UserNotification;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_student_course_subject_grades;
@@ -16,6 +19,8 @@ use App\Models\tbl_student_main_grades;
 use App\Models\tbl_comment;
 use App\Models\tbl_Submitted_Answer;
 use Carbon\Carbon;
+use App\Events\NewNotification;
+use App\Mail\SendWorkGradedMail;
 
 class SubmissionController extends Controller
 {
@@ -215,7 +220,19 @@ class SubmissionController extends Controller
         //return $request;
         $UpdateScore = tbl_Submission::find($id);
         if($UpdateScore){
-            $UpdateScore->graded = 1;
+
+            $isNew;
+            if($UpdateScore->graded){
+                $isNew = false;
+                // $this->CreateGradedNoitification($isNew, );
+            }
+            else{
+                $isNew = true;
+                $UpdateScore->graded = 1;
+
+                $this->CreateGradedNoitification($isNew, $UpdateScore->user_id, $UpdateScore->classwork_id, );
+            }
+
             $UpdateScore->points = $request->score;
             if($request->data != false){
                 $UpdateScore->rubrics_score = serialize($request->data) ;
@@ -224,9 +241,9 @@ class SubmissionController extends Controller
             $userId = $UpdateScore->user_id;
             $classwork_id = $UpdateScore->classwork_id;
             
-            
 
-
+        
+           
 
             return 'Score Updated!';
         }
@@ -256,4 +273,33 @@ class SubmissionController extends Controller
     {
         //
     }
+
+    public function CreateGradedNoitification($isNew, $Suser_submission_id, $classwork_id)
+    {
+        $userId = auth('sanctum')->id();
+        $classwork = tbl_classwork::find($classwork_id);
+    
+        if($isNew){
+            $newNotification = new tbl_notification;
+            $newNotification->user_id_to = $Suser_submission_id;
+            $newNotification->from_id =  $userId;
+            $newNotification->from_course = $classwork->course_id;
+            $newNotification->message = "Graded your work in ".$classwork->title." classwork";
+            $newNotification->notification_attachments = $classwork_id;
+            $newNotification->notification_type = 3;
+            $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
+
+            $mailDetails = tbl_classwork::where('tbl_classworks.id', $classwork_id)
+            ->select('users.email','tbl_classworks.title','tbl_classworks.course_id', 'tbl_classworks.id')
+            ->leftJoin('users','users.id','=', 'tbl_classworks.user_id')
+            ->first();
+            $userDetails  = auth('sanctum')->user()->tbl_userDetails;
+            $url = "/classwork"."/".$mailDetails->course_id."/classwork-details?clwk=".$mailDetails->id;
+            Mail::to($mailDetails->email)->send(new SendWorkGradedMail($userDetails->lastName, $mailDetails->title, $url));
+            
+        }   
+       
+    }
+
 }

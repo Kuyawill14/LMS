@@ -157,7 +157,7 @@ class AnnouncementController extends Controller
         $newNotification->save(); */
           
 
-         /*  broadcast(new NewNotification($newNotification))->toOthers(); */
+          
           
 
 

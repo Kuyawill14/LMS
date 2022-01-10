@@ -35,7 +35,7 @@ class SendClassNotificationEmail extends Mailable
     public function build()
     {
         return $this->view('EmailTemplates.NewClasswork')
-                    ->subject('Orange Instrutor '.$this->lastName)
+                    ->subject('ISUE-ORANGE Instrutor '.$this->lastName)
                     ->with([
                         'title' => $this->title,
                         'instruction' => $this->instruction,

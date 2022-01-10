@@ -11,9 +11,9 @@ class tbl_notification extends Model
 {
     use HasFactory;
 
-    protected $dispatchesEvents = [
+    /* protected $dispatchesEvents = [
 
         'created' => NewNotification::class,
         
-    ];
+    ]; */
 }

@@ -70,10 +70,11 @@
                                  <v-col cols="6" class="mt-0 pt-0 mb-0 pb-0">
                                       <v-datetime-picker label="From"
                                         v-model="from_date"
+                                        @input="setToDateStart()"
                                         class="mt-0 pt-0"
                                         :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        :date-picker-props="FromdateProps"
+                                        :time-picker-props="FromtimeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         > 
@@ -101,8 +102,8 @@
                                         v-model="to_date"
                                         class="Datetimepicker"
                                         :text-field-props="textFieldProps"
-                                        :date-picker-props="dateProps"
-                                        :time-picker-props="timeProps"
+                                        :date-picker-props="TodateProps"
+                                        :time-picker-props="TotimeProps"
                                         time-format="HH:mm"
                                         color="primary"
                                         >
@@ -258,10 +259,30 @@ export default {
                 headerColor: 'primary',
                 min: moment(Date.now()).format('YYYY-MM-DD')
             },
+            FromdateProps: {
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+            },
+            TodateProps: {
+                headerColor: 'primary',
+                min: moment(Date.now()).format('YYYY-MM-DD')
+            },
             timeProps: {
                 useSeconds: false,
                 ampmInTitle: true
             },
+            FromtimeProps: {
+                useSeconds: false,
+                ampmInTitle: true,
+                min: null
+            },
+            TotimeProps: {
+                useSeconds: false,
+                ampmInTitle: true,
+                min: null
+            },
+           
+
             showAns: false,
             ReviewAnswer: false,
             EnableDue: false,
@@ -318,8 +339,8 @@ export default {
             }
         },
         setToDateStart(){
-            this.to_date = this.from_date;
-            console.log('test');
+            this.to_date = moment(this.from_date).format('YYYY-MM-DD hh:mm');
+            this.TodateProps = moment(this.from_date).format('YYYY-MM-DD hh:mm');
         },
         shareClasswork(){
             if(this.availability == 'Set date & time'){

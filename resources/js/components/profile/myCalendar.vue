@@ -130,7 +130,7 @@
                       </v-btn>
                     </v-toolbar>
                     <v-card-text >
-       
+                      
                         <div v-if="selectedEvent.type == 'classwork'"> <span class="font-weight-bold">Due date: </span> {{format_date(selectedEvent.end)}}</div>
                           <div v-if="selectedEvent.type == 'class_sched'"> 
                             <span class="font-weight-bold">{{selectedEvent.day}} </span> 

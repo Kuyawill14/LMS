@@ -205,6 +205,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };
@@ -509,7 +515,7 @@ var render = function() {
         _c(
           "v-dialog",
           {
-            attrs: { persistent: "", "max-width": "600" },
+            attrs: { persistent: "", "max-width": "450" },
             model: {
               value: _vm.AddStudent,
               callback: function($$v) {
@@ -683,49 +689,96 @@ var render = function() {
                       },
                       [
                         _c(
-                          "v-badge",
+                          "v-tooltip",
                           {
-                            attrs: {
-                              "offset-x": "13",
-                              "offset-y": "25",
-                              color:
-                                _vm.getcourseInfo.join_request_count != 0 &&
-                                !_vm.isShowJoinRequest
-                                  ? "red"
-                                  : "",
-                              content:
-                                _vm.getcourseInfo.join_request_count != 0
-                                  ? _vm.getcourseInfo.join_request_count
-                                  : ""
-                            }
+                            attrs: { top: "" },
+                            scopedSlots: _vm._u([
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-badge",
+                                      {
+                                        attrs: {
+                                          "offset-x": "13",
+                                          "offset-y": "25",
+                                          color:
+                                            _vm.getcourseInfo
+                                              .join_request_count != 0 &&
+                                            !_vm.isShowJoinRequest
+                                              ? "red"
+                                              : "",
+                                          content:
+                                            _vm.getcourseInfo
+                                              .join_request_count != 0
+                                              ? _vm.getcourseInfo
+                                                  .join_request_count
+                                              : ""
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "v-btn",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                attrs: {
+                                                  "x-large": "",
+                                                  icon: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.isShowJoinRequest = !_vm.isShowJoinRequest
+                                                  }
+                                                }
+                                              },
+                                              "v-btn",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              { attrs: { large: "" } },
+                                              [
+                                                _vm._v(
+                                                  "\n                                        " +
+                                                    _vm._s(
+                                                      !_vm.isShowJoinRequest
+                                                        ? "mdi-account-arrow-right-outline"
+                                                        : "mdi-close"
+                                                    )
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ]
+                                }
+                              }
+                            ])
                           },
                           [
-                            _c(
-                              "v-btn",
-                              {
-                                attrs: { "x-large": "", icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.isShowJoinRequest = !_vm.isShowJoinRequest
-                                  }
-                                }
-                              },
-                              [
-                                _c("v-icon", { attrs: { large: "" } }, [
-                                  _vm._v(
-                                    "\n                                  \n                                  " +
-                                      _vm._s(
-                                        !_vm.isShowJoinRequest
-                                          ? "mdi-account-arrow-right-outline"
-                                          : "mdi-close"
-                                      )
-                                  )
-                                ])
-                              ],
-                              1
-                            )
-                          ],
-                          1
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  !_vm.isShowJoinRequest
+                                    ? "Join Request"
+                                    : "Close"
+                                )
+                              )
+                            ])
+                          ]
                         )
                       ],
                       1
@@ -835,7 +888,7 @@ var render = function() {
                             ],
                             key: item.user_id,
                             staticClass: "mb-0 pb-0 mt-0 pt-0",
-                            attrs: { cols: "12" }
+                            attrs: { cols: "12", md: "4", lg: "3" }
                           },
                           [
                             _c(

@@ -22,11 +22,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
 use App\Mail\AlertStudentMail;
+use App\Mail\SendWorkGradedMail;
 use App\Jobs\ProcessEmails;
 use Carbon\Carbon;
 use App\Events\NewUserCLass;
 use App\Jobs\DeleteUploadedFiles;
 use App\Jobs\AlertSelectedStudents;
+use App\Events\NewNotification;
 
 
 
@@ -74,6 +76,7 @@ class TeacherController extends Controller
             $newNotification->notification_attachments = $request->course_id;
             $newNotification->notification_type = 3;
             $newNotification->save();
+            broadcast(new NewNotification($newNotification))->toOthers();
             return;
         }
         else{

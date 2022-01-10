@@ -778,9 +778,17 @@
                             } else if (this.getAll_questions.Question[index].type == 'Matching type') {
                                 let Ans = new Array();
                                 let Choices_id = new Array();
+                                let Quest_Pattern = {};
+                                Quest_Pattern.SubQuestion = [];
+                                Quest_Pattern.SubAnswer = [];
+
+
                                 this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
                                     Choices_id.push({
                                         choice_id: item.id
+                                    })
+                                    Quest_Pattern.SubAnswer.push({
+                                        id: item.id
                                     })
                                 });
 
@@ -791,11 +799,15 @@
                                         subquestion_id: item.id,
                                         Answers: ''
                                     })
+                                    Quest_Pattern.SubQuestion.push({
+                                        id: item.id
+                                    })
                                 });
 
                                 this.FinalAnswers.push({
                                     Answer: Ans,
                                     Choices_id: Choices_id,
+                                    question_pattern: Quest_Pattern,
                                     Question_id: this.getAll_questions.Question[index].id,
                                     type: this.getAll_questions.Question[index].type,
                                     timeConsume: null
@@ -830,10 +842,17 @@
                             } else if (this.getAll_questions.Question[index].type == 'Matching type') {
                                 let Ans = new Array();
                                 let Choices_id = new Array();
+                                let Quest_Pattern = {};
+                                Quest_Pattern.SubQuestion = [];
+                                Quest_Pattern.SubAnswer = [];
 
                                 this.getAll_questions.Answer[index].SubAnswer.forEach(item => {
                                     Choices_id.push({
                                         choice_id: item.id
+                                    })
+
+                                    Quest_Pattern.SubAnswer.push({
+                                        id: item.id
                                     })
                                 });
 
@@ -844,11 +863,15 @@
                                         subquestion_id: item.id,
                                         Answers: ''
                                     })
+                                    Quest_Pattern.SubQuestion.push({
+                                        id: item.id
+                                    })
                                 });
 
                                 this.FinalAnswers.push({
                                     Answer: Ans,
                                     Choices_id: Choices_id,
+                                    question_pattern: Quest_Pattern,
                                     Question_id: this.getAll_questions.Question[index].id,
                                     type: this.getAll_questions.Question[index].type,
                                     timeConsume: null
@@ -878,10 +901,17 @@
                                     } else if (this.getAll_questions.Question[x].type == 'Matching type') {
                                         let Ans = new Array();
                                         let Choices_id = new Array();
+                                        let Quest_Pattern = {};
+                                        Quest_Pattern.SubQuestion = [];
+                                        Quest_Pattern.SubAnswer = [];
+
 
                                         this.getAll_questions.Answer[x].SubAnswer.forEach(item => {
                                             Choices_id.push({
                                                 choice_id: item.id
+                                            })
+                                            Quest_Pattern.SubAnswer.push({
+                                                id: item.id
                                             })
                                         });
 
@@ -894,23 +924,18 @@
                                                 subquestion_id: item.id,
                                                 Answers: AnswersList[j].Answer[counter].Answers,
                                             })
+
+                                            Quest_Pattern.SubQuestion.push({
+                                                id: item.id
+                                            })
                                             counter++;
+
+
                                         });
-
-
-
-
-                                        /*     AnswersList[j].Answer.forEach(item => {
-                                               Ans.push({
-                                                   Ans_letter: item.Ans_letter,
-                                                   Ans_id: item.Ans_id,
-                                                   subquestion_id: item.subquestion_id,
-                                                   Answers: item.Answers
-                                               })
-                                            }); */
                                         this.FinalAnswers.push({
                                             Answer: Ans,
                                             Choices_id: Choices_id,
+                                            question_pattern: Quest_Pattern,
                                             Question_id: AnswersList[j].Question_id,
                                             type: AnswersList[j].type,
                                             timeConsume: AnswersList[j].timeConsume

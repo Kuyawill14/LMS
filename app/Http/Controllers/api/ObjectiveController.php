@@ -21,6 +21,7 @@ use App\Models\tbl_userDetails;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use App\Events\NewNotification;
 
 class ObjectiveController extends Controller
 {
@@ -123,6 +124,8 @@ class ObjectiveController extends Controller
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                     ->where('tbl_choices.isDestructor', true)
                     ->get();
+
+
                     }
                     
                 $tmp =  ['options'=> [], "SubQuestion"=>$temQues , "SubAnswer"=>$tempAns, "Destructors"=>$Destructors];
@@ -146,50 +149,202 @@ class ObjectiveController extends Controller
         $checkShowAnswer = tbl_classClassworks::withTrashed()
         ->where('id', $class_clwk_Id)
         ->first();
-        if($checkShowAnswer->showAnswer == true && $checkShowAnswer->showAnswerType == 0){
-            $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
-            'tbl_questions.answer','tbl_questions.points')
-            ->orderBy('created_at','DESC')
-            ->get();
 
-            $temQuest = $Questions;
+        if($checkShowAnswer->showAnswer == true){
 
-            $tempQuestion = new Collection();
-            $tempAnswer = new Collection();
-    
-            foreach($temQuest as $cl){
-               
-                $tempData1;
-                $tempData1;
-                $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
-                ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+            $temQuest1;
+            if($checkShowAnswer->showAnswerType == false){
+
+                $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+                ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
+                'tbl_questions.answer','tbl_questions.points')
+                ->orderBy('created_at','DESC')
                 ->get();
-    
-                if($cl->type != 'Matching type'){
 
-                   
-                    $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
-                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                    ->get();
+                $temQuest = $Questions;        
+                foreach($temQuest as $cl){
                 
-                    $FinalAnswer[] =  $tempData1;
-                }
-                else{
-                    $tempData1 = [];
-                    $tmp = array();
-                    foreach($tempSubQuestion as $item){
-                        $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                    $tempData1;
+                    $tempData1;
+                    $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                    ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                    ->get();
+        
+                    if($cl->type != 'Matching type'){
+                        $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
                         ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
-                        ->first();
-                        if(auth('sanctum')->user()->role == 'Student'){
-                            $item->answer_id = null;
+                        ->where('tbl_choices.isDestructor', false)
+                        ->get();
+                    
+                        $FinalAnswer[] =  $tempData1;
+                    }
+                    else{
+                        $tempData1 = [];
+                        $tmp = array();
+                        foreach($tempSubQuestion as $item){
+                            $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', false)
+                            ->first();
+
+                            if(auth('sanctum')->user()->role == 'Student'){
+                                $item->answer_id = null;
+                            }
+                        }
+                        
+
+
+                        $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', true)
+                            ->get();
+
+                            foreach($destruc as $des){
+                                array_push($tempData1, $des);
+                            }
+
+                        $tmp =  ["SubQuestion"=>$tempSubQuestion , "SubAnswer"=>$tempData1];
+                        $FinalAnswer[] = $tmp;
+                    }
+                }
+
+                $temQuest = $temQuest1;
+
+            }
+            else if($checkShowAnswer->showAnswerType == true){
+
+                if((date('Y-m-d H:i:s') >= $checkShowAnswer->showDateFrom) && (date('Y-m-d H:i:s') <= $checkShowAnswer->showDateTo)){
+
+                    $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
+                    'tbl_questions.answer','tbl_questions.points')
+                    ->orderBy('created_at','DESC')
+                    ->get();
+                    $temQuest = $Questions;
+
+            
+                    foreach($temQuest as $cl){
+                    
+                        $tempData1;
+                        $tempData1;
+                        $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                        ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question','tbl_sub_questions.answer_id')
+                        ->get();
+            
+                        if($cl->type != 'Matching type'){
+
+
+                            $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', false)
+                            ->get();
+                        
+                            $FinalAnswer[] =  $tempData1;
+                        }
+                        else{
+                            $tempData1 = [];
+                            $tmp = array();
+                            foreach($tempSubQuestion as $item){
+                                $tempData1[] = $data = tbl_choice::where('tbl_choices.id',$item->answer_id)
+                                ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                                ->where('tbl_choices.isDestructor', false)
+                                ->first();
+
+                                if(auth('sanctum')->user()->role == 'Student'){
+                                    $item->answer_id = null;
+                                }
+                            }
+
+                            $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', true)
+                            ->get();
+
+                            foreach($destruc as $des){
+                                array_push($tempData1, $des);
+                            }
+
+                            $tmp =  ["SubQuestion"=>$tempSubQuestion , "SubAnswer"=>$tempData1];
+                            $FinalAnswer[] = $tmp;
                         }
                     }
-                    $tmp =  ["SubQuestion"=>$tempSubQuestion , "SubAnswer"=>$tempData1];
-                    $FinalAnswer[] = $tmp;
                 }
+                else{
+                    $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
+                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity')
+                    ->orderBy('created_at','DESC')
+                    ->get();
+                    $temQuest = $Questions;            
+                    foreach($temQuest as $cl){
+                    
+                        $tempData1;
+                        $tempSubQuestion;
+                        if(auth('sanctum')->user()->role == 'Student'){
+                            $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', false)
+                            ->get();
+            
+                            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                            ->select('tbl_sub_questions.id','tbl_sub_questions.sub_question')
+                            ->get();
+                        }
+                        else{
+                            $tempData1 = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', false)
+                            ->get();
+            
+                            $tempSubQuestion = tbl_SubQuestion::where('tbl_sub_questions.mainQuestion_id',$cl->id)
+                            ->select('tbl_sub_questions.id','tbl_sub_questions.answer_id','tbl_sub_questions.sub_question')
+                            ->get();
+                        }
+            
+            
+                        if($cl->type != 'Matching type'){
+                            $tempData2;
+                            if(auth('sanctum')->user()->role == 'Student'){
+                                $tempData2  = $tempData1;
+                            }
+                            else{
+                                $tempData2 = $tempData1;
+                            }
+                            $FinalAnswer[] =  $tempData2;
+                        }
+                        else{
+                            $tmp = array();
+                            if(auth('sanctum')->user()->role == 'Student'){
+                                $tempAns =  $tempData1;
+                                $temQues = $tempSubQuestion;
+                            }
+                            else{
+                                $tempAns =  $tempData1;
+                                $temQues = $tempSubQuestion;  
+                            } 
+
+                            $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                            ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                            ->where('tbl_choices.isDestructor', true)
+                            ->get();
+
+                            foreach($destruc as $des){
+                                array_push($tempAns, $des);
+                            }
+
+                            $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
+                            $FinalAnswer[] = $tmp;    
+                        }     
+                    }
+
+                }
+
+                
+
             }
+
+
+
+            
             
         }
         else{
@@ -199,8 +354,6 @@ class ObjectiveController extends Controller
             ->get();
             $temQuest = $Questions;
 
-            $tempQuestion = new Collection();
-            $tempAnswer = new Collection();
     
             foreach($temQuest as $cl){
                
@@ -1313,6 +1466,7 @@ class ObjectiveController extends Controller
              $CheckNotif->from_id =  $userId;
              $CheckNotif->updated_at =  date('Y-m-d H:i:s');
              $CheckNotif->save();
+             broadcast(new NewNotification($CheckNotif))->toOthers();
          }
          else{
              $newNotification = new tbl_notification;
@@ -1330,6 +1484,7 @@ class ObjectiveController extends Controller
              $newNotification->notification_attachments = $classwork_id;
              $newNotification->notification_type = 6;
              $newNotification->save();
+             broadcast(new NewNotification($newNotification))->toOthers();
          }
     }
 

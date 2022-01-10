@@ -164,7 +164,7 @@
             <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
-          <v-btn @click="SaveAllQuestion" dark text v-if="!$vuetify.breakpoint.mdAndUp">
+          <v-btn  @click="SaveAllQuestion" dark text v-if="!$vuetify.breakpoint.mdAndUp && isNewChanges">
            
             Save
         </v-btn>
@@ -559,8 +559,8 @@
                                         </v-col>
 
 
-                                        <v-col  cols="12" class="ma-0 pa-0 text-left pb-2 pt-3">
-                                            <v-btn @click="AddDestructor(mainIndex,item.id )" small color="primary" rounded>
+                                        <v-col v-if="!isHaveSubmission" cols="12" class="ma-0 pa-0 text-left pb-2 pt-3">
+                                            <v-btn  @click="AddDestructor(mainIndex,item.id )" small color="primary" rounded>
                                                 <v-icon left>mdi-plus</v-icon>
                                                Add Additional Answer/Destructors
                                            </v-btn>

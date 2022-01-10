@@ -357,67 +357,73 @@ var render = function() {
                         },
                         [
                           _c("div", [
-                            _c("h3", { staticClass: "font-weight-regular" }, [
+                            _c("h3", { staticClass: "font-weight-medium" }, [
                               _vm._v("Intructor")
                             ])
                           ])
                         ]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "v-list",
-                            { staticClass: "mb-0 pb-0" },
-                            _vm._l(_vm.instructor, function(item) {
-                              return _c(
-                                "v-list-item",
-                                { key: item.user_id, staticClass: "mb-0 pb-0" },
-                                [
-                                  _c(
-                                    "v-list-item-avatar",
-                                    { attrs: { color: "secondary" } },
-                                    [
-                                      _c("v-img", {
-                                        attrs: {
-                                          src:
-                                            item.profile_pic == null ||
-                                            item.profile_pic == ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                (item.firstName +
-                                                  " " +
-                                                  item.lastName)
-                                              : item.profile_pic
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(
-                                          _vm._s(item.firstName) +
-                                            " " +
-                                            _vm._s(item.lastName)
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            }),
-                            1
-                          )
-                        ],
-                        1
-                      ),
+                      _vm._l(_vm.instructor, function(item) {
+                        return _c(
+                          "v-col",
+                          {
+                            key: item.user_id,
+                            staticClass: "ma-0 pa-0",
+                            attrs: { cols: "12", md: "4", lg: "3" }
+                          },
+                          [
+                            _c(
+                              "v-list",
+                              { staticClass: "mb-0 pb-0" },
+                              [
+                                _c(
+                                  "v-list-item",
+                                  { staticClass: "mb-0 pb-0" },
+                                  [
+                                    _c(
+                                      "v-list-item-avatar",
+                                      { attrs: { color: "secondary" } },
+                                      [
+                                        _c("v-img", {
+                                          attrs: {
+                                            src:
+                                              item.profile_pic == null ||
+                                              item.profile_pic == ""
+                                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                  (item.firstName +
+                                                    " " +
+                                                    item.lastName)
+                                                : item.profile_pic
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v(
+                                            _vm._s(item.firstName) +
+                                              " " +
+                                              _vm._s(item.lastName)
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      }),
                       _vm._v(" "),
                       _c(
                         "v-col",
@@ -434,69 +440,75 @@ var render = function() {
                         },
                         [
                           _c("div", [
-                            _c("h3", { staticClass: "font-weight-regular" }, [
+                            _c("h3", { staticClass: "font-weight-medium" }, [
                               _vm._v("Classmates")
                             ])
                           ])
                         ]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-col",
-                        { staticClass: "ma-0 pa-0", attrs: { cols: "12" } },
-                        [
-                          _c(
-                            "v-list",
-                            { staticClass: "mb-0 pb-0" },
-                            _vm._l(_vm.students, function(item) {
-                              return _c(
-                                "v-list-item",
-                                { key: item.user_id, staticClass: "mb-0 pb-0" },
-                                [
-                                  _c(
-                                    "v-list-item-avatar",
-                                    { attrs: { color: "secondary" } },
-                                    [
-                                      _c("v-img", {
-                                        attrs: {
-                                          src:
-                                            item.profile_pic == null ||
-                                            item.profile_pic == ""
-                                              ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                                (item.firstName +
-                                                  " " +
-                                                  item.lastName)
-                                              : item.profile_pic
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title", [
-                                        _vm._v(
-                                          _vm._s(item.firstName) +
-                                            " " +
-                                            _vm._s(item.lastName)
-                                        )
-                                      ])
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            }),
-                            1
-                          )
-                        ],
-                        1
-                      )
+                      _vm._l(_vm.students, function(item) {
+                        return _c(
+                          "v-col",
+                          {
+                            key: item.user_id,
+                            staticClass: "ma-0 pa-0",
+                            attrs: { cols: "12", md: "4", lg: "3" }
+                          },
+                          [
+                            _c(
+                              "v-list",
+                              { staticClass: "mb-0 pb-0" },
+                              [
+                                _c(
+                                  "v-list-item",
+                                  { staticClass: "mb-0 pb-0" },
+                                  [
+                                    _c(
+                                      "v-list-item-avatar",
+                                      { attrs: { color: "secondary" } },
+                                      [
+                                        _c("v-img", {
+                                          attrs: {
+                                            src:
+                                              item.profile_pic == null ||
+                                              item.profile_pic == ""
+                                                ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
+                                                  (item.firstName +
+                                                    " " +
+                                                    item.lastName)
+                                                : item.profile_pic
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item-content",
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v(
+                                            _vm._s(item.firstName) +
+                                              " " +
+                                              _vm._s(item.lastName)
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      })
                     ],
-                    1
+                    2
                   )
                 ],
                 1

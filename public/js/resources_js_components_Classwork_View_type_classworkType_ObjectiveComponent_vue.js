@@ -385,6 +385,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -455,7 +483,7 @@ var viewSubmission = function viewSubmission() {
     format_date: function format_date(value) {
       if (value) {
         //return moment(String(value)).format('dddd, h:mm a')
-        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MMMM, D YYYY, h:mm a');
       }
     },
     comment_date: function comment_date(value) {
@@ -1739,11 +1767,19 @@ var render = function() {
                                                     "div",
                                                     {
                                                       staticClass:
-                                                        "caption ml-2"
+                                                        "caption ml-2 pr-1"
                                                     },
                                                     [
+                                                      _c(
+                                                        "span",
+                                                        {
+                                                          staticClass:
+                                                            "font-weight-medium"
+                                                        },
+                                                        [_vm._v("Submitted:")]
+                                                      ),
                                                       _vm._v(
-                                                        "Submitted:\n                                        " +
+                                                        " \n                                        " +
                                                           _vm._s(
                                                             _vm.format_date(
                                                               _vm
@@ -2092,38 +2128,109 @@ var render = function() {
                                             "Submitted" &&
                                           _vm.classworkDetails.reviewAnswer == 1
                                             ? _c(
-                                                "v-btn",
-                                                {
-                                                  attrs: {
-                                                    block: !_vm.$vuetify
-                                                      .breakpoint.mdAndUp,
-                                                    rounded: "",
-                                                    color: "primary"
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.isViewingSubmission = !_vm.isViewingSubmission
-                                                    }
-                                                  }
-                                                },
+                                                "div",
                                                 [
-                                                  _vm._v(
-                                                    "View\n                                Submission"
-                                                  ),
-                                                  _c(
-                                                    "v-icon",
-                                                    {
-                                                      attrs: {
-                                                        right: "",
-                                                        dark: ""
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "mdi-book-arrow-right-outline"
+                                                  _vm.classworkDetails
+                                                    .showAnswerType == 0
+                                                    ? _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: {
+                                                            block: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
+                                                            rounded: "",
+                                                            color: "primary"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "View\n                                    Submission"
+                                                          ),
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                right: "",
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-book-arrow-right-outline"
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
                                                       )
-                                                    ]
-                                                  )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.classworkDetails
+                                                    .showAnswerType == 1 &&
+                                                  _vm.format_date1(
+                                                    _vm.classworkDetails
+                                                      .currentDate
+                                                  ) >=
+                                                    _vm.format_date1(
+                                                      _vm.classworkDetails
+                                                        .showDateFrom
+                                                    ) &&
+                                                    _vm.format_date1(
+                                                      _vm.classworkDetails
+                                                        .currentDate
+                                                    ) <=
+                                                      _vm.format_date1(
+                                                        _vm.classworkDetails
+                                                          .showDateTo
+                                                      )
+                                                    ? _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: {
+                                                            block: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
+                                                            rounded: "",
+                                                            color: "primary"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                    View Submission"
+                                                          ),
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                right: "",
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-book-arrow-right-outline"
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
                                                 ],
                                                 1
                                               )
@@ -2279,42 +2386,127 @@ var render = function() {
                                                       _vm.classworkDetails
                                                         .reviewAnswer == 1
                                                         ? _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                block: !_vm
-                                                                  .$vuetify
-                                                                  .breakpoint
-                                                                  .mdAndUp,
-                                                                rounded: "",
-                                                                color: "primary"
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  _vm.isViewingSubmission = !_vm.isViewingSubmission
-                                                                }
-                                                              }
-                                                            },
+                                                            "div",
                                                             [
-                                                              _vm._v(
-                                                                "\n                                        View Submission"
-                                                              ),
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  attrs: {
-                                                                    right: "",
-                                                                    dark: ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "mdi-book-arrow-right-outline"
+                                                              _vm
+                                                                .classworkDetails
+                                                                .showAnswerType ==
+                                                              0
+                                                                ? _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      attrs: {
+                                                                        block: !_vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .mdAndUp,
+                                                                        rounded:
+                                                                          "",
+                                                                        color:
+                                                                          "primary"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "View\n                                            Submission"
+                                                                      ),
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            right:
+                                                                              "",
+                                                                            dark:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-book-arrow-right-outline"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
                                                                   )
-                                                                ]
-                                                              )
+                                                                : _vm._e(),
+                                                              _vm._v(" "),
+                                                              _vm
+                                                                .classworkDetails
+                                                                .showAnswerType ==
+                                                                1 &&
+                                                              _vm.format_date1(
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .currentDate
+                                                              ) >=
+                                                                _vm.format_date1(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .showDateFrom
+                                                                ) &&
+                                                                _vm.format_date1(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .currentDate
+                                                                ) <=
+                                                                  _vm.format_date1(
+                                                                    _vm
+                                                                      .classworkDetails
+                                                                      .showDateTo
+                                                                  )
+                                                                ? _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      attrs: {
+                                                                        block: !_vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .mdAndUp,
+                                                                        rounded:
+                                                                          "",
+                                                                        color:
+                                                                          "primary"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                                            View Submission"
+                                                                      ),
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            right:
+                                                                              "",
+                                                                            dark:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-book-arrow-right-outline"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                : _vm._e()
                                                             ],
                                                             1
                                                           )

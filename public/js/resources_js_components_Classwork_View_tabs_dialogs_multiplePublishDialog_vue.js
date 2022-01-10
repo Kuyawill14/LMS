@@ -267,6 +267,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['multiplePublishDetails'],
@@ -278,7 +283,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       ClassDetails: {},
       loading: false,
       duedate: null,
-      ShowAnswerDateFrom: null,
+      showAnswerDateFrom: null,
       ShowAnswerDateTo: null,
       from_date: null,
       to_date: null,
@@ -291,9 +296,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         headerColor: 'primary',
         min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
       },
+      FromdateProps: {
+        headerColor: 'primary',
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+      },
+      FromdateAnswerProps: {
+        headerColor: 'primary',
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+      },
+      TodateProps: {
+        headerColor: 'primary',
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+      },
+      TodateAnswerProps: {
+        headerColor: 'primary',
+        min: moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(Date.now()).format('YYYY-MM-DD')
+      },
       timeProps: {
         useSeconds: false,
         ampmInTitle: true
+      },
+      FromtimeProps: {
+        useSeconds: false,
+        ampmInTitle: true,
+        min: null
+      },
+      FromtimeAnswerProps: {
+        useSeconds: false,
+        ampmInTitle: true,
+        min: null
+      },
+      TotimeProps: {
+        useSeconds: false,
+        ampmInTitle: true,
+        min: null
+      },
+      TotimeAnswerProps: {
+        useSeconds: false,
+        ampmInTitle: true,
+        min: null
       },
       showAns: false,
       ReviewAnswer: false,
@@ -351,8 +392,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     setToDateStart: function setToDateStart() {
-      this.to_date = this.from_date;
-      console.log('test');
+      this.to_date = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).format('YYYY-MM-DD hh:mm');
+      this.TodateProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).format('YYYY-MM-DD');
+      this.TotimeProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.from_date).format('hh:mm');
+    },
+    setShowAnswerToDateStart: function setShowAnswerToDateStart() {
+      this.ShowAnswerDateTo = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).format('YYYY-MM-DD hh:mm');
+      this.TodateAnswerProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).format('YYYY-MM-DD');
+      this.TotimeAnswerProps.min = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(this.showAnswerDateFrom).format('hh:mm');
     },
     shareClasswork: function shareClasswork() {
       if (this.availability == 'Set date & time') {
@@ -461,11 +508,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    var Newdate = new Date();
-    this.from_date = Newdate;
-    this.to_date = Newdate;
-    this.showAnswerDateFrom = Newdate;
-    this.ShowAnswerDateTo = Newdate;
     this.getGradingCriteria(); //this.getPublishDetails();
   }
 });
@@ -23001,10 +23043,17 @@ var render = function() {
                                             label: "From",
                                             "text-field-props":
                                               _vm.textFieldProps,
-                                            "date-picker-props": _vm.dateProps,
-                                            "time-picker-props": _vm.timeProps,
+                                            "date-picker-props":
+                                              _vm.FromdateProps,
+                                            "time-picker-props":
+                                              _vm.FromtimeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              return _vm.setToDateStart()
+                                            }
                                           },
                                           model: {
                                             value: _vm.from_date,
@@ -23056,12 +23105,20 @@ var render = function() {
                                           staticClass: "Datetimepicker",
                                           attrs: {
                                             label: "To",
+                                            disabled: _vm.from_date == null,
                                             "text-field-props":
                                               _vm.textFieldProps,
-                                            "date-picker-props": _vm.dateProps,
-                                            "time-picker-props": _vm.timeProps,
+                                            "date-picker-props":
+                                              _vm.TodateProps,
+                                            "time-picker-props":
+                                              _vm.TotimeProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
+                                          },
+                                          on: {
+                                            change: function($event) {
+                                              return _vm.setToDateStart()
+                                            }
                                           },
                                           model: {
                                             value: _vm.to_date,
@@ -23247,10 +23304,17 @@ var render = function() {
                                             label: "From",
                                             "text-field-props":
                                               _vm.textFieldProps,
-                                            "date-picker-props": _vm.dateProps,
-                                            "time-picker-props": _vm.timeProps,
+                                            "date-picker-props":
+                                              _vm.FromdateAnswerProps,
+                                            "time-picker-props":
+                                              _vm.FromtimeAnswerProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
+                                          },
+                                          on: {
+                                            input: function($event) {
+                                              return _vm.setShowAnswerToDateStart()
+                                            }
                                           },
                                           model: {
                                             value: _vm.showAnswerDateFrom,
@@ -23299,10 +23363,14 @@ var render = function() {
                                           staticClass: "mt-0 pt-0",
                                           attrs: {
                                             label: "To",
+                                            disabled:
+                                              _vm.showAnswerDateFrom == null,
                                             "text-field-props":
                                               _vm.textFieldProps,
-                                            "date-picker-props": _vm.dateProps,
-                                            "time-picker-props": _vm.timeProps,
+                                            "date-picker-props":
+                                              _vm.TodateAnswerProps,
+                                            "time-picker-props":
+                                              _vm.TotimeAnswerProps,
                                             "time-format": "HH:mm",
                                             color: "primary"
                                           },

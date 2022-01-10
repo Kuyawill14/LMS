@@ -120,6 +120,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['MoveDetails'],
@@ -320,20 +331,48 @@ var render = function() {
           _c(
             "v-card-title",
             [
+              _vm._v("\r\n             Move Student\r\n            "),
+              _c("v-spacer"),
+              _vm._v(" "),
               _c(
-                "v-btn",
+                "v-tooltip",
                 {
-                  attrs: { icon: "" },
-                  on: {
-                    click: function($event) {
-                      return _vm.$emit("toggleCancelDialog")
+                  attrs: { "nudge-top": "", top: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function(ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-btn",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  attrs: { icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.$emit("toggleCancelDialog")
+                                    }
+                                  }
+                                },
+                                "v-btn",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [_c("v-icon", [_vm._v("mdi-close")])],
+                            1
+                          )
+                        ]
+                      }
                     }
-                  }
+                  ])
                 },
-                [_c("v-icon", [_vm._v("mdi-close")])],
-                1
-              ),
-              _vm._v("\r\n            Move Student\r\n        ")
+                [_vm._v(" "), _c("span", [_vm._v("Cancel")])]
+              )
             ],
             1
           ),

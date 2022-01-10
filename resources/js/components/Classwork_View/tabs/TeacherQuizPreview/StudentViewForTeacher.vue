@@ -21,9 +21,14 @@
                             </v-list-item-content>
                                 <v-list-item-action>
                                     <v-list-item-action-text>
-                                        <v-btn  @click="CloseDialog()" small text rounded >
-                                            <v-icon small>mdi-close</v-icon> Close
-                                        </v-btn>  
+                                        <v-tooltip bottom>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                <v-btn v-bind="attrs"  v-on="on"  @click="CloseDialog()" small color="red" dark rounded >
+                                                    <v-icon small>mdi-close</v-icon> Close
+                                                </v-btn> 
+                                            </template>
+                                            <span>Close Preview</span>
+                                        </v-tooltip>
                                     </v-list-item-action-text>
                                         <v-spacer></v-spacer>
                                      <previewTimer  :duration="classworkDetails.duration" ></previewTimer>
@@ -175,12 +180,14 @@
                                                                         <v-col class="d-flex flex-row pa-0" cols="12" v-for="(List, i) in Question.Answer[index].SubQuestion" :key="List.id" >
                                                                             <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
                                                                                 <v-text-field 
-                                                                                :style="$vuetify.breakpoint.mdAndUp ? 'max-width:110px' : 'max-width:80px'"
+                                                                                outlined
+                                                                                dense
+                                                                                :style="$vuetify.breakpoint.mdAndUp ? 'max-width:80px' : 'max-width:60px'"
                                                                                 hide-details
                                                                                 class="centered-input pt-0 mt-0">
                                                                                 </v-text-field>
                                                                             </div>
-                                                                            <div class="d-flex flex-row mt-3"> 
+                                                                            <div class="d-flex flex-row mt-3 pl-2"> 
                                                                                 <span class="font-weight-medium mr-1">{{(i+1+'. ')}}</span>
                                                                                 <span v-html="List.sub_question" class="subquestion-content"></span>
                                                                             </div>

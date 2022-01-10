@@ -5,15 +5,17 @@
 
         <v-container fluid ma-0 pa-0>
             <v-row no-gutters>
-                <v-col  v-if="!get_Viewing" cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'ma-0 pa-0 mt-0 pt-0' : 'ma-0 pa-0 mt-0 pt-0 pr-7 d-flex'">
-                     <v-tooltip v-if="$vuetify.breakpoint.mdAndUp" top>
+                <v-col  v-if="!get_Viewing" cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-0 pt-0' : 'mt-0 pt-0'">
+                    <v-card elevation="2" class="d-flex pa-1" outlined>
+
+                       <v-tooltip v-if="$vuetify.breakpoint.mdAndUp" top>
                             <template v-slot:activator="{ on, attrs }">
                                 <v-btn rounded
                                     v-bind="attrs"
                                     v-on="on"
                                     icon 
                                     text 
-                                     v-if="$vuetify.breakpoint.mdAndUp"
+                                        v-if="$vuetify.breakpoint.mdAndUp"
                                     :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ?  'mb-0 pb-0' : ' mt-1 ml-2'"
                                     @click="$router.push({name: 'classwork'})" >
                                 <v-icon dark>mdi-arrow-left-thick</v-icon>
@@ -21,50 +23,48 @@
                             </template>
                             <span>Back to classworks</span>
                         </v-tooltip>
-                  
-            
-                <v-tabs   rounded v-if="classworkDetails.type == 'Objective Type'"
-                next-icon="mdi-arrow-right-bold-box-outline"
-                prev-icon="mdi-arrow-left-bold-box-outline"
-                show-arrows 
-                :icons-and-text="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
-                centered
-               fixed-tabs
-                 v-model="activeTab">
                 
-                        <v-tabs-slider color="primary"></v-tabs-slider>  
-                        <v-tab class="d-flex justify-center" v-for="(item,index) in ObjectIveTabs" :key="index"
-                        :to="{name: item.name, query: {clwk: $route.query.clwk}}">
-                          <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
-                         <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
-                            {{item.icon}}
-                        </v-icon>
-                      <!--   {{$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : item.text}} -->
-                            
-                        </v-tab>  
-                 </v-tabs>
-                
-                 <v-tabs  rounded v-if="classworkDetails.type == 'Subjective Type' && $vuetify.breakpoint.mdAndUp "
-                next-icon="mdi-arrow-right-bold-box-outline"
-                prev-icon="mdi-arrow-left-bold-box-outline"
-                show-arrows  
-                :icons-and-text="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
-                fixed-tabs
-                centered
-                v-model="activeTab">
-                        <v-tabs-slider color="primary"></v-tabs-slider>  
-                        <v-tab class="d-flex justify-center" v-for="(item,index) in SubjectiveTabs" :key="index"
-                        :to="{name: item.name, query: {clwk: $route.query.clwk}}">
-                        <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
-                        <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
-                            {{item.icon}}
-                        </v-icon>
+                    <v-tabs   rounded v-if="classworkDetails.type == 'Objective Type'"
+                    next-icon="mdi-arrow-right-bold-box-outline"
+                    prev-icon="mdi-arrow-left-bold-box-outline"
+                    show-arrows 
+                    :icons-and-text="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+                    centered
+                    fixed-tabs
+                    v-model="activeTab">
                     
-                        </v-tab>  
-                </v-tabs>
+                            <v-tabs-slider color="primary"></v-tabs-slider>  
+                            <v-tab class="d-flex justify-center" v-for="(item,index) in ObjectIveTabs" :key="index"
+                            :to="{name: item.name, query: {clwk: $route.query.clwk}}">
+                            <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
+                            <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
+                                {{item.icon}}
+                            </v-icon>
+                            </v-tab>  
+                    </v-tabs>
+                    
+                        <v-tabs   rounded v-if="classworkDetails.type == 'Subjective Type' && $vuetify.breakpoint.mdAndUp "
+                        next-icon="mdi-arrow-right-bold-box-outline"
+                        prev-icon="mdi-arrow-left-bold-box-outline"
+                        show-arrows  
+                        :icons-and-text="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+                        fixed-tabs
+                        centered
+                        v-model="activeTab">
+                                <v-tabs-slider color="primary"></v-tabs-slider>  
+                                <v-tab class="d-flex justify-center" v-for="(item,index) in SubjectiveTabs" :key="index"
+                                :to="{name: item.name, query: {clwk: $route.query.clwk}}">
+                                <div :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'line-height: 1.2' : ''" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'text-caption' : ''">{{item.text}}</div>
+                                <v-icon :right="!$vuetify.breakpoint.xs || !$vuetify.breakpoint.sm ">
+                                    {{item.icon}}
+                                </v-icon>
+                            
+                                </v-tab>  
+                        </v-tabs>
+                    </v-card>
                   </v-col>
-                  <v-col class="ma-0" cols="12">
-                       <v-divider v-if="!get_Viewing"></v-divider>
+                  <v-col class="ml-0 mr-0 mb-0 mt-1" cols="12">
+                   
                         <v-tabs-items :value="activeTab">
                         <div :class="!get_Viewing ? 'mt-3' : 'mt-0 pt-0'" >
                             <router-view :totalPoints="totalPoints" :totalQuestion="totalQuestion" :classworkDetails="classworkDetails"></router-view>
