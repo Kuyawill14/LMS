@@ -472,13 +472,17 @@ var render = function() {
                   attrs: { justify: "center", align: "center" }
                 },
                 [
-                  _c("v-col", { attrs: { cols: "1" } }, [
-                    _c("h2", { staticClass: "pb-0" }, [_vm._v(" Materials")])
-                  ]),
+                  _c(
+                    "v-col",
+                    {
+                      staticClass: "pl-1",
+                      attrs: { lg: "1", md: "2", sm: "3" }
+                    },
+                    [_c("h2", { staticClass: "pb-0" }, [_vm._v(" Materials")])]
+                  ),
                   _vm._v(" "),
                   _c(
                     "v-col",
-                    { staticClass: "text-left" },
                     [
                       _c(
                         "v-btn",

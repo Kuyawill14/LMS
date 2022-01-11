@@ -1420,42 +1420,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1553,6 +1517,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   methods: (_methods = {
+    moduleStatus: function moduleStatus(_module) {
+      if (_module.isPublished == 1) {
+        if (_module.date_from != null && _module.date_to != null) {
+          return 'Published (' + this.format_date(_module.date_from, true) + ' - ' + this.format_date(_module.date_to, true) + ')';
+        } else {
+          return 'Always Availabe';
+        }
+      } else {
+        return 'Not Published';
+      }
+    },
     availabilitySelection: function availabilitySelection(selection) {
       if (selection == this.radioAvailability[0] || selection == this.radioAvailability[1]) {
         if (selection == this.radioAvailability[0]) {
@@ -1562,12 +1537,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         return 1;
       } else {
+        this.publishSettings.date_from = null;
+        this.publishSettings.date_to = null;
         return 0;
       }
     },
-    openPublishSettings: function openPublishSettings(module_name, module_id, isPublished) {
-      this.publishSettings.module_name = module_name;
-      this.publishSettings.module_id = module_id;
+    resetPublishSettings: function resetPublishSettings() {
+      this.availability = this.radioAvailability[0];
+      this.publishFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD');
+      this.publishTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD');
+    },
+    openPublishSettings: function openPublishSettings(main_module) {
+      this.publishSettings.module_name = main_module.module_name;
+      this.publishSettings.module_id = main_module.id;
+
+      if (main_module.isPublished == 1) {
+        this.publishFrom = main_module.date_from;
+        this.publishTo = main_module.date_to;
+
+        if (main_module.date_from != null && main_module.date_to != null) {
+          this.availability = this.radioAvailability[1];
+        } else {
+          this.availability = this.radioAvailability[0];
+          this.publishFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD');
+          this.publishTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD');
+        }
+      } else {
+        this.availability = this.radioAvailability[2];
+        this.publishFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD');
+        this.publishTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD');
+      } // this.availability = main_module.isPublished;
+
+
       this.publishDialog = true;
     },
     savePublishSettings: function savePublishSettings() {
@@ -1576,21 +1577,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.publishSettings.date_from = this.publishFrom;
       this.publishSettings.date_to = this.publishTo;
       this.publishSettings.isPublished = this.availabilitySelection(this.availability);
-      console.log(this.publishSettings);
+      console.log(this.availabilitySelection(this.availability));
       this.isPublishing = true;
       axios.post("/api/main_module/publish/".concat(this.publishSettings.module_id), {
         publishSettings: this.publishSettings
       }).then(function (res) {
-        if (_this.publishSettings.isPublished == 1) {
-          _this.toastSuccess(_this.publishSettings.module_name + ' Successfully Published');
+        _this.isPublishing_id = _this.publishSettings.module_id;
 
-          _this.isPublishing = false;
-          _this.isPublishing_id = _this.publishSettings.module_id;
-        } else {
-          _this.toastSuccess(_this.publishSettings.module_name + ' Successfully Unpublished');
+        var foundIndex = _this.getmain_module.findIndex(function (element) {
+          return element.id === _this.publishSettings.module_id;
+        });
 
-          _this.isPublishing = false;
-        }
+        _this.getmain_module[foundIndex].isPublished = _this.publishSettings.isPublished;
+        _this.getmain_module[foundIndex].date_from = _this.publishSettings.date_from;
+        _this.getmain_module[foundIndex].date_to = _this.publishSettings.date_to;
+        _this.isPublishing = false;
+
+        _this.toastSuccess('Publish Settings have been saved!');
+
+        _this.publishDialog = false;
+      })["catch"](function (err) {
+        _this.toastError('Something went wrong, refresh the page and try again.');
       });
     },
     deleteModule: function deleteModule() {
@@ -1603,10 +1610,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     showHandler: function showHandler() {
       localStorage.setItem("tip_module_show", !this.tipCheckBox);
     },
-    format_date: function format_date(value) {
-      if (value) {
-        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
+    format_date: function format_date(value, publish_format) {
+      if (publish_format == true) {
+        return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM D, YYYY');
       }
+
+      return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM D, YYYY hh:mm A');
     },
     onEnd: function onEnd() {
       var _this3 = this;
@@ -1777,7 +1786,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".flip-list-move {\n  transition: transform 0.5s !important;\n}\n.no-move {\n  transition: transform 0s !important;\n}\n.pannel-btn {\n  position: absolute;\n  top: 15px;\n  right: 47px;\n  z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n  padding: 0 !important;\n}\n.ghost {\n  border-left: 10px solid #cecece !important;\n}\n.module-switch {\n  position: absolute;\n  right: 111px;\n  bottom: 19px;\n  z-index: 1000;\n}\n.published_module {\n  border-left: 6px #66BB6A solid;\n}\n.not_published_module {\n  padding-left: 10px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".flip-list-move {\n  transition: transform 0.5s !important;\n}\n.no-move {\n  transition: transform 0s !important;\n}\n.pannel-btn {\n  position: absolute;\n  top: 15px;\n  right: 47px;\n  z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n  padding: 0 !important;\n}\n.ghost {\n  border-left: 10px solid #cecece !important;\n}\n.module-switch {\n  position: absolute;\n  right: 111px;\n  bottom: 23px;\n  z-index: 1000;\n}\n.published_module {\n  border-left: 6px #66BB6A solid;\n}\n.not_published_module {\n  padding-left: 10px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38341,6 +38350,7 @@ var render = function() {
                                 _vm._v(" "),
                                 _c(
                                   "v-list-item",
+                                  { staticClass: "pl-1 " },
                                   [
                                     _c(
                                       "v-list-item-avatar",
@@ -38369,7 +38379,14 @@ var render = function() {
                                       [
                                         _c("v-list-item-title", [
                                           _vm._v(
-                                            " " + _vm._s(itemModule.module_name)
+                                            " " +
+                                              _vm._s(itemModule.module_name) +
+                                              "\n                                            (" +
+                                              _vm._s(
+                                                _vm.getSub_module(itemModule.id)
+                                                  .length
+                                              ) +
+                                              ") "
                                           )
                                         ]),
                                         _vm._v(" "),
@@ -38380,9 +38397,7 @@ var render = function() {
                                             _vm._v(
                                               " Status:\n                                            " +
                                                 _vm._s(
-                                                  itemModule.isPublished == 1
-                                                    ? "Published"
-                                                    : "Published"
+                                                  _vm.moduleStatus(itemModule)
                                                 ) +
                                                 "\n                                        "
                                             )
@@ -38636,9 +38651,7 @@ var render = function() {
                                                           $event
                                                         ) {
                                                           return _vm.openPublishSettings(
-                                                            itemModule.module_name,
-                                                            itemModule.id,
-                                                            itemModule.isPublished
+                                                            itemModule
                                                           )
                                                         }
                                                       },
@@ -38655,7 +38668,7 @@ var render = function() {
                                                       1
                                                         ? _c("v-icon", [
                                                             _vm._v(
-                                                              "\n                                                   mdi-publish\n                                                "
+                                                              "\n                                                    mdi-publish\n                                                "
                                                             )
                                                           ])
                                                         : _vm._e(),
@@ -38715,141 +38728,6 @@ var render = function() {
                       _c(
                         "v-expansion-panel-content",
                         [
-                          _vm.getSub_module(itemModule.id).length >= 7
-                            ? _c(
-                                "v-list-item",
-                                [
-                                  _c(
-                                    "v-list-item-content",
-                                    [
-                                      _c("v-list-item-title"),
-                                      _vm._v(" "),
-                                      _c("v-list-item-subtitle")
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "v-list-item-action",
-                                    [
-                                      _c(
-                                        "v-menu",
-                                        {
-                                          attrs: {
-                                            transition: "slide-y-transition",
-                                            bottom: ""
-                                          },
-                                          scopedSlots: _vm._u(
-                                            [
-                                              {
-                                                key: "activator",
-                                                fn: function(ref) {
-                                                  var on = ref.on
-                                                  var attrs = ref.attrs
-                                                  return [
-                                                    _c(
-                                                      "v-btn",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {
-                                                            staticClass:
-                                                              "secondary",
-                                                            attrs: { tile: "" }
-                                                          },
-                                                          "v-btn",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      ),
-                                                      [
-                                                        _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: { left: "" }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                mdi-plus\n                                            "
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(
-                                                          "\n                                            Add item\n                                        "
-                                                        )
-                                                      ],
-                                                      1
-                                                    )
-                                                  ]
-                                                }
-                                              }
-                                            ],
-                                            null,
-                                            true
-                                          )
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c(
-                                            "v-list",
-                                            [
-                                              _c(
-                                                "v-list-item",
-                                                {
-                                                  attrs: { link: "" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.addFileBtn(
-                                                        itemModule.id
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-list-item-title", [
-                                                    _vm._v("File")
-                                                  ])
-                                                ],
-                                                1
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "v-list-item",
-                                                {
-                                                  attrs: { link: "" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.addLinkBtn(
-                                                        itemModule.id
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("v-list-item-title", [
-                                                    _vm._v("Link")
-                                                  ])
-                                                ],
-                                                1
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        ],
-                                        1
-                                      )
-                                    ],
-                                    1
-                                  )
-                                ],
-                                1
-                              )
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _vm.getSub_module(itemModule.id).length >= 7
-                            ? _c("v-divider")
-                            : _vm._e(),
-                          _vm._v(" "),
                           _vm._l(_vm.getSub_module(itemModule.id), function(
                             itemSubModule,
                             i
@@ -38858,7 +38736,7 @@ var render = function() {
                               "v-list-item",
                               {
                                 key: "Submodule" + i,
-                                staticClass: "pl-8",
+                                staticClass: "pl-10",
                                 attrs: { link: "" }
                               },
                               [
@@ -39714,7 +39592,11 @@ var render = function() {
                   _c(
                     "v-btn",
                     {
-                      attrs: { color: "primary", text: "" },
+                      attrs: {
+                        color: "primary",
+                        loading: _vm.isPublishing,
+                        text: ""
+                      },
                       on: {
                         click: function($event) {
                           return _vm.savePublishSettings()
