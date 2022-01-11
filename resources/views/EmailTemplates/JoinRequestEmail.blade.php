@@ -25,7 +25,10 @@
             width: 250px;        
             border: 5px solid black;
         }    
-       
+        .box_small{
+            height: 70px;
+            margin-top: 8px;
+        }
     </style>
 </head>
 
@@ -57,27 +60,28 @@
                                 </tr>
                                 <tr>
                                     <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:30px;font-family:'Rubik',sans-serif;">Your work is graded!</h1>
+                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:25px;font-family:'Rubik',sans-serif;">A student is requesting to join your course</h1>
                                         <p style="color:#455056; font-size:13px;line-height:24px; margin:0; margin-top:5px">
-                                            <span style="font-weight: bold">ISUE-ORANGE Instructor {{$name}}</span> graded your work.
+                                            <span style="font-weight: bold">{{$name}}</span>  want's to join your <span style="font-weight: bold">{{$course_name}} - {{$class_name}}</span>.
                                         </p>
-                                        <hr>
-                                        <br>
-                                        <h1 style="color:#1e1e2d; font-weight:350; margin:0;font-size:19px;font-family:'Rubik',sans-serif;">{{$classwork_name}}</h1>
-                                         <div class="main_container" style="padding-left: 0;padding-top:0" >
+                                        <div class="content" style="color:#455056; font-size:13px;; margin:0;margin-top:0px;">
+                                         
+                                         <div class="main_container" style="padding-left: 1rem" >
                                              <div class="box_small">
-                                                <span style="font-size:5rem;color:#4CAF50"> &#128462;</span>
-                                            </div>N
-                                             <div style="margin-top: 40px;margin-left:10px">
-                                                 <span style="font-size:14px;font-weight:900;">Assigned by</span><br>
-                                                 <span style="font-size:14px;">ISUE-ORANGE Instructor {{$name}}</span>
+                                                <img class="user_img"
+                                                src="{{$profile}}">
+                                            </div>
+                                             <div style="margin-top: 23px;margin-left:10px">
+                                                 <span style="font-size:14px;font-weight:900;">{{$name}}</span><br>
+                                                {{--  <span style="font-weight:bold;">Request Date: </span><span>January 11, 2020</span> --}}
                                              </div>
                                          </div>
-                                        
+                                        </div>
+
                                         <p style="font-size: 35px;margin-top: 0px;margin-bottom: 0px;">  </strong></p >
                                         <a href="{{url($url)}}"
                                             style="text-align:center;background:#FF5400;width: 10rem;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
-                                            View
+                                            View Request
                                         </a>
                                     </td>
                                 </tr>

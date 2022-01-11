@@ -115,6 +115,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -127,6 +135,7 @@ __webpack_require__.r(__webpack_exports__);
         class_name: '',
         course_id: null,
         auto_accept: false,
+        meet_link: '',
         schedule: []
       },
       items: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -235,6 +244,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     DeleteSchedule: function DeleteSchedule(index) {
       this.form.schedule.splice(index, 1);
+    },
+    copyLink: function copyLink() {
+      var expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www|meet\.[^\s]+\.[^\s]{2,})/gi;
+      var matches = this.form.meet_link.match(expression);
+      this.form.meet_link = matches[0];
     }
   }
 });
@@ -442,6 +456,50 @@ var render = function() {
                             _vm.$set(_vm.form, "class_name", $$v)
                           },
                           expression: "form.class_name"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { staticClass: "pa-0 ma-0 mt-2", attrs: { cols: "12" } },
+                    [
+                      _c("small", { staticClass: "text-caption" }, [
+                        _vm._v("Generate Google Meet Link here: "),
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href: "http://meet.google.com/new",
+                              target: "_blank"
+                            }
+                          },
+                          [_vm._v("meet.google.com/new ")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        staticClass: "mt-1",
+                        attrs: {
+                          "hide-details": "",
+                          outlined: "",
+                          color: "primary",
+                          label: "Video Conference Link (optional)",
+                          type: "url"
+                        },
+                        on: {
+                          change: function($event) {
+                            return _vm.copyLink()
+                          }
+                        },
+                        model: {
+                          value: _vm.form.meet_link,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "meet_link", $$v)
+                          },
+                          expression: "form.meet_link"
                         }
                       })
                     ],

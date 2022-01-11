@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
 use App\Mail\AlertStudentMail;
-use App\Mail\SendWorkGradedMail;
 use App\Jobs\ProcessEmails;
 use Carbon\Carbon;
 use App\Events\NewUserCLass;

@@ -16,6 +16,7 @@ use App\Models\tbl_Submission;
 use App\Events\NewNotification;
 use App\Events\JoinRequest;
 use App\Models\tbl_teacher_course;
+use App\Models\tbl_subject_course;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_userDetails;
@@ -23,7 +24,7 @@ use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_join_request;
 use Carbon\Carbon;
 use App\Mail\SendSubmittedWorkMail;
-
+use App\Mail\SendRequestJoinMail;
 
 
 class StudentController extends Controller
@@ -424,6 +425,7 @@ class StudentController extends Controller
             $url = "/classwork"."/".$mailDetails->course_id."/submission-list?clwk=".$mailDetails->id;
             $profile = $userDetails->profile_pic == null ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' : $userDetails->profile_pic;
             Mail::to($mailDetails->email)->send(new SendSubmittedWorkMail($name, $profile, $mailDetails->title, $date_submitted, $url));
+           
         }
     
             return $SubmitSubj;
@@ -795,11 +797,28 @@ class StudentController extends Controller
                 $new_request->class_id = $Class->id;
                 $new_request->save();
 
+
+
+                $mailDetails = tbl_teacher_course::where('tbl_teacher_courses.course_id', $Class->course_id)
+                ->select('users.email', 'tbl_subject_courses.course_name','tbl_subject_courses.id')
+                ->leftJoin('users', 'users.id','=', 'tbl_teacher_courses.user_id')
+                ->leftJoin('tbl_subject_courses', 'tbl_subject_courses.id','=', 'tbl_teacher_courses.course_id')
+                ->first();
+
+                $userDetails  = auth('sanctum')->user()->tbl_userDetails;
+                $name = $userDetails->firstName.' '.$userDetails->lastName;
+                $url = "/course"."/".$mailDetails->id."/people";
+                $profile = $userDetails->profile_pic == null ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' : $userDetails->profile_pic;
+                Mail::to($mailDetails->email)->send(new SendRequestJoinMail($name, $profile, $mailDetails->course_name, $Class->class_name , $url));
+
                 $this->NotifyTeacher($Class->id, 'request', $userId, $Class->course_id);
                 return response()->json([
                 'course_id'=>$new_request->course_id, 
                 'status'=> 2, 
                 'message'=>"Please wait for your instructor to accept you in the class!"],200);
+
+
+
             }
         }
            
@@ -812,78 +831,6 @@ class StudentController extends Controller
 
         
         $course_status = $this->NotifyTeacher($Class->id, 'joined', $userId, $Class->course_id);
-
-
-       /*  $userInClass = DB::table('tbl_userclasses')
-        ->select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')
-        ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
-        ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-        ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
-        ->where('users.role', 'Teacher')
-        ->where('tbl_userclasses.class_id', $JoinClass->class_id)
-        ->first();
-
-        
-        $userCount = DB::table('tbl_userclasses')->whereNull('deleted_at')
-        ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
-        ->where('users.role', 'Student')
-        ->where('tbl_userclasses.class_id', $JoinClass->class_id)
-        ->count();
-        
-
-        $CheckNotif = tbl_notification::where('course_id', $userInClass->course_id)
-        ->where('class_id', $JoinClass->class_id)->where('notification_type', 2)
-        ->first();
-
-        $user = tbl_userDetails::where('user_id', $userId)
-        ->select('firstName', 'lastName')
-        ->first();
-
-        if($CheckNotif){
-            $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
-
-            if($CheckNotifIfRead){
-                $CheckNotifIfRead->delete();
-            }
-
-            if($userCount <= 2){
-                $CheckNotif->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
-            }   
-            else{
-                $userCount = $userCount - 1;
-                $CheckNotif->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
-            }
-            $CheckNotif->from_id =  $userId;
-            $CheckNotif->save();
-            broadcast(new NewNotification($CheckNotif))->toOthers();
-
-        }
-        else{
-            $newNotification = new tbl_notification;
-            $newNotification->course_id = $userInClass->course_id;
-            $newNotification->class_id = $JoinClass->class_id;
-            $newNotification->from_id =  $userId;
-
-            if($userCount <= 2){
-                $newNotification->message = $user->firstName." ".$user->lastName." join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
-            }   
-            else{
-                $userCount = $userCount - 1;
-                $newNotification->message = $user->firstName." ".$user->lastName." and ".$userCount." others join to your ".$userInClass->course_name." - " .$userInClass->class_name ." class";
-            }
-            $newNotification->notification_type = 2;
-            $newNotification->save();
-            broadcast(new NewNotification($newNotification))->toOthers(); */
-        //}
-
-       /*  $userInClass = tbl_userclass::select('tbl_subject_courses.completed as status')
-        ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
-        ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
-        ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
-        ->where('users.role', 'Teacher')
-        ->where('tbl_userclasses.class_id', $JoinClass->class_id)
-        ->first(); */
-
 
         return response()->json([
             'course_id'=>$Class->course_id, 

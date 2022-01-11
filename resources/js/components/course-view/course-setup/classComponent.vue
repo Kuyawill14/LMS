@@ -29,14 +29,16 @@
             </v-row>
         </v-container>
 
-        <v-dialog persistent v-model="showModal" width="400px">
+        <v-dialog persistent v-model="showModal" width="450">
             <createClassForm v-on:newClassAdded="reloadClass()" v-on:closeModal="closeModal()" v-on:cancelCreate="showModal = !showModal" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm :class_details="class_details" v-on:cancelUpdate="showModal = !showModal" v-on:closeModal="closeModal()" :class_name="class_name" :class_id="class_id"
                 v-if="modalType == 'edit'" />
-
+        </v-dialog >
+        <v-dialog persistent width="400" v-if="modalType == 'delete'" v-model="DeleteDialog">
             <deleteClass :class_id="class_id" v-on:closeModal="closeModal()" v-if="modalType == 'delete'" />
         </v-dialog>
+
         <div v-if="!isGetting && allClass.length != 0">
             <v-row>
                 <v-col>
@@ -69,9 +71,14 @@
                                         <span class="pr-1">&bull; </span>
                                         {{data.day+' - '+formatDisplay(data.day, data.start_time)}} <span class="font-weight-medium">to</span> {{formatDisplay(data.day, data.end_time)}}</div>
                                 </v-list-item-subtitle>
+
                                 
                                 <v-list-item-subtitle v-else>
                                     <span class="font-weight-medium">Schedule: </span> N/A
+                                </v-list-item-subtitle>
+                                <v-list-item-subtitle>
+                                    <span class="font-weight-medium">Video Conference Link: </span> <a v-if="item.meeting_link != null" link target="_blank" :href="item.meeting_link">{{item.meeting_link}}</a> 
+                                    <span v-else>N/A</span>
                                 </v-list-item-subtitle>
                                 <v-list-item-subtitle>Students: {{item.student_count}}</v-list-item-subtitle>
                                 
@@ -145,6 +152,7 @@
 
             isGetting: false,
             showModal: false,
+            DeleteDialog: false,
             isloading: true,
             modalType: '',
             class_code: null,
@@ -175,6 +183,7 @@
             closeModal() {
                 this.reloadClasses();
                 this.showModal = false;
+                this.DeleteDialog = false;
             },
             completed() {
                 localStorage.removeItem("step");
@@ -210,7 +219,7 @@
 
             },
             openDeleteModal(class_id) {
-                this.showModal = true;
+                this.DeleteDialog = true;
                 this.modalType = "delete";
                 this.class_id = class_id;
 

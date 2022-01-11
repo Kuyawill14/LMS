@@ -12,6 +12,14 @@
                         <v-text-field :hide-details="valid" :rules="rules" class="mb-0 pb-0" v-model="form.class_name"   outlined color="primary" label="Class Name">
                         </v-text-field>
                     </v-col>
+                     <v-col cols="12" class="pa-0 ma-0 mt-2">
+                        <small class="text-caption">Generate Google Meet Link here: <a href="http://meet.google.com/new"
+                            target="_blank">meet.google.com/new </a> </small>
+
+                        <v-text-field class="mt-1" v-model="form.meet_link"  hide-details  @change="copyLink()" outlined color="primary"
+                            label="Video Conference Link (optional)" type="url">
+                        </v-text-field>
+                    </v-col>
                     <v-col cols="12" class="pa-0 ma-0">
                         <v-switch
                             v-model="form.auto_accept"
@@ -112,6 +120,7 @@ import moment from 'moment-timezone';
                 class_name: '',
                 course_id: null,
                 auto_accept: false,
+                meet_link: '',
                 schedule:[]
             },
             items: ['Monday', 'Tuesday', 'Wednesday', 'Thursday','Friday','Saturday','Sunday'],
@@ -230,6 +239,11 @@ import moment from 'moment-timezone';
             },
             DeleteSchedule(index){
                 this.form.schedule.splice(index, 1)
+            },
+            copyLink() {
+                let expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www|meet\.[^\s]+\.[^\s]{2,})/gi;
+                let matches = this.form.meet_link.match(expression);
+                this.form.meet_link = matches[0];
             }
         }
     }

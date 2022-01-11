@@ -38,7 +38,7 @@
             </v-row>
        </div>
 
-        <v-dialog v-model="showModal" width="400">
+        <v-dialog v-model="showModal" width="450">
             <createClassForm v-on:newClassAdded="reloadClass()" v-on:OpenNewSched="addScheduleDialog = !addScheduleDialog" v-on:closeModal="closeModal()" v-if="modalType == 'add'"
                 v-on:createclass="classLength++" />
             <editClassForm v-on:closeModal="closeModal()" :class_details="class_details" :class_name="form.class_name" :class_id="form.class_id"
@@ -48,7 +48,7 @@
             v-on:toggleCancelDialog="closeModal()" :ArchiveDetails="ArchiveDetails" v-if="modalType == 'archive'"></archiveClass>
         </v-dialog>
 
-        <v-dialog v-model="removeDialog" width="400">
+        <v-dialog v-model="removeDialog" width="450">
             <deleteClass v-if="removeDialog" v-on:toggleCancelDialog="removeDialog = false" v-on:toggleConfirm="removeClass()"></deleteClass>
         </v-dialog>
         <div v-if="!isGetting && allClass.length != 0">
@@ -95,6 +95,11 @@
                                 
                                 <v-list-item-subtitle v-else>
                                     <span class="font-weight-medium">Schedule: </span> N/A
+                                </v-list-item-subtitle>
+
+                                 <v-list-item-subtitle>
+                                    <span class="font-weight-medium">Video Conference Link: </span> <a v-if="item.meeting_link != null" link target="_blank" :href="item.meeting_link">{{item.meeting_link}}</a> 
+                                    <span v-else>N/A</span>
                                 </v-list-item-subtitle>
                             
                             
@@ -263,7 +268,7 @@
                         this.removeDialog = false;
                     })
                }
-            }   
+            },
         },
         
         mounted() {

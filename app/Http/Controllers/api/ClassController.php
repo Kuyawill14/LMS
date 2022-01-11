@@ -122,6 +122,7 @@ class ClassController extends Controller
         ->whereNull('tbl_classes.deleted_at')
         ->select('tbl_classes.class_name',
         'tbl_classes.class_code',
+        'tbl_classes.meeting_link',
         'tbl_classes.is_auto_accept',
         'tbl_classes.schedule',
         'tbl_subject_courses.course_name',
@@ -168,6 +169,7 @@ class ClassController extends Controller
         $selectedClass = DB::table('tbl_userclasses')
         ->select('tbl_userclasses.id as useClass_id',
         'tbl_classes.class_name',
+        'tbl_classes.meeting_link',
         'tbl_classes.class_code',
         'tbl_subject_courses.course_picture',
         'tbl_subject_courses.course_name',
@@ -324,6 +326,7 @@ class ClassController extends Controller
         $NewClass->class_name = $request->class['class_name'];
         $NewClass->course_id =  $request->class['course_id'];
         $NewClass->class_code =  $gen_class_code;
+        $NewClass->meeting_link =  $request->class['meet_link'];
         $NewClass->schedule =  serialize($request->class['schedule']);
         $NewClass->is_auto_accept =  $request->class['auto_accept'];
         $NewClass->save();
@@ -342,6 +345,7 @@ class ClassController extends Controller
             "class_code"=>$NewClass->class_code, 
             "class_id"=>$NewClass->id,
             "class_name"=>$NewClass->class_name,
+            "meeting_link"=>$NewClass->meeting_link,
             "course_code"=>$course->course_code,
             "course_name"=>$course->course_name,
             "is_auto_accept"=>$NewClass->is_auto_accept,
@@ -385,6 +389,7 @@ class ClassController extends Controller
         $existingClass = Tbl_class::find($id);
         if($existingClass) {
             $existingClass->class_name = $request->class['class_name'];
+            $existingClass->meeting_link = $request->class['meet_link'];
             $existingClass->schedule = serialize($request->class['schedule']);
             $existingClass->is_auto_accept =  $request->class['auto_accept'];
             $existingClass->save();

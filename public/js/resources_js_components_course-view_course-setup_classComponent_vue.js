@@ -151,6 +151,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var VueElementLoading = function VueElementLoading() {
@@ -181,6 +188,7 @@ var deleteClass = function deleteClass() {
     return {
       isGetting: false,
       showModal: false,
+      DeleteDialog: false,
       isloading: true,
       modalType: '',
       class_code: null,
@@ -227,6 +235,7 @@ var deleteClass = function deleteClass() {
     closeModal: function closeModal() {
       this.reloadClasses();
       this.showModal = false;
+      this.DeleteDialog = false;
     },
     completed: function completed() {
       var _this2 = this;
@@ -265,7 +274,7 @@ var deleteClass = function deleteClass() {
       this.class_details = details;
     },
     openDeleteModal: function openDeleteModal(class_id) {
-      this.showModal = true;
+      this.DeleteDialog = true;
       this.modalType = "delete";
       this.class_id = class_id;
     },
@@ -22728,7 +22737,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", width: "400px" },
+          attrs: { persistent: "", width: "450" },
           model: {
             value: _vm.showModal,
             callback: function($$v) {
@@ -22773,21 +22782,39 @@ var render = function() {
                   }
                 }
               })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.modalType == "delete"
-            ? _c("deleteClass", {
-                attrs: { class_id: _vm.class_id },
-                on: {
-                  closeModal: function($event) {
-                    return _vm.closeModal()
-                  }
-                }
-              })
             : _vm._e()
         ],
         1
       ),
+      _vm._v(" "),
+      _vm.modalType == "delete"
+        ? _c(
+            "v-dialog",
+            {
+              attrs: { persistent: "", width: "400" },
+              model: {
+                value: _vm.DeleteDialog,
+                callback: function($$v) {
+                  _vm.DeleteDialog = $$v
+                },
+                expression: "DeleteDialog"
+              }
+            },
+            [
+              _vm.modalType == "delete"
+                ? _c("deleteClass", {
+                    attrs: { class_id: _vm.class_id },
+                    on: {
+                      closeModal: function($event) {
+                        return _vm.closeModal()
+                      }
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       !_vm.isGetting && _vm.allClass.length != 0
         ? _c(
@@ -22940,6 +22967,28 @@ var render = function() {
                                           " N/A\n                            "
                                         )
                                       ]),
+                                  _vm._v(" "),
+                                  _c("v-list-item-subtitle", [
+                                    _c(
+                                      "span",
+                                      { staticClass: "font-weight-medium" },
+                                      [_vm._v("Video Conference Link: ")]
+                                    ),
+                                    _vm._v(" "),
+                                    item.meeting_link != null
+                                      ? _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              link: "",
+                                              target: "_blank",
+                                              href: item.meeting_link
+                                            }
+                                          },
+                                          [_vm._v(_vm._s(item.meeting_link))]
+                                        )
+                                      : _c("span", [_vm._v("N/A")])
+                                  ]),
                                   _vm._v(" "),
                                   _c("v-list-item-subtitle", [
                                     _vm._v(

@@ -4,6 +4,7 @@ const state = {
     class_notification: [],
     notificationCount: null,
     inviteCount: null,
+    push_notification_data:[],
     page: 0,
     loadMore: false,
     lastPage: 0,
@@ -16,6 +17,9 @@ const state = {
 const getters = {
     get_notification: (state) => {
         return state.class_notification;
+    },
+    get_push_notification_data: (state) => {
+        return state.push_notification_data;
     },
     get_notification_count: (state) => {
         return state.notificationCount;
@@ -154,12 +158,14 @@ const actions = {
     async fetchNotificationCount({ commit }, id) {
         let NotifList;
         let count = 0;
-        let inviteCount = 0;
+        let push_data;
         const res = await axios.get(
                 `/api/notification/notifCount`)
             .then(response => {
                 count = response.data.notificationCount;
-                inviteCount = response.data.invitesCount;
+                state.push_notification_data = response.data.push_notification;
+
+
             })
         if(count != 0){
             let text = document.title.substring( document.title.indexOf(' ') + 1);
@@ -167,7 +173,8 @@ const actions = {
             document.title =  nunber+text;
         }
         commit('NOTIFICATION_COUNT', count);
-        commit('INVITE_COUNT', inviteCount);
+       
+        //commit('PUSH_NOTIFICATION_DATA', push_data);
     },
 
     async fetchClassInvites({ commit }, id) {
@@ -190,8 +197,7 @@ const mutations = {
     //UNREAD_NOTIFICATION: (state, RemoveNotif) => (state.class_notification = RemoveNotif),
     UNREAD_NOTIFICATION: (state, newCLass) => (state.class_notification = newCLass),
     NOTIFICATION_COUNT: (state, count) => (state.notificationCount = count),
-    FETCH_INVITE: (state, inviteAll) => (state.inviteAll = inviteAll),
-    INVITE_COUNT: (state, inviteCount) => (state.inviteCount = inviteCount),
+    PUSH_NOTIFICATION_DATA: (state, push_notification_data) => (state.push_notification_data = push_notification_data),
 
 };
 

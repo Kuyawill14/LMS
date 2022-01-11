@@ -243,7 +243,7 @@ var classJoinRequest = function classJoinRequest() {
       isGetting: true,
       isClassNameLoaded: false,
       classNames: [],
-      Class_id: '',
+      Class_id: this.$route.params.id,
       RemoveDetails: {},
       students: null,
       classList: [],
@@ -360,10 +360,18 @@ var classJoinRequest = function classJoinRequest() {
             switch (_context4.prev = _context4.next) {
               case 0:
                 axios.get('/api/class/allnames/' + _this5.$route.params.id + '/' + 0).then(function (res) {
-                  _this5.getStudents();
+                  _this5.getStudents(); //this.classNames = res.data;
 
-                  _this5.classNames = res.data;
-                  _this5.Class_id = res.data[0].class_id;
+
+                  _this5.classNames.push({
+                    class_id: _this5.$route.params.id,
+                    class_name: 'All Class',
+                    id: _this5.$route.params.id
+                  });
+
+                  res.data.forEach(function (item) {
+                    _this5.classNames.push(item);
+                  });
                   _this5.isloading = false;
                 });
 

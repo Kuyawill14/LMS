@@ -85,6 +85,13 @@ class SubjectCourseController extends Controller
             ->where("users.role", "Teacher")
             ->first();
 
+            $class = tbl_userclass::where('tbl_userclasses.course_id',$id)
+            ->select('tbl_classes.meeting_link')
+            ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_userclasses.class_id')
+            ->where('tbl_userclasses.user_id',  $userId)
+            ->first();
+            
+            $ShowCourseDetails->v_classroom_link = $class->meeting_link;
             return $ShowCourseDetails;
         }
         else{

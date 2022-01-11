@@ -83,7 +83,7 @@
                                         <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
                                         :color="item.notification_type == 1 || item.notification_type == 5 ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
                                         item.notification_type == 4 || item.notification_type == 6  || item.notification_type == 7  ? 'green' : ''" >
-                                        {{ item.notification_type != 2 ? item.name : 'Join Class'}}   
+                                        {{ item.notification_type != 2 && item.notification_type != 6 ? item.name : item.notification_type == 6 ? 'Classwork Submission' : 'Join Class'}}   
                                         </v-badge>
                                         </v-list-item-title>
                                 
@@ -219,7 +219,7 @@
         components:{
             //seeAllNotification
         },
-        computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting"]),
+        computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting","get_push_notification_data"]),
         methods: {
             ...mapActions(['fetchNotification']),
             ...mapActions(['fetchNotificationCount']),
@@ -229,21 +229,26 @@
             ...mapActions(['UnreadMessage']),
            async connect() {
                 let newVm = this;
+                
                 this.fetchNotificationCount();
                 window.Echo.private("notification")
                 .listen('NewNotification', e => {
-                    newVm.fetchNotificationCount();
-                        /* if(this.get_notification_count > 0){
-                              Notification.requestPermission( permission => {
+                    newVm.$store.dispatch('fetchNotificationCount').then(()=>{
+                        console.log(this.get_push_notification_data);
+                        if(this.get_push_notification_data.success ==  true){
+                                Notification.requestPermission( permission => {
                                 let notification = new Notification('ISUE-ORANGE', {
-                                    body: 'Testing Push Notification',
+                                    body: this.get_push_notification_data.message,
                                     icon: "../images/orange_title.png"
                                 });
                                 notification.onclick = () => {
                                     window.open(window.location.href);
                                 }
                             });
-                        } */                    
+                        } 
+                    })
+
+                                          
                 }); 
 
                

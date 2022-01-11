@@ -12,6 +12,14 @@
                         </v-text-field>
 
                     </v-col>
+                    <v-col cols="12" class="pa-0 ma-0 mt-2">
+                        <small class="text-caption">Generate Google Meet Link here: <a href="http://meet.google.com/new"
+                            target="_blank">meet.google.com/new </a> </small>
+
+                        <v-text-field class="mt-1" v-model="class_details.meeting_link"  hide-details  @change="copyLink()" outlined color="primary"
+                            label="Video Conference Link (optional)" type="url">
+                        </v-text-field>
+                    </v-col>
                     <v-col cols="12" class="pa-0 ma-0">
                         <v-switch
                             v-model="class_details.is_auto_accept"
@@ -134,6 +142,7 @@ import moment from 'moment-timezone';
             form: {
                 class_name: '',
                 class_id: null,
+                meet_link:'',
                 auto_accept: false,
                 schedule:null
             },
@@ -189,6 +198,7 @@ import moment from 'moment-timezone';
                 this.form.class_id = this.class_id;
                 this.form.course_id = this.$route.params.id;
                 this.form.class_name = this.class_details.class_name;
+                this.form.meet_link = this.class_details.meeting_link;
                 this.form.auto_accept = this.class_details.is_auto_accept;
                 this.form.schedule = this.class_details.schedule;
                 this.$store.dispatch('updateClass', this.form).then(()=>{
@@ -260,6 +270,11 @@ import moment from 'moment-timezone';
             },
             DeleteSchedule(index){
                 this.class_details.schedule.splice(index, 1)
+            },
+            copyLink() {
+                let expression = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www|meet\.[^\s]+\.[^\s]{2,})/gi;
+                let matches = this.class_details.meeting_link.match(expression);
+                this.class_details.meeting_link = matches[0];
             }
         
         },

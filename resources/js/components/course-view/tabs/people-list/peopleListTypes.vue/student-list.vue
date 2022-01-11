@@ -205,7 +205,7 @@ import { mapGetters } from 'vuex'
                 isGetting: true,
                 isClassNameLoaded:false,
                 classNames:[],
-                Class_id: '',
+                Class_id: this.$route.params.id,
                 RemoveDetails: {},
                 students: null,
                 classList: [],
@@ -273,9 +273,13 @@ import { mapGetters } from 'vuex'
                 axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
                     
                     this.getStudents();
-                    this.classNames = res.data;
-                    this.Class_id = res.data[0].class_id;
+                    //this.classNames = res.data;
+                    this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                    res.data.forEach(item => {
+                        this.classNames.push(item);
+                    });
                     this.isloading = false;
+                     
                 })
             },
           

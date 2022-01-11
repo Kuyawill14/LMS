@@ -16,6 +16,7 @@ use App\Models\tbl_teacher_course;
 use App\Events\NewPost;
 use App\Events\NewNotification;
 use App\Models\tbl_subject_course;
+use App\Models\tbl_userDetails;
 use App\Jobs\SendNotificationMailToClass;
 use App\Jobs\SendAnnouncementEmailToCLass;
 use App\Jobs\SendClassworkNotification;
@@ -443,7 +444,30 @@ class NotificationController extends Controller
             ->count();
         } 
 
-        return ["notificationCount"=> $NotificationCount];
+
+
+        //push notification data;
+       $push_notif_data;
+       $latest_notif = tbl_notification::orderBy('updated_at', 'desc')->first();
+       $from_name = tbl_userDetails::where('user_id', $latest_notif->from_id)
+       ->select(DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"))->first();
+       $message =  $latest_notif->notification_type != 6 ? $from_name->name.' '.$latest_notif->message : $latest_notif->message;
+       if($latest_notif->course_id != null){
+            $userCourses = tbl_userclass::where('user_id', $userId)->select('course_id')->get();
+            $check = false;
+            foreach($userCourses as $item){
+                if($item['course_id'] == $latest_notif->course_id){
+                    $check = true;
+                }
+            }
+            if($check) $push_notif_data = ["success"=> true, "message"=> $message];
+            else $push_notif_data = [ "success"=> false,"message"=> null];
+            
+        }else{
+            if($latest_notif->user_id_to == $userId)$push_notif_data = ["success"=> true, "message"=> $message];
+            else $push_notif_data = [ "success"=> false,"message"=> null];
+        }
+        return ["notificationCount"=> $NotificationCount, "push_notification"=> $push_notif_data];
       
     }
 

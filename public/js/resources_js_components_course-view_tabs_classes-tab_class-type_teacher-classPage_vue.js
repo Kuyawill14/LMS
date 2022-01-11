@@ -185,6 +185,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 var createClassForm = function createClassForm() {
@@ -22817,7 +22822,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "400" },
+          attrs: { width: "450" },
           model: {
             value: _vm.showModal,
             callback: function($$v) {
@@ -22881,7 +22886,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { width: "400" },
+          attrs: { width: "450" },
           model: {
             value: _vm.removeDialog,
             callback: function($$v) {
@@ -23105,6 +23110,28 @@ var render = function() {
                                   ),
                                   _vm._v(" N/A\n                            ")
                                 ]),
+                            _vm._v(" "),
+                            _c("v-list-item-subtitle", [
+                              _c(
+                                "span",
+                                { staticClass: "font-weight-medium" },
+                                [_vm._v("Video Conference Link: ")]
+                              ),
+                              _vm._v(" "),
+                              item.meeting_link != null
+                                ? _c(
+                                    "a",
+                                    {
+                                      attrs: {
+                                        link: "",
+                                        target: "_blank",
+                                        href: item.meeting_link
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(item.meeting_link))]
+                                  )
+                                : _c("span", [_vm._v("N/A")])
+                            ]),
                             _vm._v(" "),
                             _c("v-list-item-subtitle", [
                               _c(

@@ -1106,11 +1106,16 @@ var render = function() {
                                                     "\r\n                                " +
                                                       _vm._s(
                                                         item.notification_type !=
-                                                          2
+                                                          2 &&
+                                                          item.notification_type !=
+                                                            6
                                                           ? item.name
+                                                          : item.notification_type ==
+                                                            6
+                                                          ? "Classwork Submission"
                                                           : "Join Class"
                                                       ) +
-                                                      "   \r\n                                "
+                                                      " \r\n                                "
                                                   )
                                                 ]
                                               )
