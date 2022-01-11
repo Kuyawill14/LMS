@@ -95,34 +95,18 @@
                                         <template v-slot:activator="{ on, attrs }">
                                             <div v-bind="attrs" v-on="on" style="width:min-content;"
                                                 class="module-switch">
-
-                                                <v-btn
-                                                    :class="itemModule.isPublished == 1 ? 'green lighten-1' : 'grey lighten-1'"
-                                                    dark icon
-                                                    @click="openPublishSettings(itemModule.module_name,   itemModule.id,itemModule.isPublished)"
-                                                    @click.native.stop>
-                                                    <v-icon v-if="itemModule.isPublished == 1">
-                                                       mdi-publish
-                                                    </v-icon>
-                                                    <svg v-if="itemModule.isPublished == 0" style="width:24px;height:24px" viewBox="0 0 24 24">
-                                                        <path fill="currentColor"
-                                                            d="M20.8 22.7L15 16.9V20H9V14H5L8.6 10.4L1.1 3L2.4 1.7L22.1 21.4L20.8 22.7M19 6V4H7.2L9.2 6H19M17.2 14H19L12 7L11.1 7.9L17.2 14Z" />
-                                                    </svg>
-                                                </v-btn>
-                                                <!-- 
                                                 <v-switch v-model="itemModule.isPublished" inset v-bind="attrs"
                                                     v-on="on"
                                                     :loading="isPublishing && isPublishing_id == itemModule.id"
                                                     color="success" :disabled="isPublishing" @click.native.stop
                                                     class="pt-1"
-                                                    @click="itemModule.isPublished == itemModule.isPublished,openPublishSettings(itemModule.module_name,   itemModule.id,itemModule.isPublished)">
-                                                </v-switch> -->
+                                                    @click="isPublishing_id =itemModule.id,publishDialog=true; ">
+                                                </v-switch>
 
                                             </div>
 
                                         </template>
-                                        <!-- <span>{{itemModule.isPublished ? 'Unpublished' : 'Publish'}}</span> -->
-                                        <span>Publish Settings</span>
+                                        <span>{{itemModule.isPublished ? 'Unpublished' : 'Publish'}}</span>
                                     </v-tooltip>
                                 </div>
                             </span>
@@ -303,61 +287,42 @@
 
                         <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                             <v-radio v-for="(n, index) in radioAvailability" :key="index"
-                                @change="availabilitySelection(availability)" :label="radioAvailability[index]"
-                                :value="radioAvailability[index]"></v-radio>
+                                :label="radioAvailability[index]" :value="radioAvailability[index]"></v-radio>
                         </v-radio-group>
                     </v-col>
 
 
-                    <v-row class="ml-2 mt-2" v-if="availability == 'Set date (From - To)'">
+                    <v-row v-if="availability == 'Set date & time'">
                         <v-col>
-
-
-                            <v-menu ref="publishFrom_menu" v-model="publishFrom_menu" :close-on-content-click="false"
-                                transition="scale-transition" offset-y min-width="auto" :date-picker-props="dateProps">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field v-model="publishFrom" :min="publishFrom" label="From"
-                                        prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
+                            <v-datetime-picker label="From" v-model="publishFrom" class="mt-0 pt-0" time-format="HH:mm"
+                                :text-field-props="textFieldProps" :date-picker-props="dateProps"
+                                @input="publishFromHandler()" :time-picker-props="timeProps" color="primary">
+                                <template slot="dateIcon">
+                                    <v-icon>mdi-calendar</v-icon>
                                 </template>
-                                <v-date-picker :min="date" v-model="publishFrom" no-title scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="publishFrom_menu = false">
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn text color="primary" @click="$refs.publishFrom_menu.save(publishFrom)">
-                                        OK
-                                    </v-btn>
-                                </v-date-picker>
-                            </v-menu>
-
-
+                                <template slot="timeIcon">
+                                    <v-icon>mdi-clock</v-icon>
+                                </template>
+                            </v-datetime-picker>
                         </v-col>
 
                         <v-col id="publish_to">
-
-                            <v-menu ref="publishTo_menu" v-model="publishTo_menu" :close-on-content-click="false"
-                                transition="scale-transition" offset-y min-width="auto">
-                                <template v-slot:activator="{ on, attrs }">
-                                    <v-text-field v-model="publishTo" label="To" prepend-icon="mdi-calendar" readonly
-                                        v-bind="attrs" v-on="on"></v-text-field>
+                            <v-datetime-picker label="To" v-model="publishTo" class="mt-0 pt-0" time-format="HH:mm"
+                                :text-field-props="textFieldProps" :date-picker-props="toDateProps"
+                                :time-picker-props="toTimeProps" :picker-date.sync="pickerDate" color="primary"
+                                @click="toDateHandler()" ref="toInput">
+                                <template slot="dateIcon">
+                                    <v-icon>mdi-calendar</v-icon>
                                 </template>
-                                <v-date-picker :return-value.sync="publishFrom" :min="publishFrom" v-model="publishTo"
-                                    no-title scrollable>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text color="primary" @click="publishTo_menu = false">
-                                        Cancel
-                                    </v-btn>
-                                    <v-btn text color="primary" @click="$refs.publishTo_menu.save(publishTo)">
-                                        OK
-                                    </v-btn>
-                                </v-date-picker>
-                            </v-menu>
-
+                                <template slot="timeIcon">
+                                    <v-icon>mdi-clock</v-icon>
+                                </template>
+                            </v-datetime-picker>
                         </v-col>
 
 
                     </v-row>
-
+             
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -409,11 +374,6 @@
         },
         data() {
             return {
-                publishTo: moment(Date.now()).format('YYYY-MM-DD'),
-                publishFrom: moment(Date.now()).format('YYYY-MM-DD'),
-                date: moment(Date.now()).format('YYYY-MM-DD'),
-                publishTo_menu: false,
-                publishFrom_menu: false,
                 pickerDate: null,
                 publishDialog: false,
                 textFieldProps: {
@@ -436,8 +396,9 @@
                     ampmInTitle: true,
                     min: null,
                 },
-                radioAvailability: ['Always available', 'Set date (From - To)', 'Unpublish'],
-
+                radioAvailability: ['Always available', 'Set date & time', 'Unavailable'],
+                publishTo: null,
+                publishFrom: null,
                 availability: null,
                 tip: true,
                 tipCheckBox: false,
@@ -462,15 +423,6 @@
                 studentSubModuleProgressForm: {},
                 to_date_jq_getter: false,
 
-
-                publishSettings: {
-                    module_name: null,
-                    module_id: null,
-                    isPublished: null,
-                    date_from: null,
-                    date_to: null,
-                }
-
             }
         },
         watch: {
@@ -491,56 +443,33 @@
 
         },
         methods: {
+            
+            publishToHandler() {
 
+             this.to_date_jq_getter = setInterval(() => {
+                var to_date_jq = $('#publish_to > div > div > div > div  > input').length > 0 ? $('#publish_to > div > div > div > div  > input').val() : '';
+                if ( to_date_jq.length > 0) {
 
-            availabilitySelection(selection) {
-
-
-                if (selection == this.radioAvailability[0] || selection == this.radioAvailability[1]) {
-                    if (selection == this.radioAvailability[0]) {
-                        this.publishSettings.date_from = null;
-                        this.publishSettings.date_to = null;
+                    if (moment(this.publishFrom).format('YYYY-MM-DD') == moment(to_date_jq).format(
+                            'YYYY-MM-DD')) {
+                    
+                        this.toTimeProps.min =  moment(this.publishFrom).format('hh:mm');
+                    } else {
+                     
+                        this.toTimeProps.min = '';
                     }
-                    return 1;
-                } else {
-                    return 0;
+
+
                 }
 
-
-
+            }, 500)
             },
-            openPublishSettings(module_name, module_id, isPublished) {
-                this.publishSettings.module_name = module_name;
-                this.publishSettings.module_id = module_id;
-                this.publishDialog = true;
 
-            },
-            savePublishSettings() {
-                this.publishSettings.date_from = this.publishFrom;
-                this.publishSettings.date_to = this.publishTo;
-                this.publishSettings.isPublished = this.availabilitySelection(this.availability);
+            publishFromHandler() {
+                console.log(this.publishFrom)
+                this.publishTo = moment(this.publishFrom).format('YYYY-MM-DD hh:mm');
+                this.toDateProps.min = moment(this.publishFrom).format('YYYY-MM-DD hh:mm');
 
-                console.log(this.publishSettings);
-
-                this.isPublishing = true;
-
-                axios.post(`/api/main_module/publish/${ this.publishSettings.module_id}`, {
-
-                        publishSettings: this.publishSettings
-                    })
-                    .then((res) => {
-                        if (this.publishSettings.isPublished == 1) {
-                            this.toastSuccess(this.publishSettings.module_name + ' Successfully Published')
-                            this.isPublishing = false;
-                            this.isPublishing_id = this.publishSettings.module_id;
-
-                        } else {
-                            this.toastSuccess(this.publishSettings.module_name + ' Successfully Unpublished')
-                            this.isPublishing = false;
-                        }
-
-
-                    })
 
             },
             deleteModule() {
@@ -558,7 +487,27 @@
                     return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
                 }
             },
+            publishModule(module_name, id, isPublished) {
+                this.isPublishing = true;
+                isPublished = isPublished ? 1 : 0;
 
+                axios.post(`/api/main_module/publish/${id}`, {
+
+                        isPublished: isPublished
+                    })
+                    .then((res) => {
+                        if (isPublished == 1) {
+                            this.toastSuccess(module_name + ' Successfully Published')
+                            this.isPublishing = false;
+                        } else {
+                            this.toastSuccess(module_name + ' Successfully Unpublished')
+                            this.isPublishing = false;
+                        }
+
+
+                    })
+
+            },
             onEnd() {
                 this.isDrag = true;
                 axios.post(`/api/main_module/arrange`, {
@@ -690,10 +639,17 @@
                 return check;
             },
             stopIntervalTimer() {
-                this.to_date_jq_getter = false;
+                   this.to_date_jq_getter = false;
                 clearInterval(this.to_date_jq_getter);
             },
+            savePublishSettings() {
+             this.stopIntervalTimer();
 
+
+                //Todo api code for publishing
+                //create new columns to database
+                //add it to migration
+            }
 
 
         },
@@ -707,6 +663,12 @@
                 this.tip = localStorage.getItem("tip_module_show") == true;
             }
 
+        this.publishToHandler();
+
+
+
+
+
         },
         created() {
 
@@ -714,7 +676,7 @@
         beforeDestroy() {
             this.stopIntervalTimer()
         },
-        beforeRouteLeave(to, from, next) {
+        beforeRouteLeave (to, from, next) {
             this.stopIntervalTimer();
         }
 
@@ -750,9 +712,9 @@
 
     .module-switch {
         position: absolute;
-        right: 111px;
-        bottom: 19px;
-        z-index: 1000;
+        right: 100px;
+        bottom: 7px;
+        z-index: 999;
     }
 
     .published_module {
@@ -762,5 +724,6 @@
     .not_published_module {
         padding-left: 10px !important;
     }
+
 
 </style>

@@ -87,7 +87,7 @@
                     </v-menu>
                 </v-app-bar>
 
-                <v-card-title class="text-lg-h5" v-text="getcourseInfo.course_code + ' - ' + getcourseInfo.course_name">
+                <v-card-title class="text-lg-h5" v-text="getcourseInfo.length !=0 ? getcourseInfo.course_code + ' - ' + getcourseInfo.course_name : 'Course Code - Course Name'">
                 </v-card-title>
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 

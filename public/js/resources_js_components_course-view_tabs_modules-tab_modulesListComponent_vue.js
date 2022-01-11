@@ -1421,6 +1421,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1443,6 +1478,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
+      publishTo: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD'),
+      publishFrom: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD'),
+      date: (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(Date.now()).format('YYYY-MM-DD'),
+      publishTo_menu: false,
+      publishFrom_menu: false,
       pickerDate: null,
       publishDialog: false,
       textFieldProps: {
@@ -1465,9 +1505,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         ampmInTitle: true,
         min: null
       },
-      radioAvailability: ['Always available', 'Set date & time', 'Unavailable'],
-      publishTo: null,
-      publishFrom: null,
+      radioAvailability: ['Always available', 'Set date (From - To)', 'Unpublish'],
       availability: null,
       tip: true,
       tipCheckBox: false,
@@ -1490,7 +1528,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       propModule: [],
       studentSubModuleProgress: [],
       studentSubModuleProgressForm: {},
-      to_date_jq_getter: false
+      to_date_jq_getter: false,
+      publishSettings: {
+        module_name: null,
+        module_id: null,
+        isPublished: null,
+        date_from: null,
+        date_to: null
+      }
     };
   },
   watch: {// pickerDate(val) {
@@ -1508,25 +1553,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   methods: (_methods = {
-    publishToHandler: function publishToHandler() {
+    availabilitySelection: function availabilitySelection(selection) {
+      if (selection == this.radioAvailability[0] || selection == this.radioAvailability[1]) {
+        if (selection == this.radioAvailability[0]) {
+          this.publishSettings.date_from = null;
+          this.publishSettings.date_to = null;
+        }
+
+        return 1;
+      } else {
+        return 0;
+      }
+    },
+    openPublishSettings: function openPublishSettings(module_name, module_id, isPublished) {
+      this.publishSettings.module_name = module_name;
+      this.publishSettings.module_id = module_id;
+      this.publishDialog = true;
+    },
+    savePublishSettings: function savePublishSettings() {
       var _this = this;
 
-      this.to_date_jq_getter = setInterval(function () {
-        var to_date_jq = $('#publish_to > div > div > div > div  > input').length > 0 ? $('#publish_to > div > div > div > div  > input').val() : '';
+      this.publishSettings.date_from = this.publishFrom;
+      this.publishSettings.date_to = this.publishTo;
+      this.publishSettings.isPublished = this.availabilitySelection(this.availability);
+      console.log(this.publishSettings);
+      this.isPublishing = true;
+      axios.post("/api/main_module/publish/".concat(this.publishSettings.module_id), {
+        publishSettings: this.publishSettings
+      }).then(function (res) {
+        if (_this.publishSettings.isPublished == 1) {
+          _this.toastSuccess(_this.publishSettings.module_name + ' Successfully Published');
 
-        if (to_date_jq.length > 0) {
-          if ((0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.publishFrom).format('YYYY-MM-DD') == (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(to_date_jq).format('YYYY-MM-DD')) {
-            _this.toTimeProps.min = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(_this.publishFrom).format('hh:mm');
-          } else {
-            _this.toTimeProps.min = '';
-          }
+          _this.isPublishing = false;
+          _this.isPublishing_id = _this.publishSettings.module_id;
+        } else {
+          _this.toastSuccess(_this.publishSettings.module_name + ' Successfully Unpublished');
+
+          _this.isPublishing = false;
         }
-      }, 500);
-    },
-    publishFromHandler: function publishFromHandler() {
-      console.log(this.publishFrom);
-      this.publishTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(this.publishFrom).format('YYYY-MM-DD hh:mm');
-      this.toDateProps.min = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(this.publishFrom).format('YYYY-MM-DD hh:mm');
+      });
     },
     deleteModule: function deleteModule() {
       var _this2 = this;
@@ -1543,35 +1608,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM Do YYYY, hh:mm A');
       }
     },
-    publishModule: function publishModule(module_name, id, isPublished) {
-      var _this3 = this;
-
-      this.isPublishing = true;
-      isPublished = isPublished ? 1 : 0;
-      axios.post("/api/main_module/publish/".concat(id), {
-        isPublished: isPublished
-      }).then(function (res) {
-        if (isPublished == 1) {
-          _this3.toastSuccess(module_name + ' Successfully Published');
-
-          _this3.isPublishing = false;
-        } else {
-          _this3.toastSuccess(module_name + ' Successfully Unpublished');
-
-          _this3.isPublishing = false;
-        }
-      });
-    },
     onEnd: function onEnd() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.isDrag = true;
       axios.post("/api/main_module/arrange", {
         mainModules: this.mainModule
       }).then(function (res) {
         //  this.getmain_module = this.mainModule;
-        _this4.$store.dispatch('fetchMainModule', _this4.$route.params.id).then(function () {
-          _this4.isDrag = false;
+        _this3.$store.dispatch('fetchMainModule', _this3.$route.params.id).then(function () {
+          _this3.isDrag = false;
         });
       });
     },
@@ -1676,32 +1722,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "stopIntervalTimer", function stopIntervalTimer() {
     this.to_date_jq_getter = false;
     clearInterval(this.to_date_jq_getter);
-  }), _defineProperty(_methods, "savePublishSettings", function savePublishSettings() {
-    this.stopIntervalTimer(); //Todo api code for publishing
-    //create new columns to database
-    //add it to migration
   }), _methods),
   mounted: function mounted() {
-    var _this5 = this;
+    var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this5.getdata();
+              _this4.getdata();
 
-              _this5.$emit('closeModuleDialog');
+              _this4.$emit('closeModuleDialog');
 
               if (localStorage.getItem("tip_module_show") === null) {
-                _this5.tip = true;
+                _this4.tip = true;
               } else {
-                _this5.tip = localStorage.getItem("tip_module_show") == true;
+                _this4.tip = localStorage.getItem("tip_module_show") == true;
               }
 
-              _this5.publishToHandler();
-
-            case 4:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -1737,7 +1777,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".flip-list-move {\n  transition: transform 0.5s !important;\n}\n.no-move {\n  transition: transform 0s !important;\n}\n.pannel-btn {\n  position: absolute;\n  top: 15px;\n  right: 47px;\n  z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n  padding: 0 !important;\n}\n.ghost {\n  border-left: 10px solid #cecece !important;\n}\n.module-switch {\n  position: absolute;\n  right: 100px;\n  bottom: 7px;\n  z-index: 999;\n}\n.published_module {\n  border-left: 6px #66BB6A solid;\n}\n.not_published_module {\n  padding-left: 10px !important;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".flip-list-move {\n  transition: transform 0.5s !important;\n}\n.no-move {\n  transition: transform 0s !important;\n}\n.pannel-btn {\n  position: absolute;\n  top: 15px;\n  right: 47px;\n  z-index: 100;\n}\n.v-expansion-panel-content__wrap {\n  padding: 0 !important;\n}\n.ghost {\n  border-left: 10px solid #cecece !important;\n}\n.module-switch {\n  position: absolute;\n  right: 111px;\n  bottom: 19px;\n  z-index: 1000;\n}\n.published_module {\n  border-left: 6px #66BB6A solid;\n}\n.not_published_module {\n  padding-left: 10px !important;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -26641,7 +26681,6 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
-
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -26792,9 +26831,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                    'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
-                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                'an existing locale. moment.defineLocale(localeName, ' +
+                'config) should only be used for creating a new locale ' +
+                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -26819,7 +26858,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function (x) {
+            localeFamilies[name].forEach(function(x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -26909,7 +26948,6 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
-
 
 /***/ }),
 
@@ -38580,64 +38618,74 @@ var render = function() {
                                                 ),
                                                 [
                                                   _c(
-                                                    "v-switch",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          staticClass: "pt-1",
-                                                          attrs: {
-                                                            inset: "",
-                                                            loading:
-                                                              _vm.isPublishing &&
-                                                              _vm.isPublishing_id ==
-                                                                itemModule.id,
-                                                            color: "success",
-                                                            disabled:
-                                                              _vm.isPublishing
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              ;(_vm.isPublishing_id =
-                                                                itemModule.id),
-                                                                (_vm.publishDialog = true)
-                                                              _vm.publishModule(
-                                                                itemModule.module_name,
-                                                                itemModule.id,
-                                                                itemModule.isPublished
-                                                              )
-                                                            }
-                                                          },
-                                                          nativeOn: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              $event.stopPropagation()
-                                                            }
-                                                          },
-                                                          model: {
-                                                            value:
-                                                              itemModule.isPublished,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.$set(
-                                                                itemModule,
-                                                                "isPublished",
-                                                                $$v
-                                                              )
+                                                    "v-btn",
+                                                    {
+                                                      class:
+                                                        itemModule.isPublished ==
+                                                        1
+                                                          ? "green lighten-1"
+                                                          : "grey lighten-1",
+                                                      attrs: {
+                                                        dark: "",
+                                                        icon: ""
+                                                      },
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          return _vm.openPublishSettings(
+                                                            itemModule.module_name,
+                                                            itemModule.id,
+                                                            itemModule.isPublished
+                                                          )
+                                                        }
+                                                      },
+                                                      nativeOn: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          $event.stopPropagation()
+                                                        }
+                                                      }
+                                                    },
+                                                    [
+                                                      itemModule.isPublished ==
+                                                      1
+                                                        ? _c("v-icon", [
+                                                            _vm._v(
+                                                              "\n                                                   mdi-publish\n                                                "
+                                                            )
+                                                          ])
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      itemModule.isPublished ==
+                                                      0
+                                                        ? _c(
+                                                            "svg",
+                                                            {
+                                                              staticStyle: {
+                                                                width: "24px",
+                                                                height: "24px"
+                                                              },
+                                                              attrs: {
+                                                                viewBox:
+                                                                  "0 0 24 24"
+                                                              }
                                                             },
-                                                            expression:
-                                                              "itemModule.isPublished"
-                                                          }
-                                                        },
-                                                        "v-switch",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    )
+                                                            [
+                                                              _c("path", {
+                                                                attrs: {
+                                                                  fill:
+                                                                    "currentColor",
+                                                                  d:
+                                                                    "M20.8 22.7L15 16.9V20H9V14H5L8.6 10.4L1.1 3L2.4 1.7L22.1 21.4L20.8 22.7M19 6V4H7.2L9.2 6H19M17.2 14H19L12 7L11.1 7.9L17.2 14Z"
+                                                                }
+                                                              })
+                                                            ]
+                                                          )
+                                                        : _vm._e()
+                                                    ],
+                                                    1
                                                   )
                                                 ],
                                                 1
@@ -38652,15 +38700,7 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(" "),
-                                    _c("span", [
-                                      _vm._v(
-                                        _vm._s(
-                                          itemModule.isPublished
-                                            ? "Unpublished"
-                                            : "Publish"
-                                        )
-                                      )
-                                    ])
+                                    _c("span", [_vm._v("Publish Settings")])
                                   ]
                                 )
                               ],
@@ -39350,6 +39390,13 @@ var render = function() {
                             attrs: {
                               label: _vm.radioAvailability[index],
                               value: _vm.radioAvailability[index]
+                            },
+                            on: {
+                              change: function($event) {
+                                return _vm.availabilitySelection(
+                                  _vm.availability
+                                )
+                              }
                             }
                           })
                         }),
@@ -39359,54 +39406,137 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _vm.availability == "Set date & time"
+                  _vm.availability == "Set date (From - To)"
                     ? _c(
                         "v-row",
+                        { staticClass: "ml-2 mt-2" },
                         [
                           _c(
                             "v-col",
                             [
                               _c(
-                                "v-datetime-picker",
+                                "v-menu",
                                 {
-                                  staticClass: "mt-0 pt-0",
+                                  ref: "publishFrom_menu",
                                   attrs: {
-                                    label: "From",
-                                    "time-format": "HH:mm",
-                                    "text-field-props": _vm.textFieldProps,
-                                    "date-picker-props": _vm.dateProps,
-                                    "time-picker-props": _vm.timeProps,
-                                    color: "primary"
+                                    "close-on-content-click": false,
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "min-width": "auto",
+                                    "date-picker-props": _vm.dateProps
                                   },
-                                  on: {
-                                    input: function($event) {
-                                      return _vm.publishFromHandler()
-                                    }
-                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-text-field",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    attrs: {
+                                                      min: _vm.publishFrom,
+                                                      label: "From",
+                                                      "prepend-icon":
+                                                        "mdi-calendar",
+                                                      readonly: ""
+                                                    },
+                                                    model: {
+                                                      value: _vm.publishFrom,
+                                                      callback: function($$v) {
+                                                        _vm.publishFrom = $$v
+                                                      },
+                                                      expression: "publishFrom"
+                                                    }
+                                                  },
+                                                  "v-text-field",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              )
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    1767863612
+                                  ),
                                   model: {
-                                    value: _vm.publishFrom,
+                                    value: _vm.publishFrom_menu,
                                     callback: function($$v) {
-                                      _vm.publishFrom = $$v
+                                      _vm.publishFrom_menu = $$v
                                     },
-                                    expression: "publishFrom"
+                                    expression: "publishFrom_menu"
                                   }
                                 },
                                 [
-                                  _c(
-                                    "template",
-                                    { slot: "dateIcon" },
-                                    [_c("v-icon", [_vm._v("mdi-calendar")])],
-                                    1
-                                  ),
                                   _vm._v(" "),
                                   _c(
-                                    "template",
-                                    { slot: "timeIcon" },
-                                    [_c("v-icon", [_vm._v("mdi-clock")])],
+                                    "v-date-picker",
+                                    {
+                                      attrs: {
+                                        min: _vm.date,
+                                        "no-title": "",
+                                        scrollable: ""
+                                      },
+                                      model: {
+                                        value: _vm.publishFrom,
+                                        callback: function($$v) {
+                                          _vm.publishFrom = $$v
+                                        },
+                                        expression: "publishFrom"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.publishFrom_menu = false
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    Cancel\n                                "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.publishFrom_menu.save(
+                                                _vm.publishFrom
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    OK\n                                "
+                                          )
+                                        ]
+                                      )
+                                    ],
                                     1
                                   )
                                 ],
-                                2
+                                1
                               )
                             ],
                             1
@@ -39417,54 +39547,137 @@ var render = function() {
                             { attrs: { id: "publish_to" } },
                             [
                               _c(
-                                "v-datetime-picker",
+                                "v-menu",
                                 {
-                                  ref: "toInput",
-                                  staticClass: "mt-0 pt-0",
+                                  ref: "publishTo_menu",
                                   attrs: {
-                                    label: "To",
-                                    "time-format": "HH:mm",
-                                    "text-field-props": _vm.textFieldProps,
-                                    "date-picker-props": _vm.toDateProps,
-                                    "time-picker-props": _vm.toTimeProps,
-                                    "picker-date": _vm.pickerDate,
-                                    color: "primary"
+                                    "close-on-content-click": false,
+                                    transition: "scale-transition",
+                                    "offset-y": "",
+                                    "min-width": "auto"
                                   },
-                                  on: {
-                                    "update:pickerDate": function($event) {
-                                      _vm.pickerDate = $event
-                                    },
-                                    "update:picker-date": function($event) {
-                                      _vm.pickerDate = $event
-                                    },
-                                    click: function($event) {
-                                      return _vm.toDateHandler()
-                                    }
-                                  },
+                                  scopedSlots: _vm._u(
+                                    [
+                                      {
+                                        key: "activator",
+                                        fn: function(ref) {
+                                          var on = ref.on
+                                          var attrs = ref.attrs
+                                          return [
+                                            _c(
+                                              "v-text-field",
+                                              _vm._g(
+                                                _vm._b(
+                                                  {
+                                                    attrs: {
+                                                      label: "To",
+                                                      "prepend-icon":
+                                                        "mdi-calendar",
+                                                      readonly: ""
+                                                    },
+                                                    model: {
+                                                      value: _vm.publishTo,
+                                                      callback: function($$v) {
+                                                        _vm.publishTo = $$v
+                                                      },
+                                                      expression: "publishTo"
+                                                    }
+                                                  },
+                                                  "v-text-field",
+                                                  attrs,
+                                                  false
+                                                ),
+                                                on
+                                              )
+                                            )
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    null,
+                                    false,
+                                    3765076591
+                                  ),
                                   model: {
-                                    value: _vm.publishTo,
+                                    value: _vm.publishTo_menu,
                                     callback: function($$v) {
-                                      _vm.publishTo = $$v
+                                      _vm.publishTo_menu = $$v
                                     },
-                                    expression: "publishTo"
+                                    expression: "publishTo_menu"
                                   }
                                 },
                                 [
-                                  _c(
-                                    "template",
-                                    { slot: "dateIcon" },
-                                    [_c("v-icon", [_vm._v("mdi-calendar")])],
-                                    1
-                                  ),
                                   _vm._v(" "),
                                   _c(
-                                    "template",
-                                    { slot: "timeIcon" },
-                                    [_c("v-icon", [_vm._v("mdi-clock")])],
+                                    "v-date-picker",
+                                    {
+                                      attrs: {
+                                        "return-value": _vm.publishFrom,
+                                        min: _vm.publishFrom,
+                                        "no-title": "",
+                                        scrollable: ""
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.publishFrom = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.publishFrom = $event
+                                        }
+                                      },
+                                      model: {
+                                        value: _vm.publishTo,
+                                        callback: function($$v) {
+                                          _vm.publishTo = $$v
+                                        },
+                                        expression: "publishTo"
+                                      }
+                                    },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.publishTo_menu = false
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    Cancel\n                                "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          attrs: { text: "", color: "primary" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$refs.publishTo_menu.save(
+                                                _vm.publishTo
+                                              )
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    OK\n                                "
+                                          )
+                                        ]
+                                      )
+                                    ],
                                     1
                                   )
                                 ],
-                                2
+                                1
                               )
                             ],
                             1
