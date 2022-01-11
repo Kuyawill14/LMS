@@ -36,7 +36,7 @@
                                 <div style="display:flex">
                                     <v-icon>mdi-dots-grid</v-icon>
 
-                                    <v-list-item>
+                                    <v-list-item class="pl-1 ">
                                         <v-list-item-avatar>
                                             <v-icon
                                                 :class="itemModule.isPublished == 1 ? 'green lighten-1' : 'grey lighten-1'"
@@ -46,9 +46,10 @@
                                         </v-list-item-avatar>
 
                                         <v-list-item-content>
-                                            <v-list-item-title> {{itemModule.module_name}}</v-list-item-title>
+                                            <v-list-item-title> {{itemModule.module_name}}
+                                                ({{getSub_module(itemModule.id).length}}) </v-list-item-title>
                                             <v-list-item-subtitle class="text--primary"> Status:
-                                                {{itemModule.isPublished == 1 ? 'Published' : 'Published'}}
+                                                {{moduleStatus(itemModule )}}
                                             </v-list-item-subtitle>
                                             <v-list-item-subtitle> Created: {{format_date(itemModule.created_at)}}
                                             </v-list-item-subtitle>
@@ -98,13 +99,13 @@
 
                                                 <v-btn
                                                     :class="itemModule.isPublished == 1 ? 'green lighten-1' : 'grey lighten-1'"
-                                                    dark icon
-                                                    @click="openPublishSettings(itemModule.module_name,   itemModule.id,itemModule.isPublished)"
+                                                    dark icon @click="openPublishSettings(itemModule)"
                                                     @click.native.stop>
                                                     <v-icon v-if="itemModule.isPublished == 1">
-                                                       mdi-publish
+                                                        mdi-publish
                                                     </v-icon>
-                                                    <svg v-if="itemModule.isPublished == 0" style="width:24px;height:24px" viewBox="0 0 24 24">
+                                                    <svg v-if="itemModule.isPublished == 0"
+                                                        style="width:24px;height:24px" viewBox="0 0 24 24">
                                                         <path fill="currentColor"
                                                             d="M20.8 22.7L15 16.9V20H9V14H5L8.6 10.4L1.1 3L2.4 1.7L22.1 21.4L20.8 22.7M19 6V4H7.2L9.2 6H19M17.2 14H19L12 7L11.1 7.9L17.2 14Z" />
                                                     </svg>
@@ -129,46 +130,9 @@
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
 
-                            <v-list-item v-if="getSub_module(itemModule.id).length >= 7">
-                                <v-list-item-content>
-                                    <v-list-item-title> </v-list-item-title>
-
-                                    <v-list-item-subtitle></v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-menu transition="slide-y-transition" bottom>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn tile class="secondary" v-bind="attrs" v-on="on">
-                                                <v-icon left>
-                                                    mdi-plus
-                                                </v-icon>
-                                                Add item
-                                            </v-btn>
-                                        </template>
-                                        <v-list>
-                                            <v-list-item link @click="addFileBtn(itemModule.id)">
-                                                <v-list-item-title>File</v-list-item-title>
-
-                                            </v-list-item>
-                                            <v-list-item link @click="addLinkBtn(itemModule.id)">
-                                                <v-list-item-title>Link</v-list-item-title>
-
-                                            </v-list-item>
-                                            <!-- <v-list-item link>
-                                                <v-list-item-title>Classwork</v-list-item-title>
-                                            </v-list-item> -->
-                                        </v-list>
-                                    </v-menu>
-
-
-                                </v-list-item-action>
-                            </v-list-item>
-
-
-                            <v-divider v-if="getSub_module(itemModule.id).length >= 7"></v-divider>
 
                             <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
-                                link class="pl-8">
+                                link class="pl-10">
                                 <v-list-item-avatar>
                                     <v-icon
                                         :class="itemSubModule.type== 'Document' ? 'orange lighten-2' : 'blue lighten-2'"
@@ -364,7 +328,7 @@
                     <v-btn text @click="publishDialog= false;stopIntervalTimer()">
                         Close
                     </v-btn>
-                    <v-btn color="primary" text @click="savePublishSettings()">
+                    <v-btn color="primary" :loading="isPublishing" text @click="savePublishSettings()">
                         Save
                     </v-btn>
                 </v-card-actions>
@@ -492,6 +456,23 @@
         },
         methods: {
 
+            moduleStatus(_module) {
+                if (_module.isPublished == 1) {
+                    if (_module.date_from != null && _module.date_to != null) {
+                        return 'Published (' + this.format_date(_module.date_from, true) + ' - ' + this.format_date(
+                                _module.date_to, true) +
+                            ')';
+                    } else {
+                        return 'Always Availabe';
+                    }
+
+                } else {
+                    return 'Not Published';
+                }
+
+            },
+
+
 
             availabilitySelection(selection) {
 
@@ -503,24 +484,73 @@
                     }
                     return 1;
                 } else {
+                    this.publishSettings.date_from = null;
+                    this.publishSettings.date_to = null;
                     return 0;
                 }
 
 
 
             },
-            openPublishSettings(module_name, module_id, isPublished) {
-                this.publishSettings.module_name = module_name;
-                this.publishSettings.module_id = module_id;
+
+            resetPublishSettings() {
+                this.availability = this.radioAvailability[0];
+                this.publishFrom = moment(Date.now()).format('YYYY-MM-DD');
+                this.publishTo = moment(Date.now()).format('YYYY-MM-DD');
+            },
+
+
+
+
+
+            openPublishSettings(main_module) {
+
+                this.publishSettings.module_name = main_module.module_name;
+                this.publishSettings.module_id = main_module.id;
+
+                if (main_module.isPublished == 1) {
+                    this.publishFrom = main_module.date_from;
+                    this.publishTo = main_module.date_to;
+
+                    if (main_module.date_from != null && main_module.date_to != null) {
+                        this.availability = this.radioAvailability[1];
+                    } else {
+                        this.availability = this.radioAvailability[0];
+                        this.publishFrom = moment(Date.now()).format('YYYY-MM-DD');
+                        this.publishTo = moment(Date.now()).format('YYYY-MM-DD');
+                    }
+
+
+                } else {
+                    this.availability = this.radioAvailability[2];
+                    this.publishFrom = moment(Date.now()).format('YYYY-MM-DD');
+                    this.publishTo = moment(Date.now()).format('YYYY-MM-DD');
+
+
+                }
+
+                // this.availability = main_module.isPublished;
+
+
+
+
+
                 this.publishDialog = true;
 
             },
+
+
+
+
+
+
+
             savePublishSettings() {
                 this.publishSettings.date_from = this.publishFrom;
                 this.publishSettings.date_to = this.publishTo;
                 this.publishSettings.isPublished = this.availabilitySelection(this.availability);
 
-                console.log(this.publishSettings);
+                console.log(this.availabilitySelection(this.availability));
 
                 this.isPublishing = true;
 
@@ -529,17 +559,27 @@
                         publishSettings: this.publishSettings
                     })
                     .then((res) => {
-                        if (this.publishSettings.isPublished == 1) {
-                            this.toastSuccess(this.publishSettings.module_name + ' Successfully Published')
-                            this.isPublishing = false;
-                            this.isPublishing_id = this.publishSettings.module_id;
-
-                        } else {
-                            this.toastSuccess(this.publishSettings.module_name + ' Successfully Unpublished')
-                            this.isPublishing = false;
-                        }
 
 
+                        this.isPublishing_id = this.publishSettings.module_id;
+
+                        let foundIndex = this.getmain_module.findIndex(element => element.id === this
+                            .publishSettings.module_id)
+
+                        this.getmain_module[foundIndex].isPublished = this.publishSettings.isPublished;
+                        this.getmain_module[foundIndex].date_from = this.publishSettings.date_from;
+                        this.getmain_module[foundIndex].date_to = this.publishSettings.date_to;
+
+
+
+
+                        this.isPublishing = false;
+                        this.toastSuccess('Publish Settings have been saved!')
+                        this.publishDialog = false;
+
+
+                    }).catch(err => {
+                        this.toastError('Something went wrong, refresh the page and try again.')
                     })
 
             },
@@ -553,10 +593,14 @@
                 localStorage.setItem("tip_module_show", !this.tipCheckBox);
 
             },
-            format_date(value) {
-                if (value) {
-                    return moment(String(value)).format('MMMM Do YYYY, hh:mm A')
+            format_date(value, publish_format) {
+
+
+                if (publish_format == true) {
+                    return moment(String(value)).format('MMMM D, YYYY');
                 }
+
+                return moment(String(value)).format('MMMM D, YYYY hh:mm A')
             },
 
             onEnd() {
@@ -751,7 +795,7 @@
     .module-switch {
         position: absolute;
         right: 111px;
-        bottom: 19px;
+        bottom: 23px;
         z-index: 1000;
     }
 

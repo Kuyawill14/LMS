@@ -20,10 +20,10 @@ class CreateTblMainModules extends Migration
             $table->integer('created_by');
             $table->string('module_name');
             $table->string('description');
-            $table->integer('position');
-            $table->integer('isPublished');
-            $table->date('date_from');
-            $table->date('date_to');
+            $table->integer('position')->nullable();
+            $table->integer('isPublished')->nullable();
+            $table->date('date_from')->nullable();
+            $table->date('date_to')->nullable();
             $table->timestamps();
         });
     }

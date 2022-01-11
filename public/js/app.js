@@ -1939,7 +1939,7 @@ Vue.mixin(_objectSpread(_objectSpread({}, _mixins_titleMixin__WEBPACK_IMPORTED_M
       return this.$toasted.show(message, {
         theme: "toasted-primary",
         position: "top-right",
-        duration: 3000
+        duration: 7000
       });
     },
     toastSuccess: function toastSuccess(message) {
@@ -1947,7 +1947,7 @@ Vue.mixin(_objectSpread(_objectSpread({}, _mixins_titleMixin__WEBPACK_IMPORTED_M
         theme: "toasted-primary",
         position: "top-right",
         icon: "check",
-        duration: 2000
+        duration: 7000
       });
     },
     toastError: function toastError(message) {
@@ -1955,7 +1955,7 @@ Vue.mixin(_objectSpread(_objectSpread({}, _mixins_titleMixin__WEBPACK_IMPORTED_M
         theme: "toasted-primary",
         position: "top-right",
         icon: "warning",
-        duration: 3000
+        duration: 7000
       });
     },
     toastInfo: function toastInfo(message) {
@@ -1963,7 +1963,7 @@ Vue.mixin(_objectSpread(_objectSpread({}, _mixins_titleMixin__WEBPACK_IMPORTED_M
         theme: "toasted-primary",
         position: "top-center",
         icon: "info",
-        duration: 3000
+        duration: 7000
       });
     }
   }

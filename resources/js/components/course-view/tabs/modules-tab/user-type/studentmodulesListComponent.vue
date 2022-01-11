@@ -49,71 +49,73 @@
             </v-list-item>
         </v-card>
         <div class="expansion-pannel-container">
- <v-expansion-panels focusable style="margin-left: 1px;">
-            <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
+            <v-expansion-panels focusable style="margin-left: 1px;">
+                <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
 
-                <v-expansion-panel-header>
-                    <span style="font-size: 1.0rem;">
-                        <v-icon style="font-size: 1.0rem; ">
-                            mdi-folder
-                        </v-icon>
-                        {{itemModule.module_name}} <br>
-                        {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
-
-
-                    </span>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content class="pa-0">
-                    <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i" link
-                        :disabled="click_id == itemSubModule.id" class="pl-8" @click="click_id=itemSubModule.id,
-                            subModuleClick(itemModule.isPublished,itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress) 
-                         ">
-
-                        <v-list-item-avatar>
-
-                            <v-icon class="grey lighten-1" dark>
+                    <v-expansion-panel-header>
+                        <span style="font-size: 1.0rem;">
+                            <v-icon style="font-size: 1.0rem; ">
                                 mdi-folder
                             </v-icon>
-                        </v-list-item-avatar>
+                            {{itemModule.module_name}} <br>
+                            {{ getCount(studentSubModuleProgress, itemModule.id) + ' / '+ getSub_module(itemModule.id).length}}
 
-                        <v-list-item-content>
-                            <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                            <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
-                            <v-list-item-subtitle> Time spent:
-                                {{ convertTime(itemSubModule.id, -1)}}
+                        </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="pa-0">
+                        <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
+                            link :disabled="click_id == itemSubModule.id" class="pl-8" @click="click_id=itemSubModule.id,
+                            subModuleClick(itemModule,itemModule.id,itemSubModule.id,itemSubModule.type,studentSubModuleProgress) 
+                         ">
 
-                            </v-list-item-subtitle>
-                            <v-list-item-subtitle> Required time:
-                                {{ convertTime(-1,itemSubModule.required_time)}}
+                            <v-list-item-avatar>
 
-                            </v-list-item-subtitle>
-                        </v-list-item-content>
+                                <v-icon class="grey lighten-1" dark>
+                                    mdi-folder
+                                </v-icon>
+                            </v-list-item-avatar>
 
-                        <v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                            <v-icon
-                                :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
-                                mdi-check</v-icon>
+                                <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                <v-list-item-subtitle> Time spent:
+                                    {{ convertTime(itemSubModule.id, -1)}}
 
-                        </v-list-item-action>
+                                </v-list-item-subtitle>
+                                <v-list-item-subtitle> Required time:
+                                    {{ convertTime(-1,itemSubModule.required_time)}}
 
-                    </v-list-item>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
 
-                </v-expansion-panel-content>
-            </v-expansion-panel>
-        </v-expansion-panels>
+                            <v-list-item-action>
+
+                                <v-icon
+                                    :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
+                                    mdi-check</v-icon>
+
+                            </v-list-item-action>
+
+                        </v-list-item>
+
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
 
         </div>
 
 
-       
+
 
     </div>
 </template>
 
 
 <script>
+    import moment from 'moment/src/moment';
+
     import Vidle from 'v-idle'
     Vue.use(Vidle)
 
@@ -175,27 +177,69 @@
                 }
             },
 
-            subModuleClick(isPublished, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
-    $(window).scrollTop(0);
+            subModuleClick(itemModule, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
+                $(window).scrollTop(0);
 
 
-                if (isPublished || this.role == 'Teacher') {
-
-                    this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                if (this.role == 'Teacher') {
                     this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
-                    this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
-                        studentSubModuleProgress);
-
 
                     this.isSelectedModule = true;
 
 
+
+
                 } else {
-                    this.toastInfo('Module not available, The instructor still not yet publish this module.')
-                    this.isSelectedModule = false;
+                    console.log(itemModule);
+
+                    if (itemModule.isPublished == 1) {
+
+
+                        var date = new Date();
+                        var startDate = new Date(itemModule.date_from);
+                        var endDate = new Date(itemModule.date_to);
+
+                        if (itemModule.date_from != null && itemModule.date_to != null) {
+                            if (startDate <= date && date <= endDate) {
+                                this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                                this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
+                                    studentSubModuleProgress);
+                                this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+
+                                this.isSelectedModule = true;
+
+
+                            } else {
+                                this.toastInfo('Module not available, You can only access this module from ' + this
+                                    .format_date(itemModule.date_from) + ' to ' + this.format_date(itemModule
+                                        .date_to));
+                            }
+                        } else {
+                               this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                                this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
+                                    studentSubModuleProgress);
+                                this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+
+                                this.isSelectedModule = true;
+                        }
+
+
+                    } else {
+
+                        this.toastInfo('Module not available, The instructor still not yet publish this module.')
+                        this.isSelectedModule = false;
+                    }
+
+
+
+
+
                 }
 
 
+            },
+            format_date(value) {
+                return moment(String(value)).format('MMMM D, YYYY')
             },
 
 
@@ -502,10 +546,11 @@
         display: flex;
         align-items: center;
     }
-     .expansion-pannel-container {
+
+    .expansion-pannel-container {
         height: 100vh;
         overflow-y: auto;
-        overflow-x:hidden;
+        overflow-x: hidden;
     }
 
 </style>
@@ -514,7 +559,5 @@
     .v-list-item--disabled {
         background: #F6F6F6;
     }
-
-   
 
 </style>

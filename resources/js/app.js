@@ -56,7 +56,7 @@ Vue.mixin({
             return this.$toasted.show(message, {
                 theme: "toasted-primary",
                 position: "top-right",
-                duration: 3000,
+                duration: 7000,
             });
         },
 
@@ -65,7 +65,7 @@ Vue.mixin({
                 theme: "toasted-primary",
                 position: "top-right",
                 icon: "check",
-                duration: 2000
+                duration: 7000
             });
         },
 
@@ -74,7 +74,7 @@ Vue.mixin({
                 theme: "toasted-primary",
                 position: "top-right",
                 icon: "warning",
-                duration: 3000
+                duration: 7000
             });
         },
         toastInfo(message) {
@@ -83,7 +83,7 @@ Vue.mixin({
 
                 position: "top-center",
                 icon: "info",
-                duration: 3000
+                duration: 7000
             });
         },
     }
