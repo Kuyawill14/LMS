@@ -797,7 +797,7 @@ class StudentController extends Controller
                 $new_request->class_id = $Class->id;
                 $new_request->save();
 
-
+                $this->NotifyTeacher($Class->id, 'request', $userId, $Class->course_id);
 
                 $mailDetails = tbl_teacher_course::where('tbl_teacher_courses.course_id', $Class->course_id)
                 ->select('users.email', 'tbl_subject_courses.course_name','tbl_subject_courses.id')
@@ -811,7 +811,7 @@ class StudentController extends Controller
                 $profile = $userDetails->profile_pic == null ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' : $userDetails->profile_pic;
                 Mail::to($mailDetails->email)->send(new SendRequestJoinMail($name, $profile, $mailDetails->course_name, $Class->class_name , $url));
 
-                $this->NotifyTeacher($Class->id, 'request', $userId, $Class->course_id);
+                
                 return response()->json([
                 'course_id'=>$new_request->course_id, 
                 'status'=> 2, 

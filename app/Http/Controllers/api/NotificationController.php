@@ -451,9 +451,16 @@ class NotificationController extends Controller
        $latest_notif = tbl_notification::orderBy('updated_at', 'desc')->first();
        $from_name = tbl_userDetails::where('user_id', $latest_notif->from_id)
        ->select(DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"))->first();
-       $message =  $latest_notif->notification_type != 6 ? $from_name->name.' '.$latest_notif->message : $latest_notif->message;
-       if($latest_notif->course_id != null){
-            $userCourses = tbl_userclass::where('user_id', $userId)->select('course_id')->get();
+       $message =  $latest_notif->notification_type != 6 && $latest_notif->notification_type != 2 ? $from_name->name.' '.$latest_notif->message : $latest_notif->message;
+       if($latest_notif->course_id == null && $latest_notif->class_id == null){
+            if($latest_notif->user_id_to == $userId)$push_notif_data = ["success"=> true, "message"=> $message];
+            else $push_notif_data = [ "success"=> false,"message"=> null];
+        }else if($latest_notif->course_id != null && $latest_notif->class_id != null){
+            if(auth("sanctum")->user()->role == "Teacher") $push_notif_data = ["success"=> true, "message"=> $message];
+            else $push_notif_data = [ "success"=> false,"message"=> null];
+        }
+        else if($latest_notif->course_id != null && $latest_notif->class_id == null){
+            $userCourses = tbl_userclass::where('user_id', $userId)->select('course_id','class_id')->get();
             $check = false;
             foreach($userCourses as $item){
                 if($item['course_id'] == $latest_notif->course_id){
@@ -462,9 +469,16 @@ class NotificationController extends Controller
             }
             if($check) $push_notif_data = ["success"=> true, "message"=> $message];
             else $push_notif_data = [ "success"=> false,"message"=> null];
-            
-        }else{
-            if($latest_notif->user_id_to == $userId)$push_notif_data = ["success"=> true, "message"=> $message];
+        }
+        else if($latest_notif->course_id == null && $latest_notif->class_id != null){
+            $userCourses = tbl_userclass::where('user_id', $userId)->select('course_id','class_id')->get();
+            $check = false;
+            foreach($userCourses as $item){
+                if($item['class_id'] == $latest_notif->class_id){
+                    $check = true;
+                }
+            }
+            if($check) $push_notif_data = ["success"=> true, "message"=> $message];
             else $push_notif_data = [ "success"=> false,"message"=> null];
         }
         return ["notificationCount"=> $NotificationCount, "push_notification"=> $push_notif_data];
