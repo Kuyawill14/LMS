@@ -408,9 +408,12 @@ import axios from 'axios';
                     messagingSenderId: process.env.MIX_messagingSenderId,
                     appId: process.env.MIX_appId,
                 };
-    
-        
-                firebase.initializeApp(firebaseConfig);
+                
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }else {
+                    firebase.app(); 
+                }
                 const messaging = firebase.messaging();
                 messaging
                     .requestPermission()

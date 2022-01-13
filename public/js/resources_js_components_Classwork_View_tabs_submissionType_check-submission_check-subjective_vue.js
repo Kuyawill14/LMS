@@ -1303,7 +1303,8 @@ var render = function() {
                                     {
                                       attrs: {
                                         small: "",
-                                        text: "",
+                                        dark: "",
+                                        color: "red",
                                         rounded: ""
                                       },
                                       on: {

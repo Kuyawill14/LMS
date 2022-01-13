@@ -136,7 +136,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 var announcementList = function announcementList() {
@@ -22929,22 +22928,28 @@ var render = function() {
                               "v-list",
                               { attrs: { dense: "", rounded: "" } },
                               [
-                                _c(
-                                  "v-list-item",
-                                  {
-                                    attrs: { link: "" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.editPost(
-                                          post.post_id,
-                                          post.content
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [_c("v-list-item-title", [_vm._v("Edit")])],
-                                  1
-                                ),
+                                post.u_id == _vm.UserDetails.id
+                                  ? _c(
+                                      "v-list-item",
+                                      {
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.editPost(
+                                              post.post_id,
+                                              post.content
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v("Edit")
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  : _vm._e(),
                                 _vm._v(" "),
                                 _c(
                                   "v-list-item",

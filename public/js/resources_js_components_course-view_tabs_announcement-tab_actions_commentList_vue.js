@@ -1281,51 +1281,56 @@ var render = function() {
                                                                   }
                                                                 },
                                                                 [
-                                                                  _c(
-                                                                    "v-list-item",
-                                                                    {
-                                                                      attrs: {
-                                                                        "ma-0":
-                                                                          "",
-                                                                        "pa-0":
-                                                                          ""
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _c(
-                                                                        "v-list-item-title",
+                                                                  item.u_id ==
+                                                                  _vm
+                                                                    .UserDetails
+                                                                    .id
+                                                                    ? _c(
+                                                                        "v-list-item",
+                                                                        {
+                                                                          attrs: {
+                                                                            "ma-0":
+                                                                              "",
+                                                                            "pa-0":
+                                                                              ""
+                                                                          }
+                                                                        },
                                                                         [
                                                                           _c(
-                                                                            "v-btn",
-                                                                            {
-                                                                              attrs: {
-                                                                                text:
-                                                                                  ""
-                                                                              },
-                                                                              on: {
-                                                                                click: function(
-                                                                                  $event
-                                                                                ) {
-                                                                                  ;(_vm.UpdateComment =
-                                                                                    item.content),
-                                                                                    (_vm.isEditing = true),
-                                                                                    (_vm.idEditing_id =
-                                                                                      item.id)
-                                                                                }
-                                                                              }
-                                                                            },
+                                                                            "v-list-item-title",
                                                                             [
-                                                                              _vm._v(
-                                                                                "Edit"
+                                                                              _c(
+                                                                                "v-btn",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    text:
+                                                                                      ""
+                                                                                  },
+                                                                                  on: {
+                                                                                    click: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      ;(_vm.UpdateComment =
+                                                                                        item.content),
+                                                                                        (_vm.isEditing = true),
+                                                                                        (_vm.idEditing_id =
+                                                                                          item.id)
+                                                                                    }
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "Edit"
+                                                                                  )
+                                                                                ]
                                                                               )
-                                                                            ]
+                                                                            ],
+                                                                            1
                                                                           )
                                                                         ],
                                                                         1
                                                                       )
-                                                                    ],
-                                                                    1
-                                                                  ),
+                                                                    : _vm._e(),
                                                                   _vm._v(" "),
                                                                   _c(
                                                                     "v-list-item",

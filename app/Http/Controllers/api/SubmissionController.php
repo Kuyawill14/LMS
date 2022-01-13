@@ -21,6 +21,8 @@ use App\Models\tbl_Submitted_Answer;
 use Carbon\Carbon;
 use App\Events\NewNotification;
 use App\Mail\SendWorkGradedMail;
+use Notification;
+use App\Notifications\SendPushNotification;
 
 class SubmissionController extends Controller
 {
@@ -290,13 +292,20 @@ class SubmissionController extends Controller
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
 
-            $mailDetails = tbl_classwork::where('tbl_classworks.id', $classwork_id)
-            ->select('users.email','tbl_classworks.title','tbl_classworks.course_id', 'tbl_classworks.id')
-            ->leftJoin('users','users.id','=', 'tbl_classworks.user_id')
+            //$mailDetails = tbl_classwork::where('tbl_classworks.id', $classwork_id)->first();
+
+            $student_details = User::where('users.id', $Suser_submission_id)
+            ->select('users.email','users.device_key')
+            ->leftJoin('tbl_user_details','tbl_user_details.user_id','=', 'users.id')
             ->first();
+
+
             $userDetails  = auth('sanctum')->user()->tbl_userDetails;
-            $url = "/classwork"."/".$mailDetails->course_id."/classwork-details?clwk=".$mailDetails->id;
-            Mail::to($mailDetails->email)->send(new SendWorkGradedMail($userDetails->lastName, $mailDetails->title, $url));
+            $notif_message =  $userDetails->firstName.' '.$userDetails->lastName.' '.$newNotification->message;
+            if($student_details->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $student_details->device_key)); 
+
+           /*  $url = "/classwork"."/".$mailDetails->course_id."/classwork-details?clwk=".$mailDetails->id;
+            Mail::to($student_details->email)->send(new SendWorkGradedMail($userDetails->lastName, $mailDetails->title, $url)); */
             
         }   
        

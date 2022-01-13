@@ -186,6 +186,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request) {
+        auth()->user()->update(['device_key'=>null]);
         $session = DB::table('sessions')->where('id', \Session::getId())->delete();
         request()->user()->tokens()->delete();
         Auth::logout();

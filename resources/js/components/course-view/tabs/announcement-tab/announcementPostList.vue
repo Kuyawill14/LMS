@@ -49,7 +49,7 @@
                         </v-tooltip>
                         </template>
                         <v-list dense rounded >
-                            <v-list-item link @click="editPost(post.post_id, post.content)">
+                            <v-list-item v-if="post.u_id == UserDetails.id" link @click="editPost(post.post_id, post.content)">
                                 <v-list-item-title>Edit</v-list-item-title>
                             </v-list-item>
                             <v-list-item link @click="deletePost(post.post_id, index)">
@@ -88,8 +88,7 @@
             </v-row>
             
               <!--Comment List -->
-            <commentList 
-            :postDetails="post" :UserDetails="UserDetails" ></commentList>
+            <commentList :postDetails="post" :UserDetails="UserDetails" ></commentList>
         </v-card>
 
          <div v-if="isLoadingMore" class="text-center">

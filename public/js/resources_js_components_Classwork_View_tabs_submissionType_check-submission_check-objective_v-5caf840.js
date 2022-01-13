@@ -24012,7 +24012,8 @@ var render = function() {
                                     {
                                       attrs: {
                                         small: "",
-                                        text: "",
+                                        dark: "",
+                                        color: "red",
                                         rounded: ""
                                       },
                                       on: {
@@ -24355,35 +24356,6 @@ var render = function() {
                                   )
                                 ],
                                 1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "ma-0 pa-0 pb-4",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [
-                                      _vm._v(
-                                        "Time Spent:\n                                "
-                                      )
-                                    ]
-                                  ),
-                                  _c("span", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.ViewDetails.timeSpent != null
-                                          ? _vm.ViewDetails.timeSpent +
-                                              " minutes"
-                                          : ""
-                                      )
-                                    )
-                                  ])
-                                ]
                               ),
                               _vm._v(" "),
                               _c(

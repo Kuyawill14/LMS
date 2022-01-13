@@ -67,7 +67,7 @@
                                          <div class="main_container" style="padding-left: 0;padding-top:0" >
                                              <div class="box_small">
                                                 <span style="font-size:5rem;color:#4CAF50"> &#128462;</span>
-                                            </div>N
+                                            </div>
                                              <div style="margin-top: 40px;margin-left:10px">
                                                  <span style="font-size:14px;font-weight:900;">Assigned by</span><br>
                                                  <span style="font-size:14px;">ISUE-ORANGE Instructor {{$name}}</span>

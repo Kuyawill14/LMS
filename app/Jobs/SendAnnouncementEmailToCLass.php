@@ -69,14 +69,14 @@ class SendAnnouncementEmailToCLass implements ShouldQueue
         $notif_message = $name.' '.$this->notif->message;
 
         foreach($emails as $email){
-            $latercount = 5;
+            /* $latercount = 5;
             $delay = $latercount*$counter;
             $url = '/course'.'/'.$this->link_id.'/announcement';
             $MailData = new SendAnnoucementEmail($this->name, $email->firstName, $this->course_name, $this->content, $url);
             Mail::to($email->email)
             ->cc($emails)
             ->later($delay, $MailData);
-            $counter++;
+            $counter++; */
 
             if($email->device_key != null)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $email->device_key));
             

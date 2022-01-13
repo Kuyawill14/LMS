@@ -82,7 +82,7 @@
                                         </v-btn> 
                                     </template>
                                     <v-list pa-0 ma-0>
-                                        <v-list-item ma-0 pa-0>
+                                        <v-list-item v-if="item.u_id == UserDetails.id" ma-0 pa-0>
                                             <v-list-item-title><v-btn @click="UpdateComment = item.content,isEditing = true, idEditing_id = item.id" text>Edit</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>

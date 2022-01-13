@@ -38,7 +38,7 @@
                                    </v-list-item-content>
                                      <v-list-item-action>
                                             <v-list-item-action-text>
-                                                <v-btn  @click="$emit('closeDialog')" small text rounded >
+                                                <v-btn  @click="$emit('closeDialog')" small dark color="red" rounded >
                                                     <v-icon small>mdi-close</v-icon> Close
                                                 </v-btn>  
                                             </v-list-item-action-text>

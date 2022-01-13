@@ -39,7 +39,7 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-list-item-action-text>
-                                    <v-btn @click="$emit('closeDialog')" small text rounded>
+                                    <v-btn @click="$emit('closeDialog')" small dark color="red" rounded>
                                         <v-icon small>mdi-close</v-icon> Close
                                     </v-btn>
                                 </v-list-item-action-text>
@@ -123,11 +123,11 @@
                                         </v-list-item-action>
                                     </v-list-item>
                                 </v-list>
-                                <v-col cols="12" class="ma-0 pa-0 pb-4">
+                               <!--  <v-col cols="12" class="ma-0 pa-0 pb-4">
 
                                     <span class="font-weight-bold">Time Spent:
                                     </span><span>{{ViewDetails.timeSpent != null ? ViewDetails.timeSpent+' minutes': ''}}</span>
-                                </v-col>
+                                </v-col> -->
                                 <v-col cols="12" class="ma-0 pa-0 pb-2 mt-1">
                                     <v-btn block text rounded v-if="ViewDetails.status == 'Submitted'"
                                         :loading="isReseting" @click="dialog = !dialog" color="primary">

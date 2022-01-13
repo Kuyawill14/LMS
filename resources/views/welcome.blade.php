@@ -68,38 +68,5 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
-            <script>
-              // var chatbox = document.getElementById('fb-customer-chat');
-              // chatbox.setAttribute("page_id", "102514265611526");
-              // chatbox.setAttribute("attribution", "biz_inbox");
-        
-              // window.fbAsyncInit = function() {
-              //   FB.init({
-              //     xfbml            : true,
-              //     version          : 'v12.0'
-              //   });
-              // };
-        
-              // (function(d, s, id) {
-              //   var js, fjs = d.getElementsByTagName(s)[0];
-              //   if (d.getElementById(id)) return;
-              //   js = d.createElement(s); js.id = id;
-              //   js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-              //   fjs.parentNode.insertBefore(js, fjs);
-              // }(document, 'script', 'facebook-jssdk'));
-             
-              /* var firebaseConfig = {
-                apiKey: "AIzaSyDWhE_gfbOrfbU88UwTZNDKYg0_ND0QQsQ",
-                authDomain: "isue-orange-pushnotification.firebaseapp.com",
-                projectId: "isue-orange-pushnotification",
-                storageBucket: "isue-orange-pushnotification.appspot.com",
-                messagingSenderId: "914599704994",
-                appId: "1:914599704994:web:5e7e272dd3fb83013f5afb"
-            };
-    
-      
-           
-        
-            </script>
         </body>
 </html>
