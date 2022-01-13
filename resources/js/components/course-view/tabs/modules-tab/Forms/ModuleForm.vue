@@ -18,55 +18,6 @@
                             </v-textarea>
                         </v-col>
                     </v-row>
-
-
-                    <v-col ma-0 pa-0 class="text-left py-0 my-0 px-0 mx-0" cols="12">
-                        <div class="subtitle-1">Availability:</div>
-                    </v-col>
-
-                    <v-col ma-0 pa-0 class="text-left pb-0 mb-0" cols="12">
-                        <!--  <v-container ma-0 pa-0 class="d-flex">
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="EnableDue"
-                                label="Always Available"
-                                ></v-checkbox>
-                                </v-container> -->
-
-                        <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
-                            <v-radio v-for="(n, index) in radioAvailability" :key="index"
-                                :label="radioAvailability[index]" :value="radioAvailability[index]"></v-radio>
-                        </v-radio-group>
-                    </v-col>
-
-
-                    <v-row v-if="availability == 'Set date & time'">
-                        <v-col>
-                            <v-datetime-picker label="From" v-model="publishFrom" class="mt-0 pt-0" time-format="HH:mm"
-                                :text-field-props="textFieldProps" :date-picker-props="dateProps"
-                                :time-picker-props="timeProps" color="primary">
-                                <template slot="dateIcon">
-                                    <v-icon>mdi-calendar</v-icon>
-                                </template>
-                                <template slot="timeIcon">
-                                    <v-icon>mdi-clock</v-icon>
-                                </template>
-                            </v-datetime-picker>
-                        </v-col>
-
-                        <v-col>
-                            <v-datetime-picker label="To" v-model="publishTo" class="mt-0 pt-0" time-format="HH:mm"
-                                :text-field-props="textFieldProps" :date-picker-props="dateProps"
-                                :time-picker-props="timeProps" color="primary">
-                                <template slot="dateIcon">
-                                    <v-icon>mdi-calendar</v-icon>
-                                </template>
-                                <template slot="timeIcon">
-                                    <v-icon>mdi-clock</v-icon>
-                                </template>
-                            </v-datetime-picker>
-                        </v-col>
-                    </v-row>
                 </v-container>
             </v-card-text>
             <v-card-actions>

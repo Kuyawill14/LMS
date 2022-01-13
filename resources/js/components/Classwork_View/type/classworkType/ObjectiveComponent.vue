@@ -493,7 +493,7 @@
             },
             start() {
                 this.classworkDetails.status = "Taking";
-                //   this.isOpenQuiz = true;
+                  this.isOpenQuiz = true;
                 if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
                     //this.UpdateStatus( this.classworkDetails.id);
 
@@ -516,6 +516,7 @@
 
                     this.saveActivityLog('Student started taking the exam').then(() => {
                         location.reload();
+                        
                     });
 
                 } else {
@@ -524,7 +525,7 @@
             },
 
             continueQuiz(id) {
-                // this.isOpenQuiz = true;
+                this.isOpenQuiz = true;
                 // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
                 let routeData = this.$router.resolve({
                     name: 'quizstart',
