@@ -21,6 +21,7 @@ use App\Jobs\SendNotificationMailToClass;
 use App\Jobs\SendAnnouncementEmailToCLass;
 use App\Jobs\SendClassworkNotification;
 use Carbon\Carbon;
+use App\Notifications\SendPushNotification;
 
 class NotificationController extends Controller
 {
@@ -32,7 +33,7 @@ class NotificationController extends Controller
         //return $request->data;
         $userId = auth("sanctum")->id();
         $count = 1;
-        $delay = 30;
+        $delay = 15;
         if($request->type == "classwork"){
             foreach($request->data as $item){
                 
@@ -47,33 +48,34 @@ class NotificationController extends Controller
                 $message = $clsssworkTitle->title." assigned in your ".$clsssworkTitle->course_name;
 
                 $dateToday = date('Y-m-d H:i:s');
-           
-                $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
-                $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item['from_date']);
-                $diff_in_minutes = $to->diffInMinutes($from);
                 $seconds;
-                if($diff_in_minutes <= 0){
-                    $tmp = 0;
-                    $tmp_delay = $delay * $count;
-                    $seconds =  $tmp + $tmp_delay ;
+                if($item['availability'] == 1){
+                    $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
+                    $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item['from_date']);
+                    $diff_in_minutes = $to->diffInMinutes($from);
+                    if($diff_in_minutes <= 0){
+                        $tmp = 0;
+                        $tmp_delay = $delay * $count;
+                        $seconds =  $tmp + $tmp_delay ;
+                    }
+                    else{
+                        $tmp =  $diff_in_minutes * 60;
+                        $tmp_delay = $delay * $count;
+                        $seconds =  $tmp + $tmp_delay;
+                    }
+                }else{
+                    $seconds = $delay * $count;
+                }
 
+
+                if($item['availability'] != 2){
+                    SendClassworkNotification::dispatch($item['class_id'], $userId, $item['classwork_id'], $message, $type, 'notification')->delay(Carbon::now()->addSeconds($seconds));
+                    $ClassName = Tbl_class::where('tbl_classes.id',$item['class_id'])->first();
+                    $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$item['classwork_id'];
+                    $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
+                    SendNotificationMailToClass::dispatch($item['class_id'], $item['classwork_id'], $clsssworkTitle->title, $clsssworkTitle->instruction, $item['to_date'], $CourseClassName, $clsssworkTitle->lastName, $url, 'email')->delay(Carbon::now()->addSeconds($seconds));
                 }
-                else{
-                    $tmp =  $diff_in_minutes * 60;
-                    $tmp_delay = $delay * $count;
-                    $seconds =  $tmp + $tmp_delay;
-                }
-                
-       
-                
-            
-                SendClassworkNotification::dispatch($item['class_id'], $userId, $item['classwork_id'], $message, $type, 'notification')->delay(Carbon::now()->addSeconds($seconds));
-                
-                $ClassName = Tbl_class::where('tbl_classes.id',$item['class_id'])->first();
-                $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$item['classwork_id'];
-                $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
-                SendNotificationMailToClass::dispatch($item['class_id'], $item['classwork_id'], $clsssworkTitle->title, $clsssworkTitle->instruction, $item['to_date'], $CourseClassName, $clsssworkTitle->lastName, $url, 'email')->delay(Carbon::now()->addSeconds($seconds));
-            
+
                 $count++;
                
             }
@@ -108,7 +110,7 @@ class NotificationController extends Controller
             $role = auth("sanctum")->user()->role;
             
             if(auth("sanctum")->user()->role == "Teacher"){
-                SendAnnouncementEmailToCLass::dispatch($newNotification->course_id, $newNotification->class_id , $userInClass->course_name, $Name, $role, $request->content, $userInClass->id);
+                SendAnnouncementEmailToCLass::dispatch($newNotification->course_id, $newNotification->class_id , $userInClass->course_name, $Name, $role, $request->content, $userInClass->id, $newNotification);
             }
             return;
         }
@@ -447,7 +449,7 @@ class NotificationController extends Controller
 
 
         //push notification data;
-       $push_notif_data;
+      /*  $push_notif_data;
        $latest_notif = tbl_notification::orderBy('updated_at', 'desc')->first();
        $from_name = tbl_userDetails::where('user_id', $latest_notif->from_id)
        ->select(DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"))->first();
@@ -480,8 +482,8 @@ class NotificationController extends Controller
             }
             if($check) $push_notif_data = ["success"=> true, "message"=> $message];
             else $push_notif_data = [ "success"=> false,"message"=> null];
-        }
-        return ["notificationCount"=> $NotificationCount, "push_notification"=> $push_notif_data];
+        } */
+        return ["notificationCount"=> $NotificationCount];
       
     }
 

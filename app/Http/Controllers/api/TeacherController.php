@@ -28,6 +28,8 @@ use App\Events\NewUserCLass;
 use App\Jobs\DeleteUploadedFiles;
 use App\Jobs\AlertSelectedStudents;
 use App\Events\NewNotification;
+use Notification;
+use App\Notifications\SendPushNotification;
 
 
 
@@ -76,6 +78,9 @@ class TeacherController extends Controller
             $newNotification->notification_type = 3;
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
+
+            $notif_message = $UserFullName.' '.$newNotification->message;
+            if($FindUser->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $FindUser->device_key)); 
             return;
         }
         else{

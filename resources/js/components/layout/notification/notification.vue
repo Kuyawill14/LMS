@@ -165,7 +165,7 @@
                           
                         </v-list-item> -->
                           
-
+                
                         <v-list-item v-if="LastPage != 1" >
                             <v-list-item-content>
                                 <v-row align-content="center" justify="center">
@@ -194,6 +194,7 @@
         mapGetters,
         mapActions
     } from "vuex";
+import axios from 'axios';
     export default {
         data: () => ({
             notificationList:{},
@@ -213,13 +214,14 @@
             notifType: 'all',
             AttachData: {},
             isClose: false,
-            divider:[]
+            divider:[],
+            
      
         }),
         components:{
             //seeAllNotification
         },
-        computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting","get_push_notification_data"]),
+        computed: mapGetters(["get_notification", "get_notification_count","ShowPage","ShowLoadMore","LastPage","isGetting"]),
         methods: {
             ...mapActions(['fetchNotification']),
             ...mapActions(['fetchNotificationCount']),
@@ -233,25 +235,8 @@
                 this.fetchNotificationCount();
                 window.Echo.private("notification")
                 .listen('NewNotification', e => {
-                    newVm.$store.dispatch('fetchNotificationCount').then(()=>{
-                        console.log(this.get_push_notification_data);
-                        if(this.get_push_notification_data.success ==  true){
-                                Notification.requestPermission( permission => {
-                                let notification = new Notification('ISUE-ORANGE', {
-                                    body: this.get_push_notification_data.message,
-                                    icon: "../images/orange_title.png"
-                                });
-                                notification.onclick = () => {
-                                    window.open(window.location.href);
-                                }
-                            });
-                        } 
-                    })
-
-                                          
+                     newVm.fetchNotificationCount();              
                 }); 
-
-               
             },
              NotificationHide(id) {
                     this.$store.dispatch("HideNotification", id)
@@ -414,9 +399,40 @@
 
                 })
             },
+            async StartFireBasePushNotification(){
+                let firebaseConfig = {
+                    apiKey: process.env.MIX_apiKey,
+                    authDomain: process.env.MIX_authDomain,
+                    projectId: process.env.MIX_projectId,
+                    storageBucket: process.env.MIX_storageBucket,
+                    messagingSenderId: process.env.MIX_messagingSenderId,
+                    appId: process.env.MIX_appId,
+                };
+    
+        
+                firebase.initializeApp(firebaseConfig);
+                const messaging = firebase.messaging();
+                messaging
+                    .requestPermission()
+                    .then(()=> {
+                        return messaging.getToken()
+                    })
+                    .then((response)=> {
+                        axios.post('/api/store_token',{token: response})
+                        .then((res)=>{
+                        })    
+                    }).catch(function (error) {
+
+                    });
+                
+                    messaging.onMessage(function({data:{body,title}}){
+                        new Notification(title, {body});
+                    });
+            }
           
         },
         mounted() {
+            this.StartFireBasePushNotification();
             this.connect();
             
         }

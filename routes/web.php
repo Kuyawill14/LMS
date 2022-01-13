@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\WebNotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/Guides', function () {
     return view('Guides.introduction.0-introduction');
 });
+
+//Route::post('/store-token', [WebNotificationController::class, 'storeToken'])->name('store.token');
 
 Route::get('/tutorial', function () {
     return view('tutorial');

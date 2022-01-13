@@ -271,9 +271,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   methods: {
     format_date: function format_date(value) {
       if (value) {
-        //console.log(moment(String(value)).startOf('hour').fromNow());
-        //return moment(String(value)).startOf('hour').fromNow();
-        //return moment(String(value)).format("YY,MM,dddd,  h:mm a")
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz('Asia/Manila').format("ddd, MMMM DD, YYYY h:mm a");
       }
     },
@@ -312,6 +309,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get('/api/post/allcomment/' + _this2.postDetails.post_id).then(function (res) {
                   _this2.postDetails.comment_count = res.data.total;
+
+                  _this2.getComments();
                 });
 
               case 1:
@@ -487,33 +486,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _this7.showComment = true;
                 _this7.postDetails.isCommented = true;
                 _this7.data.content = _this7.comment;
                 _this7.data.course_id = _this7.$route.params.id;
                 _this7.data.post_id = _this7.postDetails.post_id;
                 axios.post('/api/post/comment/insert', _this7.data).then(function (res) {
                   _this7.clearComment();
-                  /* this.CommentList.push({
-                      id: res.data.id,
-                      content: res.data.content,
-                      name: this.UserDetails.firstName+' '+this.UserDetails.lastName,
-                      post_id: this.postDetails.post_id,
-                      profile_pic: this.UserDetails.profile_pic,
-                      created_at: res.data.created_at,
-                      u_id: this.UserDetails.id
-                  }) */
+                  /*  this.CommentList.push({
+                       id: res.data.id,
+                       content: res.data.content,
+                       name: this.UserDetails.firstName+' '+this.UserDetails.lastName,
+                       post_id: this.postDetails.post_id,
+                       profile_pic: this.UserDetails.profile_pic,
+                       created_at: res.data.created_at,
+                       u_id: this.UserDetails.id
+                   }) */
 
 
-                  _this7.getComments(); //this.readMore.push({id: res.data.id , isLongText: false, IsreadMore: false})
+                  _this7.getCount(); //this.readMore.push({id: res.data.id , isLongText: false, IsreadMore: false})
 
 
-                  _this7.getCount(); //setTimeout(() => (this.checkContainerHeight()), 1000);
+                  _this7.showComment = true; //setTimeout(() => (this.checkContainerHeight()), 1000);
                   //this.postDetails.comment_count +=1;
-
                 });
 
-              case 6:
+              case 5:
               case "end":
                 return _context6.stop();
             }
@@ -904,7 +901,7 @@ var render = function() {
       _c("v-row", { staticClass: "pl-5 pr-5" }, [_c("v-divider")], 1),
       _vm._v(" "),
       _c("transition", { attrs: { transition: "v-expand-transition" } }, [
-        _vm.showComment
+        _vm.showComment && _vm.postDetails.comment_count != 0
           ? _c("div", { staticClass: "mt-6 mb-0 pb-0" }, [
               _vm.isloading
                 ? _c(

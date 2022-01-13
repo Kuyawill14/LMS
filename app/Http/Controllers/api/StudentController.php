@@ -25,6 +25,8 @@ use App\Models\tbl_join_request;
 use Carbon\Carbon;
 use App\Mail\SendSubmittedWorkMail;
 use App\Mail\SendRequestJoinMail;
+use Notification;
+use App\Notifications\SendPushNotification;
 
 
 class StudentController extends Controller
@@ -232,20 +234,6 @@ class StudentController extends Controller
      */
     public function AddLinkToSubmittedAnswer(Request $request){
         $userId = auth('sanctum')->id();
-       /*  if($request->Submission_id == 'empty'){
-            
-            $StatusUpdate = new tbl_Submission;
-            $StatusUpdate->classwork_id = $request->id;
-            $StatusUpdate->class_classwork_id = $request->class_classwork_id;
-            $StatusUpdate->user_id =  $userId;
-            $StatusUpdate->status = "Submitting";
-            $tempAnswer[] = ["link"=> $request->file, 
-            "name"=> $request->fileName,"fileSize"=> $request->fileSize,"fileExte"=> $request->fileExte];
-            $StatusUpdate->Submitted_Answers = serialize($tempAnswer);
-            $StatusUpdate->save();
-            return $StatusUpdate->id;
-       }
-       else{ */
         
         $StatusUpdate = tbl_Submission::find($request->Submission_id);
 
@@ -414,7 +402,7 @@ class StudentController extends Controller
             broadcast(new NewNotification($newNotification))->toOthers();
 
             $mailDetails = tbl_Submission::where('tbl_submissions.id',$id)
-            ->select('users.email','tbl_classworks.title','tbl_classworks.course_id', 'tbl_classworks.id')
+            ->select('users.email','users.device_key','tbl_classworks.title','tbl_classworks.course_id', 'tbl_classworks.id')
             ->leftJoin('tbl_classworks','tbl_classworks.id','=', 'tbl_submissions.classwork_id')
             ->leftJoin('users','users.id','=', 'tbl_classworks.user_id')
             ->first();
@@ -425,8 +413,9 @@ class StudentController extends Controller
             $url = "/classwork"."/".$mailDetails->course_id."/submission-list?clwk=".$mailDetails->id;
             $profile = $userDetails->profile_pic == null ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png' : $userDetails->profile_pic;
             Mail::to($mailDetails->email)->send(new SendSubmittedWorkMail($name, $profile, $mailDetails->title, $date_submitted, $url));
-           
+            if($mailDetails->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$newNotification->message,$mailDetails->device_key));           
         }
+
     
             return $SubmitSubj;
         }
@@ -483,12 +472,6 @@ class StudentController extends Controller
             }
             return $CheckStatus;
         }
-     /*    else{
-            return response()->json([
-                "status" => null,
-                
-            ]);
-        } */
         return $CheckStatus;
        
      
@@ -544,9 +527,6 @@ class StudentController extends Controller
                     }
                 }
                 
-
-
-
                 return response()->json([
                     'submission_id'=> $CheckStatus->id, 
                     'status' => $CheckStatus->status,
@@ -635,7 +615,7 @@ class StudentController extends Controller
 
     public function NotifyTeacher($class_id, $type, $userId, $course_id){
         $userInClass = tbl_userclass::select('tbl_userclasses.id','tbl_userclasses.user_id', 'tbl_classes.class_name', 
-        'users.role','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')
+        'users.role','users.device_key','tbl_subject_courses.course_name','tbl_subject_courses.id as course_id','tbl_subject_courses.completed as status')
         ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
         ->leftJoin('tbl_subject_courses', 'tbl_userclasses.course_id', '=', 'tbl_subject_courses.id')
         ->leftJoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
@@ -662,7 +642,8 @@ class StudentController extends Controller
         ->first();
 
         $userName = auth('sanctum')->user()->tbl_userDetails->firstName.' '.auth('sanctum')->user()->tbl_userDetails->lastName;
-
+        $notif_message;
+    
         if($CheckNotif){
             $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
 
@@ -692,6 +673,7 @@ class StudentController extends Controller
             $CheckNotif->from_id =  $userId;
             $CheckNotif->updated_at =  date('Y-m-d H:i:s');
             $CheckNotif->save();
+            $notif_message = $CheckNotif->message;
             broadcast(new NewNotification($CheckNotif))->toOthers();
 
         }
@@ -722,9 +704,14 @@ class StudentController extends Controller
             $newNotification->notification_type = 2;
      
             $newNotification->save();
+            $notif_message = $newNotification->message;
             broadcast(new NewNotification($newNotification))->toOthers();
-            return $userInClass->status;
+           
         }
+
+        if($userInClass->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $userInClass->device_key));
+        return $userInClass->status;
+        
         
     }
     
