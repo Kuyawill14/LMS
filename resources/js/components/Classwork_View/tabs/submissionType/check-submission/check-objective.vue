@@ -1349,6 +1349,7 @@
                 this.isLoaded = false;
                 this.$emit("nextStudent");
                 setTimeout(() => (this.ReMatchQuestions()), 300);
+                this.fetchStudentActivity();
             },
             async PrevStudent() {
                 this.questionIndex = 0;
@@ -1357,6 +1358,7 @@
                 this.isLoaded = false;
                 this.$emit("prevStudent");
                 setTimeout(() => (this.ReMatchQuestions()), 300);
+                this.fetchStudentActivity();
             },
             fetchStudentActivity() {
                 this.loading_activity = true;

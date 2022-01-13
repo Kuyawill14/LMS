@@ -522,7 +522,8 @@ var viewSubmission = function viewSubmission() {
       }))();
     },
     start: function start() {
-      this.classworkDetails.status = "Taking"; //   this.isOpenQuiz = true;
+      this.classworkDetails.status = "Taking";
+      this.isOpenQuiz = true;
 
       if (this.totalQuestion != 0 && (this.status == null || this.status == '')) {
         //this.UpdateStatus( this.classworkDetails.id);
@@ -545,8 +546,8 @@ var viewSubmission = function viewSubmission() {
       }
     },
     continueQuiz: function continueQuiz(id) {
-      // this.isOpenQuiz = true;
-      // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+      this.isOpenQuiz = true; // this.$router.push({name: 'quizstart',params: {id: this.$route.params.id},query: {clwk: id}})
+
       var routeData = this.$router.resolve({
         name: 'quizstart',
         params: {

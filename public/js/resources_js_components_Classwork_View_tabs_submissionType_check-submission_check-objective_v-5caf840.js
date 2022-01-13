@@ -1437,7 +1437,9 @@ var resetConfirmation = function resetConfirmation() {
                   return _this10.ReMatchQuestions();
                 }, 300);
 
-              case 6:
+                _this10.fetchStudentActivity();
+
+              case 7:
               case "end":
                 return _context8.stop();
             }
@@ -1464,7 +1466,9 @@ var resetConfirmation = function resetConfirmation() {
                   return _this11.ReMatchQuestions();
                 }, 300);
 
-              case 6:
+                _this11.fetchStudentActivity();
+
+              case 7:
               case "end":
                 return _context9.stop();
             }
