@@ -240,7 +240,7 @@
                                 :class="$vuetify.breakpoint.mdAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'">
                                 <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                     v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
-                                    rounded color="primary" :loading="isOpenQuiz" :dark="totalQuestion != 0"
+                                    rounded color="primary" :loading="isOpenQuiz"  :dark="totalQuestion != 0"
                                     :disabled="totalQuestion == 0"
                                     @click="(classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted' ? confirmStartDialog = !confirmStartDialog: ''">
                                     Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>

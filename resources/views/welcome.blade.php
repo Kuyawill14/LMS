@@ -87,17 +87,7 @@
               //   js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
               //   fjs.parentNode.insertBefore(js, fjs);
               // }(document, 'script', 'facebook-jssdk'));
-             
-              /* var firebaseConfig = {
-                apiKey: "AIzaSyDWhE_gfbOrfbU88UwTZNDKYg0_ND0QQsQ",
-                authDomain: "isue-orange-pushnotification.firebaseapp.com",
-                projectId: "isue-orange-pushnotification",
-                storageBucket: "isue-orange-pushnotification.appspot.com",
-                messagingSenderId: "914599704994",
-                appId: "1:914599704994:web:5e7e272dd3fb83013f5afb"
-            };
-    
-      
+         
            
         
             </script>
