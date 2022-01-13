@@ -11,17 +11,20 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendAnnoucementEmail;
 use App\Models\tbl_userclass;
+use Notification;
+use App\Notifications\SendPushNotification;
+use App\Models\tbl_userDetails;
 
 class SendAnnouncementEmailToCLass implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $course_id,$class_id, $course_name, $name, $role, $content, $link_id;
+    protected $course_id,$class_id, $course_name, $name, $role, $content, $link_id, $notif;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($course_id,$class_id, $course_name, $name, $role, $content,$link_id)
+    public function __construct($course_id,$class_id, $course_name, $name, $role, $content,$link_id, $notif)
     {
         $this->course_id = $course_id;
         $this->class_id = $class_id;
@@ -30,6 +33,8 @@ class SendAnnouncementEmailToCLass implements ShouldQueue
         $this->role = $role;
         $this->content = $content;
         $this->link_id = $link_id;
+        $this->notif = $notif;
+
     }
 
     /**
@@ -42,7 +47,7 @@ class SendAnnouncementEmailToCLass implements ShouldQueue
         $emails;
         if($this->course_id == null){
             $emails = tbl_userclass::where('tbl_userclasses.class_id', $this->class_id)
-            ->select('users.email','tbl_user_details.firstName')
+            ->select('users.email','users.device_key','tbl_user_details.firstName')
             ->leftjoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
             ->leftjoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'tbl_userclasses.user_id')
             ->where('users.role','Student')
@@ -50,7 +55,7 @@ class SendAnnouncementEmailToCLass implements ShouldQueue
         }
         else{
             $emails = tbl_userclass::where('tbl_userclasses.course_id', $this->course_id)
-            ->select('users.email','tbl_user_details.firstName')
+            ->select('users.email','users.device_key','tbl_user_details.firstName')
             ->leftjoin('users', 'users.id', '=', 'tbl_userclasses.user_id')
             ->leftjoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'tbl_userclasses.user_id')
             ->where('users.role','Student')
@@ -59,6 +64,10 @@ class SendAnnouncementEmailToCLass implements ShouldQueue
 
 
         $counter = 1;
+        $userDetails  = tbl_userDetails::where('user_id', $this->notif->from_id)->first();
+        $name = $userDetails->firstName.' '.$userDetails->lastName;
+        $notif_message = $name.' '.$this->notif->message;
+
         foreach($emails as $email){
             $latercount = 5;
             $delay = $latercount*$counter;
@@ -68,6 +77,9 @@ class SendAnnouncementEmailToCLass implements ShouldQueue
             ->cc($emails)
             ->later($delay, $MailData);
             $counter++;
+
+            if($email->device_key != null)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $email->device_key));
+            
         }
 
 

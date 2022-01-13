@@ -16,7 +16,7 @@
         <v-divider></v-divider>
     </v-row>
      <transition transition="v-expand-transition" >
-  <div class="mt-6 mb-0 pb-0" v-if="showComment">
+  <div class="mt-6 mb-0 pb-0" v-if="showComment && postDetails.comment_count != 0">
 
 
       <div v-if="isloading"  class="mt-10">
@@ -253,11 +253,6 @@ export default {
     methods:{
          format_date(value){
             if (value) {
-                //console.log(moment(String(value)).startOf('hour').fromNow());
-               //return moment(String(value)).startOf('hour').fromNow();
-                //return moment(String(value)).format("YY,MM,dddd,  h:mm a")
-
-
                 return moment(String(value)).tz('Asia/Manila').format("ddd, MMMM DD, YYYY h:mm a")
             }
         },
@@ -278,6 +273,7 @@ export default {
             axios.get('/api/post/allcomment/'+this.postDetails.post_id)
             .then((res)=>{
                  this.postDetails.comment_count = res.data.total;
+                 this.getComments();
             })
         },
         async getComments(){ 
@@ -386,7 +382,6 @@ export default {
         },
        
         async addComment () {
-            this.showComment = true;
             this.postDetails.isCommented =  true;
             this.data.content = this.comment;
             this.data.course_id = this.$route.params.id;
@@ -394,7 +389,7 @@ export default {
             axios.post('/api/post/comment/insert',this.data)
             .then(res=>{
                 this.clearComment();
-                /* this.CommentList.push({
+               /*  this.CommentList.push({
                     id: res.data.id,
                     content: res.data.content,
                     name: this.UserDetails.firstName+' '+this.UserDetails.lastName,
@@ -403,9 +398,11 @@ export default {
                     created_at: res.data.created_at,
                     u_id: this.UserDetails.id
                 }) */
-                this.getComments();
-                //this.readMore.push({id: res.data.id , isLongText: false, IsreadMore: false})
                 this.getCount();
+                
+                //this.readMore.push({id: res.data.id , isLongText: false, IsreadMore: false})
+                
+                this.showComment = true;
                 //setTimeout(() => (this.checkContainerHeight()), 1000);
                 //this.postDetails.comment_count +=1;
             })

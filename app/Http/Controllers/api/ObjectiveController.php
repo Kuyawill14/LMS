@@ -22,6 +22,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Events\NewNotification;
+use Notification;
+use App\Notifications\SendPushNotification;
 
 class ObjectiveController extends Controller
 {
@@ -1437,8 +1439,10 @@ class ObjectiveController extends Controller
 
    public function sendSubmitNotification($classwork_id,$userId){
         $courseAndClassId = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $classwork_id)
-        ->select('tbl_classes.id', 'tbl_classes.course_id')
+        ->select('tbl_classes.id', 'tbl_classes.course_id','users.device_key')
         ->leftJoin('tbl_classes','tbl_classes.id','=','tbl_class_classworks.class_id')
+        ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
+        ->leftJoin('users','users.id','=','tbl_classworks.user_id')
         ->first();
  
     
@@ -1448,7 +1452,7 @@ class ObjectiveController extends Controller
  
          $CheckNotif = tbl_notification::where('notification_attachments', $classwork_id)->where('notification_type', 6)->first();
          $classwork_details = tbl_classwork::find($classwork_id);
-     
+         $notif_message;
          if($CheckNotif){
              $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
              
@@ -1467,6 +1471,7 @@ class ObjectiveController extends Controller
              $CheckNotif->updated_at =  date('Y-m-d H:i:s');
              $CheckNotif->save();
              broadcast(new NewNotification($CheckNotif))->toOthers();
+             $notif_message = $CheckNotif->message;
          }
          else{
              $newNotification = new tbl_notification;
@@ -1484,8 +1489,13 @@ class ObjectiveController extends Controller
              $newNotification->notification_attachments = $classwork_id;
              $newNotification->notification_type = 6;
              $newNotification->save();
+             $notif_message = $CheckNotif->message;
              broadcast(new NewNotification($newNotification))->toOthers();
+
+             
          }
+
+         if($courseAndClassId->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $courseAndClassId->device_key)); 
     }
 
 

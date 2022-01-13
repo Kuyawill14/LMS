@@ -4,7 +4,6 @@ const state = {
     class_notification: [],
     notificationCount: null,
     inviteCount: null,
-    push_notification_data:[],
     page: 0,
     loadMore: false,
     lastPage: 0,
@@ -17,9 +16,6 @@ const state = {
 const getters = {
     get_notification: (state) => {
         return state.class_notification;
-    },
-    get_push_notification_data: (state) => {
-        return state.push_notification_data;
     },
     get_notification_count: (state) => {
         return state.notificationCount;
@@ -163,9 +159,6 @@ const actions = {
                 `/api/notification/notifCount`)
             .then(response => {
                 count = response.data.notificationCount;
-                state.push_notification_data = response.data.push_notification;
-
-
             })
         if(count != 0){
             let text = document.title.substring( document.title.indexOf(' ') + 1);
@@ -197,7 +190,6 @@ const mutations = {
     //UNREAD_NOTIFICATION: (state, RemoveNotif) => (state.class_notification = RemoveNotif),
     UNREAD_NOTIFICATION: (state, newCLass) => (state.class_notification = newCLass),
     NOTIFICATION_COUNT: (state, count) => (state.notificationCount = count),
-    PUSH_NOTIFICATION_DATA: (state, push_notification_data) => (state.push_notification_data = push_notification_data),
 
 };
 

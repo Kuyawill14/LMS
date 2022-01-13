@@ -36,9 +36,12 @@ use App\Http\Controllers\api\CourseOverviewController;
 use App\Http\Controllers\api\admin\ManageUserController;
 use App\Http\Controllers\api\CampusDirector\CampusDirectorController;
 use App\Http\Controllers\api\ActivityLogController;
+
 use App\Http\Controllers\api\sms\testSmscontroller;
 
 use App\Http\Controllers\api\StduentExamActivityLog; 
+
+use App\Http\Controllers\WebNotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -500,3 +503,5 @@ Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'Confirm
 
 
 Route::post('/testingSMS', [testSmscontroller::class, 'index']);
+
+Route::post('/store_token', [WebNotificationController::class, 'storeToken']);
