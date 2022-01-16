@@ -120,14 +120,12 @@ class AnnouncementController extends Controller
         ->leftJoin("tbl_user_details", "users.id", "=", "tbl_user_details.user_id")
         ->first();
 
-          //
           $NewAnnouncement = new tbl_classAnnouncement;
           $NewAnnouncement->content = $request->announcement["content"];
           $NewAnnouncement->file = $request->announcement["file"];
           $NewAnnouncement->save();
   
           
-  
           //New Post
           $Class_id = tbl_userclass::where("course_id", $request->announcement["course_id"])
           ->where("user_id", $userId)->first();
@@ -144,23 +142,6 @@ class AnnouncementController extends Controller
 
 
           //broadcast(new NewPost($NewPost))->toOthers();
-          //New notification
-         /* $userInClass = tbl_subject_course::where("tbl_subject_courses.id", $NewPost->course_id)
-          ->first(); */
-
-        /* $newNotification = new tbl_notification;
-        $newNotification->course_id = $request->announcement["course_id"];
-        $newNotification->class_id = $NewPost->class_id;
-        $newNotification->from_id =  $userId;
-        $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
-        $newNotification->notification_type = 1;
-        $newNotification->save(); */
-          
-
-          
-          
-
-
           return response()->json([
             "post_id"=>$NewPost->id, 
             "announcement_id"=>$NewPost->announcement_id, 
@@ -214,6 +195,7 @@ class AnnouncementController extends Controller
         $classpost = tbl_classpost::where('announcement_id', $id)->delete();
         $announcement = tbl_classAnnouncement::where('id', $id)->delete();
         $comment = tbl_comment::where('post_id', $id)->delete();
+        $comment = tbl_like::where('post_id', $id)->delete();
         return "Deleted!";
     }
 }

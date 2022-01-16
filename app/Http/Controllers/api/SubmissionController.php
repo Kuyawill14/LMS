@@ -288,7 +288,7 @@ class SubmissionController extends Controller
             $newNotification->from_course = $classwork->course_id;
             $newNotification->message = "Graded your work in ".$classwork->title." classwork";
             $newNotification->notification_attachments = $classwork_id;
-            $newNotification->notification_type = 3;
+            $newNotification->notification_type = 'classwork_graded';
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
 

@@ -271,63 +271,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //const seeAllNotification = () => import("./SeeAllNotification")
 
 
@@ -477,7 +420,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.markAsread(data.n_id);
       }
 
-      if (data.notification_type == 1 || data.notification_type == 3 || data.notification_type == 5) {
+      if (data.notification_type == 'post_annoucement' || data.notification_type == 'class_invite' || data.notification_type == 'post_reply') {
         var path = '/course/' + data.c_id + '/announcement';
 
         if (this.$route.path != path) {
@@ -485,13 +428,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             path: path
           });
         }
-      } else if (data.notification_type == 2) {
+      } else if (data.notification_type == 'class_joined') {
         var _path = '/course/' + data.c_id + '/people';
 
         this.$router.push({
           path: _path
         });
-      } else if (data.notification_type == 4) {
+      } else if (data.notification_type == 'classwork_assigned') {
         var startPath = '/classwork/' + data.c_id + '/classwork-details';
 
         if (this.$route.path != startPath) {
@@ -505,7 +448,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
           }
         }
-      } else if (data.notification_type == 6) {
+      } else if (data.notification_type == 'classwork_submission') {
         var SubmissionPath = '/classwork/' + data.c_id + '/classwork-details';
 
         if (this.$route.path != SubmissionPath) {
@@ -519,7 +462,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             });
           }
         }
-      } else if (data.notification_type == 7) {
+      } else if (data.notification_type == 'classwork_graded') {
         var _startPath = '/classwork/' + data.from_course + '/classwork-details';
 
         if (this.$route.path != _startPath) {
@@ -1066,7 +1009,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10229,7 +10172,11 @@ var render = function() {
                           _c(
                             "v-list-item-title",
                             [
-                              _c("v-icon", [_vm._v("mdi-bell")]),
+                              _c(
+                                "v-icon",
+                                { attrs: { color: "blue", left: "" } },
+                                [_vm._v("mdi-bell")]
+                              ),
                               _vm._v(" Notification")
                             ],
                             1
@@ -10392,11 +10339,15 @@ var render = function() {
                                       }
                                     },
                                     [
-                                      item.notification_type == 3 ||
-                                      item.notification_type == 2
+                                      item.notification_type ==
+                                        "class_invite" ||
+                                      item.notification_type == "class_joined"
                                         ? _c(
                                             "v-icon",
                                             {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
                                               attrs: {
                                                 color: "blue",
                                                 large: ""
@@ -10406,20 +10357,28 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      item.notification_type == 1
+                                      item.notification_type ==
+                                      "post_annoucement"
                                         ? _c(
                                             "v-icon",
                                             {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
                                               attrs: { color: "red", large: "" }
                                             },
                                             [_vm._v("mdi-bullhorn-outline")]
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      item.notification_type == 4
+                                      item.notification_type ==
+                                      "classwork_assigned"
                                         ? _c(
                                             "v-icon",
                                             {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
                                               attrs: {
                                                 color: "green",
                                                 large: ""
@@ -10429,20 +10388,27 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      item.notification_type == 5
+                                      item.notification_type == "post_reply"
                                         ? _c(
                                             "v-icon",
                                             {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
                                               attrs: { color: "red", large: "" }
                                             },
                                             [_vm._v(" mdi-comment-text")]
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      item.notification_type == 6
+                                      item.notification_type ==
+                                      "classwork_submission"
                                         ? _c(
                                             "v-icon",
                                             {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
                                               attrs: {
                                                 color: "green",
                                                 large: ""
@@ -10452,16 +10418,40 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(" "),
-                                      item.notification_type == 7
+                                      item.notification_type ==
+                                      "classwork_graded"
                                         ? _c(
                                             "v-icon",
                                             {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
                                               attrs: {
                                                 color: "green",
                                                 large: ""
                                               }
                                             },
                                             [_vm._v("mdi-file-check")]
+                                          )
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      item.notification_type == "publish_module"
+                                        ? _c(
+                                            "v-icon",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "1.7rem !important"
+                                              },
+                                              attrs: {
+                                                color: "yellow darken-3",
+                                                large: ""
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "mdi-book-variant-multiple"
+                                              )
+                                            ]
                                           )
                                         : _vm._e()
                                     ],
@@ -10480,7 +10470,10 @@ var render = function() {
                                     [
                                       _c(
                                         "v-list-item-title",
-                                        { staticClass: "font-weight-medium" },
+                                        {
+                                          staticClass: "font-weight-medium",
+                                          staticStyle: { "font-size": "14px" }
+                                        },
                                         [
                                           _c(
                                             "v-badge",
@@ -10491,20 +10484,25 @@ var render = function() {
                                                 value:
                                                   item.status == 1 ? "" : "new",
                                                 color:
-                                                  item.notification_type == 1 ||
-                                                  item.notification_type == 5
+                                                  item.notification_type ==
+                                                    "post_annoucement" ||
+                                                  item.notification_type ==
+                                                    "post_reply"
                                                     ? "red"
                                                     : item.notification_type ==
-                                                        3 ||
+                                                      "publish_module"
+                                                    ? "yellow darken-3"
+                                                    : item.notification_type ==
+                                                        "class_invite" ||
                                                       item.notification_type ==
-                                                        2
+                                                        "class_joined"
                                                     ? "blue"
                                                     : item.notification_type ==
-                                                        4 ||
+                                                        "classwork_assigned" ||
                                                       item.notification_type ==
-                                                        6 ||
+                                                        "classwork_submission" ||
                                                       item.notification_type ==
-                                                        7
+                                                        "classwork_graded"
                                                     ? "green"
                                                     : ""
                                               }
@@ -10513,17 +10511,20 @@ var render = function() {
                                               _vm._v(
                                                 "\n                                    " +
                                                   _vm._s(
-                                                    item.notification_type !=
-                                                      2 &&
-                                                      item.notification_type !=
-                                                        6
-                                                      ? item.name
+                                                    item.notification_type ==
+                                                      "class_joined" &&
+                                                      item.notification_type ==
+                                                        "classwork_submission"
+                                                      ? "Join Class"
                                                       : item.notification_type ==
-                                                        6
+                                                        "classwork_submission"
                                                       ? "Classwork Submission"
-                                                      : "Join Class"
+                                                      : item.notification_type ==
+                                                        "post_reply"
+                                                      ? "Post Replies"
+                                                      : item.name
                                                   ) +
-                                                  "   \n                                    "
+                                                  "\n                                    \n                                    "
                                               )
                                             ]
                                           )
@@ -10531,13 +10532,19 @@ var render = function() {
                                         1
                                       ),
                                       _vm._v(" "),
-                                      _c("div", { staticClass: "body-2" }, [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(item.message) +
-                                            "\n                                  \n                                "
-                                        )
-                                      ]),
+                                      _c(
+                                        "div",
+                                        {
+                                          staticStyle: { "font-size": "12px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(item.message) +
+                                              "\n                                  \n                                "
+                                          )
+                                        ]
+                                      ),
                                       _vm._v(" "),
                                       _c("small", [
                                         _vm._v(

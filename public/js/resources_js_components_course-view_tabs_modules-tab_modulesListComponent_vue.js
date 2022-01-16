@@ -1450,7 +1450,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         isPublished: null,
         date_from: null,
         date_to: null
-      }
+      },
+      publishAvailabity: null
     };
   },
   watch: {// pickerDate(val) {
@@ -1484,12 +1485,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (selection == this.radioAvailability[0]) {
           this.publishSettings.date_from = null;
           this.publishSettings.date_to = null;
+          this.publishAvailabity = 1;
+        } else {
+          this.publishAvailabity = 2;
+          this.publishSettings.date_from = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(this.publishFrom).format('YYYY-MM-DD HH:mm:ss');
+          ;
+          this.publishSettings.date_to = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(this.publishTo).format('YYYY-MM-DD HH:mm:ss');
         }
 
         return 1;
       } else {
         this.publishSettings.date_from = null;
         this.publishSettings.date_to = null;
+        this.publishAvailabity = 0;
         return 0;
       }
     },
@@ -1503,8 +1511,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.publishSettings.module_id = main_module.id;
 
       if (main_module.isPublished == 1) {
-        this.publishFrom = main_module.date_from;
-        this.publishTo = main_module.date_to;
+        /* this.publishFrom = main_module.date_from;
+        this.publishTo = main_module.date_to; */
+        this.publishFrom = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(main_module.date_from).format('YYYY-MM-DD');
+        this.publishTo = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(main_module.date_to).format('YYYY-MM-DD');
 
         if (main_module.date_from != null && main_module.date_to != null) {
           this.availability = this.radioAvailability[1];
@@ -1528,11 +1538,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.publishSettings.date_from = this.publishFrom;
       this.publishSettings.date_to = this.publishTo;
       this.publishSettings.isPublished = this.availabilitySelection(this.availability);
-      console.log(this.availabilitySelection(this.availability));
       this.isPublishing = true;
       axios.post("/api/main_module/publish/".concat(this.publishSettings.module_id), {
         publishSettings: this.publishSettings
       }).then(function (res) {
+        _this.SendNotificationToCourse(_this.publishSettings, res.data);
+
         _this.isPublishing_id = _this.publishSettings.module_id;
 
         var foundIndex = _this.getmain_module.findIndex(function (element) {
@@ -1682,31 +1693,58 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), _defineProperty(_methods, "stopIntervalTimer", function stopIntervalTimer() {
     this.to_date_jq_getter = false;
     clearInterval(this.to_date_jq_getter);
-  }), _methods),
-  mounted: function mounted() {
+  }), _defineProperty(_methods, "SendNotificationToCourse", function SendNotificationToCourse(data, isPublished) {
     var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var notifDetails;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this4.getdata();
+              notifDetails = {};
+              notifDetails.course_id = _this4.$route.params.id;
+              notifDetails.module_name = data.module_name;
+              notifDetails.module_id = data.module_id;
+              notifDetails.date_from = data.date_from;
+              notifDetails.date_to = data.date_to;
+              notifDetails.availability = _this4.publishAvailabity;
+              notifDetails.isPublished = isPublished == 'published' ? true : false;
+              notifDetails.type = 'module';
+              axios.post('/api/notification/new', notifDetails).then(function (res) {});
 
-              _this4.$emit('closeModuleDialog');
-
-              if (localStorage.getItem("tip_module_show") === null) {
-                _this4.tip = true;
-              } else {
-                _this4.tip = localStorage.getItem("tip_module_show") == true;
-              }
-
-            case 3:
+            case 10:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
+    }))();
+  }), _methods),
+  mounted: function mounted() {
+    var _this5 = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _this5.getdata();
+
+              _this5.$emit('closeModuleDialog');
+
+              if (localStorage.getItem("tip_module_show") === null) {
+                _this5.tip = true;
+              } else {
+                _this5.tip = localStorage.getItem("tip_module_show") == true;
+              }
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
     }))();
   },
   created: function created() {},

@@ -20,13 +20,13 @@ class SendClassworkNotification implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 
-    public $class_id, $user_id, $classwork_id, $mesage, $type, $dispatchType;
+    public $class_id, $user_id, $classwork_id, $mesage, $type, $dispatchType, $title, $due, $classwork_name;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($class_id, $user_id, $classwork_id, $mesage, $type, $dispatchType)
+    public function __construct($class_id, $user_id, $classwork_id, $mesage, $type, $dispatchType,$title, $due, $classwork_name)
     {
         $this->class_id = $class_id;
         $this->user_id = $user_id;
@@ -34,6 +34,9 @@ class SendClassworkNotification implements ShouldQueue
         $this->mesage = $mesage;
         $this->type = $type;
         $this->dispatchType = $dispatchType;
+        $this->title = $title;
+        $this->due = $due;
+        $this->classwork_name = $classwork_name;
     }
 
     /**
@@ -64,7 +67,8 @@ class SendClassworkNotification implements ShouldQueue
 
         $userDetails  = tbl_userDetails::where('user_id', $this->user_id)->first();
         $name = $userDetails->firstName.' '.$userDetails->lastName;
-        $notif_message = $name.' '.$newNotification->message;
+        //$notif_message = $name.' '.$newNotification->message;
+        $notif_message = $name.' '.'assigned '.$this->title.' classwork in your '.$this->classwork_name.' '.$this->due;
         foreach($emails as $email){
             Notification::send(null,new SendPushNotification('ISUE-ORANGE',$notif_message, $email->device_key));
         }

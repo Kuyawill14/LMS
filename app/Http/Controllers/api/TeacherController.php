@@ -75,7 +75,7 @@ class TeacherController extends Controller
             $newNotification->from_course = $request->course_id;
             $newNotification->message = "Added you in ". $course->course_name." ".$request->class_name." class";
             $newNotification->notification_attachments = $request->course_id;
-            $newNotification->notification_type = 3;
+            $newNotification->notification_type = 'class_invite';
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
 

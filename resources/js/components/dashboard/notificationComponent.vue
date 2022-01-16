@@ -154,21 +154,8 @@
                     return moment(String(value)).format("MMMM DD, h:mm a")
                 }
             },
-            fetchNotificationAll(){
-               
-                 axios.get('/api/notification/all')
-                    .then(res => {
-                        this.notificationList = res.data.data;
-
-                    })
-            }
             
-
         },
-        mounted() {
-            this.fetchNotificationAll()
-       
-        }
     }
 
 </script>

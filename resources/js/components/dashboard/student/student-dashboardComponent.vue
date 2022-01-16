@@ -100,15 +100,13 @@
         mapActions
     } from "vuex";
     const myCalendar = () => import('../myCalendar')
-    const myNotification = () => import('../notificationComponent')
     const studentClasses = () => import('./student-classes')
     const studentGradeChart = () => import('./ProgressChart')
-     const myTask = () => import('./myTask')
+    const myTask = () => import('./myTask')
     export default {
         props: ['role'],
         components: {
             myCalendar,
-            myNotification,
             studentClasses,
             studentGradeChart,
             myTask

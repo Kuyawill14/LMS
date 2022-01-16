@@ -261,7 +261,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var checksubjective = function checksubjective() {
@@ -534,9 +533,10 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }
     },
     validate: function validate(id, points) {
-      if (this.$refs.pointsform.validate()) {
-        this.SaveScore(id, points);
-      }
+      this.SaveScore(id, points);
+      /*  if (this.$refs.pointsform.validate()) {
+          
+       } */
     },
     SaveScore: function SaveScore(id, points) {
       clearTimeout(this.timeout);
@@ -23774,6 +23774,17 @@ var render = function() {
                                                         attrs: {
                                                           "lazy-validation": ""
                                                         },
+                                                        on: {
+                                                          submit: function(
+                                                            $event
+                                                          ) {
+                                                            $event.preventDefault()
+                                                            return _vm.validate(
+                                                              item.id,
+                                                              item.points
+                                                            )
+                                                          }
+                                                        },
                                                         model: {
                                                           value: _vm.valid,
                                                           callback: function(
@@ -23809,16 +23820,6 @@ var render = function() {
                                                                 .points,
                                                             maxlength: _vm.classworkDetails.points.toString()
                                                               .length
-                                                          },
-                                                          on: {
-                                                            keyup: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.validate(
-                                                                item.id,
-                                                                item.points
-                                                              )
-                                                            }
                                                           },
                                                           model: {
                                                             value: item.points,

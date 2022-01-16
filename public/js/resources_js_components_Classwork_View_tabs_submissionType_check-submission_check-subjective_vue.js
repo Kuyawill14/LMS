@@ -404,6 +404,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -457,7 +463,8 @@ var pdfviewer = function pdfviewer() {
       }, function (v) {
         return v && v >= 0 || "Points should be above or equal to 0";
       }],
-      valid: true
+      valid: true,
+      info: true
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -504,7 +511,10 @@ var pdfviewer = function pdfviewer() {
     },
     validate: function validate() {
       if (this.$refs.pointsform.validate()) {
-        this.SaveScore();
+        //this.SaveScore(); 
+        this.score = this.CheckData.points;
+        this.isSavingScore = !this.isSavingScore;
+        this.UpdateScore();
       }
     },
     SaveScore: function SaveScore() {
@@ -558,6 +568,10 @@ var pdfviewer = function pdfviewer() {
                       _this2.isSavingScore = !_this2.isSavingScore;
 
                       _this2.$emit('UpdateSubmission', _this2.CheckData.id);
+
+                      if (_this2.currentIndex != _this2.SubmittedLength - 1) {
+                        _this2.NextStudent();
+                      }
                     }
                   });
                 } else {
@@ -857,6 +871,8 @@ var pdfviewer = function pdfviewer() {
     this.$emit('closeDialog');
   },
   created: function created() {
+    var _this13 = this;
+
     if (this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != '') {
       var path = this.CheckData.Submitted_Answers[0].link;
       var extension = this.CheckData.Submitted_Answers[0].fileExte;
@@ -895,6 +911,9 @@ var pdfviewer = function pdfviewer() {
 
     this.checkRubrics();
     this.$emit('isMounted');
+    setTimeout(function () {
+      return _this13.info = false;
+    }, 5000);
   }
 });
 
@@ -1518,6 +1537,36 @@ var render = function() {
                                       ),
                                       _vm._v(" "),
                                       _c(
+                                        "div",
+                                        [
+                                          _c(
+                                            "v-alert",
+                                            {
+                                              staticClass: "mb-0 mt-0",
+                                              attrs: {
+                                                type: "info",
+                                                dense: "",
+                                                dismissible: ""
+                                              },
+                                              model: {
+                                                value: _vm.info,
+                                                callback: function($$v) {
+                                                  _vm.info = $$v
+                                                },
+                                                expression: "info"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                 To grade students, just put score and click the enter button to save and go to next student.\n                                              "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
                                         "v-list",
                                         { staticClass: "ma-0 pa-0" },
                                         [
@@ -1654,9 +1703,10 @@ var render = function() {
                                                 ? _c(
                                                     "v-list-item-action",
                                                     {
-                                                      staticClass: "mt-8",
+                                                      staticClass: "mt-4",
                                                       staticStyle: {
-                                                        width: "25% !important"
+                                                        "max-width":
+                                                          "250px !important"
                                                       }
                                                     },
                                                     [
@@ -1664,9 +1714,21 @@ var render = function() {
                                                         "v-form",
                                                         {
                                                           ref: "pointsform",
+                                                          staticStyle: {
+                                                            width:
+                                                              "160px !important"
+                                                          },
                                                           attrs: {
                                                             "lazy-validation":
                                                               ""
+                                                          },
+                                                          on: {
+                                                            submit: function(
+                                                              $event
+                                                            ) {
+                                                              $event.preventDefault()
+                                                              return _vm.validate()
+                                                            }
                                                           },
                                                           model: {
                                                             value: _vm.valid,
@@ -1680,10 +1742,6 @@ var render = function() {
                                                         },
                                                         [
                                                           _c("v-text-field", {
-                                                            staticStyle: {
-                                                              width:
-                                                                "100% !important"
-                                                            },
                                                             attrs: {
                                                               rounded: "",
                                                               "hide-details":
@@ -1706,10 +1764,6 @@ var render = function() {
                                                                   .classworkDetails
                                                                   .points,
                                                               min: "0"
-                                                            },
-                                                            on: {
-                                                              keyup:
-                                                                _vm.validate
                                                             },
                                                             model: {
                                                               value:

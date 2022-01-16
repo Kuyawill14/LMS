@@ -216,7 +216,6 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
 
 //notification
 Route::middleware('auth:sanctum')->prefix('/notification')->group(function () {
-    Route::get('/all', [NotificationController::class, 'getNotification']);
     Route::get('/notifCount', [NotificationController::class, 'getNotificationCount']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
     Route::put('/markread/{id}', [NotificationController::class, 'UnreadNotification']);

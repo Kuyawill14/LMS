@@ -82,6 +82,11 @@
                                                         <v-divider></v-divider>
                                                     </v-col>
                                                 </v-row>
+                                                <div>
+                                                    <v-alert v-model="info" type="info" class="mb-0 mt-0" dense  dismissible>
+                                                       To grade students, just put score and click the enter button to save and go to next student.
+                                                    </v-alert>
+                                                </div>
                                                 <v-list class="ma-0 pa-0">
                                                     <v-list-item  class="ma-0 pa-0">
                                                         <v-list-item-avatar color="secondary">
@@ -95,14 +100,15 @@
                                                             <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                              <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
-                                                        <v-list-item-action style="width:25% !important"  v-if="CheckData.status == 'Submitted'" class="mt-8">
-                                                            <v-form ref="pointsform" v-model="valid" lazy-validation>
+                                                       <!--  @keyup="validate" -->
+                                                        <v-list-item-action style="max-width:250px !important" v-if="CheckData.status == 'Submitted'" class="mt-4">
+                                                            <v-form style="width:160px !important" @submit.prevent="validate()" ref="pointsform" v-model="valid" lazy-validation>
                                                                 <v-text-field rounded 
-                                                                style="width:100% !important"
+                                                                
                                                                 :hide-details="valid"
                                                                 :loading="isSavingScore" 
                                                                 :rules="pointsRules"
-                                                                @keyup="validate" v-model="CheckData.points" 
+                                                                v-model="CheckData.points" 
                                                                 dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
                                                             </v-form>
                                                         </v-list-item-action>
@@ -424,7 +430,8 @@ const pdfviewer = () => import('./pdfviewer');
             v => !!v || 'Points is required',
             v => ( v && v >= 0 ) || "Points should be above or equal to 0",
         ],
-        valid: true
+        valid: true,
+        info: true,
       }
     },
     computed:{
@@ -486,10 +493,14 @@ const pdfviewer = () => import('./pdfviewer');
         },
         validate() {
             if (this.$refs.pointsform.validate()) {
-                this.SaveScore(); 
+                //this.SaveScore(); 
+                this.score = this.CheckData.points;
+                this.isSavingScore = !this.isSavingScore;
+                this.UpdateScore();
             }
         },
         SaveScore(){
+            
             clearTimeout(this.timeout);
             var self = this;
             this.timeout = setTimeout(function () {
@@ -527,6 +538,11 @@ const pdfviewer = () => import('./pdfviewer');
                         this.toastSuccess("Score Updated");
                         this.isSavingScore = !this.isSavingScore;
                         this.$emit('UpdateSubmission', this.CheckData.id);
+                        
+
+                        if(this.currentIndex != this.SubmittedLength-1){
+                            this.NextStudent();
+                        }
                     }
                 })
             }
@@ -731,6 +747,7 @@ const pdfviewer = () => import('./pdfviewer');
         }
         this.checkRubrics();
         this.$emit('isMounted');
+        setTimeout(() => (this.info = false), 5000);
     }
   
   }

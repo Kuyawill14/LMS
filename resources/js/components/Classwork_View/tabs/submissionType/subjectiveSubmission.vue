@@ -182,15 +182,14 @@
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
                                     <v-list-item-action v-if="item.status != null && item.status != 'Submitting'" style="max-width:150px !important">
-                                        <v-form ref="pointsform" v-model="valid" lazy-validation>
+                                        <v-form @submit.prevent="validate(item.id, item.points)" ref="pointsform" v-model="valid" lazy-validation>
                                             <v-text-field
                                                 :hide-details="valid"
                                                 class="ma-0 pa-0"
                                                 label="Score"
                                                 rounded
-                                             
                                                 :loading="isSavingScore" 
-                                                @keyup="validate(item.id, item.points)"  v-model="item.points" 
+                                                v-model="item.points" 
                                                 dense outlined  type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points" :maxlength="classworkDetails.points.toString().length" >
                                             </v-text-field>
                                        </v-form>
@@ -513,9 +512,10 @@ export default {
             }
         },
         validate(id, points) {
-            if (this.$refs.pointsform.validate()) {
-                this.SaveScore(id, points); 
-            }
+             this.SaveScore(id, points); 
+           /*  if (this.$refs.pointsform.validate()) {
+               
+            } */
         },
          SaveScore(id, points){
             clearTimeout(this.timeout);

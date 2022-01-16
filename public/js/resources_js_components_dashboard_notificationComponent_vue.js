@@ -172,18 +172,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (value) {
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_0__.default)(String(value)).format("MMMM DD, h:mm a");
       }
-    },
-    fetchNotificationAll: function fetchNotificationAll() {
-      var _this3 = this;
-
-      axios.get('/api/notification/all').then(function (res) {
-        _this3.notificationList = res.data.data;
-      });
     }
-  }),
-  mounted: function mounted() {
-    this.fetchNotificationAll();
-  }
+  })
 });
 
 /***/ }),

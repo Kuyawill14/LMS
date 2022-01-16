@@ -13,6 +13,8 @@ use App\Models\tbl_teacher_course;
 use Illuminate\Support\Facades\DB;
 use App\Events\NewNotification;
 use App\Models\UserNotification;
+use Notification;
+use App\Notifications\SendPushNotification;
 
 class CommentController extends Controller
 {
@@ -81,7 +83,7 @@ class CommentController extends Controller
         $NewComment->content = $request->content;
         $NewComment->save();
 
-        if(auth("sanctum")->user()->role == "Student"){
+        //if(auth("sanctum")->user()->role == "Student"){
             if($NewComment){
                 $user = tbl_userDetails::where('user_id', $userId)
                 ->select('firstName', 'lastName')
@@ -94,7 +96,7 @@ class CommentController extends Controller
     
                 $CheckNotification = tbl_notification::where('course_id', $checkClass->course_id)->where('class_id', $checkClass->class_id)
                 ->where('notification_attachments', $request->post_id)
-                ->where('notification_type', 5)->first();
+                ->where('notification_type', 'post_reply')->first();
                 $tmpCount = tbl_comment::where("tbl_comments.post_id", $request->post_id)->count();
     
                 if($CheckNotification){
@@ -119,12 +121,16 @@ class CommentController extends Controller
                     $newNotification->from_id = $userId;
                     $newNotification->notification_attachments =  $request->post_id;
                     $newNotification->message = $user->firstName." ".$user->lastName." replied to your post in ".$checkClass->course_name;
-                    $newNotification->notification_type = 5;
+                    $newNotification->notification_type = 'post_reply';
                     $newNotification->save();
                     broadcast(new NewNotification($newNotification))->toOthers();
+
+
+
+                    //if($courseAndClassId->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$newNotification->message $courseAndClassId->device_key));
                 }
             }
-        }
+        //}
        
         return $NewComment;
     }

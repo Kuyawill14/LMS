@@ -361,7 +361,7 @@ class StudentController extends Controller
         $submissionCount =  $submissionCount -1;
         $user = tbl_userDetails::where('user_id', $userId)->select('firstName', 'lastName')->first();
 
-        $CheckNotif = tbl_notification::where('notification_attachments', $SubmitSubj->classwork_id)->where('notification_type', 6)->first();
+        $CheckNotif = tbl_notification::where('notification_attachments', $SubmitSubj->classwork_id)->where('notification_type', 'classwork_submission')->first();
         $classwork_details = tbl_classwork::find($SubmitSubj->classwork_id);
     
         if($CheckNotif){
@@ -396,7 +396,7 @@ class StudentController extends Controller
                 $submissionCount = $submissionCount - 1;
                 $newNotification->message = $user->firstName." ".$user->lastName." and ".$submissionCount." others Submit in your ".$classwork_details->title." classwork";
             }
-            $newNotification->notification_type = 6;
+            $newNotification->notification_type = 'classwork_submission';
             $newNotification->notification_attachments = $SubmitSubj->classwork_id;
             $newNotification->save();
             broadcast(new NewNotification($newNotification))->toOthers();
@@ -638,7 +638,7 @@ class StudentController extends Controller
        
 
         $CheckNotif = tbl_notification::where('course_id', $userInClass->course_id)
-        ->where('class_id', $class_id)->where('notification_type', 2)
+        ->where('class_id', $class_id)->where('notification_type', 'class_joined')
         ->first();
 
         $userName = auth('sanctum')->user()->tbl_userDetails->firstName.' '.auth('sanctum')->user()->tbl_userDetails->lastName;
@@ -701,7 +701,7 @@ class StudentController extends Controller
                 }
                 
             }
-            $newNotification->notification_type = 2;
+            $newNotification->notification_type = 'class_joined';
      
             $newNotification->save();
             $notif_message = $newNotification->message;

@@ -8446,7 +8446,9 @@ var render = function() {
       _vm.get_UserRole == "Admin" ? _c("adminNotification") : _vm._e(),
       _vm._v(" "),
       _vm.get_UserRole == "Teacher" || _vm.get_UserRole == "Student"
-        ? _c("teacherstudentNotification")
+        ? _c("teacherstudentNotification", {
+            attrs: { role: _vm.get_UserRole }
+          })
         : _vm._e()
     ],
     1

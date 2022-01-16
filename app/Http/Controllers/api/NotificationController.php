@@ -20,6 +20,7 @@ use App\Models\tbl_userDetails;
 use App\Jobs\SendNotificationMailToClass;
 use App\Jobs\SendAnnouncementEmailToCLass;
 use App\Jobs\SendClassworkNotification;
+use App\Jobs\SendModulePushNotification;
 use Carbon\Carbon;
 use App\Notifications\SendPushNotification;
 
@@ -30,13 +31,14 @@ class NotificationController extends Controller
     public function NewNotification(Request $request){
 
 
-        //return $request->data;
+        //return $request;
         $userId = auth("sanctum")->id();
-        $count = 1;
-        $delay = 15;
+       
         if($request->type == "classwork"){
+            $count = 1;
+            $delay = 15;
+
             foreach($request->data as $item){
-                
                 $clsssworkTitle = tbl_classwork::where("tbl_classworks.id", $item['classwork_id'])
                 ->select("tbl_classworks.title","tbl_classworks.instruction", "tbl_subject_courses.course_name","tbl_user_details.lastName")
                 ->leftJoin("tbl_subject_courses", "tbl_subject_courses.id","=","tbl_classworks.course_id")
@@ -44,32 +46,32 @@ class NotificationController extends Controller
                 ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_teacher_courses.user_id")
                 ->first();
 
-                $type = 4;
+                $type = 'classwork_assigned';
                 $message = $clsssworkTitle->title." assigned in your ".$clsssworkTitle->course_name;
-
                 $dateToday = date('Y-m-d H:i:s');
                 $seconds;
+                $tmp_due;
+
                 if($item['availability'] == 1){
                     $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
                     $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $item['from_date']);
-                    $diff_in_minutes = $to->diffInMinutes($from);
-                    if($diff_in_minutes <= 0){
+                    if($to->greaterThanOrEqualTo($from)){
                         $tmp = 0;
                         $tmp_delay = $delay * $count;
-                        $seconds =  $tmp + $tmp_delay ;
-                    }
-                    else{
+                        $seconds =  $tmp + $tmp_delay;
+                    }else{
                         $tmp =  $diff_in_minutes * 60;
                         $tmp_delay = $delay * $count;
                         $seconds =  $tmp + $tmp_delay;
                     }
                 }else{
-                    $seconds = $delay * $count;
+                    $seconds = 0;
                 }
 
 
-                if($item['availability'] != 2){
-                    SendClassworkNotification::dispatch($item['class_id'], $userId, $item['classwork_id'], $message, $type, 'notification')->delay(Carbon::now()->addSeconds($seconds));
+                if($item['availability'] == 1 || $item['availability'] == 0){
+                    $due = $item['availability'] == 0 ? '' : $item['to_date'];
+                    SendClassworkNotification::dispatch($item['class_id'], $userId, $item['classwork_id'], $message, $type, 'notification',$clsssworkTitle->title, $due, $clsssworkTitle->course_name)->delay(Carbon::now()->addSeconds($seconds));
                     $ClassName = Tbl_class::where('tbl_classes.id',$item['class_id'])->first();
                     $url = '/classwork'.'/'.$request->course_id.'/classwork-details?clwk='.$item['classwork_id'];
                     $CourseClassName = $ClassName->class_name.' '.$clsssworkTitle->course_name;
@@ -83,7 +85,6 @@ class NotificationController extends Controller
         }
         elseif($request->type == "announcement"){
 
-            //return $request->content;
             $userInClass = tbl_subject_course::where("tbl_subject_courses.id", $request->course_find_id)->first();
 
             $newNotification = new tbl_notification;
@@ -100,7 +101,7 @@ class NotificationController extends Controller
             $newNotification->from_id =  $userId;
             $newNotification->notification_attachments =  $request->announcement_id;
             $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
-            $newNotification->notification_type = 1;
+            $newNotification->notification_type = 'post_annoucement';
             $newNotification->save();
             
             broadcast(new NewNotification($newNotification))->toOthers();
@@ -114,145 +115,53 @@ class NotificationController extends Controller
             }
             return;
         }
-       
-        
+        else if($request->type == 'module'){
 
+            if($request->isPublished){
+                $course = tbl_subject_course::where("tbl_subject_courses.id", $request->course_id)->first();
 
-    }
-/* 
-    public function NewNotificationfornAnnouncement(Request $request){
-
-        $newNotification = new tbl_notification;
-        $newNotification->course_id = $request->announcement["course_id"];
-        $newNotification->class_id = $NewPost->class_id;
-        $newNotification->from_id =  $userId;
-        $newNotification->message = "Posted new announcement in ".$userInClass->course_name;
-        $newNotification->notification_type = 1;
-        $newNotification->save();
-        broadcast(new NewNotification($newNotification))->toOthers();
-    } */
-    
-  /*   public function fetchmyInvite(){
-        $userId = auth("sanctum")->id();
-        $allInvites = tbl_notification::where("tbl_notifications.user_id_to", $userId)
-        ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.notification_type","tbl_notifications.message",
-        "tbl_notifications.notification_attachments",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.created_at")
-        ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-        ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
-        ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
-        ->orderBy("tbl_notifications.created_at", "DESC")
-        ->paginate(5);
-
-        foreach($allInvites as $item){
-            $checkNotifStatus = UserNotification::where("user_notifications.notification_id", $item->n_id)
-            ->where("user_notifications.user_id", $userId)->first();
-            $item->status = "";
-            if($checkNotifStatus){
-                $item->status = $checkNotifStatus->status;
-                $item->hide_notif = $checkNotifStatus->hide_notif;
-                $item->notification_accepted = $checkNotifStatus->notification_accepted;
-            }
-            else{
-                if($item->status == ""){
-                    $item->status = null;
-                    $item->hide_notif = null;
-                    $item->notification_accepted = 0;
-                    
+                $dateToday = date('Y-m-d H:i:s');
+                $seconds;
+                if($request->availability == 2){
+                    $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
+                    $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->date_from);
+                    $diff_in_minutes = $to->diffInMinutes($from);
+                    if($to->greaterThanOrEqualTo($from)){
+                        $seconds =  0;
+                    }else{
+                        $seconds = $diff_in_minutes * 60;
+                    }
+                }else if($request->availability == 1){
+                    $seconds =  0;
                 }
-            }
 
-        }
-        return $allInvites;
-    } */
+                $checkNotif = tbl_notification::where('tbl_notifications.notification_attachments', $request->module_id)
+                ->where('tbl_notifications.notification_type', 'publish_module')
+                ->where('tbl_notifications.course_id', $request->course_id)
+                ->first();
 
+                if(!$checkNotif){
+                    $notif_message = "Publish new module named ".$request->module_name.' in your '.$course->course_name;
+                    $type = 'publish_module';
+                    $userDetails  = auth('sanctum')->user()->tbl_userDetails;
+                    $Name = 'Instructor '.$userDetails->lastName;
+                    SendModulePushNotification::dispatch(
+                        $request->course_id,
+                        $userId,
+                        $Name,
+                        $request->module_id,
+                        $notif_message,
+                        $type
+                    )->delay(Carbon::now()->addSeconds($seconds));
+                }
 
-    public function getNotification(){
-        $userId = auth("sanctum")->id();
-        $CheckIfJoinToClassesExist = tbl_userclass::where("tbl_userclasses.user_id", $userId)->exists();
-        if(auth("sanctum")->user()->role != "Student"){
-            if($CheckIfJoinToClassesExist){
-                $allNotification = tbl_teacher_course::where("tbl_teacher_courses.user_id", $userId)
-                ->select("tbl_teacher_courses.course_id as cl_id","tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",
-                DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_notifications.updated_at as created_at")
-                ->leftJoin("tbl_notifications", function($join){
-                    $join->on("tbl_notifications.course_id", "=", "tbl_teacher_courses.course_id")
-                    ->orOn("tbl_notifications.user_id_to", "=", "tbl_teacher_courses.user_id");
-                })
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
-                ->orderBy("tbl_notifications.created_at", "DESC")
-                ->where("tbl_notifications.from_id","!=", $userId)
-                ->paginate(5);
+    
             }
-            else{
-                $allNotification = tbl_notification::where("tbl_notifications.user_id_to", $userId)
-                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",
-                "tbl_notifications.notification_attachments",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),
-                "tbl_notifications.updated_at as created_at")
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
-                ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
-                ->orderBy("tbl_notifications.created_at", "DESC")
-                ->paginate(5);
-            }
-            
-        }else{
            
-            if($CheckIfJoinToClassesExist){
-                $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
-                ->where("tbl_userclasses.user_id", $userId)
-                ->select("tbl_userclasses.class_id as cl_id",
-                "tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",
-                "tbl_notifications.notification_attachments",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),
-                "tbl_notifications.updated_at as created_at")
-                ->leftJoin("tbl_notifications", function($join){
-                    $join->on("tbl_notifications.class_id", "=", "tbl_userclasses.class_id")
-                    ->orOn("tbl_notifications.class_id", "=", "tbl_userclasses.course_id");
-                })
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
-                ->orderBy("tbl_notifications.created_at", "DESC")
-                ->where("tbl_notifications.from_id","!=", $userId)
-                ->whereIn("tbl_notifications.notification_type", [1, 3, 4])
-                ->paginate(5);
-            }
-            else{
-                $allNotification = tbl_notification::where("tbl_notifications.user_id_to", $userId)
-                ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.message",
-                "tbl_notifications.notification_attachments",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),
-                "tbl_notifications.updated_at as created_at")
-                ->leftJoin("users", "users.id", "=", "tbl_notifications.from_id")
-                ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","users.id")
-                ->leftJoin("user_notifications", "user_notifications.notification_id","=","tbl_notifications.id")
-                ->orderBy("tbl_notifications.created_at", "DESC")
-                ->paginate(5);
-            }
-               
         }
-
-        foreach($allNotification as $item){
-            $checkNotifStatus = UserNotification::where("user_notifications.notification_id", $item->n_id)
-            ->where("user_notifications.user_id", $userId)->first();
-            $item->status = "";
-            if($checkNotifStatus){
-                $item->status = $checkNotifStatus->status;
-                $item->hide_notif = $checkNotifStatus->hide_notif;
-                $item->notification_accepted = $checkNotifStatus->notification_accepted;
-            }
-            else{
-                if($item->status == ""){
-                    $item->status = null;
-                    $item->hide_notif = null;
-                    $item->notification_accepted = 0;
-                    
-                }
-            }
-
-        }
-        return $allNotification;
-    
+       
     }
-
+ 
      /**
      * Update the specified resource in storage.
      *
@@ -325,6 +234,12 @@ class NotificationController extends Controller
             ->get();
         }
         else{
+            $notifType[0] = 'post_annoucement';
+            $notifType[1] = 'class_invite';
+            $notifType[2] = 'classwork_assigned';
+            $notifType[3] = 'classwork_graded';
+            $notifType[4] = 'publish_module';
+            $notifType[5] = 'post_reply';
 
             $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
             ->where("tbl_userclasses.user_id", $userId)
@@ -346,7 +261,7 @@ class NotificationController extends Controller
                 $query->where('user_notifications.status', 0)->orWhere('user_notifications.status', null);
             })
             ->where("tbl_notifications.from_id","!=", $userId)
-            ->whereIn("tbl_notifications.notification_type", [1, 3, 4, 7])
+            ->whereIn("tbl_notifications.notification_type", $notifType)
             ->get();
         }
         
@@ -419,7 +334,12 @@ class NotificationController extends Controller
             ->count();
 
         }else{
-            
+            $notifType[0] = 'post_annoucement';
+            $notifType[1] = 'class_invite';
+            $notifType[2] = 'classwork_assigned';
+            $notifType[3] = 'classwork_graded';
+            $notifType[4] = 'publish_module';
+            $notifType[5] = 'post_reply';
 
             $NotificationCount = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
             ->where("tbl_userclasses.user_id", $userId)
@@ -442,47 +362,9 @@ class NotificationController extends Controller
                 $query->where('user_notifications.status', 0)->orWhere('user_notifications.status', null);
             })
             ->where("tbl_notifications.from_id","!=", $userId)
-            ->whereIn("tbl_notifications.notification_type", [1, 3, 4, 7])
+            ->whereIn("tbl_notifications.notification_type", $notifType)
             ->count();
         } 
-
-
-
-        //push notification data;
-      /*  $push_notif_data;
-       $latest_notif = tbl_notification::orderBy('updated_at', 'desc')->first();
-       $from_name = tbl_userDetails::where('user_id', $latest_notif->from_id)
-       ->select(DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"))->first();
-       $message =  $latest_notif->notification_type != 6 && $latest_notif->notification_type != 2 ? $from_name->name.' '.$latest_notif->message : $latest_notif->message;
-       if($latest_notif->course_id == null && $latest_notif->class_id == null){
-            if($latest_notif->user_id_to == $userId)$push_notif_data = ["success"=> true, "message"=> $message];
-            else $push_notif_data = [ "success"=> false,"message"=> null];
-        }else if($latest_notif->course_id != null && $latest_notif->class_id != null){
-            if(auth("sanctum")->user()->role == "Teacher") $push_notif_data = ["success"=> true, "message"=> $message];
-            else $push_notif_data = [ "success"=> false,"message"=> null];
-        }
-        else if($latest_notif->course_id != null && $latest_notif->class_id == null){
-            $userCourses = tbl_userclass::where('user_id', $userId)->select('course_id','class_id')->get();
-            $check = false;
-            foreach($userCourses as $item){
-                if($item['course_id'] == $latest_notif->course_id){
-                    $check = true;
-                }
-            }
-            if($check) $push_notif_data = ["success"=> true, "message"=> $message];
-            else $push_notif_data = [ "success"=> false,"message"=> null];
-        }
-        else if($latest_notif->course_id == null && $latest_notif->class_id != null){
-            $userCourses = tbl_userclass::where('user_id', $userId)->select('course_id','class_id')->get();
-            $check = false;
-            foreach($userCourses as $item){
-                if($item['class_id'] == $latest_notif->class_id){
-                    $check = true;
-                }
-            }
-            if($check) $push_notif_data = ["success"=> true, "message"=> $message];
-            else $push_notif_data = [ "success"=> false,"message"=> null];
-        } */
         return ["notificationCount"=> $NotificationCount];
       
     }
@@ -503,20 +385,24 @@ class NotificationController extends Controller
 
             if($type != "Hidden"){
                 if($type != "all"){
-                    if($type == 4){
+                    if($type == 'classwork_assigned'){
                         $notifType[0] = $type;
-                        $notifType[0] = 6;
+                        $notifType[1] = 'classwork_submission';
+                    }
+                    else if($type == 'post_annoucement'){
+                        $notifType[0] = $type;
+                        $notifType[1] = 'post_reply';
                     }
                     else{
-                         $notifType[0] = $type;
+                        $notifType[0] = $type;
                     }
                 }else{
-                    $notifType[0] = 1;
-                    $notifType[1] = 2;
-                    $notifType[2] = 3;
-                    $notifType[3] = 4;
-                    $notifType[4] = 5;
-                    $notifType[5] = 6;
+                    $notifType[0] = 'post_annoucement';
+                    $notifType[1] = 'class_joined';
+                    $notifType[2] = 'class_invite';
+                    $notifType[3] = 'classwork_assigned';
+                    $notifType[4] = 'post_reply';
+                    $notifType[5] = 'classwork_submission';
                 }
 
                 $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
@@ -540,6 +426,13 @@ class NotificationController extends Controller
                 ->paginate(10);  
             }
             else{
+                $notifType[0] = 'post_annoucement';
+                $notifType[1] = 'class_joined';
+                $notifType[2] = 'class_invite';
+                $notifType[3] = 'classwork_assigned';
+                $notifType[4] = 'post_reply';
+                $notifType[5] = 'classwork_submission';
+
                 $allNotification = tbl_notification::where("tbl_notifications.from_id","!=", $userId)
                 ->select("tbl_user_details.profile_pic","tbl_notifications.id as n_id","tbl_notifications.from_course","tbl_notifications.notification_type","tbl_notifications.notification_attachments",
                 "tbl_notifications.message","user_notifications.status", "user_notifications.hide_notif","user_notifications.notification_accepted",
@@ -556,7 +449,7 @@ class NotificationController extends Controller
                 ->where(function ($query) {
                     $query->where('user_notifications.hide_notif', 1);
                 })
-                ->whereIn("tbl_notifications.notification_type", [1, 2,3,4,5,6])
+                ->whereIn("tbl_notifications.notification_type", $notifType)
                 ->whereIn('tbl_notifications.class_id', $list)
                 ->paginate(10);  
             }
@@ -570,20 +463,24 @@ class NotificationController extends Controller
             if($type != "Hidden"){
                 
                 if($type != "all"){
-                    
-                    if($type == 4){
+                    if($type == 'classwork_assigned'){
                         $notifType[0] = $type;
-                        $notifType[1] = 7;
-
-                    }else{
+                        $notifType[1] = 'classwork_graded';
+                    }else if($type == 'post_annoucement'){
+                        $notifType[0] = $type;
+                        $notifType[1] = 'post_reply';
+                    }
+                    else{
                         $notifType[0] = $type;
                     }
                 }
                 else{
-                    $notifType[0] = 1;
-                    $notifType[1] = 3;
-                    $notifType[2] = 4;
-                    $notifType[3] = 7;
+                    $notifType[0] = 'post_annoucement';
+                    $notifType[1] = 'class_invite';
+                    $notifType[2] = 'classwork_assigned';
+                    $notifType[3] = 'classwork_graded';
+                    $notifType[4] = 'publish_module';
+                    $notifType[5] = 'post_reply';
                 }
 
                 $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
@@ -615,6 +512,13 @@ class NotificationController extends Controller
                 ->paginate(10);
             }
             else{         
+                $notifType[0] = 'post_annoucement';
+                $notifType[1] = 'class_invite';
+                $notifType[2] = 'classwork_assigned';
+                $notifType[3] = 'classwork_graded';
+                $notifType[4] = 'publish_module';
+                $notifType[5] = 'post_reply';
+                
 
                 $allNotification = tbl_userclass::whereNull("tbl_userclasses.deleted_at")
                 ->where("tbl_userclasses.user_id", $userId)
@@ -641,7 +545,7 @@ class NotificationController extends Controller
                     $query->where('user_notifications.hide_notif', 1);
                 })
                 ->where("tbl_notifications.from_id","!=", $userId)
-                ->whereIn("tbl_notifications.notification_type", [1, 3, 4,7])
+                ->whereIn("tbl_notifications.notification_type", $notifType)
                 ->paginate(10);
             }
             

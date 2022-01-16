@@ -433,7 +433,8 @@
                     isPublished: null,
                     date_from: null,
                     date_to: null,
-                }
+                },
+                publishAvailabity: null
 
             }
         },
@@ -481,11 +482,18 @@
                     if (selection == this.radioAvailability[0]) {
                         this.publishSettings.date_from = null;
                         this.publishSettings.date_to = null;
+                        this.publishAvailabity = 1;
+                    }else{
+                        this.publishAvailabity = 2;
+                        this.publishSettings.date_from = moment(this.publishFrom).format('YYYY-MM-DD HH:mm:ss');;
+                        this.publishSettings.date_to = moment(this.publishTo).format('YYYY-MM-DD HH:mm:ss');
                     }
+                    
                     return 1;
                 } else {
                     this.publishSettings.date_from = null;
                     this.publishSettings.date_to = null;
+                    this.publishAvailabity = 0;
                     return 0;
                 }
 
@@ -509,8 +517,10 @@
                 this.publishSettings.module_id = main_module.id;
 
                 if (main_module.isPublished == 1) {
-                    this.publishFrom = main_module.date_from;
-                    this.publishTo = main_module.date_to;
+                    /* this.publishFrom = main_module.date_from;
+                    this.publishTo = main_module.date_to; */
+                    this.publishFrom = moment(main_module.date_from).format('YYYY-MM-DD');
+                    this.publishTo = moment(main_module.date_to).format('YYYY-MM-DD');
 
                     if (main_module.date_from != null && main_module.date_to != null) {
                         this.availability = this.radioAvailability[1];
@@ -540,27 +550,16 @@
             },
 
 
-
-
-
-
-
             savePublishSettings() {
                 this.publishSettings.date_from = this.publishFrom;
                 this.publishSettings.date_to = this.publishTo;
                 this.publishSettings.isPublished = this.availabilitySelection(this.availability);
-
-                console.log(this.availabilitySelection(this.availability));
-
                 this.isPublishing = true;
-
                 axios.post(`/api/main_module/publish/${ this.publishSettings.module_id}`, {
-
                         publishSettings: this.publishSettings
                     })
                     .then((res) => {
-
-
+                        this.SendNotificationToCourse(this.publishSettings, res.data);
                         this.isPublishing_id = this.publishSettings.module_id;
 
                         let foundIndex = this.getmain_module.findIndex(element => element.id === this
@@ -692,10 +691,6 @@
 
                     this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
                 }
-
-
-
-
             },
             classworkBtn() {
                 $('#itemTypeModal').modal('hide');
@@ -737,6 +732,22 @@
                 this.to_date_jq_getter = false;
                 clearInterval(this.to_date_jq_getter);
             },
+           async SendNotificationToCourse(data, isPublished){
+
+                let notifDetails = {};
+                notifDetails.course_id = this.$route.params.id;
+                notifDetails.module_name = data.module_name;
+                notifDetails.module_id = data.module_id;
+                notifDetails.date_from = data.date_from;
+                notifDetails.date_to = data.date_to;
+                notifDetails.availability = this.publishAvailabity;
+                notifDetails.isPublished = isPublished == 'published' ? true : false;
+                notifDetails.type = 'module';
+                axios.post('/api/notification/new', notifDetails)
+                .then(res=>{
+                
+                })
+            }
 
 
 

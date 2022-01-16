@@ -140,7 +140,7 @@ public function countSubmoduleOnMainModule($id ) {
         
    
             $mainModule->save();
-            return $request->publishSettings['isPublished'] == 1 ? 'publsihed' : 'unpublished';
+            return $request->publishSettings['isPublished'] == 1 ? 'published' : 'unpublished';
         }
     }
     /**

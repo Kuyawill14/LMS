@@ -1381,7 +1381,9 @@ class ObjectiveController extends Controller
         foreach($request->item as $cl){
                 foreach($Questions as $ques){
                 if($ques['id'] == $cl['Question_id']){
+
                     if($cl['type'] == 'Multiple Choice' || $cl['type'] == 'Identification' || $cl['type'] == 'True or False'){
+
                         $userAns = $ques['sensitivity'] ? $cl['Answer'] : strtolower($cl['Answer']);
                         $questionAns = $ques['sensitivity'] ? $ques['answer'] : strtolower($ques['answer']);
 
@@ -1450,9 +1452,10 @@ class ObjectiveController extends Controller
          $submissionCount =  $submissionCount -1;
          $user = tbl_userDetails::where('user_id', $userId)->select('firstName', 'lastName')->first();
  
-         $CheckNotif = tbl_notification::where('notification_attachments', $classwork_id)->where('notification_type', 6)->first();
+         $CheckNotif = tbl_notification::where('notification_attachments', $classwork_id)->where('notification_type', 'classwork_submission')->first();
          $classwork_details = tbl_classwork::find($classwork_id);
          $notif_message;
+
          if($CheckNotif){
              $CheckNotifIfRead = UserNotification::where('notification_id', $CheckNotif->id)->first();
              
@@ -1487,9 +1490,9 @@ class ObjectiveController extends Controller
              }
 
              $newNotification->notification_attachments = $classwork_id;
-             $newNotification->notification_type = 6;
+             $newNotification->notification_type = 'classwork_submission';
              $newNotification->save();
-             $notif_message = $CheckNotif->message;
+             $notif_message = $newNotification->message;
              broadcast(new NewNotification($newNotification))->toOthers();
 
              
