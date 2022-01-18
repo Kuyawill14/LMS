@@ -410,6 +410,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -422,7 +427,7 @@ var pdfviewer = function pdfviewer() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex'],
+  props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex', 'CheckDataSection'],
   components: {
     resetConfirmation: resetConfirmation,
     pdfviewer: pdfviewer
@@ -871,8 +876,6 @@ var pdfviewer = function pdfviewer() {
     this.$emit('closeDialog');
   },
   created: function created() {
-    var _this13 = this;
-
     if (this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != '') {
       var path = this.CheckData.Submitted_Answers[0].link;
       var extension = this.CheckData.Submitted_Answers[0].fileExte;
@@ -910,10 +913,7 @@ var pdfviewer = function pdfviewer() {
     }
 
     this.checkRubrics();
-    this.$emit('isMounted');
-    setTimeout(function () {
-      return _this13.info = false;
-    }, 5000);
+    this.$emit('isMounted'); //setTimeout(() => (this.info = false), 5000);
   }
 });
 
@@ -1406,6 +1406,30 @@ var render = function() {
                                 [
                                   _c(
                                     "v-col",
+                                    {
+                                      staticClass: "text-center pl-5 pr-5",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-subtitle",
+                                        {
+                                          staticStyle: { "font-size": "15px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                          " +
+                                              _vm._s(_vm.CheckDataSection) +
+                                              "\n                                      "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
                                     { staticClass: "ma-0 pa-0" },
                                     [
                                       _c(
@@ -1558,7 +1582,21 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                 To grade students, just put score and click the enter button to save and go to next student.\n                                              "
+                                                "\n                                                 To grade students, just put score and pressed the "
+                                              ),
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "font-weight-bold",
+                                                  staticStyle: {
+                                                    "font-size": "20px"
+                                                  }
+                                                },
+                                                [_vm._v("Enter")]
+                                              ),
+                                              _vm._v(
+                                                " key to save and go to next student.\n                                              "
                                               )
                                             ]
                                           )
@@ -1698,97 +1736,105 @@ var render = function() {
                                                 1
                                               ),
                                               _vm._v(" "),
-                                              _vm.CheckData.status ==
-                                              "Submitted"
-                                                ? _c(
-                                                    "v-list-item-action",
+                                              _c(
+                                                "v-list-item-action",
+                                                {
+                                                  staticClass: "mt-4",
+                                                  staticStyle: {
+                                                    "max-width":
+                                                      "250px !important"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-form",
                                                     {
-                                                      staticClass: "mt-4",
+                                                      ref: "pointsform",
                                                       staticStyle: {
-                                                        "max-width":
-                                                          "250px !important"
+                                                        width:
+                                                          "160px !important"
+                                                      },
+                                                      attrs: {
+                                                        "lazy-validation": ""
+                                                      },
+                                                      on: {
+                                                        submit: function(
+                                                          $event
+                                                        ) {
+                                                          $event.preventDefault()
+                                                          return _vm.validate()
+                                                        }
+                                                      },
+                                                      model: {
+                                                        value: _vm.valid,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.valid = $$v
+                                                        },
+                                                        expression: "valid"
                                                       }
                                                     },
                                                     [
-                                                      _c(
-                                                        "v-form",
-                                                        {
-                                                          ref: "pointsform",
-                                                          staticStyle: {
-                                                            width:
-                                                              "160px !important"
-                                                          },
-                                                          attrs: {
-                                                            "lazy-validation":
-                                                              ""
-                                                          },
-                                                          on: {
-                                                            submit: function(
-                                                              $event
-                                                            ) {
-                                                              $event.preventDefault()
-                                                              return _vm.validate()
-                                                            }
-                                                          },
-                                                          model: {
-                                                            value: _vm.valid,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.valid = $$v
-                                                            },
-                                                            expression: "valid"
+                                                      _c("v-text-field", {
+                                                        attrs: {
+                                                          rounded: "",
+                                                          "hide-details":
+                                                            _vm.valid,
+                                                          loading:
+                                                            _vm.isSavingScore,
+                                                          rules:
+                                                            _vm.pointsRules,
+                                                          dense: "",
+                                                          outlined: "",
+                                                          label: "Score",
+                                                          type: "number",
+                                                          suffix:
+                                                            "/" +
+                                                            _vm.classworkDetails
+                                                              .points,
+                                                          max:
+                                                            _vm.classworkDetails
+                                                              .points,
+                                                          min: "0"
+                                                        },
+                                                        on: {
+                                                          focus: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.CheckData.points =
+                                                              _vm.CheckData
+                                                                .graded == 1
+                                                                ? _vm.CheckData
+                                                                    .points
+                                                                : _vm.CheckData
+                                                                    .points ==
+                                                                  null
                                                           }
                                                         },
-                                                        [
-                                                          _c("v-text-field", {
-                                                            attrs: {
-                                                              rounded: "",
-                                                              "hide-details":
-                                                                _vm.valid,
-                                                              loading:
-                                                                _vm.isSavingScore,
-                                                              rules:
-                                                                _vm.pointsRules,
-                                                              dense: "",
-                                                              outlined: "",
-                                                              label: "Score",
-                                                              type: "number",
-                                                              suffix:
-                                                                "/" +
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .points,
-                                                              max:
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .points,
-                                                              min: "0"
-                                                            },
-                                                            model: {
-                                                              value:
-                                                                _vm.CheckData
-                                                                  .points,
-                                                              callback: function(
-                                                                $$v
-                                                              ) {
-                                                                _vm.$set(
-                                                                  _vm.CheckData,
-                                                                  "points",
-                                                                  $$v
-                                                                )
-                                                              },
-                                                              expression:
-                                                                "CheckData.points"
-                                                            }
-                                                          })
-                                                        ],
-                                                        1
-                                                      )
+                                                        model: {
+                                                          value:
+                                                            _vm.CheckData
+                                                              .points,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              _vm.CheckData,
+                                                              "points",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "CheckData.points"
+                                                        }
+                                                      })
                                                     ],
                                                     1
                                                   )
-                                                : _vm._e()
+                                                ],
+                                                1
+                                              )
                                             ],
                                             1
                                           )

@@ -27,8 +27,10 @@
          v-if="dialog" 
          v-on:SubmissionReset="ResetSubmission" 
          v-on:isMounted="isStarting = false" 
-         :classworkDetails="classworkDetails" 
-         v-on:UpdateSubmission="MarkAsGraded" 
+         :classworkDetails="classworkDetails"
+         :ClassList="ClassList"
+         :CheckDataSection="CheckDataSection"
+         v-on:UpdateSubmission="MarkAsGraded"
          :CheckData="CheckData" 
          v-on:closeDialog="isNotViewing()"
          v-on:nextStudent="GotoNextStudent()"
@@ -291,10 +293,11 @@ export default {
             valid:true,
             resetdialog: false,
             alertDialog:false,
+            oldLimit: null,
+            CheckDataSection: null
         }
     },
      computed: {
-
          GradedStudent() {
               let Filterddata = this.ListData;
                 Filterddata =  Filterddata.filter((item) => {
@@ -305,7 +308,6 @@ export default {
                         return (item.graded == 1 && item.class_id == this.Class)
                     }
             })
-
             return Filterddata.length;
          },
         studentSubmissionList() {
@@ -336,9 +338,8 @@ export default {
                          else{
                               return (item.status == "Submitted" && item.graded == 0&& item.class_id == this.Class)
                          }
-                        
                     })
-                    //this.Submitted_count = Filterddata.length;
+                     this.Submitted_count = Filterddata.length;
                     if(this.selectedSort == "Name"){
                         if(this.selectedShowNumber != 'all'){
                             let data2 = Filterddata.sort();
@@ -610,14 +611,22 @@ export default {
             //}
         },
         async ViewSubmission(data, index){
+            this.oldLimit = this.selectedShowNumber;
+            this.selectedShowNumber = 'all';
             this.AllData = this.studentSubmissionList;
             this.CheckData = data;
+             this.ClassList.forEach(item => {
+                if(item.class_id == this.CheckData.class_id){
+                    this.CheckDataSection = item.class_name
+                }
+            });
             this.selected_index = index;
             this.dialog = true;
             this.isStarting = true;
             this.$store.dispatch("isViewingSubmission");
         },
         isNotViewing(){
+            this.selectedShowNumber = this.oldLimit;
             this.CheckData = [];
             this.selected_index = null;
             this.dialog = false;
@@ -628,11 +637,22 @@ export default {
             this.CheckData = null;
             this.selected_index = this.selected_index + 1;
             this.CheckData = this.AllData[this.selected_index];
+            this.ClassList.forEach(item => {
+                if(item.class_id == this.CheckData.class_id){
+                    this.CheckDataSection = item.class_name
+                }
+            });
+
         },
         GotoPrevStudent(){
             this.CheckData = null;
             this.selected_index = this.selected_index - 1;;
             this.CheckData = this.AllData[this.selected_index];
+             this.ClassList.forEach(item => {
+                if(item.class_id == this.CheckData.class_id){
+                    this.CheckDataSection = item.class_name
+                }
+            });
         },
        
        

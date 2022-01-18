@@ -55,6 +55,11 @@
                                 <v-container fluid ma-0 pa-0>
                                 <v-card  v-show="$vuetify.breakpoint.mdAndUp || SelectedNav == 0" class="pa-5 pb-8 pt-3 mt-1" elevation="1" outlined>
                                     <v-row  no-gutters>
+                                        <v-col cols="12" class="text-center pl-5 pr-5" >
+                                            <v-list-item-subtitle style="font-size: 15px">
+                                                {{CheckDataSection}}
+                                            </v-list-item-subtitle>
+                                        </v-col>
                                         <v-col class="ma-0 pa-0">
                                              <v-row class="mb-0 pb-0">
                                                     <v-col cols="12" class="mb-0 pb-0">
@@ -84,7 +89,7 @@
                                                 </v-row>
                                                 <div>
                                                     <v-alert v-model="info" type="info" class="mb-0 mt-0" dense  dismissible>
-                                                       To grade students, just put score and click the enter button to save and go to next student.
+                                                       To grade students, just put score and pressed the <span style="font-size: 20px" class="font-weight-bold">Enter</span> key to save and go to next student.
                                                     </v-alert>
                                                 </div>
                                                 <v-list class="ma-0 pa-0">
@@ -101,10 +106,10 @@
                                                              <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
                                                        <!--  @keyup="validate" -->
-                                                        <v-list-item-action style="max-width:250px !important" v-if="CheckData.status == 'Submitted'" class="mt-4">
+                                                        <v-list-item-action style="max-width:250px !important"  class="mt-4">
                                                             <v-form style="width:160px !important" @submit.prevent="validate()" ref="pointsform" v-model="valid" lazy-validation>
                                                                 <v-text-field rounded 
-                                                                
+                                                                @focus="CheckData.points = CheckData.graded == 1 ? CheckData.points  : CheckData.points == null"
                                                                 :hide-details="valid"
                                                                 :loading="isSavingScore" 
                                                                 :rules="pointsRules"
@@ -387,7 +392,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
 const pdfviewer = () => import('./pdfviewer');
 
   export default {
-    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex'],
+    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex','CheckDataSection'],
     components:{
         resetConfirmation,
         pdfviewer
@@ -432,6 +437,7 @@ const pdfviewer = () => import('./pdfviewer');
         ],
         valid: true,
         info: true,
+
       }
     },
     computed:{
@@ -747,7 +753,7 @@ const pdfviewer = () => import('./pdfviewer');
         }
         this.checkRubrics();
         this.$emit('isMounted');
-        setTimeout(() => (this.info = false), 5000);
+        //setTimeout(() => (this.info = false), 5000);
     }
   
   }
