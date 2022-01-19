@@ -242,14 +242,28 @@ class SubmissionController extends Controller
             $UpdateScore->save();
             $userId = $UpdateScore->user_id;
             $classwork_id = $UpdateScore->classwork_id;
+
+            return response()->json([
+                'submission_id'=>$UpdateScore->id, 
+                'message'=>"Score Updated!"],200);
             
+        }else{
 
-        
-           
+            $class_classwork = tbl_classClassworks::where('class_id', $request->details['class_id'])
+            ->where('classwork_id', $request->details['classwork_id'])->first();
+            $newSubmission = new tbl_Submission;
+            $newSubmission->classwork_id = $request->details['classwork_id'];
+            $newSubmission->class_classwork_id = $class_classwork->id;
+            $newSubmission->user_id =  $request->details['user_id'];
+            $newSubmission->points = $request->score;
+            $newSubmission->graded = 1;
+            $newSubmission->status = "Submitted";
+            $newSubmission->save();
+                return response()->json([
+                'submission_id'=>$newSubmission->id, 
+                'message'=>"Score Saved!"],200);
+            }
 
-            return 'Score Updated!';
-        }
-        return 'Submission not found!';
         
     }
 

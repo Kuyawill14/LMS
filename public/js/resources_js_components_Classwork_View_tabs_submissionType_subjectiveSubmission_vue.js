@@ -668,8 +668,9 @@ var multipleAlertStudent = function multipleAlertStudent() {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _this6.studentSubmissionList.forEach(function (item) {
-                  if (id == item.id) {
+                  if (id == item.user_id) {
                     item.graded = 1;
+                    item.status = "Submitted";
                   }
                 });
 

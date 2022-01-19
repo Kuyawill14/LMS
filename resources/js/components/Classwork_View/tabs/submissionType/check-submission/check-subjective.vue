@@ -537,13 +537,21 @@ const pdfviewer = () => import('./pdfviewer');
             this.UpdateScore();
         },
         async UpdateScore(){
+            let studentDetails = {};
+            studentDetails.user_id = this.CheckData.user_id;
+            studentDetails.classwork_id = this.CheckData.classwork_id;
+            studentDetails.class_id = this.CheckData.class_id;
             if(this.score <= this.classworkDetails.points && this.score >= 0){
-                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, data: this.CheckData.rubrics_score})
+                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, 
+                data: this.CheckData.rubrics_score,
+                details: studentDetails,
+                })
                 .then(res=>{
                     if(res.status == 200){
                         this.toastSuccess("Score Updated");
                         this.isSavingScore = !this.isSavingScore;
-                        this.$emit('UpdateSubmission', this.CheckData.id);
+                        this.CheckData.id = res.data.submission_id;
+                        this.$emit('UpdateSubmission', this.CheckData.user_id);
                         
 
                         if(this.currentIndex != this.SubmittedLength-1){

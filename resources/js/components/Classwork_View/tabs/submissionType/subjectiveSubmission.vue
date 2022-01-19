@@ -586,8 +586,9 @@ export default {
         },
         async MarkAsGraded(id){
             this.studentSubmissionList.forEach(item => {
-                    if(id == item.id){
+                    if(id == item.user_id){
                         item.graded = 1;
+                        item.status = "Submitted";
                     }
             });
         },

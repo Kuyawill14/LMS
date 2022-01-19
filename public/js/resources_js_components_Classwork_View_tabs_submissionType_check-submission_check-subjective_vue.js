@@ -558,21 +558,29 @@ var pdfviewer = function pdfviewer() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var studentDetails;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                studentDetails = {};
+                studentDetails.user_id = _this2.CheckData.user_id;
+                studentDetails.classwork_id = _this2.CheckData.classwork_id;
+                studentDetails.class_id = _this2.CheckData.class_id;
+
                 if (_this2.score <= _this2.classworkDetails.points && _this2.score >= 0) {
                   axios.put('/api/submission/update-score/' + _this2.CheckData.id, {
                     score: _this2.score,
-                    data: _this2.CheckData.rubrics_score
+                    data: _this2.CheckData.rubrics_score,
+                    details: studentDetails
                   }).then(function (res) {
                     if (res.status == 200) {
                       _this2.toastSuccess("Score Updated");
 
                       _this2.isSavingScore = !_this2.isSavingScore;
+                      _this2.CheckData.id = res.data.submission_id;
 
-                      _this2.$emit('UpdateSubmission', _this2.CheckData.id);
+                      _this2.$emit('UpdateSubmission', _this2.CheckData.user_id);
 
                       if (_this2.currentIndex != _this2.SubmittedLength - 1) {
                         _this2.NextStudent();
@@ -585,7 +593,7 @@ var pdfviewer = function pdfviewer() {
                   _this2.toastError('The set points is invalid!');
                 }
 
-              case 1:
+              case 5:
               case "end":
                 return _context.stop();
             }

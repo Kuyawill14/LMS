@@ -489,13 +489,24 @@
                 this.ViewDetails = null;
                 this.selected_index = this.selected_index + 1;
                 this.ViewDetails = this.studentSubmissionList[this.selected_index];
+                this.ClassList.forEach(item => {
+                if(item.class_id == this.ViewDetails.class_id){
+                        this.CheckDataSection = item.class_name
+                    }
+                });
             },
             GotoPrevStudent() {
                 this.ViewDetails = null;
                 this.selected_index = this.selected_index - 1;;
                 this.ViewDetails = this.studentSubmissionList[this.selected_index];
+                this.ClassList.forEach(item => {
+                if(item.class_id == this.ViewDetails.class_id){
+                        this.CheckDataSection = item.class_name
+                    }
+                });
             },
             isNotViewing() {
+                this.selectedShowNumber = this.oldLimit;
                 this.ViewDetails = null;
                 this.selected_index = null;
                 this.dialog = false;
