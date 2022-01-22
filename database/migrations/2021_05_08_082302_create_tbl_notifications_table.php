@@ -22,7 +22,7 @@ class CreateTblNotificationsTable extends Migration
             $table->integer('from_course')->nullable();
             $table->string('message');
             $table->string('notification_attachments')->nullable();
-            $table->integer('notification_type');
+            $table->string('notification_type');
             $table->timestamps();
         });
     }

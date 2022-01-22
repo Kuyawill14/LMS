@@ -3300,12 +3300,12 @@ var subjectiveSubmission = function subjectiveSubmission() {
                 axios.get('/api/submission/all/' + _this.$route.query.clwk).then(function (res) {
                   _this.List = res.data;
                   res.data.forEach(function (item) {
-                    if (item.status == 'Submitted') {
-                      _this.Submitted += 1;
+                    if (item.status == 'Submitted' && item.graded == 0) {
+                      _this.Submitted++;
                     }
 
-                    if (item.graded == 1) {
-                      _this.Graded += 1;
+                    if (item.status == 'Submitted' && item.graded == 1) {
+                      _this.Graded++;
                     }
                   });
                   _this.isloading = !_this.isloading;

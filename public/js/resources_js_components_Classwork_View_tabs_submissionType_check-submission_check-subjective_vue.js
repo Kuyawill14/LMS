@@ -404,6 +404,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -416,7 +427,7 @@ var pdfviewer = function pdfviewer() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex'],
+  props: ['CheckData', 'classworkDetails', 'SubmittedLength', 'currentIndex', 'CheckDataSection'],
   components: {
     resetConfirmation: resetConfirmation,
     pdfviewer: pdfviewer
@@ -457,7 +468,8 @@ var pdfviewer = function pdfviewer() {
       }, function (v) {
         return v && v >= 0 || "Points should be above or equal to 0";
       }],
-      valid: true
+      valid: true,
+      info: true
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -504,7 +516,10 @@ var pdfviewer = function pdfviewer() {
     },
     validate: function validate() {
       if (this.$refs.pointsform.validate()) {
-        this.SaveScore();
+        //this.SaveScore(); 
+        this.score = this.CheckData.points;
+        this.isSavingScore = !this.isSavingScore;
+        this.UpdateScore();
       }
     },
     SaveScore: function SaveScore() {
@@ -543,21 +558,33 @@ var pdfviewer = function pdfviewer() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var studentDetails;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                studentDetails = {};
+                studentDetails.user_id = _this2.CheckData.user_id;
+                studentDetails.classwork_id = _this2.CheckData.classwork_id;
+                studentDetails.class_id = _this2.CheckData.class_id;
+
                 if (_this2.score <= _this2.classworkDetails.points && _this2.score >= 0) {
                   axios.put('/api/submission/update-score/' + _this2.CheckData.id, {
                     score: _this2.score,
-                    data: _this2.CheckData.rubrics_score
+                    data: _this2.CheckData.rubrics_score,
+                    details: studentDetails
                   }).then(function (res) {
                     if (res.status == 200) {
                       _this2.toastSuccess("Score Updated");
 
                       _this2.isSavingScore = !_this2.isSavingScore;
+                      _this2.CheckData.id = res.data.submission_id;
 
-                      _this2.$emit('UpdateSubmission', _this2.CheckData.id);
+                      _this2.$emit('UpdateSubmission', _this2.CheckData.user_id);
+
+                      if (_this2.currentIndex != _this2.SubmittedLength - 1) {
+                        _this2.NextStudent();
+                      }
                     }
                   });
                 } else {
@@ -566,7 +593,7 @@ var pdfviewer = function pdfviewer() {
                   _this2.toastError('The set points is invalid!');
                 }
 
-              case 1:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -894,7 +921,7 @@ var pdfviewer = function pdfviewer() {
     }
 
     this.checkRubrics();
-    this.$emit('isMounted');
+    this.$emit('isMounted'); //setTimeout(() => (this.info = false), 5000);
   }
 });
 
@@ -1387,6 +1414,30 @@ var render = function() {
                                 [
                                   _c(
                                     "v-col",
+                                    {
+                                      staticClass: "text-center pl-5 pr-5",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-subtitle",
+                                        {
+                                          staticStyle: { "font-size": "15px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                          " +
+                                              _vm._s(_vm.CheckDataSection) +
+                                              "\n                                      "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-col",
                                     { staticClass: "ma-0 pa-0" },
                                     [
                                       _c(
@@ -1512,6 +1563,50 @@ var render = function() {
                                               _c("v-divider")
                                             ],
                                             1
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
+                                        [
+                                          _c(
+                                            "v-alert",
+                                            {
+                                              staticClass: "mb-0 mt-0",
+                                              attrs: {
+                                                type: "info",
+                                                dense: "",
+                                                dismissible: ""
+                                              },
+                                              model: {
+                                                value: _vm.info,
+                                                callback: function($$v) {
+                                                  _vm.info = $$v
+                                                },
+                                                expression: "info"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                 To grade students, just put score and pressed the "
+                                              ),
+                                              _c(
+                                                "span",
+                                                {
+                                                  staticClass:
+                                                    "font-weight-bold",
+                                                  staticStyle: {
+                                                    "font-size": "20px"
+                                                  }
+                                                },
+                                                [_vm._v("Enter")]
+                                              ),
+                                              _vm._v(
+                                                " key to save and go to next student.\n                                              "
+                                              )
+                                            ]
                                           )
                                         ],
                                         1
@@ -1649,92 +1744,105 @@ var render = function() {
                                                 1
                                               ),
                                               _vm._v(" "),
-                                              _vm.CheckData.status ==
-                                              "Submitted"
-                                                ? _c(
-                                                    "v-list-item-action",
+                                              _c(
+                                                "v-list-item-action",
+                                                {
+                                                  staticClass: "mt-4",
+                                                  staticStyle: {
+                                                    "max-width":
+                                                      "250px !important"
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-form",
                                                     {
-                                                      staticClass: "mt-8",
+                                                      ref: "pointsform",
                                                       staticStyle: {
-                                                        width: "25% !important"
+                                                        width:
+                                                          "160px !important"
+                                                      },
+                                                      attrs: {
+                                                        "lazy-validation": ""
+                                                      },
+                                                      on: {
+                                                        submit: function(
+                                                          $event
+                                                        ) {
+                                                          $event.preventDefault()
+                                                          return _vm.validate()
+                                                        }
+                                                      },
+                                                      model: {
+                                                        value: _vm.valid,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.valid = $$v
+                                                        },
+                                                        expression: "valid"
                                                       }
                                                     },
                                                     [
-                                                      _c(
-                                                        "v-form",
-                                                        {
-                                                          ref: "pointsform",
-                                                          attrs: {
-                                                            "lazy-validation":
-                                                              ""
-                                                          },
-                                                          model: {
-                                                            value: _vm.valid,
-                                                            callback: function(
-                                                              $$v
-                                                            ) {
-                                                              _vm.valid = $$v
-                                                            },
-                                                            expression: "valid"
+                                                      _c("v-text-field", {
+                                                        attrs: {
+                                                          rounded: "",
+                                                          "hide-details":
+                                                            _vm.valid,
+                                                          loading:
+                                                            _vm.isSavingScore,
+                                                          rules:
+                                                            _vm.pointsRules,
+                                                          dense: "",
+                                                          outlined: "",
+                                                          label: "Score",
+                                                          type: "number",
+                                                          suffix:
+                                                            "/" +
+                                                            _vm.classworkDetails
+                                                              .points,
+                                                          max:
+                                                            _vm.classworkDetails
+                                                              .points,
+                                                          min: "0"
+                                                        },
+                                                        on: {
+                                                          focus: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.CheckData.points =
+                                                              _vm.CheckData
+                                                                .graded == 1
+                                                                ? _vm.CheckData
+                                                                    .points
+                                                                : _vm.CheckData
+                                                                    .points ==
+                                                                  null
                                                           }
                                                         },
-                                                        [
-                                                          _c("v-text-field", {
-                                                            staticStyle: {
-                                                              width:
-                                                                "100% !important"
-                                                            },
-                                                            attrs: {
-                                                              rounded: "",
-                                                              "hide-details":
-                                                                _vm.valid,
-                                                              loading:
-                                                                _vm.isSavingScore,
-                                                              rules:
-                                                                _vm.pointsRules,
-                                                              dense: "",
-                                                              outlined: "",
-                                                              label: "Score",
-                                                              type: "number",
-                                                              suffix:
-                                                                "/" +
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .points,
-                                                              max:
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .points,
-                                                              min: "0"
-                                                            },
-                                                            on: {
-                                                              keyup:
-                                                                _vm.validate
-                                                            },
-                                                            model: {
-                                                              value:
-                                                                _vm.CheckData
-                                                                  .points,
-                                                              callback: function(
-                                                                $$v
-                                                              ) {
-                                                                _vm.$set(
-                                                                  _vm.CheckData,
-                                                                  "points",
-                                                                  $$v
-                                                                )
-                                                              },
-                                                              expression:
-                                                                "CheckData.points"
-                                                            }
-                                                          })
-                                                        ],
-                                                        1
-                                                      )
+                                                        model: {
+                                                          value:
+                                                            _vm.CheckData
+                                                              .points,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              _vm.CheckData,
+                                                              "points",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "CheckData.points"
+                                                        }
+                                                      })
                                                     ],
                                                     1
                                                   )
-                                                : _vm._e()
+                                                ],
+                                                1
+                                              )
                                             ],
                                             1
                                           )

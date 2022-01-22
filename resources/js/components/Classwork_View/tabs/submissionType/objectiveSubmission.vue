@@ -17,7 +17,7 @@
 
         <v-row v-if="dialog">
             <v-col cols="12">
-                <checkobjective :currentIndex="selected_index" :SubmittedLength="studentSubmissionList.length"
+                <checkobjective :currentIndex="selected_index" :CheckDataSection="CheckDataSection" :SubmittedLength="studentSubmissionList.length"
                     v-show="!isStarting" v-if="dialog" v-on:isMounted="isStarting = false"
                     v-on:RestSubmission="ResetSubmission()" :classworkDetails="classworkDetails"
                     :ViewDetails="ViewDetails" v-on:UpdateSubmission="$emit('UpdateSubmission')"
@@ -297,7 +297,9 @@
                 currentPage: 1,
                 totalPage: 0,
                 currentTotalData: 0,
-                alertDialog: false
+                alertDialog: false,
+                oldLimit: null,
+                CheckDataSection: null
             }
         },
         computed: {
@@ -466,13 +468,17 @@
             },
             ViewSubmision(data, index) {
                 this.ViewDetails = null;
-                //this.isLoadingData = true;
-                //if(data.status == 'Submitted'){
-                //this.isViewing = true;
+                this.oldLimit = this.selectedShowNumber;
+                this.selectedShowNumber = 'all';
                 this.dialog = !this.dialog;
                 this.isStarting = true;
                 this.Viewdialog = !this.Viewdialog;
                 this.ViewDetails = data;
+                this.ClassList.forEach(item => {
+                if(item.class_id == this.ViewDetails.class_id){
+                        this.CheckDataSection = item.class_name
+                    }
+                });
                 this.selected_index = index;
                 this.selected_id = data.id;
                 this.$store.dispatch("isViewingSubmission");
@@ -483,13 +489,24 @@
                 this.ViewDetails = null;
                 this.selected_index = this.selected_index + 1;
                 this.ViewDetails = this.studentSubmissionList[this.selected_index];
+                this.ClassList.forEach(item => {
+                if(item.class_id == this.ViewDetails.class_id){
+                        this.CheckDataSection = item.class_name
+                    }
+                });
             },
             GotoPrevStudent() {
                 this.ViewDetails = null;
                 this.selected_index = this.selected_index - 1;;
                 this.ViewDetails = this.studentSubmissionList[this.selected_index];
+                this.ClassList.forEach(item => {
+                if(item.class_id == this.ViewDetails.class_id){
+                        this.CheckDataSection = item.class_name
+                    }
+                });
             },
             isNotViewing() {
+                this.selectedShowNumber = this.oldLimit;
                 this.ViewDetails = null;
                 this.selected_index = null;
                 this.dialog = false;

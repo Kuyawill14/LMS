@@ -71,28 +71,6 @@
                 </v-row>
 
             </v-col>
-
-           <!--  <v-col lg="4" >
-                <v-row>
-                    <v-col class="pt-0">
-                        
-                    </v-col>
-                </v-row>
-
-
-                <v-row>
-                    <v-col>
-                        <v-card>
-                            <myNotification> </myNotification>
-                        </v-card>
-                    </v-col>
-                </v-row>
-
-
-            </v-col> -->
-
-
-
         </v-row>
 
     </div>
@@ -100,7 +78,6 @@
 </template>
 
 <script>
-    const myNotification = () => import('../notificationComponent')
     const teacherCourses = () => import('./teacher-courses')
     const myCalendar = () => import('../myCalendar')
     const progressChart = () => import('./ProgressChart')
@@ -117,7 +94,6 @@
             myCalendar,
             progressChart,
             teacherCourses,
-            myNotification
         },
         data() {
             return {

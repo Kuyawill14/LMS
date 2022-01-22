@@ -55,6 +55,11 @@
                                 <v-container fluid ma-0 pa-0>
                                 <v-card  v-show="$vuetify.breakpoint.mdAndUp || SelectedNav == 0" class="pa-5 pb-8 pt-3 mt-1" elevation="1" outlined>
                                     <v-row  no-gutters>
+                                        <v-col cols="12" class="text-center pl-5 pr-5" >
+                                            <v-list-item-subtitle style="font-size: 15px">
+                                                {{CheckDataSection}}
+                                            </v-list-item-subtitle>
+                                        </v-col>
                                         <v-col class="ma-0 pa-0">
                                              <v-row class="mb-0 pb-0">
                                                     <v-col cols="12" class="mb-0 pb-0">
@@ -82,6 +87,11 @@
                                                         <v-divider></v-divider>
                                                     </v-col>
                                                 </v-row>
+                                                <div>
+                                                    <v-alert v-model="info" type="info" class="mb-0 mt-0" dense  dismissible>
+                                                       To grade students, just put score and pressed the <span style="font-size: 20px" class="font-weight-bold">Enter</span> key to save and go to next student.
+                                                    </v-alert>
+                                                </div>
                                                 <v-list class="ma-0 pa-0">
                                                     <v-list-item  class="ma-0 pa-0">
                                                         <v-list-item-avatar color="secondary">
@@ -95,14 +105,15 @@
                                                             <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                              <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
-                                                        <v-list-item-action style="width:25% !important"  v-if="CheckData.status == 'Submitted'" class="mt-8">
-                                                            <v-form ref="pointsform" v-model="valid" lazy-validation>
+                                                       <!--  @keyup="validate" -->
+                                                        <v-list-item-action style="max-width:250px !important"  class="mt-4">
+                                                            <v-form style="width:160px !important" @submit.prevent="validate()" ref="pointsform" v-model="valid" lazy-validation>
                                                                 <v-text-field rounded 
-                                                                style="width:100% !important"
+                                                                @focus="CheckData.points = CheckData.graded == 1 ? CheckData.points  : CheckData.points == null"
                                                                 :hide-details="valid"
                                                                 :loading="isSavingScore" 
                                                                 :rules="pointsRules"
-                                                                @keyup="validate" v-model="CheckData.points" 
+                                                                v-model="CheckData.points" 
                                                                 dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
                                                             </v-form>
                                                         </v-list-item-action>
@@ -381,7 +392,7 @@ const resetConfirmation = () => import('../../dialogs/resetConfirmation')
 const pdfviewer = () => import('./pdfviewer');
 
   export default {
-    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex'],
+    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex','CheckDataSection'],
     components:{
         resetConfirmation,
         pdfviewer
@@ -424,7 +435,9 @@ const pdfviewer = () => import('./pdfviewer');
             v => !!v || 'Points is required',
             v => ( v && v >= 0 ) || "Points should be above or equal to 0",
         ],
-        valid: true
+        valid: true,
+        info: true,
+
       }
     },
     computed:{
@@ -486,10 +499,14 @@ const pdfviewer = () => import('./pdfviewer');
         },
         validate() {
             if (this.$refs.pointsform.validate()) {
-                this.SaveScore(); 
+                //this.SaveScore(); 
+                this.score = this.CheckData.points;
+                this.isSavingScore = !this.isSavingScore;
+                this.UpdateScore();
             }
         },
         SaveScore(){
+            
             clearTimeout(this.timeout);
             var self = this;
             this.timeout = setTimeout(function () {
@@ -520,13 +537,26 @@ const pdfviewer = () => import('./pdfviewer');
             this.UpdateScore();
         },
         async UpdateScore(){
+            let studentDetails = {};
+            studentDetails.user_id = this.CheckData.user_id;
+            studentDetails.classwork_id = this.CheckData.classwork_id;
+            studentDetails.class_id = this.CheckData.class_id;
             if(this.score <= this.classworkDetails.points && this.score >= 0){
-                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, data: this.CheckData.rubrics_score})
+                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, 
+                data: this.CheckData.rubrics_score,
+                details: studentDetails,
+                })
                 .then(res=>{
                     if(res.status == 200){
                         this.toastSuccess("Score Updated");
                         this.isSavingScore = !this.isSavingScore;
-                        this.$emit('UpdateSubmission', this.CheckData.id);
+                        this.CheckData.id = res.data.submission_id;
+                        this.$emit('UpdateSubmission', this.CheckData.user_id);
+                        
+
+                        if(this.currentIndex != this.SubmittedLength-1){
+                            this.NextStudent();
+                        }
                     }
                 })
             }
@@ -731,6 +761,7 @@ const pdfviewer = () => import('./pdfviewer');
         }
         this.checkRubrics();
         this.$emit('isMounted');
+        //setTimeout(() => (this.info = false), 5000);
     }
   
   }

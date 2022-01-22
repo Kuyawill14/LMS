@@ -22,7 +22,7 @@
                 <v-list v-if="!isClose">
                     <v-list-item>
                         <v-list-item-content>
-                            <v-list-item-title><v-icon>mdi-bell</v-icon> Notification</v-list-item-title>
+                            <v-list-item-title><v-icon color="blue" left>mdi-bell</v-icon> Notification</v-list-item-title>
                         </v-list-item-content>
                         <v-list-item-action>
                             <v-btn @click="closing = true,MarkAsRead(), $router.push({name: 'notifications', params:{slug: 'all'}})" class="white--text caption" color="blue" text depressed rounded>
@@ -34,20 +34,7 @@
                     <v-divider></v-divider>
                        <v-list-item v-if="isGetting">
                         <v-list-item-content>
-                             <!-- <v-row  align-content="center" justify="center">
-                                <v-col class="text-subtitle-1 text-center mb-0 pb-0" cols="12">
-                                    Loading
-                                </v-col>
-                                <v-col cols="6" class="mt-0 pt-0">
-                                    <v-progress-linear color="primary" indeterminate rounded height="4"></v-progress-linear>
-                                </v-col>
-                            </v-row> -->
-
-                      
-     
-                
                             <v-skeleton-loader v-for="n in 3" :key="n" max-width="600" type="list-item-avatar-two-line"></v-skeleton-loader>
-            
                         </v-list-item-content>
                     </v-list-item>
 
@@ -68,26 +55,29 @@
                         <template v-for="(item, index) in get_notification">
                             <v-list-item  :class="item.status == null || item.status == 0 ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" :key="item.id">
                                 <v-list-item-avatar @click="GotoThisNotification(item)">
-                                    <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
-                                    <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
-                                    <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
-                                    <v-icon color="red" v-if="item.notification_type == 5" large> mdi-comment-text</v-icon>
-                                    <v-icon color="green" v-if="item.notification_type == 6" large>mdi-notebook-check</v-icon>
-                                    <v-icon color="green" v-if="item.notification_type == 7" large>mdi-file-check</v-icon>
-                                   
-                                
+                                    <v-icon style="font-size:1.7rem !important" color="blue" v-if="item.notification_type == 'class_invite' || item.notification_type == 'class_joined'" large>mdi-account-plus</v-icon>
+                                    <v-icon style="font-size:1.7rem !important" color="red" v-if="item.notification_type == 'post_annoucement'" large>mdi-bullhorn-outline</v-icon>
+                                    <v-icon style="font-size:1.7rem !important" color="green" v-if="item.notification_type == 'classwork_assigned'" large> mdi-book-open-variant</v-icon>
+                                    <v-icon style="font-size:1.7rem !important" color="red" v-if="item.notification_type == 'post_reply'" large> mdi-comment-text</v-icon>
+                                    <v-icon style="font-size:1.7rem !important" color="green" v-if="item.notification_type == 'classwork_submission'" large>mdi-notebook-check</v-icon>
+                                    <v-icon style="font-size:1.7rem !important" color="green" v-if="item.notification_type == 'classwork_graded'" large>mdi-file-check</v-icon>
+                                    <v-icon style="font-size:1.7rem !important" color="yellow darken-3" v-if="item.notification_type == 'publish_module'" large>mdi-book-variant-multiple</v-icon>
+
                                 </v-list-item-avatar>
                                 <v-list-item-content @click="GotoThisNotification(item)" >
                                     
-                                    <v-list-item-title  class="font-weight-medium">
+                                    <v-list-item-title style="font-size:14px" class="font-weight-medium">
                                         <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
-                                        :color="item.notification_type == 1 || item.notification_type == 5 ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
-                                        item.notification_type == 4 || item.notification_type == 6  || item.notification_type == 7  ? 'green' : ''" >
-                                        {{ item.notification_type != 2 && item.notification_type != 6 ? item.name : item.notification_type == 6 ? 'Classwork Submission' : 'Join Class'}}   
+                                        :color="item.notification_type == 'post_annoucement' || item.notification_type == 'post_reply' ? 'red' : item.notification_type == 'publish_module' ? 'yellow darken-3' :
+                                        item.notification_type == 'class_invite' || item.notification_type == 'class_joined' ? 'blue' : 
+                                        item.notification_type == 'classwork_assigned' || item.notification_type == 'classwork_submission'  || item.notification_type == 'classwork_graded'  ? 'green' : ''" >
+                                        {{ item.notification_type == 'class_joined' && item.notification_type == 'classwork_submission' ? 'Join Class' : item.notification_type == 'classwork_submission' ? 'Classwork Submission' :
+                                        item.notification_type == 'post_reply' ? 'Post Replies' : item.name }}
+                                        
                                         </v-badge>
-                                        </v-list-item-title>
+                                    </v-list-item-title>
                                 
-                                    <div class="body-2">
+                                    <div  style="font-size:12px">
                                         {{item.message}}
                                       
                                     </div>
@@ -118,54 +108,7 @@
                                 </v-divider>
                         </template>
 
-                    
 
-
-                    
-                        <!-- <v-list-item style="border-bottom: 1px solid red" :class="item.status == null ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" v-for="(item, index) in get_notification" :key="index">
-                            <v-list-item-avatar @click="GotoThisNotification(item)">
-                                <v-icon color="blue" v-if="item.notification_type == 3 || item.notification_type == 2" large>mdi-account-plus</v-icon>
-                                <v-icon color="red" v-if="item.notification_type == 1" large>mdi-bullhorn-outline</v-icon>
-                                <v-icon color="green" v-if="item.notification_type == 4" large> mdi-book-open-variant</v-icon>
-                               
-                            </v-list-item-avatar>
-                            <v-list-item-content @click="GotoThisNotification(item)" >
-                                
-                                <v-list-item-title  class="font-weight-medium">
-                                    <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 
-                                    :color="item.notification_type == 1  ? 'red' : item.notification_type == 3 || item.notification_type == 2 ? 'blue' : 
-                                    item.notification_type == 4 ? 'green' : ''" >
-                                    {{item.name}}   
-                                    </v-badge>
-                                    </v-list-item-title>
-                            
-                                <div class="body-2">
-                                    {{item.message}}
-                                    <a class="blue--text" @click.prevent="acceptJoin(item.notification_attachments,item.n_id, index),isClose = true" href="" v-if="item.notification_type == 3 && item.notification_accepted == 0" link>
-                                    Accept invite</a>
-                                </div>
-                                <small>{{format_date(item.created_at)}}</small>
-                                    
-                            </v-list-item-content>
-                
-                            <v-list-item-action>
-                                <v-list-item-action-text >
-                                      <v-tooltip v-if="item.status == 1" top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
-                                                v-if="item.status == 1" @click="NotificationHide(item.n_id),closing = false">
-                                                <v-icon small>mdi-close</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>Hide notification</span>
-                                    </v-tooltip>
-                                </v-list-item-action-text>
-                                <v-spacer></v-spacer>
-                            </v-list-item-action>
-                          
-                        </v-list-item> -->
-                          
-                
                         <v-list-item v-if="LastPage != 1" >
                             <v-list-item-content>
                                 <v-row align-content="center" justify="center">
@@ -310,19 +253,19 @@ import axios from 'axios';
                 }
 
 
-                 if(data.notification_type == 1 || data.notification_type == 3 || data.notification_type == 5){
+                 if(data.notification_type == 'post_annoucement' || data.notification_type == 'class_invite' || data.notification_type == 'post_reply'){
                     let path = '/course/'+data.c_id+'/announcement';
                     if(this.$route.path != path){
                         this.$router.push({path: path});
                     }
                     
                 }
-                else if(data.notification_type == 2){
+                else if(data.notification_type == 'class_joined'){
                     let path = '/course/'+data.c_id+'/people';
                     this.$router.push({path: path});
                  
                 }
-                else if(data.notification_type == 4 ){
+                else if(data.notification_type == 'classwork_assigned' ){
                     let startPath = '/classwork/'+data.c_id+'/classwork-details';
                     if(this.$route.path != startPath){
                         this.$router.push({path: '/classwork/'+data.c_id+'/classwork-details?clwk='+data.notification_attachments});
@@ -332,7 +275,7 @@ import axios from 'axios';
                         }
                     }
                 }
-                else if (data.notification_type == 6){
+                else if (data.notification_type == 'classwork_submission'){
                      let SubmissionPath = '/classwork/'+data.c_id+'/classwork-details';
                       if(this.$route.path != SubmissionPath){
                             this.$router.push({path: '/classwork/'+data.c_id+'/submission-list?clwk='+data.notification_attachments});
@@ -342,7 +285,7 @@ import axios from 'axios';
                             }
                         }
                 }
-                 else if(data.notification_type == 7){
+                 else if(data.notification_type == 'classwork_graded'){
                   let startPath = '/classwork/'+data.from_course+'/classwork-details';
                     if(this.$route.path != startPath){
                         this.$router.push({path: '/classwork/'+data.from_course+'/classwork-details?clwk='+data.notification_attachments});

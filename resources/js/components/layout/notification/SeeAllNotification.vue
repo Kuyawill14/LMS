@@ -1,7 +1,7 @@
 <template>
 <div>
     <adminNotification v-if="get_UserRole == 'Admin'"></adminNotification>
-    <teacherstudentNotification v-if="get_UserRole == 'Teacher' || get_UserRole == 'Student'"></teacherstudentNotification>
+    <teacherstudentNotification :role="get_UserRole" v-if="get_UserRole == 'Teacher' || get_UserRole == 'Student'"></teacherstudentNotification>
 </div>
  
 </template>

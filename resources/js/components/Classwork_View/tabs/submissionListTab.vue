@@ -127,11 +127,12 @@ export default {
             .then(res=>{
                 this.List = res.data;
                  res.data.forEach(item => {
-                    if(item.status == 'Submitted'){
-                        this.Submitted +=1;
+                    if(item.status == 'Submitted' && item.graded == 0){
+                        this.Submitted++;
                     }
-                    if(item.graded == 1){
-                        this.Graded +=1;
+
+                    if(item.status == 'Submitted' && item.graded == 1){
+                        this.Graded++;
                     }
                    
                 });

@@ -262,6 +262,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var checksubjective = function checksubjective() {
@@ -332,7 +333,9 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }],
       valid: true,
       resetdialog: false,
-      alertDialog: false
+      alertDialog: false,
+      oldLimit: null,
+      CheckDataSection: null
     };
   },
   computed: {
@@ -377,7 +380,8 @@ var multipleAlertStudent = function multipleAlertStudent() {
             } else {
               return item.status == "Submitted" && item.graded == 0 && item.class_id == _this2.Class;
             }
-          }); //this.Submitted_count = Filterddata.length;
+          });
+          this.Submitted_count = _Filterddata.length;
 
           if (this.selectedSort == "Name") {
             if (this.selectedShowNumber != 'all') {
@@ -534,9 +538,10 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }
     },
     validate: function validate(id, points) {
-      if (this.$refs.pointsform.validate()) {
-        this.SaveScore(id, points);
-      }
+      this.SaveScore(id, points);
+      /*  if (this.$refs.pointsform.validate()) {
+          
+       } */
     },
     SaveScore: function SaveScore(id, points) {
       clearTimeout(this.timeout);
@@ -663,8 +668,9 @@ var multipleAlertStudent = function multipleAlertStudent() {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _this6.studentSubmissionList.forEach(function (item) {
-                  if (id == item.id) {
+                  if (id == item.user_id) {
                     item.graded = 1;
+                    item.status = "Submitted";
                   }
                 });
 
@@ -725,15 +731,24 @@ var multipleAlertStudent = function multipleAlertStudent() {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                _this9.oldLimit = _this9.selectedShowNumber;
+                _this9.selectedShowNumber = 'all';
                 _this9.AllData = _this9.studentSubmissionList;
                 _this9.CheckData = data;
+
+                _this9.ClassList.forEach(function (item) {
+                  if (item.class_id == _this9.CheckData.class_id) {
+                    _this9.CheckDataSection = item.class_name;
+                  }
+                });
+
                 _this9.selected_index = index;
                 _this9.dialog = true;
                 _this9.isStarting = true;
 
                 _this9.$store.dispatch("isViewingSubmission");
 
-              case 6:
+              case 9:
               case "end":
                 return _context6.stop();
             }
@@ -742,6 +757,7 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }))();
     },
     isNotViewing: function isNotViewing() {
+      this.selectedShowNumber = this.oldLimit;
       this.CheckData = [];
       this.selected_index = null;
       this.dialog = false;
@@ -749,15 +765,29 @@ var multipleAlertStudent = function multipleAlertStudent() {
       this.$store.dispatch("isNotViewingSubmission");
     },
     GotoNextStudent: function GotoNextStudent() {
+      var _this10 = this;
+
       this.CheckData = null;
       this.selected_index = this.selected_index + 1;
       this.CheckData = this.AllData[this.selected_index];
+      this.ClassList.forEach(function (item) {
+        if (item.class_id == _this10.CheckData.class_id) {
+          _this10.CheckDataSection = item.class_name;
+        }
+      });
     },
     GotoPrevStudent: function GotoPrevStudent() {
+      var _this11 = this;
+
       this.CheckData = null;
       this.selected_index = this.selected_index - 1;
       ;
       this.CheckData = this.AllData[this.selected_index];
+      this.ClassList.forEach(function (item) {
+        if (item.class_id == _this11.CheckData.class_id) {
+          _this11.CheckDataSection = item.class_name;
+        }
+      });
     }
   }
 });
@@ -23120,6 +23150,8 @@ var render = function() {
                           currentIndex: _vm.selected_index,
                           SubmittedLength: _vm.AllData.length,
                           classworkDetails: _vm.classworkDetails,
+                          ClassList: _vm.ClassList,
+                          CheckDataSection: _vm.CheckDataSection,
                           CheckData: _vm.CheckData
                         },
                         on: {
@@ -23774,6 +23806,17 @@ var render = function() {
                                                         attrs: {
                                                           "lazy-validation": ""
                                                         },
+                                                        on: {
+                                                          submit: function(
+                                                            $event
+                                                          ) {
+                                                            $event.preventDefault()
+                                                            return _vm.validate(
+                                                              item.id,
+                                                              item.points
+                                                            )
+                                                          }
+                                                        },
                                                         model: {
                                                           value: _vm.valid,
                                                           callback: function(
@@ -23809,16 +23852,6 @@ var render = function() {
                                                                 .points,
                                                             maxlength: _vm.classworkDetails.points.toString()
                                                               .length
-                                                          },
-                                                          on: {
-                                                            keyup: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.validate(
-                                                                item.id,
-                                                                item.points
-                                                              )
-                                                            }
                                                           },
                                                           model: {
                                                             value: item.points,

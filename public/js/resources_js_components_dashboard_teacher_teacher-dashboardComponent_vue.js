@@ -97,32 +97,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var myNotification = function myNotification() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
-};
-
 var teacherCourses = function teacherCourses() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_teacher_teacher-courses_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./teacher-courses */ "./resources/js/components/dashboard/teacher/teacher-courses.vue"));
 };
@@ -141,8 +115,7 @@ var progressChart = function progressChart() {
   components: {
     myCalendar: myCalendar,
     progressChart: progressChart,
-    teacherCourses: teacherCourses,
-    myNotification: myNotification
+    teacherCourses: teacherCourses
   },
   data: function data() {
     return {

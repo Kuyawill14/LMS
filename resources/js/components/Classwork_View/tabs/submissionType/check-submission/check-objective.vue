@@ -58,10 +58,12 @@
                         <v-container fluid ma-0 pa-0>
                             <v-card elevation="2" outlined class="pt-1 mt-1 pl-4 pr-4 pb-2">
                                 <v-row class="mb-0 pb-0">
-                                    <v-col cols="12" class="text-center">
-
+                                    <v-col cols="12" class="text-center pl-5 pr-5 mb-0 pb-0 mt-1" >
+                                        <v-list-item-subtitle style="font-size: 15px">
+                                            {{CheckDataSection}}
+                                        </v-list-item-subtitle>
                                     </v-col>
-                                    <v-col cols="12" class="mb-0 pb-0">
+                                    <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0">
                                         <div class="d-flex mb-2 ">
 
                                             <v-btn :disabled="SubmittedLength == 1 || currentIndex == 0" icon
@@ -645,7 +647,7 @@
     } from "vuex";
 
     export default {
-        props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex"],
+        props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex","CheckDataSection"],
         components: {
             resetConfirmation
         },

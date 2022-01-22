@@ -6,7 +6,7 @@
   \**************************************************************************************************************************************************************************************************************************************************************************/
 /***/ (() => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\xampp\\htdocs\\LMS-Vue\\resources\\js\\components\\Classwork_View\\tabs\\submissionType\\check-submission\\check-objective.vue: Identifier 'subAndDes' has already been declared. (910:36)\n\n\u001b[0m \u001b[90m 908 |\u001b[39m                        \u001b[0m\n\u001b[0m \u001b[90m 909 |\u001b[39m                                 \u001b[36mlet\u001b[39m des_count \u001b[33m=\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 910 |\u001b[39m                                 \u001b[36mlet\u001b[39m subAndDes \u001b[33m=\u001b[39m  \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mgetAll_questions\u001b[33m.\u001b[39m\u001b[33mAnswer\u001b[39m[i]\u001b[33m.\u001b[39m\u001b[33mSubAnswer\u001b[39m\u001b[33m.\u001b[39mlength \u001b[33m+\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mgetAll_questions\u001b[33m.\u001b[39m\u001b[33mAnswer\u001b[39m[i]\u001b[33m.\u001b[39m\u001b[33mDestructors\u001b[39m\u001b[33m.\u001b[39mlength\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 911 |\u001b[39m                                \u001b[0m\n\u001b[0m \u001b[90m 912 |\u001b[39m                                 \u001b[36mfor\u001b[39m (\u001b[36mlet\u001b[39m v \u001b[33m=\u001b[39m \u001b[35m0\u001b[39m\u001b[33m;\u001b[39m v \u001b[33m<\u001b[39m subAndDes\u001b[33m;\u001b[39m v\u001b[33m++\u001b[39m) {\u001b[0m\n\u001b[0m \u001b[90m 913 |\u001b[39m                                     \u001b[36mif\u001b[39m(\u001b[33mAns_list\u001b[39m\u001b[33m.\u001b[39m\u001b[33mSubAnswer\u001b[39m[v] \u001b[33m==\u001b[39m \u001b[36mnull\u001b[39m){\u001b[0m\n    at Parser._raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:798:17)\n    at Parser.raiseWithData (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:791:17)\n    at Parser.raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:752:17)\n    at ScopeHandler.checkRedeclarationInScope (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:1427:12)\n    at ScopeHandler.declareName (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:1393:12)\n    at Parser.checkLVal (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10615:24)\n    at Parser.parseVarId (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:13488:10)\n    at Parser.parseVar (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:13463:12)\n    at Parser.parseVarStatement (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:13280:10)\n    at Parser.parseStatementContent (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12863:21)\n    at Parser.parseStatement (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12796:17)\n    at Parser.parseBlockOrModuleBlockBody (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:13385:25)\n    at Parser.parseBlockBody (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:13376:10)\n    at Parser.parseBlock (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:13360:10)\n    at Parser.parseStatementContent (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12872:21)\n    at Parser.parseStatement (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12796:17)");
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\xampp\\htdocs\\LMS-Vue\\resources\\js\\components\\Classwork_View\\tabs\\submissionType\\check-submission\\check-objective.vue: Unexpected token (648:81)\n\n\u001b[0m \u001b[90m 646 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 647 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 648 |\u001b[39m     props\u001b[33m:\u001b[39m [\u001b[32m\"classworkDetails\"\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"ViewDetails\"\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"SubmittedLength\"\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"currentIndex\"\u001b[39m\u001b[33m.\u001b[39m\u001b[32m\"CheckDataSection\"\u001b[39m]\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m                                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 649 |\u001b[39m     components\u001b[33m:\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 650 |\u001b[39m         resetConfirmation\u001b[0m\n\u001b[0m \u001b[90m 651 |\u001b[39m     }\u001b[33m,\u001b[39m\u001b[0m\n    at Parser._raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:798:17)\n    at Parser.raiseWithData (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:791:17)\n    at Parser.raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:752:17)\n    at Parser.unexpected (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:3257:16)\n    at Parser.parseIdentifierName (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12362:18)\n    at Parser.parseIdentifier (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12340:23)\n    at Parser.parseMember (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11140:103)\n    at Parser.parseSubscript (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11127:19)\n    at Parser.parseSubscripts (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11098:19)\n    at Parser.parseExprSubscripts (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11087:17)\n    at Parser.parseUpdate (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11061:21)\n    at Parser.parseMaybeUnary (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11039:23)\n    at Parser.parseExprOps (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10882:23)\n    at Parser.parseMaybeConditional (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10856:23)\n    at Parser.parseMaybeAssign (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10814:21)\n    at C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10776:39");
 
 /***/ }),
 
@@ -131,9 +131,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _check_objective_vue_vue_type_template_id_6ded7147_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./check-objective.vue?vue&type=template&id=6ded7147&scoped=true& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=template&id=6ded7147&scoped=true&");
 /* harmony import */ var _check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./check-objective.vue?vue&type=script&lang=js& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[__WEBPACK_IMPORT_KEY__]
-/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 /* harmony import */ var _check_objective_vue_vue_type_style_index_0_id_6ded7147_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./check-objective.vue?vue&type=style&index=0&id=6ded7147&scoped=true&lang=css& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=style&index=0&id=6ded7147&scoped=true&lang=css&");
 /* harmony import */ var _check_objective_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./check-objective.vue?vue&type=style&index=1&lang=css& */ "./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=style&index=1&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
@@ -176,11 +173,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-objective.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
-/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default())); 
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -364,7 +357,8 @@ var render = function() {
                                     {
                                       attrs: {
                                         small: "",
-                                        text: "",
+                                        dark: "",
+                                        color: "red",
                                         rounded: ""
                                       },
                                       on: {
@@ -707,35 +701,6 @@ var render = function() {
                                   )
                                 ],
                                 1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-col",
-                                {
-                                  staticClass: "ma-0 pa-0 pb-4",
-                                  attrs: { cols: "12" }
-                                },
-                                [
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [
-                                      _vm._v(
-                                        "Time Spent:\n                                "
-                                      )
-                                    ]
-                                  ),
-                                  _c("span", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.ViewDetails.timeSpent != null
-                                          ? _vm.ViewDetails.timeSpent +
-                                              " minutes"
-                                          : ""
-                                      )
-                                    )
-                                  ])
-                                ]
                               ),
                               _vm._v(" "),
                               _c(

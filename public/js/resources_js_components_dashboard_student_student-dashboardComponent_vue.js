@@ -122,10 +122,6 @@ var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_myCalendar_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../myCalendar */ "./resources/js/components/dashboard/myCalendar.vue"));
 };
 
-var myNotification = function myNotification() {
-  return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_notificationComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../notificationComponent */ "./resources/js/components/dashboard/notificationComponent.vue"));
-};
-
 var studentClasses = function studentClasses() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_dashboard_student_student-classes_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./student-classes */ "./resources/js/components/dashboard/student/student-classes.vue"));
 };
@@ -142,7 +138,6 @@ var myTask = function myTask() {
   props: ['role'],
   components: {
     myCalendar: myCalendar,
-    myNotification: myNotification,
     studentClasses: studentClasses,
     studentGradeChart: studentGradeChart,
     myTask: myTask

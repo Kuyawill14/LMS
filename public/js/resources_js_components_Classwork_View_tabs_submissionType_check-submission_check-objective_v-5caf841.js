@@ -660,6 +660,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -668,7 +670,7 @@ var resetConfirmation = function resetConfirmation() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex"],
+  props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex", "CheckDataSection"],
   components: {
     resetConfirmation: resetConfirmation
   },
@@ -1924,15 +1926,35 @@ var render = function() {
                                 "v-row",
                                 { staticClass: "mb-0 pb-0" },
                                 [
-                                  _c("v-col", {
-                                    staticClass: "text-center",
-                                    attrs: { cols: "12" }
-                                  }),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass:
+                                        "text-center pl-5 pr-5 mb-0 pb-0 mt-1",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-subtitle",
+                                        {
+                                          staticStyle: { "font-size": "15px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        " +
+                                              _vm._s(_vm.CheckDataSection) +
+                                              "\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "mb-0 pb-0",
+                                      staticClass: "mb-0 pb-0 mt-0 pt-0",
                                       attrs: { cols: "12" }
                                     },
                                     [

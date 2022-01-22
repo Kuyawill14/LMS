@@ -317,7 +317,9 @@ var multipleAlertStudent = function multipleAlertStudent() {
       currentPage: 1,
       totalPage: 0,
       currentTotalData: 0,
-      alertDialog: false
+      alertDialog: false,
+      oldLimit: null,
+      CheckDataSection: null
     };
   },
   computed: {
@@ -494,30 +496,51 @@ var multipleAlertStudent = function multipleAlertStudent() {
       this.currentPage = this.pageNo - 1;
     },
     ViewSubmision: function ViewSubmision(data, index) {
-      this.ViewDetails = null; //this.isLoadingData = true;
-      //if(data.status == 'Submitted'){
-      //this.isViewing = true;
+      var _this2 = this;
 
+      this.ViewDetails = null;
+      this.oldLimit = this.selectedShowNumber;
+      this.selectedShowNumber = 'all';
       this.dialog = !this.dialog;
       this.isStarting = true;
       this.Viewdialog = !this.Viewdialog;
       this.ViewDetails = data;
+      this.ClassList.forEach(function (item) {
+        if (item.class_id == _this2.ViewDetails.class_id) {
+          _this2.CheckDataSection = item.class_name;
+        }
+      });
       this.selected_index = index;
       this.selected_id = data.id;
       this.$store.dispatch("isViewingSubmission"); //}
     },
     GotoNextStudent: function GotoNextStudent() {
+      var _this3 = this;
+
       this.ViewDetails = null;
       this.selected_index = this.selected_index + 1;
       this.ViewDetails = this.studentSubmissionList[this.selected_index];
+      this.ClassList.forEach(function (item) {
+        if (item.class_id == _this3.ViewDetails.class_id) {
+          _this3.CheckDataSection = item.class_name;
+        }
+      });
     },
     GotoPrevStudent: function GotoPrevStudent() {
+      var _this4 = this;
+
       this.ViewDetails = null;
       this.selected_index = this.selected_index - 1;
       ;
       this.ViewDetails = this.studentSubmissionList[this.selected_index];
+      this.ClassList.forEach(function (item) {
+        if (item.class_id == _this4.ViewDetails.class_id) {
+          _this4.CheckDataSection = item.class_name;
+        }
+      });
     },
     isNotViewing: function isNotViewing() {
+      this.selectedShowNumber = this.oldLimit;
       this.ViewDetails = null;
       this.selected_index = null;
       this.dialog = false;
@@ -525,10 +548,10 @@ var multipleAlertStudent = function multipleAlertStudent() {
       this.$store.dispatch("isNotViewingSubmission");
     },
     ResetSubmission: function ResetSubmission() {
-      var _this2 = this;
+      var _this5 = this;
 
       this.studentSubmissionList.forEach(function (item) {
-        if (item.id == _this2.selected_id) {
+        if (item.id == _this5.selected_id) {
           item.status = null;
           item.points = 0;
           item.Submitted_Answers = null;
@@ -540,14 +563,14 @@ var multipleAlertStudent = function multipleAlertStudent() {
       //this.dialog = !this.dialog;
     },
     MultipleResetSubmission: function MultipleResetSubmission(data) {
-      var _this3 = this;
+      var _this6 = this;
 
       var ResetData = {};
       ResetData.data = data;
       ResetData.type = 'Objective_Type';
       axios.post('/api/teacher/resetStudentSubmissions', ResetData).then(function () {
         data.forEach(function (item) {
-          _this3.studentSubmissionList.forEach(function (sb) {
+          _this6.studentSubmissionList.forEach(function (sb) {
             if (item.id == sb.id) {
               sb.status = null;
               sb.points = 0;
@@ -555,30 +578,30 @@ var multipleAlertStudent = function multipleAlertStudent() {
             }
           });
         });
-        _this3.resetdialog = !_this3.resetdialog;
+        _this6.resetdialog = !_this6.resetdialog;
       });
     },
     ShowLoading: function ShowLoading() {
-      var _this4 = this;
+      var _this7 = this;
 
       this.isFiltered = true;
       setTimeout(function () {
-        return _this4.isFiltered = false;
+        return _this7.isFiltered = false;
       }, 400);
     },
     FilteredClass: function FilteredClass() {
-      var _this5 = this;
+      var _this8 = this;
 
       this.Over_total = 0;
       this.Submitted_count = 0;
       this.ShowLoading(); //if(this.Class != this.$route.params.id){
 
       this.ListData.forEach(function (item) {
-        if (item.class_id == _this5.Class) {
-          _this5.Over_total++;
+        if (item.class_id == _this8.Class) {
+          _this8.Over_total++;
 
           if (item.status == 'Submitted') {
-            _this5.Submitted_count++;
+            _this8.Submitted_count++;
           }
         }
       }); //}
@@ -716,6 +739,7 @@ var render = function() {
                         ],
                         attrs: {
                           currentIndex: _vm.selected_index,
+                          CheckDataSection: _vm.CheckDataSection,
                           SubmittedLength: _vm.studentSubmissionList.length,
                           classworkDetails: _vm.classworkDetails,
                           ViewDetails: _vm.ViewDetails
