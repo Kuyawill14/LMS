@@ -2110,8 +2110,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
 /* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_nprogress_nprogress_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/nprogress/nprogress.css */ "./node_modules/nprogress/nprogress.css");
@@ -2129,6 +2129,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes_restricted_pages_routes__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./routes/restricted_pages_routes */ "./resources/js/routes/restricted_pages_routes.js");
 /* harmony import */ var _routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./routes/archive_page_routes */ "./resources/js/routes/archive_page_routes.js");
 /* harmony import */ var _routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./routes/classwork_overview_page_routes */ "./resources/js/routes/classwork_overview_page_routes.js");
+/* harmony import */ var _routes_security_guard_routes__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./routes/security_guard_routes */ "./resources/js/routes/security_guard_routes.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2159,10 +2160,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_16__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_17__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_17__.default({
+
+vue__WEBPACK_IMPORTED_MODULE_17__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_18__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_18__.default({
   mode: "history",
-  routes: [{
+  routes: [, {
     path: "",
     component: function component() {
       return __webpack_require__.e(/*! import() | main-view */ "main-view").then(__webpack_require__.bind(__webpack_require__, /*! ./components/mainApp */ "./resources/js/components/mainApp.vue"));
@@ -2194,8 +2196,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_17__.default({
       component: function component() {
         return __webpack_require__.e(/*! import() | Dashboard */ "Dashboard").then(__webpack_require__.bind(__webpack_require__, /*! ./components/dashboard/dashboardComponent */ "./resources/js/components/dashboard/dashboardComponent.vue"));
       },
-      name: "dashboard"
-    }].concat(_toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default))
+      name: "dashboard",
+      beforeEnter: function beforeEnter(to, from, next) {
+        if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.UserRole != 'SecurityGuard') next();else next({
+          path: '/vaccination',
+          replace: true
+        });
+      }
+    }].concat(_toConsumableArray(_routes_security_guard_routes__WEBPACK_IMPORTED_MODULE_16__.default), _toConsumableArray(_routes_admin_routes__WEBPACK_IMPORTED_MODULE_10__.default), _toConsumableArray(_routes_program_chair_routes__WEBPACK_IMPORTED_MODULE_11__.default), _toConsumableArray(_routes_campus_director_routes__WEBPACK_IMPORTED_MODULE_9__.default), _toConsumableArray(_routes_course_page_routes__WEBPACK_IMPORTED_MODULE_7__.default), _toConsumableArray(_routes_profile_routes__WEBPACK_IMPORTED_MODULE_6__.default), _toConsumableArray(_routes_notification_invites_routes__WEBPACK_IMPORTED_MODULE_12__.default), _toConsumableArray(_routes_archive_page_routes__WEBPACK_IMPORTED_MODULE_14__.default), _toConsumableArray(_routes_classwork_overview_page_routes__WEBPACK_IMPORTED_MODULE_15__.default), _toConsumableArray(_routes_classwork_preview_routes__WEBPACK_IMPORTED_MODULE_5__.default))
   }].concat(_toConsumableArray(_routes_examination_routes__WEBPACK_IMPORTED_MODULE_8__.default), _toConsumableArray(_routes_auth_routes__WEBPACK_IMPORTED_MODULE_3__.default), _toConsumableArray(_routes_testing_routes__WEBPACK_IMPORTED_MODULE_4__.default), _toConsumableArray(_routes_restricted_pages_routes__WEBPACK_IMPORTED_MODULE_13__.default))
 });
 router.beforeEach(function (to, from, next) {
@@ -2349,6 +2357,18 @@ var routes = [{
     });
   }
 }, {
+  path: "/manage-users/security-guard",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_admin_manage-users_manage-SecurityGuardComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/admin/manage-users/manage-SecurityGuardComponent */ "./resources/js/components/admin/manage-users/manage-SecurityGuardComponent.vue"));
+  },
+  name: "manageSecurityGuard",
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+      path: '/',
+      replace: true
+    });
+  }
+}, {
   path: "/schoolyear-semester",
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_components_admin_schoolyear-semester_schoolyear-semesterComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/admin/schoolyear-semester/schoolyear-semesterComponent */ "./resources/js/components/admin/schoolyear-semester/schoolyear-semesterComponent.vue"));
@@ -2366,6 +2386,18 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_components_admin_departments_department_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/admin/departments/department */ "./resources/js/components/admin/departments/department.vue"));
   },
   name: "manage_departments",
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+      path: '/',
+      replace: true
+    });
+  }
+}, {
+  path: '/vaccination-upload',
+  name: "vaccination_upload",
+  component: function component() {
+    return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module './components/vaccine/vaccineComponents-upload'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
+  },
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
       path: '/',
@@ -3205,6 +3237,36 @@ var routes = [{
 
 /***/ }),
 
+/***/ "./resources/js/routes/security_guard_routes.js":
+/*!******************************************************!*\
+  !*** ./resources/js/routes/security_guard_routes.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../store/store */ "./resources/js/store/store.js");
+
+var routes = [{
+  path: "/vaccination",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_vaccine_vaccineComponents_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/vaccine/vaccineComponents */ "./resources/js/components/vaccine/vaccineComponents.vue"));
+  },
+  name: "check_vaccine",
+  beforeEnter: function beforeEnter(to, from, next) {
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'SecurityGuard') next();else next({
+      path: '/',
+      replace: true
+    });
+  }
+}];
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
+
+/***/ }),
+
 /***/ "./resources/js/routes/testing_routes.js":
 /*!***********************************************!*\
   !*** ./resources/js/routes/testing_routes.js ***!
@@ -3748,6 +3810,91 @@ var actions = {
 var mutations = {
   FETCH_PROGRAMCHAIR: function FETCH_PROGRAMCHAIR(state, allProgramChair) {
     return state.allProgramChair = allProgramChair;
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/allSecurityGuard.js":
+/*!********************************************************!*\
+  !*** ./resources/js/store/modules/allSecurityGuard.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  allSecurityGuard: []
+};
+var getters = {
+  getSecurityGuard: function getSecurityGuard(state) {
+    return state.allSecurityGuard;
+  },
+  filterSecurityGuard: function filterSecurityGuard(state) {
+    return function (user_id) {
+      return state.allSecurityGuard.filter(function (allSecurityGuard) {
+        return allSecurityGuard.user_id == user_id;
+      })[0];
+    };
+  }
+};
+var actions = {
+  fetchAllSecurityGuard: function fetchAllSecurityGuard(_ref) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, user_type, res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              user_type = 'SecurityGuard';
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/admin/users/all/".concat(user_type));
+
+            case 4:
+              res = _context.sent;
+              //////console.log(res.data);
+              commit('FETCH_SecurityGuard', res.data);
+
+            case 6:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  } // async createMainModule({ commit }, moduleForm) {
+  //     var res = await axios.post(`/api/main_module/insert`, { moduleForm: moduleForm });
+  //     var newMainModule = res.data;
+  //     // commit("CREATE_MAIN_MODULE", newMainModule);
+  //     state.main_module.push({...newMainModule })
+  //     return res;
+  // },
+
+};
+var mutations = {
+  FETCH_SecurityGuard: function FETCH_SecurityGuard(state, allSecurityGuard) {
+    return state.allSecurityGuard = allSecurityGuard;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6637,10 +6784,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modules/classworkStatusCheck */ "./resources/js/store/modules/classworkStatusCheck.js");
 /* harmony import */ var _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modules/allProgramChair */ "./resources/js/store/modules/allProgramChair.js");
 /* harmony import */ var _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./modules/StudentsList */ "./resources/js/store/modules/StudentsList.js");
-/* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
+/* harmony import */ var _modules_allSecurityGuard__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./modules/allSecurityGuard */ "./resources/js/store/modules/allSecurityGuard.js");
+/* harmony import */ var _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./modules/allCampusDirector */ "./resources/js/store/modules/allCampusDirector.js");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.default);
+
 
 
 
@@ -6690,7 +6839,8 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vuex__WEBPACK_IMPORTED_MODULE_1__.d
     classworkStatusCheck: _modules_classworkStatusCheck__WEBPACK_IMPORTED_MODULE_22__.default,
     allProgramChair: _modules_allProgramChair__WEBPACK_IMPORTED_MODULE_23__.default,
     studentsList: _modules_StudentsList__WEBPACK_IMPORTED_MODULE_24__.default,
-    allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_25__.default
+    allCampusDirector: _modules_allCampusDirector__WEBPACK_IMPORTED_MODULE_26__.default,
+    allSecurityGuard: _modules_allSecurityGuard__WEBPACK_IMPORTED_MODULE_25__.default
   }
 }));
 

@@ -4,9 +4,9 @@
         <v-app-bar v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'" elevate-on-scroll
             :clipped-left="$vuetify.breakpoint.lgAndUp" app color="primary" dark>
             <v-app-bar-nav-icon
-                @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : ''">
+                @click.stop="navBarType != 'classwork-preview' || getcourseInfo.completed == 1 ? drawer = !drawer : '' ">
             </v-app-bar-nav-icon>
-            <router-link to="/">
+            <router-link :to="UserDetails.role == 'SecurityGuard' ? '/vaccination' : '/'">
                 <v-toolbar-title class="ml-0 white--text">
                     <span class="pointer">ISUE ORANGE</span>
                   <!--   <v-img contain :height="$vuetify.breakpoint.mdAndUp ? '48' : '45'" width="140" 
@@ -56,7 +56,7 @@
                                     {{ UserDetails.email }}
                                 </p>
                                 <v-divider class="my-3"></v-divider>
-                                <v-btn @click="$router.push({name: 'profile_page'})" rounded color="primary">
+                                <v-btn @click="$router.push({name: 'profile_page'})" rounded color="primary" v-if=" UserDetails.role != 'SecurityGuard'">
                                     <v-icon left>mdi-account</v-icon> My Profile
                                 </v-btn>
                                 <v-divider v-if="role == 'Student' || role == 'Teacher'" class="my-3"></v-divider>
@@ -83,7 +83,7 @@
 
         <!-- :expand-on-hover="$vuetify.breakpoint.lgAndUp" -->
         <!--  ######### sidebar ################ -->
-        <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'  && UserDetails.role != 'ProgramChair'">
+        <div v-if="navBarType != 'classwork-preview' && navBarType != 'classwork_overview'  && UserDetails.role != 'ProgramChair'  && UserDetails.role != 'SecurityGuard'">
             <v-navigation-drawer :expand-on-hover="$vuetify.breakpoint.lgAndUp" v-model="drawer"
                 :clipped="$vuetify.breakpoint.lgAndUp"
                 v-if="navBarType != 'selectedCourse' ||  getcourseInfo.completed == 1 " app>

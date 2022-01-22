@@ -10811,7 +10811,14 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "router-link",
-                { attrs: { to: "/" } },
+                {
+                  attrs: {
+                    to:
+                      _vm.UserDetails.role == "SecurityGuard"
+                        ? "/vaccination"
+                        : "/"
+                  }
+                },
                 [
                   _c("v-toolbar-title", { staticClass: "ml-0 white--text" }, [
                     _c("span", { staticClass: "pointer" }, [
@@ -11027,28 +11034,35 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-divider", { staticClass: "my-3" }),
                                   _vm._v(" "),
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: { rounded: "", color: "primary" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.$router.push({
-                                            name: "profile_page"
-                                          })
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v("mdi-account")
-                                      ]),
-                                      _vm._v(
-                                        " My Profile\n                            "
+                                  _vm.UserDetails.role != "SecurityGuard"
+                                    ? _c(
+                                        "v-btn",
+                                        {
+                                          attrs: {
+                                            rounded: "",
+                                            color: "primary"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.$router.push({
+                                                name: "profile_page"
+                                              })
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { attrs: { left: "" } },
+                                            [_vm._v("mdi-account")]
+                                          ),
+                                          _vm._v(
+                                            " My Profile\n                            "
+                                          )
+                                        ],
+                                        1
                                       )
-                                    ],
-                                    1
-                                  ),
+                                    : _vm._e(),
                                   _vm._v(" "),
                                   _vm.role == "Student" || _vm.role == "Teacher"
                                     ? _c("v-divider", { staticClass: "my-3" })
@@ -11134,7 +11148,8 @@ var render = function() {
       _vm._v(" "),
       _vm.navBarType != "classwork-preview" &&
       _vm.navBarType != "classwork_overview" &&
-      _vm.UserDetails.role != "ProgramChair"
+      _vm.UserDetails.role != "ProgramChair" &&
+      _vm.UserDetails.role != "SecurityGuard"
         ? _c(
             "div",
             [

@@ -222,6 +222,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {//console.log(this.$route);
   }
@@ -1366,7 +1376,9 @@ var render = function() {
                   "v-list-item-content",
                   [
                     _c("v-list-item-title", [
-                      _vm._v("\n                    Go back\n                ")
+                      _vm._v(
+                        "\n                     Go back\n                 "
+                      )
                     ])
                   ],
                   1
@@ -1396,7 +1408,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                    Dashboard\n                "
+                        "\n                     Dashboard\n                 "
                       )
                     ])
                   ],
@@ -1455,7 +1467,7 @@ var render = function() {
                       [
                         _c("v-list-item-title", [
                           _vm._v(
-                            "\n                        Campus Director\n                    "
+                            "\n                         Campus Director\n                     "
                           )
                         ])
                       ],
@@ -1486,7 +1498,7 @@ var render = function() {
                       [
                         _c("v-list-item-title", [
                           _vm._v(
-                            "\n                        Program Chair\n                    "
+                            "\n                         Program Chair\n                     "
                           )
                         ])
                       ],
@@ -1519,7 +1531,38 @@ var render = function() {
                       [
                         _c("v-list-item-title", [
                           _vm._v(
-                            "\n                        Instructors\n                    "
+                            "\n                         Instructors\n                     "
+                          )
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item",
+                  {
+                    attrs: {
+                      link: "",
+                      to: { name: "manageSecurityGuard" },
+                      exact: ""
+                    }
+                  },
+                  [
+                    _c(
+                      "v-list-item-action",
+                      [_c("v-icon", [_vm._v("mdi-account-cowboy-hat")])],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-list-item-content",
+                      [
+                        _c("v-list-item-title", [
+                          _vm._v(
+                            "\n                         Security Guard\n                     "
                           )
                         ])
                       ],
@@ -1550,7 +1593,7 @@ var render = function() {
                       [
                         _c("v-list-item-title", [
                           _vm._v(
-                            "\n                        Students\n                    "
+                            "\n                         Students\n                     "
                           )
                         ])
                       ],
@@ -1584,7 +1627,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                    School Year / Semester\n                "
+                        "\n                     School Year / Semester\n                 "
                       )
                     ])
                   ],
@@ -1615,7 +1658,7 @@ var render = function() {
                   [
                     _c("v-list-item-title", [
                       _vm._v(
-                        "\n                    Department\n                "
+                        "\n                     Department\n                 "
                       )
                     ])
                   ],

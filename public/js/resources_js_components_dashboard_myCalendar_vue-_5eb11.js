@@ -155,7 +155,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       CalendarSched: [],
       focus: '',
-      type: 'week',
+      type: 'month',
       typeToLabel: {
         month: 'Month',
         week: 'Week',
@@ -269,13 +269,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
             _this2.events.push({
               type: 'class_sched',
-              name: 'Class Schedule',
+              name: item.course_code + ' - ' + item.class_name,
               start: start,
               end: end,
               day: element.day,
               display_start: element.display_start,
               display_end: element.display_end,
-              color: 'blue',
+              color: _this2.colors[_this2.rnd(0, _this2.colors.length - 1)],
               classwork_id: null,
               course_id: item.course_id,
               class_id: item.class_id
@@ -23021,11 +23021,10 @@ var render = function() {
                                         on: {
                                           click: function($event) {
                                             return _vm.$router.push({
-                                              path:
-                                                "/classwork/" +
-                                                _vm.selectedEvent.course_id +
-                                                "/classwork-details?clwk=" +
-                                                _vm.selectedEvent.classwork_id
+                                              name: "coursePage",
+                                              params: {
+                                                id: _vm.selectedEvent.course_id
+                                              }
                                             })
                                           }
                                         }

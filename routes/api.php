@@ -42,6 +42,14 @@ use App\Http\Controllers\api\sms\testSmscontroller;
 use App\Http\Controllers\api\StduentExamActivityLog; 
 
 use App\Http\Controllers\WebNotificationController;
+
+use App\Http\Controllers\api\vaccination\VaccinationController;
+
+
+
+
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -505,3 +513,7 @@ Route::put('/confirm_reset_password', [ForgotPasswordController::class, 'Confirm
 Route::post('/testingSMS', [testSmscontroller::class, 'index']);
 
 Route::post('/store_token', [WebNotificationController::class, 'storeToken']);
+
+
+Route::get('/vaccination/{data}/{type}', [VaccinationController::class, 'fetchStudent']);
+Route::post('/vaccination/upload', [VaccinationController::class, 'bulkAddVaccineStatus']);

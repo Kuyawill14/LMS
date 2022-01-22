@@ -16,12 +16,13 @@ import notification_invites_routes from "./routes/notification_invites_routes";
 import restricted_pages_routes from "./routes/restricted_pages_routes";
 import archive_page_routes from "./routes/archive_page_routes";
 import classwork_overview_page_routes from "./routes/classwork_overview_page_routes";
+import security_guard_routes from "./routes/security_guard_routes";
 
 
 Vue.use(Router);
 const router = new Router({
     mode: "history",
-    routes: [{
+    routes: [, {
             path: "",
             component: () =>
                 import ( /* webpackChunkName: "main-view" */ "./components/mainApp"),
@@ -51,8 +52,18 @@ const router = new Router({
                     path: "",
                     component: () =>
                         import ( /* webpackChunkName: "Dashboard" */ "./components/dashboard/dashboardComponent"),
-                    name: "dashboard"
+                    name: "dashboard",
+                    beforeEnter: (to, from, next) => {
+                        if (store.state.CurrentUser.UserRole != 'SecurityGuard') next()
+                        else next({ path: '/vaccination', replace: true })
+                    }
                 },
+
+
+
+
+                //security guard routes
+                ...security_guard_routes,
 
                 //admin routes
                 ...admin_routes,
@@ -116,8 +127,8 @@ router.beforeEach((to, from, next) => {
                                     if (store.state.CurrentUser.CurrentStatus.status == 1) {
                                         if (to.name == 'courseSetup') {
                                             if (store.state.CurrentUser.UserRole == 'Teacher')
-                                            return next({ name: 'coursePage', params: {id: to.params.id}, replace: true })
-                                            else return next({ name: 'announcement', params: {id: to.params.id}, replace: true })
+                                                return next({ name: 'coursePage', params: { id: to.params.id }, replace: true })
+                                            else return next({ name: 'announcement', params: { id: to.params.id }, replace: true })
 
                                         } else {
                                             next();

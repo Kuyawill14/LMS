@@ -78,6 +78,16 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+   <v-list-item link :to="{name: 'manageSecurityGuard'}" exact>
+                    <v-list-item-action>
+                        <v-icon>mdi-account-cowboy-hat</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Security Guard
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
 
 

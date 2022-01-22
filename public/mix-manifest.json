@@ -43,5 +43,8 @@
     "/js/vendor~utils-1.js": "/js/vendor~utils-1.js",
     "/js/vendor~utils-5.js": "/js/vendor~utils-5.js",
     "/js/vendor~utils-4.js": "/js/vendor~utils-4.js",
-    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js"
+    "/js/vendor~utils-3.js": "/js/vendor~utils-3.js",
+    "/js/profile_user_details.js": "/js/profile_user_details.js",
+    "/js/profile_course_progress.js": "/js/profile_course_progress.js",
+    "/js/profile_my_calendar.js": "/js/profile_my_calendar.js"
 }

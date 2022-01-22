@@ -30,15 +30,6 @@ class ManageUserController extends Controller
         ->leftJoin("tbl_departments", "tbl_departments.id", "=", "tbl_user_departments.department_id")
         ->orderBy('users.created_at', 'DESC')
         ->get();
-
-       
-
-
-            
-        
-
-
-        
         return $users;
     }
     
@@ -92,6 +83,8 @@ class ManageUserController extends Controller
                         $departments->department_id = $request->department['id'];
                         $departments->save();
                     }
+
+                    
                 
               
 
@@ -121,14 +114,14 @@ class ManageUserController extends Controller
     public function adduser(Request $request, $usertype)
     {
 
-        
-        $validated = $request->validate([
-            'firstName' => ['required'],
-            'middleName' => ['required'],
-            'lastName' => ['required'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:6', 'confirmed']
-        ]);
+        // return $request->email;
+        // $validated = $request->validate([
+        //     'firstName' => ['required'],
+        //     'middleName' => ['required'],
+        //     'lastName' => ['required'],
+        //     'email' => ['required', 'email', 'unique:users'],
+        //     'password' => ['required', 'min:6', 'confirmed']
+        // ]);
 
         $New = User::create([
             'email' =>  $request->email,
@@ -154,7 +147,7 @@ class ManageUserController extends Controller
         $details->save();
 
 
-        if($usertype != 'CampusDirector') {
+        if($usertype != 'CampusDirector' &&  $usertype != 'SecurityGuard') {
             $departments = new tbl_user_departments;
             $departments->user_id = $New->id;
             $departments->department_id = $request->department['id'];
@@ -195,19 +188,23 @@ class ManageUserController extends Controller
                $UpdateDetails->social_account =  $request->social_account;
                $UpdateDetails->save();
 
-
-
-               $departments = tbl_user_departments::where('user_id',$id)->first();
-               if($departments) {
-                $departments->department_id = $request->department['id'];
-                $departments->save();
-               } else {
-                $departments = new tbl_user_departments;
-                $departments->user_id = $id;
-                $departments->department_id = $request->department['id'];
-                $departments->save();
-               }
+           
+                if(isset( $request->department['id'])) {
+                 $departments = tbl_user_departments::where('user_id',$id)->first();
+                if($departments) {
+                    $departments->department_id = $request->department['id'];
+                    $departments->save();
+                } else {
+                    $departments = new tbl_user_departments;
+                    $departments->user_id = $id;
+                    $departments->department_id = $request->department['id'];
+                    $departments->save();
+                }
+                      
+                 }
              
+               
+
        
 
                $user->email = $request->email;
