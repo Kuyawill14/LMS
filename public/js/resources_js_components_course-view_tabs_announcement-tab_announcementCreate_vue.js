@@ -296,37 +296,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }));
     }
   }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {////console.log(this.announcement.content);
-  }), _defineProperty(_methods, "fetchClassnames", function fetchClassnames() {
-    var _this3 = this;
-
-    if (this.UserDetails.role == 'Teacher') {
-      axios.get('/api/class/allnames/' + this.$route.params.id + '/' + 0).then(function (res) {
-        _this3.classNames = res.data;
-        _this3.isLoadingClassNames = false;
-        _this3.isLoaded = true;
-
-        _this3.classNames.push({
-          class_id: _this3.$route.params.id,
-          class_name: 'All Class',
-          id: _this3.$route.params.id
-        });
-      });
-    }
   }), _defineProperty(_methods, "newNotification", function newNotification(announcement_id, content) {
-    var _this4 = this;
+    var _this3 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _this4.notifyDetails.class_id = _this4.$route.params.id != _this4.class_id ? _this4.class_id : null;
-              _this4.notifyDetails.course_id = _this4.$route.params.id == _this4.class_id ? _this4.$route.params.id : null;
-              _this4.notifyDetails.course_find_id = _this4.$route.params.id;
-              _this4.notifyDetails.announcement_id = announcement_id;
-              _this4.notifyDetails.content = content;
-              _this4.notifyDetails.type = 'announcement';
-              axios.post('/api/notification/new', _this4.notifyDetails);
+              _this3.notifyDetails.class_id = _this3.$route.params.id != _this3.class_id ? _this3.class_id : null;
+              _this3.notifyDetails.course_id = _this3.$route.params.id == _this3.class_id ? _this3.$route.params.id : null;
+              _this3.notifyDetails.course_find_id = _this3.$route.params.id;
+              _this3.notifyDetails.announcement_id = announcement_id;
+              _this3.notifyDetails.content = content;
+              _this3.notifyDetails.type = 'announcement';
+              axios.post('/api/notification/new', _this3.notifyDetails);
 
             case 7:
             case "end":

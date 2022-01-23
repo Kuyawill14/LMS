@@ -62,7 +62,7 @@
             //VueElementLoading,
             announcementPostList
         },
-        computed: mapGetters(["getclass_post"]),
+        computed: mapGetters(["getclass_post","getClassesNames"]),
         data () {
             return {
                 content: '',
@@ -108,11 +108,17 @@
             },
             fetchClassnames() {
                 if(this.UserDetails.role == 'Teacher'){
-                    axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
-                        this.classNames = res.data;
+                    if(this.getClassesNames.length == 0){
+                        this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                        .then(()=>{
+                            this.classNames = this.getClassesNames;
+                            this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                        })
+                    }else{
+                        this.classNames = this.getClassesNames;
                         this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
-                    })
-                }
+                    }
+                 }
             },
             SlicePostList(index){
                 this.getclass_post.splice(index, 1);

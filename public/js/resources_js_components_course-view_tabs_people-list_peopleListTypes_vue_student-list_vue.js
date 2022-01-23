@@ -211,6 +211,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var removeConfirmDialog = function removeConfirmDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_people-list_dialog_removeConfirmDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialog/removeConfirmDialog */ "./resources/js/components/course-view/tabs/people-list/dialog/removeConfirmDialog.vue"));
 };
@@ -270,7 +271,7 @@ var classJoinRequest = function classJoinRequest() {
         return this.getStudentList;
       }
     }
-  }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo", "getcourseInfo", "getStudentList"])),
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo", "getcourseInfo", "getStudentList", "getClassesNames"])),
   methods: {
     RemoveConfirm: function RemoveConfirm(fname, lname, class_name, class_id, user_id) {
       this.RemoveDetails.name = fname + ' ' + lname;
@@ -339,7 +340,10 @@ var classJoinRequest = function classJoinRequest() {
                       this.isGetting = false;
                  }).catch((error)=>{
                  }) */
-                _this4.$store.dispatch('fetchAllStudents', _this4.$route.params.id).then(function () {
+                _this4.$store.dispatch('fetchAllStudents', {
+                  course_id: _this4.$route.params.id,
+                  class_id: _this4.Class_id
+                }).then(function () {
                   _this4.isGetting = false;
                 });
 
@@ -355,25 +359,45 @@ var classJoinRequest = function classJoinRequest() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var Filterddata;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                axios.get('/api/class/allnames/' + _this5.$route.params.id + '/' + 0).then(function (res) {
-                  _this5.getStudents(); //this.classNames = res.data;
+                /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
+                      this.Class_id = res.data[0].class_id;
+                      this.getStudents();
+                      this.classNames = res.data;
+                      this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                      res.data.forEach(item => {
+                          this.classNames.push(item);
+                      });
+                      this.isloading = false;
+                       
+                  }) */
+                if (_this5.getClassesNames.length == 0) {
+                  _this5.$store.dispatch('fetchClassesNames', _this5.$route.params.id).then(function () {
+                    _this5.Class_id = _this5.getClassesNames[0].class_id;
+                    var Filterddata = _this5.getClassesNames;
+                    _this5.classNames = Filterddata.filter(function (item) {
+                      return item.class_id != _this5.$route.params.id;
+                    });
 
+                    _this5.getStudents();
 
-                  _this5.classNames.push({
-                    class_id: _this5.$route.params.id,
-                    class_name: 'All Class',
-                    id: _this5.$route.params.id
+                    _this5.isloading = false;
+                  });
+                } else {
+                  _this5.Class_id = _this5.getClassesNames[0].class_id;
+                  Filterddata = _this5.getClassesNames;
+                  _this5.classNames = Filterddata.filter(function (item) {
+                    return item.class_id != _this5.$route.params.id;
                   });
 
-                  res.data.forEach(function (item) {
-                    _this5.classNames.push(item);
-                  });
+                  _this5.getStudents();
+
                   _this5.isloading = false;
-                });
+                }
 
               case 1:
               case "end":
@@ -623,6 +647,11 @@ var render = function() {
                                 "hide-details": "",
                                 outlined: ""
                               },
+                              on: {
+                                change: function($event) {
+                                  ;(_vm.isGetting = true), _vm.getStudents()
+                                }
+                              },
                               model: {
                                 value: _vm.Class_id,
                                 callback: function($$v) {
@@ -846,13 +875,13 @@ var render = function() {
                   [
                     _c(
                       "v-row",
-                      _vm._l(7, function(n) {
+                      _vm._l(12, function(n) {
                         return _c(
                           "v-col",
                           {
                             key: n,
                             staticClass: "mb-0 pb-0 mt-0 pt-0",
-                            attrs: { cols: "12" }
+                            attrs: { cols: "12", md: "4", lg: "3" }
                           },
                           [
                             _c("v-skeleton-loader", {

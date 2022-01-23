@@ -134,7 +134,6 @@
                 if (this.json_users_file != null) {
                     axios.post('/api/vaccination/upload',{users: this.json_users_file}
                         ).then(res => {
-                        // console.log(res.data);
                         this.toastSuccess('Uploaded Successfully');
                     }).catch(err => {
                         console.log(err);

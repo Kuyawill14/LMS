@@ -3156,11 +3156,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 //
 //
@@ -3272,6 +3279,7 @@ var subjectiveSubmission = function subjectiveSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_submissionType_subjectiveSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionType/subjectiveSubmission */ "./resources/js/components/Classwork_View/tabs/submissionType/subjectiveSubmission.vue"));
 };
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
   components: {
@@ -3285,9 +3293,11 @@ var subjectiveSubmission = function subjectiveSubmission() {
       Graded: 0,
       Submitted: 0,
       ClassList: [],
-      isLeaving: false
+      isLeaving: false,
+      Class_id: null
     };
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getClassesNames"])),
   methods: {
     GetList: function GetList() {
       var _this = this;
@@ -3297,7 +3307,9 @@ var subjectiveSubmission = function subjectiveSubmission() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/submission/all/' + _this.$route.query.clwk).then(function (res) {
+                axios.get('/api/submission/all/' + _this.$route.query.clwk + '/' + _this.Class_id).then(function (res) {
+                  '';
+
                   _this.List = res.data;
                   res.data.forEach(function (item) {
                     if (item.status == 'Submitted' && item.graded == 0) {
@@ -3308,7 +3320,7 @@ var subjectiveSubmission = function subjectiveSubmission() {
                       _this.Graded++;
                     }
                   });
-                  _this.isloading = !_this.isloading;
+                  _this.isloading = false;
                 });
 
               case 1:
@@ -3318,6 +3330,12 @@ var subjectiveSubmission = function subjectiveSubmission() {
           }
         }, _callee);
       }))();
+    },
+    reloadSubmission: function reloadSubmission(id) {
+      this.Submitted = 0;
+      this.Graded = 0;
+      this.Class_id = id;
+      this.GetList();
     },
     GetListAfterEmit: function GetListAfterEmit() {
       var _this2 = this;
@@ -3360,18 +3378,25 @@ var subjectiveSubmission = function subjectiveSubmission() {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return axios.get('/api/class/allnames/' + _this3.$route.params.id + '/' + 0).then(function (res) {
-                  _this3.ClassList = res.data;
+                if (_this3.getClassesNames.length == 0) {
+                  _this3.$store.dispatch('fetchClassesNames', _this3.$route.params.id).then(function () {
+                    _this3.ClassList = _this3.getClassesNames.filter(function (item) {
+                      return item.class_id != _this3.$route.params.id;
+                    });
+                    _this3.Class_id = _this3.ClassList[0].class_id;
 
-                  _this3.ClassList.push({
-                    class_id: _this3.$route.params.id,
-                    class_name: 'All Class',
-                    id: _this3.$route.params.id
+                    _this3.GetList();
                   });
-                });
+                } else {
+                  _this3.ClassList = _this3.getClassesNames.filter(function (item) {
+                    return item.class_id != _this3.$route.params.id;
+                  });
+                  _this3.Class_id = _this3.ClassList[0].class_id;
 
-              case 2:
+                  _this3.GetList();
+                }
+
+              case 1:
               case "end":
                 return _context3.stop();
             }
@@ -3381,7 +3406,6 @@ var subjectiveSubmission = function subjectiveSubmission() {
     }
   },
   mounted: function mounted() {
-    this.GetList();
     this.FetchCLassNames();
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -6278,6 +6302,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -6427,9 +6452,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -6454,7 +6479,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -6544,6 +6569,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -18190,7 +18216,8 @@ var render = function() {
                                   Graded: _vm.Graded,
                                   classworkDetails: _vm.classworkDetails,
                                   ListData: _vm.List
-                                }
+                                },
+                                on: { reloadSubmission: _vm.reloadSubmission }
                               })
                             : _vm._e()
                         ],
@@ -18212,7 +18239,10 @@ var render = function() {
                                   classworkDetails: _vm.classworkDetails,
                                   ListData: _vm.List
                                 },
-                                on: { UpdateSubmission: _vm.GetListAfterEmit }
+                                on: {
+                                  reloadSubmission: _vm.reloadSubmission,
+                                  UpdateSubmission: _vm.GetListAfterEmit
+                                }
                               })
                             : _vm._e()
                         ],

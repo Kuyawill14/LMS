@@ -232,6 +232,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {//console.log(this.$route);
   }
@@ -1659,6 +1671,37 @@ var render = function() {
                     _c("v-list-item-title", [
                       _vm._v(
                         "\n                     Department\n                 "
+                      )
+                    ])
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-list-item",
+              {
+                attrs: {
+                  link: "",
+                  to: { name: "vaccination_upload" },
+                  exact: ""
+                }
+              },
+              [
+                _c(
+                  "v-list-item-action",
+                  [_c("v-icon", [_vm._v("mdi-needle")])],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-list-item-content",
+                  [
+                    _c("v-list-item-title", [
+                      _vm._v(
+                        "\n                     Vaccination\n                 "
                       )
                     ])
                   ],

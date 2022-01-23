@@ -86,10 +86,10 @@
   <div v-if="!isloading && List.length != 0 ">
         <v-row align="center" justify="center">
             <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" class="ma-0 pa-0">
-                <objectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded"  v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    
+                <objectiveSubmission v-on:reloadSubmission="reloadSubmission" :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded"  v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    
             </v-col>
             <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12"  class="ma-0 pa-0" >
-                <subjectiveSubmission :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded" v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
+                <subjectiveSubmission v-on:reloadSubmission="reloadSubmission" :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded" v-on:UpdateSubmission="GetListAfterEmit" v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails"  :ListData="List"></subjectiveSubmission>    
             </v-col>
         </v-row>
     </div>
@@ -103,7 +103,7 @@
 <script>
 const objectiveSubmission = () => import('./submissionType/objectiveSubmission')
 const subjectiveSubmission = () => import('./submissionType/subjectiveSubmission')
-
+import {mapGetters} from "vuex";
 export default {
     props:['classworkDetails'],
     components:{
@@ -118,13 +118,16 @@ export default {
             Submitted: 0,
             ClassList: [],
             isLeaving: false,
+            Class_id: null
         }
+    },
+     computed: {
+      ...mapGetters(["getClassesNames"]),
     },
     methods:{
        async GetList(){
-         
-            axios.get('/api/submission/all/'+this.$route.query.clwk)
-            .then(res=>{
+            axios.get('/api/submission/all/'+this.$route.query.clwk+'/'+this.Class_id)
+            .then(res=>{''
                 this.List = res.data;
                  res.data.forEach(item => {
                     if(item.status == 'Submitted' && item.graded == 0){
@@ -136,11 +139,17 @@ export default {
                     }
                    
                 });
-                this.isloading = !this.isloading;
+                this.isloading = false;
             })
             
         },
-          async GetListAfterEmit(){
+        reloadSubmission(id){
+            this.Submitted = 0;
+            this.Graded = 0;
+            this.Class_id = id;
+            this.GetList();
+        },
+        async GetListAfterEmit(){
               //this.Submitted +=1;
                this.Graded +=1;
            /*  this.Graded = 0;
@@ -159,16 +168,28 @@ export default {
             }) */
         },
          async FetchCLassNames(){
-            await axios.get('/api/class/allnames/'+this.$route.params.id+'/'+0)
-            .then(res=>{
-                this.ClassList = res.data;
-                this.ClassList.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
-            })
+            if(this.getClassesNames.length == 0){
+                this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                .then(()=>{
+                    
+                    this.ClassList = this.getClassesNames.filter((item) => {
+                        return item.class_id != this.$route.params.id;
+                    })
+                    this.Class_id = this.ClassList[0].class_id;
+                    this.GetList();
+                    
+                })
+            }else{
+                this.ClassList = this.getClassesNames.filter((item) => {
+                    return item.class_id != this.$route.params.id;
+                })
+                 this.Class_id = this.ClassList[0].class_id;
+                this.GetList();
+            }
         }
     },
     mounted(){
-        this.GetList();
-        this.FetchCLassNames();
+        this.FetchCLassNames();        
     },
      beforeRouteLeave(to, from, next) {
         this.isLeaving = true;

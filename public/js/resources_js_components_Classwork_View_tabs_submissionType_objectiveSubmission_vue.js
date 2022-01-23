@@ -296,7 +296,7 @@ var multipleAlertStudent = function multipleAlertStudent() {
       selected_index: null,
       Details: [],
       Reload: true,
-      Class: this.$route.params.id,
+      Class: this.ClassList[0].class_id,
       StatusType: ['Submitted', 'Taking', 'No Submission'],
       selectedStatus: 'Submitted',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
@@ -590,21 +590,21 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }, 400);
     },
     FilteredClass: function FilteredClass() {
-      var _this8 = this;
-
-      this.Over_total = 0;
-      this.Submitted_count = 0;
-      this.ShowLoading(); //if(this.Class != this.$route.params.id){
-
-      this.ListData.forEach(function (item) {
-        if (item.class_id == _this8.Class) {
-          _this8.Over_total++;
-
-          if (item.status == 'Submitted') {
-            _this8.Submitted_count++;
-          }
-        }
-      }); //}
+      this.ShowLoading();
+      this.$emit('reloadSubmission', this.Class);
+      /*  this.Over_total = 0;
+       this.Submitted_count = 0;
+       this.ShowLoading();
+       //if(this.Class != this.$route.params.id){
+       this.ListData.forEach(item => {
+           if (item.class_id == this.Class) {
+               this.Over_total++;
+               if (item.status == 'Submitted') {
+                   this.Submitted_count++;
+               }
+           }
+       });
+       //} */
     }
   }
 });
@@ -817,21 +817,7 @@ var render = function() {
                                         [
                                           _c("h1", [
                                             _vm._v(
-                                              _vm._s(
-                                                _vm.Class ==
-                                                  _vm.$route.params.id &&
-                                                  _vm.selectedStatus ==
-                                                    "Submitted"
-                                                  ? _vm.Submitted
-                                                  : _vm.Submitted_count
-                                              ) +
-                                                "\n                                        / " +
-                                                _vm._s(
-                                                  _vm.Class ==
-                                                    _vm.$route.params.id
-                                                    ? _vm.ListData.length
-                                                    : _vm.Over_total
-                                                )
+                                              _vm._s(_vm.Submitted_count) + " "
                                             )
                                           ]),
                                           _vm._v(" "),

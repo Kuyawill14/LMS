@@ -78,6 +78,7 @@
  
 </template>
 <script>
+import {mapGetters} from "vuex";
 export default {
     props:['course_name'],
     data(){
@@ -94,12 +95,31 @@ export default {
             ],
         }
     },
+      computed: {
+      ...mapGetters(["getClassesNames"]),
+  },
     methods:{
          async fetchClassnames() {
-                axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
+                /* axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
                     this.classList = res.data;
                     this.cl_id = this.classList[0].class_id;
-                })
+                }) */
+
+                 if(this.getClassesNames.length == 0){
+                    this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                    .then(()=>{
+                        this.cl_id = this.getClassesNames[0].class_id;
+                        this.classList= this.getClassesNames.filter((item) => {
+                            return item.class_id != this.$route.params.id;
+                        })
+                    })
+                }else{
+                    this.cl_id = this.getClassesNames[0].class_id;
+                    this.classList= this.getClassesNames.filter((item) => {
+                        return item.class_id != this.$route.params.id;
+                    })
+                }
+                
             },
         async InviteStudent(){
             this.isAdding = true;

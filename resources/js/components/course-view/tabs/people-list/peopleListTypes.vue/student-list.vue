@@ -56,6 +56,7 @@
                         <v-col class=" text-right d-flex" cols="7"  md="10" lg="10">
                             <div>
                                 <v-select
+                                    @change="isGetting  = true,getStudents()"
                                     v-model="Class_id"
                                     :items="classNames"
                                     :loading="isloading"
@@ -118,7 +119,7 @@
 
                 <v-col v-if="isGetting"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                      <v-row >
-                        <v-col class="mb-0 pb-0 mt-0 pt-0" v-for="n in 7" :key="n" cols="12">
+                        <v-col class="mb-0 pb-0 mt-0 pt-0" v-for="n in 12" :key="n" cols="12" md="4" lg="3">
                             <v-skeleton-loader
                             max-width="300"
                             type="list-item-avatar-two-line"
@@ -231,7 +232,7 @@ import { mapGetters } from 'vuex'
                     return this.getStudentList;
                 }
             },
-            ...mapGetters(["getcourseInfo","getcourseInfo","getStudentList"])
+            ...mapGetters(["getcourseInfo","getcourseInfo","getStudentList","getClassesNames"])
         },
         methods:{
             RemoveConfirm(fname, lname, class_name,class_id,user_id){
@@ -264,23 +265,48 @@ import { mapGetters } from 'vuex'
                 }).catch((error)=>{
                 }) */
 
-                this.$store.dispatch('fetchAllStudents',this.$route.params.id)
+                this.$store.dispatch('fetchAllStudents',{course_id: this.$route.params.id, class_id: this.Class_id })
                 .then(()=>{
                     this.isGetting = false;
                 })
             },
             async fetchClassnames() {
-                axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
-                    
+              /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
+                    this.Class_id = res.data[0].class_id;
                     this.getStudents();
-                    //this.classNames = res.data;
+                    this.classNames = res.data;
                     this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
                     res.data.forEach(item => {
                         this.classNames.push(item);
                     });
                     this.isloading = false;
                      
-                })
+                }) */
+
+                if(this.getClassesNames.length == 0){
+                     this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                    .then(()=>{
+                        this.Class_id = this.getClassesNames[0].class_id;
+
+                        let Filterddata = this.getClassesNames;
+                        this.classNames= Filterddata.filter((item) => {
+                            return item.class_id != this.$route.params.id;
+                            
+                        })
+                        this.getStudents();
+                        this.isloading = false;
+                    })
+                }else{
+                    this.Class_id = this.getClassesNames[0].class_id;
+                    let Filterddata = this.getClassesNames;
+                        this.classNames = Filterddata.filter((item) => {
+                            return item.class_id != this.$route.params.id;
+                            
+                        })
+                    this.getStudents();
+                    this.isloading = false;
+                }
+               
             },
           
             OpenaddStudentDialog(){

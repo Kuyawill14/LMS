@@ -179,7 +179,7 @@ var submissionList = function submissionList() {
       List: []
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_classwork_show_details"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_classwork_show_details", "getClassesNames"])),
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -206,13 +206,25 @@ var submissionList = function submissionList() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get('/api/class/allnames/' + _this2.$route.params.id + '/' + 0).then(function (res) {
-                  _this2.ClassList = res.data;
-                  _this2.class_id = res.data[0].class_id;
-                });
+                /* await axios.get('/api/class/allnames/'+this.$route.params.id+'/'+0)
+                .then(res=>{
+                    this.ClassList = res.data;
+                    this.class_id = res.data[0].class_id;
+                    
+                }) */
+                if (_this2.getClassesNames.length == 0) {
+                  _this2.$store.dispatch('fetchClassesNames', _this2.$route.params.id).then(function () {
+                    _this2.class_id = _this2.getClassesNames[0].class_id;
 
-              case 2:
+                    _this2.GetList();
+                  });
+                } else {
+                  _this2.class_id = _this2.getClassesNames[0].class_id;
+
+                  _this2.GetList();
+                }
+
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -274,7 +286,6 @@ var submissionList = function submissionList() {
   mounted: function mounted() {
     this.FetchCLassNames();
     this.getClassworkDetails();
-    this.GetList();
   }
 });
 
@@ -22729,7 +22740,7 @@ var render = function() {
                                 [
                                   _c("v-select", {
                                     attrs: {
-                                      items: _vm.ClassList,
+                                      items: _vm.getClassesNames,
                                       "hide-details": "",
                                       "item-text": "class_name",
                                       "item-value": "class_id",

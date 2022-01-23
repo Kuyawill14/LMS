@@ -131,7 +131,6 @@ __webpack_require__.r(__webpack_exports__);
         axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/vaccination/upload', {
           users: this.json_users_file
         }).then(function (res) {
-          // console.log(res.data);
           _this2.toastSuccess('Uploaded Successfully');
         })["catch"](function (err) {
           console.log(err);

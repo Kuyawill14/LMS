@@ -2396,7 +2396,7 @@ var routes = [{
   path: '/vaccination-upload',
   name: "vaccination_upload",
   component: function component() {
-    return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module './components/vaccine/vaccineComponents-upload'"); e.code = 'MODULE_NOT_FOUND'; throw e; });
+    return __webpack_require__.e(/*! import() */ "resources_js_components_vaccine_vaccineComponents-upload_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/vaccine/vaccineComponents-upload */ "./resources/js/components/vaccine/vaccineComponents-upload.vue"));
   },
   beforeEnter: function beforeEnter(to, from, next) {
     if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
@@ -3613,22 +3613,23 @@ var getters = {
   }
 };
 var actions = {
-  fetchAllStudents: function fetchAllStudents(_ref, id) {
+  fetchAllStudents: function fetchAllStudents(_ref, _ref2) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res;
+      var commit, course_id, class_id, res;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/all/".concat(id));
+              course_id = _ref2.course_id, class_id = _ref2.class_id;
+              _context.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/student/all/".concat(course_id, "/").concat(class_id));
 
-            case 3:
+            case 4:
               res = _context.sent;
               commit('FETCH_STUDENTS', res.data.StudentList);
 
-            case 5:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -4298,31 +4299,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
-  classInfo: []
+  classesNames: []
 };
 var getters = {
-  getclassInfo: function getclassInfo(state) {
-    return state.classInfo;
+  getClassesNames: function getClassesNames(state) {
+    return state.classesNames;
   }
 };
 var actions = {
-  fetchSclass: function fetchSclass(_ref, id) {
+  fetchClassesNames: function fetchClassesNames(_ref, id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, res;
+      var commit, response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
               _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/class/ShowClass/".concat(id)).then(function (res) {
-                commit('setClassInfo', res.data[0]); ////console.log(res.data);
-              });
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/class/class_list/".concat(id));
 
             case 3:
-              res = _context.sent;
+              response = _context.sent;
+              commit("setClassesNames", response.data);
 
-            case 4:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -4332,8 +4332,8 @@ var actions = {
   }
 };
 var mutations = {
-  setClassInfo: function setClassInfo(state, classInfo) {
-    return state.classInfo = classInfo;
+  setClassesNames: function setClassesNames(state, classesNames) {
+    return state.classesNames = classesNames;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -38169,7 +38169,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

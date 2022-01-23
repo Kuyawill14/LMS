@@ -242,16 +242,6 @@ export default {
             onChange(quill,html, text){
                 ////console.log(this.announcement.content);
             },
-             fetchClassnames() {
-                if(this.UserDetails.role == 'Teacher'){
-                    axios.get('/api/class/allnames/' + this.$route.params.id+'/'+0).then(res => {
-                        this.classNames = res.data;
-                        this.isLoadingClassNames = false
-                        this.isLoaded = true;
-                        this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
-                    })
-                }
-            },
            async newNotification(announcement_id, content){
                 this.notifyDetails.class_id = this.$route.params.id != this.class_id ? this.class_id : null;
                 this.notifyDetails.course_id = this.$route.params.id == this.class_id ?  this.$route.params.id : null;

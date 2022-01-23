@@ -32,7 +32,7 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($id, $class_id)
     {   
         $userId = auth('sanctum')->id();
         $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
@@ -42,6 +42,7 @@ class SubmissionController extends Controller
         ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
         ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
         ->where('users.role','Student')
+        ->where('tbl_class_classworks.class_id', $class_id)
         ->orderBy('tbl_user_details.lastName', 'ASC')
         ->get();
 

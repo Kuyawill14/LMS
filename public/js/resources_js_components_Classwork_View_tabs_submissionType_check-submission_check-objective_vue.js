@@ -1,12 +1,1520 @@
+"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_Classwork_View_tabs_submissionType_check-submission_check-objective_vue"],{
 
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************************************************************************************************************************************************************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\xampp\\htdocs\\LMS-Vue\\resources\\js\\components\\Classwork_View\\tabs\\submissionType\\check-submission\\check-objective.vue: Unexpected token (648:81)\n\n\u001b[0m \u001b[90m 646 |\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 647 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m {\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 648 |\u001b[39m     props\u001b[33m:\u001b[39m [\u001b[32m\"classworkDetails\"\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"ViewDetails\"\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"SubmittedLength\"\u001b[39m\u001b[33m,\u001b[39m \u001b[32m\"currentIndex\"\u001b[39m\u001b[33m.\u001b[39m\u001b[32m\"CheckDataSection\"\u001b[39m]\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m                                                                                  \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 649 |\u001b[39m     components\u001b[33m:\u001b[39m {\u001b[0m\n\u001b[0m \u001b[90m 650 |\u001b[39m         resetConfirmation\u001b[0m\n\u001b[0m \u001b[90m 651 |\u001b[39m     }\u001b[33m,\u001b[39m\u001b[0m\n    at Parser._raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:798:17)\n    at Parser.raiseWithData (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:791:17)\n    at Parser.raise (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:752:17)\n    at Parser.unexpected (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:3257:16)\n    at Parser.parseIdentifierName (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12362:18)\n    at Parser.parseIdentifier (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:12340:23)\n    at Parser.parseMember (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11140:103)\n    at Parser.parseSubscript (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11127:19)\n    at Parser.parseSubscripts (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11098:19)\n    at Parser.parseExprSubscripts (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11087:17)\n    at Parser.parseUpdate (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11061:21)\n    at Parser.parseMaybeUnary (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:11039:23)\n    at Parser.parseExprOps (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10882:23)\n    at Parser.parseMaybeConditional (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10856:23)\n    at Parser.parseMaybeAssign (C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10814:21)\n    at C:\\xampp\\htdocs\\LMS-Vue\\node_modules\\@babel\\core\\node_modules\\@babel\\parser\\lib\\index.js:10776:39");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var resetConfirmation = function resetConfirmation() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
+};
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex", "CheckDataSection"],
+  components: {
+    resetConfirmation: resetConfirmation
+  },
+  data: function data() {
+    return {
+      loading_activity: false,
+      student_activity_logs: [],
+      tab: null,
+      isUpdatingComment: false,
+      isUpdatingComment_id: null,
+      isUpdatingComment_old_data: null,
+      Qlength: null,
+      Check: [],
+      isLoading: true,
+      inputCheck: ['True', 'False'],
+      TrueOrFalse: ['<p>True</p>', '<p>False</p>'],
+      SubmittedAnswer: [],
+      UpdateDetails: {},
+      dialog: false,
+      Alphabet: null,
+      isCommenting: false,
+      comment: '',
+      isAlerting: false,
+      isReseting: false,
+      isScrolling: false,
+      isLoaded: false,
+      questionIndex: 0,
+      options: {
+        modules: {
+          'toolbar': [['bold', 'italic', 'underline', 'strike'], [{
+            'list': 'bullet'
+          }], ['image']]
+        }
+      },
+      pointsRules: [function (v) {
+        return !!v || 'Points is required';
+      }, function (v) {
+        return v && v >= 0 || "Points should be above or equal to 0";
+      }],
+      StudentScore: 0
+    };
+  },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
+  methods: {
+    format_date_log: function format_date_log(value) {
+      if (value) {
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, h:mm:ss a');
+      }
+    },
+    format_date: function format_date(value) {
+      if (value) {
+        return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz("Asia/Manila").format('MMMM DD YYYY, h:mm a');
+      }
+    },
+    fetchQuestions: function fetchQuestions() {
+      var _this = this;
+
+      this.ViewDetails.points = 0;
+      this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
+        var Submitted_length = _this.ViewDetails.Submitted_Answers.length;
+        var Question_length = _this.getAll_questions.Question.length;
+        var diff = Question_length - Submitted_length;
+        var counter;
+
+        var _loop = function _loop(j) {
+          counter = 0;
+
+          for (var k = 0; k < Submitted_length; k++) {
+            if (_this.getAll_questions.Question[j].id != _this.ViewDetails.Submitted_Answers[k].Question_id) {
+              counter++;
+            }
+          }
+
+          if (counter == Submitted_length) {
+            if (_this.getAll_questions.Question[j].type == 'Multiple Choice' || _this.getAll_questions.Question[j].type == 'Identification' || _this.getAll_questions.Question[j].type == 'True or False') {
+              _this.ViewDetails.Submitted_Answers.push({
+                Answer: null,
+                Question_id: _this.getAll_questions.Question[j].id,
+                timeConsume: null,
+                type: _this.getAll_questions.Question[j].type
+              });
+            } else if (_this.getAll_questions.Question[j].type == 'Essay') {
+              _this.ViewDetails.Submitted_Answers.push({
+                Answer: null,
+                Question_id: _this.getAll_questions.Question[j].id,
+                timeConsume: null,
+                type: _this.getAll_questions.Question[j].type,
+                check: false
+              });
+            } else if (_this.getAll_questions.Question[j].type == 'Matching type') {
+              _this.ViewDetails.Submitted_Answers.push({
+                Answer: [],
+                type: 'Matching type',
+                Question_id: _this.getAll_questions.Question[j].id,
+                Choices_id: []
+              });
+
+              var _counter = 0;
+
+              _this.getAll_questions.Answer[j].SubQuestion.forEach(function (item) {
+                _this.ViewDetails.Submitted_Answers[_this.ViewDetails.Submitted_Answers.length - 1].Choices_id.push({
+                  choice_id: _this.getAll_questions.Answer[j].SubAnswer[_counter].id
+                });
+
+                _this.ViewDetails.Submitted_Answers[_this.ViewDetails.Submitted_Answers.length - 1].Answer.push({
+                  Ans_id: null,
+                  Ans_letter: null,
+                  Answers: null,
+                  subquestion_id: item.id
+                });
+
+                _counter++;
+              });
+            }
+          }
+        };
+
+        for (var j = 0; j < Question_length; j++) {
+          _loop(j);
+        }
+
+        var _loop2 = function _loop2(i) {
+          var _loop3 = function _loop3(_j) {
+            if (_this.getAll_questions.Question[i].id == _this.ViewDetails.Submitted_Answers[_j].Question_id) {
+              if (_this.getAll_questions.Question[i].type == 'Multiple Choice' || _this.getAll_questions.Question[i].type == 'Identification' || _this.getAll_questions.Question[i].type == 'True or False') {
+                var student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+                _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
+
+                if (_this.getAll_questions.Question[i].type == 'Identification') {
+                  if (_this.getAll_questions.Answer[i].options.length == 0) {
+                    var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+
+                    if (Question_answer == student_ans) {
+                      _this.Check[i] = true;
+                      _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                    } else {
+                      _this.Check[i] = false;
+                    }
+                  } else {
+                    _this.Check[i] = false;
+
+                    _this.getAll_questions.Answer[i].options.forEach(function (item) {
+                      var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                      if (student_ans == Question_answer) {
+                        _this.Check[i] = true;
+                        _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                      }
+                    });
+                  }
+                } else {
+                  var _Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+
+                  if (_Question_answer == student_ans) {
+                    _this.Check[i] = true;
+                    _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                  } else {
+                    _this.Check[i] = false;
+                  }
+                }
+              } else if (_this.getAll_questions.Question[i].type == 'Essay') {
+                _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
+                _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check;
+
+                if (_this.Check[i]) {
+                  _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                }
+              } else if (_this.getAll_questions.Question[i].type == 'Matching type') {
+                var Ans = new Array();
+                var match_check = new Array();
+                var _counter2 = 0;
+                var matchpoints = Math.round(_this.getAll_questions.Question[i].points / _this.getAll_questions.Answer[i].SubQuestion.length);
+
+                _this.ViewDetails.Submitted_Answers[_j].Answer.forEach(function (item) {
+                  for (var x = 0; x < _this.getAll_questions.Answer[i].SubQuestion.length; x++) {
+                    if (_this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                      if (_this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                        match_check[_counter2] = true;
+                        _this.ViewDetails.points += matchpoints;
+                      } else {
+                        match_check[_counter2] = false;
+                      }
+                    }
+                  }
+
+                  _counter2 += 1;
+                });
+
+                var Ans_list = {};
+                Ans_list.SubQuestion = [];
+                var subAndDes = _this.getAll_questions.Answer[i].SubAnswer.length + _this.getAll_questions.Answer[i].Destructors.length;
+                Ans_list.SubAnswer = [];
+                var sub_ques_count = 0;
+                /*  this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                     this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
+                         if(sub_ans.subquestion_id == subQuestion.id){
+                             Ans_list.SubQuestion.push({
+                                 Ans_Letter: sub_ans.Ans_letter,
+                                 Answer: sub_ans.Answers,
+                                 SubQuestion: subQuestion.sub_question,
+                                 SubQuestion_id: subQuestion.id,
+                                 is_correct: true,
+                                 Correct_Answer: null
+                             });
+                         }
+                     });
+                 }); */
+
+                _this.ViewDetails.Submitted_Answers[_j].question_pattern.SubQuestion.forEach(function (sub_ques) {
+                  _this.getAll_questions.Answer[i].SubQuestion.forEach(function (subQuestion) {
+                    if (sub_ques.id == subQuestion.id) {
+                      Ans_list.SubQuestion.push({
+                        Ans_Letter: null,
+                        Answer: null,
+                        SubQuestion: subQuestion.sub_question,
+                        SubQuestion_id: subQuestion.id,
+                        Correct_Answer: null
+                      });
+                    }
+                  });
+
+                  _this.ViewDetails.Submitted_Answers[_j].Answer.forEach(function (user_ans) {
+                    Ans_list.SubQuestion.forEach(function (ans) {
+                      if (user_ans.subquestion_id == ans.SubQuestion_id) {
+                        ans.Ans_Letter = user_ans.Ans_letter;
+                        ans.Answer = user_ans.Answers;
+                      }
+                    });
+                  });
+                });
+
+                _this.getAll_questions.Answer[i].Destructors.forEach(function (destruc) {
+                  _this.getAll_questions.Answer[i].SubAnswer.push(destruc);
+                });
+
+                _this.ViewDetails.Submitted_Answers[_j].question_pattern.SubAnswer.forEach(function (sub_ans) {
+                  _this.getAll_questions.Answer[i].SubAnswer.forEach(function (subAnswer) {
+                    if (sub_ans.id == subAnswer.id) {
+                      Ans_list.SubAnswer.push({
+                        SubChoice: subAnswer.Choice,
+                        SubChoice_id: subAnswer.id
+                      });
+                    }
+                  });
+                });
+                /* 
+                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                        let alpha_count = 0;
+                         this.Alphabet.forEach(alpha => {
+                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
+                                  this.getAll_questions.Answer[i].SubAnswer.forEach(answer_list => {
+                                    if(sub_ans.Ans_id == answer_list.id){
+                                            Ans_list.SubAnswer[alpha_count] = {
+                                            SubChoice: answer_list.Choice,
+                                            SubChoice_id: answer_list.id,
+                                            index: alpha_count
+                                        }
+                                    }
+                                });                                                 
+                             }
+                             alpha_count++;
+                         });
+                    }); */
+
+                /* console.log(Ans_list.SubAnswer);
+                                        let des_count = 0;
+                                             for (let v = 0; v <  Ans_list.SubAnswer.length; v++) {
+                    if(Ans_list.SubAnswer[v] == null){
+                        Ans_list.SubAnswer[v] = {
+                            SubChoice: this.getAll_questions.Answer[i].Destructors[des_count].Choice,
+                            SubChoice_id: this.getAll_questions.Answer[i].Destructors[des_count].id,
+                            index: v
+                        }
+                       des_count++;
+                    }
+                } */
+
+
+                var tmpChoices = new Array();
+
+                _this.ViewDetails.Submitted_Answers[_j].Choices_id.forEach(function (item) {
+                  _this.getAll_questions.Answer[i].SubAnswer.forEach(function (choice) {
+                    if (item.choice_id == choice.id) {
+                      tmpChoices.push({
+                        id: choice.id,
+                        choice: choice.Choice
+                      });
+                    }
+                  });
+                });
+                /*  for (let a = 0; a < Ans.length; a++) {
+                     Ans[a].SubChoice = tmpChoices[a].choice;
+                 } */
+
+
+                _this.SubmittedAnswer[i] = Ans_list;
+                _this.Check[i] = match_check;
+              }
+            }
+          };
+
+          for (var _j = 0; _j < _this.ViewDetails.Submitted_Answers.length; _j++) {
+            _loop3(_j);
+          }
+        };
+
+        for (var i = 0; i < _this.getAll_questions.Question.length; i++) {
+          _loop2(i);
+        }
+
+        _this.isLoaded = true;
+
+        _this.$emit('isMounted');
+
+        _this.ReSaveScore();
+      });
+    },
+    ReMatchQuestions: function ReMatchQuestions() {
+      var _this2 = this;
+
+      this.ViewDetails.points = 0;
+      var Submitted_length = this.ViewDetails.Submitted_Answers.length;
+      var Question_length = this.getAll_questions.Question.length;
+      var diff = Question_length - Submitted_length;
+      var counter;
+
+      var _loop4 = function _loop4(j) {
+        counter = 0;
+
+        for (var k = 0; k < Submitted_length; k++) {
+          if (_this2.getAll_questions.Question[j].id != _this2.ViewDetails.Submitted_Answers[k].Question_id) {
+            counter++;
+          }
+        }
+
+        if (counter == Submitted_length) {
+          if (_this2.getAll_questions.Question[j].type == 'Multiple Choice' || _this2.getAll_questions.Question[j].type == 'Identification' || _this2.getAll_questions.Question[j].type == 'True or False') {
+            _this2.ViewDetails.Submitted_Answers.push({
+              Answer: null,
+              Question_id: _this2.getAll_questions.Question[j].id,
+              timeConsume: null,
+              type: _this2.getAll_questions.Question[j].type
+            });
+          } else if (_this2.getAll_questions.Question[j].type == 'Essay') {
+            _this2.ViewDetails.Submitted_Answers.push({
+              Answer: null,
+              Question_id: _this2.getAll_questions.Question[j].id,
+              timeConsume: null,
+              type: _this2.getAll_questions.Question[j].type,
+              check: false
+            });
+          } else if (_this2.getAll_questions.Question[j].type == 'Matching type') {
+            _this2.ViewDetails.Submitted_Answers.push({
+              Answer: [],
+              type: 'Matching type',
+              Question_id: _this2.getAll_questions.Question[j].id,
+              Choices_id: []
+            });
+
+            var _counter3 = 0;
+
+            _this2.getAll_questions.Answer[j].SubQuestion.forEach(function (item) {
+              _this2.ViewDetails.Submitted_Answers[_this2.ViewDetails.Submitted_Answers.length - 1].Choices_id.push({
+                choice_id: _this2.getAll_questions.Answer[j].SubAnswer[_counter3].id
+              });
+
+              _this2.ViewDetails.Submitted_Answers[_this2.ViewDetails.Submitted_Answers.length - 1].Answer.push({
+                Ans_id: null,
+                Ans_letter: null,
+                Answers: null,
+                subquestion_id: item.id
+              });
+
+              _counter3++;
+            });
+          }
+        }
+      };
+
+      for (var j = 0; j < Question_length; j++) {
+        _loop4(j);
+      }
+
+      var _loop5 = function _loop5(i) {
+        for (var _j2 = 0; _j2 < _this2.ViewDetails.Submitted_Answers.length; _j2++) {
+          if (_this2.getAll_questions.Question[i].id == _this2.ViewDetails.Submitted_Answers[_j2].Question_id) {
+            if (_this2.getAll_questions.Question[i].type == 'Multiple Choice' || _this2.getAll_questions.Question[i].type == 'Identification' || _this2.getAll_questions.Question[i].type == 'True or False') {
+              (function () {
+                var student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+                _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
+
+                if (_this2.getAll_questions.Question[i].type == 'Identification') {
+                  if (_this2.getAll_questions.Answer[i].options.length == 0) {
+                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+
+                    if (Question_answer == student_ans) {
+                      _this2.Check[i] = true;
+                      _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
+                    } else {
+                      _this2.Check[i] = false;
+                    }
+                  } else {
+                    _this2.Check[i] = false;
+
+                    _this2.getAll_questions.Answer[i].options.forEach(function (item) {
+                      var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                      if (student_ans == Question_answer) {
+                        _this2.Check[i] = true;
+                        _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
+                      }
+                    });
+                  }
+                } else {
+                  var _Question_answer2 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+
+                  if (_Question_answer2 == student_ans) {
+                    _this2.Check[i] = true;
+                    _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
+                  } else {
+                    _this2.Check[i] = false;
+                  }
+                }
+              })();
+            } else if (_this2.getAll_questions.Question[i].type == 'Essay') {
+              _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
+              _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check;
+
+              if (_this2.Check[i]) {
+                _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
+              }
+            } else if (_this2.getAll_questions.Question[i].type == 'Matching type') {
+              (function () {
+                var Ans = new Array();
+                var match_check = new Array();
+                var counter = 0;
+                var matchpoints = Math.round(_this2.getAll_questions.Question[i].points / _this2.getAll_questions.Answer[i].SubQuestion.length);
+
+                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (item) {
+                  for (var x = 0; x < _this2.getAll_questions.Answer[i].SubQuestion.length; x++) {
+                    if (_this2.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                      if (_this2.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                        match_check[counter] = true;
+                        _this2.ViewDetails.points += matchpoints;
+                      } else {
+                        match_check[counter] = false;
+                      }
+                    }
+                  }
+
+                  counter += 1;
+                });
+
+                var Ans_list = {};
+                Ans_list.SubQuestion = [];
+                Ans_list.SubAnswer = [];
+                var sub_ques_count = 0;
+
+                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (sub_ans) {
+                  _this2.getAll_questions.Answer[i].SubQuestion.forEach(function (subQuestion) {
+                    if (sub_ans.subquestion_id == subQuestion.id) {
+                      Ans_list.SubQuestion.push({
+                        Ans_Letter: sub_ans.Ans_letter,
+                        Answer: sub_ans.Answers,
+                        SubQuestion: subQuestion.sub_question,
+                        SubQuestion_id: subQuestion.id,
+                        is_correct: true,
+                        Correct_Answer: null
+                      });
+                    }
+                  });
+                });
+
+                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (sub_ans) {
+                  var alpha_count = 0;
+
+                  _this2.Alphabet.forEach(function (alpha) {
+                    if (alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()) {
+                      _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (answer_list) {
+                        if (sub_ans.Ans_id == answer_list.id) {
+                          Ans_list.SubAnswer[alpha_count] = {
+                            SubChoice: answer_list.Choice,
+                            SubChoice_id: answer_list.id,
+                            index: alpha_count
+                          };
+                        }
+                      });
+                    }
+
+                    alpha_count++;
+                  });
+                });
+
+                var des_count = 0;
+
+                for (var v = 0; v < Ans_list.SubAnswer.length; v++) {
+                  if (Ans_list.SubAnswer[v] == null) {
+                    Ans_list.SubAnswer[v] = {
+                      SubChoice: _this2.getAll_questions.Answer[i].Destructors[des_count].Choice,
+                      SubChoice_id: _this2.getAll_questions.Answer[i].Destructors[des_count].id,
+                      index: v
+                    };
+                    des_count++;
+                  }
+                }
+
+                var tmpChoices = new Array();
+
+                _this2.ViewDetails.Submitted_Answers[_j2].Choices_id.forEach(function (item) {
+                  _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (choice) {
+                    if (item.choice_id == choice.id) {
+                      tmpChoices.push({
+                        id: choice.id,
+                        choice: choice.Choice
+                      });
+                    }
+                  });
+                });
+                /* for (let a = 0; a < Ans.length; a++) {
+                    Ans[a].SubChoice = tmpChoices[a].choice;
+                } */
+
+
+                _this2.SubmittedAnswer[i] = Ans_list;
+                _this2.Check[i] = match_check;
+              })();
+            }
+          }
+        }
+      };
+
+      for (var i = 0; i < this.getAll_questions.Question.length; i++) {
+        _loop5(i);
+      }
+
+      this.fetchStudentActivity();
+      this.isLoaded = true;
+      this.ReSaveScore();
+    },
+    UpdateScore: function UpdateScore(type, id, data, points, index, answer) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this3.UpdateDetails.check = data;
+                _this3.UpdateDetails.points = points;
+                _this3.UpdateDetails.question_id = id;
+                _this3.UpdateDetails.answer = answer;
+                _this3.UpdateDetails.user_id = _this3.ViewDetails.user_id; //this.UpdateDetails.type = type;
+
+                axios.put('/api/teacher/update-score/' + _this3.ViewDetails.id, _this3.UpdateDetails).then(function (res) {
+                  if (res.status == 200) {
+                    if (type == 'Essay') {
+                      if (data == true) {
+                        _this3.ViewDetails.points = _this3.ViewDetails.points + points;
+                      } else {
+                        _this3.ViewDetails.points = _this3.ViewDetails.points - points;
+                      }
+                    } else {
+                      if (data == true) {
+                        _this3.SubmittedAnswer[index] = answer;
+                        _this3.ViewDetails.points = _this3.ViewDetails.points + points;
+                      } else {
+                        _this3.SubmittedAnswer[index] = "";
+                        _this3.ViewDetails.points = _this3.ViewDetails.points - points;
+                      }
+                    }
+                  }
+                });
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    ReSaveScore: function ReSaveScore() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                axios.put('/api/teacher/re_update-score/' + _this4.ViewDetails.id, {
+                  points: _this4.ViewDetails.points
+                }).then(function (res) {});
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    ResetSubmission: function ResetSubmission() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                //////console.log(this.ListData[this.resetIndex].points)
+                _this5.isReseting = true;
+
+                if (_this5.ViewDetails.status != null && _this5.ViewDetails.status != '') {
+                  axios.put('/api/teacher/reset-obj/' + _this5.ViewDetails.id).then(function (res) {
+                    if (res.status == 200) {
+                      _this5.dialog = !_this5.dialog;
+                      _this5.isReseting = false;
+
+                      _this5.$emit('RestSubmission');
+                    }
+                  });
+                }
+
+              case 2:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    addComment: function addComment(details) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                data = {};
+                _this6.isCommenting = true;
+                data.classwork_id = details.classwork_id;
+                data.course_id = _this6.$route.params.id;
+                data.to_user = details.user_id;
+                data.type = 'Private';
+                data.comment = _this6.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  if (res.status == 200) {
+                    _this6.ViewDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: _this6.get_CurrentUser.firstName + ' ' + _this6.get_CurrentUser.lastName,
+                      profile_pic: _this6.get_CurrentUser.profile_pic,
+                      u_id: _this6.get_CurrentUser.user_id,
+                      comment_date: new Date()
+                    });
+
+                    _this6.comment = '';
+                  }
+                });
+                _this6.isCommenting = false;
+
+              case 9:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    DeleteComment: function DeleteComment(id, index) {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this7.ViewDetails.comments.splice(index, 1);
+                  }
+                });
+
+              case 1:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    UpdateComment: function UpdateComment(content, id) {
+      var _this8 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                axios.put('/api/post/comment/update/' + id, {
+                  comment: content
+                }).then(function (res) {
+                  _this8.isUpdatingComment = false;
+                  _this8.isUpdatingComment_id = null;
+                  _this8.isUpdatingComment_old_data = null;
+                });
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    alertStudent: function alertStudent() {
+      var _this9 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                data = {};
+                _this9.isAlerting = true;
+                data.user_id = _this9.ViewDetails.user_id;
+                data.classwork_name = _this9.classworkDetails.title;
+                data.classwork_id = _this9.classworkDetails.id;
+                data.course_id = _this9.classworkDetails.course_id;
+                data.firstName = _this9.ViewDetails.firstName;
+                axios.post('/api/teacher/alert-student', data).then(function (res) {
+                  if (res.data.success == true) {
+                    _this9.toastSuccess(res.data.message);
+
+                    _this9.isAlerting = false;
+                  }
+                });
+
+              case 8:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
+      }))();
+    },
+    NextStudent: function NextStudent() {
+      var _this10 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _this10.questionIndex = 0;
+                _this10.SubmittedAnswer = [];
+                _this10.Check = [];
+                _this10.isLoaded = false;
+
+                _this10.$emit("nextStudent");
+
+                setTimeout(function () {
+                  return _this10.ReMatchQuestions();
+                }, 300);
+
+                _this10.fetchStudentActivity();
+
+              case 7:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
+      }))();
+    },
+    PrevStudent: function PrevStudent() {
+      var _this11 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                _this11.questionIndex = 0;
+                _this11.SubmittedAnswer = [];
+                _this11.Check = [];
+                _this11.isLoaded = false;
+
+                _this11.$emit("prevStudent");
+
+                setTimeout(function () {
+                  return _this11.ReMatchQuestions();
+                }, 300);
+
+                _this11.fetchStudentActivity();
+
+              case 7:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    fetchStudentActivity: function fetchStudentActivity() {
+      var _this12 = this;
+
+      this.loading_activity = true;
+      axios.get('/api/objective-logs/get_logs', {
+        params: {
+          classwork_id: this.classworkDetails.id,
+          student_id: this.ViewDetails.user_id
+        }
+      }).then(function (res) {
+        _this12.student_activity_logs = res.data;
+        _this12.loading_activity = false;
+      })["catch"](function (err) {
+        _this12.loading_activity = false;
+
+        _this12.toastError('Something went wrong');
+      });
+    }
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$emit('closeDialog');
+  },
+  mounted: function mounted() {
+    if (this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != '') {
+      this.fetchQuestions();
+    } else {
+      this.isLoaded = true;
+      this.$emit('isMounted');
+    }
+
+    var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+    this.Alphabet = alphabet;
+  },
+  created: function created() {
+    this.$emit('isMounted');
+  }
+});
 
 /***/ }),
 
@@ -16,7 +1524,6 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -40,7 +1547,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content img[data-v-6ded7147] {
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -64,7 +1570,6 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.commentContent img {\n    max-width
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -94,7 +1599,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -124,7 +1628,6 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
   \*********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -167,7 +1670,6 @@ component.options.__file = "resources/js/components/Classwork_View/tabs/submissi
   \**********************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -183,7 +1685,6 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_style_index_0_id_6ded7147_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-objective.vue?vue&type=style&index=0&id=6ded7147&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=style&index=0&id=6ded7147&scoped=true&lang=css&");
 
@@ -196,7 +1697,6 @@ __webpack_require__.r(__webpack_exports__);
   \******************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_style_index_1_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./check-objective.vue?vue&type=style&index=1&lang=css& */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Classwork_View/tabs/submissionType/check-submission/check-objective.vue?vue&type=style&index=1&lang=css&");
 
@@ -209,7 +1709,6 @@ __webpack_require__.r(__webpack_exports__);
   \****************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_check_objective_vue_vue_type_template_id_6ded7147_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
@@ -226,7 +1725,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "render": () => (/* binding */ render),
@@ -428,15 +1926,35 @@ var render = function() {
                                 "v-row",
                                 { staticClass: "mb-0 pb-0" },
                                 [
-                                  _c("v-col", {
-                                    staticClass: "text-center",
-                                    attrs: { cols: "12" }
-                                  }),
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass:
+                                        "text-center pl-5 pr-5 mb-0 pb-0 mt-1",
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-list-item-subtitle",
+                                        {
+                                          staticStyle: { "font-size": "15px" }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                        " +
+                                              _vm._s(_vm.CheckDataSection) +
+                                              "\n                                    "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "v-col",
                                     {
-                                      staticClass: "mb-0 pb-0",
+                                      staticClass: "mb-0 pb-0 mt-0 pt-0",
                                       attrs: { cols: "12" }
                                     },
                                     [

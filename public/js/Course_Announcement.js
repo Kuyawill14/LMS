@@ -85,7 +85,7 @@ var announcementPostList = function announcementPostList() {
     //VueElementLoading,
     announcementPostList: announcementPostList
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getclass_post"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getclass_post", "getClassesNames"]),
   data: function data() {
     return {
       content: '',
@@ -128,15 +128,24 @@ var announcementPostList = function announcementPostList() {
       var _this2 = this;
 
       if (this.UserDetails.role == 'Teacher') {
-        axios.get('/api/class/allnames/' + this.$route.params.id + '/' + 0).then(function (res) {
-          _this2.classNames = res.data;
+        if (this.getClassesNames.length == 0) {
+          this.$store.dispatch('fetchClassesNames', this.$route.params.id).then(function () {
+            _this2.classNames = _this2.getClassesNames;
 
-          _this2.classNames.push({
-            class_id: _this2.$route.params.id,
-            class_name: 'All Class',
-            id: _this2.$route.params.id
+            _this2.classNames.push({
+              class_id: _this2.$route.params.id,
+              class_name: 'All Class',
+              id: _this2.$route.params.id
+            });
           });
-        });
+        } else {
+          this.classNames = this.getClassesNames;
+          this.classNames.push({
+            class_id: this.$route.params.id,
+            class_name: 'All Class',
+            id: this.$route.params.id
+          });
+        }
       }
     },
     SlicePostList: function SlicePostList(index) {
@@ -2835,6 +2844,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -2984,9 +2994,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3011,7 +3021,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -3101,6 +3111,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 

@@ -309,7 +309,7 @@
         computed: {
             ...mapGetters(["getcourseInfo"]),
             ...mapGetters(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades",
-                "AllStudentClassworkGradesFortable"
+                "AllStudentClassworkGradesFortable","getClassesNames"
             ]),
             filteredItems() {
                 if (this.search) {
@@ -615,17 +615,13 @@
                 return total;
             },
             getClassList() {
-                this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(() => {
+                /* this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(() => {
                     this.classList = this.allClass;
 
                     this.selectedClass = this.classList[0].class_id;
                     this.selectedClassName = this.classList[0].class_name;
                     this.getClassworkList();
                     this.getStudentList();
-
-
-
-
                     var data = {
                         course_id: this.$route.params.id,
                         class_id: this.selectedClass
@@ -633,7 +629,46 @@
                     this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
                         this.loading = false;
                     });
-                });
+                }); */
+
+                if(this.getClassesNames.length == 0){
+                     this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                    .then(()=>{
+                        this.classList= this.getClassesNames.filter((item) => {
+                            return item.class_id != this.$route.params.id;
+                        })
+                        this.selectedClass = this.classList[0].class_id;
+                        this.selectedClassName = this.classList[0].class_name;
+
+                        this.getClassworkList();
+                        this.getStudentList();
+                        var data = {
+                            course_id: this.$route.params.id,
+                            class_id: this.selectedClass
+                        };
+                        this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
+                            this.loading = false;
+                        });
+
+                    })
+                }else{
+                    this.classList = this.getClassesNames.filter((item) => {
+                        return item.class_id != this.$route.params.id;
+                    })
+                    this.selectedClass = this.classList[0].class_id;
+                    this.selectedClassName = this.classList[0].class_name;
+
+                    this.getClassworkList();
+                    this.getStudentList();
+                    var data = {
+                        course_id: this.$route.params.id,
+                        class_id: this.selectedClass
+                    };
+                    this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
+                        this.loading = false;
+                    });
+
+                }
 
 
             },

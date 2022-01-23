@@ -128,6 +128,18 @@
                 </v-list-item-content>
             </v-list-item>
 
+
+            <v-list-item link :to="{name: 'vaccination_upload'}" exact>
+                <v-list-item-action>
+                    <v-icon>mdi-needle</v-icon>
+                </v-list-item-action>
+                <v-list-item-content>
+                    <v-list-item-title>
+                        Vaccination
+                    </v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
            
 
         </template>

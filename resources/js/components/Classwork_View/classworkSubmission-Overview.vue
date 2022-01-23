@@ -55,7 +55,7 @@
                                 <v-select 
                                 @change="filterOverview()"
                                 v-model="class_id"
-                                 :items="ClassList"
+                                 :items="getClassesNames"
                                 hide-details
                                 item-text="class_name"
                                 item-value="class_id"
@@ -148,7 +148,7 @@ export default {
         }
     },
      computed: {
-      ...mapGetters(["get_classwork_show_details"]),
+      ...mapGetters(["get_classwork_show_details","getClassesNames"]),
   },
   methods:{
        format_date(value) {
@@ -167,12 +167,24 @@ export default {
             })
         },
         async FetchCLassNames(){
-            await axios.get('/api/class/allnames/'+this.$route.params.id+'/'+0)
+            /* await axios.get('/api/class/allnames/'+this.$route.params.id+'/'+0)
             .then(res=>{
                 this.ClassList = res.data;
                 this.class_id = res.data[0].class_id;
                 
-            })
+            }) */
+
+            if(this.getClassesNames.length == 0){
+                this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                .then(()=>{
+                    this.class_id = this.getClassesNames[0].class_id;
+                    this.GetList();
+                })
+            }else{
+                this.class_id = this.getClassesNames[0].class_id;
+                this.GetList();
+            }
+            
         },
         async GetList(){
          
@@ -222,7 +234,7 @@ export default {
       
             this.FetchCLassNames();
             this.getClassworkDetails();
-            this.GetList();
+           
             
     
     },
