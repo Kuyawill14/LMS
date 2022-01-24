@@ -50,7 +50,7 @@
                 <v-row class="pb-1">
                     <v-col cols="3" sm="3"  md="2">
                          <div class="d-flex flex-column">
-                              <h1>{{Class == $route.params.id && selectedStatus == "Submitted"   ? Submitted : Submitted_count}} / {{Class == $route.params.id ? ListData.length : Over_total}}</h1>
+                              <h1>{{Submitted_count}} <!-- {{Class == $route.params.id && selectedStatus == "Submitted"   ? Submitted : Submitted_count}} / {{Class == $route.params.id ? ListData.length : Over_total}} --></h1>
                             <small>Submitted</small>
                         </div>
                     </v-col>
@@ -258,8 +258,8 @@ export default {
              selectedTasks: [],
              CheckData: null,
              search: "",
-             Class: this.$route.params.id,
-              dialog: false,
+             Class: this.ClassList[0].class_id,
+             dialog: false,
              headers: [
                 {
                     text: 'id',
@@ -597,7 +597,9 @@ export default {
             setTimeout(() => (this.isFiltered = false), 400);
         },
         async FilteredClass(){
-            this.Over_total = 0;
+            this.ShowLoading();
+            this.$emit('reloadSubmission', this.Class);
+            /* this.Over_total = 0;
             this.Submitted_count = 0;
             this.ShowLoading();
             //if(this.Class != this.$route.params.id){
@@ -609,7 +611,7 @@ export default {
                         }
                     }
                 });
-            //}
+            //} */
         },
         async ViewSubmission(data, index){
             this.oldLimit = this.selectedShowNumber;

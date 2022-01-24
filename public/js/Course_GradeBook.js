@@ -322,7 +322,7 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
       sortDesc: false
     };
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable"])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getcourseInfo"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_gradingCriteria", "allClass", "AllStudentClassworkGrades", "allStudentFinalGrades", "AllStudentClassworkGradesFortable", "getClassesNames"])), {}, {
     filteredItems: function filteredItems() {
       var _this = this;
 
@@ -598,24 +598,57 @@ Vue.use(vue_excel_export__WEBPACK_IMPORTED_MODULE_0__.default);
     getClassList: function getClassList() {
       var _this6 = this;
 
-      this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(function () {
-        _this6.classList = _this6.allClass;
-        _this6.selectedClass = _this6.classList[0].class_id;
-        _this6.selectedClassName = _this6.classList[0].class_name;
+      /* this.$store.dispatch('fetchSubjectCourseClassList', this.$route.params.id).then(() => {
+          this.classList = this.allClass;
+           this.selectedClass = this.classList[0].class_id;
+          this.selectedClassName = this.classList[0].class_name;
+          this.getClassworkList();
+          this.getStudentList();
+          var data = {
+              course_id: this.$route.params.id,
+              class_id: this.selectedClass
+          };
+          this.$store.dispatch('fetchAllStudentFinalGrades', data).then(() => {
+              this.loading = false;
+          });
+      }); */
+      if (this.getClassesNames.length == 0) {
+        this.$store.dispatch('fetchClassesNames', this.$route.params.id).then(function () {
+          _this6.classList = _this6.getClassesNames.filter(function (item) {
+            return item.class_id != _this6.$route.params.id;
+          });
+          _this6.selectedClass = _this6.classList[0].class_id;
+          _this6.selectedClassName = _this6.classList[0].class_name;
 
-        _this6.getClassworkList();
+          _this6.getClassworkList();
 
-        _this6.getStudentList();
+          _this6.getStudentList();
 
+          var data = {
+            course_id: _this6.$route.params.id,
+            class_id: _this6.selectedClass
+          };
+
+          _this6.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
+            _this6.loading = false;
+          });
+        });
+      } else {
+        this.classList = this.getClassesNames.filter(function (item) {
+          return item.class_id != _this6.$route.params.id;
+        });
+        this.selectedClass = this.classList[0].class_id;
+        this.selectedClassName = this.classList[0].class_name;
+        this.getClassworkList();
+        this.getStudentList();
         var data = {
-          course_id: _this6.$route.params.id,
-          class_id: _this6.selectedClass
+          course_id: this.$route.params.id,
+          class_id: this.selectedClass
         };
-
-        _this6.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
+        this.$store.dispatch('fetchAllStudentFinalGrades', data).then(function () {
           _this6.loading = false;
         });
-      });
+      }
     },
     test: function test(table) {
       (function () {

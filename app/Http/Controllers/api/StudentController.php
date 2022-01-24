@@ -46,7 +46,7 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getStudentList($id)
+    public function getStudentList($id, $class_id)
     {
         $userId = auth('sanctum')->id();
         
@@ -59,6 +59,7 @@ class StudentController extends Controller
         ->leftJoin('tbl_user_details', 'tbl_user_details.user_id', '=', 'users.id',)
         ->where('tbl_userclasses.course_id', $id)
         ->where('users.role', 'Student')
+        ->where('tbl_classes.id' , $class_id)
         ->orderBy('tbl_user_details.lastName', 'ASC')
         ->where('tbl_userclasses.deleted_at', null)
         ->get();

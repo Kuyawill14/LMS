@@ -45,16 +45,18 @@ class VaccinationController extends Controller
                     // return $found_user;
                     if($found_user == 0) {
                         // Formulate record that will be saved
-                    $users_record[] = [
-                        'name' => $user['name'],
-                        'student_id' =>$user['student_id'],
-                        'program' =>$user['program'],
-                        'year_level' => $user['year_level'],  
-                        'vaccine_status' => $user['vaccine_status'],  
-                        'vaccine_brand' => $user['vaccine_brand'],
-                        'first_dose' => $user['first_dose'],
-                        'second_dose' => $user['second_dose']
-                    ];
+
+                    
+                        $users_record[] = [
+                            'name' => $user['name'],
+                            'student_id' => trim($user['student_id']),
+                            'program' =>$user['program'],
+                            'year_level' => $user['year_level'],  
+                            'vaccine_status' =>   $user['vaccine_status'] != 'B' && $user['vaccine_status'] != 'C' ? 'A' : $user['vaccine_status'],  
+                            'vaccine_brand' => $user['vaccine_brand'],
+                            'first_dose' => $user['first_dose'],
+                            'second_dose' => $user['second_dose']
+                        ];
                     }
     
                     

@@ -1,29 +1,21 @@
-import axios from 'axios'
-
+import axios from 'axios';
 const state = {
-    classInfo: [
-
-    ]
+    classesNames: [],
 };
 const getters = {
-    getclassInfo: (state) => state.classInfo,
+    getClassesNames: (state) => state.classesNames,
 
 };
 
 const actions = {
-    async fetchSclass({ commit }, id) {
-
-        const res = await axios.get(
-            `/api/class/ShowClass/${id}`
-        ).then((res) => {
-            commit('setClassInfo', res.data[0]);
-            ////console.log(res.data);
-        });
-
+    async fetchClassesNames({ commit }, id) {
+        const response = await axios.get(`/api/class/class_list/${id}`);
+        commit("setClassesNames", response.data);
     }
+
 };
 const mutations = {
-    setClassInfo: (state, classInfo) => (state.classInfo = classInfo),
+    setClassesNames: (state, classesNames) => (state.classesNames = classesNames),
 
 };
 

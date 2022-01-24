@@ -230,6 +230,26 @@ class ClassController extends Controller
         return $allClass;
     }
 
+    
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function classList($id){
+        $userId = auth('sanctum')->id();
+        $allClass = tbl_userclass::where('tbl_userclasses.course_id', $id)
+        ->select('tbl_userclasses.id','tbl_classes.id as class_id','tbl_classes.class_name','tbl_classes.class_code')
+        ->leftJoin('tbl_classes', 'tbl_userclasses.class_id', '=', 'tbl_classes.id')
+        ->where('tbl_userclasses.user_id', $userId)
+        ->orderBy('tbl_classes.created_at', 'ASC')
+        ->get();
+        return $allClass;
+    }
+
     public function classCount() {
         $userId = auth('sanctum')->id();
         $classCount = 0;

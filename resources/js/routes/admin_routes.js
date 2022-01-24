@@ -78,7 +78,7 @@ const routes = [
         path: '/vaccination-upload',
         name: "vaccination_upload",
         component: () =>
-            import ("./components/vaccine/vaccineComponents-upload"),
+            import ("../components/vaccine/vaccineComponents-upload"),
         beforeEnter: (to, from, next) => {
             if (store.state.CurrentUser.UserRole == 'Admin') next()
             else next({ path: '/', replace: true })

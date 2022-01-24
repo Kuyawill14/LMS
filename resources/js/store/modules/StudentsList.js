@@ -8,9 +8,9 @@ const getters = {
 };
 
 const actions = {
-    async fetchAllStudents({ commit }, id) {
+    async fetchAllStudents({ commit }, {course_id: course_id, class_id: class_id}) {
         const res = await axios.get(
-            `/api/student/all/${id}`
+            `/api/student/all/${course_id}/${class_id}`
         );
         commit('FETCH_STUDENTS', res.data.StudentList);
     },

@@ -88,6 +88,7 @@ Route::middleware('auth:sanctum')->prefix('/class')->group(function () {
     Route::get('/ShowClass/{id}', [ClassController::class, 'ClassDetails']);
     Route::get('/selectedClass/{id}', [ClassController::class, 'fetchSelectedclass']);
     Route::get('/allnames/{id}/{clwk}', [ClassController::class, 'fecthClassNames']);
+    Route::get('/class_list/{id}', [ClassController::class, 'classList']);
     Route::get('/subjectCourseClassList/all/{id}', [ClassController::class, 'subjectCourseClassList']);
     Route::get('/count', [ClassController::class, 'classCount']);
     Route::put('/archive-class/{id}', [ClassController::class, 'ArchiveClass']);
@@ -177,7 +178,7 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
 
 //Student
 Route::middleware('auth:sanctum')->prefix('/student')->group(function () {
-    Route::get('/all/{id}', [StudentController::class, 'getStudentList']);
+    Route::get('/all/{id}/{class_id}', [StudentController::class, 'getStudentList']);
     Route::get('/all_by_class/{id}', [StudentController::class, 'getStudentListbyClass']);
     Route::get('/check-status/{id}', [StudentController::class, 'checkSubmissionStatus']);
     Route::get('/checking/{id}', [StudentController::class, 'CheckStatus']);
@@ -352,7 +353,7 @@ Route::middleware('auth:sanctum')->prefix('/QAnalytics')->group(function () {
 
 //Submission List
 Route::middleware('auth:sanctum')->prefix('/submission')->group(function () {
-    Route::get('/all/{id}', [SubmissionController::class, 'index']);
+    Route::get('/all/{id}/{class_id}', [SubmissionController::class, 'index']);
     Route::get('/check-sbj/{id}', [SubmissionController::class, 'checkSubjectiveSubmission']);
     Route::put('/file-remove/{id}', [SubmissionController::class, 'RemoveUploadedFile']);
     Route::put('/update-score/{id}', [SubmissionController::class, 'updateSbjSubmissionScore']);
