@@ -1297,6 +1297,13 @@ var render = function() {
                                                               id: item.id
                                                             }
                                                           }
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.$store.dispatch(
+                                                        "clearClassesNames"
+                                                      )
+                                                    }
                                                   }
                                                 },
                                                 [

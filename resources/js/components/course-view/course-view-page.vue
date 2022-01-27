@@ -275,6 +275,7 @@
                 this.routeName = this.$route.matched[2].name;
             }
             this.$store.dispatch('fetchScourse', this.course_id);
+            
             setInterval(() => this.isloading = false, 1000);
 
         },

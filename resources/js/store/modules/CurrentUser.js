@@ -12,11 +12,13 @@ const state = {
     IsVerified: null,
     AccessToken: window.localStorage.getItem('personal_access_token'),
     isSuccess: null,
+    evaluation_dialog: true,
 
 };
 const getters = {
     get_CurrentUser: (state) => state.CurrentUser,
     get_UserRole: (state) => state.UserRole,
+    get_evaluation_dialog: (state) => state.evaluation_dialog,
 
 };
 const actions = {
@@ -69,6 +71,7 @@ const actions = {
         rootState.classwork.current_classwork_id = null;
         rootState.classwork.current_course_id = null;
         window.localStorage.removeItem('is_authenticated');
+        state.evaluation_dialog = true;
     },
     async fetchMyCoursesStatus({ commit }) {
         if (state.MyCourses.length == 0) {
@@ -118,6 +121,9 @@ const actions = {
         commit('SET_AUTHENTICATED', false);
         window.localStorage.removeItem('IsAuthenticated');
         window.localStorage.removeItem('personal_access_token');
+    },
+    async setEvaulationDialog({ commit }){
+        state.evaluation_dialog = false;
     }
 
 };

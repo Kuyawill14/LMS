@@ -3322,7 +3322,8 @@ var state = {
   IsAuthenticated: window.localStorage.getItem('is_authenticated'),
   IsVerified: null,
   AccessToken: window.localStorage.getItem('personal_access_token'),
-  isSuccess: null
+  isSuccess: null,
+  evaluation_dialog: true
 };
 var getters = {
   get_CurrentUser: function get_CurrentUser(state) {
@@ -3330,6 +3331,9 @@ var getters = {
   },
   get_UserRole: function get_UserRole(state) {
     return state.UserRole;
+  },
+  get_evaluation_dialog: function get_evaluation_dialog(state) {
+    return state.evaluation_dialog;
   }
 };
 var actions = {
@@ -3427,6 +3431,7 @@ var actions = {
     rootState.classwork.current_classwork_id = null;
     rootState.classwork.current_course_id = null;
     window.localStorage.removeItem('is_authenticated');
+    state.evaluation_dialog = true;
   },
   fetchMyCoursesStatus: function fetchMyCoursesStatus(_ref4) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -3559,6 +3564,24 @@ var actions = {
           }
         }
       }, _callee7);
+    }))();
+  },
+  setEvaulationDialog: function setEvaulationDialog(_ref9) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              commit = _ref9.commit;
+              state.evaluation_dialog = false;
+
+            case 2:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
     }))();
   }
 };
@@ -4328,6 +4351,24 @@ var actions = {
           }
         }
       }, _callee);
+    }))();
+  },
+  clearClassesNames: function clearClassesNames(_ref2, id) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              state.classesNames = [];
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
     }))();
   }
 };

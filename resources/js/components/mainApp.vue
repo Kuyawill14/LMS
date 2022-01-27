@@ -1,13 +1,18 @@
 <template>
     <v-app >
-          
-
         <!-- <topHeader :UserDetails="UserDetails" v-on:toggleSidebar="toggle"></topHeader> -->
         <sidebar  :UserDetails="get_CurrentUser" :role='get_UserRole' :drawer="drawer"></sidebar>
         <v-main>
             <v-container fluid width="100%">
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
             </v-container>
+
+
+
+            <v-dialog persistent v-if="get_UserRole == 'Student'" width="570" v-model="get_evaluation_dialog">
+                  <evaluation v-on:closeDialog="setEvaluationDialog()"> </evaluation>
+            </v-dialog>
+          
         </v-main>
     </v-app>
 
@@ -30,7 +35,7 @@
 
     import topHeader from "./layout/header";
     import sidebar from "./layout/sidebar";
-
+    import evaluation from "./evaluation_modal/evaluation_dialog";
     import {
         mapGetters,
         mapActions
@@ -42,13 +47,14 @@
             menuVisible: false,
             role: '',
             ipAdd: null,
+            evaluation_dialog: true,
         }),
         components: {
             topHeader,
             sidebar,
-
+            evaluation
         },
-        computed: mapGetters(["get_UserRole", "get_CurrentUser"]),
+        computed: mapGetters(["get_UserRole", "get_CurrentUser","get_evaluation_dialog"]),
         methods: {
             ...mapActions(['setUserRole','setAsOffline']),
             getUserDetails(){
@@ -78,6 +84,9 @@
                 this.setAsOffline();
                 location.reload();
             },
+            setEvaluationDialog(){
+                this.$store.dispatch('setEvaulationDialog');
+            }
         },
         mounted(){
             this.getIp();

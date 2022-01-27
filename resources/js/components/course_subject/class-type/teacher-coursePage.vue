@@ -176,7 +176,7 @@
                             </v-img>
                             <v-hover v-slot="{ hover }">
                                 <v-card-subtitle class="mt-0 pt-0 pl-0 ml-0">
-                                    <router-link :to="item.completed == 1 ? {name: 'coursePage', params: {id: item.id}} : {name: 'courseSetup', params: {id: item.id}}"
+                                    <router-link @click="$store.dispatch('clearClassesNames')" :to="item.completed == 1 ? {name: 'coursePage', params: {id: item.id}} : {name: 'courseSetup', params: {id: item.id}}"
                                         style="text-decoration: none">
                                     <!--  <p style="font-size: 16px;">{{item.course_code }}
                                             <br> {{ item.course_name}}
