@@ -111,25 +111,33 @@ export default {
             resetConfirm: false,
             studentCount: 0,
             resetCount: 0,
+            studentData:[]
         }
     },
     methods:{
         getSubmittedStudents(){
-            this.ListData.forEach(item => {
-                if(item.status == 'Submitted'){
-                    this.studentCount++;
-                    item.Sumissionstatus =  false;
-                    this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
-                    this.student.push(item);
-                }
-            });
+            /* axios.get('/api/submission/all/'+this.$route.query.clwk+'/'+this.Class_id)
+            .then(res=>{''
+                this.studentData = res.data;
+                 
+                
+            }) */
 
+                this.ListData.forEach(item => {
+                    if(item.status == 'Submitted'){
+                        this.studentCount++;
+                        item.Sumissionstatus =  false;
+                        this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
+                        this.student.push(item);
+                    }
+                });
 
+        
         },
         SelectAllStudent(){
             if(this.selectAll){
                 this.resetCount = 0;
-                if(this.Class == this.$route.params.id){
+              /*   if(this.Class == this.$route.params.id){
                   this.ListData.forEach(item => {
                       if(item.status == 'Submitted'){
                         this.resetCount++;
@@ -137,7 +145,7 @@ export default {
                         this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
                       }
                   });
-                }else{
+                }else{ */
                     this.ListData.forEach(item => {
                       if(item.status == 'Submitted' && item.class_id == this.Class){
                         this.resetCount++;
@@ -145,13 +153,17 @@ export default {
                         this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
                       }
                   }); 
-                }
+                //}
+
                 
             }
             else{
+                this.SelectedAll_submission_id = [];
                 this.resetCount = 0;
                   this.ListData.forEach(item => {
-                    item.Sumissionstatus =  false;
+                    if(item.status == 'Submitted'){
+                        item.Sumissionstatus =  false;
+                      }
                 }); 
             }
              
@@ -195,9 +207,10 @@ export default {
                 
             }) */
             
-        }
+        },
     },
     created(){
+        this.Class = this.ClassList[0].class_id;
         this.getSubmittedStudents();
     }
 }

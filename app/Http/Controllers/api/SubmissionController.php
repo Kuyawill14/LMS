@@ -35,16 +35,40 @@ class SubmissionController extends Controller
     public function index($id, $class_id)
     {   
         $userId = auth('sanctum')->id();
+
+       /*  if($class_id == 'all'){
+            $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
+            ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
+            'tbl_class_classworks.availability', 'tbl_class_classworks.to_date')
+            ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+            ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+            ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+            ->where('users.role','Student')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
+            ->get();
+        }else{
+            $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
+            ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
+            'tbl_class_classworks.availability', 'tbl_class_classworks.to_date')
+            ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+            ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+            ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+            ->where('users.role','Student')
+            ->where('tbl_class_classworks.class_id', $class_id)
+            ->orderBy('tbl_user_details.lastName', 'ASC')
+            ->get();
+        } */
+
         $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
-        ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
-        'tbl_class_classworks.availability', 'tbl_class_classworks.to_date')
-        ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
-        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
-        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
-        ->where('users.role','Student')
-        ->where('tbl_class_classworks.class_id', $class_id)
-        ->orderBy('tbl_user_details.lastName', 'ASC')
-        ->get();
+            ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
+            'tbl_class_classworks.availability', 'tbl_class_classworks.to_date')
+            ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+            ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+            ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+            ->where('users.role','Student')
+            ->orderBy('tbl_user_details.lastName', 'ASC')
+            ->get();
+        
 
         if(count($SubmissionList) != 0){
             foreach($SubmissionList as $Sub){

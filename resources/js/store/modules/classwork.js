@@ -56,6 +56,10 @@ const actions = {
     },
     async SetDataisNotLoaded(){
         state.isDataLoaded = false;
+    },
+    async setCurrectClassworkSubmission({commit}, count){
+        let currect_count = state.classwork_show_details.Details.submitted_count;
+        state.classwork_show_details.Details.submitted_count = currect_count - count;
     }
     
 

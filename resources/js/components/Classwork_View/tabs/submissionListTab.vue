@@ -72,18 +72,18 @@
     </v-col>
 </v-row>
 
- <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'"  justify="center" v-if="List.length == 0 && !isloading">
-    <v-col cols="12" class="text-center">
-        <v-icon style="font-size:10rem">
-            mdi-notebook-check-outline
-        </v-icon>
-        <h1 v-if="$vuetify.breakpoint.mdAndUp"> Empty Submission </h1>
-        <h2 v-else> Empty Submission </h2>
-        <p> Your classwork has no submssion yet!</p>
-    </v-col>
-</v-row>
+ <!-- <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'"  justify="center" v-if="List.length == 0 && !isloading">
+        <v-col cols="12" class="text-center">
+            <v-icon style="font-size:10rem">
+                mdi-notebook-check-outline
+            </v-icon>
+            <h1 v-if="$vuetify.breakpoint.mdAndUp"> Empty Submission </h1>
+            <h2 v-else> Empty Submission </h2>
+            <p> Your classwork has no submssion yet!</p>
+        </v-col>
+    </v-row> -->
 
-  <div v-if="!isloading && List.length != 0 ">
+  <div v-if="!isloading">
         <v-row align="center" justify="center">
             <v-col v-if="classworkDetails.type == 'Objective Type'" cols="12" class="ma-0 pa-0">
                 <objectiveSubmission v-on:reloadSubmission="reloadSubmission" :ClassList="ClassList" :Submitted="Submitted" :Graded="Graded"  v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails"  :ListData="List"></objectiveSubmission>    

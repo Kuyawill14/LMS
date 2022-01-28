@@ -78,7 +78,7 @@ var render = function() {
         [
           _c(
             "v-row",
-            { staticClass: "pt-10 pb-12" },
+            { staticClass: "pt-8 pb-12" },
             [
               _c(
                 "v-col",
@@ -111,7 +111,11 @@ var render = function() {
               _c("v-col", { attrs: { cols: "12" } }, [
                 _c("div", [
                   _vm._v(
-                    "\n                     You can still edit Classwork Question and Answers, and change point values, but you cannot add or remove questions.\n                 "
+                    "\n                     You can still edit Classwork Question and Answers, and change point values, but you cannot add or remove questions.\n                     "
+                  ),
+                  _c("br"),
+                  _vm._v(
+                    " If you wish to add new question and choices you need you reset all submission of this classwork.\n                 "
                   )
                 ])
               ])

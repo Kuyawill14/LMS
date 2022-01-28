@@ -1,6 +1,9 @@
 
 <template>
-<div class="pa-1">
+<div >
+
+    
+
 
 <div transition="slide-y-reverse-transition">
     <v-app-bar elevation="5" 
@@ -21,60 +24,91 @@
         ></v-progress-circular>
     </v-overlay>
     
-        <v-dialog v-model="dialog" persistent max-width="600">
-            <publishDialog 
-            :classworkDetails="classworkDetails"
-            :Details="Details"
-            :datetoday="datetoday"
-            v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isAdding= !isAdding"
-            v-on:successPublish="SuccessPublishNotify"
-            v-on:UnPublish="closeDiaglog()"
-            v-if="isAdding"></publishDialog>
+    <v-dialog v-model="dialog" persistent max-width="600">
+        <publishDialog 
+        :classworkDetails="classworkDetails"
+        :Details="Details"
+        :datetoday="datetoday"
+        v-on:toggleDialog="dialog = !dialog, isPublishing = !isPublishing, isAdding= !isAdding"
+        v-on:successPublish="SuccessPublishNotify"
+        v-on:UnPublish="closeDiaglog()"
+        v-if="isAdding"></publishDialog>
 
-             <updatePublishDialog 
-            :Details="Details"
-            v-on:toggleDialog="dialog = !dialog, isUpdate = !isUpdate"
-            v-on:successPublish="dialog = !dialog, isUpdate = !isUpdate"
-            v-if="isUpdate"></updatePublishDialog>
+            <updatePublishDialog 
+        :Details="Details"
+        v-on:toggleDialog="dialog = !dialog, isUpdate = !isUpdate"
+        v-on:successPublish="dialog = !dialog, isUpdate = !isUpdate"
+        v-if="isUpdate"></updatePublishDialog>
+    </v-dialog>
+
+    <v-dialog  v-model="UnpublishDiaglog" persistent max-width="450">
+        <unpublishConfirmDialog v-if="UnpublishDiaglog" :UnpublishDetails="UnpublishDetails"
+        v-on:toggleCancelDialog="UnpublishDiaglog = !UnpublishDiaglog"
+        v-on:UnpublishSuccess="UnpublishDiaglog = !UnpublishDiaglog,fetchClassnames()"
+        ></unpublishConfirmDialog>
+    </v-dialog>
+
+        <v-dialog  v-model="multiplePublish" persistent max-width="600">
+        <multiplePublishDialog v-if="multiplePublish" :multiplePublishDetails="multiplePublishDetails"
+        v-on:toggleCancelDialog="multiplePublish = !multiplePublish"
+        v-on:successMultiplePublish="successMultiplePublishNotify"
+        v-on:UnpublishSuccess="multiplePublish = !multiplePublish,fetchClassnames()"
+        ></multiplePublishDialog>
+    </v-dialog>
+
+    <v-row justify="center" v-if="classworkDetails.type == 'Objective Type'">
+        <v-dialog fullscreen transition="dialog-bottom-transition" v-model="isReviewPublish">
+            <v-card>
+                <reviewAndPublish v-on:closeDialog="isReviewPublish = false" 
+                v-on:continuePublish="isReviewPublish = false,OpenMultiplePublishDialog(classNames, $route.query.clwk)"
+                :classworkDetails="classworkDetails">
+                </reviewAndPublish>
+            </v-card>
         </v-dialog>
-
-        <v-dialog  v-model="UnpublishDiaglog" persistent max-width="450">
-            <unpublishConfirmDialog v-if="UnpublishDiaglog" :UnpublishDetails="UnpublishDetails"
-            v-on:toggleCancelDialog="UnpublishDiaglog = !UnpublishDiaglog"
-            v-on:UnpublishSuccess="UnpublishDiaglog = !UnpublishDiaglog,fetchClassnames()"
-            ></unpublishConfirmDialog>
-        </v-dialog>
-
-         <v-dialog  v-model="multiplePublish" persistent max-width="600">
-            <multiplePublishDialog v-if="multiplePublish" :multiplePublishDetails="multiplePublishDetails"
-            v-on:toggleCancelDialog="multiplePublish = !multiplePublish"
-            v-on:successMultiplePublish="successMultiplePublishNotify"
-            v-on:UnpublishSuccess="multiplePublish = !multiplePublish,fetchClassnames()"
-            ></multiplePublishDialog>
-        </v-dialog>
-        
-    
-        
-
-        
-
-<v-container class="fill-height" v-if="isloading" style="height: 570px;">
-  <v-row  align-content="center" justify="center">
-        <v-col cols="12" class="text-center">
-           <!--  <v-progress-circular
-            :size="40"
-            color="primary"
-            indeterminate
-            ></v-progress-circular> -->
-
-            <vue-element-loading :active="isloading" 
-            text="Loading"
-            duration="0.7"
-            :textStyle="{fontSize: '20px'}"
-            spinner="line-scale" color="#EF6C00"  size="60" />
-        </v-col>
     </v-row>
-</v-container>
+
+        <v-dialog v-if="classworkDetails.type == 'Objective Type'" v-model="checkPublishType"  max-width="350">
+        <v-card>
+            <v-card-title class="text-center">
+                Publish Classwork
+            </v-card-title>
+
+            <v-card-text>
+                  <v-row>
+                    <v-col cols="12">
+                        <v-btn @click="isReviewPublish = true, checkPublishType = false" dark block color="green" large>Review Questions And Publish</v-btn>
+                    </v-col>
+                     <v-col class="text-center pt-0 pb-0" cols="12">
+                        <div class="font-weight-bold">Or</div>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-btn @click="checkPublishType = false,OpenMultiplePublishDialog(classNames, $route.query.clwk)" block color="primary" large>Continue Publish</v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+          
+        </v-card>
+    </v-dialog>
+    
+    
+
+    <v-container class="fill-height" v-if="isloading" style="height: 570px;">
+        <v-row  align-content="center" justify="center">
+            <v-col cols="12" class="text-center">
+                <!--  <v-progress-circular
+                :size="40"
+                color="primary"
+                indeterminate
+                ></v-progress-circular> -->
+
+                <vue-element-loading :active="isloading" 
+                text="Loading"
+                duration="0.7"
+                :textStyle="{fontSize: '20px'}"
+                spinner="line-scale" color="#EF6C00"  size="60" />
+            </v-col>
+        </v-row>
+    </v-container>
 
 <!--  <v-row align="center" justify="center" class="pt-10" v-if="Qlength == 0">
     <v-col cols="12" sm="8" md="4" class="text-center">
@@ -93,7 +127,12 @@
                 <v-card elevation="1" outlined class="pa-5" >
                     <v-row>
                         <v-col cols="12" class="text-right">
-                            <v-btn @click="OpenMultiplePublishDialog(classNames, $route.query.clwk)" rounded color="primary">Publish Classwork <v-icon right>mdi-share</v-icon></v-btn>
+                         <!--    @click="OpenMultiplePublishDialog(classNames, $route.query.clwk)" -->
+                            <v-btn v-if="classworkDetails.type == 'Objective Type'" @click="checkPublishType = true"
+                             rounded color="primary">Publish Classwork <v-icon right>mdi-share</v-icon></v-btn>
+                             <v-btn v-else-if="classworkDetails.type == 'Subjective Type'" 
+                             @click="OpenMultiplePublishDialog(classNames, $route.query.clwk)"
+                             rounded color="primary">Publish Classwork <v-icon right>mdi-share</v-icon></v-btn>
                         </v-col>
                         <v-col  cols="12" md="12" class="pt-2 pl-3 pr-3"> 
                             <v-container v-for="(details, index) in classNames" :key="index">
@@ -165,15 +204,17 @@
 const publishDialog = () => import('./dialogs/publishDialog')
 const unpublishConfirmDialog = () => import('./dialogs/unpublishConfirmDialog')
 const updatePublishDialog = () => import('./dialogs/UpdatePublishDialog')
-const multiplePublishDialog = () => import('./dialogs/multiplePublishDialog')
-
+//const multiplePublishDialog = () => import('./dialogs/multiplePublishDialog')
+const reviewAndPublish = () => import('./dialogs/reviewAndPublishDialog')
+import multiplePublishDialog from './dialogs/multiplePublishDialog';
 export default {
     props:['classworkDetails'],
     components:{
         publishDialog,
         unpublishConfirmDialog,
         updatePublishDialog,
-        multiplePublishDialog
+        multiplePublishDialog,
+        reviewAndPublish
     },
     data(){
         return{
@@ -191,7 +232,9 @@ export default {
             isLeaving: false,
             datetoday: new Date(),
             multiplePublish: false,
-            multiplePublishDetails:{}
+            multiplePublishDetails:{},
+            checkPublishType: false,
+            isReviewPublish: false
         }
     },
     methods:{

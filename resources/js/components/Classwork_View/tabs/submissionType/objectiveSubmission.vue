@@ -40,7 +40,7 @@
                                 <div class="d-flex flex-column">
                                     <h1>{{Submitted_count}} <!-- {{Class == $route.params.id && selectedStatus == "Submitted"  ? Submitted : Submitted_count}}
                                         / {{Class == $route.params.id ? ListData.length : Over_total}} --></h1>
-                                    <small>Submitted</small>
+                                    <small>{{selectedStatus}}</small>
                                 </div>
 
                             </v-col>
@@ -115,7 +115,17 @@
                     circle
                     ></v-pagination>
                 </div> -->
-                        <v-row>
+                     <v-row v-if="!isFiltered && studentSubmissionList.length == 0" class="mt-12 pt-12" justify="center" align-content="center">
+                            <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
+                                <v-icon style="font-size:6rem">
+                                    mdi-notebook-remove-outline
+                                </v-icon>
+                                <h1>{{selectedStatus == 'Submitted' ? 'No Submission' : 
+                                    selectedStatus == 'Taking' ? 'No Student Taking' : 'No Submission'
+                                    }} </h1>
+                            </v-col>
+                        </v-row>
+                        <v-row v-else>
 
                             <v-col v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)"
                                 cols="12" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
@@ -165,15 +175,6 @@
                             </v-col>
 
                             <v-col cols="12" v-if="isFiltered">
-                                <!--   <v-container class="fill-height" style="height: 500px;">
-                        <v-row  align-content="center" justify="center">
-                                <v-col cols="12" class="text-center">
-                                    <vue-element-loading :active="isFiltered" 
-                                    duration="0.7"
-                                    spinner="line-scale" color="#EF6C00"  size="40" />
-                                </v-col>
-                            </v-row>
-                        </v-container> -->
                                 <v-row>
                                     <v-col v-for="i in 20" :key="i" cols="12" md="6" lg="3" xl="3">
                                         <v-card class="pl-2 pr-2 pt-3 pb-3" elevation="0" v-if="isFiltered">
@@ -213,7 +214,7 @@
     </v-col> -->
         <v-row v-if="resetdialog">
             <v-dialog v-model="resetdialog" persistent max-width="650">
-                    <resetStudentSubmissionDialog scrollable v-on:toggleDialog="resetdialog = !resetdialog"
+                    <resetStudentSubmissionDialog  scrollable v-on:toggleDialog="resetdialog = !resetdialog"
                     v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList"
                     v-if="resetdialog"></resetStudentSubmissionDialog>
             </v-dialog>
@@ -514,24 +515,27 @@
                 this.$store.dispatch("isNotViewingSubmission");
             },
             ResetSubmission() {
-
+              
                 this.studentSubmissionList.forEach(item => {
                     if (item.id == this.selected_id) {
                         item.status = null;
                         item.points = 0;
                         item.Submitted_Answers = null;
+                        
                     }
                 });
-
+               
                 /*   this.studentSubmissionList[this.selected_index].status = null;
                     this.studentSubmissionList[this.selected_index].points = 0;
                     this.studentSubmissionList[this.selected_index].Submitted_Answers = null; */
                 //this.dialog = !this.dialog;
             },
             MultipleResetSubmission(data) {
+                let count = 0;
                 let ResetData = {};
                 ResetData.data = data;
                 ResetData.type = 'Objective_Type';
+                
                 axios.post('/api/teacher/resetStudentSubmissions', ResetData)
                     .then(() => {
                         data.forEach(item => {
@@ -540,10 +544,12 @@
                                     sb.status = null;
                                     sb.points = 0;
                                     sb.Submitted_Answers = null;
+                                    count++;
                                 }
                             });
                         });
-                        this.resetdialog = !this.resetdialog
+                        this.resetdialog = !this.resetdialog;
+                        this.$store.dispatch('setCurrectClassworkSubmission',count)
                     })
             },
             ShowLoading() {
@@ -552,7 +558,7 @@
             },
             FilteredClass() {
                 this.ShowLoading();
-                this.$emit('reloadSubmission', this.Class);
+                //this.$emit('reloadSubmission', this.Class);
                /*  this.Over_total = 0;
                 this.Submitted_count = 0;
                 this.ShowLoading();
@@ -567,7 +573,8 @@
                 });
                 //} */
 
-            }
+            },
+
 
         },
     }

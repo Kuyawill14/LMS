@@ -7,11 +7,9 @@
                 <router-view :UserDetails='get_CurrentUser' :role='get_UserRole'></router-view>
             </v-container>
 
-
-
-            <v-dialog persistent v-if="get_UserRole == 'Student'" width="570" v-model="get_evaluation_dialog">
+         <!--    <v-dialog persistent v-if="get_UserRole == 'Student'" width="570" v-model="get_evaluation_dialog">
                   <evaluation v-on:closeDialog="setEvaluationDialog()"> </evaluation>
-            </v-dialog>
+            </v-dialog> -->
           
         </v-main>
     </v-app>

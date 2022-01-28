@@ -109,10 +109,10 @@ class ClassworkController extends Controller
         $ClassworksList = array();
         $ClassworkTitle = array();
         $totalClasswork = 0;
-        //return date('Y-m-d H:i:s');
-        //whereNull('tbl_class_classworks.deleted_at')
-        foreach($GradingCategory as $item){
-            $classworkAll = tbl_classClassworks::withTrashed()
+
+
+        foreach($GradingCategory as $item){ 
+            $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_submissions.status' ,'tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date'
@@ -137,45 +137,6 @@ class ClassworkController extends Controller
             }
             
             $totalClasswork += count($classworkAll);
-            /* $CheckSub = tbl_Submission::where("tbl_submissions.user_id",$userId)
-            ->orderBy('classwork_id', 'DESC')
-            ->get();
-   
-            if(count($CheckSub) == 0){
-                foreach($classworkAll as $classW){
-                    $classW->status = null;
-                    $classW->score = null;
-                    $classW->graded = 0;
-                    $classW->Sub_date = null;
-                }
-            }
-            else{ */
-              /*   foreach($CheckSub as $subM){
-                    foreach($classworkAll as $classW){
-                        if($subM->classwork_id == $classW->classwork_id){
-                            if($subM->status == ''){
-                                $classW->status = null;
-                                $classW->Sub_date = null;
-                            }
-                            else{
-                                $classW->status = $subM->status;
-                                $classW->score = $subM->points;
-                                $classW->graded = $subM->graded;
-                                $classW->Sub_date = $subM->updated_at;
-                            }
-                        }
-                        else{
-                            if($classW->status == null){
-                                $classW->status = null;
-                                $classW->score = null;
-                                $classW->graded = $subM->graded;
-                                $classW->Sub_date = null;
-                            }
-                        }
-                       
-                    }
-                } */
-            //}
             $ClassworkTitle[] = ['title'=>$item->name, 'percent'=>$item->percentage];
             $ClassworksList[] = $classworkAll;
         }

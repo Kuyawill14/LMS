@@ -161,7 +161,17 @@
             </v-col>
         
             <v-col cols="12" class="mt-0 pt-0">
-                <v-row>
+                <v-row v-if="!isFiltered && studentSubmissionList.length == 0" class="mt-12 pt-12" justify="center" align-content="center">
+                    <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
+                        <v-icon style="font-size:6rem">
+                            mdi-notebook-remove-outline
+                        </v-icon>
+                        <h1>{{selectedStatus == 'Submitted' ? 'No Student Submitted' : 
+                            selectedStatus == 'Graded' ? 'No Student Graded' : 'No Submission'
+                            }} </h1>
+                    </v-col>
+                </v-row>
+                <v-row v-else>
                     <v-col  v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)" link  cols="12" md="6" lg="4" xl="3"  v-for="(item,i) in studentSubmissionList" :key="i">
 
                         <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
@@ -201,7 +211,7 @@
                      <!--  </v-card> -->
                     </v-col>
 
-                    <v-col cols="12" v-if="isFiltered">
+                    <!-- <v-col cols="12" v-if="isFiltered">
                         <v-container class="fill-height" style="height: 500px;">
                         <v-row  align-content="center" justify="center">
                                 <v-col cols="12" class="text-center">
@@ -213,6 +223,26 @@
                             </v-row>
                         </v-container>
 
+                    </v-col> -->
+                     <v-col cols="12" v-if="isFiltered">
+                        <v-row>
+                            <v-col v-for="i in 20" :key="i" cols="12" md="6" lg="3" xl="3">
+                                <v-card class="pl-2 pr-2 pt-3 pb-3" elevation="0" v-if="isFiltered">
+                                    <v-list>
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-skeleton-loader class="mx-auto"
+                                                    type="list-item-avatar-two-line"></v-skeleton-loader>
+                                            </v-list-item-content>
+                                            <v-list-item-action>
+                                                <v-skeleton-loader class="mx-auto" type="chip">
+                                                </v-skeleton-loader>
+                                            </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-card>
+                            </v-col>
+                        </v-row>
                     </v-col>
                 </v-row>
             </v-col>
@@ -598,7 +628,7 @@ export default {
         },
         async FilteredClass(){
             this.ShowLoading();
-            this.$emit('reloadSubmission', this.Class);
+            //this.$emit('reloadSubmission', this.Class);
             /* this.Over_total = 0;
             this.Submitted_count = 0;
             this.ShowLoading();

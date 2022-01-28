@@ -130,13 +130,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       iReseting: false,
       resetConfirm: false,
       studentCount: 0,
-      resetCount: 0
+      resetCount: 0,
+      studentData: []
     };
   },
   methods: {
     getSubmittedStudents: function getSubmittedStudents() {
       var _this = this;
 
+      /* axios.get('/api/submission/all/'+this.$route.query.clwk+'/'+this.Class_id)
+      .then(res=>{''
+          this.studentData = res.data;
+           
+          
+      }) */
       this.ListData.forEach(function (item) {
         if (item.status == 'Submitted') {
           _this.studentCount++;
@@ -156,36 +163,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       if (this.selectAll) {
         this.resetCount = 0;
+        /*   if(this.Class == this.$route.params.id){
+            this.ListData.forEach(item => {
+                if(item.status == 'Submitted'){
+                  this.resetCount++;
+                  item.Sumissionstatus =  true;
+                  this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
+                }
+            });
+          }else{ */
 
-        if (this.Class == this.$route.params.id) {
-          this.ListData.forEach(function (item) {
-            if (item.status == 'Submitted') {
-              _this2.resetCount++;
-              item.Sumissionstatus = true;
+        this.ListData.forEach(function (item) {
+          if (item.status == 'Submitted' && item.class_id == _this2.Class) {
+            _this2.resetCount++;
+            item.Sumissionstatus = true;
 
-              _this2.SelectedAll_submission_id.push({
-                id: item.id,
-                status: item.Sumissionstatus
-              });
-            }
-          });
-        } else {
-          this.ListData.forEach(function (item) {
-            if (item.status == 'Submitted' && item.class_id == _this2.Class) {
-              _this2.resetCount++;
-              item.Sumissionstatus = true;
-
-              _this2.SelectedAll_submission_id.push({
-                id: item.id,
-                status: item.Sumissionstatus
-              });
-            }
-          });
-        }
+            _this2.SelectedAll_submission_id.push({
+              id: item.id,
+              status: item.Sumissionstatus
+            });
+          }
+        }); //}
       } else {
+        this.SelectedAll_submission_id = [];
         this.resetCount = 0;
         this.ListData.forEach(function (item) {
-          item.Sumissionstatus = false;
+          if (item.status == 'Submitted') {
+            item.Sumissionstatus = false;
+          }
         });
       }
     },
@@ -251,6 +256,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
+    this.Class = this.ClassList[0].class_id;
     this.getSubmittedStudents();
   }
 });
