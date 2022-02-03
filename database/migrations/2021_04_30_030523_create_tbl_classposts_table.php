@@ -18,7 +18,7 @@ class CreateTblClasspostsTable extends Migration
             $table->integer("user_id");
             $table->integer("course_id")->nullable();
             $table->integer("class_id")->nullable();
-            $table->integer("announcement_id");
+            $table->bigInteger('announcement_id')->unsigned();
             $table->integer("classwork_id");
             $table->timestamps();
         });

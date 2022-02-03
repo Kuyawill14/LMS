@@ -343,8 +343,6 @@ Route::middleware('auth:sanctum')->prefix('/grade-book')->group(function () {
     Route::get('/student-finalgrade/{id}/{id1}', [GradebookController::class, 'fetchStudentFinalGrades']);
     Route::get('/all-student-finalgrade/{id}/{id1}', [GradebookController::class, 'fetchAllStudentFinalGrades']);
 });
-
-
 //Question Analytics
 Route::middleware('auth:sanctum')->prefix('/QAnalytics')->group(function () {
     Route::get('/all/{id}', [AnalyticsController::class, 'index']);

@@ -131,16 +131,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format("MMMM DD, h:mm a");
       }
     },
-    fetchNotificationAll: function fetchNotificationAll() {
-      var _this3 = this;
-
-      axios.get('/api/notification/all').then(function (res) {
-        _this3.notificationList = res.data.data;
-        _this3.isGetting = false;
-      });
-    },
     fetchTodayTask: function fetchTodayTask() {
-      var _this4 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -149,10 +141,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               case 0:
                 _context.next = 2;
                 return axios.get('/api/profile/taskToday').then(function (res) {
-                  _this4.mytask = res.data;
-                  _this4.isGetting = false;
+                  _this3.mytask = res.data;
+                  _this3.isGetting = false;
 
-                  _this4.$emit('RecieveTotalClasswork', _this4.mytask.length);
+                  _this3.$emit('RecieveTotalClasswork', _this3.mytask.length);
                 });
 
               case 2:
@@ -165,7 +157,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   }),
   mounted: function mounted() {
-    this.fetchTodayTask(); //this.fetchNotificationAll()
+    this.fetchTodayTask();
   }
 });
 

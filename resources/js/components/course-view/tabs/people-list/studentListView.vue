@@ -136,6 +136,19 @@
                     this.isloading = false;
                     this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
                 })
+
+               /*  if(this.getClassesNames.length == 0){
+                    this.$store.dispatch('fetchClassesNames', this.$route.params.id)
+                    .then(()=>{
+                        this.class_id = this.getClassesNames[0].class_id;
+                        this.GetList();
+                        this.isloading = false;
+                    })
+                }else{
+                    this.class_id = this.getClassesNames[0].class_id;
+                    this.GetList();
+                    this.isloading = false;
+                } */
             },
         },
         

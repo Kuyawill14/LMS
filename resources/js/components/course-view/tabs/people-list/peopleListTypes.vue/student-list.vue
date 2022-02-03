@@ -287,22 +287,17 @@ import { mapGetters } from 'vuex'
                      this.$store.dispatch('fetchClassesNames', this.$route.params.id)
                     .then(()=>{
                         this.Class_id = this.getClassesNames[0].class_id;
-
-                        let Filterddata = this.getClassesNames;
-                        this.classNames= Filterddata.filter((item) => {
+                        this.classNames= this.getClassesNames.filter((item) => {
                             return item.class_id != this.$route.params.id;
-                            
                         })
                         this.getStudents();
                         this.isloading = false;
                     })
                 }else{
                     this.Class_id = this.getClassesNames[0].class_id;
-                    let Filterddata = this.getClassesNames;
-                        this.classNames = Filterddata.filter((item) => {
-                            return item.class_id != this.$route.params.id;
-                            
-                        })
+                    this.classNames= this.getClassesNames.filter((item) => {
+                        return item.class_id != this.$route.params.id;
+                    })
                     this.getStudents();
                     this.isloading = false;
                 }

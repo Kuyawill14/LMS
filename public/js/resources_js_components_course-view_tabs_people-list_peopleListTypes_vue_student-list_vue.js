@@ -359,7 +359,6 @@ var classJoinRequest = function classJoinRequest() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var Filterddata;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -378,8 +377,7 @@ var classJoinRequest = function classJoinRequest() {
                 if (_this5.getClassesNames.length == 0) {
                   _this5.$store.dispatch('fetchClassesNames', _this5.$route.params.id).then(function () {
                     _this5.Class_id = _this5.getClassesNames[0].class_id;
-                    var Filterddata = _this5.getClassesNames;
-                    _this5.classNames = Filterddata.filter(function (item) {
+                    _this5.classNames = _this5.getClassesNames.filter(function (item) {
                       return item.class_id != _this5.$route.params.id;
                     });
 
@@ -389,8 +387,7 @@ var classJoinRequest = function classJoinRequest() {
                   });
                 } else {
                   _this5.Class_id = _this5.getClassesNames[0].class_id;
-                  Filterddata = _this5.getClassesNames;
-                  _this5.classNames = Filterddata.filter(function (item) {
+                  _this5.classNames = _this5.getClassesNames.filter(function (item) {
                     return item.class_id != _this5.$route.params.id;
                   });
 

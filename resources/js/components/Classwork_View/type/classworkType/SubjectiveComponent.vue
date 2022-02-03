@@ -949,9 +949,6 @@ export default {
     },
     async created(){
       //this.checkStatus();
-     
-
-
     },
     mounted(){
       this.isloading = !this.isloading;

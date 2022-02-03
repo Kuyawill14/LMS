@@ -139,7 +139,7 @@
                                                                 <v-list-item-content class="d-flex mb-0 pb-0">
                                                                     <div class="d-flex mb-0 pb-0" v-for="(Ans, i) in getAll_questions.Answer[index].options" :key="i">
                                                                          <span class="pr-2 green--text">&bull; </span>
-                                                                        <span v-html="Ans.Choice"></span>
+                                                                        <span class="post-content" v-html="Ans.Choice"></span>
                                                                     </div>
                                                                     
                                                                   

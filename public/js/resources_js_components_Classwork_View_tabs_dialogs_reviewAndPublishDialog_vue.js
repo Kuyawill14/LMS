@@ -1413,6 +1413,8 @@ var render = function() {
                                                                                 _c(
                                                                                   "span",
                                                                                   {
+                                                                                    staticClass:
+                                                                                      "post-content",
                                                                                     domProps: {
                                                                                       innerHTML: _vm._s(
                                                                                         Ans.Choice

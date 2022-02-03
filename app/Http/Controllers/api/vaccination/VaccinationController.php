@@ -45,8 +45,6 @@ class VaccinationController extends Controller
                     // return $found_user;
                     if($found_user == 0) {
                         // Formulate record that will be saved
-
-                    
                         $users_record[] = [
                             'name' => $user['name'],
                             'student_id' => trim($user['student_id']),

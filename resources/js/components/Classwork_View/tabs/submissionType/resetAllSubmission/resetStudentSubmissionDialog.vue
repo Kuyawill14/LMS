@@ -123,14 +123,14 @@ export default {
                 
             }) */
 
-                this.ListData.forEach(item => {
-                    if(item.status == 'Submitted'){
-                        this.studentCount++;
-                        item.Sumissionstatus =  false;
-                        this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
-                        this.student.push(item);
-                    }
-                });
+            this.ListData.forEach(item => {
+                if(item.status == 'Submitted'){
+                    this.studentCount++;
+                    item.Sumissionstatus =  false;
+                    this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
+                    this.student.push(item);
+                }
+            });
 
         
         },

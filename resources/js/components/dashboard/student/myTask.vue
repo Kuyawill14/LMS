@@ -104,14 +104,6 @@
                     return moment(String(value)).format("MMMM DD, h:mm a")
                 }
             },
-            fetchNotificationAll(){
-               
-                 axios.get('/api/notification/all')
-                    .then(res => {
-                        this.notificationList = res.data.data;
-                        this.isGetting = false;
-                    })
-            },
             async fetchTodayTask(){
                 await axios.get('/api/profile/taskToday')
                     .then(res => {
@@ -125,7 +117,6 @@
         },
         mounted() {
             this.fetchTodayTask();
-            //this.fetchNotificationAll()
         }
     }
 
