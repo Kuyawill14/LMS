@@ -870,6 +870,7 @@ var notifications = function notifications() {
     logout: function logout() {
       var _this = this;
 
+      this.$store.dispatch('clearClassesNames');
       this.isLogout = true;
       axios.post('/api/logout').then(function () {
         _this.clear_current_user();
@@ -877,8 +878,7 @@ var notifications = function notifications() {
         _this.$router.push({
           path: "/login"
         });
-      })["catch"](function (e) {////console.log(e);
-      });
+      })["catch"](function (e) {});
     }
   }),
   mounted: function mounted() {

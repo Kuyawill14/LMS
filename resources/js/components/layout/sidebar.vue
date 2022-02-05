@@ -173,6 +173,7 @@
                 })
             },
             logout() {
+                this.$store.dispatch('clearClassesNames');
                 this.isLogout = true;
                 axios.post('/api/logout')
                     .then(() => {
@@ -182,7 +183,6 @@
                         })
                     })
                     .catch((e) => {
-                        ////console.log(e);
                     })
             },
         },

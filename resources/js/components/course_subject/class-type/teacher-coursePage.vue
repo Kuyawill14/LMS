@@ -436,6 +436,7 @@
         mounted() {
             this.fetchCourses();
             this.fetchAllSchoolyear_semester();
+            this.$store.dispatch('clearClassesNames');
         },
     }
 

@@ -459,6 +459,7 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
   mounted: function mounted() {
     this.fetchCourses();
     this.fetchAllSchoolyear_semester();
+    this.$store.dispatch('clearClassesNames');
   }
 });
 
