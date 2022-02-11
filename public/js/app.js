@@ -2460,21 +2460,21 @@ var routes = [{
     }
   }
 },
-/*  {
-     path: "/register",
-     component: () =>
-         import (  "../components/register/register.vue"),
-     name: "register",
-     beforeEnter: (to, form, next) => {
-         if (!store.state.CurrentUser.IsAuthenticated) {
-             next()
-         } else {
-             return next({
-                 path: "/"
-             });
-         }
-     },
- }, */
+/* {
+    path: "/register",
+    component: () =>
+        import (  "../components/register/register.vue"),
+    name: "register",
+    beforeEnter: (to, form, next) => {
+        if (!store.state.CurrentUser.IsAuthenticated) {
+            next()
+        } else {
+            return next({
+                path: "/"
+            });
+        }
+    },
+}, */
 {
   path: "/verify-email",
   name: "verifyEmail",
