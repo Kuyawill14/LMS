@@ -124,11 +124,12 @@ class ManageUserController extends Controller
         // ]);
 
         $email = $usertype == 'Student' ? null : $request->email;
+        $isVerfied = $usertype == 'Student' ? null : date('Y-m-d H:i:s');
         $New = User::create([
             'email' =>  $email,
             'password' => Hash::make($request->password),
             'role' =>  $usertype,
-            'email_verified_at' =>  date('Y-m-d H:i:s'),
+            'email_verified_at' =>  $isVerfied,
         ]);
 
         if(!$New){
