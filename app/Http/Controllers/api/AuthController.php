@@ -192,13 +192,16 @@ class AuthController extends Controller
                 "success" => false
             ]);
             
+            
         }
 
-        if($check_student_id->email == null){
+        $check_student_email = User::find($check_student_id->user_id);
+        if($check_student_email->email == null){
             return response()->json([
                 "message" => "Student ID Number is Valid!",
                 "success" => true
             ]);
+
         }else{
             return response()->json([
                 "message" => "This Student ID Number has already have account!",
