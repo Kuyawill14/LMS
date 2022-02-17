@@ -188,7 +188,7 @@ class AuthController extends Controller
         $check_student_id = tbl_userDetails::where('student_id', $id)->first();
         if(!$check_student_id){
             return response()->json([
-                "message" => "Student ID Number is Invalid!",
+                "message" => "Student ID not found!",
                 "success" => false
             ]);
             
