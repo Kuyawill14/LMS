@@ -23033,7 +23033,7 @@ var render = function() {
                                 [
                                   _c(
                                     "v-expansion-panels",
-                                    { attrs: { focusable: "" } },
+                                    { attrs: { mandatory: "", focusable: "" } },
                                     [
                                       _c(
                                         "v-expansion-panel",

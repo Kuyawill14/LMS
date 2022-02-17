@@ -59,6 +59,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 var loginRegisterFooter = function loginRegisterFooter() {
@@ -275,9 +276,9 @@ var render = function() {
                                                             "text-center",
                                                           attrs: {
                                                             cols: "12",
-                                                            md: "5",
-                                                            xl: "5",
-                                                            lg: "5"
+                                                            md: "7",
+                                                            xl: "8",
+                                                            lg: "8"
                                                           }
                                                         },
                                                         [
@@ -295,7 +296,7 @@ var render = function() {
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "\r\n                                                    mdi-check\r\n                                                "
+                                                                "\r\n                                                    mdi-email-check\r\n                                                "
                                                               )
                                                             ]
                                                           ),
@@ -304,18 +305,31 @@ var render = function() {
                                                             "div",
                                                             {
                                                               staticClass:
-                                                                "text-h5"
+                                                                "text-h5 mt-1"
                                                             },
                                                             [
                                                               _vm._v(
-                                                                "Email Verified"
+                                                                "Email verified"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "p",
+                                                            {
+                                                              staticClass:
+                                                                "mb-0 pb-0"
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Your have successfully verified your email!"
                                                               )
                                                             ]
                                                           ),
                                                           _vm._v(" "),
                                                           _c("p", [
                                                             _vm._v(
-                                                              "Your email address was successfully verified"
+                                                              "You can now click Ok and Login to ISUE-ORANGE on your computer or mobile device."
                                                             )
                                                           ]),
                                                           _vm._v(" "),
@@ -323,7 +337,7 @@ var render = function() {
                                                             "v-btn",
                                                             {
                                                               staticClass:
-                                                                "primary",
+                                                                "primary pl-10 pr-10",
                                                               attrs: {
                                                                 rounded: ""
                                                               },
@@ -340,7 +354,7 @@ var render = function() {
                                                                 }
                                                               }
                                                             },
-                                                            [_vm._v("Continue")]
+                                                            [_vm._v("Ok")]
                                                           )
                                                         ],
                                                         1

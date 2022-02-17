@@ -33,7 +33,7 @@
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn v-bind="attrs" v-on="on" text icon
                                                     @click="OpendepartmentDialog(item, index)">
-                                                    <v-icon >mdi-pencil-box-multiple-outline</v-icon>
+                                                    <v-icon color="blue" >mdi-pencil-box-multiple-outline</v-icon>
                                                 </v-btn>
                                             </template>
                                             <span>Edit</span>
@@ -44,7 +44,7 @@
                                             <template v-slot:activator="{ on, attrs }">
                                                 <v-btn v-bind="attrs" v-on="on" text icon
                                                     @click="Deldialog = true,deleteIndex = index, deleteId= item.id">
-                                                    <v-icon >mdi-delete</v-icon>
+                                                    <v-icon color="red">mdi-delete</v-icon>
                                                 </v-btn>
                                             </template>
                                             <span>Delete</span>
@@ -223,7 +223,7 @@
                  form: new Form({
                     short_name: "",
                     name: "",
-                    logo: '',
+                    logo: null,
                 }),
                 file: null,
                 IsDeleting: false,

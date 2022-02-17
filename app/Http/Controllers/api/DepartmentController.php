@@ -41,14 +41,21 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $file = $request->logo;
 
-        if($file){
+        
 
-            $upload_file = Storage::disk('DO_spaces')->putFile('Department_Logos', $file, 'public');
-            $path = \Config::get('app.do_url').'/'.$upload_file;
+
+        $path;
+        if($request->logo != "null"){
+            $file = $request->logo;
+            if($file){
+                $upload_file = Storage::disk('DO_spaces')->putFile('Department_Logos', $file, 'public');
+                $path = \Config::get('app.do_url').'/'.$upload_file;
+            }
+        }else{
+            $path = null;
         }
-
+      
         
         $newDepartment  = new tbl_department;
         $newDepartment->short_name = $request->short_name;

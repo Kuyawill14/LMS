@@ -773,6 +773,7 @@
                                     answer_id: null,
                                     type: this.getAll_questions.Question[index].type,
                                     check: false,
+                                    score: 0,
                                     timeConsume: null
                                 });
                             } else if (this.getAll_questions.Question[index].type == 'Matching type') {
@@ -837,6 +838,7 @@
                                     answer_id: null,
                                     type: this.getAll_questions.Question[index].type,
                                     check: false,
+                                    score: 0,
                                     timeConsume: null
                                 });
                             } else if (this.getAll_questions.Question[index].type == 'Matching type') {

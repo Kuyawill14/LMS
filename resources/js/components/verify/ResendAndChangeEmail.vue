@@ -38,6 +38,7 @@
                 @click="ConfirmUserPassword()">
                 Confirm
             </v-btn>
+
             </v-card-actions>
         </v-card>
         </v-dialog>
@@ -61,6 +62,9 @@
 
             <v-btn v-if="!isEmailChange" @click="ResendVerification()" :loading="isResending" class="primary">
                 Resend Mail
+            </v-btn>
+                <v-btn v-if="!isEmailChange" color="secondary" @click="$emit('CancelResend')">
+                Cancel
             </v-btn>
         </div>
     </div>

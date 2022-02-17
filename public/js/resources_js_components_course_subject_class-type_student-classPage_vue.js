@@ -244,6 +244,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmUnenroll = function confirmUnenroll() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmUnenroll_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmUnenroll */ "./resources/js/components/course_subject/class-type/dialog/confirmUnenroll.vue"));
 };
@@ -1197,7 +1211,7 @@ var render = function() {
                                                                           "p",
                                                                           {
                                                                             staticClass:
-                                                                              "mb-0 pb-0 mb-2",
+                                                                              "mb-0 pb-0 mb-2 pr-4",
                                                                             style: _vm
                                                                               .$vuetify
                                                                               .breakpoint
@@ -1260,45 +1274,154 @@ var render = function() {
                                                 _vm._v(" "),
                                                 _c(
                                                   "div",
-                                                  { staticClass: "mt-2 pl-4" },
+                                                  { staticClass: "d-flex" },
                                                   [
                                                     _c(
-                                                      "span",
+                                                      "div",
                                                       {
-                                                        style: _vm.$vuetify
-                                                          .breakpoint.lgAndUp
-                                                          ? "font-size: 16px"
-                                                          : "font-size: 14px"
+                                                        staticClass: "mt-2 pl-4"
                                                       },
                                                       [
-                                                        _vm._v(
-                                                          _vm._s(
-                                                            item.class_name
-                                                          )
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            style: _vm.$vuetify
+                                                              .breakpoint
+                                                              .lgAndUp
+                                                              ? "font-size: 16px"
+                                                              : "font-size: 14px"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                item.class_name
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("br"),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            style: _vm.$vuetify
+                                                              .breakpoint
+                                                              .lgAndUp
+                                                              ? "font-size: 16px"
+                                                              : "font-size: 14px"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              " Class code: " +
+                                                                _vm._s(
+                                                                  item.class_code
+                                                                )
+                                                            )
+                                                          ]
                                                         )
                                                       ]
                                                     ),
                                                     _vm._v(" "),
-                                                    _c("br"),
+                                                    _c("v-spacer"),
                                                     _vm._v(" "),
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        style: _vm.$vuetify
-                                                          .breakpoint.lgAndUp
-                                                          ? "font-size: 16px"
-                                                          : "font-size: 14px"
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          " Class code: " +
-                                                            _vm._s(
-                                                              item.class_code
+                                                    item.unfinishClaswork != 0
+                                                      ? _c(
+                                                          "div",
+                                                          {
+                                                            staticClass: "mt-4"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-tooltip",
+                                                              {
+                                                                attrs: {
+                                                                  top: ""
+                                                                },
+                                                                scopedSlots: _vm._u(
+                                                                  [
+                                                                    {
+                                                                      key:
+                                                                        "activator",
+                                                                      fn: function(
+                                                                        ref
+                                                                      ) {
+                                                                        var on =
+                                                                          ref.on
+                                                                        var attrs =
+                                                                          ref.attrs
+                                                                        return [
+                                                                          _c(
+                                                                            "v-badge",
+                                                                            {
+                                                                              attrs: {
+                                                                                overlap:
+                                                                                  "",
+                                                                                color:
+                                                                                  "red",
+                                                                                value:
+                                                                                  item.unfinishClaswork,
+                                                                                content:
+                                                                                  item.unfinishClaswork,
+                                                                                bordered:
+                                                                                  "",
+                                                                                top:
+                                                                                  "",
+                                                                                "offset-x":
+                                                                                  "45",
+                                                                                "offset-y":
+                                                                                  "17"
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-icon",
+                                                                                _vm._g(
+                                                                                  _vm._b(
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        large:
+                                                                                          ""
+                                                                                      }
+                                                                                    },
+                                                                                    "v-icon",
+                                                                                    attrs,
+                                                                                    false
+                                                                                  ),
+                                                                                  on
+                                                                                ),
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "mdi-book-open-variant"
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        ]
+                                                                      }
+                                                                    }
+                                                                  ],
+                                                                  null,
+                                                                  true
+                                                                )
+                                                              },
+                                                              [
+                                                                _vm._v(" "),
+                                                                _c("span", [
+                                                                  _vm._v(
+                                                                    "Unfinish Classwork"
+                                                                  )
+                                                                ])
+                                                              ]
                                                             )
+                                                          ],
+                                                          1
                                                         )
-                                                      ]
-                                                    )
-                                                  ]
+                                                      : _vm._e()
+                                                  ],
+                                                  1
                                                 )
                                               ],
                                               1

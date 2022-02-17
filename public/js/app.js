@@ -2210,7 +2210,7 @@ router.beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_0___default().start();
   var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'classses', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
 
-  if (to.name != 'login' && to.name != 'register' && to.name != 'resetPassword') {
+  if (to.name != 'login' && to.name != 'register' && to.name != 'resetPassword' && to.name != 'verifyEmail') {
     _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function (res) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
         if (protectedRoutes.includes(to.name)) {
@@ -2459,23 +2459,22 @@ var routes = [{
       });
     }
   }
-},
-/* {
-    path: "/register",
-    component: () =>
-        import (  "../components/register/register.vue"),
-    name: "register",
-    beforeEnter: (to, form, next) => {
-        if (!store.state.CurrentUser.IsAuthenticated) {
-            next()
-        } else {
-            return next({
-                path: "/"
-            });
-        }
-    },
-}, */
-{
+}, {
+  path: "/register",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_register_registerTesting_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/register/registerTesting.vue */ "./resources/js/components/register/registerTesting.vue"));
+  },
+  name: "register",
+  beforeEnter: function beforeEnter(to, form, next) {
+    if (!_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.IsAuthenticated) {
+      next();
+    } else {
+      return next({
+        path: "/"
+      });
+    }
+  }
+}, {
   path: "/verify-email",
   name: "verifyEmail",
   component: function component() {

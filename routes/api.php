@@ -496,7 +496,13 @@ Route::prefix('/course/overview')->group(function() {
 //Route::get('/GetDetails', [AuthController::class, 'GetDetails']);
 Route::post('/login', [AuthController::class, 'UserLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
-Route::post('/register', [AuthController::class, 'UserRegister']);
+//Route::post('/register', [AuthController::class, 'UserRegister']);
+
+Route::prefix('/register')->group(function() {
+    Route::get('/check_student_id/{id}', [AuthController::class, 'CheckStudentId']);
+    Route::put('/check_student_details/{id}', [AuthController::class, 'CheckStudentDetails']);
+    Route::put('/account/{id}', [AuthController::class, 'ResgisterAccount']);
+});
 
 Route::get('/email-verification', [VerificationController::class, 'verify'])->name('verification.verify');
 Route::post('/resend-verification', [VerificationController::class, 'resendVerificationEmail']);

@@ -1233,6 +1233,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 answer_id: null,
                 type: _this7.getAll_questions.Question[index].type,
                 check: false,
+                score: 0,
                 timeConsume: null
               });
             } else if (_this7.getAll_questions.Question[index].type == 'Matching type') {
@@ -1297,6 +1298,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 answer_id: null,
                 type: _this7.getAll_questions.Question[_index].type,
                 check: false,
+                score: 0,
                 timeConsume: null
               });
             } else if (_this7.getAll_questions.Question[_index].type == 'Matching type') {

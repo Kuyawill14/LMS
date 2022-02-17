@@ -14,13 +14,14 @@
                                 <v-row align="center" justify="center">
                                   <v-col cols="12">
                                         <v-row align="center" justify="center">
-                                            <v-col cols="12" md="5" xl="5" lg="5" class="text-center">
+                                            <v-col cols="12" md="7" xl="8" lg="8" class="text-center">
                                                 <v-icon style="font-size:4rem" x-large color="success">
-                                                    mdi-check
+                                                    mdi-email-check
                                                 </v-icon>
-                                                <div class="text-h5">Email Verified</div>
-                                                <p>Your email address was successfully verified</p>
-                                                <v-btn rounded @click="$router.push({name: 'login'})" class="primary">Continue</v-btn>
+                                                <div class="text-h5 mt-1">Email verified</div>
+                                                <p class="mb-0 pb-0">Your have successfully verified your email!</p>
+                                                <p>You can now click Ok and Login to ISUE-ORANGE on your computer or mobile device.</p>
+                                                <v-btn rounded @click="$router.push({name: 'login'})" class="primary pl-10 pr-10">Ok</v-btn>
                                             </v-col>
                                         </v-row>
                                   </v-col>

@@ -68,5 +68,11 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js" integrity="sha512-/n/dTQBO8lHzqqgAQvy0ukBQ0qLmGzxKhn8xKrz4cn7XJkZzy+fAtzjnOQd5w55h4k1kUC+8oIe6WmrGUYwODA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
+
+           <!--  <script>
+              setInterval(() => {
+                console.clear();
+              }, 1000);
+            </script> -->
         </body>
 </html>

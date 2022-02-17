@@ -1090,7 +1090,9 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      _c("small", [_vm._v("Submitted")])
+                                      _c("small", [
+                                        _vm._v(_vm._s(_vm.selectedStatus))
+                                      ])
                                     ]
                                   )
                                 ]

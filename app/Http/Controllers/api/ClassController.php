@@ -12,6 +12,7 @@ use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_teacher_course;
 use App\Models\tbl_subject_course;
+use App\Models\tbl_Submission;
 
 class ClassController extends Controller
 {
@@ -84,6 +85,19 @@ class ClassController extends Controller
                 ->where('user_id', $userId)
                 ->where('course_id', $value ->course_id)
                 ->update(['progress' =>   $totalProgress]);
+
+                $unfinishCLasswork = tbl_classClassworks::where('tbl_class_classworks.class_id', $value ->class_id)->get();
+                $unfinishCLassworkCount = 0;
+                foreach($unfinishCLasswork as $classwork){
+                    $check = tbl_Submission::where('tbl_submissions.class_classwork_id', $classwork->id)
+                    ->where('tbl_submissions.user_id', $userId)->exists();
+
+                    if(!$check){
+                        $unfinishCLassworkCount++;
+                    }
+                }
+
+                $value ->unfinishClaswork = $unfinishCLassworkCount;
             }
         }
 

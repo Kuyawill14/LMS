@@ -236,7 +236,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       form: new Form({
         short_name: "",
         name: "",
-        logo: ''
+        logo: null
       }),
       file: null,
       IsDeleting: false,
@@ -679,11 +679,19 @@ var render = function() {
                                                         on
                                                       ),
                                                       [
-                                                        _c("v-icon", [
-                                                          _vm._v(
-                                                            "mdi-pencil-box-multiple-outline"
-                                                          )
-                                                        ])
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: {
+                                                              color: "blue"
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "mdi-pencil-box-multiple-outline"
+                                                            )
+                                                          ]
+                                                        )
                                                       ],
                                                       1
                                                     )
@@ -740,9 +748,15 @@ var render = function() {
                                                         on
                                                       ),
                                                       [
-                                                        _c("v-icon", [
-                                                          _vm._v("mdi-delete")
-                                                        ])
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: {
+                                                              color: "red"
+                                                            }
+                                                          },
+                                                          [_vm._v("mdi-delete")]
+                                                        )
                                                       ],
                                                       1
                                                     )

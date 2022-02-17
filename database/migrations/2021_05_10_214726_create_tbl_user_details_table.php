@@ -19,12 +19,13 @@ class CreateTblUserDetailsTable extends Migration
             $table->string('firstName');
             $table->string('middleName')->nullable();
             $table->string('lastName');
-            $table->integer('student_id')->nullable();
+            $table->string('student_id')->nullable();
             $table->string('address')->nullable();
             $table->string('cp_no')->nullable();
             $table->mediumText('profile_pic')->nullable();
             $table->string('social_account')->nullable();
             $table->string('info')->nullable();
+            $table->date('birthday')->nullable();
             $table->timestamps();
         });
     }

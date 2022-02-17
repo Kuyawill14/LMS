@@ -86,6 +86,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['get_CurrentUser'],
   data: function data() {
@@ -512,6 +516,21 @@ var render = function() {
                   }
                 },
                 [_vm._v("\n            Resend Mail\n        ")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.isEmailChange
+            ? _c(
+                "v-btn",
+                {
+                  attrs: { color: "secondary" },
+                  on: {
+                    click: function($event) {
+                      return _vm.$emit("CancelResend")
+                    }
+                  }
+                },
+                [_vm._v("\n            Cancel\n        ")]
               )
             : _vm._e()
         ],

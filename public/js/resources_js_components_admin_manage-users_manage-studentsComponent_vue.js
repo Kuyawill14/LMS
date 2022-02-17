@@ -253,6 +253,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -284,11 +289,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         password: "",
         password_confirmation: "",
         student_id: "",
+        birthDay: new Date(),
         verified: null,
         department: null
       }),
       studenIdRule: [function (v) {
-        return !!v || 'Student Id is required';
+        return !!v || 'Student ID is required';
+      }, function (v) {
+        return v && v.length >= 6 || 'min 6 characters';
+      }, function (v) {
+        return v && v.length <= 8 || 'Max 8 characters';
       }],
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -1105,7 +1115,7 @@ var render = function() {
                     {
                       ref: "RegisterForm",
                       staticClass: "text-center ",
-                      attrs: { autocomplete: "off", "lazy-validation": "" },
+                      attrs: { autocomplete: "false", "lazy-validation": "" },
                       model: {
                         value: _vm.valid,
                         callback: function($$v) {
@@ -1133,10 +1143,10 @@ var render = function() {
                               _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
+                                  autocomplete: "false",
                                   rules: _vm.studenIdRule,
                                   label: "Student ID Number",
                                   name: "student_id",
-                                  type: "number",
                                   color: "primary",
                                   outlined: ""
                                 },
@@ -1263,26 +1273,23 @@ var render = function() {
                               attrs: { cols: "12", md: "12" }
                             },
                             [
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "email" }
-                              }),
-                              _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
-                                  label: "Email",
-                                  name: "Email",
-                                  rules: _vm.loginEmailRules,
-                                  type: "email",
+                                  label: "Birthday",
+                                  "data-date": "",
+                                  "data-date-format": "YYYY-MMMM-DD",
+                                  rules: _vm.nameRules,
+                                  name: "birthDay",
+                                  type: "Date",
                                   color: "primary",
                                   outlined: ""
                                 },
                                 model: {
-                                  value: _vm.form.email,
+                                  value: _vm.form.birthDay,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.form, "email", $$v)
+                                    _vm.$set(_vm.form, "birthDay", $$v)
                                   },
-                                  expression: "form.email"
+                                  expression: "form.birthDay"
                                 }
                               })
                             ],

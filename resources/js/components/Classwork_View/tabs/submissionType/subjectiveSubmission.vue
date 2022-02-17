@@ -51,7 +51,7 @@
                     <v-col cols="3" sm="3"  md="2">
                          <div class="d-flex flex-column">
                               <h1>{{Submitted_count}} <!-- {{Class == $route.params.id && selectedStatus == "Submitted"   ? Submitted : Submitted_count}} / {{Class == $route.params.id ? ListData.length : Over_total}} --></h1>
-                            <small>Submitted</small>
+                            <small>{{selectedStatus}}</small>
                         </div>
                     </v-col>
                      <v-col  cols="3" sm="3" md="2">

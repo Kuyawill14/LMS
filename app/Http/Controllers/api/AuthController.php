@@ -176,9 +176,96 @@ class AuthController extends Controller
         } 
     }
 
+    public function CheckStudentId($id){
+
+        if($id == null ||  $id == ''){
+            return response()->json([
+                "message" => "Please Enter a Student ID!",
+                "success" => false
+            ]);
+        }
+      
+
+
+        $check_student_id = tbl_userDetails::where('student_id', $id)->first();
+        if(!$check_student_id){
+            return response()->json([
+                "message" => "Student ID Number is Invalid!",
+                "success" => false
+            ]);
+            
+        }
+
+        if($check_student_id->email == null){
+            return response()->json([
+                "message" => "Student ID Number is Valid!",
+                "success" => true
+            ]);
+        }else{
+            return response()->json([
+                "message" => "This Student ID Number has already have account!",
+                "success" => false
+            ]);
+        }
+
+
+
+       
+
+    }
+
+
+    public function CheckStudentDetails(Request $request, $id){
+
+        $check_student_id = tbl_userDetails::where('student_id', $id)->first();
+        if($check_student_id){
+            $storeddate = date('Y-m-d', strtotime($check_student_id->birthday));   
+            $inputeddate = date('Y-m-d', strtotime($request->birthday));   
+            if($storeddate == $inputeddate){
+                return response()->json([
+                    "message" => "Student Details is Valid!",
+                    "success" => true
+                ]);
+            }else{
+                return response()->json([
+                    "message" => "Student Details is Invalid!",
+                    "success" => false
+                ]);
+            }
+
+        }
+        return response()->json([
+            "message" => "Student Details is Invalid!",
+            "success" => false
+        ]);
+        
+
+    }
+
+    public function ResgisterAccount(Request $request, $id){
+        
+        $check_student_id = tbl_userDetails::where('student_id', $id)->first();
+        if($check_student_id){
+            $check_user = User::find($check_student_id->user_id);
+            $check_user->email = $request->email;
+            $check_user->password = Hash::make($request->password);
+            $check_user->save();
+            return response()->json([
+                "message" => "Your Account has been Registered!",
+                "success" => true
+            ]);
+        }
+        return response()->json([
+            "message" => "Student Details is Invalid!",
+            "success" => false
+        ]);
+        
+
+    }
+
+ 
+
     
-
-
     /**
      * Log the user out of the application.
      *

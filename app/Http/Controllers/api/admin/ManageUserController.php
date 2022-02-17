@@ -123,8 +123,9 @@ class ManageUserController extends Controller
         //     'password' => ['required', 'min:6', 'confirmed']
         // ]);
 
+        $email = $usertype == 'Student' ? null : $request->email;
         $New = User::create([
-            'email' =>  $request->email,
+            'email' =>  $email,
             'password' => Hash::make($request->password),
             'role' =>  $usertype,
             'email_verified_at' =>  date('Y-m-d H:i:s'),
@@ -144,6 +145,7 @@ class ManageUserController extends Controller
         $details->middleName = $request->middleName;
         $details->lastName = $request->lastName;
         $details->student_id = $usertype == 'Student' ? $request->student_id : null;
+        $details->birthday = $usertype == 'Student' ? date('Y-m-d', strtotime($request->birthDay)) : null;
         $details->save();
 
 
@@ -154,8 +156,6 @@ class ManageUserController extends Controller
             $departments->save();
         }
        
-
-
 
         return response()->json([
             "user_id"=> $New->id, 

@@ -22909,6 +22909,35 @@ var render = function() {
                                                             [_vm._v("Account")]
                                                           )
                                                         ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "p",
+                                                        { staticClass: "mt-2" },
+                                                        [
+                                                          _vm._v(
+                                                            "Don't have an account? "
+                                                          ),
+                                                          _c(
+                                                            "router-link",
+                                                            {
+                                                              staticClass:
+                                                                "blue--text",
+                                                              attrs: {
+                                                                to: {
+                                                                  name:
+                                                                    "register"
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Create one here\n                                                        "
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
                                                       )
                                                     ]
                                                   ),

@@ -662,6 +662,44 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -710,7 +748,10 @@ var resetConfirmation = function resetConfirmation() {
       }, function (v) {
         return v && v >= 0 || "Points should be above or equal to 0";
       }],
-      StudentScore: 0
+      StudentScore: 0,
+      EssayOldPoints: [],
+      Question_Type: ['All Type', 'Multiple Choice', 'Identification', 'True or False', 'Matching Type', 'Essay'],
+      selected_type: 'All Type'
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
@@ -758,6 +799,7 @@ var resetConfirmation = function resetConfirmation() {
                 Question_id: _this.getAll_questions.Question[j].id,
                 timeConsume: null,
                 type: _this.getAll_questions.Question[j].type,
+                score: 0,
                 check: false
               });
             } else if (_this.getAll_questions.Question[j].type == 'Matching type') {
@@ -834,10 +876,13 @@ var resetConfirmation = function resetConfirmation() {
               } else if (_this.getAll_questions.Question[i].type == 'Essay') {
                 _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
                 _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check;
-
-                if (_this.Check[i]) {
-                  _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
-                }
+                var score = parseInt(_this.ViewDetails.Submitted_Answers[_j].score);
+                _this.EssayOldPoints[i] = score;
+                _this.ViewDetails.points += score;
+                /*  if(!this.Check[i]){
+                     this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                     this.questionIndex = i
+                 } */
               } else if (_this.getAll_questions.Question[i].type == 'Matching type') {
                 var Ans = new Array();
                 var match_check = new Array();
@@ -1020,6 +1065,7 @@ var resetConfirmation = function resetConfirmation() {
               Question_id: _this2.getAll_questions.Question[j].id,
               timeConsume: null,
               type: _this2.getAll_questions.Question[j].type,
+              score: 0,
               check: false
             });
           } else if (_this2.getAll_questions.Question[j].type == 'Matching type') {
@@ -1098,10 +1144,12 @@ var resetConfirmation = function resetConfirmation() {
             } else if (_this2.getAll_questions.Question[i].type == 'Essay') {
               _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
               _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check;
+              _this2.EssayOldPoints[i] = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
+              /*  if(this.Check[i]){
+                   this.ViewDetails.points += this.getAll_questions.Question[i].points;
+               } */
 
-              if (_this2.Check[i]) {
-                _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
-              }
+              _this2.ViewDetails.points += parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
             } else if (_this2.getAll_questions.Question[i].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
@@ -1218,20 +1266,35 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this3.UpdateDetails.check = data;
+                _this3.UpdateDetails.type = type;
+                _this3.UpdateDetails.check = type == 'Essay' ? true : data;
                 _this3.UpdateDetails.points = points;
                 _this3.UpdateDetails.question_id = id;
                 _this3.UpdateDetails.answer = answer;
-                _this3.UpdateDetails.user_id = _this3.ViewDetails.user_id; //this.UpdateDetails.type = type;
+                _this3.UpdateDetails.user_id = _this3.ViewDetails.user_id;
+
+                if (type == 'Essay') {
+                  _this3.UpdateDetails.essay_points = _this3.SubmittedAnswer[index].score;
+                  _this3.UpdateDetails.old_essay_points = _this3.EssayOldPoints[index];
+                }
 
                 axios.put('/api/teacher/update-score/' + _this3.ViewDetails.id, _this3.UpdateDetails).then(function (res) {
                   if (res.status == 200) {
                     if (type == 'Essay') {
-                      if (data == true) {
-                        _this3.ViewDetails.points = _this3.ViewDetails.points + points;
+                      if (_this3.EssayOldPoints[index] == 0) {
+                        _this3.ViewDetails.points = _this3.ViewDetails.points + parseInt(_this3.SubmittedAnswer[index].score);
                       } else {
-                        _this3.ViewDetails.points = _this3.ViewDetails.points - points;
+                        _this3.ViewDetails.points = _this3.ViewDetails.points - _this3.EssayOldPoints[index];
+                        _this3.ViewDetails.points = _this3.ViewDetails.points + parseInt(_this3.SubmittedAnswer[index].score);
+                        _this3.EssayOldPoints[index] = parseInt(_this3.SubmittedAnswer[index].score);
                       }
+                      /* if (data == true) {
+                          this.ViewDetails.points = this.ViewDetails.points + points;
+                          
+                      } else {
+                          this.ViewDetails.points = this.ViewDetails.points - points;
+                      } */
+
                     } else {
                       if (data == true) {
                         _this3.SubmittedAnswer[index] = answer;
@@ -1244,7 +1307,7 @@ var resetConfirmation = function resetConfirmation() {
                   }
                 });
 
-              case 6:
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -1288,6 +1351,7 @@ var resetConfirmation = function resetConfirmation() {
                     if (res.status == 200) {
                       _this5.dialog = !_this5.dialog;
                       _this5.isReseting = false;
+                      _this5.student_activity_logs = [];
 
                       _this5.$emit('RestSubmission');
                     }
@@ -2274,13 +2338,72 @@ var render = function() {
                             [
                               _c(
                                 "div",
-                                { staticClass: "pt-3 pl-4 pr-4 pb-2" },
+                                { staticClass: "d-flex pt-3 pl-4 pr-6 pb-2" },
                                 [
-                                  _c("v-icon", { attrs: { left: "" } }, [
-                                    _vm._v("mdi-comment")
-                                  ]),
-                                  _vm._v(
-                                    "Private Comments\n                            "
+                                  _c(
+                                    "span",
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v("mdi-comment")
+                                      ]),
+                                      _vm._v("Private Comments")
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    [
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { top: "" },
+                                          scopedSlots: _vm._u([
+                                            {
+                                              key: "activator",
+                                              fn: function(ref) {
+                                                var on = ref.on
+                                                var attrs = ref.attrs
+                                                return [
+                                                  _c(
+                                                    "v-btn",
+                                                    _vm._g(
+                                                      _vm._b(
+                                                        {
+                                                          attrs: {
+                                                            icon: "",
+                                                            small: ""
+                                                          }
+                                                        },
+                                                        "v-btn",
+                                                        attrs,
+                                                        false
+                                                      ),
+                                                      on
+                                                    ),
+                                                    [
+                                                      _c("v-icon", [
+                                                        _vm._v("mdi-refresh")
+                                                      ])
+                                                    ],
+                                                    1
+                                                  )
+                                                ]
+                                              }
+                                            }
+                                          ])
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Refresh Comment")
+                                          ])
+                                        ]
+                                      )
+                                    ],
+                                    1
                                   )
                                 ],
                                 1
@@ -2832,39 +2955,41 @@ var render = function() {
                           )
                         : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "v-card",
-                        [
-                          _c(
-                            "v-tabs",
-                            {
-                              attrs: {
-                                "background-color": "",
-                                "center-active": "",
-                                centered: ""
-                              },
-                              model: {
-                                value: _vm.tab,
-                                callback: function($$v) {
-                                  _vm.tab = $$v
-                                },
-                                expression: "tab"
-                              }
-                            },
+                      _vm.ViewDetails.status != null
+                        ? _c(
+                            "v-card",
                             [
-                              _c("v-tab", [_vm._v("Answers")]),
-                              _vm._v(" "),
                               _c(
-                                "v-tab",
-                                { on: { click: _vm.fetchStudentActivity } },
-                                [_vm._v("Activities")]
+                                "v-tabs",
+                                {
+                                  attrs: {
+                                    "background-color": "",
+                                    "center-active": "",
+                                    centered: ""
+                                  },
+                                  model: {
+                                    value: _vm.tab,
+                                    callback: function($$v) {
+                                      _vm.tab = $$v
+                                    },
+                                    expression: "tab"
+                                  }
+                                },
+                                [
+                                  _c("v-tab", [_vm._v("Answers")]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tab",
+                                    { on: { click: _vm.fetchStudentActivity } },
+                                    [_vm._v("Activities")]
+                                  )
+                                ],
+                                1
                               )
                             ],
                             1
                           )
-                        ],
-                        1
-                      ),
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "v-tabs-items",
@@ -2894,6 +3019,30 @@ var render = function() {
                                     [
                                       _c(
                                         "div",
+                                        { staticClass: "mt-0 pt-0 mb-3" },
+                                        [
+                                          _c("v-select", {
+                                            attrs: {
+                                              "hide-details": "",
+                                              items: _vm.Question_Type,
+                                              label: "Question Tyoe",
+                                              outlined: "",
+                                              dense: ""
+                                            },
+                                            model: {
+                                              value: _vm.selected_type,
+                                              callback: function($$v) {
+                                                _vm.selected_type = $$v
+                                              },
+                                              expression: "selected_type"
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "div",
                                         { staticClass: "d-flex mb-2" },
                                         [
                                           _c(
@@ -2915,42 +3064,82 @@ var render = function() {
                                                       {
                                                         key: "activator",
                                                         fn: function(ref) {
-                                                          var on = ref.on
+                                                          var menu = ref.on
                                                           var attrs = ref.attrs
                                                           return [
                                                             _c(
-                                                              "v-btn",
-                                                              _vm._g(
-                                                                _vm._b(
-                                                                  {
-                                                                    attrs: {
-                                                                      icon: "",
-                                                                      dark: ""
-                                                                    }
-                                                                  },
-                                                                  "v-btn",
-                                                                  attrs,
-                                                                  false
-                                                                ),
-                                                                on
-                                                              ),
-                                                              [
-                                                                _c(
-                                                                  "v-icon",
-                                                                  {
-                                                                    attrs: {
-                                                                      color:
-                                                                        "primary"
-                                                                    }
-                                                                  },
+                                                              "v-tooltip",
+                                                              {
+                                                                attrs: {
+                                                                  top: ""
+                                                                },
+                                                                scopedSlots: _vm._u(
                                                                   [
-                                                                    _vm._v(
-                                                                      "mdi-format-list-numbered"
-                                                                    )
-                                                                  ]
+                                                                    {
+                                                                      key:
+                                                                        "activator",
+                                                                      fn: function(
+                                                                        ref
+                                                                      ) {
+                                                                        var tooltip =
+                                                                          ref.on
+                                                                        return [
+                                                                          _c(
+                                                                            "v-btn",
+                                                                            _vm._g(
+                                                                              _vm._b(
+                                                                                {
+                                                                                  staticClass:
+                                                                                    "mb-2",
+                                                                                  attrs: {
+                                                                                    icon:
+                                                                                      ""
+                                                                                  }
+                                                                                },
+                                                                                "v-btn",
+                                                                                attrs,
+                                                                                false
+                                                                              ),
+                                                                              Object.assign(
+                                                                                {},
+                                                                                tooltip,
+                                                                                menu
+                                                                              )
+                                                                            ),
+                                                                            [
+                                                                              _c(
+                                                                                "v-icon",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    color:
+                                                                                      "primary"
+                                                                                  }
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    "mdi-format-list-numbered"
+                                                                                  )
+                                                                                ]
+                                                                              )
+                                                                            ],
+                                                                            1
+                                                                          )
+                                                                        ]
+                                                                      }
+                                                                    }
+                                                                  ],
+                                                                  null,
+                                                                  true
                                                                 )
-                                                              ],
-                                                              1
+                                                              },
+                                                              [
+                                                                _vm._v(" "),
+                                                                _c("span", [
+                                                                  _vm._v(
+                                                                    "Question List"
+                                                                  )
+                                                                ])
+                                                              ]
                                                             )
                                                           ]
                                                         }
@@ -2958,7 +3147,7 @@ var render = function() {
                                                     ],
                                                     null,
                                                     false,
-                                                    833248113
+                                                    3640854448
                                                   )
                                                 },
                                                 [
@@ -3144,6 +3333,19 @@ var render = function() {
                                           return _c(
                                             "v-container",
                                             {
+                                              directives: [
+                                                {
+                                                  name: "show",
+                                                  rawName: "v-show",
+                                                  value:
+                                                    _vm.selected_type ==
+                                                      "All Type" ||
+                                                    _vm.selected_type ==
+                                                      item.type,
+                                                  expression:
+                                                    "selected_type == 'All Type' || selected_type == item.type"
+                                                }
+                                              ],
                                               key: index,
                                               attrs: { "ma-0": "", "pa-0": "" }
                                             },
@@ -3178,7 +3380,9 @@ var render = function() {
                                                                     },
                                                                     [
                                                                       item.type !=
-                                                                      "Matching type"
+                                                                        "Matching type" &&
+                                                                      item.type !=
+                                                                        "Essay"
                                                                         ? _c(
                                                                             "v-checkbox",
                                                                             {
@@ -3227,7 +3431,89 @@ var render = function() {
                                                                               }
                                                                             }
                                                                           )
-                                                                        : _vm._e()
+                                                                        : _vm._e(),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "div",
+                                                                        {
+                                                                          staticClass:
+                                                                            "mt-0 pt-0 pr-2 mb-0 pb-0"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-text-field",
+                                                                            {
+                                                                              staticStyle: {
+                                                                                width:
+                                                                                  "120px !important"
+                                                                              },
+                                                                              attrs: {
+                                                                                "hide-details":
+                                                                                  "",
+                                                                                rounded:
+                                                                                  "",
+                                                                                rules:
+                                                                                  _vm.pointsRules,
+                                                                                dense:
+                                                                                  "",
+                                                                                outlined:
+                                                                                  "",
+                                                                                label:
+                                                                                  "Score",
+                                                                                type:
+                                                                                  "number",
+                                                                                suffix:
+                                                                                  "/" +
+                                                                                  item.points,
+                                                                                min:
+                                                                                  "0"
+                                                                              },
+                                                                              on: {
+                                                                                change: function(
+                                                                                  $event
+                                                                                ) {
+                                                                                  return _vm.UpdateScore(
+                                                                                    item.type,
+                                                                                    item.id,
+                                                                                    _vm
+                                                                                      .Check[
+                                                                                      index
+                                                                                    ],
+                                                                                    item.points,
+                                                                                    index,
+                                                                                    item.answer
+                                                                                  )
+                                                                                }
+                                                                              },
+                                                                              model: {
+                                                                                value:
+                                                                                  _vm
+                                                                                    .SubmittedAnswer[
+                                                                                    index
+                                                                                  ]
+                                                                                    .score,
+                                                                                callback: function(
+                                                                                  $$v
+                                                                                ) {
+                                                                                  _vm.$set(
+                                                                                    _vm
+                                                                                      .SubmittedAnswer[
+                                                                                      index
+                                                                                    ],
+                                                                                    "score",
+                                                                                    $$v
+                                                                                  )
+                                                                                },
+                                                                                expression:
+                                                                                  "SubmittedAnswer[index].score"
+                                                                              }
+                                                                            }
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
                                                                     ],
                                                                     1
                                                                   ),

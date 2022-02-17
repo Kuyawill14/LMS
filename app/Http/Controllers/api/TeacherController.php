@@ -18,6 +18,8 @@ use App\Models\tbl_Submitted_Answer;
 use App\Models\tbl_userDetails;
 use App\Models\tbl_join_request;
 use App\Models\tbl_comment;
+use App\Models\tbl_student_exam_activity_log;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendInviteMail;
@@ -340,7 +342,9 @@ class TeacherController extends Controller
                     foreach($Tmp as $item){
                         if($item['Question_id'] == $request->question_id){
                             if($item['type'] == 'Essay'){
-                                $item['check'] = false;   
+                                $item['check'] = false;
+                                $item['score'] = $request->essay_points;
+                                
                             }
                             else{
                                 $item['Answer'] = null;
@@ -356,12 +360,25 @@ class TeacherController extends Controller
                     $updateObj->save();
                     return;
                 }
-                $updateObj->points = ($updateObj->points + $request->points);
+
+                if($request->type == 'Essay'){
+                    if($request->old_essay_points == 0){
+                        $updateObj->points = ($updateObj->points + $request->essay_points);
+                    }else{
+                        $updateObj->points = ($updateObj->points - $request->old_essay_points);
+                        $updateObj->points = ($updateObj->points + $request->essay_points);
+                    }
+                }else{
+                    $updateObj->points = ($updateObj->points + $request->points);
+                }
+                
+                
                 foreach($Tmp as $item){
                     if($item['Question_id'] == $request->question_id){
                         //$item['Answer'] =  $request->answer;
                         if($item['type'] == 'Essay'){
-                            $item['check'] = true;   
+                            $item['check'] = true;
+                            $item['score'] = $request->essay_points;
                         }
                         else{
                             $item['Answer'] =  $request->answer;
@@ -387,6 +404,7 @@ class TeacherController extends Controller
                     $updateObj->points = ($updateObj->points + $request->points);
                     if($submitted_Answer->type == 'Essay'){
                         $submitted_Answer->isCorrect = true;
+                        
                     }
                     else{
                         $submitted_Answer->answer = $request->answer;
@@ -431,6 +449,8 @@ class TeacherController extends Controller
         $ResetSubmission = tbl_Submission::find($id);
            if($ResetSubmission){
                $removeComment = tbl_comment::where('classwork_id', $ResetSubmission->classwork_id)->delete();
+               $removeActivities = tbl_student_exam_activity_log::where('classwork_id', $ResetSubmission->classwork_id)
+               ->where('student_id',$ResetSubmission->user_id)->delete();
                 $ResetSubmission->forceDelete();
                 return "Reset Success";
            }

@@ -139,8 +139,20 @@
                             </v-card>
 
                             <v-card class="mt-2 mb-1" elevation="2" outlined>
-                                <div class="pt-3 pl-4 pr-4 pb-2">
-                                    <v-icon left>mdi-comment</v-icon>Private Comments
+                                <div class="d-flex pt-3 pl-4 pr-6 pb-2">
+                                    
+                                    <span><v-icon left>mdi-comment</v-icon>Private Comments</span>
+                                    <v-spacer></v-spacer>
+                                    <span>
+                                        <v-tooltip top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                             <v-btn icon v-bind="attrs" v-on="on"  small>
+                                                <v-icon>mdi-refresh</v-icon> 
+                                            </v-btn>
+                                        </template>
+                                        <span>Refresh Comment</span>
+                                        </v-tooltip>
+                                    </span>
                                 </div>
                                 <v-divider></v-divider>
                                 <v-list max-height="350" style="overflow-y:scroll;scrollbar-width: thin;"
@@ -248,7 +260,7 @@
                                 </v-col>
                             </v-row>
                         </v-card>
-                        <v-card>
+                        <v-card v-if="ViewDetails.status != null">
                             <v-tabs background-color="" center-active centered v-model="tab">
                                 <v-tab>Answers</v-tab>
                                 <v-tab @click="fetchStudentActivity">Activities</v-tab>
@@ -261,16 +273,30 @@
                                 <v-card elevation="2" outlined class="pa-5 "
                                     v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
 
+                                    <div class="mt-0 pt-0 mb-3">
+                                       <v-select hide-details v-model="selected_type" :items="Question_Type" label="Question Tyoe" outlined dense ></v-select> 
+                                    </div>
                                     <div class="d-flex mb-2">
                                         <div class="d-flex">
                                             <v-menu offset-y max-height="600" style="overflow-y:scroll;">
-                                                <template v-slot:activator="{ on, attrs }">
+                                               <!--  <template v-slot:activator="{ on, attrs }">
                                                     <v-btn icon dark v-bind="attrs" v-on="on">
                                                         <v-icon color="primary">mdi-format-list-numbered</v-icon>
                                                     </v-btn>
+                                                </template> -->
+                                                <template v-slot:activator="{ on : menu, attrs }">
+                                                <v-tooltip top>
+                                                    <template v-slot:activator="{ on: tooltip }">
+                                                        <v-btn icon v-bind="attrs" v-on="{...tooltip, ...menu}" class="mb-2">
+                                                        <v-icon color="primary">mdi-format-list-numbered</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Question List</span>
+                                                </v-tooltip>
                                                 </template>
                                                 <v-list>
                                                     <v-list-item class="ma-0 pa-0"
+                                                       
                                                         v-for="(item, index) in getAll_questions.Question" :key="index">
                                                         <v-list-item-title>
                                                             <v-btn
@@ -303,18 +329,30 @@
 
                                     </div>
 
-                                    <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question"
+                                    <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question"  v-show="selected_type == 'All Type' || selected_type == item.type"
                                         :key="index">
                                         <v-row v-if="index === questionIndex">
                                             <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
                                                 <v-list>
                                                     <v-list-item class="ma-0 pa-0">
                                                         <v-list-item-icon class="ma-0 pa-0 mt-2">
-                                                            <v-checkbox v-if="item.type != 'Matching type'" hide-details
+                                                            <v-checkbox v-if="item.type != 'Matching type' && item.type != 'Essay'" hide-details
                                                                 @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
                                                                 class="mt-0 pt-0" color="success"
                                                                 v-model="Check[index]">
                                                             </v-checkbox>
+
+                                                            <div class="mt-0 pt-0 pr-2 mb-0 pb-0">
+                                                                <v-text-field 
+                                                                @change="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
+                                                                style="width:120px !important" hide-details rounded :rules="pointsRules"
+                                                                v-model="SubmittedAnswer[index].score"
+                                                                    dense outlined label="Score" type="number"
+                                                                    :suffix="'/' +item.points" 
+                                                                    min="0"></v-text-field>
+                                                            </div>
+
+
                                                         </v-list-item-icon>
                                                         <v-list-item-content class="subtitle-1 ">
                                                             <div class="d-flex">
@@ -692,6 +730,9 @@
                     v => (v && v >= 0) || "Points should be above or equal to 0",
                 ],
                 StudentScore: 0,
+                EssayOldPoints: [],
+                Question_Type:['All Type', 'Multiple Choice', 'Identification', 'True or False', 'Matching Type', 'Essay'],
+                selected_type: 'All Type'
                 
             }
         },
@@ -742,6 +783,7 @@
                                     Question_id: this.getAll_questions.Question[j].id,
                                     timeConsume: null,
                                     type: this.getAll_questions.Question[j].type,
+                                    score: 0,
                                     check: false
                                 })
                             } else if (this.getAll_questions.Question[j].type == 'Matching type') {
@@ -837,9 +879,14 @@
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-                                    if(this.Check[i]){
+                                    let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+
+                                    this.EssayOldPoints[i] = score;
+                                    this.ViewDetails.points += score;
+                                   /*  if(!this.Check[i]){
                                         this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                    }
+                                        this.questionIndex = i
+                                    } */
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     
                                     let Ans = new Array();
@@ -1026,6 +1073,7 @@
                                 Question_id: this.getAll_questions.Question[j].id,
                                 timeConsume: null,
                                 type: this.getAll_questions.Question[j].type,
+                                score: 0,
                                 check: false
                             })
                         } else if (this.getAll_questions.Question[j].type == 'Matching type') {
@@ -1117,10 +1165,12 @@
                                  else if (this.getAll_questions.Question[i].type == 'Essay') {
                                 this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                 this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-
-                                if(this.Check[i]){
+                                this.EssayOldPoints[i] = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                               /*  if(this.Check[i]){
                                     this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                }
+                                } */
+                                this.ViewDetails.points +=  parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                
                             } else if (this.getAll_questions.Question[i].type == 'Matching type') {
 
                                 let Ans = new Array();
@@ -1232,22 +1282,37 @@
 
             },
             async UpdateScore(type, id, data, points, index, answer) {
-                this.UpdateDetails.check = data;
-                this.UpdateDetails.points = points;
+                this.UpdateDetails.type = type;
+                this.UpdateDetails.check = type == 'Essay' ? true : data;
+                this.UpdateDetails.points =  points;
                 this.UpdateDetails.question_id = id;
                 this.UpdateDetails.answer = answer;
                 this.UpdateDetails.user_id = this.ViewDetails.user_id;
-
-                //this.UpdateDetails.type = type;
+                if(type == 'Essay'){
+                    this.UpdateDetails.essay_points = this.SubmittedAnswer[index].score;
+                    this.UpdateDetails.old_essay_points = this.EssayOldPoints[index];
+                }
+                
+                
                 axios.put('/api/teacher/update-score/' + this.ViewDetails.id, this.UpdateDetails)
                     .then(res => {
                         if (res.status == 200) {
                             if (type == 'Essay') {
-                                if (data == true) {
+                                
+                                if(this.EssayOldPoints[index] == 0){
+                                    this.ViewDetails.points = this.ViewDetails.points + parseInt(this.SubmittedAnswer[index].score);
+                                }else{
+                                    this.ViewDetails.points = this.ViewDetails.points - this.EssayOldPoints[index];
+                                    this.ViewDetails.points = this.ViewDetails.points + parseInt(this.SubmittedAnswer[index].score);
+                                    this.EssayOldPoints[index] = parseInt(this.SubmittedAnswer[index].score);
+                                }
+                                
+                                /* if (data == true) {
                                     this.ViewDetails.points = this.ViewDetails.points + points;
+                                    
                                 } else {
                                     this.ViewDetails.points = this.ViewDetails.points - points;
-                                }
+                                } */
                             } else {
                                 if (data == true) {
                                     this.SubmittedAnswer[index] = answer;
@@ -1276,6 +1341,7 @@
                             if (res.status == 200) {
                                 this.dialog = !this.dialog;
                                 this.isReseting = false;
+                                this.student_activity_logs = [];
                                 this.$emit('RestSubmission')
                             }
 

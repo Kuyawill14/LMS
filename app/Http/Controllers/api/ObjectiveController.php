@@ -1563,9 +1563,10 @@ class ObjectiveController extends Controller
                             }
                         }
                         else if($cl['type'] == 'Essay'){
-                            if($cl['check'] == true){
+                            $score += $cl['score'];
+                            /* if($cl['check'] == true){
                                 $score += $ques['points'];
-                            }
+                            } */
                         }
                     }
                 }

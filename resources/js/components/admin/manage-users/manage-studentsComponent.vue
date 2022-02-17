@@ -106,14 +106,14 @@
                 <v-divider></v-divider>
                 <v-container>
 
-                    <v-form autocomplete="off" class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                    <v-form autocomplete="false" class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
 
 
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="student_id" />
-                                <v-text-field :rules="studenIdRule" label="Student ID Number" name="student_id"
-                                    v-model="form.student_id" type="number" color="primary" outlined />
+                                <v-text-field autocomplete="false"  :rules="studenIdRule" label="Student ID Number" name="student_id"
+                                    v-model="form.student_id"  color="primary" outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="firstName" />
@@ -135,10 +135,15 @@
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-text-field label="Birthday"  data-date="" data-date-format="YYYY-MMMM-DD" :rules="nameRules" name="birthDay"
+                                    v-model="form.birthDay" type="Date" color="primary" outlined/>
+                            </v-col>
+
+                       <!--      <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
-                            </v-col>
+                            </v-col> -->
 
                             <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12"
                                 md="12">
@@ -265,11 +270,14 @@
                     password: "",
                     password_confirmation: "",
                     student_id: "",
+                    birthDay: new Date(),
                     verified: null,
                     department: null
                 }),
                 studenIdRule: [
-                    v => !!v || 'Student Id is required',
+                    v => !!v || 'Student ID is required',
+                    v => (v && v.length >= 6) || 'min 6 characters',
+                    v => (v && v.length <= 8) || 'Max 8 characters',
                 ],
                 nameRules: [
                     v => !!v || 'Field is required',

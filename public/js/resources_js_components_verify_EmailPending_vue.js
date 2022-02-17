@@ -80,6 +80,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 var resendAndChangeEmail = function resendAndChangeEmail() {
@@ -106,7 +108,21 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(["get_CurrentUser"]),
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchCurrentUser"])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["fetchCurrentUser", "clear_current_user"])), {}, {
+    logout: function logout() {
+      var _this = this;
+
+      this.$store.dispatch('clearClassesNames');
+      this.isLogout = true;
+      axios.post('/api/logout').then(function () {
+        _this.clear_current_user();
+
+        _this.$router.push({
+          path: "/login"
+        });
+      })["catch"](function (e) {});
+    }
+  }),
   mounted: function mounted() {//this.fetchCurrentUser();
   }
 });
@@ -245,14 +261,6 @@ var render = function() {
                           attrs: { cols: "12", md: "5" }
                         },
                         [
-                          _c("vue-element-loading", {
-                            attrs: {
-                              active: _vm.isLoggin,
-                              spinner: "bar-fade-scale",
-                              color: "#EF6C00"
-                            }
-                          }),
-                          _vm._v(" "),
                           _c(
                             "v-row",
                             { attrs: { align: "center", justify: "center" } },
@@ -415,6 +423,38 @@ var render = function() {
                                                                     "\r\n                                                        if you did not receive an email or would like to change the email address you signup up with.\r\n                                                      "
                                                                   )
                                                                 ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                [
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    {
+                                                                      attrs: {
+                                                                        dark:
+                                                                          "",
+                                                                        rounded:
+                                                                          "",
+                                                                        color:
+                                                                          "red"
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.logout()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Log Out"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ],
+                                                                1
                                                               )
                                                             ],
                                                             1
@@ -486,6 +526,13 @@ var render = function() {
                                                                   attrs: {
                                                                     get_CurrentUser:
                                                                       _vm.get_CurrentUser
+                                                                  },
+                                                                  on: {
+                                                                    CancelResend: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.isResending = false
+                                                                    }
                                                                   }
                                                                 }
                                                               )

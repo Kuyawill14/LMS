@@ -160,11 +160,13 @@
                                          <v-list class="ml-0 pl-0">
                                         <v-list-item :class="hover ? 'blue--text' : 'primary--text'">
                                             <v-list-item-content  >
-                                                <v-list-item-title >
-                                                    <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
+                                                <v-list-item-title>
+                                                    <p  class="mb-0 pb-0 mb-2 pr-4" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
                                                         <br> 
                                                         <span style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</span>
                                                     </p>
+                                                 
+                                                   
                                                 </v-list-item-title>
                                             <!--    <v-list-item-subtitle :class="hover ? 'blue--text' : ''" >
                                                     <div class="text-body-1" style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</div>
@@ -175,11 +177,23 @@
                                     </router-link>
                                 </div>
                                 <v-divider></v-divider>
-                                <div class="mt-2 pl-4" >
-                                     <span  :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{ item.class_name}}</span> <br>
-                                 <span :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'"> Class code: {{ item.class_code}}</span>
+                                <div class="d-flex">
+                                    <div class="mt-2 pl-4" >
+                                        <span  :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{ item.class_name}}</span> <br>
+                                        <span :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'"> Class code: {{ item.class_code}}</span>
+                                    </div>
+                                   <v-spacer></v-spacer>
+                                     <div class="mt-4" v-if="item.unfinishClaswork != 0">
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                 <v-badge overlap color="red" :value="item.unfinishClaswork" :content="item.unfinishClaswork" bordered top    offset-x="45" offset-y="17">
+                                                    <v-icon v-bind="attrs" v-on="on" large>mdi-book-open-variant</v-icon>
+                                                </v-badge>
+                                            </template>
+                                            <span>Unfinish Classwork</span>
+                                        </v-tooltip>
+                                    </div>
                                 </div>
-                               
                             </v-card-subtitle>
                         </v-hover>
 
