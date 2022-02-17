@@ -279,6 +279,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -22789,35 +22792,18 @@ var render = function() {
                                   attrs: { cols: "12", md: "2" }
                                 },
                                 [
-                                  _c("v-text-field", {
-                                    class: _vm.$vuetify.breakpoint.lgAndUp
-                                      ? ""
-                                      : "ma-0 pa-0",
-                                    attrs: {
-                                      dense: "",
-                                      rules: _vm.StudentIdRules,
-                                      outlined: ""
-                                    },
-                                    on: {
-                                      change: function($event) {
-                                        _vm.isNeChanges = true
-                                      },
-                                      keypress: _vm.isNumber
-                                    },
-                                    model: {
-                                      value: _vm.UserDetails.student_id,
-                                      callback: function($$v) {
-                                        _vm.$set(
-                                          _vm.UserDetails,
-                                          "student_id",
-                                          $$v
-                                        )
-                                      },
-                                      expression: "UserDetails.student_id"
-                                    }
-                                  })
-                                ],
-                                1
+                                  _c(
+                                    "div",
+                                    { staticClass: "font-weight-bold" },
+                                    [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(_vm.UserDetails.student_id) +
+                                          "\n                                "
+                                      )
+                                    ]
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -23283,110 +23269,6 @@ var render = function() {
                                 ],
                                 1
                               )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      class: _vm.$vuetify.breakpoint.lgAndUp ? "" : "mt-0 pt-0",
-                      attrs: { cols: "12" }
-                    },
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c("v-col", {
-                            class: _vm.$vuetify.breakpoint.lgAndUp
-                              ? ""
-                              : "mt-0 pt-0",
-                            attrs: { cols: "12", md: "2" }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              class: _vm.$vuetify.breakpoint.lgAndUp
-                                ? ""
-                                : "mt-0 pt-0",
-                              attrs: { cols: "12", md: "10" }
-                            },
-                            [
-                              _c("h4", { staticClass: "mt-5" }, [
-                                _vm._v("3. Social Link")
-                              ])
-                            ]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "mt-0 pt-0 mb-0 pb-0",
-                      attrs: { cols: "12" }
-                    },
-                    [
-                      _c(
-                        "v-row",
-                        [
-                          _c(
-                            "v-col",
-                            {
-                              class: _vm.$vuetify.breakpoint.xs
-                                ? "mb-0 pb-0"
-                                : "mt-2",
-                              attrs: { cols: "12", md: "2" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Facebook\n                        "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              class: _vm.$vuetify.breakpoint.lgAndUp
-                                ? "pb-0 mb-0"
-                                : "pb-0 mb-0 mt-0 pt-0",
-                              attrs: { cols: "12", md: "6" }
-                            },
-                            [
-                              _c("v-text-field", {
-                                class: _vm.$vuetify.breakpoint.lgAndUp
-                                  ? "blue--text"
-                                  : "ma-0 pa-0 blue--text",
-                                attrs: { dense: "", outlined: "" },
-                                on: {
-                                  change: function($event) {
-                                    _vm.isNeChanges = true
-                                  }
-                                },
-                                model: {
-                                  value: _vm.UserDetails.social_account,
-                                  callback: function($$v) {
-                                    _vm.$set(
-                                      _vm.UserDetails,
-                                      "social_account",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "UserDetails.social_account"
-                                }
-                              })
                             ],
                             1
                           )

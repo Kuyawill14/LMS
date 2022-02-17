@@ -197,7 +197,6 @@
                         .then((res) => {
                             if (res.data.success == true) {
                                 this.$store.dispatch('clear_current_user');
-                                window.localStorage.setItem('personal_access_token', res.data.token);
                                 this.$router.push({
                                     path: "/"
                                 })

@@ -909,17 +909,6 @@ var render = function() {
                         return _c(
                           "v-col",
                           {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value:
-                                  item.class_id == _vm.Class_id ||
-                                  _vm.Class_id == _vm.$route.params.id,
-                                expression:
-                                  "item.class_id == Class_id || Class_id == $route.params.id"
-                              }
-                            ],
                             key: item.user_id,
                             staticClass: "mb-0 pb-0 mt-0 pt-0",
                             attrs: { cols: "12", md: "4", lg: "3" }

@@ -35,11 +35,13 @@
                         <v-col cols="12" md="2" :class="!$vuetify.breakpoint.lgAndUp ? 'mb-0 pb-0': 'mt-2'">
                             Student ID
                         </v-col>
-                        <v-col cols="12" md="2"
-                            :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
-                            <v-text-field @change="isNeChanges = true" dense
+                        <v-col cols="12" md="2" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                           <!--  <v-text-field @change="isNeChanges = true" dense readonly 
                                 :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'" :rules="StudentIdRules" outlined
-                                v-model="UserDetails.student_id" @keypress="isNumber"></v-text-field>
+                                v-model="UserDetails.student_id" @keypress="isNumber"></v-text-field> -->
+                                <div class="font-weight-bold">
+                                    {{UserDetails.student_id}}
+                                </div>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -106,6 +108,7 @@
                     <v-row>
                         <v-col cols="12" md="2" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
 
+                            
                         </v-col>
                         <v-col cols="12" md="10" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                             <h4 class="mt-2">2. Contact</h4>
@@ -156,7 +159,7 @@
                     </v-row>
                 </v-col>
 
-                <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
+              <!--   <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
                     <v-row>
                         <v-col cols="12" md="2" :class="$vuetify.breakpoint.lgAndUp ? '' : 'mt-0 pt-0'">
 
@@ -179,7 +182,7 @@
                                 v-model="UserDetails.social_account"></v-text-field>
                         </v-col>
                     </v-row>
-                </v-col>
+                </v-col> -->
                 <!-- 
             <v-col cols="12" class="mt-0 pt-0 mb-2">
                 <v-row>

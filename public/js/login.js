@@ -230,8 +230,6 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
           if (res.data.success == true) {
             _this2.$store.dispatch('clear_current_user');
 
-            window.localStorage.setItem('personal_access_token', res.data.token);
-
             _this2.$router.push({
               path: "/"
             });

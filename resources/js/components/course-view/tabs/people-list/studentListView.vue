@@ -22,9 +22,9 @@
             
 
              <v-row>
-                 <!-- Intructor -->
+                 <!-- Instructor -->
                  <v-col cols="12" class="mb-0 pb-0 mt-2 pt-0">
-                     <div><h3 class="font-weight-medium">Intructor</h3></div>
+                     <div><h3 class="font-weight-medium">Instructor</h3></div>
                  </v-col>
                 <v-col cols="12" md="4" lg="3" class="ma-0 pa-0" v-for="item in instructor" :key="item.user_id">
                      <v-list class="mb-0 pb-0">
@@ -118,9 +118,9 @@
                 })
             },
             async getStudentList(){
-                axios.get('/api/student/all/'+this.$route.params.id)
+                axios.get('/api/student/all/'+this.$route.params.id+'/classmates')
                 .then((res)=>{
-                    this.fetchClassnames();
+                    //this.fetchClassnames();
                     this.instructor = res.data.InstructorList
                     this.students = res.data.StudentList
                     this.isGetting = false;

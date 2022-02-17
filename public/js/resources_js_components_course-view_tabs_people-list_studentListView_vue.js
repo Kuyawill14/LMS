@@ -159,9 +159,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.get('/api/student/all/' + _this3.$route.params.id).then(function (res) {
-                  _this3.fetchClassnames();
-
+                axios.get('/api/student/all/' + _this3.$route.params.id + '/classmates').then(function (res) {
+                  //this.fetchClassnames();
                   _this3.instructor = res.data.InstructorList;
                   _this3.students = res.data.StudentList;
                   _this3.isGetting = false;
@@ -370,7 +369,7 @@ var render = function() {
                         [
                           _c("div", [
                             _c("h3", { staticClass: "font-weight-medium" }, [
-                              _vm._v("Intructor")
+                              _vm._v("Instructor")
                             ])
                           ])
                         ]

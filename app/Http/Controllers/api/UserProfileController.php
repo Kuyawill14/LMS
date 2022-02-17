@@ -223,8 +223,8 @@ class UserProfileController extends Controller
                 $UpdateDetails->lastName = $request->lastName;
                 $UpdateDetails->address = $request->address;
                 $UpdateDetails->cp_no = $request->cp_no;
-                $UpdateDetails->social_account =  $request->social_account;
-                $UpdateDetails->student_id =  $request->student_id;
+                //$UpdateDetails->social_account =  $request->social_account;
+                //$UpdateDetails->student_id =  $request->student_id;
                 // $UpdateDetails->department =  $request->department;
                 $UpdateDetails->save();
 

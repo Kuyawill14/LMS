@@ -132,7 +132,7 @@
                
                 <v-col v-if="!isGetting && !isShowJoinRequest"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                     <v-row>
-                        <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" md="4" lg="3" v-show="item.class_id == Class_id || Class_id == $route.params.id" v-for="item in getAllStudents" v-bind:key="item.user_id">
+                        <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" md="4" lg="3"  v-for="item in getAllStudents" v-bind:key="item.user_id">
                               <v-list class="mb-0 pb-0">
                                 <v-list-item class="mb-0 pb-0" >
                                     <v-list-item-avatar color="secondary" >

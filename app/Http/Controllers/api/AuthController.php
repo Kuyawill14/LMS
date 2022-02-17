@@ -61,7 +61,6 @@ class AuthController extends Controller
             if($request->email != "admin@gmail.com"){
                 return response()->json([
                     "message" => "Login Success",
-                    "token"=> $token->plainTextToken,
                     "verified" => auth("sanctum")->user()->email_verified_at != null ? true : false,
                     "success" => true,
                 ]); 
@@ -69,7 +68,6 @@ class AuthController extends Controller
             else{
                 return response()->json([
                     "message" => "Login Success",
-                    "token"=> $token->plainTextToken,
                     "verified" => true,
                     "success" => true,
                 ]); 

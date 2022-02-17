@@ -83,8 +83,7 @@ class StudentController extends Controller
             ->select('tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id', $userId)
             ->first();
-
-
+    
             $StudentList = tbl_userclass::where('tbl_userclasses.class_id', $Class->class_id)
             ->select('tbl_user_details.firstName','tbl_user_details.middleName','tbl_user_details.lastName','tbl_user_details.profile_pic' ,'tbl_user_details.student_id')
             ->leftJoin('users', 'tbl_userclasses.user_id', '=', 'users.id', )
