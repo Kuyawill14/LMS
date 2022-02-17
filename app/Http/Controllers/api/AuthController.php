@@ -189,10 +189,10 @@ class AuthController extends Controller
         if(!$check_student_id){
             return response()->json([
                 "message" => "Student ID Number is Invalid!",
+                "type"=>"Not_Valid",
                 "success" => false
             ]);
-            
-            
+
         }
 
         $check_student_email = User::find($check_student_id->user_id);
@@ -204,7 +204,8 @@ class AuthController extends Controller
 
         }else{
             return response()->json([
-                "message" => "This Student ID Number has already have account!",
+                "message" => "This Student ID Number has already have an account!",
+                "type"=>"Already_Account",
                 "success" => false
             ]);
         }
@@ -218,6 +219,13 @@ class AuthController extends Controller
 
     public function CheckStudentDetails(Request $request, $id){
 
+        $validated = $request->validate([
+            'firstName' => ['required'],
+            'middleName' => ['required'],
+            'lastName' => ['required'],
+            'birthday' => ['required']
+        ]);
+
         $check_student_id = tbl_userDetails::where('student_id', $id)->first();
         if($check_student_id){
             $storeddate = date('Y-m-d', strtotime($check_student_id->birthday));   
@@ -229,7 +237,7 @@ class AuthController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    "message" => "Student Details is Invalid!",
+                    "message" => "Invalid Birthday!",
                     "success" => false
                 ]);
             }
@@ -244,7 +252,13 @@ class AuthController extends Controller
     }
 
     public function ResgisterAccount(Request $request, $id){
-        
+
+    
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'unique:users'],
+            'password' => ['required', 'min:6','max:15' ,'confirmed']
+        ]);
+
         $check_student_id = tbl_userDetails::where('student_id', $id)->first();
         if($check_student_id){
             $check_user = User::find($check_student_id->user_id);

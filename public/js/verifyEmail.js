@@ -59,7 +59,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 var loginRegisterFooter = function loginRegisterFooter() {
@@ -76,9 +75,35 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
     loginRegisterFooter: loginRegisterFooter
   },
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["verifyEmail"])),
-  created: function created() {
-    this.verifyEmail(this.$route.query).then(function (response) {//this.$router.push({name: 'login'});
-    });
+  mounted: function mounted() {
+    var _this = this;
+
+    /*  this.$store.dispatch('verifyEmail', this.$route.query)
+     .then((res)=>{
+         console.log(res);
+     })
+     .catch((e)=>{
+      }) */
+
+    /*  this.verifyEmail(this.$route.query).then((response) => {
+         
+         if(response.data.success == false){
+             this.toastError(response.data.message);
+         }
+     });  */
+    axios.get('/api/email-verification', {
+      params: this.$route.query
+    }).then(function (response) {
+      if (response.data.success == false) {
+        _this.toastError(response.data.message);
+
+        if (response.data.type == 'already_verified') {
+          _this.$router.push({
+            name: 'login'
+          });
+        }
+      }
+    })["catch"](function (e) {});
   }
 });
 
@@ -216,14 +241,6 @@ var render = function() {
                           attrs: { cols: "12", md: "5" }
                         },
                         [
-                          _c("vue-element-loading", {
-                            attrs: {
-                              active: _vm.isLoggin,
-                              spinner: "bar-fade-scale",
-                              color: "#EF6C00"
-                            }
-                          }),
-                          _vm._v(" "),
                           _c(
                             "v-row",
                             { attrs: { align: "center", justify: "center" } },

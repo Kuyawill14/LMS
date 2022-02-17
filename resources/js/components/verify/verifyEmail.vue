@@ -6,7 +6,6 @@
             <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
                 <loginRegisterImageConatiner></loginRegisterImageConatiner>
                 <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="5">
-                    <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" color="#EF6C00" />
                     <v-row align="center" justify="center">
                         <v-col class="text-left" cols="12" md="12" lg="12" sm="7">
                           <v-card-text>
@@ -52,10 +51,35 @@ export default {
   methods: {
         ...mapActions(["verifyEmail"])
       },
-  created(){
-      this.verifyEmail(this.$route.query).then((response) => {
-          //this.$router.push({name: 'login'});
-      });      
+  mounted(){
+     /*  this.$store.dispatch('verifyEmail', this.$route.query)
+      .then((res)=>{
+          console.log(res);
+      })
+      .catch((e)=>{
+
+      }) */
+
+     /*  this.verifyEmail(this.$route.query).then((response) => {
+          
+          if(response.data.success == false){
+              this.toastError(response.data.message);
+          }
+      });  */     
+
+
+      axios.get('/api/email-verification', {
+            params: this.$route.query
+        }).then((response)=>{
+            if(response.data.success == false){
+                this.toastError(response.data.message);
+                if(response.data.type == 'already_verified'){
+                    this.$router.push({name: 'login'})
+                }
+            }
+        }).catch((e)=>{
+
+        })
     }
 }
 </script>

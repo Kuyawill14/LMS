@@ -289,11 +289,10 @@ Route::middleware('auth:sanctum')->prefix('/objective-logs')->group(function () 
 
 //Objective Questions
 /* middleware('auth:sanctum')-> */
-Route::prefix('/question')->group(function () {
+Route::middleware('auth:sanctum')->withoutMiddleware('throttle:api')->prefix('/question')->group(function () {
     Route::get('/all/{id}', [ObjectiveController::class, 'fetctQuestions']);
 
     Route::get('/StudentScore/{id}', [ObjectiveController::class, 'CheckStudentScore']);
-
     /* Route::get('/all/{id}', [ObjectiveController::class, 'checker']); */
     Route::get('/question-answer/{id}/{class_clwk_Id}', [ObjectiveController::class, 'fetchQuestionAnswerForViewSubmision']);
     Route::post('/insert', [ObjectiveController::class, 'store']);

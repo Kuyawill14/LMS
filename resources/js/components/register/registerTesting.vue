@@ -5,13 +5,13 @@
                 <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'ma-0 pa-0'" cols="12" sm="12" md="12">
                     <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
                         <loginRegisterImageConatiner></loginRegisterImageConatiner>
-                        <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3 mb-10' :'ma-0 pa-0'" cols="12" md="5">
+                        <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm? 'ma-0 pa-3 mb-10' :'ma-0 pa-0'" cols="12" md="5">
                             <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
-
+                            
                             <v-row>
                                 <v-col cols="12">
                                     <v-row align="center" justify="center">
-                                        <v-col class="mt-0 pt-0 text-left" cols="12" md="7">
+                                        <v-col class=" text-left" cols="12" md="7">
                                         <div class="text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">Sign
                                             Up <span class="font-weight-regular">Now</span> <span class="font-weight-regular text-subtitle-1"> (Step {{steps}} of 3)</span>  </div>
                                         <p class="mt-2">Login Your Account <router-link class="blue--text"
@@ -29,14 +29,17 @@
                                 </v-col> -->
 
                                  <v-col class="text-center mb-0 pb-0" cols="12">
-                                     <v-form ref="Registerform" v-model="valid" lazy-validation>
-                                   
+                                     <v-form @submit.prevent="validate" ref="Registerform" v-model="valid" lazy-validation>
+                                      
                                      <v-row v-if="steps == 1" align="center" justify="center">
                                          <v-col cols="12" md="7">
-                                             
+                                             <v-alert v-model="isValid_id" dismissible dense class="text-left" 
+                                             :type="valid_type == 'Not_Valid' ? 'error' : 'info'">{{isValid_id_mesage}}</v-alert>
+
                                               <v-text-field
                                                 :rules="StudentIdRules"
                                                 dense
+                                                placeholder="e.g. 18-****"
                                                 v-model="form.student_id"
                                                 label="Student ID Number"
                                                 outlined
@@ -45,9 +48,12 @@
                                      </v-row>
 
                                      <v-row v-if="steps == 2" align="center" justify="center">
-                                        <v-col cols="12" md="7">
+                                        <v-col cols="12" md="7" class="text-left">
+                                            <v-alert  dismissible dense class="text-left" 
+                                             type="info">Please used your exact birthday you used in enrollment!</v-alert>
                                              <div class="font-weight-bold">Personal Details</div>
                                          </v-col>
+                                       
                                          <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
                                               <v-text-field
                                                 dense
@@ -135,13 +141,12 @@
                                         
                                      </v-row>
 
-                                     <v-row class="mt-0 pt-0">
-                                      <v-col class="text-center mt-0 pt-0" cols="12">
+                                     <v-row class="mt-0 pt-0 pb-5">
+                                      <v-col class="text-center  mt-0 pt-0" cols="12">
                                            <v-btn  v-if="steps > 1" @click="steps=steps-1" color="secondary"   >
                                             Previus
                                         </v-btn>
-                                    
-                                        <v-btn  @click="validate" :color="steps == 3 ? 'success' : 'primary'"   >
+                                        <v-btn :disabled="!valid"  @click="validate" :color="steps == 3 ? 'success' : 'primary'"   >
                                             {{steps == 3 ? 'Register' : 'Next'}}
                                         </v-btn>
                                       </v-col>
@@ -191,14 +196,18 @@
                 password_confirmation: "",
                 student_id: ""
             },
+            loginForm: new Form({
+                email: "",
+                password: "",
+            }),
             nameRules: [
                 v => !!v || 'Field is required',
                 v => (v && v.length <= 20) || 'Name must be less than 20 characters',
             ],
             StudentIdRules: [
                 v => !!v || 'Student ID is required',
-                v => (v && v.length >= 6) || 'min 6 characters',
-                v => (v && v.length <= 8) || 'Max 8 characters',
+                v => (v && v.length >= 5) || 'min 5 characters',
+                v => (v && v.length <= 12) || 'Max 12 characters',
             ],
             emailRules: [
                 v => !!v || "Required",
@@ -209,7 +218,10 @@
                 min: v => (v && v.length >= 6) || "min 6 characters"
             },
             showPass: false,
-            showConfirmPass: false
+            showConfirmPass: false,
+            isValid_id: false,
+            isValid_id_mesage: null,
+            valid_type: null
         }),
         computed: {
             passwordMatch() {
@@ -217,6 +229,11 @@
             }
         },
         methods: {
+            preventNav(event) {
+                if (this.steps == 1) return;
+                event.preventDefault()
+                event.returnValue = "";
+            },
             async validate() {
                 if(this.$refs.Registerform.validate()) {
                     this.nextStep();
@@ -230,7 +247,10 @@
                             this.steps += 1;
                             this.$refs.Registerform.resetValidation()
                         }else{
-                            this.toastError(res.data.message);
+                            //this.toastError(res.data.message);
+                            this.valid_type = res.data.type;
+                            this.isValid_id = true;
+                            this.isValid_id_mesage = res.data.message;
                         }
                     })
                 }else if(this.steps == 2){
@@ -240,6 +260,7 @@
                             this.steps += 1;
                             this.$refs.Registerform.resetValidation()
                         }else{
+                            
                             this.toastError(res.data.message);
                         }
                     })
@@ -247,14 +268,18 @@
                      axios.put('/api/register/account/'+this.form.student_id, this.form)
                     .then((res)=>{
                         if(res.data.success == true){
+                            this.isRegistering = true;
                             this.sendVerification(this.form.email);
                             this.toastSuccess('Account Registerd: Please check your email for Verification!');
-                            this.form.student_id = '';
-                            this.$refs.Registerform.reset();
-                            this.steps = 1;
+                            this.login(this.form.email,this.form.password)
+                            //this.form.student_id = '';
+                            //this.$refs.Registerform.reset();
+                            //this.steps = 1;
                         }else{
                             this.toastError(res.data.message);
                         }
+                    }).catch(e => {
+                        this.toastError(e.response.data.errors.email[0]);
                     })
                 }
             },
@@ -273,8 +298,39 @@
                     this.toastError(err.response.data.message); */
                 })
             },
+             async login(email, password) {
+                this.loginForm.email = email;
+                this.loginForm.password = password;
+                axios.get('/sanctum/csrf-cookie').then(response => {
+                    this.loginForm.post('/api/login')
+                    .then((res) => {
+                        if (res.data.success == true) {
+                            this.$store.dispatch('clear_current_user');
+                            this.$router.push({
+                                path: "/"
+                            })
+                        } else {
+                            this.toastError(res.data.message);
+                        }
+                    })
+                });
+            },
+             beforeWindowUnload(e) {
+                if (this.steps == 1) {
+                    // Cancel the event
+                    e.preventDefault()
+                    // Chrome requires returnValue to be set
+                    e.returnValue = ''
+                }   
+            },
             
-        }
+        },
+        beforeMount(){
+             window.addEventListener("beforeunload", this.preventNav);
+        },
+     /*    beforeDestroy(){
+            window.removeEventListener('beforeunload', this.beforeWindowUnload)
+        }, */
     };
 
 </script>

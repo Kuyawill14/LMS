@@ -22,6 +22,7 @@ class VerificationController extends Controller
         if (! hash_equals((string) $request->hash, sha1($user->getEmailForVerification()))) {
             return response()->json([
                 "message" => "Unauthorized!",
+                "type"=> 'unauthorized',
                 "success" => false
             ]);
         }
@@ -29,6 +30,7 @@ class VerificationController extends Controller
         if ($user->hasVerifiedEmail()) {
             return response()->json([
                 "message" => "User already verified!",
+                "type"=> 'already_verified',
                 "success" => false
             ]);
         }

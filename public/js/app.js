@@ -6789,15 +6789,25 @@ __webpack_require__.r(__webpack_exports__);
 
 var actions = {
   verifyEmail: function verifyEmail(ctx, payload) {
-    return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/email-verification', {
-        params: payload
-      }).then(function (response) {
-        resolve(response);
-      })["catch"](function (error) {
-        reject(error);
-      });
-    });
+    /*  return new Promise((resolve, reject) => {
+         axios
+             .get('/api/email-verification', {
+                 params: payload
+             })
+             .then((response) => {
+                 return response.data;
+                 //console.log(response.data);
+                 //resolve(response);
+             })
+             .catch((error) => {
+                 reject(error);
+             })
+     }) */
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/email-verification', {
+      params: payload
+    }).then(function (response) {
+      return response;
+    })["catch"](function (e) {});
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -38228,7 +38238,7 @@ var index = {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, ["js/vendor~utils-0","css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
+/******/ __webpack_require__.O(0, ["css/app","js/vendor~utils-6","js/vendor~utils-1","js/vendor~utils-5","js/vendor~utils-4","js/vendor~utils-3","js/vendor~utils-0"], () => (__webpack_exec__("./resources/js/app.js"), __webpack_exec__("./resources/sass/app.scss")));
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ }
 ]);

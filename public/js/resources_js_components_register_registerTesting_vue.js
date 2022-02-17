@@ -187,6 +187,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 var loginRegisterFooter = function loginRegisterFooter() {
   return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterFooter */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterFooter.vue"));
 };
@@ -216,6 +221,10 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
         password_confirmation: "",
         student_id: ""
       },
+      loginForm: new Form({
+        email: "",
+        password: ""
+      }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
@@ -224,9 +233,9 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
       StudentIdRules: [function (v) {
         return !!v || 'Student ID is required';
       }, function (v) {
-        return v && v.length >= 6 || 'min 6 characters';
+        return v && v.length >= 5 || 'min 5 characters';
       }, function (v) {
-        return v && v.length <= 8 || 'Max 8 characters';
+        return v && v.length <= 12 || 'Max 12 characters';
       }],
       emailRules: [function (v) {
         return !!v || "Required";
@@ -242,7 +251,10 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
         }
       },
       showPass: false,
-      showConfirmPass: false
+      showConfirmPass: false,
+      isValid_id: false,
+      isValid_id_mesage: null,
+      valid_type: null
     };
   },
   computed: {
@@ -251,6 +263,11 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
     }
   },
   methods: {
+    preventNav: function preventNav(event) {
+      if (this.steps == 1) return;
+      event.preventDefault();
+      event.returnValue = "";
+    },
     validate: function validate() {
       var _this = this;
 
@@ -286,7 +303,10 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
 
                       _this2.$refs.Registerform.resetValidation();
                     } else {
-                      _this2.toastError(res.data.message);
+                      //this.toastError(res.data.message);
+                      _this2.valid_type = res.data.type;
+                      _this2.isValid_id = true;
+                      _this2.isValid_id_mesage = res.data.message;
                     }
                   });
                 } else if (_this2.steps == 2) {
@@ -302,18 +322,21 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                 } else if (_this2.steps == 3) {
                   axios.put('/api/register/account/' + _this2.form.student_id, _this2.form).then(function (res) {
                     if (res.data.success == true) {
+                      _this2.isRegistering = true;
+
                       _this2.sendVerification(_this2.form.email);
 
                       _this2.toastSuccess('Account Registerd: Please check your email for Verification!');
 
-                      _this2.form.student_id = '';
+                      _this2.login(_this2.form.email, _this2.form.password); //this.form.student_id = '';
+                      //this.$refs.Registerform.reset();
+                      //this.steps = 1;
 
-                      _this2.$refs.Registerform.reset();
-
-                      _this2.steps = 1;
                     } else {
                       _this2.toastError(res.data.message);
                     }
+                  })["catch"](function (e) {
+                    _this2.toastError(e.response.data.errors.email[0]);
                   });
                 }
 
@@ -349,8 +372,55 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
           }
         }, _callee3);
       }))();
+    },
+    login: function login(email, password) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this3.loginForm.email = email;
+                _this3.loginForm.password = password;
+                axios.get('/sanctum/csrf-cookie').then(function (response) {
+                  _this3.loginForm.post('/api/login').then(function (res) {
+                    if (res.data.success == true) {
+                      _this3.$store.dispatch('clear_current_user');
+
+                      _this3.$router.push({
+                        path: "/"
+                      });
+                    } else {
+                      _this3.toastError(res.data.message);
+                    }
+                  });
+                });
+
+              case 3:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    beforeWindowUnload: function beforeWindowUnload(e) {
+      if (this.steps == 1) {
+        // Cancel the event
+        e.preventDefault(); // Chrome requires returnValue to be set
+
+        e.returnValue = '';
+      }
     }
+  },
+  beforeMount: function beforeMount() {
+    window.addEventListener("beforeunload", this.preventNav);
   }
+  /*    beforeDestroy(){
+         window.removeEventListener('beforeunload', this.beforeWindowUnload)
+     }, */
+
 });
 
 /***/ }),
@@ -481,9 +551,11 @@ var render = function() {
                       _c(
                         "v-col",
                         {
-                          class: _vm.$vuetify.breakpoint.xs
-                            ? "ma-0 pa-3 mb-10"
-                            : "ma-0 pa-0",
+                          class:
+                            _vm.$vuetify.breakpoint.xs ||
+                            _vm.$vuetify.breakpoint.sm
+                              ? "ma-0 pa-3 mb-10"
+                              : "ma-0 pa-0",
                           attrs: { cols: "12", md: "5" }
                         },
                         [
@@ -514,7 +586,7 @@ var render = function() {
                                       _c(
                                         "v-col",
                                         {
-                                          staticClass: "mt-0 pt-0 text-left",
+                                          staticClass: " text-left",
                                           attrs: { cols: "12", md: "7" }
                                         },
                                         [
@@ -593,6 +665,15 @@ var render = function() {
                                     {
                                       ref: "Registerform",
                                       attrs: { "lazy-validation": "" },
+                                      on: {
+                                        submit: function($event) {
+                                          $event.preventDefault()
+                                          return _vm.validate.apply(
+                                            null,
+                                            arguments
+                                          )
+                                        }
+                                      },
                                       model: {
                                         value: _vm.valid,
                                         callback: function($$v) {
@@ -618,10 +699,44 @@ var render = function() {
                                                   attrs: { cols: "12", md: "7" }
                                                 },
                                                 [
+                                                  _c(
+                                                    "v-alert",
+                                                    {
+                                                      staticClass: "text-left",
+                                                      attrs: {
+                                                        dismissible: "",
+                                                        dense: "",
+                                                        type:
+                                                          _vm.valid_type ==
+                                                          "Not_Valid"
+                                                            ? "error"
+                                                            : "info"
+                                                      },
+                                                      model: {
+                                                        value: _vm.isValid_id,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.isValid_id = $$v
+                                                        },
+                                                        expression: "isValid_id"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(
+                                                          _vm.isValid_id_mesage
+                                                        )
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       rules: _vm.StudentIdRules,
                                                       dense: "",
+                                                      placeholder:
+                                                        "e.g. 18-****",
                                                       label:
                                                         "Student ID Number",
                                                       outlined: ""
@@ -661,9 +776,27 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
+                                                  staticClass: "text-left",
                                                   attrs: { cols: "12", md: "7" }
                                                 },
                                                 [
+                                                  _c(
+                                                    "v-alert",
+                                                    {
+                                                      staticClass: "text-left",
+                                                      attrs: {
+                                                        dismissible: "",
+                                                        dense: "",
+                                                        type: "info"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "Please used your exact birthday you used in enrollment!"
+                                                      )
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
                                                   _c(
                                                     "div",
                                                     {
@@ -672,7 +805,8 @@ var render = function() {
                                                     },
                                                     [_vm._v("Personal Details")]
                                                   )
-                                                ]
+                                                ],
+                                                1
                                               ),
                                               _vm._v(" "),
                                               _c(
@@ -982,13 +1116,13 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "v-row",
-                                        { staticClass: "mt-0 pt-0" },
+                                        { staticClass: "mt-0 pt-0 pb-5" },
                                         [
                                           _c(
                                             "v-col",
                                             {
                                               staticClass:
-                                                "text-center mt-0 pt-0",
+                                                "text-center  mt-0 pt-0",
                                               attrs: { cols: "12" }
                                             },
                                             [
@@ -1020,6 +1154,7 @@ var render = function() {
                                                 "v-btn",
                                                 {
                                                   attrs: {
+                                                    disabled: !_vm.valid,
                                                     color:
                                                       _vm.steps == 3
                                                         ? "success"
