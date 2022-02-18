@@ -45,6 +45,9 @@ use App\Http\Controllers\WebNotificationController;
 
 use App\Http\Controllers\api\vaccination\VaccinationController;
 
+use App\Http\Controllers\api\backup\BackupController;
+
+
 
 
 
@@ -520,3 +523,10 @@ Route::post('/store_token', [WebNotificationController::class, 'storeToken']);
 
 Route::get('/vaccination/{data}/{type}', [VaccinationController::class, 'fetchStudent']);
 Route::post('/vaccination/upload', [VaccinationController::class, 'bulkAddVaccineStatus']);
+
+
+Route::get('/export_teacher', [BackupController::class, 'backupTeacherToCSV']);
+
+
+
+
