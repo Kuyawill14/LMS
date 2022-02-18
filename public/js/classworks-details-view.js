@@ -1184,19 +1184,23 @@ var studentViewForTeacher = function studentViewForTeacher() {
                         id: res.data.choices_id[0],
                         Choice: '',
                         question_id: res.data.question_id
-                      }, {
-                        id: res.data.choices_id[1],
-                        Choice: '',
-                        question_id: res.data.question_id
-                      }, {
-                        id: res.data.choices_id[2],
-                        Choice: '',
-                        question_id: res.data.question_id
-                      }, {
-                        id: res.data.choices_id[3],
-                        Choice: '',
-                        question_id: res.data.question_id
-                      }],
+                      }
+                      /*   {
+                            id : res.data.choices_id[1],
+                            Choice : '',
+                            question_id : res.data.question_id,
+                       },
+                        {
+                            id : res.data.choices_id[2],
+                            Choice : '',
+                            question_id : res.data.question_id,
+                       },
+                        {
+                            id : res.data.choices_id[3],
+                            Choice : '',
+                            question_id : res.data.question_id,
+                       } */
+                      ],
                       SubQuestion: [],
                       SubAnswer: [],
                       Destructors: []
@@ -1269,7 +1273,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         }, _callee6);
       }))();
     },
-    AddNewOption: function AddNewOption(id, Mainindex) {
+    AddNewOption: function AddNewOption(id, Mainindex, type) {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
@@ -1277,15 +1281,20 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                _this5.isNewChanges = true;
-
-                _this5.getAll_questions.Answer[Mainindex].options.push({
-                  id: '',
-                  Choice: '<p>' + 'Option ' + (_this5.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                axios.post('/api/question/addOption', {
+                  type: type,
                   question_id: id
+                }).then(function (res) {
+                  _this5.isNewChanges = true;
+
+                  _this5.getAll_questions.Answer[Mainindex].options.push({
+                    id: res.data.answer_id,
+                    Choice: '<p>' + 'Option ' + (_this5.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    question_id: id
+                  });
                 });
 
-              case 2:
+              case 1:
               case "end":
                 return _context7.stop();
             }
@@ -1293,7 +1302,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         }, _callee7);
       }))();
     },
-    AddNewMatch: function AddNewMatch(id, mainIndex) {
+    AddNewMatch: function AddNewMatch(id, mainIndex, type) {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
@@ -1301,7 +1310,26 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this6.isNewChanges = true;
+                axios.post('/api/question/addOption', {
+                  type: type,
+                  question_id: id
+                }).then(function (res) {
+                  _this6.isNewChanges = true;
+
+                  _this6.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                    id: res.data.sub_question_id,
+                    answer_id: null,
+                    sub_question: ''
+                  });
+
+                  _this6.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                    id: res.data.answer_id,
+                    Choice: '',
+                    question_id: id
+                  });
+                });
+                /* this.isNewChanges = true; */
+
                 /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
                     
                     this.getAll_questions.Answer[mainIndex].SubQuestion = [{
@@ -1319,20 +1347,19 @@ var studentViewForTeacher = function studentViewForTeacher() {
                 }
                 else{ */
 
-                _this6.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                  id: null,
-                  answer_id: null,
-                  sub_question: ''
-                });
+                /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                    id: null,
+                    answer_id: null,
+                    sub_question: ''
+                })
+                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                    id : null, 
+                    Choice : '',
+                    question_id : id
+                }) */
+                //}
 
-                _this6.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                  id: null,
-                  Choice: '',
-                  question_id: id
-                }); //}
-
-
-              case 3:
+              case 1:
               case "end":
                 return _context8.stop();
             }
@@ -1593,6 +1620,13 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
                   _this13.DeleteSingledialog = false;
                   _this13.DeleteDetails = null;
+                  _this13.Qlength = _this13.getAll_questions.Question.length;
+
+                  _this13.$toasted.show('Question has been deleted', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 5000
+                  });
                 });
 
               case 1:
@@ -35714,10 +35748,10 @@ var render = function() {
                                   staticClass: "fixed-bar",
                                   style:
                                     _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : _vm.$vuetify.breakpoint.mdAndUp &&
                                         _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : "",
                                   attrs: {
                                     elevation: hover ? "10" : "2",
@@ -35798,10 +35832,10 @@ var render = function() {
                                   staticClass: "fixed-bar",
                                   style:
                                     _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 8.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : _vm.$vuetify.breakpoint.mdAndUp &&
                                         _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top: 8.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : "",
                                   attrs: {
                                     flat: "",
@@ -35900,10 +35934,10 @@ var render = function() {
                                   staticClass: "fixed-bar",
                                   style:
                                     _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 12em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 12.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : _vm.$vuetify.breakpoint.mdAndUp &&
                                         _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top:12em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top:12.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : "",
                                   attrs: {
                                     elevation: hover ? "10" : "2",
@@ -35988,10 +36022,10 @@ var render = function() {
                                   staticClass: "fixed-bar",
                                   style:
                                     _vm.$vuetify.breakpoint.mdAndUp && !_vm.fab
-                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 18em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;z-index: 2;width: 130px !important;top: 18.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : _vm.$vuetify.breakpoint.mdAndUp &&
                                         _vm.fab
-                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top:16em !important;margin-left: 1em !important;cursor:pointer;"
+                                      ? "position: fixed !important;width: 130px !important;z-index: 2;top:16.5em !important;margin-left: 1em !important;cursor:pointer;"
                                       : "",
                                   attrs: {
                                     elevation: hover ? "10" : "2",
@@ -37191,7 +37225,8 @@ var render = function() {
                                                                               ) {
                                                                                 return _vm.AddNewOption(
                                                                                   item.id,
-                                                                                  mainIndex
+                                                                                  mainIndex,
+                                                                                  item.type
                                                                                 )
                                                                               }
                                                                             }
@@ -38158,7 +38193,8 @@ var render = function() {
                                                                               ) {
                                                                                 return _vm.AddNewMatch(
                                                                                   item.id,
-                                                                                  mainIndex
+                                                                                  mainIndex,
+                                                                                  item.type
                                                                                 )
                                                                               }
                                                                             }

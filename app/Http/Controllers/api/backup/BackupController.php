@@ -18,6 +18,6 @@ class BackupController extends Controller
         ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.id' , '=', 'users.id')
         ->get();
 
-        return array('id'=>1231);
+        return $teachers;
     }
 }

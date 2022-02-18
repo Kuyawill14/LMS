@@ -420,13 +420,13 @@ class ObjectiveController extends Controller
      */
     public function AddOption(Request $request)
     {   
-       
+
         if($request->type == 'Multiple Choice'){
             $newChoice = new tbl_choice;
-            $newChoice->question_id = $request->answers['question_id'];
+            $newChoice->question_id = $request->question_id;
             $newChoice->Choice = "<p>N/A</p>";
             $newChoice->save();
-            return ["main_id"=>  $SubQuestion->question_id, "answer_id"=>  $newChoice->id];
+            return ["main_id"=>  null, "answer_id"=>  $newChoice->id];
         }
         elseif($request->type == 'Matching Type'){
             $QuestionChoice  = new tbl_choice;
@@ -441,7 +441,7 @@ class ObjectiveController extends Controller
              $SubQuestion->sub_question = "<p>N/A</p>";
              $SubQuestion->save();
 
-            return ["main_id"=>  $SubQuestion->id, "answer_id"=>  $QuestionChoice->id];
+            return ["sub_question_id"=>  $SubQuestion->id, "answer_id"=>  $QuestionChoice->id];
 
         }
         
@@ -553,15 +553,22 @@ class ObjectiveController extends Controller
             ]);
         }
 
+        $QuestionChoice  = new tbl_choice;
+        $QuestionChoice->question_id = $newQuestion->id;
+        $QuestionChoice->Choice = '';
+        $QuestionChoice->save();
+
 
         $choices_id = [];
-        for ($i=0; $i < 4; $i++) { 
+        $choices_id[0] = $QuestionChoice->id;
+
+       /*  for ($i=0; $i < 4; $i++) { 
             $QuestionChoice  = new tbl_choice;
             $QuestionChoice->question_id = $newQuestion->id;
             $QuestionChoice->Choice = '';
             $QuestionChoice->save();
             $choices_id[$i] = $QuestionChoice->id;
-        }
+        } */
 
        
 

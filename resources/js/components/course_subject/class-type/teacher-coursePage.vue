@@ -434,9 +434,10 @@
 
         },
         mounted() {
+            this.$store.dispatch('clearClassesNames');
             this.fetchCourses();
             this.fetchAllSchoolyear_semester();
-            this.$store.dispatch('clearClassesNames');
+            
         },
     }
 

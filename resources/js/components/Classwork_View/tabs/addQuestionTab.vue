@@ -14,9 +14,9 @@
         @click="AddNewQuestion"
         :elevation="hover ? '10' : '2'"
         :style="$vuetify.breakpoint.mdAndUp && !fab ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;' : 
         $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top: 4em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        'position: fixed !important;width: 130px !important;z-index: 2;top: 4.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
         dense clipped-right shaped class="fixed-bar" floating  color="blue"  >
             <v-chip
             small
@@ -43,9 +43,9 @@
     
 
     :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 8.5em !important;margin-left: 1em !important;cursor:pointer;' : 
         $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top: 8em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        'position: fixed !important;width: 130px !important;z-index: 2;top: 8.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
     
     dense clipped-right shaped class="fixed-bar" floating  :color="isNewChanges ? 'primary' : '#EEEEEE'"  >
         <v-chip
@@ -71,9 +71,9 @@
         @click="studenView()"
         :elevation="hover ? '10' : '2'"
         :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 12em !important;margin-left: 1em !important;cursor:pointer;' : 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 12.5em !important;margin-left: 1em !important;cursor:pointer;' : 
         $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top:12em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        'position: fixed !important;width: 130px !important;z-index: 2;top:12.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
         dense clipped-right shaped class="fixed-bar" floating  color="success"  >
             <v-chip
             small
@@ -96,9 +96,9 @@
         @click="$router.push({name: 'question-analytics',query: {clwk: $route.query.clwk} })"
         :elevation="hover ? '10' : '2'"
         :style="$vuetify.breakpoint.mdAndUp && !fab  ? 
-        'position: fixed !important;z-index: 2;width: 130px !important;top: 18em !important;margin-left: 1em !important;cursor:pointer;' : 
+        'position: fixed !important;z-index: 2;width: 130px !important;top: 18.5em !important;margin-left: 1em !important;cursor:pointer;' : 
         $vuetify.breakpoint.mdAndUp && fab ?
-        'position: fixed !important;width: 130px !important;z-index: 2;top:16em !important;margin-left: 1em !important;cursor:pointer;' : ''"
+        'position: fixed !important;width: 130px !important;z-index: 2;top:16.5em !important;margin-left: 1em !important;cursor:pointer;' : ''"
         dense clipped-right shaped class="fixed-bar" floating  color="red"  >
             <v-chip
             small
@@ -358,7 +358,7 @@
                                             class="mb-0 pb-0"
                                             color="primary"
                                             v-if="!isHaveSubmission" 
-                                            @click="AddNewOption(item.id, mainIndex)">
+                                            @click="AddNewOption(item.id, mainIndex, item.type)">
                                             <v-icon dark left large>mdi-plus</v-icon>
                                             Add Choice
                                             </v-btn>
@@ -522,7 +522,7 @@
                                             outlined
                                             class="mt-2"
                                             color="primary"
-                                            @click="AddNewMatch(item.id, mainIndex)"
+                                            @click="AddNewMatch(item.id, mainIndex, item.type)"
                                             >
                                             <v-icon left>mdi-plus</v-icon>
                                              Add  Match
@@ -898,7 +898,7 @@ export default {
                             Choice : '',
                             question_id : res.data.question_id,
                        },
-                        {
+                      /*   {
                             id : res.data.choices_id[1],
                             Choice : '',
                             question_id : res.data.question_id,
@@ -912,7 +912,7 @@ export default {
                             id : res.data.choices_id[3],
                             Choice : '',
                             question_id : res.data.question_id,
-                       }
+                       } */
                    ],
                    SubQuestion:[],
                    SubAnswer:[],
@@ -967,17 +967,41 @@ export default {
            
         },
 
-        async AddNewOption(id, Mainindex){
-            this.isNewChanges = true;
-            this.getAll_questions.Answer[Mainindex].options.push({
-                id : '',
-                Choice : '<p>'+'Option '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
-                question_id : id,
+        async AddNewOption(id, Mainindex, type){
+
+            axios.post('/api/question/addOption', {
+                type: type,
+                question_id: id
+            }).then((res)=>{
+                this.isNewChanges = true;
+                this.getAll_questions.Answer[Mainindex].options.push({
+                    id : res.data.answer_id,
+                    Choice : '<p>'+'Option '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                    question_id : id,
+                })
             })
-        },
-        async AddNewMatch(id, mainIndex){
             
-             this.isNewChanges = true;
+        },
+        async AddNewMatch(id, mainIndex, type){
+            axios.post('/api/question/addOption', {
+                type: type,
+                question_id: id
+            }).then((res)=>{
+                this.isNewChanges = true;
+                this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                    id: res.data.sub_question_id,
+                    answer_id: null,
+                    sub_question: ''
+                })
+                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
+                    id : res.data.answer_id, 
+                    Choice : '',
+                    question_id : id
+                })
+            })
+
+
+             /* this.isNewChanges = true; */
             /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
                 
                 this.getAll_questions.Answer[mainIndex].SubQuestion = [{
@@ -994,7 +1018,7 @@ export default {
                 ]
             }
             else{ */
-                this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+                /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
                     id: null,
                     answer_id: null,
                     sub_question: ''
@@ -1003,7 +1027,7 @@ export default {
                     id : null, 
                     Choice : '',
                     question_id : id
-                })
+                }) */
             //}
             
         },
@@ -1188,6 +1212,12 @@ export default {
                 this.selectedData.splice(this.DeleteIndex, 1);
                 this.DeleteSingledialog = false
                 this.DeleteDetails = null;
+                this.Qlength = this.getAll_questions.Question.length;
+                 this.$toasted.show('Question has been deleted', {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        duration: 5000,
+                    });
             })
         },
         singleDuplicate(question, answer){
