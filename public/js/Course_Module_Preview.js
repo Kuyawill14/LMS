@@ -162,6 +162,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -621,7 +623,6 @@ var render = function() {
                                         },
                                         attrs: {
                                           title: "google drive viewer",
-                                          id: "pdf-iframe",
                                           src:
                                             _vm.subModuleData.link != null
                                               ? _vm.scrapeDocID(
@@ -651,7 +652,6 @@ var render = function() {
                                         },
                                         attrs: {
                                           title: "google drive viewer",
-                                          id: "pdf-iframe",
                                           src:
                                             "https://view.officeapps.live.com/op/embed.aspx?src=" +
                                             _vm.docpath +
@@ -697,7 +697,6 @@ var render = function() {
                                     attrs: {
                                       title: _vm.subModuleData.sub_module_name,
                                       pdf_file:
-                                        "/storage/" +
                                         _vm.subModuleData.file_attachment
                                     },
                                     on: {

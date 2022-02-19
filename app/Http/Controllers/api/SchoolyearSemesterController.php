@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tbl_semester;
 use App\Models\tbl_schoolyear;
 use App\Models\tbl_department;
-
+use App\Models\tbl_subject_course;
 class SchoolyearSemesterController extends Controller
 {
     /**
@@ -87,26 +87,40 @@ class SchoolyearSemesterController extends Controller
 
         $type = $request->type;
 
+
+
+     
         if($type == 'school_year') {
+            $checkCourse = tbl_subject_course::where('school_year_id',$id)->count();
+
             $schoolyears =  tbl_schoolyear::find($id);
             if($schoolyears) {
-                $schoolyears->delete();
+                if($checkCourse == 0) {
+                    $schoolyears->delete();
+                } else {
+                    return ['status'=> '0', 'message'=>'Unable to delete this School year'];
+                }
+               return ['status'=> '1', 'message'=>'Succesfully Deleted']; 
             } 
         
-            return 'Succesfully Deleted';
+         
         } 
 
         if($type == 'semester') {
-        
+            $checkCourse = tbl_subject_course::where('semester_id',$id)->count();
+
             $semesters =  tbl_semester::find($id);
             
             if($semesters) {
-                $semesters->semester = $request->name;
-                $semesters->delete();
+                if($checkCourse == 0) {
+                    $semesters->delete();
+                } else {
+                    return ['status'=> '0', 'message'=>'Unable to delete this School year'];
+                }
+                return ['status'=> '1', 'message'=>'Succesfully Deleted']; 
+              
             } 
         
-
-            return 'Succesfully Deleted';
         } 
     }
 

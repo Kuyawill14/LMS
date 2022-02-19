@@ -99,7 +99,7 @@ class SubModuleController extends Controller
 
     public function store(Request $request)
     {
-
+        $userId = auth('sanctum')->id();
         $currentTime = Carbon::now()->format('YmdHs');
         $file = null;
        $itemType = $request->type == 'Video' || $request->type == 'Document';
@@ -148,17 +148,27 @@ class SubModuleController extends Controller
                         $file_mime_type = $request->file->getClientMimeType();
                         $original_file_name = $request->file->getClientOriginalName();
 
-                         //name_time.extension
-                        $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
+                        // //  //name_time.extension
+                        // $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
 
-                        $file = $request->file->storeAs('public/upload/courses/' .$request->main_module_id,$filename );
+                        // // $file = $request->file->storeAs('public/upload/courses/' .$request->main_module_id,$filename );
+                        $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
+                        
+                        
+                        $file = $request->file('file');
+                        // $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->fileName);
+                        // $Uploadname = $original_file_name.'_'.time().'.'. $file_extension;
+                        $upload_file = Storage::disk('DO_spaces')->putFileAs('modules/'.$request->main_module_id.'/'.$userId, $file,  $filename , 'public');
+                        $path = \Config::get('app.do_url').'/'. $upload_file;
+
+
                         $subModule = new tbl_sub_modules;
                         $subModule->sub_module_name = $request->sub_module_name;
                         $subModule->type = $request->type;
                         $subModule->main_module_id = $request->main_module_id;
                         $subModule->description = $request->description;
                         $subModule->required_time = $request->required_time * 60;
-                        $subModule->file_attachment = preg_replace('/\bpublic\/\b/', '', $file);;
+                        $subModule->file_attachment =  $path;
                         $subModule->save();
                         return $subModule;
                          }

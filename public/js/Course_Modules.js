@@ -478,7 +478,7 @@ var render = function() {
                       staticClass: "pl-1",
                       attrs: { lg: "1", md: "2", sm: "3" }
                     },
-                    [_c("h2", { staticClass: "pb-0" }, [_vm._v(" Materials")])]
+                    [_c("h2", { staticClass: "pb-0" }, [_vm._v("Modules")])]
                   ),
                   _vm._v(" "),
                   _c(

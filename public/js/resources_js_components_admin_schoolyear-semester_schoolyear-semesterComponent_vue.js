@@ -349,7 +349,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         type: this.type
       };
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/admin/schoolyears_semesters/delete', data).then(function (res) {
-        ////console.log(res.data);
+        if (res.data.status == '1') {
+          _this3.toastSuccess(res.data.message);
+        } else {
+          _this3.toastError(res.data.message);
+        }
+
         _this3.fetchAllSchoolyear_semester();
 
         _this3.deleteModal = false;
@@ -1376,7 +1381,7 @@ var render = function() {
                           attrs: { color: "orange darken-1", text: "" },
                           on: {
                             click: function($event) {
-                              _vm.semesterModal = false
+                              _vm.deleteModal = false
                             }
                           }
                         },

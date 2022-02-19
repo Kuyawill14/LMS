@@ -22,7 +22,7 @@
                         
                             <v-card style="height: 522px;"
                                 v-if="type=='Link'  &&  subModuleData.link.search('youtube') == -1">
-                                <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
+                                <iframe title="google drive viewer"  class="holds-the-iframe"
                                     :src="  subModuleData.link != null ? scrapeDocID(subModuleData.link) : ''"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     style="width: 100% !important;height: 522px !important"></iframe>
@@ -32,7 +32,7 @@
                             
                             <v-card style="height: 522px;"
                                v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
-                                <iframe title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
+                                <iframe title="google drive viewer"  class="holds-the-iframe"
                                     :src="'https://view.officeapps.live.com/op/embed.aspx?src=' +docpath + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     style="width: 100% !important;height: 522px !important"></iframe>
@@ -49,8 +49,10 @@
                             <!-- <v-dialog v-model="pdfdialog" v-if="type=='Document' " fullscreen hide-overlay transition="dialog-bottom-transition"> -->
                             <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;height: 522px !important"
                                 v-if="type=='Document' && ext == 'pdf'  && isSelectedModule " :title="subModuleData.sub_module_name"
-                                :pdf_file="'/storage/' + subModuleData.file_attachment"
+                                :pdf_file="subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" />
+
+
                             <!-- </v-dialog> -->
                         </v-container>
 
