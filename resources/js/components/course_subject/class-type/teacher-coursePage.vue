@@ -199,10 +199,29 @@
                                     </v-list>
                                     </router-link>
                                     <hr>
-                                    <div class="pl-4">
+                                    <!-- <div class="pl-4">
+                                        {{item.student_count+' students'}} <br>
+                                        {{item.class_count+' class'}}
+                                    </div> -->
+                                     <div class="d-flex">
+                                    <div class="mt-2 pl-4" >
                                         {{item.student_count+' students'}} <br>
                                         {{item.class_count+' class'}}
                                     </div>
+                                   <v-spacer></v-spacer>
+                                     <div class="mt-4" v-if="item.join_request_count != 0">
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on, attrs }">
+                                                 <v-badge overlap color="red" :value="item.join_request_count" :content="item.join_request_count" bordered top    offset-x="45" offset-y="17">
+                                                     <v-btn @click="item.completed == 1 ? $router.push({name: 'Student-list', params: {id: item.id},query:{view: 'join_request'} }) : ''"  icon v-bind="attrs" v-on="on">
+                                                         <v-icon large>mdi-account-arrow-right-outline</v-icon>
+                                                     </v-btn>
+                                                </v-badge>
+                                            </template>
+                                            <span>Course join request</span>
+                                        </v-tooltip>
+                                    </div>
+                                </div>
                                 
                                 </v-card-subtitle>
                             </v-hover>
@@ -423,6 +442,7 @@
              CheckBackgroundPath(path){
                 if(path != null){
                     if(path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
+                        return path;
                         let str = path.replace('.cdn', '');
                         return str;
                     }

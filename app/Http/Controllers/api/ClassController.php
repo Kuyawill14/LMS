@@ -86,7 +86,10 @@ class ClassController extends Controller
                 ->where('course_id', $value ->course_id)
                 ->update(['progress' =>   $totalProgress]);
 
-                $unfinishCLasswork = tbl_classClassworks::where('tbl_class_classworks.class_id', $value ->class_id)->get();
+                $unfinishCLasswork = tbl_classClassworks::where('tbl_class_classworks.class_id', $value ->class_id)
+                ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
+                ->where('tbl_class_classworks.availability', '!=',2)
+                ->get();
                 $unfinishCLassworkCount = 0;
                 foreach($unfinishCLasswork as $classwork){
                     $check = tbl_Submission::where('tbl_submissions.class_classwork_id', $classwork->id)

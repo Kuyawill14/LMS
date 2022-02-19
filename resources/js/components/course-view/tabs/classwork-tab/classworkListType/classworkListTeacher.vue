@@ -79,7 +79,7 @@
                 <v-row v-if="classworks[i].length != 0" class="pl-1 pr-1 mt-1" ma-0 pa-0>
                    
                     <v-col class="ma-0 pa-0 pb-2 pl-2 pr-2 mb-1" cols="12"  md="4" v-for="(item, index) in classworks[i]" :key="index">
-                        <v-expansion-panels mandatory focusable>
+                        <v-expansion-panels  focusable>
                             <v-expansion-panel  class="ma-0 pa-0">
                             <!--  <v-hover v-slot="{ hover }"> -->
                             

@@ -261,8 +261,9 @@ import axios from 'axios';
                     
                 }
                 else if(data.notification_type == 'class_joined'){
-                    let path = '/course/'+data.c_id+'/people';
-                    this.$router.push({path: path});
+                   /*  let path = '/course/'+data.c_id+'/people';
+                    this.$router.push({path: path}); */
+                    this.$router.push({name: 'Student-list', params: {id: data.c_id},query:{view: 'list'} })
                  
                 }
                 else if(data.notification_type == 'classwork_assigned' ){

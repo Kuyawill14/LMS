@@ -170,11 +170,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               'list': 'ordered'
             }, {
               'list': 'bullet'
-            }], ['link', 'image', 'video']]
-            /* handlers: {
-                image: this.imageHandler
-            } */
-
+            }], ['link', 'image', 'video']],
+            handlers: {
+              image: this.imageHandler
+            }
           }
         }
       },
@@ -241,6 +240,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.editorData = editor;
     },
     imageHandler: function imageHandler() {
+      var _this3 = this;
+
       var editor = this.editorData;
       var input = document.createElement('input');
       input.setAttribute('type', 'file');
@@ -253,13 +254,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 file = input.files[0];
+
+                if (!(file.size < 300000)) {
+                  _context2.next = 12;
+                  break;
+                }
+
                 formData = new FormData();
                 formData.append('file', file);
-                formData.append('type', 'Announcement'); // Save current cursor state
+                formData.append('type', 'Announcement');
+                formData.append('course_id', _this3.$route.params.id); // Save current cursor state
 
                 range = editor.getSelection(true);
                 editor.setSelection(range.index + 1);
-                _context2.next = 8;
+                _context2.next = 10;
                 return axios.post('/api/classwork/newAttachment', formData).then( /*#__PURE__*/function () {
                   var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(_ref2) {
                     var data;
@@ -284,10 +292,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   };
                 }())["catch"](function (_ref4) {
                   var response = _ref4.response;
-                  alert('error');
                 });
 
-              case 8:
+              case 10:
+                _context2.next = 13;
+                break;
+
+              case 12:
+                _this3.toastError('Image size is to big!');
+
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -297,20 +311,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   }, _defineProperty(_methods, "onChange", function onChange(quill, html, text) {////console.log(this.announcement.content);
   }), _defineProperty(_methods, "newNotification", function newNotification(announcement_id, content) {
-    var _this3 = this;
+    var _this4 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _this3.notifyDetails.class_id = _this3.$route.params.id != _this3.class_id ? _this3.class_id : null;
-              _this3.notifyDetails.course_id = _this3.$route.params.id == _this3.class_id ? _this3.$route.params.id : null;
-              _this3.notifyDetails.course_find_id = _this3.$route.params.id;
-              _this3.notifyDetails.announcement_id = announcement_id;
-              _this3.notifyDetails.content = content;
-              _this3.notifyDetails.type = 'announcement';
-              axios.post('/api/notification/new', _this3.notifyDetails);
+              _this4.notifyDetails.class_id = _this4.$route.params.id != _this4.class_id ? _this4.class_id : null;
+              _this4.notifyDetails.course_id = _this4.$route.params.id == _this4.class_id ? _this4.$route.params.id : null;
+              _this4.notifyDetails.course_find_id = _this4.$route.params.id;
+              _this4.notifyDetails.announcement_id = announcement_id;
+              _this4.notifyDetails.content = content;
+              _this4.notifyDetails.type = 'announcement';
+              axios.post('/api/notification/new', _this4.notifyDetails);
 
             case 7:
             case "end":

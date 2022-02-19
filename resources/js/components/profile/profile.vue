@@ -86,6 +86,7 @@
                             ref="fileInput"
                             class="d-none"
                             type="file"
+                            id="image-input"
                             accept="image/jpeg"
                             @change="onFileChange">
                      </v-col>
@@ -122,9 +123,6 @@
                             v-model="tab" show-arrows  :icons-and-text="!$vuetify.breakpoint.mdAndUp" 
                             :centered="!$vuetify.breakpoint.mdAndUp" :vertical="$vuetify.breakpoint.mdAndUp" class="mt-2">
                                  <v-tab   v-for="(item, index) in profile_tabs" :key="index"
-                                 
-                                 
-                                  
                                  :to="{name: item.name}" @click="items[1].text = item.text" class="d-flex justify-start">
                                     <v-icon v-if="$vuetify.breakpoint.mdAndUp" left> {{item.icon}}</v-icon>
                                      {{item.text}}
@@ -158,6 +156,13 @@
             </v-btn>
 
         </v-bottom-navigation> -->
+        <!-- <div>
+            <img id="input-preview" alt="This is the preview of the image you are going to upload."/>
+        </div>
+
+          <div>
+            <img id="output-preview" alt="This is the compressed result of the image you will upload."/>  
+        </div> -->
     </div>
 </template>
 
@@ -203,7 +208,8 @@
                     { name: "my_calendar", text: "My Calendar", icon:"mdi-calendar"},
                     { name: "change_password", text: "Change Password", icon:"mdi-lock"},
                 ],
-                tmpProfile: null
+                tmpProfile: null,
+                inputPreview: ''
             }
         },
         methods: {
@@ -227,17 +233,60 @@
             TestUpload(){
              this.$refs.fileInput.click();
             },
-            onFileChange(element) {          
+            onFileChange(element) {    
+                
+               
                 this.imageFile = element.target.files[0];
-                if( this.imageFile.size <= 3000000){
+                if( this.imageFile.size <= 1000000){
                     this.isUploading = true;
-                    this.UpdateProfile();
+                    //this.UpdateProfile();
                     this.tmpProfile = this.UserDetails.profile_pic;
                     this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
                 }
                 else{
-                    this.toastError('The File is more than 3mb');
+                    this.toastError('The File is more than 1mb');
                 }
+
+                    /* const uploadedImage = element.target.files[0];
+                    if(!uploadedImage){ 
+                        return;
+                    }
+
+       
+                    const inputPreview = document.getElementById("input-preview"); 
+                    inputPreview.src = URL.createObjectURL(uploadedImage);
+
+                    
+         
+                    console.log(this.getImageDimensions(inputPreview));
+
+
+                    const MAX_WIDTH = 200; 
+                    const MAX_HEIGHT = 200; 
+
+                    const widthRatioBlob =  this.compressImage(inputPreview, MAX_WIDTH / width, width, height); 
+                    const heightRatioBlob =  this.compressImage(inputPreview, MAX_HEIGHT / height, width, height);
+                
+                
+                    const compressedBlob = widthRatioBlob.size > heightRatioBlob.size ? heightRatioBlob : widthRatioBlob;
+                    
+                  
+                    const outputPreview = document.getElementById("output-preview");
+                  
+
+                    console.log(compressedBlob);
+                    this.UserDetails.profile_pic =   URL.createObjectURL(compressedBlob);
+                
+                    const myFile = new File([outputPreview.src], "profile.jpeg", {
+                        type: "image/jpeg",
+                        });
+
+                    const optimalBlob = compressedBlob.size < uploadedImage.size ? compressedBlob : uploadedImage; 
+                    console.log(`Inital Size: ${uploadedImage.size}. Compressed Size: ${optimalBlob.size}`);
+                    
+                    URL.revokeObjectURL(inputPreview);
+                    URL.revokeObjectURL(outputPreview); */
+
             },
             async UpdateProfile(){
                 let fd = new FormData;
@@ -256,6 +305,31 @@
             },
             OpenSocialAccount(link){
                 window.location = link
+            },
+           getImageDimensions(image){
+            return new Promise((resolve, reject) => {
+                image.onload = function(e){
+                    const width = this.width;
+                    const height = this.height;
+                    resolve({height, width});
+                }
+            });
+
+            },
+            compressImage(image, scale, initalWidth, initalHeight){
+                return new Promise((resolve, reject) => {
+                    const canvas = document.createElement("canvas");
+
+                    canvas.width = scale * initalWidth;
+                    canvas.height = scale * initalHeight;
+
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    
+                    ctx.canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, "image/png"); 
+                }); 
             }
             
         },

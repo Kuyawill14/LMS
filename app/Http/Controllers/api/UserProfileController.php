@@ -44,7 +44,7 @@ class UserProfileController extends Controller
 
         $userDetails->email = $currentUser->email;
         $userDetails->role = $currentUser->role;
-        $userDetails->profile_pic = str_replace('.cdn', '', $userDetails->profile_pic);
+        //$userDetails->profile_pic = str_replace('.cdn', '', $userDetails->profile_pic);
         // $userDetails->sessions =  $user_sessions;
         // $userDetails->current_sessions = Session::getId();
         $userDetails->department_id = $department != null ? $department->department_id : null;
@@ -252,6 +252,8 @@ class UserProfileController extends Controller
         ,'tbl_class_classworks.classwork_id')
         ->leftJoin('tbl_class_classworks','tbl_class_classworks.class_id','=','tbl_userclasses.class_id')
         ->leftJoin('tbl_classworks','tbl_classworks.id','=','tbl_class_classworks.classwork_id')
+        ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
+        ->where('tbl_class_classworks.availability', '!=',2)
         ->whereNull('tbl_class_classworks.deleted_at')
         ->get();
         foreach($SubmitSubj as $sj){
@@ -315,6 +317,7 @@ class UserProfileController extends Controller
                
         })
        ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
+       ->where('tbl_class_classworks.availability', '!=',2)
        ->where('tbl_submissions.status' , null)
        ->get();
 

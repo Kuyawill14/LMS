@@ -922,7 +922,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1011,7 +1010,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
       isStudentView: false,
       studentViewData: null,
       isHaveSubmissionDialog: null,
-      isHaveSubmission: null
+      isHaveSubmission: null,
+      isEditing_id: null
     };
   },
   watch: {
@@ -1179,28 +1179,26 @@ var studentViewForTeacher = function studentViewForTeacher() {
                       sensitivity: 0
                     });
 
+                    _this3.isEditing_id = res.data.question_id;
+
                     _this3.getAll_questions.Answer.push({
                       options: [{
                         id: res.data.choices_id[0],
                         Choice: '',
                         question_id: res.data.question_id
-                      }
-                      /*   {
-                            id : res.data.choices_id[1],
-                            Choice : '',
-                            question_id : res.data.question_id,
-                       },
-                        {
-                            id : res.data.choices_id[2],
-                            Choice : '',
-                            question_id : res.data.question_id,
-                       },
-                        {
-                            id : res.data.choices_id[3],
-                            Choice : '',
-                            question_id : res.data.question_id,
-                       } */
-                      ],
+                      }, {
+                        id: res.data.choices_id[1],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[2],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[3],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }],
                       SubQuestion: [],
                       SubAnswer: [],
                       Destructors: []
@@ -1314,8 +1312,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   type: type,
                   question_id: id
                 }).then(function (res) {
-                  _this6.isNewChanges = true;
-
                   _this6.getAll_questions.Answer[mainIndex].SubQuestion.push({
                     id: res.data.sub_question_id,
                     answer_id: null,
@@ -1327,6 +1323,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     Choice: '',
                     question_id: id
                   });
+
+                  _this6.SaveAllQuestion();
                 });
                 /* this.isNewChanges = true; */
 
@@ -29151,6 +29149,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -29301,9 +29300,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -29328,7 +29327,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -29418,6 +29417,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -36345,34 +36345,6 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm.isAddingNewQuestion
-              ? _c(
-                  "v-row",
-                  { attrs: { "align-content": "center", justify: "center" } },
-                  [
-                    _c(
-                      "v-col",
-                      { staticClass: "text-center", attrs: { cols: "12" } },
-                      [
-                        _c("vue-element-loading", {
-                          attrs: {
-                            active: _vm.isAddingNewQuestion,
-                            duration: "0.7",
-                            "is-full-screen": true,
-                            textStyle: { fontSize: "20px" },
-                            spinner: "line-scale",
-                            color: "#EF6C00",
-                            size: "60"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
             _vm.Qlength == 0 && !_vm.isloading
               ? _c(
                   "v-row",
@@ -36574,21 +36546,22 @@ var render = function() {
                                   1
                                 ),
                                 _vm._v(" "),
-                                !_vm.selectedData[mainIndex].isEditing
+                                _vm.isEditing_id != item.id
                                   ? _c(
                                       "div",
                                       {
                                         staticStyle: { cursor: "pointer" },
                                         on: {
                                           click: function($event) {
-                                            _vm.selectedData[
+                                            ;(_vm.selectedData[
                                               mainIndex
-                                            ].isEditing = true
+                                            ].isEditing = true),
+                                              (_vm.isEditing_id = item.id)
                                           }
                                         }
                                       },
                                       [
-                                        !_vm.selectedData[mainIndex].isEditing
+                                        _vm.isEditing_id != item.id
                                           ? _c("viewQuestion", {
                                               attrs: {
                                                 question: item,
@@ -36674,7 +36647,8 @@ var render = function() {
                                                                 change: function(
                                                                   $event
                                                                 ) {
-                                                                  _vm.isNewChanges = true
+                                                                  ;(_vm.isNewChanges = true),
+                                                                    _vm.SaveAllQuestion()
                                                                 }
                                                               },
                                                               model: {
@@ -36837,9 +36811,10 @@ var render = function() {
                                                                           blur: function(
                                                                             $event
                                                                           ) {
-                                                                            return _vm.onEditorBlur(
-                                                                              $event
-                                                                            )
+                                                                            _vm.isNewChanges ==
+                                                                            true
+                                                                              ? _vm.SaveAllQuestion()
+                                                                              : ""
                                                                           },
                                                                           focus: function(
                                                                             $event
@@ -36996,6 +36971,8 @@ var render = function() {
                                                                                     _c(
                                                                                       "v-radio-group",
                                                                                       {
+                                                                                        key:
+                                                                                          Ans.id,
                                                                                         model: {
                                                                                           value:
                                                                                             item.answer,
@@ -37016,8 +36993,6 @@ var render = function() {
                                                                                         _c(
                                                                                           "v-radio",
                                                                                           {
-                                                                                            key:
-                                                                                              Ans.id,
                                                                                             staticClass:
                                                                                               "pa-0 ma-0",
                                                                                             style: _vm
@@ -37031,7 +37006,7 @@ var render = function() {
                                                                                                 "primary",
                                                                                               disabled:
                                                                                                 Ans.Choice ==
-                                                                                                null,
+                                                                                                "",
                                                                                               name:
                                                                                                 "Answer",
                                                                                               value:
@@ -37041,13 +37016,14 @@ var render = function() {
                                                                                               click: function(
                                                                                                 $event
                                                                                               ) {
-                                                                                                Ans.Choice ==
-                                                                                                  item.answer
+                                                                                                item.answer ==
+                                                                                                  Ans.id
                                                                                               },
                                                                                               change: function(
                                                                                                 $event
                                                                                               ) {
-                                                                                                _vm.isNewChanges = true
+                                                                                                ;(_vm.isNewChanges = true),
+                                                                                                  _vm.SaveAllQuestion()
                                                                                               }
                                                                                             }
                                                                                           }
@@ -37089,14 +37065,13 @@ var render = function() {
                                                                                               focus: function(
                                                                                                 $event
                                                                                               ) {
-                                                                                                Ans.Choice =
-                                                                                                  Ans.Choice ==
-                                                                                                  "<p>Option " +
-                                                                                                    (i +
-                                                                                                      1) +
-                                                                                                    "</p>"
-                                                                                                    ? ""
-                                                                                                    : Ans.Choice
+                                                                                                Ans.Choice ==
+                                                                                                "<p>Option " +
+                                                                                                  (i +
+                                                                                                    1) +
+                                                                                                  "</p>"
+                                                                                                  ? ""
+                                                                                                  : Ans.Choice
                                                                                               },
                                                                                               change: function(
                                                                                                 $event
@@ -38769,7 +38744,7 @@ var render = function() {
                     _vm._v(
                       "\r\n      " +
                         _vm._s(
-                          _vm.isSavingAllQuestion ? "Saving.." : "Success"
+                          _vm.isSavingAllQuestion ? "Saving.." : "Changes Save"
                         ) +
                         "\r\n    "
                     )

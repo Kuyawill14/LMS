@@ -277,6 +277,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var previewTimer = function previewTimer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_TeacherQuizPreview_previewTimer_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./previewTimer */ "./resources/js/components/Classwork_View/tabs/TeacherQuizPreview/previewTimer.vue"));
 };
@@ -804,41 +814,77 @@ var render = function() {
                                               {
                                                 key: "activator",
                                                 fn: function(ref) {
-                                                  var on = ref.on
+                                                  var menu = ref.on
                                                   var attrs = ref.attrs
                                                   return [
                                                     _c(
-                                                      "v-btn",
-                                                      _vm._g(
-                                                        _vm._b(
-                                                          {
-                                                            attrs: {
-                                                              icon: "",
-                                                              dark: ""
-                                                            }
-                                                          },
-                                                          "v-btn",
-                                                          attrs,
-                                                          false
-                                                        ),
-                                                        on
-                                                      ),
-                                                      [
-                                                        _c(
-                                                          "v-icon",
-                                                          {
-                                                            attrs: {
-                                                              color: "primary"
-                                                            }
-                                                          },
+                                                      "v-tooltip",
+                                                      {
+                                                        attrs: { top: "" },
+                                                        scopedSlots: _vm._u(
                                                           [
-                                                            _vm._v(
-                                                              "mdi-format-list-numbered"
-                                                            )
-                                                          ]
+                                                            {
+                                                              key: "activator",
+                                                              fn: function(
+                                                                ref
+                                                              ) {
+                                                                var tooltip =
+                                                                  ref.on
+                                                                return [
+                                                                  _c(
+                                                                    "v-btn",
+                                                                    _vm._g(
+                                                                      _vm._b(
+                                                                        {
+                                                                          attrs: {
+                                                                            icon:
+                                                                              ""
+                                                                          }
+                                                                        },
+                                                                        "v-btn",
+                                                                        attrs,
+                                                                        false
+                                                                      ),
+                                                                      Object.assign(
+                                                                        {},
+                                                                        tooltip,
+                                                                        menu
+                                                                      )
+                                                                    ),
+                                                                    [
+                                                                      _c(
+                                                                        "v-icon",
+                                                                        {
+                                                                          attrs: {
+                                                                            color:
+                                                                              "primary"
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "mdi-format-list-numbered"
+                                                                          )
+                                                                        ]
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                ]
+                                                              }
+                                                            }
+                                                          ],
+                                                          null,
+                                                          true
                                                         )
-                                                      ],
-                                                      1
+                                                      },
+                                                      [
+                                                        _vm._v(" "),
+                                                        _c("span", [
+                                                          _vm._v(
+                                                            "Question List"
+                                                          )
+                                                        ])
+                                                      ]
                                                     )
                                                   ]
                                                 }
@@ -846,7 +892,7 @@ var render = function() {
                                             ],
                                             null,
                                             false,
-                                            833248113
+                                            168241216
                                           )
                                         },
                                         [
@@ -866,53 +912,45 @@ var render = function() {
                                                     _c(
                                                       "v-list-item-title",
                                                       [
-                                                        item.type ==
-                                                          "Multiple Choice" ||
-                                                        item.type ==
-                                                          "Identification" ||
-                                                        item.type ==
-                                                          "True or False" ||
-                                                        item.type == "Essay"
-                                                          ? _c(
-                                                              "v-btn",
+                                                        _c(
+                                                          "v-btn",
+                                                          {
+                                                            attrs: {
+                                                              text: "",
+                                                              rounded: ""
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                _vm.questionIndex = index
+                                                              }
+                                                            }
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-icon",
                                                               {
                                                                 attrs: {
-                                                                  text: "",
-                                                                  rounded: ""
-                                                                },
-                                                                on: {
-                                                                  click: function(
-                                                                    $event
-                                                                  ) {
-                                                                    _vm.questionIndex = index
-                                                                  }
+                                                                  left: ""
                                                                 }
                                                               },
                                                               [
-                                                                _c(
-                                                                  "v-icon",
-                                                                  {
-                                                                    attrs: {
-                                                                      left: ""
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _vm._v(
-                                                                      "mdi-checkbox-blank-outline"
-                                                                    )
-                                                                  ]
-                                                                ),
                                                                 _vm._v(
-                                                                  "\n                                        " +
-                                                                    _vm._s(
-                                                                      index + 1
-                                                                    ) +
-                                                                    "\n                                        "
+                                                                  "mdi-checkbox-blank-outline"
                                                                 )
-                                                              ],
-                                                              1
+                                                              ]
+                                                            ),
+                                                            _vm._v(
+                                                              "\n                                        " +
+                                                                _vm._s(
+                                                                  index + 1
+                                                                ) +
+                                                                "\n                                        "
                                                             )
-                                                          : _vm._e()
+                                                          ],
+                                                          1
+                                                        )
                                                       ],
                                                       1
                                                     )

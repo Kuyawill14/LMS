@@ -60,6 +60,7 @@ class NotificationController extends Controller
                         $tmp_delay = $delay * $count;
                         $seconds =  $tmp + $tmp_delay;
                     }else{
+                        $diff_in_minutes = $to->diffInMinutes($from);
                         $tmp =  $diff_in_minutes * 60;
                         $tmp_delay = $delay * $count;
                         $seconds =  $tmp + $tmp_delay;

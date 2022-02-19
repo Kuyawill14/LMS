@@ -304,6 +304,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1358,7 +1359,7 @@ var render = function() {
                               _vm._v(" "),
                               _c("v-text-field", {
                                 attrs: {
-                                  label: "Middle Name",
+                                  label: "Middle Initial",
                                   rules: _vm.nameRules,
                                   name: "middleName",
                                   type: "text",
@@ -1445,7 +1446,7 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _vm.form.verified == null && _vm.type == "edit"
+                          this.type == "edit"
                             ? _c(
                                 "v-col",
                                 {
@@ -1453,46 +1454,28 @@ var render = function() {
                                   attrs: { cols: "12", md: "12" }
                                 },
                                 [
-                                  _c(
-                                    "v-btn",
-                                    {
-                                      attrs: {
-                                        block: "",
-                                        disabled: _vm.isVerifying,
-                                        rounded: "",
-                                        large: "",
-                                        color: "primary"
-                                      },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.VerifyUser(
-                                            _vm.form.user_id
-                                          )
-                                        }
-                                      }
+                                  _c("HasError", {
+                                    staticClass: "error--text",
+                                    attrs: { form: _vm.form, field: "email" }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Email",
+                                      name: "Email",
+                                      rules: _vm.loginEmailRules,
+                                      type: "email",
+                                      color: "primary",
+                                      outlined: ""
                                     },
-                                    [
-                                      _c("v-icon", { attrs: { left: "" } }, [
-                                        _vm._v(
-                                          _vm._s(
-                                            _vm.isVerifying
-                                              ? ""
-                                              : "mdi-account-check-outline"
-                                          )
-                                        )
-                                      ]),
-                                      _vm._v(
-                                        "\n                                " +
-                                          _vm._s(
-                                            _vm.isVerifying
-                                              ? "Verifying..."
-                                              : "Verify user"
-                                          ) +
-                                          "\n                            "
-                                      )
-                                    ],
-                                    1
-                                  )
+                                    model: {
+                                      value: _vm.form.email,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.form, "email", $$v)
+                                      },
+                                      expression: "form.email"
+                                    }
+                                  })
                                 ],
                                 1
                               )
@@ -1565,7 +1548,6 @@ var render = function() {
                                   "item-text": "name",
                                   "return-object": "",
                                   label: "Department",
-                                  dense: "",
                                   outlined: ""
                                 },
                                 model: {
@@ -1578,7 +1560,60 @@ var render = function() {
                               })
                             ],
                             1
-                          )
+                          ),
+                          _vm._v(" "),
+                          _vm.form.verified == null && _vm.type == "edit"
+                            ? _c(
+                                "v-col",
+                                {
+                                  staticClass: "ma-0 pa-0 mb-1",
+                                  attrs: { cols: "12", md: "12" }
+                                },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        block: "",
+                                        disabled: _vm.isVerifying,
+                                        rounded: "",
+                                        large: "",
+                                        color: "primary"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.VerifyUser(
+                                            _vm.form.user_id
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c("v-icon", { attrs: { left: "" } }, [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.isVerifying
+                                              ? ""
+                                              : "mdi-account-check-outline"
+                                          )
+                                        )
+                                      ]),
+                                      _vm._v(
+                                        "\n                                " +
+                                          _vm._s(
+                                            _vm.isVerifying
+                                              ? "Verifying..."
+                                              : "Verify user"
+                                          ) +
+                                          "\n                            "
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            : _vm._e()
                         ],
                         1
                       )

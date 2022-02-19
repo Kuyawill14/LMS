@@ -58,6 +58,11 @@ class SubjectCourseController extends Controller
             ->count();
 
             $item->student_count =  $StudentCount;
+
+            $item->join_request_count = tbl_join_request::where("tbl_join_requests.course_id", $item->id)->count();
+
+
+
         }
         return $allCourseSubject;
     }

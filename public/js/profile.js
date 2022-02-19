@@ -182,6 +182,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() | user_profile */ "user_profile").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -242,7 +247,8 @@ var myCalendar = function myCalendar() {
         text: "Change Password",
         icon: "mdi-lock"
       }],
-      tmpProfile: null
+      tmpProfile: null,
+      inputPreview: ''
     };
   },
   methods: {
@@ -269,14 +275,41 @@ var myCalendar = function myCalendar() {
     onFileChange: function onFileChange(element) {
       this.imageFile = element.target.files[0];
 
-      if (this.imageFile.size <= 3000000) {
-        this.isUploading = true;
-        this.UpdateProfile();
+      if (this.imageFile.size <= 1000000) {
+        this.isUploading = true; //this.UpdateProfile();
+
         this.tmpProfile = this.UserDetails.profile_pic;
         this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
       } else {
-        this.toastError('The File is more than 3mb');
+        this.toastError('The File is more than 1mb');
       }
+      /* const uploadedImage = element.target.files[0];
+      if(!uploadedImage){ 
+          return;
+      }
+           const inputPreview = document.getElementById("input-preview"); 
+      inputPreview.src = URL.createObjectURL(uploadedImage);
+       
+            console.log(this.getImageDimensions(inputPreview));
+        const MAX_WIDTH = 200; 
+      const MAX_HEIGHT = 200; 
+       const widthRatioBlob =  this.compressImage(inputPreview, MAX_WIDTH / width, width, height); 
+      const heightRatioBlob =  this.compressImage(inputPreview, MAX_HEIGHT / height, width, height);
+               
+      const compressedBlob = widthRatioBlob.size > heightRatioBlob.size ? heightRatioBlob : widthRatioBlob;
+      
+                     const outputPreview = document.getElementById("output-preview");
+                      console.log(compressedBlob);
+      this.UserDetails.profile_pic =   URL.createObjectURL(compressedBlob);
+                   const myFile = new File([outputPreview.src], "profile.jpeg", {
+          type: "image/jpeg",
+          });
+       const optimalBlob = compressedBlob.size < uploadedImage.size ? compressedBlob : uploadedImage; 
+      console.log(`Inital Size: ${uploadedImage.size}. Compressed Size: ${optimalBlob.size}`);
+      
+      URL.revokeObjectURL(inputPreview);
+      URL.revokeObjectURL(outputPreview); */
+
     },
     UpdateProfile: function UpdateProfile() {
       var _this2 = this;
@@ -311,6 +344,30 @@ var myCalendar = function myCalendar() {
     },
     OpenSocialAccount: function OpenSocialAccount(link) {
       window.location = link;
+    },
+    getImageDimensions: function getImageDimensions(image) {
+      return new Promise(function (resolve, reject) {
+        image.onload = function (e) {
+          var width = this.width;
+          var height = this.height;
+          resolve({
+            height: height,
+            width: width
+          });
+        };
+      });
+    },
+    compressImage: function compressImage(image, scale, initalWidth, initalHeight) {
+      return new Promise(function (resolve, reject) {
+        var canvas = document.createElement("canvas");
+        canvas.width = scale * initalWidth;
+        canvas.height = scale * initalHeight;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        ctx.canvas.toBlob(function (blob) {
+          resolve(blob);
+        }, "image/png");
+      });
     }
   },
   mounted: function mounted() {
@@ -702,6 +759,7 @@ var render = function() {
                                 attrs: {
                                   disabled: _vm.isUploading,
                                   type: "file",
+                                  id: "image-input",
                                   accept: "image/jpeg"
                                 },
                                 on: { change: _vm.onFileChange }

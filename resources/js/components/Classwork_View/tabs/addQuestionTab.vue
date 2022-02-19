@@ -191,7 +191,7 @@
         </v-col>
     </v-row>
  -->
-    <v-row v-if="isAddingNewQuestion" align-content="center" justify="center">
+    <!-- <v-row v-if="isAddingNewQuestion" align-content="center" justify="center">
         <v-col cols="12" class="text-center">
             <vue-element-loading :active="isAddingNewQuestion" 
             duration="0.7"
@@ -199,7 +199,7 @@
             :textStyle="{fontSize: '20px'}"
             spinner="line-scale" color="#EF6C00"  size="60" />
         </v-col>
-    </v-row>
+    </v-row> -->
 <!-- </v-container> -->
 
 <v-row class="centered" :style="$vuetify.breakpoint.mdAndUp ? '' : 'width:330px !important'" justify="center" v-if="Qlength== 0 && !isloading">
@@ -244,8 +244,8 @@
                         </v-col>
                     </v-row>
 
-                    <div style="cursor:pointer" @click="selectedData[mainIndex].isEditing = true" v-if="!selectedData[mainIndex].isEditing">
-                        <viewQuestion  :question="item" :answer="getAll_questions.Answer[mainIndex]" v-if="!selectedData[mainIndex].isEditing"></viewQuestion>
+                    <div style="cursor:pointer" @click="selectedData[mainIndex].isEditing = true, isEditing_id = item.id" v-if="isEditing_id != item.id">
+                        <viewQuestion  :question="item" :answer="getAll_questions.Answer[mainIndex]" v-if="isEditing_id != item.id"></viewQuestion>
                     </div>
                        
                     <div v-else>
@@ -257,7 +257,7 @@
                                         <v-text-field 
                                         min="0"
                                         dense
-                                         @change="isNewChanges = true"
+                                         @change="isNewChanges = true,SaveAllQuestion()"
                                         :rules="PointsRule" outlined type="number" 
                                         v-model="item.points" class="centered-input pa-0 ma-0"
                                         label="Points"
@@ -286,7 +286,7 @@
                                                     <editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
-                                                    @blur="onEditorBlur($event)" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
+                                                    @blur="isNewChanges == true ? SaveAllQuestion() : ''" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
                                                      @change="isNewChanges = true"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
@@ -305,22 +305,21 @@
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container fluid  class="d-flex flex-row ma-0 pa-0">
-                                                        <v-radio-group  v-model="item.answer">
+                                                        <v-radio-group :key="Ans.id"  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                                @click="Ans.Choice == item.answer"
+                                                                @click="item.answer == Ans.id"
                                                                 color="primary"
                                                                 class="pa-0 ma-0"
-                                                                :disabled="Ans.Choice == null"
-                                                                 @change="isNewChanges = true"
-                                                                :key="Ans.id"
-                                                                name="Answer" 
+                                                                :disabled="Ans.Choice == ''"
+                                                                 @change="isNewChanges = true,SaveAllQuestion()"
+                                                                name="Answer"
                                                                 :value="Ans.Choice">
                                                                 </v-radio>
                                                         </v-radio-group>
                                                           <div style="width:100%" class="mb-3">
                                                                 <editor
-                                                                 @focus="Ans.Choice = Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
+                                                                 @focus="Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
@@ -670,7 +669,7 @@
     <div>
     <v-snackbar  bottom left v-model="showSnackbar">
         <v-icon left>{{ isSavingAllQuestion ? 'mdi-content-save-move' : 'mdi-check'}}</v-icon>
-      {{ isSavingAllQuestion ? 'Saving..' : 'Success' }}
+      {{ isSavingAllQuestion ? 'Saving..' : 'Changes Save' }}
     </v-snackbar>
     </div>
 
@@ -771,7 +770,8 @@ export default {
             isStudentView: false,
             studentViewData:null,
             isHaveSubmissionDialog: null,
-            isHaveSubmission: null
+            isHaveSubmission: null,
+            isEditing_id: null
         }
     },
     watch: {
@@ -890,7 +890,7 @@ export default {
                    type: 'Multiple Choice',
                    sensitivity: 0,
                })
-
+               this.isEditing_id = res.data.question_id;
                this.getAll_questions.Answer.push({options:
                    [
                        {
@@ -898,7 +898,7 @@ export default {
                             Choice : '',
                             question_id : res.data.question_id,
                        },
-                      /*   {
+                        {
                             id : res.data.choices_id[1],
                             Choice : '',
                             question_id : res.data.question_id,
@@ -912,7 +912,7 @@ export default {
                             id : res.data.choices_id[3],
                             Choice : '',
                             question_id : res.data.question_id,
-                       } */
+                       }
                    ],
                    SubQuestion:[],
                    SubAnswer:[],
@@ -987,7 +987,6 @@ export default {
                 type: type,
                 question_id: id
             }).then((res)=>{
-                this.isNewChanges = true;
                 this.getAll_questions.Answer[mainIndex].SubQuestion.push({
                     id: res.data.sub_question_id,
                     answer_id: null,
@@ -998,6 +997,7 @@ export default {
                     Choice : '',
                     question_id : id
                 })
+                this.SaveAllQuestion();
             })
 
 

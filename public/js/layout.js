@@ -619,6 +619,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -2263,7 +2264,11 @@ var render = function() {
                   "v-list-item",
                   {
                     staticClass: "list-nav",
-                    attrs: { link: "", to: { name: "Student-list" }, exact: "" }
+                    attrs: {
+                      link: "",
+                      to: { name: "Student-list", query: { view: "list" } },
+                      exact: ""
+                    }
                   },
                   [
                     _c(
@@ -2280,10 +2285,8 @@ var render = function() {
                                 _vm.role == "Teacher"
                                   ? "red"
                                   : "",
-                              content:
-                                _vm.getcourseInfo.join_request_count != 0
-                                  ? _vm.getcourseInfo.join_request_count
-                                  : ""
+                              value: _vm.getcourseInfo.join_request_count,
+                              content: _vm.getcourseInfo.join_request_count
                             }
                           },
                           [_c("v-icon", [_vm._v("mdi-account-group")])],

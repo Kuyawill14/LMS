@@ -699,7 +699,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -1258,56 +1257,24 @@ var resetConfirmation = function resetConfirmation() {
       this.isLoaded = true;
       this.ReSaveScore();
     },
-    UpdateScore: function UpdateScore(type, id, data, points, index, answer) {
+    UpdateEssayScore: function UpdateEssayScore(type, id, data, points, index, answer) {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var Scorepoints;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this3.UpdateDetails.type = type;
-                _this3.UpdateDetails.check = type == 'Essay' ? true : data;
-                _this3.UpdateDetails.points = points;
-                _this3.UpdateDetails.question_id = id;
-                _this3.UpdateDetails.answer = answer;
-                _this3.UpdateDetails.user_id = _this3.ViewDetails.user_id;
+                Scorepoints = parseInt(_this3.SubmittedAnswer[index].score);
 
-                if (type == 'Essay') {
-                  _this3.UpdateDetails.essay_points = _this3.SubmittedAnswer[index].score;
-                  _this3.UpdateDetails.old_essay_points = _this3.EssayOldPoints[index];
+                if (Scorepoints > points) {
+                  _this3.toastError('Points must be less than or equal to the points of the question');
+                } else {
+                  _this3.UpdateScore(type, id, data, points, index, answer);
                 }
 
-                axios.put('/api/teacher/update-score/' + _this3.ViewDetails.id, _this3.UpdateDetails).then(function (res) {
-                  if (res.status == 200) {
-                    if (type == 'Essay') {
-                      if (_this3.EssayOldPoints[index] == 0) {
-                        _this3.ViewDetails.points = _this3.ViewDetails.points + parseInt(_this3.SubmittedAnswer[index].score);
-                      } else {
-                        _this3.ViewDetails.points = _this3.ViewDetails.points - _this3.EssayOldPoints[index];
-                        _this3.ViewDetails.points = _this3.ViewDetails.points + parseInt(_this3.SubmittedAnswer[index].score);
-                        _this3.EssayOldPoints[index] = parseInt(_this3.SubmittedAnswer[index].score);
-                      }
-                      /* if (data == true) {
-                          this.ViewDetails.points = this.ViewDetails.points + points;
-                          
-                      } else {
-                          this.ViewDetails.points = this.ViewDetails.points - points;
-                      } */
-
-                    } else {
-                      if (data == true) {
-                        _this3.SubmittedAnswer[index] = answer;
-                        _this3.ViewDetails.points = _this3.ViewDetails.points + points;
-                      } else {
-                        _this3.SubmittedAnswer[index] = "";
-                        _this3.ViewDetails.points = _this3.ViewDetails.points - points;
-                      }
-                    }
-                  }
-                });
-
-              case 8:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -1315,7 +1282,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee);
       }))();
     },
-    ReSaveScore: function ReSaveScore() {
+    UpdateScore: function UpdateScore(type, id, data, points, index, answer) {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
@@ -1323,11 +1290,41 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios.put('/api/teacher/re_update-score/' + _this4.ViewDetails.id, {
-                  points: _this4.ViewDetails.points
-                }).then(function (res) {});
+                _this4.UpdateDetails.type = type;
+                _this4.UpdateDetails.check = type == 'Essay' ? true : data;
+                _this4.UpdateDetails.points = points;
+                _this4.UpdateDetails.question_id = id;
+                _this4.UpdateDetails.answer = answer;
+                _this4.UpdateDetails.user_id = _this4.ViewDetails.user_id;
 
-              case 1:
+                if (type == 'Essay') {
+                  _this4.UpdateDetails.essay_points = _this4.SubmittedAnswer[index].score;
+                  _this4.UpdateDetails.old_essay_points = _this4.EssayOldPoints[index];
+                }
+
+                axios.put('/api/teacher/update-score/' + _this4.ViewDetails.id, _this4.UpdateDetails).then(function (res) {
+                  if (res.status == 200) {
+                    if (type == 'Essay') {
+                      if (_this4.EssayOldPoints[index] == 0) {
+                        _this4.ViewDetails.points = _this4.ViewDetails.points + parseInt(_this4.SubmittedAnswer[index].score);
+                      } else {
+                        _this4.ViewDetails.points = _this4.ViewDetails.points - _this4.EssayOldPoints[index];
+                        _this4.ViewDetails.points = _this4.ViewDetails.points + parseInt(_this4.SubmittedAnswer[index].score);
+                        _this4.EssayOldPoints[index] = parseInt(_this4.SubmittedAnswer[index].score);
+                      }
+                    } else {
+                      if (data == true) {
+                        _this4.SubmittedAnswer[index] = answer;
+                        _this4.ViewDetails.points = _this4.ViewDetails.points + points;
+                      } else {
+                        _this4.SubmittedAnswer[index] = "";
+                        _this4.ViewDetails.points = _this4.ViewDetails.points - points;
+                      }
+                    }
+                  }
+                });
+
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -1335,7 +1332,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee2);
       }))();
     },
-    ResetSubmission: function ResetSubmission() {
+    ReSaveScore: function ReSaveScore() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -1343,22 +1340,11 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                //////console.log(this.ListData[this.resetIndex].points)
-                _this5.isReseting = true;
+                axios.put('/api/teacher/re_update-score/' + _this5.ViewDetails.id, {
+                  points: _this5.ViewDetails.points
+                }).then(function (res) {});
 
-                if (_this5.ViewDetails.status != null && _this5.ViewDetails.status != '') {
-                  axios.put('/api/teacher/reset-obj/' + _this5.ViewDetails.id).then(function (res) {
-                    if (res.status == 200) {
-                      _this5.dialog = !_this5.dialog;
-                      _this5.isReseting = false;
-                      _this5.student_activity_logs = [];
-
-                      _this5.$emit('RestSubmission');
-                    }
-                  });
-                }
-
-              case 2:
+              case 1:
               case "end":
                 return _context3.stop();
             }
@@ -1366,39 +1352,30 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee3);
       }))();
     },
-    addComment: function addComment(details) {
+    ResetSubmission: function ResetSubmission() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                data = {};
-                _this6.isCommenting = true;
-                data.classwork_id = details.classwork_id;
-                data.course_id = _this6.$route.params.id;
-                data.to_user = details.user_id;
-                data.type = 'Private';
-                data.comment = _this6.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
-                  if (res.status == 200) {
-                    _this6.ViewDetails.comments.push({
-                      content: res.data.comment,
-                      id: res.data.id,
-                      name: _this6.get_CurrentUser.firstName + ' ' + _this6.get_CurrentUser.lastName,
-                      profile_pic: _this6.get_CurrentUser.profile_pic,
-                      u_id: _this6.get_CurrentUser.user_id,
-                      comment_date: new Date()
-                    });
+                //////console.log(this.ListData[this.resetIndex].points)
+                _this6.isReseting = true;
 
-                    _this6.comment = '';
-                  }
-                });
-                _this6.isCommenting = false;
+                if (_this6.ViewDetails.status != null && _this6.ViewDetails.status != '') {
+                  axios.put('/api/teacher/reset-obj/' + _this6.ViewDetails.id).then(function (res) {
+                    if (res.status == 200) {
+                      _this6.dialog = !_this6.dialog;
+                      _this6.isReseting = false;
+                      _this6.student_activity_logs = [];
 
-              case 9:
+                      _this6.$emit('RestSubmission');
+                    }
+                  });
+                }
+
+              case 2:
               case "end":
                 return _context4.stop();
             }
@@ -1406,21 +1383,39 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee4);
       }))();
     },
-    DeleteComment: function DeleteComment(id, index) {
+    addComment: function addComment(details) {
       var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
-                  if (res.data.success == true) {
-                    _this7.ViewDetails.comments.splice(index, 1);
+                data = {};
+                _this7.isCommenting = true;
+                data.classwork_id = details.classwork_id;
+                data.course_id = _this7.$route.params.id;
+                data.to_user = details.user_id;
+                data.type = 'Private';
+                data.comment = _this7.comment;
+                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                  if (res.status == 200) {
+                    _this7.ViewDetails.comments.push({
+                      content: res.data.comment,
+                      id: res.data.id,
+                      name: _this7.get_CurrentUser.firstName + ' ' + _this7.get_CurrentUser.lastName,
+                      profile_pic: _this7.get_CurrentUser.profile_pic,
+                      u_id: _this7.get_CurrentUser.user_id,
+                      comment_date: new Date()
+                    });
+
+                    _this7.comment = '';
                   }
                 });
+                _this7.isCommenting = false;
 
-              case 1:
+              case 9:
               case "end":
                 return _context5.stop();
             }
@@ -1428,7 +1423,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee5);
       }))();
     },
-    UpdateComment: function UpdateComment(content, id) {
+    DeleteComment: function DeleteComment(id, index) {
       var _this8 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
@@ -1436,12 +1431,10 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                axios.put('/api/post/comment/update/' + id, {
-                  comment: content
-                }).then(function (res) {
-                  _this8.isUpdatingComment = false;
-                  _this8.isUpdatingComment_id = null;
-                  _this8.isUpdatingComment_old_data = null;
+                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                  if (res.data.success == true) {
+                    _this8.ViewDetails.comments.splice(index, 1);
+                  }
                 });
 
               case 1:
@@ -1452,31 +1445,23 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee6);
       }))();
     },
-    alertStudent: function alertStudent() {
+    UpdateComment: function UpdateComment(content, id) {
       var _this9 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                data = {};
-                _this9.isAlerting = true;
-                data.user_id = _this9.ViewDetails.user_id;
-                data.classwork_name = _this9.classworkDetails.title;
-                data.classwork_id = _this9.classworkDetails.id;
-                data.course_id = _this9.classworkDetails.course_id;
-                data.firstName = _this9.ViewDetails.firstName;
-                axios.post('/api/teacher/alert-student', data).then(function (res) {
-                  if (res.data.success == true) {
-                    _this9.toastSuccess(res.data.message);
-
-                    _this9.isAlerting = false;
-                  }
+                axios.put('/api/post/comment/update/' + id, {
+                  comment: content
+                }).then(function (res) {
+                  _this9.isUpdatingComment = false;
+                  _this9.isUpdatingComment_id = null;
+                  _this9.isUpdatingComment_old_data = null;
                 });
 
-              case 8:
+              case 1:
               case "end":
                 return _context7.stop();
             }
@@ -1484,28 +1469,31 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee7);
       }))();
     },
-    NextStudent: function NextStudent() {
+    alertStudent: function alertStudent() {
       var _this10 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this10.questionIndex = 0;
-                _this10.SubmittedAnswer = [];
-                _this10.Check = [];
-                _this10.isLoaded = false;
+                data = {};
+                _this10.isAlerting = true;
+                data.user_id = _this10.ViewDetails.user_id;
+                data.classwork_name = _this10.classworkDetails.title;
+                data.classwork_id = _this10.classworkDetails.id;
+                data.course_id = _this10.classworkDetails.course_id;
+                data.firstName = _this10.ViewDetails.firstName;
+                axios.post('/api/teacher/alert-student', data).then(function (res) {
+                  if (res.data.success == true) {
+                    _this10.toastSuccess(res.data.message);
 
-                _this10.$emit("nextStudent");
+                    _this10.isAlerting = false;
+                  }
+                });
 
-                setTimeout(function () {
-                  return _this10.ReMatchQuestions();
-                }, 300);
-
-                _this10.fetchStudentActivity();
-
-              case 7:
+              case 8:
               case "end":
                 return _context8.stop();
             }
@@ -1513,7 +1501,7 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee8);
       }))();
     },
-    PrevStudent: function PrevStudent() {
+    NextStudent: function NextStudent() {
       var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
@@ -1526,7 +1514,7 @@ var resetConfirmation = function resetConfirmation() {
                 _this11.Check = [];
                 _this11.isLoaded = false;
 
-                _this11.$emit("prevStudent");
+                _this11.$emit("nextStudent");
 
                 setTimeout(function () {
                   return _this11.ReMatchQuestions();
@@ -1542,8 +1530,37 @@ var resetConfirmation = function resetConfirmation() {
         }, _callee9);
       }))();
     },
-    fetchStudentActivity: function fetchStudentActivity() {
+    PrevStudent: function PrevStudent() {
       var _this12 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _this12.questionIndex = 0;
+                _this12.SubmittedAnswer = [];
+                _this12.Check = [];
+                _this12.isLoaded = false;
+
+                _this12.$emit("prevStudent");
+
+                setTimeout(function () {
+                  return _this12.ReMatchQuestions();
+                }, 300);
+
+                _this12.fetchStudentActivity();
+
+              case 7:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
+    },
+    fetchStudentActivity: function fetchStudentActivity() {
+      var _this13 = this;
 
       this.loading_activity = true;
       axios.get('/api/objective-logs/get_logs', {
@@ -1552,12 +1569,12 @@ var resetConfirmation = function resetConfirmation() {
           student_id: this.ViewDetails.user_id
         }
       }).then(function (res) {
-        _this12.student_activity_logs = res.data;
-        _this12.loading_activity = false;
+        _this13.student_activity_logs = res.data;
+        _this13.loading_activity = false;
       })["catch"](function (err) {
-        _this12.loading_activity = false;
+        _this13.loading_activity = false;
 
-        _this12.toastError('Something went wrong');
+        _this13.toastError('Something went wrong');
       });
     }
   },
@@ -2246,6 +2263,7 @@ var render = function() {
                                           _vm.ViewDetails.status == "Submitted"
                                             ? _c("v-text-field", {
                                                 attrs: {
+                                                  readonly: "",
                                                   "hide-details": "",
                                                   rounded: "",
                                                   rules: _vm.pointsRules,
@@ -3019,30 +3037,6 @@ var render = function() {
                                     [
                                       _c(
                                         "div",
-                                        { staticClass: "mt-0 pt-0 mb-3" },
-                                        [
-                                          _c("v-select", {
-                                            attrs: {
-                                              "hide-details": "",
-                                              items: _vm.Question_Type,
-                                              label: "Question Tyoe",
-                                              outlined: "",
-                                              dense: ""
-                                            },
-                                            model: {
-                                              value: _vm.selected_type,
-                                              callback: function($$v) {
-                                                _vm.selected_type = $$v
-                                              },
-                                              expression: "selected_type"
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
                                         { staticClass: "d-flex mb-2" },
                                         [
                                           _c(
@@ -3169,73 +3163,73 @@ var render = function() {
                                                             _c(
                                                               "v-list-item-title",
                                                               [
-                                                                item.type ==
-                                                                  "Multiple Choice" ||
-                                                                item.type ==
-                                                                  "Identification" ||
-                                                                item.type ==
-                                                                  "True or False" ||
-                                                                item.type ==
-                                                                  "Essay"
-                                                                  ? _c(
-                                                                      "v-btn",
+                                                                _c(
+                                                                  "v-btn",
+                                                                  {
+                                                                    attrs: {
+                                                                      text: "",
+                                                                      rounded:
+                                                                        ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        _vm.questionIndex = index
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _c(
+                                                                      "v-icon",
                                                                       {
                                                                         attrs: {
-                                                                          text:
-                                                                            "",
-                                                                          rounded:
+                                                                          color: !_vm
+                                                                            .Check[
+                                                                            index
+                                                                          ]
+                                                                            ? ""
+                                                                            : "success",
+                                                                          left:
                                                                             ""
-                                                                        },
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            _vm.questionIndex = index
-                                                                          }
                                                                         }
                                                                       },
                                                                       [
-                                                                        _c(
-                                                                          "v-icon",
-                                                                          {
-                                                                            attrs: {
-                                                                              color: !_vm
-                                                                                .Check[
-                                                                                index
-                                                                              ]
-                                                                                ? ""
-                                                                                : "success",
-                                                                              left:
-                                                                                ""
-                                                                            }
-                                                                          },
-                                                                          [
-                                                                            _vm._v(
-                                                                              "\n                                                                " +
-                                                                                _vm._s(
-                                                                                  !_vm
-                                                                                    .Check[
-                                                                                    index
-                                                                                  ]
-                                                                                    ? "mdi-checkbox-blank-outline"
-                                                                                    : "mdi-checkbox-marked"
-                                                                                ) +
-                                                                                "\n                                                            "
-                                                                            )
-                                                                          ]
-                                                                        ),
                                                                         _vm._v(
                                                                           "\n                                                            " +
                                                                             _vm._s(
-                                                                              index +
-                                                                                1
+                                                                              item.type !=
+                                                                                "Matching type"
+                                                                                ? !_vm
+                                                                                    .Check[
+                                                                                    index
+                                                                                  ]
+                                                                                  ? "mdi-checkbox-blank-outline"
+                                                                                  : "mdi-checkbox-marked"
+                                                                                : "mdi-checkbox-blank-outline"
                                                                             ) +
-                                                                            "\n                                                        "
+                                                                            "\n                                                            "
                                                                         )
-                                                                      ],
-                                                                      1
+                                                                      ]
+                                                                    ),
+                                                                    _vm._v(
+                                                                      "\n                                                            " +
+                                                                        _vm._s(
+                                                                          index +
+                                                                            1
+                                                                        ) +
+                                                                        _vm._s(
+                                                                          item.type ==
+                                                                            "Matching type"
+                                                                            ? " Matching Type"
+                                                                            : " " +
+                                                                                item.type
+                                                                        ) +
+                                                                        "\n                                                        "
                                                                     )
-                                                                  : _vm._e()
+                                                                  ],
+                                                                  1
+                                                                )
                                                               ],
                                                               1
                                                             )
@@ -3435,85 +3429,90 @@ var render = function() {
                                                                       _vm._v(
                                                                         " "
                                                                       ),
-                                                                      _c(
-                                                                        "div",
-                                                                        {
-                                                                          staticClass:
-                                                                            "mt-0 pt-0 pr-2 mb-0 pb-0"
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "v-text-field",
+                                                                      item.type ==
+                                                                      "Essay"
+                                                                        ? _c(
+                                                                            "div",
                                                                             {
-                                                                              staticStyle: {
-                                                                                width:
-                                                                                  "120px !important"
-                                                                              },
-                                                                              attrs: {
-                                                                                "hide-details":
-                                                                                  "",
-                                                                                rounded:
-                                                                                  "",
-                                                                                rules:
-                                                                                  _vm.pointsRules,
-                                                                                dense:
-                                                                                  "",
-                                                                                outlined:
-                                                                                  "",
-                                                                                label:
-                                                                                  "Score",
-                                                                                type:
-                                                                                  "number",
-                                                                                suffix:
-                                                                                  "/" +
-                                                                                  item.points,
-                                                                                min:
-                                                                                  "0"
-                                                                              },
-                                                                              on: {
-                                                                                change: function(
-                                                                                  $event
-                                                                                ) {
-                                                                                  return _vm.UpdateScore(
-                                                                                    item.type,
-                                                                                    item.id,
-                                                                                    _vm
-                                                                                      .Check[
-                                                                                      index
-                                                                                    ],
-                                                                                    item.points,
-                                                                                    index,
-                                                                                    item.answer
-                                                                                  )
+                                                                              staticClass:
+                                                                                "mt-0 pt-0 pr-2 mb-0 pb-0"
+                                                                            },
+                                                                            [
+                                                                              _c(
+                                                                                "v-text-field",
+                                                                                {
+                                                                                  staticStyle: {
+                                                                                    width:
+                                                                                      "120px !important"
+                                                                                  },
+                                                                                  attrs: {
+                                                                                    "hide-details":
+                                                                                      "",
+                                                                                    rounded:
+                                                                                      "",
+                                                                                    rules:
+                                                                                      _vm.pointsRules,
+                                                                                    dense:
+                                                                                      "",
+                                                                                    outlined:
+                                                                                      "",
+                                                                                    label:
+                                                                                      "Score",
+                                                                                    type:
+                                                                                      "number",
+                                                                                    suffix:
+                                                                                      "/" +
+                                                                                      item.points,
+                                                                                    max:
+                                                                                      item.points,
+                                                                                    min:
+                                                                                      "0"
+                                                                                  },
+                                                                                  on: {
+                                                                                    change: function(
+                                                                                      $event
+                                                                                    ) {
+                                                                                      return _vm.UpdateEssayScore(
+                                                                                        item.type,
+                                                                                        item.id,
+                                                                                        _vm
+                                                                                          .Check[
+                                                                                          index
+                                                                                        ],
+                                                                                        item.points,
+                                                                                        index,
+                                                                                        item.answer
+                                                                                      )
+                                                                                    }
+                                                                                  },
+                                                                                  model: {
+                                                                                    value:
+                                                                                      _vm
+                                                                                        .SubmittedAnswer[
+                                                                                        index
+                                                                                      ]
+                                                                                        .score,
+                                                                                    callback: function(
+                                                                                      $$v
+                                                                                    ) {
+                                                                                      _vm.$set(
+                                                                                        _vm
+                                                                                          .SubmittedAnswer[
+                                                                                          index
+                                                                                        ],
+                                                                                        "score",
+                                                                                        $$v
+                                                                                      )
+                                                                                    },
+                                                                                    expression:
+                                                                                      "SubmittedAnswer[index].score"
+                                                                                  }
                                                                                 }
-                                                                              },
-                                                                              model: {
-                                                                                value:
-                                                                                  _vm
-                                                                                    .SubmittedAnswer[
-                                                                                    index
-                                                                                  ]
-                                                                                    .score,
-                                                                                callback: function(
-                                                                                  $$v
-                                                                                ) {
-                                                                                  _vm.$set(
-                                                                                    _vm
-                                                                                      .SubmittedAnswer[
-                                                                                      index
-                                                                                    ],
-                                                                                    "score",
-                                                                                    $$v
-                                                                                  )
-                                                                                },
-                                                                                expression:
-                                                                                  "SubmittedAnswer[index].score"
-                                                                              }
-                                                                            }
+                                                                              )
+                                                                            ],
+                                                                            1
                                                                           )
-                                                                        ],
-                                                                        1
-                                                                      )
+                                                                        : _vm._e()
                                                                     ],
                                                                     1
                                                                   ),
