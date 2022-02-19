@@ -2,14 +2,14 @@
 
 
 
-    <v-card style="height: 620px;">
-
-        <!-- <iframe title="google pdf viewer"  class="pdf-viewer" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_path" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+    <v-card >
+<!-- 
+        <iframe title="google pdf viewer"  class="pdf-viewer" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_file" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                              style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100%; !important"></iframe> -->
-        <iframe height="100%" class="pdf-viewer holds-the-iframe" width=100% :src="`${pdf_file}`"></iframe>
-          <vue-pdf-app :pdf="pdf_file"></vue-pdf-app>
-<!-- {{pdf_file}}
-  <pdf :src="pdf_file"></pdf> -->
+        <!-- <iframe height="100%" class="pdf-viewer holds-the-iframe" width=100% :src="`${pdf_file}`"></iframe> -->
+          <vue-pdf-app :pdf="pdf_file"></vue-pdf-app> 
+ {{pdf_file}}
+<pdf :src="pdf_file"></pdf> 
 
     </v-card>
 

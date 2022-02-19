@@ -164,6 +164,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -683,7 +687,26 @@ var render = function() {
                                     : _vm._e()
                                 ],
                                 1
-                              )
+                              ),
+                              _vm._v(" "),
+                              _vm.type == "Document" &&
+                              _vm.ext == "pdf" &&
+                              _vm.isSelectedModule
+                                ? _c("pdfviewer", {
+                                    key: _vm.subModuleData.sub_module_name + 1,
+                                    staticStyle: { width: "100% !important" },
+                                    attrs: {
+                                      title: _vm.subModuleData.sub_module_name,
+                                      pdf_file:
+                                        _vm.subModuleData.file_attachment
+                                    },
+                                    on: {
+                                      closePdf: function($event) {
+                                        _vm.pdfdialog = false
+                                      }
+                                    }
+                                  })
+                                : _vm._e()
                             ],
                             1
                           )
