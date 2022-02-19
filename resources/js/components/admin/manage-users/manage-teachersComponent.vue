@@ -434,25 +434,20 @@
                                     this.dialog_multi_user = false;
                                     this.toastSuccess('User successfully Added!')
                                     this.IsBulkadding = false;
-                                    this.json_users_text_area = null;
-                                    this.json_users_file = null;
+            
                                 });
 
                             } else {
                                 this.IsBulkadding = false;
-                                this.toastError('Something went wrong!')
-                                this.$refs.RegisterForm.reset();
-                                this.json_users_text_area = null;
-                                this.json_users_file = null;
-
+                                this.toastError('Something went wrong!, please refresh the page and try again');
                             }
                         })
                         .catch((err) => {
                             this.IsBulkadding = false;
-                            this.toastError('Something went wrong!');
-                            this.$refs.RegisterForm.reset();
-                            this.json_users_text_area = null;
-                            this.json_users_file = null;
+                            this.toastError('Something went wrong!, please refresh the page and try again');
+                            // this.$refs.RegisterForm.reset();
+                            // this.json_users_text_area = null;
+                            // this.json_users_file = null;
                         })
                 }
 

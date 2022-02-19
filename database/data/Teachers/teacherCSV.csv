@@ -1,0 +1,224 @@
+firstName,middleName,lastName,email,password,role,department_short,department_full
+Christine Charmaine,Gaffud,San Jose,christinecharmaine.g.sanjose@isu.edu.ph,$2y$10$7bXmO73O6YdGrqCW4SuhX.CCQr3/7.pzFbAbM2PsQlOcy/hJF57Rm,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+John,M,Facun,john.m.facun@isu.edu.ph,$2y$10$DAvN2j..jUvKM16Vn/CRy.km0aGtNMWB75RQ6kKj6VnwB8gGCzbtK,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Ricardo,Q,Camungao,ricardo.q.camungao@isu.edu.ph,$2y$10$TIAjoztNonYGNyWY6hcYBu7QwKM64R.hTGAqyG3oKzKMlrd3Jq/ei,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Grace,D,Bulawit,grace.d.bulawit@isu.edu.ph,$2y$10$LKoAulacpJ82E5WYsXghpuR1lE1do0Xm89nWpUiFIwCVzerN9mwNW,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Mark Joseph,A,Asuncion,markjoseph.a.asuncion@isu.edu.ph,$2y$10$sClprgbizVXZtVGdPkSiFeWJLl4QEPBNhjcaCIqLUu0ueHdm9DO2S,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Desiray,D,Nayga,desiray.d.nayga@isu.edu.ph,$2y$10$WJ8KBFa/90cwUNLTp/Pn7OLdgvNdzlrbClkbmR7gdJAk3xO3noYDG,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Edward,B,Panganiban,edward.b.panganiban@isu.edu.ph,$2y$10$TwENtGhTG26mdU6lkpLo3utglNtUvGP7FdVgmxP2/0F93jzInZzz.,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Darios,B,Alado,darios.b.alado@isu.edu.ph,$2y$10$sUw2rqZpowLgVOH.32ERu.E/Ye7ud6Zg6alkFHrO4DLhyTqpBUoDS,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Rhowel,M,Dellosa,rhowel.m.dellosa@isu.edu.ph,$2y$10$r3SL2EaKePaebKGoDvarbepdUrTmfz3hmNuBuWiuOyINa2OF7zkRm,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Joe,G,Lagarteja,joe.g.lagarteja@isu.edu.ph,$2y$10$24k7T5wvG19ekuypZ3Rg3ew.j9nhVUjnVjsEFIf/yq3jyySZKEH4q,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Romero Dante,C,Salum,romerodante.c.salum@isu.edu.ph,$2y$10$PKHCSuPTdJOjh1TSr6nT1OTF2v8GeWHMal6dRLg7SODBsTUl5kZgi,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Renalyn,G,Tecson,renalyn.g.tecson@isu.edu.ph,$2y$10$RRRgMPKtnHQ.DbO2CL3r2OjuaxxkWi/q/WT5RoQ.AMPwVbpcdh/C.,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Jhamie tetz,I,Mateo,jhamietetz.i.mateo@isu.edu.ph,$2y$10$WFj4yvhxwA/dNE.v.C/lN.QxRKfuq0Y2LIzhll.yERbnA5SRtD9oG,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Jesusimo,L,Dioses,jesusimo.l.diosesjr@isu.edu.ph,$2y$10$FayciU2ykvZDmKnpwiRjY.p9KZZK.AKd9Yzsc1pfFMjpAWaDOY6ie,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Catleen Glo,R,Madayag,catleenglo.r.madayag@isu.edu.ph,$2y$10$VQqdA9ZEdxXqNL/m42oi4esndgxhFMLBTS/dJJQ1YgPOeeqSaOfUW,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Benchie,l,Maribao,benchie.l.maribao@isu.edu.ph,$2y$10$YgffnrMahmbR.BPA4kowC.61rspLzp1VP3/XlSvkhWjcug1rSj9uS,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Demo,orange,Teacher,teacher_demo@orange.com,$2y$10$pomWjsMQLFiIIVOKvyMbHu6c3lfY20GejPA7nJ/7Gn2iLzKmnNZX.,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Mila,R,Andres,milaremigioandres@gmail.com,$2y$10$V6jm1m05LA7yFLctoZvY0e5F/tOb6/tw.CtTSOEHD6vPwIldLFLzS,Teacher,CA,College of Agriculture
+Juanito,A,Atiwag,juanito.atiwag.1958@gmail.com,$2y$10$RQOOabysGSOEnE5fpy5Mle8n6cOTolh6whIInLPe4fhA74P7XJejq,Teacher,CA,College of Agriculture
+Anna Marie,M,Bahala,anna.m.bahala@gmail.com,$2y$10$LftiD/jNH.LBL3hZ/YsJyO42A9IVQzEe55xPYbkvThkfaiH3jyXCO,Teacher,CA,College of Agriculture
+Aubrey Joy,M,Balbin,balbinaubreyjoy@gmail.com,$2y$10$B5KufI.ryRQKaZNIqWReZeySzN9uNkV0bAJZ3Ep6FdMlWx9Ffvx8O,Teacher,CA,College of Agriculture
+Joel,P,Bautista,joelbautista0711@gmail.com,$2y$10$HkohEob6tL/z7LJ5PIszleNDE/.zymzQKmS074BPN0HFIupCnCcJO,Teacher,CA,College of Agriculture
+Natividad,C,Calpatura,calpatura.n.9957@gmail.com,$2y$10$BsaCOTEbSxO3tTY0GflIMe4/MLUlVksJtGF35F3fjePrE5GeQvzJ.,Teacher,CA,College of Agriculture
+Diosdado,C,Cañete,djc22065@yahoo.com,$2y$10$oPWU4wRYOuUqwHW/pjICeuYEXRCyAeCG90rhVxXJykO1QfkZLXA6G,Teacher,CA,College of Agriculture
+Eva Maeye,A,Capitulo,maeyecapitulo@gmail.com,$2y$10$My10MwZ6NShxh2Ky0y8k8OBKxprTkMtKwag0kg5AXFi1tsVS1yes.,Teacher,CA,College of Agriculture
+Victoriano,V,Casco,vvcasco1909@gmail.com,$2y$10$6nPWXat5CIUkwl0XOWdUludK2sFjc9C6V4zv1/uzWlvViEZPybvTW,Teacher,CA,College of Agriculture
+Jocelyn,M,Castillo,mamajoycastillo@gmail.com,$2y$10$jApU1Nmq6EhKdD1uMTBuuuh0M4IkTggRSDLHyNmuJDoRxwQqYC0wy,Teacher,CA,College of Agriculture
+Josephine,F,Castillo,josephinefcastillo.isu@gmail.com,$2y$10$xiDdt7CnAYlHenolBDLmzeS43UjFJToxeMwDloROTAvf5rbPjbeDy,Teacher,CA,College of Agriculture
+Myleen,R,Corpuz,corpuz.miles1979@gmail.com,$2y$10$sBShoqXteTGyN9xyIUTdR.07QiBCcL/ZmU5avdOItzUu4KW.i5oau,Teacher,CA,College of Agriculture
+Amado,O,Cortez,cortezamadojr@gmail.com,$2y$10$CeSrRY9whfc8PPSI3V3bJuui128spFS24dX1xaPvDlXW3tdJur1bK,Teacher,CA,College of Agriculture
+Crisel,C,Domingo,criselcabansag234@gmail.com,$2y$10$nNm8Der0St4VbwvQPorQAODGMmsobiAx4gtbJ6nTXZvOE5h18WheC,Teacher,CA,College of Agriculture
+Christine,D,Flores,christine.domingo.flores@gmail.com,$2y$10$7mbqnICkTgWXCSXcrqeqX.I0cOJakctmtuqACvDy4Px9Q3LbhOXYO,Teacher,CA,College of Agriculture
+Oliva,M,Gaffud,olivagaffud@yahoo.com,$2y$10$IoivS9fObpOVd7KSl/GBGuo/S7yHGuZOEkaz2LUhlRXy9CSdHlnOm,Teacher,CA,College of Agriculture
+Nenita,S,Genove,nitzgenove@gmail.com,$2y$10$UDytG8Tja45wAxQ3Wd69Beb68.fCW8CgT4y476ML6JH34JEv5sBiK,Teacher,CA,College of Agriculture
+Emy Lorraine,G,Hidalgo,emylorrainehidalgo@gmail.com,$2y$10$HraQFF2fWMQckJcSydWJO.wpsan4L.OF3Rgwjb18XK6tSgIQCYhRu,Teacher,CA,College of Agriculture
+Sherwin,M,Hidalgo,hidalgosherwinm@gmail.com,$2y$10$Re5FEvXyoDmmmqRLFe2uB.T5nBfNe67k3fM3FPIpQpRcdLydA9Znm,Teacher,CA,College of Agriculture
+Mark,B,Langtiwan,marklangtiwan4@gmail.com,$2y$10$LOW8Xiq0JDb9xKMDGTvYZ.PDWmlqn9qbrKGD62L7nJTh9i/ZWm8yS,Teacher,CA,College of Agriculture
+Freddie,O,Libatique,freddielibatique@gmail.com,$2y$10$9G4hqT2DHyQDq8IfWLGR0.j5SMUl8wRzDxWcWF5UkE0.prW/6u83i,Teacher,CA,College of Agriculture
+Melchor,C,Madrid,bongmadrid20@gmail.com,$2y$10$I9qGpcEM7SI5iEpKpzi.8edJ0tEfPgTQj9icQXzvzagZcgAx3ZN5a,Teacher,CA,College of Agriculture
+Alford Glenn,C,Mangoba,mangobaalfordglenn@gmail.com,$2y$10$gOZfHICMqAsJGiiZfAVBeuAPsYQzsK1R8GqvICEDL0JRkbRSCSaFi,Teacher,CA,College of Agriculture
+Hernanie Byron,M,Manrique,manriquehernaniebyron@yahoo.com,$2y$10$ezqIeDlnBM0cIWFcbUtLFeXjShMmTlSZg8Gqdl.RLbseKj9kpP0E.,Teacher,CA,College of Agriculture
+Mark Joker,L,Marcos,marcos.joker1988@gmail.com,$2y$10$ZG3NmtlV706HrINffy83NOviNf7ShLm1G0oSfufdxFz9WMLdsJNB.,Teacher,CA,College of Agriculture
+Artemio,A,Martin,junmartin.6273@gmail.com,$2y$10$6pYVRCJ21R2zGMblVI21X.vN.RPZTarhr3Kc92VXUPlxExYfrrW0O,Teacher,CA,College of Agriculture
+Keesh,S,Maylem,ksmaylem@up.edu.ph,$2y$10$QZ5XAfhp37aJurF6mFuF...lyDxFTD0o1z/ti/qXDO.glxfHAcJ7W,Teacher,CA,College of Agriculture
+Rex, ,Mendoza,rexmendoza121994@gmail.com,$2y$10$kZSU7HPPHiPhR0n13EqxjuMGry5WfDL817f3nguTll3.T/B1S.qoq,Teacher,CA,College of Agriculture
+Batiana,M,Mendoza,batianamendoza12@gmail.com,$2y$10$oYAQGgjepLFgIFuBpbla6e9Asu67RZk8.W0xB6hxDINOgGXT5i2SO,Teacher,CA,College of Agriculture
+Jonathan,N,Nayga,jonathannayga03@gmail.com,$2y$10$0wQNVKKXk3AIchhOt1yWFeZKUAFhBFm6/4V5n39uEhD8jM0rwpW0S,Teacher,CA,College of Agriculture
+Joel,V,Pangangaan,pangangaanjoel@gmail.com,$2y$10$8Y5n8VYIZOFaiwihSqJoNuhZeF.zusnds2Pu7L.YNdlV85KMCObGu,Teacher,CA,College of Agriculture
+Joy,M,Raiz,joymraiz@gmail.com,$2y$10$ynO9QfMyw2.0Wu1sQS8wh.ZlgOqmsgo5DYhVUw66Z3R.3TDL/FEtu,Teacher,CA,College of Agriculture
+Lucila,V,Rocha,lvrocha121260@gmail.com,$2y$10$74/nAXD9IFTlhmNseP101utzh0sUMtp4YB81O/8TjBN3es8EElF9O,Teacher,CA,College of Agriculture
+Saul,M,Rojas,saul.m.rojas@isu.edu.ph,$2y$10$E5YvZJLGwIYqxDjna2mqH.t4x/NACXM3UcGe6oozCz7LnTwSfMAqm,Teacher,CA,College of Agriculture
+Jose Felipe,P,Romero,jeff.romero@ymail.com,$2y$10$27NAdYv32aVgsHZ0DNggSeHK5eaIraPvq/EnPEEOO57GhuVpVKuIe,Teacher,CA,College of Agriculture
+Mary Evalyn Rose,G,Romero,yramrome@ymail.com,$2y$10$S7nvhCCUj/CJuiewsJqtX..E5semlJQgyim1XV3QgFI0h.bbDgODu,Teacher,CA,College of Agriculture
+Edith,P,Ruma,paredesedith20@gmail.com,$2y$10$ybT5fsXRysznswPiSXbPEu3DzNpm1n.6VqDaW.p1GUPUNZBkDhDXO,Teacher,CA,College of Agriculture
+Violeta,V,Sabio,sabiovioleta@gmail.com,$2y$10$L0IW5tu/g7WajFeYoYczX.jJbMR3ELuYRDrwPEH.VGnnT6ztmq84m,Teacher,CA,College of Agriculture
+Raphy,A,Sugue,engrsugue3@gmail.com,$2y$10$EL7J//bH/dTEh.GdOhENoeSTkwXnU0mv9yY5V1zIUcIRvC8R3Lct6,Teacher,CA,College of Agriculture
+Estrella,Y,Tangob,estrellatangob@gmail.com,$2y$10$MQK2SvQVM.46ca4gpC1QNefwG96axCZe8Oy420BR4nZNjRHf3gzDa,Teacher,CA,College of Agriculture
+Emelita,B,Valdez,ebvaldez20@gmail.com,$2y$10$7YFXDLFuMbMgC8ZlWNLb/ur9h7PRP4jnCAspo.hPg/2A4uAE3fJDq,Teacher,CA,College of Agriculture
+Jerald,M,Velasco,jerald_velasco@yahoo.com,$2y$10$L6YwXgPZ4DlAoTbv0JgJpOi5Zf8PozwTSLVNoKCGfetpOIRR3vNeO,Teacher,CA,College of Agriculture
+Randy,R,Wan-Aten,randywanaten@gmail.com,$2y$10$/44GnEFHwxz4uDCdA7BlG.MB.ohsvGn1uBB0M5X683LvKtOgQTdR.,Teacher,CA,College of Agriculture
+Marcel,B,Atianzar,marcel.b.atianzar@isu.edu.ph,$2y$10$zuMpznrg7ey.RMzrZtU2juGur6z5Sdz3kcznEjh9q09seQh36iHDa,Teacher,CCJE,College of Criminal Justice Education
+Teody,T,Basilio,teody.t.basilio@isu.edu.ph,$2y$10$S4jd.u35oxWjb8RnzFYEe.vCgmUy8xxD/Ncd068NcxkXOvhUcE2Ni,Teacher,CCJE,College of Criminal Justice Education
+Joel,B,Bumanglag,Joel.d.bumanglag@isu.edu.ph,$2y$10$fibFKXyYGVvcDZV0XCK3HOGjWL6oRlkfbpVN6FCN2aSe99mYL5BD.,Teacher,CCJE,College of Criminal Justice Education
+Melanie,A,Dela Cruz,delacruzmhel26@gmail.com,$2y$10$.1WeY0QEhLb7KYzibO4dfuup/N2GFuHV9BfCNFcrjqfNEkualJpFG,Teacher,CCJE,College of Criminal Justice Education
+William,C,Dela Cruz,william.c.delacruz@isu.edu.ph,$2y$10$70yCRd/be2VFtjV2EuQUBe.Qc8iGBWx0ztqlvX3vE2GoEyqBsoNrG,Teacher,CCJE,College of Criminal Justice Education
+Reynaldo,M,Esmeralda,reynaldo.m.esmeralda@isu.edu.ph,$2y$10$L8H3UvsM/In4TAAJgUm9.eR2lzHrNWYumtRxTvZ4h7E8pKHiAiA2q,Teacher,CCJE,College of Criminal Justice Education
+Valerie Jane,D,Fausto,valerie.fausto@isu.edu.ph,$2y$10$VDj13mZM7/L3P.LUUrmmu.YVscnK5vWhYALi636BISBVogBIb5E0e,Teacher,CCJE,College of Criminal Justice Education
+Samuel,M,Loñez,sml_06@yahoo.com,$2y$10$iPRZy4LErAOdfYwM.7DMuevafeT3qexurYakOeAfOHpshLeH1JRP.,Teacher,CCJE,College of Criminal Justice Education
+Sherwin,T,Mostoles,attysherwinmostoles@gmail.com,$2y$10$dVQiWcv07vFJE6BpKzX.mO28n9O5vreAjrnSSnLfLSh9mxNquyb/2,Teacher,CCJE,College of Criminal Justice Education
+Franklin,S,Ramirez,Franklin.s.ramirez@isu.edu.ph,$2y$10$ndvsLPKYprv81vw7Cd77PORxl2ZTIN/nG3idj4IVEV/.iAPLcOYTW,Teacher,CCJE,College of Criminal Justice Education
+Reginald,C,Sibug,reginald.s.sibug@isu.edu.ph,$2y$10$cnBzCnOZZDAvazfj/V4Tk.L6olguQZWqpNJMVqSzKaXeqBeDA3nGC,Teacher,CCJE,College of Criminal Justice Education
+Reyzeazar,P,Valdez,marizet2@gmail.com,$2y$10$ICgBQo0ek/iCnSGfxxmWw.yvYI79YRLGtGg1ajlbR1PE8bcxhbAoa,Teacher,CCJE,College of Criminal Justice Education
+AGRUDA,M,HAZEL,hazel.m.agruda@isu.edu.ph,$2y$10$jo2.Gn5.tr7B0WxrMCngPeLemTgrXTlc5RHcKdg9MRQF.0oLvPuFC,Teacher,COE,College of Engineering
+ALCARAZ,M,JOEL,joel.m.alcaraz@isu.edu.ph,$2y$10$ykaN3274g8v8/pSEzGC2nuextMCVLRnolY6jAP8PdEe74xiUSOKTW,Teacher,COE,College of Engineering
+ALEJO,A,LANIE,lanie.a.alejo@isu.edu.ph,$2y$10$oDR/ZyrTN9pZLgIAxtQEi./bUdG3ctKrv5sr9nSJlycIZ5EI8A.4i,Teacher,COE,College of Engineering
+ANCHETA,C,RYAN,ryan.c.ancheta@isu.edu.ph,$2y$10$O4IVi.V1/ibFbO7RRoG8B.nc6zsEgfqsE.wXWzR8CbAWMJD3TjqrK,Teacher,COE,College of Engineering
+BAGUIO,AQUINO,MELANIE,melanie.aquino@isu.edu.ph,$2y$10$928n0cQO9U62BEqUlAHmBujok.GLkdv5GUUivfXViEb61Bhpcz3Iu,Teacher,COE,College of Engineering
+BALDERAMA,F,ORLANDO,orlando.f.balderama@isu.edu.ph,$2y$10$OqUIavhUaiVegfKLhOA8dO6T0pImemzs5hwsFhGdixeQ0X5qatSWi,Teacher,COE,College of Engineering
+BARENG,R,JEOFFREY LLOYD,jeoffreylloyd.r.bareng@isu.edu.ph,$2y$10$ejz3ifMf2Q5yNppUG74kuusIKDaE7FB7LzeJzXRItedjw410hYaTy,Teacher,COE,College of Engineering
+FLORESCA,P,JANUEL,januel.p.floresca@isu.edu.ph,$2y$10$IMSmgI16M9C1LvgNSMj7TukxqwCrmMkJ1SfkSh.xnMIOvVC/8mLci,Teacher,COE,College of Engineering
+LAZARO,V,SABAS,sabas.lazaro1960@gmail.com,$2y$10$ehSXoDbK8bFXH8b2.ouMpeDi3OHFEFrQLri0fQawcBgljvqTHx1XW,Teacher,COE,College of Engineering
+MANGADAP,B,CESAR,cesar.b.mangadap@isu.edu.ph,$2y$10$xYr.Rfqeo03/blf0tsiNz.v5Gqngtpkj6vNn6V6ee39RW.J.p.X5K,Teacher,COE,College of Engineering
+PADRE,J,RAFAEL,rjpadre@isu.edu.ph,$2y$10$B9QZK2wtIMgc5l.sWGTG3e21QVn0kMz.dm8j2.W5OGDTg.BARpdey,Teacher,COE,College of Engineering
+DE LEON,B,JANE CRISTEL,janecristel.b.deleon@isu.edu.ph,$2y$10$RUyiwg/ueadZqUOZqkVcT.uaa7VTMPAgG56XUZs1q4j60Pd8FuyWu,Teacher,COE,College of Engineering
+DOMINGUEZ,M,PRUDENCIO,prudzdominguez16@gmail.com,$2y$10$uVbNjErXVua6HY5mo8UtdOQA54zmTPvNL4WAXkTncW4VKUb6kJa7W,Teacher,COE,College of Engineering
+ESTRADA,BRAVO,RALPH HAJILE,hajilelijah15@gmail.com,$2y$10$IL5PGx0XA39YswjJEGmLLeDT4OQ6/Bx3LjeU5TIWnPTzV8I1/mt4G,Teacher,COE,College of Engineering
+FLORES,M,ANTHONY,antonflores823@gmail.com,$2y$10$u37JiYPRS2Q/w53VOwVkM.kNHWUC53OVXQrY7HXwT9k1qIGBsx.6y,Teacher,COE,College of Engineering
+LOGAN,O,ALEXANDER,alexanderlogan92@yahoo.com,$2y$10$kMTy/UNvzNOcsDQfNvRN/OrsJXTi8Yzy/fXqwuE8U3pYcYql0USES,Teacher,COE,College of Engineering
+OBIÑA,A,EDMUNDO,obina.edmund@gmail.com,$2y$10$y/ixjnVp0OcHE3CYr.nwtOpJBKYxALKsB9JDJbIX0JyOPW5SAOtJS,Teacher,COE,College of Engineering
+PIMENTEL,T,CHISTIAN,christiantpimentel@gmail.com,$2y$10$Jjm06APC.e99fM/pYzQmLOM9yAvaAWX.WHlywZgEk5pDvAndRzC.G,Teacher,COE,College of Engineering
+ROSETE,C,CHRISTINE JOYCE,christinejoycerosete@gmail.com,$2y$10$Qbm7ZHkGt3gSXaTUO9z5veW11Wo0h76mPozcJMASdWj0LUmaQVMiC,Teacher,COE,College of Engineering
+TASANI,C,ELIJAH,elijah.c.tasani@isu.edu.ph,$2y$10$cwkyexV3.dxwagpGTdYsMulE9UALJaXDtUkBk2YkXosGeWAL21Usq,Teacher,COE,College of Engineering
+VALLESTERO,C,GORGONIO,gVallestero72@gmailcom,$2y$10$XQkopLy8eVRJVjQicnKuQOnKQrpnqaXsrVICr8KV6KgGR9OjSfir6,Teacher,COE,College of Engineering
+Jamiel,A,Agruda,jamiel.a.agruda@isu.edu.ph,$2y$10$j1gEZmpF0.4Ui5678Ibm.O5NvsTeqTYgXyy/.FNXtqHsA1tSCmuwK,Teacher,SVM,School of Veterinary Medicine
+Fedelis,B,Antimano,feantimano73@gmail.com,$2y$10$Kl90cRWZ3IOo/66TqOAYlebz.vA9etWaPzWCnxpFRuUJM.mq32ope,Teacher,SVM,School of Veterinary Medicine
+Sherwin,L.,Alota,sherwin.l.alota@isu.edu.ph,$2y$10$b3pDktkSqU.wDZwgzKKiOuIme3xGjibibneAEh01kQzpzNnJ2Bv5u,Teacher,SVM,School of Veterinary Medicine
+Jennifer,B,Bermudez,jennifer.b.bermudez@isu.edu.ph,$2y$10$uJ4zi7FVSzNhlUp2vBjwyeHfzV.6ADhCeFrkqwNEtJqGSAIVXO9SW,Teacher,SVM,School of Veterinary Medicine
+Jojo,D,Cauilan,jojo.d.cauilan@isu.edu.ph,$2y$10$gw.7K65mExEcG9ceXcH/lus3wevR.mdCJjyfBoq3VfH3g.bkoVm9m,Teacher,SVM,School of Veterinary Medicine
+Emmanuel,R,Cauinian,emmanuel.r.cauinian@isu.edu.ph,$2y$10$GZlCwVB3wLpQEdxKjQaHf.dpheJA6h5m6D0vY7PCSkIdJLkvTeEP6,Teacher,SVM,School of Veterinary Medicine
+Retchel,S,Contillo,retchel.s.contillo@isu.edu.ph,$2y$10$BPJ8/aFVNFetUFEAdBDl7OrmIhw3X5Gj2k8xJw.ikJHE4lzqk6xfC,Teacher,SVM,School of Veterinary Medicine
+Leah,S,Guzman,leah.s.guzman@isu.edu.ph,$2y$10$0JKx76uewjcRVan2hpsSB.kfQCMilnPEvneZ3Rlf2wO3gZULrqs0a,Teacher,SVM,School of Veterinary Medicine
+Carlea,S.,Geron,carlea.s.geron@isu.edu.ph,$2y$10$P2Y.NlPkdndpx.6/us07nOkkRRwHKJ2o6WJns4rWI1r3Ks3AAOA3G,Teacher,SVM,School of Veterinary Medicine
+Lariza,N,Mallari,lariza.n.mallari@isu.edu.ph,$2y$10$qdLCiFBAskENliDdD8XhRO3RuxGaDSbeZXb7fUSCpvYnCJEDDVT3C,Teacher,SVM,School of Veterinary Medicine
+Karina,G,Nicolas,karinamarie.g.nicolas@isu.edu.ph,$2y$10$V9lPmgG9PKaJWCP7.QsopOZNYHulv5lMkXMEBk/C.XZZaRtmG7MQS,Teacher,SVM,School of Veterinary Medicine
+ , , ,edmelyn.cacayan@yahoo.com,$2y$10$bDAxbvh4XVOaJycfwyIKuOO0QYsYCo9fHVjfcH00UEmY3AOZkXAai,Teacher,CON,College of Nursing
+ , , ,riannemaiecastillo26@gmail.com,$2y$10$XiD/S4pAGKILrs70757odujPBSTfdh18AZYP7SaMDHA1yDrBkjJgK,Teacher,CON,College of Nursing
+ , , ,galinganamark@gmail.com,$2y$10$eQvwY0GsWu3pzHvg49Bqa.H17CcuMe1N7wl1xVOycokXr.OsQXav.,Teacher,CON,College of Nursing
+Rikka Klaire,Villarde,Galinganq,rikkagalingana@gmail.com,$2y$10$FJ3YFSMJEcdf3a2InPHoMeGVkbc.izmm45/EAUzt7KfK5h4OXLUB.,Teacher,CON,College of Nursing
+Angelito,Estoesta,Alvarado,angelito.e.alvarado@isu.edu.ph,$2y$10$q.J5/UGWx7899HHubYt80uQkfNH/YhsoGS6GL/mB45IyLt19dz4Ki,Teacher,CON,College of Nursing
+ , , ,vdgjr051077@gmail.com,$2y$10$RyG8u9mJpcVOStwk6fB3bugFLoTrxTZIOQjm.n7DkIJoyJh/mBmQe,Teacher,CON,College of Nursing
+ , , ,arianejakefernandez@gmail.com,$2y$10$ch/UXMgj6xqZnU0DrWWkhOJId96dXBOboEZ2Wt5ojXPwp.QLxzueG,Teacher,CON,College of Nursing
+ , , ,lestherjamesandres@gmail.com,$2y$10$whbD/is3dyVDcTakBJvbGOqYqGAZvVgExrr.ZoE8wWb0pBdg8KvDS,Teacher,CON,College of Nursing
+ , , ,leahbellfrancisco.rchd@gmail.com,$2y$10$aambaMDp02XZE/.HPNufI.nZoEFUApn4MKxyA5115mBZt12v.MlXK,Teacher,CON,College of Nursing
+ , , ,joycapalad08@gmail.com,$2y$10$CgwKgESpNAld0h1LjoHLdeUdZNA52VLNS51pQXAxS48iYcmEjb5r6,Teacher,CON,College of Nursing
+ , , ,mackyrn19@gmail.com,$2y$10$zgKpMDnaoS71ttay2V5kYupZ/B.gVGSjqeaZyqafJO/MS23xNKvO.,Teacher,CON,College of Nursing
+ , , ,jobjusto@gmail.com,$2y$10$ly6fxfiMgRUtIdSv6.qfoOXIMzTDOFl0mmdRyturyijSkRRSgOOEW,Teacher,CON,College of Nursing
+ , , ,mayatuppal30@gmail.com,$2y$10$iSlE0qaVKz2kbfQPuYrUYOJnhqcAvRLswCQrKnbHVLMWw1abqaoPu,Teacher,CON,College of Nursing
+ , , ,telaharold14@yahoo.com,$2y$10$d423g6jVjzpb9bx6XpnItutM3LnITzEn.8SrXE8tGqM5WEJG91HC2,Teacher,CON,College of Nursing
+ , , ,jamielaangela@yahoo.com,$2y$10$Yuj0kyQOIcsL5NEkFTXK9.DbBoKKM55hsHkeFrgaZy4PH5VLKg0By,Teacher,CON,College of Nursing
+ , , ,daphnelyn45@gmail.com,$2y$10$5p0jMJVmbo3V1TUwMZmix.F8fN0jirtbhZL6MzEXW4N6Hm.hTRCvK,Teacher,CON,College of Nursing
+ , , ,princetonacepalafox@gmail.com,$2y$10$vZVAVn1ljV7BOaHehef43u94xEH95WXY8OZy7XB3a3fvvyI5XkYfW,Teacher,CON,College of Nursing
+ , , ,apriljoycegante@gmail.com,$2y$10$pPxPgLzd3.9qnoTvatxJmujkIIxM6QC/X726Ho0iJlsKElWpV7GHG,Teacher,CON,College of Nursing
+ , , ,lasamprincessahrianni@gmail.com,$2y$10$cVIGY9/OxwOkKdNUT6UJ5u1LRNCBqJtSv9WwtEVujUk4De.n9jE4u,Teacher,CON,College of Nursing
+ , , ,paul.01261991@gmail.com,$2y$10$cAT5Gg/JRiqShGIMgeh7mOrC2R.puWBlSfeac0NBYsYDR1xDFNt.S,Teacher,CON,College of Nursing
+ , , ,justinedotha1214@gmail.com,$2y$10$hU5UTbQqQHliurOQaGHXeuO8fstPFVqO3LEtU7960c19tuR.Dg0Vu,Teacher,CON,College of Nursing
+ , , ,cjgbasco@gmail.com,$2y$10$iEd2Zup6O3jemwg7ffKQQuPrjWrmVMi0H1KKHx.HiUwtYOHiWQH6a,Teacher,CON,College of Nursing
+ , , ,lovelites88@gmail.com,$2y$10$FwPr4l/XXl2ETvksrcwBvOTLW7SpuPPMrlsdJMy5Ridt92hmL4KHC,Teacher,CON,College of Nursing
+ , , ,marc.c.reyno@isu.edu.ph,$2y$10$8O8sNh0xGnaoCYZmbFOwhOuTWcTHocjaHQc0j2oFkZREwasMFo9q2,Teacher,CON,College of Nursing
+ , , ,michelle.d.chy@isu.edu.ph,$2y$10$gxoPLUZ0x4TFTALmCrdXSOWlZMW7MsPEEtp63HAR.puTYnomEipWC,Teacher,CON,College of Nursing
+ , , ,rhonar.samson520@gmail.com,$2y$10$/Jl8fLayo9hKdabnSORW4uWryw.8lP86VdXaMxd5ppoAq5aLwoEfq,Teacher,CON,College of Nursing
+ , , ,bellebueno18@gmail.com,$2y$10$QgMorwiRuVzYqm1u88mfvuoKYoFRMOz87PzpkPnikf0KJCZvGOUXG,Teacher,CON,College of Nursing
+ , , ,abrahamp.nicolas@gmail.com,$2y$10$Y2eyuRRT97PkqZxOkIBe8.ereqYo5Vmo5fi83SM53ourFQRQwM5GS,Teacher,CON,College of Nursing
+ , , ,wolfensteyn@yahoo.com,$2y$10$MQnuRoN8KviaB2T51UMHBOo2DCIOjcxpFHwTkaIw12VvlyJMFcSBe,Teacher,CON,College of Nursing
+ , , ,Jowaldendelostrinos@gmail.com,$2y$10$iPpt9pYP.OZyStFbWWYO2O/9uNhYTrtLHXn47/.X2tzYi2xRW1pUi,Teacher,CON,College of Nursing
+ , , ,crispyflor.a.pacis@isu.edu.ph,$2y$10$mqy5QXsxY76qx8Yi8y5YbeKTa7UBs/yXpefuZa0M2.0OmjJZWTS66,Teacher,CON,College of Nursing
+Lea Joanna,A,Galagnara,leajoanna.a.alindada@isu.edu.ph,$2y$10$KGcmK.jWYIq2VpVs4fju4eYM2muUQp8lIWLWCW542U8WAGjiTwn0a,Teacher,CAS,College of Art and Science
+Marianne Jane Antoinette,D,Pua,mariannejaneantoinette.d.pua@isu.edu.ph,$2y$10$lhCuc.ogX9Y5L1vttbq9WuCSlbXk/g2qvM.jTHJiATeX4ZwVh4nbO,Teacher,CAS,College of Art and Science
+Joseph,V,Del Rosario,sirjojo.delrosario@gmail.com,$2y$10$88kZl/ZnGdVHU6rJVhuR/.yzbj5DjtjaY33XE5EaoQuukEg6P.ETm,Teacher,CAS,College of Art and Science
+Genes,P,Maylem,genes.p.maylem@isu.edu.ph,$2y$10$0rkZ7e18ZlLQR6fpzo3MdOZymV7BOfJZcBfPQcNfA089SPWz5lcza,Teacher,CAS,College of Art and Science
+Jose,B,Abucay,jose.b.abucayjr@isu.edu.ph,$2y$10$JPGSZMIAMD6eWAj1HA7.NuX.Bn6tEfHEpDvuFft/PZ3GqUoq3j1ym,Teacher,CAS,College of Art and Science
+Lilibeth,L,Sanchez,lilibeth.l.sanchez@isu.edu.ph,$2y$10$F5ocwsnMRkfl6cMqpwyZvuT6X91gSL/XgG.NUIp0RyVvLJzk4SyFi,Teacher,CAS,College of Art and Science
+Maria Victoria,T,Juan,mavictoria.t.juan@isu.edu.ph,$2y$10$mfhfHqKv17uwjdkEUZyX8uf6MtbdCeEQfErwxESshHP3bLnVqsoMS,Teacher,CAS,College of Art and Science
+Kathlyn Princess,V,Cadelina,kathlynprincess.v.cadelina@isu.edu.ph,$2y$10$gfHZs0LiImQLWTCmgkDJ.OuQ3RFARwfnyQb5WJKGqPF5DaTFYdSiq,Teacher,CAS,College of Art and Science
+Rosario,E,Fajarto,rosario.e.fajardo@isu.edu.ph,$2y$10$v3Fa6jJUOEiPR40TsKFdQuhtwjw2.Q5TgmzvbwydKtydqHOLZUTEe,Teacher,CAS,College of Art and Science
+Maricon,I,Lagayan,maricon.i.lagayan@isu.edu.ph,$2y$10$ildguGZQt0glgg3tO4ZY6efrMWpnmyxFr6muKmI/ptKClSs4VbWoK,Teacher,CAS,College of Art and Science
+Janice,C,Malana,janice.c.malana@isu.edu.ph,$2y$10$Tqpz1r.qWpY/lpyhrSnudOoCB8es1PkH1lnGAwK59kvwbN0wXL0dq,Teacher,CAS,College of Art and Science
+Rowena,M,Del Rosario,wengmay_2013@yahoo.com.ph,$2y$10$eTTbfTQwVGgAs4VoJ.NdYuWeagxv2.pmLSjo4B2mqSxuCKIlUJG5i,Teacher,CAS,College of Art and Science
+Nenita,C,Rodavia,rodavianitz02@gmail.com,$2y$10$OoQky1/yKVfiDTBI3KxWn.JWnEWuyBBCAofpHF.auoQnWjLwWykCq,Teacher,CAS,College of Art and Science
+Helena,B,Florendo,helena.florendo28@gmail.com,$2y$10$6Q/nIHjEHX8ODl0V670pI.FIVJtwLirH/cDen/vmcqNIj.hJJOK.m,Teacher,CAS,College of Art and Science
+Rayiel Joshua,A.,Aquino,raynielaquino@gmail.com,$2y$10$dVAtswG.yTcsIoKTU4sV2u44Nid3ZcQaNs/ozvWDMvX/c59p9LrPW,Teacher,CAS,College of Art and Science
+Leiz Joy,A,Alzate,Leizlalzate@gmail.com,$2y$10$tOWWPUHhNKgy/zacer4S5e0pc8x2/XSLrYBgEG74DUA/U6OGJeBra,Teacher,CAS,College of Art and Science
+Hilda,A,Manzolim,hildamanzolim08@gmail.com,$2y$10$YZQJZbAXFypAAFsR1qtCjOFxwk3Ta.N33afbUzLYajSqFeuyR4Fy2,Teacher,CAS,College of Art and Science
+Bernadette,A,Gumpal,gumpal.bernadette@gmail.com,$2y$10$M7f1WRqmvVrOKC0cMlEYjeLy.8iFse7BK7T8nKVcBSGHXAfpEtXce,Teacher,CAS,College of Art and Science
+Adalyn,C,Soriano,adalyn.c.soriano@isu.edu.ph,$2y$10$SJG33rRFTcxfoDDq4ZoPhevCUyOdq537qaUkMhMX7A1Yejeu9B1GC,Teacher,CAS,College of Art and Science
+Alex,L,Soriano,alex.l.soriano@isu.edu.ph,$2y$10$ZQCcZLowWWZurSWP3LymYeIQwLy6a2Sj4GeQEIl6zNDkhcTK4ukPS,Teacher,CAS,College of Art and Science
+Ma. Theresa,L,Eustaquio,ma.theresa.eustaquio@isu.edu.ph,$2y$10$FjWUgssup4bEQau8WhBZvOiG2G.ah.RIMJqlNwN0c1fR6tHObqfoW,Teacher,CAS,College of Art and Science
+Juanito,P,Tandoc,juanito.p.tandoc@isu.edu.ph,$2y$10$MKwQunEUaq1LtZdIBEdU2OatvwWMHhoILtFPtiejpXssggATUoSza,Teacher,CAS,College of Art and Science
+Lailanie,L,Quilang,lailanie.l.quilang@isu.edu.ph,$2y$10$BQxKgTTAH73LcJmv4swwq.UL7vbpSZrRIFgnS9K3nkbP1BChg2V9i,Teacher,CAS,College of Art and Science
+Florenda,A,De Temanel,florenda_balleteros@yahoo.com,$2y$10$bZ4beHqUeYhGXIqXka09r.3CLYhTGGQWXCDKsmEc4zme9Eeudfp3C,Teacher,CAS,College of Art and Science
+Megumi,A,Chan,megumichan@gmail.com,$2y$10$oYOdX.v9DHMJIxSFRvgp3ORvWC4n.NiOY8hcq33RLm/IYnRU/U2f6,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Erwin,Galingana,Corpuz,erwin.g.corpuz@isu.edu.ph,$2y$10$JzYlLPbOwU.xfehMnPH4xeZkcvGxhIyHnN/aSkB3nnlsH4LJ2ZoMC,Teacher,CTE,College of Teacher Education
+Christian Lloyd,Divina,Taguba,christianlloyd.d.taguba@isu.edu.ph,$2y$10$ygIxmmXlSWBkY0gkKdsuseOvskxjx12aUGjhRH6XpYRK7/SA64w1e,Teacher,CTE,College of Teacher Education
+Nover,Dacutan,Esteban,nover.d.esteban@isu.edu.ph,$2y$10$g8IcmWnlU95nsRTmK4EhVu6So7ITL68gY2upI.KTwxnLzEarnnMXm,Teacher,CTE,College of Teacher Education
+Jun,M,Ramos,ramosjun082@gmail.com,$2y$10$ThkMT.9TjOBfE1YpjymqxudZxIfl1A7GyjzVC.h9JEmol0a0Gv4B6,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Kimberly,Ofracio,Tatel,kimberly.o.tatel@isu.edu.ph,$2y$10$BifIT.trnNj7Tt6i/vA6GOJ9TxuZtUIQNU7NItmoWOygNC8J/XZRm,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Arlene,Laureta,Remigio,arlene.l.remigio@isu.edu.ph,$2y$10$QC6.1sQRtq7eiP23jplU/Os3ZgAy.lBeXsp9muvTTwtNEXUb7stZW,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Ma. Rita,Alindada,Reario,ma.rita.a.reario@isu.edu.ph,$2y$10$qshsYseXPQHIBpWrPeP2qugFBkBBFJHsFOfrInkdSg80cSGRU/M7e,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+ralliegh,Fernandez,Vizcarra,RFVizcarra07@gmail.com,$2y$10$ZFfSI9wzijy6wMsU0fdnBOg6/6Utz2rRHduyw.XabDamWmXwiFyXW,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Evelyn,Eustaquio,Baltong,evelyn.e.baltong@isu.edu.ph,$2y$10$Sg31STfVtlAG2Bw/LpKjpOHRgCyHirsPv9nMRlTHjYJjY/nGQiSEG,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Meryl Pearl,Lomabao,Facun,merylpearl.l.facun@isu.edu.ph,$2y$10$lGLJT1q2G0DCFQoeJq990eFzBjRYBKCBE31Zr7HLaZ1v.Nz7N9JbK,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Amerie Joy,Gaffud,Teran,ameriejoy.g.teran@isu.edu.ph,$2y$10$UZATS67RGbQBpwmt1NYHDeVFGMohvep2XTbcBKxRzR5L8xgKzO4Y.,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Rochelle Mei,C.,Bala,rochellemei.c.bala@isu.edu.ph,$2y$10$6iKbfyXn5bPGevRMEVvvpetZq0TYiIpUzDs2PMgUG1u2LF1LxiFWW,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Jennifer,B,Fabro,jennifer.b.fabro@isu.edu.ph,$2y$10$iaaBUSr5oPXT3yXysgVtB.y0/J/bhYXLIahm5KX4axS.1j7wOzTb2,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Amie,P,Bala,amiebala9312@gmail.com,$2y$10$22kho6G4psiwzkJ0ZRXHaOV/yk7ioazNOSdZUz3mibQzQGJCyB82e,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Exequiel,M,Perez,exequielperez3309@gmail.com,$2y$10$9pNxX9fu1TLqxPZpjG6S1eGohM.a1ouO0YRkp935VHJsUwQo7H//K,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Pamela,Ruma,Baluyut,pamela.r.baluyut@isu.edu.ph,$2y$10$.ejf5Gy7dCzlnW71OgR9JO8AbW4h/h1K6Rfgn4mKyghjpuSi2QWyS,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+hunter,curameng,lim,hunterjosephlim1416@gmail.com,$2y$10$Z0HN0e6ogwu5FWi5CsybjOYr2whbWmdo.dlJZVAAQVjdNlm.1KQxi,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Maria Leonila,Guingab,Cabaccan,marialeonilla.g.cabaccan@isu.edu.ph,$2y$10$pZkkYpVDBTFzB5u9yNdk5.Bpvige6AfSPDG1Mos1z.vPMA031usu6,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+vivian,m,dumrique,dunriquevivian@gmail.com,$2y$10$F9bIuuL8DczDrYQSWSdWV.Av8Cq9dod1fq3zKDUfM38xQrONs.zYu,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+aida,t,villanueva,aida.t.villanueva@isu.edu.ph,$2y$10$5/zc9ZPgR.cKMzKMaxB26eWSBAn.QmsqB4KHvPyFxk3Nffu9hrh5q,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+LEAH,B,BITAO,lea.s.bides@isu.edu.ph,$2y$10$whZWl62NDMas1fV8hHrz5.isxYVGbZySehMLqt2W9gWwwMN.TUX4e,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Katherine,A,Alejandro,katherine.a.alejandro@isu.edu.ph,$2y$10$Uxm27HM2XaJNWVvPSAeA/.1mLpiOK3S92KU8xWjCzzTgQMpmRLAl.,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Nicanor,D,Baquiran,nicanor.d.baquiran@isu.educ.ph,$2y$10$MtbLmzF2f9LquSo5P8ax.OYLFrB1xXFjo6bGNW.R2SgaNcm9dekaK,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Jayson,G,Gollayan,jayson.g.gollayan@gmail.com,$2y$10$MyWSUUZN4cOvAeEaTKyeQ./Bl/fEnnCFMSXpOmYqIhIwehL/gnHBS,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Joan,T,Ruiz,joan.a.tomas@isu.edu.ph,$2y$10$bb3gqrrREnrJzxW46Ogj9uHhXrIivYpTFDPOk9HEMA12sbODO/jvS,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Ma Teresa,S,Alvarez,ma.teresa.s.alvarez@isu.edu.ph,$2y$10$TgVCFQR5GMPYnWYBd.XZUOVe6AeqE8yI5zLVzsnYCusDpXJDE8Ksu,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Cristy,T,Ancheta,cristy.t.ancheta@isu.edu.ph,$2y$10$3kis5RKaq5Y0zBJiduMR..SGUolxcxbdG8JDrJAZSF3bLngYtUAKK,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Princess,R,Babaran,princessbabaran28@gmail.com,$2y$10$d5180iUGODNEK7pdeH1mbus/Ec4PiZTxaYlp.3uFAYsmehTcxzzTm,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Norvelyn,B,Bautista,norvelyn.b.bautista@isu.edu.ph,$2y$10$bmPRplFcfil.EjHNlM.GIuhgOv3y.hRiyPZYKoZlHrNDLV0mYbsB6,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Renejoy,M,Bulos,renejoymbulos.isu@gmail.com,$2y$10$dArBL.xmhhNNW4AvqDD5w.umHxchBO/i812Cd2b..1.VIzLMbSDgG,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Eva,U,Cammayo,evacammayo@gmail.com,$2y$10$cAxogBFemNiqFhhCDYOr3OSyFAfEe2YmRvJ4VZ1ZfQuNyJYKaTyHi,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Rowell,S,Cardenas,rscardenas.cpa@gmail.com,$2y$10$RPFxg8Hrvt88O89ErpifZewK0nX6KsnGSbnFnTUqdf0suk.v6A.jS,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Joana May,T,Danao-Manaligod,jmdanaomanaligod@gmail.com,$2y$10$0gO3s.fGN0lThuuVqQv90OHCQANxbIhaf5C5DWy.s6B3EJPxN8nd.,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Ferdinand,Q,De Guzman,fqdeguzmancpa08@gmail.com,$2y$10$7AsSt43sNFxM.U.n1YE0zeHS1TcR3GSP82.SVbvkp21iuNceWgtIm,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Marilfor Hernando,A,Devibar,Mariflor.h.devibar@isu.edu.ph,$2y$10$a0dR0FhvMxYsTeudZzp28Os0sLsbelH56cUS.ZZkonDDGx3DuSIGS,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Deborah May,A,Garcia,deborahmay.a.garcia@isu.edu.ph,$2y$10$O/cxCHrFmt16LdO/ikeX1u.iQL89tLT2YHHGR0brVYD6/P5aG0C6y,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Jeanette,I.,Gonzales,jeanette.i.gonzales@isu.edu.ph,$2y$10$4J.gFtwEYvG.kzlWyVMUh.G3E4DmO63A4igbhue3NzYbW/nsmsfkS,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Sheila,Y,Guinat,guinatsheila@gmail.com,$2y$10$omaRs1igYXDA0ennh5P2FeZe/Dmd6tEMRRILjoQsmrEtpwSuxlPaG,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Aljon,F,Gumpal,gumpaljon@gmail.com,$2y$10$XKVH2l5XzINlXe0BnEWCSOBOW/QSI6InpbOdLTpteJP/FTpep0pji,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Melody,E,Lim,melody.e.lim@isu.edu.ph,$2y$10$XaqhGTf3hEMIvGGnY.e/ReT7PPxSofnA6VBvrpQLn2BmFACrLwpf.,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Fler,L,Madayag,fler.l.madayag@isu.edu.ph,$2y$10$Eyv/oM6R2egpREiM8T3zjO2rr0arq8OP.6.wchhzfRYUFgPwg.Ib6,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Jessica,C,Managuelod,jessica.c.managuelod@isu.edu.ph,$2y$10$ttkPyKB1KXvVYVEc.fwqn.HOt6EzDklQYrRwwNT19IjqetUAzeDWW,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Ermhan,R,Maniego,ermcpa130035@gmail.com,$2y$10$JI7zC7IfA9u9A.hCReUzheW7pvmbsEelt7QSN4h/bZxu7KnAplh1W,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Chriselda Saniata,G,Niala,csgniala@gmail.com,$2y$10$SKTDoQ6ofR.CyHRt7ca4LezN86YxT/J7SWbgZL1vJkslJPIndZRqu,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Dahlee,S,Pascua,dahleespascua@gmail.com,$2y$10$sxkKhwA2zLqt5V1vbViYaenkKmapCABkwA88OEtIewCXaX39OH0aO,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Elsa,S,Pinzon,elsa.s.pinzon@isu.edu.ph,$2y$10$FwmnPCKF6nsHDzugiZtwmOmhyql2QR0ykfxNeuZGYzTWFCOcCbqYK,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Rolly,L,San Jose,sanjosesamrolly@gmail.com,$2y$10$s5CMTxqQJMDgiWcZTUtkXOeqxl8.Lr6L.MNdUZDmHybweRSQR1M8q,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Lea,D,Tungpalan,leatungpalan16@gmail.com,$2y$10$5cp2eCWdSBCQwVIgt/iG9.9GQBlzm/8wYCCf2Dgk8.9y7oWWfnzou,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Jennifer,M,Villanueva,Jennifer.m.villanueva@isu.edu.ph,$2y$10$2cbvZ1VjLM9jLAQ4KUt1yuNBNUohNxmogZFf4i8myQfuV/eS8D4K6,Teacher,CBAPA,College of Business Accountancy and Pubic Administration
+Verson,Labuguen,Ancheta,versonancheta.online@gmail.com,$2y$10$rJR.AOARO92tGEhK6nXw9uPZoaoktgR2E0C9XpocjnYhIAarKJLFK,Teacher,CCSICT,"College of Computing Studies, Information Communication Technology"
+Jennelyn,B.,Lacar,jennelyn.b.lacar@isu.edu.ph,$2y$10$V4X7KXQY4QILW8SkZrOLVe4xbTqY0lBAcmsSKNvrEGFd9ZHjgo9We,Teacher,CTE,College of Teacher Education
+Maria,T,Teresa,maria@gmail.com,$2y$10$EemegxOIjnWlbtkbgA9OTOppp7IR/7gaD/tSWqRzZ6U0GwOSE/HOu,Teacher,,
+Marlyn,M,Bermoza,marlyn.m.bermoza@isu.edu.ph,$2y$10$g.V/E6B/2eUEYJVYoSd/GeypgYNKxSmspH.ylPhFsCBzEKdTwccri,Teacher,,
+Darios,B,Alado,darios@test.com,$2y$10$M0fG6U5owNlj1PB9dEZkFuC0DbfrSc4lsaGzxVIiJtUvv4iKT8dgu,Teacher,,
+Catleen,g,Madayag,Catleen@test.com,$2y$10$5RlnORlXOkVfrtkM2cxZmeT6ccm9PY9AU6nqUOEz.zV9DUb/Gfg0W,Teacher,,
+Maria,T,Aquino,Mabutingguro@gmail.com,$2y$10$deytAXXWR8Qttt5LF/PxH.o9SAMPrankLBlNfkxggEpK4QmSmuFoy,Teacher,,
+Nanette,D,Sayo,nanette.d.sayo@isu.edu.ph,$2y$10$bR7vIvoXQzCGKtNqWQSUK.X7s8GDab7a.yZ5W2CPxtXPIUb1NPSAy,Teacher,,
+Marinel,P,Dayawon,marinel.p.dayawon@isu.edu.ph,$2y$10$3TJsAeGfEtFZWsBuO8N40.xNgPfydqIBccud9Xwpvtak938AsRA5S,Teacher,,
+Natividad,M,Maryrose,natividad.maryrose@isu.edu.ph,$2y$10$dJrXtFOH62x0tDebzPHqzeJW4.EajiGuILYMr5QnuKKqa8a03kqm6,Teacher,,
+VP,v,Ara,vpara@isu.edu.ph,$2y$10$wXZiFhzktgq1V7Ouj8YsiuOA5oPyPSawP5NDV0wHZcxNU8Xdfa5/W,Teacher,,
+Teacher,101,Instructor,teacher1@gmail.com,$2y$10$ZI6FxLR25oB3zCNmP9we8uAky9LOOyQWflxqY6CVpsNXuwG5q4nAO,Teacher,,
+Ruby,A,Lumaban,ruby.a.lumaban@isu.edu.ph,$2y$10$oKsgz1ksEQFb75lW/.ik0u9.K5ek2kkwytVwGdcOld3OfEMz2PaYy,Teacher,,
+Clarence,Gamboa,Garces,clarencegarces.isu@gmail.com,$2y$10$TlMbXviGLzwVBwx0sgZoy.q2WJYsf96aIoETqIWL8HL2jlUV9g1cW,Teacher,,

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\SendNewPassword;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
-
-use App\Models\tbl_department;
-
 class ManageUserController extends Controller
 {
 
@@ -51,62 +48,51 @@ class ManageUserController extends Controller
         return $this->studentBulkAdd($users_data);
     } else {
 
-        // DB::beginTransaction(); // <-- first line  
-        DB::beginTransaction();
-  
-        array_pop($users_data);
-        $getDepartments = tbl_department::all();
+        DB::beginTransaction(); // <-- first line  
 
+    try{
+         
         foreach($users_data as $user) {
 
-            $first_name = $user['firstName'] == null ? ' ' : $user['firstName'];
-            $middle_name = !isset($user['middleName']) ? ' ' :  $user['middleName'];
-            $last_name =  !isset($user['lastName']) ? ' ' :  $user['lastName'];
-            $email =  !isset($user['email']) ? '' :  $user['email'];
-            $department_short = !isset($user['department_short'] ) ? ' ' :  $user['department_short'];
+            $first_name = $user['first_name'] == null ? ' ' : $user['first_name'];
+            $middle_name = $user['middle_name'] == null ? ' ' :  $user['middle_name'];
+            $last_name = $user['last_name']  == null ? ' ' :  $user['last_name'];
        
-            $email = preg_replace('/\s+/', '', $email); ;
-          
-            $userFind = User::where('email',$email)->exists();
+            $email = preg_replace('/\s+/', '', $user['email']); ;
+
+            $userFind = User::where('email',$email)->count();
 
 
-            if(!$userFind) {
-                // $New = User::create([
-                //     'email' =>  $email,
-                //     'password' => $user['password'],
-                //     'role' =>  $user['role'],
-                //     'email_verified_at' =>  date('Y-m-d H:i:s'),
-                // ]);
-
-                $New = new User;
-                $New->email =  $email;
-                $New->role = $user['role'];
-                $New->email_verified_at = date('Y-m-d H:i:s');
-                $New->save();
+            if($userFind == 0 ) {
+                $New = User::create([
+                    'email' =>  $email,
+                    'password' => Hash::make('orange@2021'),
+                    'role' =>  $usertype,
+                    'email_verified_at' =>  date('Y-m-d H:i:s'),
+                ]);
     
     
                 $details = new tbl_userDetails;
                 $details->user_id = $New->id;
                 $details->firstName = $first_name;;
-                $details->middleName = $middle_name;
+                $details->middleName =$middle_name;
                 $details->lastName =$last_name;
                 $details->save();
     
-              
+    
 
-                foreach ($getDepartments as $item) {
-                    
-                    if($department_short == $item['short_name']) {
-                        $departments = new tbl_user_departments;
-                        $departments->user_id = $New->id;
-                        $departments->department_id = $item['id'];
-                        $departments->save();
-        break;
-                   
-                    }
-              
 
+                if($usertype != 'CampusDirector') {
+                    $departments = new tbl_user_departments;
+                    $departments->user_id = $New->id;
+                    $departments->department_id = $request->department['id'];
+                    $departments->save();
                 }
+
+                
+            
+          
+
                 $user_login_details[]= $details;
             }
         
@@ -114,15 +100,22 @@ class ManageUserController extends Controller
             $childModelSaved = true; 
 
         }
-        DB::commit();
 
- 
+    } catch(Exception $e)
+    {
+        $childModelSaved = false;
+        DB::rollBack();
+    }
+
+    if($childModelSaved) {
+        DB::commit();
+    }
 
 
        return ['account'=>$user_login_details];
+}
 
-
-    }
+    
     }
 
 
@@ -134,18 +127,16 @@ class ManageUserController extends Controller
         $user_id = [];
         $user_details_id = [];
         ini_set('max_execution_time', 1000);
-        $last_id = DB::table('users')->select('id')->orderBy('id', 'desc')->first()->id;
-
         DB::beginTransaction();
 
             foreach($users_data as $user) {
 
             
-                $user_records[] =
+                $user_id[$i]=  DB::table('users')->insertGetId(
                     [
                         'password' => Hash::make('orange@2021'),
                         'role' =>  'Student',
-                    ];
+                    ]);
 
                 $first_name = $user['first_name'] == null ? ' ' : $user['first_name'];
               
@@ -153,24 +144,21 @@ class ManageUserController extends Controller
                
     
                 
-                    $user_details_records[]=
+                    $user_details_id[]= DB::table('tbl_user_details')->insert(
                         [
-                            'user_id' => $last_id++,
+                            'user_id' => $user_id[$i],
                             'student_id' => $user['student_id'],
                             'firstName' =>  $first_name,
                             'lastName' =>  $last_name,
                             'birthday' =>  $user['b_day'],
-                        ];
+                        ]
+                    );
 
             
             }
 
-           
 
-            users::insert($user_records);
-
-            tbl_userDetails::insert($user_details_records);
-            
+          
            
             DB::commit();
             
