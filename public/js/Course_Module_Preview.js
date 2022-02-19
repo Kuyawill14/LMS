@@ -696,7 +696,7 @@ var render = function() {
                                     key: _vm.subModuleData.sub_module_name + 1,
                                     staticStyle: {
                                       width: "100% !important",
-                                      height: "522px !important"
+                                      height: "75vh !important"
                                     },
                                     attrs: {
                                       title: _vm.subModuleData.sub_module_name,

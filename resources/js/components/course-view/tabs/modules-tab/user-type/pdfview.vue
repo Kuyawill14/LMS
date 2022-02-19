@@ -8,8 +8,8 @@
                              style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100%; !important"></iframe> -->
         <!-- <iframe height="100%" class="pdf-viewer holds-the-iframe" width=100% :src="`${pdf_file}`"></iframe> -->
           <vue-pdf-app :pdf="pdf_file"></vue-pdf-app> 
- {{pdf_file}}
-<pdf :src="pdf_file"></pdf> 
+ <!-- {{pdf_file}}
+<pdf :src="pdf_file"></pdf>  -->
 
     </v-card>
 
