@@ -55,7 +55,15 @@ __webpack_require__.r(__webpack_exports__);
       config: {
         toolbar: {
           toolbarViewerLeft: {
-            findbar: false
+            findbar: false,
+            download: false
+          },
+          toolbarViewerRight: {
+            presentationMode: true,
+            openFile: false,
+            print: false,
+            download: false,
+            viewBookmark: false
           }
         }
       }
@@ -424,7 +432,7 @@ var render = function() {
   return _c(
     "v-card",
     {},
-    [_c("vue-pdf-app", { attrs: { pdf: _vm.pdf_file, theme: "light" } })],
+    [_c("vue-pdf-app", { attrs: { pdf: _vm.pdf_file, config: _vm.config } })],
     1
   )
 }
