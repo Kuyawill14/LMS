@@ -2,13 +2,15 @@
 
 
 
-    <v-card style="height: 620px;">
+    <v-card style="">
 
         <!-- <iframe title="google pdf viewer"  class="pdf-viewer" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_file" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                              style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100%; !important"></iframe> -->
         <!-- <iframe height="100%" class="pdf-viewer holds-the-iframe" width=100% :src="`${pdf_file}`"></iframe> -->
           <vue-pdf-app :pdf="pdf_file"></vue-pdf-app> 
- 
+ {{pdf_file}}
+<pdf :src="pdf_file"></pdf> 
+
     </v-card>
 
 
@@ -20,6 +22,7 @@
     import VuePdfApp from "vue-pdf-app";
     // import this to use default icons for buttons
     import "vue-pdf-app/dist/icons/main.css";
+import pdf from 'vue-pdf'
 
     export default {
         props: ['pdf_file', 'title'],
