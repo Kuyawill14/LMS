@@ -17,5 +17,18 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
         ]);
+
+        $this->call([
+            departmentSeeder::class,
+        ]);
+
+        $this->call([
+            SchoolYearSemesterSeeder::class,
+        ]);
+
+        $this->call([
+            bulkAddUser::class,
+        ]);
+
     }
 }
