@@ -694,7 +694,10 @@ var render = function() {
                               _vm.isSelectedModule
                                 ? _c("pdfviewer", {
                                     key: _vm.subModuleData.sub_module_name + 1,
-                                    staticStyle: { width: "100% !important" },
+                                    staticStyle: {
+                                      width: "100% !important",
+                                      height: "522px !important"
+                                    },
                                     attrs: {
                                       title: _vm.subModuleData.sub_module_name,
                                       pdf_file:
