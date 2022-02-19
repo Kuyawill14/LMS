@@ -129,7 +129,7 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="middleName" />
-                                <v-text-field label="Middle Name" :rules="nameRules" name="middleName"
+                                <v-text-field label="Middle Initial" :rules="nameRules" name="middleName"
                                     v-model="form.middleName" type="text" color="primary" outlined />
                             </v-col>
 
@@ -146,20 +146,13 @@
                                     color="primary" outlined />
                             </v-col>
 
-                            <!--      <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                            <v-col class="ma-0 pa-0 mb-1" v-if="this.type == 'edit'" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
-                            </v-col> -->
-
-                            <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12"
-                                md="12">
-                                <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large
-                                    color="primary">
-                                    <v-icon left>{{isVerifying  ? '' : 'mdi-account-check-outline'}}</v-icon>
-                                    {{isVerifying ? 'Verifying...' : 'Verify user'}}
-                                </v-btn>
                             </v-col>
+
+                            
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12" v-if="type== 'add'">
                                 <HasError class="error--text" :form="form" field="password" />
                                 <v-text-field :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" id="password"
@@ -174,7 +167,15 @@
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
                                 <v-select :items="department" item-value="id" v-model="form.department" item-text="name"
-                                    return-object label="Department" dense outlined></v-select>
+                                    return-object label="Department"  outlined></v-select>
+                            </v-col>
+
+                            <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large
+                                    color="primary">
+                                    <v-icon left>{{isVerifying  ? '' : 'mdi-account-check-outline'}}</v-icon>
+                                    {{isVerifying ? 'Verifying...' : 'Verify user'}}
+                                </v-btn>
                             </v-col>
 
                         </v-row>

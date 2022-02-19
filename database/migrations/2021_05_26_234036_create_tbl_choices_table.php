@@ -16,7 +16,7 @@ class CreateTblChoicesTable extends Migration
         Schema::create('tbl_choices', function (Blueprint $table) {
             $table->id();
             $table->integer('question_id');
-            $table->mediumText('Choice');
+            $table->mediumText('Choice')->nullable();
             $table->timestamps();
         });
     }

@@ -922,7 +922,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1313,8 +1312,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   type: type,
                   question_id: id
                 }).then(function (res) {
-                  _this6.isNewChanges = true;
-
                   _this6.getAll_questions.Answer[mainIndex].SubQuestion.push({
                     id: res.data.sub_question_id,
                     answer_id: null,
@@ -1326,6 +1323,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     Choice: '',
                     question_id: id
                   });
+
+                  _this6.SaveAllQuestion();
                 });
                 /* this.isNewChanges = true; */
 
@@ -29150,6 +29149,7 @@ _utils_hooks__WEBPACK_IMPORTED_MODULE_4__.hooks.langData = (0,_utils_deprecate__
 
 
 
+
 /***/ }),
 
 /***/ "./node_modules/moment/src/lib/locale/locales.js":
@@ -29300,9 +29300,9 @@ function defineLocale(name, config) {
             (0,_utils_deprecate__WEBPACK_IMPORTED_MODULE_2__.deprecateSimple)(
                 'defineLocaleOverride',
                 'use moment.updateLocale(localeName, config) to change ' +
-                'an existing locale. moment.defineLocale(localeName, ' +
-                'config) should only be used for creating a new locale ' +
-                'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
+                    'an existing locale. moment.defineLocale(localeName, ' +
+                    'config) should only be used for creating a new locale ' +
+                    'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.'
             );
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -29327,7 +29327,7 @@ function defineLocale(name, config) {
         locales[name] = new _constructor__WEBPACK_IMPORTED_MODULE_4__.Locale((0,_set__WEBPACK_IMPORTED_MODULE_3__.mergeConfigs)(parentConfig, config));
 
         if (localeFamilies[name]) {
-            localeFamilies[name].forEach(function(x) {
+            localeFamilies[name].forEach(function (x) {
                 defineLocale(x.name, x.config);
             });
         }
@@ -29417,6 +29417,7 @@ function getLocale(key) {
 function listLocales() {
     return (0,_utils_keys__WEBPACK_IMPORTED_MODULE_5__.default)(locales);
 }
+
 
 /***/ }),
 
@@ -36970,6 +36971,8 @@ var render = function() {
                                                                                     _c(
                                                                                       "v-radio-group",
                                                                                       {
+                                                                                        key:
+                                                                                          Ans.id,
                                                                                         model: {
                                                                                           value:
                                                                                             item.answer,
@@ -36990,8 +36993,6 @@ var render = function() {
                                                                                         _c(
                                                                                           "v-radio",
                                                                                           {
-                                                                                            key:
-                                                                                              Ans.id,
                                                                                             staticClass:
                                                                                               "pa-0 ma-0",
                                                                                             style: _vm
@@ -37005,7 +37006,7 @@ var render = function() {
                                                                                                 "primary",
                                                                                               disabled:
                                                                                                 Ans.Choice ==
-                                                                                                null,
+                                                                                                "",
                                                                                               name:
                                                                                                 "Answer",
                                                                                               value:
@@ -37015,8 +37016,8 @@ var render = function() {
                                                                                               click: function(
                                                                                                 $event
                                                                                               ) {
-                                                                                                Ans.Choice ==
-                                                                                                  item.answer
+                                                                                                item.answer ==
+                                                                                                  Ans.id
                                                                                               },
                                                                                               change: function(
                                                                                                 $event
@@ -37064,14 +37065,13 @@ var render = function() {
                                                                                               focus: function(
                                                                                                 $event
                                                                                               ) {
-                                                                                                Ans.Choice =
-                                                                                                  Ans.Choice ==
-                                                                                                  "<p>Option " +
-                                                                                                    (i +
-                                                                                                      1) +
-                                                                                                    "</p>"
-                                                                                                    ? ""
-                                                                                                    : Ans.Choice
+                                                                                                Ans.Choice ==
+                                                                                                "<p>Option " +
+                                                                                                  (i +
+                                                                                                    1) +
+                                                                                                  "</p>"
+                                                                                                  ? ""
+                                                                                                  : Ans.Choice
                                                                                               },
                                                                                               change: function(
                                                                                                 $event

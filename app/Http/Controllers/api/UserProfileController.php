@@ -44,7 +44,7 @@ class UserProfileController extends Controller
 
         $userDetails->email = $currentUser->email;
         $userDetails->role = $currentUser->role;
-        $userDetails->profile_pic = str_replace('.cdn', '', $userDetails->profile_pic);
+        //$userDetails->profile_pic = str_replace('.cdn', '', $userDetails->profile_pic);
         // $userDetails->sessions =  $user_sessions;
         // $userDetails->current_sessions = Session::getId();
         $userDetails->department_id = $department != null ? $department->department_id : null;

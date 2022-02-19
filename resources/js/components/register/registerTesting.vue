@@ -39,7 +39,7 @@
                                               <v-text-field
                                                 :rules="StudentIdRules"
                                                 dense
-                                                placeholder="e.g. 18-****"
+                                                placeholder="e.g. 18****"
                                                 v-model="form.student_id"
                                                 label="Student ID Number"
                                                 outlined

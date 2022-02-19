@@ -187,9 +187,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() | user_profile */ "user_profile").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -278,13 +275,13 @@ var myCalendar = function myCalendar() {
     onFileChange: function onFileChange(element) {
       this.imageFile = element.target.files[0];
 
-      if (this.imageFile.size <= 2000000) {
+      if (this.imageFile.size <= 1000000) {
         this.isUploading = true; //this.UpdateProfile();
 
         this.tmpProfile = this.UserDetails.profile_pic;
         this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
       } else {
-        this.toastError('The File is more than 2mb');
+        this.toastError('The File is more than 1mb');
       }
       /* const uploadedImage = element.target.files[0];
       if(!uploadedImage){ 
@@ -952,43 +949,12 @@ var render = function() {
             ],
             1
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._m(1)
+        : _vm._e()
     ],
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("img", {
-        attrs: {
-          id: "input-preview",
-          alt: "This is the preview of the image you are going to upload."
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("img", {
-        attrs: {
-          id: "output-preview",
-          alt: "This is the compressed result of the image you will upload."
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

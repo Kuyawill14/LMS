@@ -739,7 +739,7 @@ var render = function() {
                                                       rules: _vm.StudentIdRules,
                                                       dense: "",
                                                       placeholder:
-                                                        "e.g. 18-****",
+                                                        "e.g. 18****",
                                                       label:
                                                         "Student ID Number",
                                                       outlined: ""

@@ -123,9 +123,6 @@
                             v-model="tab" show-arrows  :icons-and-text="!$vuetify.breakpoint.mdAndUp" 
                             :centered="!$vuetify.breakpoint.mdAndUp" :vertical="$vuetify.breakpoint.mdAndUp" class="mt-2">
                                  <v-tab   v-for="(item, index) in profile_tabs" :key="index"
-                                 
-                                 
-                                  
                                  :to="{name: item.name}" @click="items[1].text = item.text" class="d-flex justify-start">
                                     <v-icon v-if="$vuetify.breakpoint.mdAndUp" left> {{item.icon}}</v-icon>
                                      {{item.text}}
@@ -159,13 +156,13 @@
             </v-btn>
 
         </v-bottom-navigation> -->
-        <div>
+        <!-- <div>
             <img id="input-preview" alt="This is the preview of the image you are going to upload."/>
         </div>
 
           <div>
             <img id="output-preview" alt="This is the compressed result of the image you will upload."/>  
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -240,14 +237,14 @@
                 
                
                 this.imageFile = element.target.files[0];
-                if( this.imageFile.size <= 2000000){
+                if( this.imageFile.size <= 1000000){
                     this.isUploading = true;
                     //this.UpdateProfile();
                     this.tmpProfile = this.UserDetails.profile_pic;
                     this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
                 }
                 else{
-                    this.toastError('The File is more than 2mb');
+                    this.toastError('The File is more than 1mb');
                 }
 
                     /* const uploadedImage = element.target.files[0];

@@ -227,6 +227,7 @@ class AuthController extends Controller
         ]);
 
         $check_student_id = tbl_userDetails::where('student_id', $id)->first();
+
         if($check_student_id){
             $storeddate = date('Y-m-d', strtotime($check_student_id->birthday));   
             $inputeddate = date('Y-m-d', strtotime($request->birthday));   
@@ -261,6 +262,12 @@ class AuthController extends Controller
 
         $check_student_id = tbl_userDetails::where('student_id', $id)->first();
         if($check_student_id){
+            $check_student_id->firstName = $request->firstName;
+            $check_student_id->middleName = $request->middleName;
+            $check_student_id->lastName = $request->lastName;
+            $check_student_id->suffix = $request->suffix;
+            $check_student_id->save();
+
             $check_user = User::find($check_student_id->user_id);
             $check_user->email = $request->email;
             $check_user->password = Hash::make($request->password);

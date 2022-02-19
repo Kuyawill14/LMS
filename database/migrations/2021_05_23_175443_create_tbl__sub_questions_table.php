@@ -17,7 +17,7 @@ class CreateTblSubQuestionsTable extends Migration
             $table->id();
             $table->integer('mainQuestion_id');
             $table->integer('answer_id');
-            $table->mediumText('sub_question');
+            $table->mediumText('sub_question')->nullable();
             $table->timestamps();
         });
     }

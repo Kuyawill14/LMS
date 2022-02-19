@@ -83,7 +83,6 @@ class ObjectiveController extends Controller
                         $FinalAnswer[] =  $tempData2;
                     }
                
-                   
                 }
                 else{
                     $tempData2 = $tempData1;
@@ -420,7 +419,6 @@ class ObjectiveController extends Controller
      */
     public function AddOption(Request $request)
     {   
-
         if($request->type == 'Multiple Choice'){
             $newChoice = new tbl_choice;
             $newChoice->question_id = $request->question_id;
@@ -428,15 +426,15 @@ class ObjectiveController extends Controller
             $newChoice->save();
             return ["main_id"=>  null, "answer_id"=>  $newChoice->id];
         }
-        elseif($request->type == 'Matching Type'){
+        elseif($request->type == 'Matching type'){
             $QuestionChoice  = new tbl_choice;
-            $QuestionChoice->question_id = $request->answer['question_id'];
+            $QuestionChoice->question_id = $request->question_id;
             $QuestionChoice->Choice = "<p>N/A</p>";
             $QuestionChoice->save();
 
              //Add to Sub question
              $SubQuestion = new tbl_SubQuestion;
-             $SubQuestion->mainQuestion_id = $request->SubQuestion['question_id'];
+             $SubQuestion->mainQuestion_id = $request->question_id;
              $SubQuestion->answer_id = $QuestionChoice->id;
              $SubQuestion->sub_question = "<p>N/A</p>";
              $SubQuestion->save();

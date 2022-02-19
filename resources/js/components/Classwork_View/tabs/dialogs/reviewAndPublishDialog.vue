@@ -58,17 +58,20 @@
                             <div class="d-flex mb-2">
                                 <div class="d-flex">
                                     <v-menu offset-y max-height="600" style="overflow-y:scroll;">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <v-btn icon
-                                            dark
-                                            v-bind="attrs"
-                                            v-on="on">
-                                        <v-icon color="primary">mdi-format-list-numbered</v-icon> </v-btn>
+                                      <template v-slot:activator="{ on : menu, attrs }">
+                                        <v-tooltip top>
+                                            <template v-slot:activator="{ on: tooltip }">
+                                                <v-btn icon v-bind="attrs" v-on="{...tooltip, ...menu}" >
+                                                <v-icon color="primary">mdi-format-list-numbered</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <span>Question List</span>
+                                        </v-tooltip>
                                     </template>
                                     <v-list  >
                                         <v-list-item class="ma-0 pa-0" v-for="(item, index) in getAll_questions.Question" :key="index">
                                         <v-list-item-title>  
-                                            <v-btn v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'" 
+                                            <v-btn  
                                             text rounded @click="questionIndex = index">
                                          <v-icon  left>mdi-checkbox-blank-outline</v-icon>
                                             {{index+1}}

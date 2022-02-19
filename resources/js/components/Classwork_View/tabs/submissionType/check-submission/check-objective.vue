@@ -104,7 +104,6 @@
                                         <v-list-item-content>
                                             <v-list-item-title class="font-weight-medium">
                                                 {{ViewDetails.firstName +' '+ViewDetails.lastName }}</v-list-item-title>
-
                                                 <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-list-item-subtitle v-bind="attrs" v-on="on"
@@ -114,10 +113,9 @@
                                                     </template>
                                                     <span>Submitted: {{format_date(ViewDetails.updated_at)}}</span>
                                                 </v-tooltip>
-                                            
                                         </v-list-item-content>
                                         <v-list-item-action class="mt-8">
-                                            <v-text-field hide-details rounded :rules="pointsRules"
+                                            <v-text-field readonly hide-details rounded :rules="pointsRules"
                                                 v-if="ViewDetails.status == 'Submitted'" v-model="this.ViewDetails.points"
                                                 dense outlined label="Score" type="number"
                                                 :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"
@@ -273,9 +271,9 @@
                                 <v-card elevation="2" outlined class="pa-5 "
                                     v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
 
-                                    <div class="mt-0 pt-0 mb-3">
+                                   <!--  <div class="mt-0 pt-0 mb-3">
                                        <v-select hide-details v-model="selected_type" :items="Question_Type" label="Question Tyoe" outlined dense ></v-select> 
-                                    </div>
+                                    </div> -->
                                     <div class="d-flex mb-2">
                                         <div class="d-flex">
                                             <v-menu offset-y max-height="600" style="overflow-y:scroll;">
@@ -300,12 +298,12 @@
                                                         v-for="(item, index) in getAll_questions.Question" :key="index">
                                                         <v-list-item-title>
                                                             <v-btn
-                                                                v-if="item.type == 'Multiple Choice' || item.type == 'Identification' || item.type == 'True or False'|| item.type == 'Essay'"
+                                                                
                                                                 text rounded @click="questionIndex = index">
                                                                 <v-icon :color="!Check[index]  ? '' : 'success'" left>
-                                                                    {{!Check[index] ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked'}}
+                                                                {{item.type != 'Matching type' ? !Check[index] ? 'mdi-checkbox-blank-outline':'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'}}
                                                                 </v-icon>
-                                                                {{index+1}}
+                                                                {{index+1}}{{item.type == 'Matching type' ? ' Matching Type' : ' '+item.type}}
                                                             </v-btn>
 
                                                         </v-list-item-title>
@@ -342,13 +340,14 @@
                                                                 v-model="Check[index]">
                                                             </v-checkbox>
 
-                                                            <div class="mt-0 pt-0 pr-2 mb-0 pb-0">
+                                                            <div v-if="item.type == 'Essay'" class="mt-0 pt-0 pr-2 mb-0 pb-0">
                                                                 <v-text-field 
-                                                                @change="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
+                                                                @change="UpdateEssayScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
                                                                 style="width:120px !important" hide-details rounded :rules="pointsRules"
                                                                 v-model="SubmittedAnswer[index].score"
                                                                     dense outlined label="Score" type="number"
                                                                     :suffix="'/' +item.points" 
+                                                                    :max="item.points"
                                                                     min="0"></v-text-field>
                                                             </div>
 
@@ -1281,6 +1280,16 @@
 
 
             },
+            async UpdateEssayScore(type, id, data, points, index, answer){
+                let Scorepoints = parseInt(this.SubmittedAnswer[index].score);
+                if(Scorepoints > points){
+                    
+                   this.toastError('Points must be less than or equal to the points of the question');
+                }else{
+                    this.UpdateScore(type, id, data, points, index, answer);
+                }
+            },
+
             async UpdateScore(type, id, data, points, index, answer) {
                 this.UpdateDetails.type = type;
                 this.UpdateDetails.check = type == 'Essay' ? true : data;
@@ -1306,13 +1315,6 @@
                                     this.ViewDetails.points = this.ViewDetails.points + parseInt(this.SubmittedAnswer[index].score);
                                     this.EssayOldPoints[index] = parseInt(this.SubmittedAnswer[index].score);
                                 }
-                                
-                                /* if (data == true) {
-                                    this.ViewDetails.points = this.ViewDetails.points + points;
-                                    
-                                } else {
-                                    this.ViewDetails.points = this.ViewDetails.points - points;
-                                } */
                             } else {
                                 if (data == true) {
                                     this.SubmittedAnswer[index] = answer;
