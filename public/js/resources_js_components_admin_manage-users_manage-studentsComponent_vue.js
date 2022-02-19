@@ -258,11 +258,59 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      dialog_multi_user: false,
+      IsBulkadding: false,
       department: [],
       user_type: 'Student',
       isVerifying: false,
@@ -359,7 +407,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         text: 'Actions',
         sortable: false
       }],
-      loading: true
+      loading: true,
+      json_users_file: null,
+      json_users_text_area: null,
+      department_id: null
     };
   },
   computed: {
@@ -378,11 +429,91 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
-    fetchDeparmentList: function fetchDeparmentList() {
+    addBulk: function addBulk() {
       var _this2 = this;
 
+      if (this.department != null && (this.json_users_file != null || this.json_users_text_area != null)) {
+        var json_users_data = this.json_users_file != null ? this.json_users_file : JSON.parse(this.json_users_text_area);
+        this.IsBulkadding = true;
+        axios__WEBPACK_IMPORTED_MODULE_1___default().post("/api/admin/users/bulk_add", {
+          user_type: this.user_type,
+          users_data: json_users_data,
+          department: this.department_id
+        }).then(function (response) {
+          console.log(response);
+
+          if (response.status == 200) {
+            _this2.$refs.RegisterForm.reset();
+
+            _this2.getStudent().then(function () {
+              _this2.valid = true;
+              _this2.dialog_multi_user = false;
+
+              _this2.toastSuccess('User successfully Added!');
+
+              _this2.IsBulkadding = false; // this.json_users_text_area = null;
+              // this.json_users_file = null;
+            });
+          } else {
+            _this2.IsBulkadding = false;
+
+            _this2.toastError('Something went wrong!'); // this.$refs.RegisterForm.reset();
+            // this.json_users_text_area = null;
+            // this.json_users_file = null;
+
+          }
+        })["catch"](function (err) {
+          _this2.IsBulkadding = false;
+
+          _this2.toastError('Something went wrong!'); // this.$refs.RegisterForm.reset();
+          // this.json_users_text_area = null;
+          // this.json_users_file = null;
+
+        });
+      }
+    },
+    onFileChange: function onFileChange(file) {
+      if (file != null) {
+        this.readFile(file);
+      } else {
+        this.json_users_file = null;
+      }
+    },
+    readFile: function readFile(file) {
+      var _this3 = this;
+
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        //  console.log(e.target.result);
+        // let json = JSON.parse(e.target.result);
+        // this.json_users_file = json;
+        // this.json_users_ready = true;
+        var lines = e.target.result.replaceAll('\r', '').split('\n'); // 1️⃣
+
+        var header = lines[0].split(','); // 2️⃣
+
+        var output = lines.slice(1).map(function (line) {
+          var fields = line.split(','); // 3️⃣
+
+          return Object.fromEntries(header.map(function (h, i) {
+            return [h, fields[i]];
+          })); // 4️⃣
+        });
+        _this3.json_users_file = output;
+        console.log(_this3.json_users_file);
+      };
+
+      reader.readAsText(file);
+    },
+    openAdd_multiple_user: function openAdd_multiple_user() {
+      this.dialog_multi_user = true;
+    },
+    fetchDeparmentList: function fetchDeparmentList() {
+      var _this4 = this;
+
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/department/all').then(function (res) {
-        _this2.department = res.data;
+        _this4.department = res.data;
       });
     },
     SetPassword: function SetPassword(lastname) {
@@ -417,15 +548,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.Deldialog = true;
     },
     updatePass: function updatePass() {
-      var _this3 = this;
+      var _this5 = this;
 
       this.isConfirmReset = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/admin/users/reset-password/' + this.IsResetting_id).then(function (res) {
-        _this3.toastSuccess(res.data);
+        _this5.toastSuccess(res.data);
 
-        _this3.isConfirmReset = false;
-        _this3.IsResetting = false;
-        _this3.ResetPassworddialog = false;
+        _this5.isConfirmReset = false;
+        _this5.IsResetting = false;
+        _this5.ResetPassworddialog = false;
       });
     },
     OpenupdatePassDialog: function OpenupdatePassDialog(id) {
@@ -434,56 +565,56 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsResetting = true;
     },
     deleteUser: function deleteUser() {
-      var _this4 = this;
+      var _this6 = this;
 
       this.IsDeleting = true;
       axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/admin/users/remove/' + this.delId).then(function (res) {
         if (res.status == 200) {
-          _this4.StudentList.splice(_this4.deleteIndex, 1);
+          _this6.StudentList.splice(_this6.deleteIndex, 1);
 
-          _this4.toastSuccess('User Successfully removed!');
+          _this6.toastSuccess('User Successfully removed!');
 
-          _this4.IsDeleting = false;
+          _this6.IsDeleting = false;
         } else {
-          _this4.toastError('Something went wrong!');
+          _this6.toastError('Something went wrong!');
 
-          _this4.IsDeleting = false;
+          _this6.IsDeleting = false;
         }
 
-        _this4.Deldialog = false;
+        _this6.Deldialog = false;
 
-        _this4.$store.dispatch('fetchAllTeachers');
+        _this6.$store.dispatch('fetchAllTeachers');
       });
     },
     updateTeacherDetails: function updateTeacherDetails() {
       this.$store.dispatch('updateTeacher', this.form);
     },
     VerifyUser: function VerifyUser(id) {
-      var _this5 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this5.isVerifying = true;
+                _this7.isVerifying = true;
                 axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/verifyUser/' + id).then(function (res) {
                   if (res.data.success == true) {
-                    _this5.form.verified = 'Verified';
-                    _this5.StudentList[_this5.updateIndex].isVerified = 'Verified';
+                    _this7.form.verified = 'Verified';
+                    _this7.StudentList[_this7.updateIndex].isVerified = 'Verified';
 
-                    _this5.toastSuccess('User Successfully Verified!');
+                    _this7.toastSuccess('User Successfully Verified!');
 
-                    _this5.isVerifying = false;
+                    _this7.isVerifying = false;
                   } else {
-                    _this5.toastError('Something went wrong!');
+                    _this7.toastError('Something went wrong!');
 
-                    _this5.isVerifying = false;
+                    _this7.isVerifying = false;
                   }
                 })["catch"](function (e) {
-                  _this5.toastError('Something went wrong!');
+                  _this7.toastError('Something went wrong!');
 
-                  _this5.isVerifying = false;
+                  _this7.isVerifying = false;
                 });
 
               case 2:
@@ -495,7 +626,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     validate: function validate() {
-      var _this6 = this;
+      var _this8 = this;
 
       this.IsAddUpdating = true;
 
@@ -504,28 +635,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           this.form.role = 'Student';
           this.form.password_confirmation = this.form.password;
           this.form.post('/api/admin/users/add/' + this.user_type).then(function (res) {
-            _this6.$refs.RegisterForm.reset();
+            _this8.$refs.RegisterForm.reset();
 
-            _this6.valid = true;
-            _this6.dialog = false;
-            _this6.IsAddUpdating = false;
+            _this8.valid = true;
+            _this8.dialog = false;
+            _this8.IsAddUpdating = false;
 
-            _this6.StudentList.unshift(res.data);
+            _this8.StudentList.unshift(res.data);
 
-            _this6.toastSuccess('User Successfully Added!');
+            _this8.toastSuccess('User Successfully Added!');
           });
         }
 
         if (this.type == 'edit') {
           this.form.post('/api/admin/users/update/' + this.form.user_id).then(function () {
             //////console.log(this.StudentList[this.updateIndex])
-            _this6.updateDataInfrontEnd(_this6.form);
+            _this8.updateDataInfrontEnd(_this8.form);
 
-            _this6.valid = true;
-            _this6.dialog = false;
-            _this6.IsAddUpdating = false;
+            _this8.valid = true;
+            _this8.dialog = false;
+            _this8.IsAddUpdating = false;
 
-            _this6.toastSuccess('User Successfully Updated!');
+            _this8.toastSuccess('User Successfully Updated!');
           });
         }
       } else {
@@ -536,16 +667,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.IsAddUpdating = false;
     },
     getStudent: function getStudent() {
-      var _this7 = this;
+      var _this9 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/users/all/' + _this7.user_type).then(function (res) {
-                  _this7.StudentList = res.data;
-                  _this7.loading = false;
+                axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/admin/users/all/' + _this9.user_type).then(function (res) {
+                  _this9.StudentList = res.data;
+                  _this9.loading = false;
                 });
 
               case 1:
@@ -736,7 +867,7 @@ var render = function() {
         [
           _c("v-col", { attrs: { cols: "12", lg: "10" } }, [
             _c("h2", [
-              _vm._v("\n                     Manage Students\n                ")
+              _vm._v("\n                Manage Students\n            ")
             ])
           ]),
           _vm._v(" "),
@@ -747,6 +878,24 @@ var render = function() {
               attrs: { cols: "12", lg: "2" }
             },
             [
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mr-3",
+                  attrs: { dark: "", color: "blue" },
+                  on: {
+                    click: function($event) {
+                      return _vm.openAdd_multiple_user()
+                    }
+                  }
+                },
+                [
+                  _c("v-icon", { attrs: { left: "" } }, [_vm._v("mdi-upload")]),
+                  _vm._v("\n                Import CSV\n            ")
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c(
                 "v-btn",
                 {
@@ -761,7 +910,7 @@ var render = function() {
                   _c("v-icon", { attrs: { left: "" } }, [
                     _vm._v("mdi-account-plus-outline")
                   ]),
-                  _vm._v("\n                    Add Student\n                ")
+                  _vm._v("\n                Add Student\n            ")
                 ],
                 1
               )
@@ -800,7 +949,7 @@ var render = function() {
                         "v-card-title",
                         [
                           _vm._v(
-                            "\n                        Students\n\n                        "
+                            "\n                    Students\n\n                    "
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
@@ -940,7 +1089,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            " +
+                                                    "\n                                        " +
                                                       _vm._s(
                                                         item.isVerified
                                                           ? "mdi-check"
@@ -976,7 +1125,7 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            Reset Password\n                                        "
+                                                    "\n                                        Reset Password\n                                    "
                                                   )
                                                 ]
                                               )
@@ -1006,7 +1155,7 @@ var render = function() {
                                                 [
                                                   _c("v-icon", [
                                                     _vm._v(
-                                                      "\n                                                mdi-pencil\n                                            "
+                                                      "\n                                            mdi-pencil\n                                        "
                                                     )
                                                   ])
                                                 ],
@@ -1032,7 +1181,7 @@ var render = function() {
                                                 [
                                                   _c("v-icon", [
                                                     _vm._v(
-                                                      "\n                                                mdi-delete\n                                            "
+                                                      "\n                                            mdi-delete\n                                        "
                                                     )
                                                   ])
                                                 ],
@@ -1065,7 +1214,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          745331048
+                          3233114472
                         )
                       })
                     ],
@@ -1097,11 +1246,11 @@ var render = function() {
             [
               _c("v-card-title", {}, [
                 _vm._v(
-                  "\n                    " +
+                  "\n                " +
                     _vm._s(
                       this.type == "add" ? "Add Student" : "Update Student"
                     ) +
-                    "\n                "
+                    "\n            "
                 )
               ]),
               _vm._v(" "),
@@ -1333,13 +1482,13 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(
-                                        "\n                                    " +
+                                        "\n                                " +
                                           _vm._s(
                                             _vm.isVerifying
                                               ? "Verifying..."
                                               : "Verify user"
                                           ) +
-                                          "\n                                "
+                                          "\n                            "
                                       )
                                     ],
                                     1
@@ -1475,7 +1624,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                        " +
+                        "\n                    " +
                           _vm._s(this.type == "add" ? "Add" : "Update")
                       )
                     ]
@@ -1508,7 +1657,7 @@ var render = function() {
             [
               _c("v-card-title", { staticClass: "headline" }, [
                 _vm._v(
-                  "\n                    Are you sure you want to delete this?\n                "
+                  "\n                Are you sure you want to delete this?\n            "
                 )
               ]),
               _vm._v(" "),
@@ -1528,11 +1677,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                        No\n                    "
-                      )
-                    ]
+                    [_vm._v("\n                    No\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1549,11 +1694,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                        Yes\n                    "
-                      )
-                    ]
+                    [_vm._v("\n                    Yes\n                ")]
                   )
                 ],
                 1
@@ -1583,7 +1724,7 @@ var render = function() {
             [
               _c("v-card-title", { staticClass: "headline" }, [
                 _vm._v(
-                  "\n                    Are you sure you want to reset this user password?\n                "
+                  "\n                Are you sure you want to reset this user password?\n            "
                 )
               ]),
               _vm._v(" "),
@@ -1603,11 +1744,7 @@ var render = function() {
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n                        No\n                    "
-                      )
-                    ]
+                    [_vm._v("\n                    No\n                ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -1624,11 +1761,129 @@ var render = function() {
                         }
                       }
                     },
+                    [_vm._v("\n                    Yes\n                ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { width: "500", persistent: "" },
+          model: {
+            value: _vm.dialog_multi_user,
+            callback: function($$v) {
+              _vm.dialog_multi_user = $$v
+            },
+            expression: "dialog_multi_user"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", {}, [
+                _vm._v("\n                Bulk Add Teachers\n            ")
+              ]),
+              _vm._v(" "),
+              _c("v-divider"),
+              _vm._v(" "),
+              _c(
+                "v-container",
+                [
+                  _c(
+                    "v-form",
+                    {
+                      ref: "RegisterForm",
+                      staticClass: "text-center ",
+                      attrs: { "lazy-validation": "" },
+                      model: {
+                        value: _vm.valid,
+                        callback: function($$v) {
+                          _vm.valid = $$v
+                        },
+                        expression: "valid"
+                      }
+                    },
                     [
-                      _vm._v(
-                        "\n                        Yes\n                    "
+                      _c(
+                        "v-row",
+                        { staticClass: "pa-5" },
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("v-file-input", {
+                                attrs: {
+                                  accept: ".csv",
+                                  "prepend-inner-icon": "mdi-file-outline",
+                                  "prepend-icon": "",
+                                  chips: "",
+                                  outlined: "",
+                                  label: "Upload CSV File",
+                                  disabled: _vm.json_users_text_area != null
+                                },
+                                on: { change: _vm.onFileChange }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
-                    ]
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { text: "", color: "primary" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog_multi_user = false
+                          _vm.json_users_text_area = ""
+                          _vm.json_users_file = null
+                        }
+                      }
+                    },
+                    [_vm._v("Cancel\n                ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        text: "",
+                        loading: _vm.IsBulkadding,
+                        disabled: _vm.IsBulkadding
+                      },
+                      on: {
+                        click: function($event) {
+                          return _vm.addBulk()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                    Add Bulk")]
                   )
                 ],
                 1

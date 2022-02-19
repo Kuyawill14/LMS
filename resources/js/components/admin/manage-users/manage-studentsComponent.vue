@@ -4,20 +4,24 @@
         <v-row class="mb-0">
             <v-col cols="12" lg="10">
                 <h2>
-                     Manage Students
+                    Manage Students
                 </h2>
             </v-col>
             <v-col cols="12" lg="2" style="display:flex;justify-content: end;">
+                <v-btn dark color="blue" class="mr-3" @click="openAdd_multiple_user()">
+                    <v-icon left>mdi-upload</v-icon>
+                    Import CSV
+                </v-btn>
                 <v-btn color="primary" dark @click="openAdd()">
                     <v-icon left>mdi-account-plus-outline</v-icon>
                     Add Student
                 </v-btn>
             </v-col>
         </v-row>
-<!--         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
+        <!--         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
         </v-btn> -->
-        <v-row >
+        <v-row>
             <v-col cols="12" class="mt-0 pt-0">
 
 
@@ -43,20 +47,21 @@
                                 <tr v-for="(item, index) in items" :key="index">
                                     <td style="width:7%">
                                         <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
-                                        <span :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
-                                         
+                                        <span
+                                            :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
+
                                     </td>
                                     <td> {{item.student_id}} </td>
                                     <td> {{item.lastName }} </td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
-                                     <td> {{ item.department_short_name}} </td>
+                                    <td> {{ item.department_short_name}} </td>
                                     <td>
                                         <v-icon :color="item.isVerified != null ? 'success' : ''">
                                             {{item.isVerified ? 'mdi-check' : ''}}</v-icon>
                                     </td>
-                                   
+
                                     <td>
                                         <v-btn color="primary" :loading="IsResetting && IsResetting_id == item.user_id"
                                             @click="OpenupdatePassDialog(item.user_id)">
@@ -106,14 +111,15 @@
                 <v-divider></v-divider>
                 <v-container>
 
-                    <v-form autocomplete="false" class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                    <v-form autocomplete="false" class="text-center " ref="RegisterForm" v-model="valid"
+                        lazy-validation>
 
 
                         <v-row class="pa-5">
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="student_id" />
-                                <v-text-field autocomplete="false"  :rules="studenIdRule" label="Student ID Number" name="student_id"
-                                    v-model="form.student_id"  color="primary" outlined />
+                                <v-text-field autocomplete="false" :rules="studenIdRule" label="Student ID Number"
+                                    name="student_id" v-model="form.student_id" color="primary" outlined />
                             </v-col>
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="firstName" />
@@ -135,11 +141,12 @@
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
-                                <v-text-field label="Birthday"  data-date="" data-date-format="YYYY-MMMM-DD" :rules="nameRules" name="birthDay"
-                                    v-model="form.birthDay" type="Date" color="primary" outlined/>
+                                <v-text-field label="Birthday" data-date="" data-date-format="YYYY-MMMM-DD"
+                                    :rules="nameRules" name="birthDay" v-model="form.birthDay" type="Date"
+                                    color="primary" outlined />
                             </v-col>
 
-                       <!--      <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                            <!--      <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
                                 <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
                                     type="email" color="primary" outlined />
@@ -166,8 +173,8 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
-                                <v-select :items="department" item-value="id"  v-model="form.department" item-text="name" return-object
-                                    label="Department" dense outlined></v-select>
+                                <v-select :items="department" item-value="id" v-model="form.department" item-text="name"
+                                    return-object label="Department" dense outlined></v-select>
                             </v-col>
 
                         </v-row>
@@ -226,6 +233,45 @@
             </v-card>
         </v-dialog>
 
+
+
+
+
+
+        <v-dialog v-model="dialog_multi_user" width="500" persistent>
+            <v-card>
+                <v-card-title class="">
+                    Bulk Add Teachers
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-container>
+
+                    <v-form class="text-center " ref="RegisterForm" v-model="valid" lazy-validation>
+                        <v-row class="pa-5">
+
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+
+                                <v-file-input accept=".csv" prepend-inner-icon="mdi-file-outline" prepend-icon="" chips
+                                    outlined label="Upload CSV File" @change="onFileChange"
+                                    :disabled="json_users_text_area != null ">
+                                </v-file-input>
+                            </v-col>
+
+                        </v-row>
+                    </v-form>
+                </v-container>
+                <v-card-actions>
+
+                    <v-spacer></v-spacer>
+                    <v-btn text color="primary"
+                        @click="dialog_multi_user = false;json_users_text_area='';json_users_file = null;">Cancel
+                    </v-btn>
+                    <v-btn text @click="addBulk()" :loading="IsBulkadding" :disabled="IsBulkadding">
+                        Add Bulk</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </div>
 
 
@@ -244,6 +290,9 @@
     export default {
         data: function () {
             return {
+                dialog_multi_user: false,
+                IsBulkadding: false,
+
                 department: [],
                 user_type: 'Student',
                 isVerifying: false,
@@ -326,7 +375,7 @@
                         value: 'email',
                         align: 'start',
                     },
-                     {
+                    {
                         text: 'Deparment',
                         align: 'start',
                     },
@@ -334,7 +383,7 @@
                         text: 'Verified',
                         align: 'start',
                     },
-                   
+
                     {
                         text: 'Password Reset',
                         sortable: false
@@ -347,6 +396,9 @@
                 ],
 
                 loading: true,
+                json_users_file: null,
+                json_users_text_area: null,
+                department_id: null,
 
             }
 
@@ -370,11 +422,101 @@
         },
 
         methods: {
-                fetchDeparmentList() {
+            addBulk() {
+
+                if (this.department != null && (this.json_users_file != null || this
+                        .json_users_text_area != null)) {
+                    let json_users_data = this.json_users_file != null ? this.json_users_file : JSON.parse(this
+                        .json_users_text_area);
+                    this.IsBulkadding = true;
+
+                        axios.post(`/api/admin/users/bulk_add`, {
+                                user_type: this.user_type,
+                                users_data: json_users_data,
+                                department: this.department_id
+                            })
+                            .then((response) => {
+                                console.log(response);
+
+                                if (response.status == 200) {
+
+                                    this.$refs.RegisterForm.reset()
+                                    this.getStudent().then(() => {
+                                        this.valid = true;
+                                        this.dialog_multi_user = false;
+                                        this.toastSuccess('User successfully Added!')
+                                        this.IsBulkadding = false;
+                                        // this.json_users_text_area = null;
+                                        // this.json_users_file = null;
+                                    })
+
+
+                                } else {
+                                    this.IsBulkadding = false;
+                                    this.toastError('Something went wrong!')
+                                    // this.$refs.RegisterForm.reset();
+                                    // this.json_users_text_area = null;
+                                    // this.json_users_file = null;
+
+                                }
+                            })
+                            .catch((err) => {
+                                this.IsBulkadding = false;
+                                this.toastError('Something went wrong!');
+                                // this.$refs.RegisterForm.reset();
+                                // this.json_users_text_area = null;
+                                // this.json_users_file = null;
+                            })
+
+                
+                }
+
+            },
+            onFileChange(file) {
+
+                if (file != null) {
+                    this.readFile(file);
+                } else {
+                    this.json_users_file = null;
+                }
+
+
+
+
+
+            },
+            readFile(file) {
+                let reader = new FileReader();
+                reader.onload = e => {
+                    //  console.log(e.target.result);
+                    // let json = JSON.parse(e.target.result);
+                    // this.json_users_file = json;
+                    // this.json_users_ready = true;
+
+
+                    const lines = e.target.result.replaceAll('\r', '').split('\n') // 1️⃣
+                    const header = lines[0].split(',') // 2️⃣
+                    const output = lines.slice(1).map(line => {
+                        const fields = line.split(',') // 3️⃣
+                        return Object.fromEntries(header.map((h, i) => [h, fields[i]])) // 4️⃣
+                    })
+
+                    this.json_users_file = output;
+                    console.log(this.json_users_file);
+
+                };
+                reader.readAsText(file);
+            },
+
+            openAdd_multiple_user() {
+                this.dialog_multi_user = true;
+            },
+
+            fetchDeparmentList() {
                 axios.get('/api/admin/department/all')
-                .then((res) => {
-                    this.department = res.data;
-                })
+                    .then((res) => {
+                        this.department = res.data;
+                    })
             },
             SetPassword(lastname) {
                 var tmpLastname = lastname.replace(/\s+/g, '-').toLowerCase();
@@ -398,7 +540,7 @@
                 this.form.student_id = details.student_id;
                 this.form.verified = details.isVerified;
                 this.form.department = details.department_id;
-        
+
                 if (!this.valid) {
                     this.$refs.RegisterForm.resetValidation();
                 }
@@ -494,7 +636,7 @@
                                 this.dialog = false;
                                 this.IsAddUpdating = false;
 
-                                
+
                                 this.toastSuccess('User Successfully Updated!');
                             })
 
@@ -520,14 +662,14 @@
                 this.StudentList[this.updateIndex].lastName = data.lastName;
                 this.StudentList[this.updateIndex].email = data.email;
                 this.StudentList[this.updateIndex].student_id = data.student_id;
-                   this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
-                   this.StudentList[this.updateIndex].department_name = data.department.name;
+                this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
+                this.StudentList[this.updateIndex].department_name = data.department.name;
                 this.$refs.RegisterForm.reset();
             }
         },
 
         mounted() {
-               this.fetchDeparmentList();
+            this.fetchDeparmentList();
             this.getStudent();
             //this.$store.dispatch('fetchAllTeachers');
         }

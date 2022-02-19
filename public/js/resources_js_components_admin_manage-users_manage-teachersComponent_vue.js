@@ -442,28 +442,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this2.toastSuccess('User successfully Added!');
 
               _this2.IsBulkadding = false;
-              _this2.json_users_text_area = null;
-              _this2.json_users_file = null;
             });
           } else {
             _this2.IsBulkadding = false;
 
-            _this2.toastError('Something went wrong!');
-
-            _this2.$refs.RegisterForm.reset();
-
-            _this2.json_users_text_area = null;
-            _this2.json_users_file = null;
+            _this2.toastError('Something went wrong!, please refresh the page and try again');
           }
         })["catch"](function (err) {
           _this2.IsBulkadding = false;
 
-          _this2.toastError('Something went wrong!');
+          _this2.toastError('Something went wrong!, please refresh the page and try again'); // this.$refs.RegisterForm.reset();
+          // this.json_users_text_area = null;
+          // this.json_users_file = null;
 
-          _this2.$refs.RegisterForm.reset();
-
-          _this2.json_users_text_area = null;
-          _this2.json_users_file = null;
         });
       }
     },
