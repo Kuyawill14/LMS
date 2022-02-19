@@ -53,7 +53,7 @@
                                 v-on:closePdf="pdfdialog = false" /> -->
 
 
-                                <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;"
+                                <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;height: 522px !important"
                                 v-if="type=='Document' && ext == 'pdf'  && isSelectedModule " :title="subModuleData.sub_module_name"
                                 :pdf_file="subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" />
