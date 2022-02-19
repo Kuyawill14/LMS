@@ -62,7 +62,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {},
-  created: function created() {
+  mounted: function mounted() {
     var host = window.location.protocol + "//" + window.location.host;
     this.pdf_path = host + this.pdf_file;
     this.pdf_path = window.location.origin + '/lib/web/viewer.html?file=' + this.pdf_file;
