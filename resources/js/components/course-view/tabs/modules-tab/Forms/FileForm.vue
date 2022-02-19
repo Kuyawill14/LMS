@@ -377,7 +377,7 @@
         mounted() {
             if (this.type_action == 'edit_file') {
 
-                this.submodule['required_time'] = this.submodule['required_time'] / 60;
+                // this.submodule['required_time'] = this.submodule['required_time'] / 60;
                 this.subModuleForm = this.submodule;
                 let newfile = new File([""], window.location.origin + '/' + this.submodule.file_attachment);;
 
