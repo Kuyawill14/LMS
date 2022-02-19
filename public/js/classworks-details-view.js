@@ -1011,7 +1011,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
       isStudentView: false,
       studentViewData: null,
       isHaveSubmissionDialog: null,
-      isHaveSubmission: null
+      isHaveSubmission: null,
+      isEditing_id: null
     };
   },
   watch: {
@@ -1179,28 +1180,26 @@ var studentViewForTeacher = function studentViewForTeacher() {
                       sensitivity: 0
                     });
 
+                    _this3.isEditing_id = res.data.question_id;
+
                     _this3.getAll_questions.Answer.push({
                       options: [{
                         id: res.data.choices_id[0],
                         Choice: '',
                         question_id: res.data.question_id
-                      }
-                      /*   {
-                            id : res.data.choices_id[1],
-                            Choice : '',
-                            question_id : res.data.question_id,
-                       },
-                        {
-                            id : res.data.choices_id[2],
-                            Choice : '',
-                            question_id : res.data.question_id,
-                       },
-                        {
-                            id : res.data.choices_id[3],
-                            Choice : '',
-                            question_id : res.data.question_id,
-                       } */
-                      ],
+                      }, {
+                        id: res.data.choices_id[1],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[2],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }, {
+                        id: res.data.choices_id[3],
+                        Choice: '',
+                        question_id: res.data.question_id
+                      }],
                       SubQuestion: [],
                       SubAnswer: [],
                       Destructors: []
@@ -36347,34 +36346,6 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm.isAddingNewQuestion
-              ? _c(
-                  "v-row",
-                  { attrs: { "align-content": "center", justify: "center" } },
-                  [
-                    _c(
-                      "v-col",
-                      { staticClass: "text-center", attrs: { cols: "12" } },
-                      [
-                        _c("vue-element-loading", {
-                          attrs: {
-                            active: _vm.isAddingNewQuestion,
-                            duration: "0.7",
-                            "is-full-screen": true,
-                            textStyle: { fontSize: "20px" },
-                            spinner: "line-scale",
-                            color: "#EF6C00",
-                            size: "60"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
             _vm.Qlength == 0 && !_vm.isloading
               ? _c(
                   "v-row",
@@ -36576,21 +36547,22 @@ var render = function() {
                                   1
                                 ),
                                 _vm._v(" "),
-                                !_vm.selectedData[mainIndex].isEditing
+                                _vm.isEditing_id != item.id
                                   ? _c(
                                       "div",
                                       {
                                         staticStyle: { cursor: "pointer" },
                                         on: {
                                           click: function($event) {
-                                            _vm.selectedData[
+                                            ;(_vm.selectedData[
                                               mainIndex
-                                            ].isEditing = true
+                                            ].isEditing = true),
+                                              (_vm.isEditing_id = item.id)
                                           }
                                         }
                                       },
                                       [
-                                        !_vm.selectedData[mainIndex].isEditing
+                                        _vm.isEditing_id != item.id
                                           ? _c("viewQuestion", {
                                               attrs: {
                                                 question: item,
@@ -36676,7 +36648,8 @@ var render = function() {
                                                                 change: function(
                                                                   $event
                                                                 ) {
-                                                                  _vm.isNewChanges = true
+                                                                  ;(_vm.isNewChanges = true),
+                                                                    _vm.SaveAllQuestion()
                                                                 }
                                                               },
                                                               model: {
@@ -36839,9 +36812,10 @@ var render = function() {
                                                                           blur: function(
                                                                             $event
                                                                           ) {
-                                                                            return _vm.onEditorBlur(
-                                                                              $event
-                                                                            )
+                                                                            _vm.isNewChanges ==
+                                                                            true
+                                                                              ? _vm.SaveAllQuestion()
+                                                                              : ""
                                                                           },
                                                                           focus: function(
                                                                             $event
@@ -37049,7 +37023,8 @@ var render = function() {
                                                                                               change: function(
                                                                                                 $event
                                                                                               ) {
-                                                                                                _vm.isNewChanges = true
+                                                                                                ;(_vm.isNewChanges = true),
+                                                                                                  _vm.SaveAllQuestion()
                                                                                               }
                                                                                             }
                                                                                           }
@@ -38771,7 +38746,7 @@ var render = function() {
                     _vm._v(
                       "\r\n      " +
                         _vm._s(
-                          _vm.isSavingAllQuestion ? "Saving.." : "Success"
+                          _vm.isSavingAllQuestion ? "Saving.." : "Changes Save"
                         ) +
                         "\r\n    "
                     )

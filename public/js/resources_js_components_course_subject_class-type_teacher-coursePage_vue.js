@@ -244,6 +244,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -1394,26 +1413,166 @@ var render = function() {
                                               _vm._v(" "),
                                               _c(
                                                 "div",
-                                                { staticClass: "pl-4" },
+                                                { staticClass: "d-flex" },
                                                 [
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(
-                                                        item.student_count +
-                                                          " students"
-                                                      ) +
-                                                      " "
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass: "mt-2 pl-4"
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        "\n                                        " +
+                                                          _vm._s(
+                                                            item.student_count +
+                                                              " students"
+                                                          ) +
+                                                          " "
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(
+                                                        "\n                                        " +
+                                                          _vm._s(
+                                                            item.class_count +
+                                                              " class"
+                                                          ) +
+                                                          "\n                                    "
+                                                      )
+                                                    ]
                                                   ),
-                                                  _c("br"),
-                                                  _vm._v(
-                                                    "\n                                        " +
-                                                      _vm._s(
-                                                        item.class_count +
-                                                          " class"
-                                                      ) +
-                                                      "\n                                    "
-                                                  )
-                                                ]
+                                                  _vm._v(" "),
+                                                  _c("v-spacer"),
+                                                  _vm._v(" "),
+                                                  item.join_request_count != 0
+                                                    ? _c(
+                                                        "div",
+                                                        { staticClass: "mt-4" },
+                                                        [
+                                                          _c(
+                                                            "v-tooltip",
+                                                            {
+                                                              attrs: {
+                                                                top: ""
+                                                              },
+                                                              scopedSlots: _vm._u(
+                                                                [
+                                                                  {
+                                                                    key:
+                                                                      "activator",
+                                                                    fn: function(
+                                                                      ref
+                                                                    ) {
+                                                                      var on =
+                                                                        ref.on
+                                                                      var attrs =
+                                                                        ref.attrs
+                                                                      return [
+                                                                        _c(
+                                                                          "v-badge",
+                                                                          {
+                                                                            attrs: {
+                                                                              overlap:
+                                                                                "",
+                                                                              color:
+                                                                                "red",
+                                                                              value:
+                                                                                item.join_request_count,
+                                                                              content:
+                                                                                item.join_request_count,
+                                                                              bordered:
+                                                                                "",
+                                                                              top:
+                                                                                "",
+                                                                              "offset-x":
+                                                                                "45",
+                                                                              "offset-y":
+                                                                                "17"
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-btn",
+                                                                              _vm._g(
+                                                                                _vm._b(
+                                                                                  {
+                                                                                    attrs: {
+                                                                                      icon:
+                                                                                        ""
+                                                                                    },
+                                                                                    on: {
+                                                                                      click: function(
+                                                                                        $event
+                                                                                      ) {
+                                                                                        item.completed ==
+                                                                                        1
+                                                                                          ? _vm.$router.push(
+                                                                                              {
+                                                                                                name:
+                                                                                                  "Student-list",
+                                                                                                params: {
+                                                                                                  id:
+                                                                                                    item.id
+                                                                                                },
+                                                                                                query: {
+                                                                                                  view:
+                                                                                                    "join_request"
+                                                                                                }
+                                                                                              }
+                                                                                            )
+                                                                                          : ""
+                                                                                      }
+                                                                                    }
+                                                                                  },
+                                                                                  "v-btn",
+                                                                                  attrs,
+                                                                                  false
+                                                                                ),
+                                                                                on
+                                                                              ),
+                                                                              [
+                                                                                _c(
+                                                                                  "v-icon",
+                                                                                  {
+                                                                                    attrs: {
+                                                                                      large:
+                                                                                        ""
+                                                                                    }
+                                                                                  },
+                                                                                  [
+                                                                                    _vm._v(
+                                                                                      "mdi-account-arrow-right-outline"
+                                                                                    )
+                                                                                  ]
+                                                                                )
+                                                                              ],
+                                                                              1
+                                                                            )
+                                                                          ],
+                                                                          1
+                                                                        )
+                                                                      ]
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                null,
+                                                                true
+                                                              )
+                                                            },
+                                                            [
+                                                              _vm._v(" "),
+                                                              _c("span", [
+                                                                _vm._v(
+                                                                  "Course join request"
+                                                                )
+                                                              ])
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
+                                                ],
+                                                1
                                               )
                                             ],
                                             1

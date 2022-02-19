@@ -742,7 +742,7 @@ var render = function() {
                                           color:
                                             _vm.getcourseInfo
                                               .join_request_count != 0 &&
-                                            !_vm.isShowJoinRequest
+                                            _vm.$route.query.view == "list"
                                               ? "red"
                                               : "",
                                           content:
@@ -765,7 +765,18 @@ var render = function() {
                                                 },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.isShowJoinRequest = !_vm.isShowJoinRequest
+                                                    _vm.$route.query.view ==
+                                                    "list"
+                                                      ? _vm.$router.replace({
+                                                          query: {
+                                                            view: "join_request"
+                                                          }
+                                                        })
+                                                      : _vm.$router.replace({
+                                                          query: {
+                                                            view: "list"
+                                                          }
+                                                        })
                                                   }
                                                 }
                                               },
@@ -783,7 +794,8 @@ var render = function() {
                                                 _vm._v(
                                                   "\n                                        " +
                                                     _vm._s(
-                                                      !_vm.isShowJoinRequest
+                                                      _vm.$route.query.view ==
+                                                        "list"
                                                         ? "mdi-account-arrow-right-outline"
                                                         : "mdi-close"
                                                     )
@@ -806,7 +818,7 @@ var render = function() {
                             _c("span", [
                               _vm._v(
                                 _vm._s(
-                                  !_vm.isShowJoinRequest
+                                  _vm.$route.query.view == "list"
                                     ? "Join Request"
                                     : "Close"
                                 )
@@ -898,7 +910,7 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            !_vm.isGetting && !_vm.isShowJoinRequest
+            !_vm.isGetting && _vm.$route.query.view == "list"
               ? _c(
                   "v-col",
                   { staticClass: "mb-0 pb-0 mt-0 pt-0", attrs: { cols: "12" } },
@@ -1122,7 +1134,7 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            !_vm.isGetting && _vm.isShowJoinRequest
+            !_vm.isGetting && _vm.$route.query.view == "join_request"
               ? _c(
                   "v-col",
                   { staticClass: "mb-0 pb-0 mt-0 pt-0", attrs: { cols: "12" } },

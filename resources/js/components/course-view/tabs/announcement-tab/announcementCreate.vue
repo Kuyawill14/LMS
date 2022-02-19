@@ -145,9 +145,9 @@ export default {
                                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                                 ['link', 'image', 'video'],
                             ],
-                            /* handlers: {
+                            handlers: {
                                 image: this.imageHandler
-                            } */
+                            }
                         },           
                     },
                     
@@ -221,10 +221,13 @@ export default {
 
                 input.onchange = async () => {
                     const file = input.files[0];
+
+                    if(file.size < 300000){
                     const formData = new FormData();
 
                     formData.append('file', file);
                     formData.append('type', 'Announcement');
+                    formData.append('course_id', this.$route.params.id);
                     // Save current cursor state
                     const range = editor.getSelection(true);
 
@@ -235,8 +238,12 @@ export default {
                             await editor.insertEmbed(range.index, 'image', data.link);
                         })
                         .catch(({response}) => {
-                            alert('error');
+                            
                         })
+
+                     }else{
+                         this.toastError('Image size is to big!')
+                     }
                 }
             },
             onChange(quill,html, text){

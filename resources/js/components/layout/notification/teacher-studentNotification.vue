@@ -372,6 +372,10 @@ export default {
                     }
                     
                 }
+                else if(data.notification_type == 'class_joined'){
+                    this.$router.push({name: 'Student-list', params: {id: data.c_id},query:{view: 'list'} })
+                 
+                }
                 else if (data.notification_type == 'classwork_submission'){
                      let SubmissionPath = '/classwork/'+data.c_id+'/classwork-details';
                       if(this.$route.path != SubmissionPath){

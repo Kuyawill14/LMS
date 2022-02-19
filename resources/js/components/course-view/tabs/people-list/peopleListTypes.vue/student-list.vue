@@ -88,13 +88,13 @@
 
                               <v-tooltip top>
                                 <template v-slot:activator="{ on, attrs }">
-                                    <v-badge offset-x="13" offset-y="25" :color="getcourseInfo.join_request_count != 0 && !isShowJoinRequest ? 'red' : ''" 
+                                    <v-badge offset-x="13" offset-y="25" :color="getcourseInfo.join_request_count != 0 && $route.query.view == 'list' ? 'red' : ''" 
                                         :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
-                                        <v-btn v-bind="attrs" v-on="on" @click="isShowJoinRequest = !isShowJoinRequest" x-large icon><v-icon large>
-                                            {{!isShowJoinRequest ? 'mdi-account-arrow-right-outline' : 'mdi-close'}}</v-icon></v-btn>
+                                        <v-btn v-bind="attrs" v-on="on" @click="$route.query.view == 'list' ? $router.replace({query:{view: 'join_request'}}) : $router.replace({query:{view: 'list'}})" x-large icon><v-icon large>
+                                            {{$route.query.view == 'list' ? 'mdi-account-arrow-right-outline' : 'mdi-close'}}</v-icon></v-btn>
                                     </v-badge>
                                 </template>
-                                <span>{{!isShowJoinRequest ? 'Join Request' : 'Close'}}</span>
+                                <span>{{$route.query.view == 'list' ? 'Join Request' : 'Close'}}</span>
                             </v-tooltip>
                             
                         </v-col>
@@ -130,7 +130,7 @@
                 
 
                
-                <v-col v-if="!isGetting && !isShowJoinRequest"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
+                <v-col v-if="!isGetting && $route.query.view == 'list'"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                     <v-row>
                         <v-col class="mb-0 pb-0 mt-0 pt-0" cols="12" md="4" lg="3"  v-for="item in getAllStudents" v-bind:key="item.user_id">
                               <v-list class="mb-0 pb-0">
@@ -176,7 +176,7 @@
                     </v-row>
                       
                 </v-col>
-                 <v-col v-if="!isGetting && isShowJoinRequest"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
+                 <v-col v-if="!isGetting && $route.query.view == 'join_request'"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                      <classJoinRequest :Class_id="Class_id"></classJoinRequest>
                  </v-col>
                 
@@ -319,6 +319,7 @@ import { mapGetters } from 'vuex'
         
         mounted() {
             this.fetchClassnames();
+
         }
     }
 

@@ -394,6 +394,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           path: path
         });
       }
+    } else if (data.notification_type == 'class_joined') {
+      this.$router.push({
+        name: 'Student-list',
+        params: {
+          id: data.c_id
+        },
+        query: {
+          view: 'list'
+        }
+      });
     } else if (data.notification_type == 'classwork_submission') {
       var SubmissionPath = '/classwork/' + data.c_id + '/classwork-details';
 

@@ -813,7 +813,7 @@ class ClassworkController extends Controller
         if($request->type == "Announcement"){
 
             $file = $request->file;
-            $upload_file = Storage::disk('DO_spaces')->putFile('Announcement', $file, 'public');
+            $upload_file = Storage::disk('DO_spaces')->putFile('announcement'.$request->course_id, $file, 'public');
             $path = \Config::get('app.do_url').'/'.$upload_file;
             //return $path;
             return response()->json([

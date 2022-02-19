@@ -307,6 +307,9 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                       _this2.valid_type = res.data.type;
                       _this2.isValid_id = true;
                       _this2.isValid_id_mesage = res.data.message;
+                      setTimeout(function () {
+                        return _this2.isValid_id = false;
+                      }, 5000);
                     }
                   });
                 } else if (_this2.steps == 2) {

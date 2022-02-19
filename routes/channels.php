@@ -30,7 +30,7 @@ Broadcast::channel('newuserclass', function ($user) {
     return ['id' => $user->id];
 });
 
-Broadcast::channel('join_request', function ($user) {
+Broadcast::channel('join_request.{course_id}', function ($user) {
     return ['id' => $user->id];
 });
 

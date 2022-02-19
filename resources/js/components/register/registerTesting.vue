@@ -251,6 +251,7 @@
                             this.valid_type = res.data.type;
                             this.isValid_id = true;
                             this.isValid_id_mesage = res.data.message;
+                            setTimeout(() => (this.isValid_id = false), 5000);
                         }
                     })
                 }else if(this.steps == 2){
@@ -262,6 +263,7 @@
                         }else{
                             
                             this.toastError(res.data.message);
+                            
                         }
                     })
                 }else if(this.steps == 3){

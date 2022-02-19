@@ -27,7 +27,7 @@ Route::get('/evaluation', function () {
 });
 
 Route::get('/testView', function () {
-    return view('EmailTemplates.JoinRequestEmail');
+    return view('view');
 });
 
 Route::get('/', function () {

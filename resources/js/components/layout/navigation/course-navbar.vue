@@ -141,11 +141,12 @@
 
 
 
-                <v-list-item link class="list-nav" :to="{name: 'Student-list'}" exact>
+                <v-list-item link class="list-nav" :to="{name: 'Student-list', query:{view: 'list'}}" exact>
                     <v-list-item-action>
                         <v-badge offset-x="8" offset-y="18"
                             :color="getcourseInfo.join_request_count != 0 && role == 'Teacher' ? 'red' : ''"
-                            :content="getcourseInfo.join_request_count != 0 ? getcourseInfo.join_request_count : ''">
+                            :value="getcourseInfo.join_request_count"
+                            :content="getcourseInfo.join_request_count">
                             <v-icon>mdi-account-group</v-icon>
                         </v-badge>
                     </v-list-item-action>

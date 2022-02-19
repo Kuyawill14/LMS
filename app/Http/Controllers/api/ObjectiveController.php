@@ -553,22 +553,22 @@ class ObjectiveController extends Controller
             ]);
         }
 
-        $QuestionChoice  = new tbl_choice;
+      /*   $QuestionChoice  = new tbl_choice;
         $QuestionChoice->question_id = $newQuestion->id;
         $QuestionChoice->Choice = '';
-        $QuestionChoice->save();
+        $QuestionChoice->save(); */
 
 
         $choices_id = [];
-        $choices_id[0] = $QuestionChoice->id;
+        //$choices_id[0] = $QuestionChoice->id;
 
-       /*  for ($i=0; $i < 4; $i++) { 
+        for ($i=0; $i < 4; $i++) { 
             $QuestionChoice  = new tbl_choice;
             $QuestionChoice->question_id = $newQuestion->id;
             $QuestionChoice->Choice = '';
             $QuestionChoice->save();
             $choices_id[$i] = $QuestionChoice->id;
-        } */
+        }
 
        
 

@@ -28,6 +28,9 @@ const actions = {
         if(state.courseInfo.join_request_count != 0){
             state.courseInfo.join_request_count--;
         }
+    },
+    async SetJoinRequestCount({ commit},count){
+        state.courseInfo.join_request_count = count;
     }
 
 };
