@@ -2,7 +2,7 @@
 
 
 
-    <v-card style="">
+    <v-card style="height: 522px !important">
 
         <!-- <iframe title="google pdf viewer"  class="pdf-viewer" :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + pdf_file" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                              style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100%; !important"></iframe> -->
