@@ -42,11 +42,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['pdf_file', 'title'],
   components: {
-    "vue-pdf-app": function vuePdfApp() {
-      return {
-        component: new Promise(function (res) {})
-      };
-    }
+    // "VuePdfApp": () => ({
+    //     component: new Promise((res) => {
+    //     })
+    // })
+    VuePdfApp: (vue_pdf_app__WEBPACK_IMPORTED_MODULE_0___default())
   },
   data: function data() {
     return {

@@ -28,11 +28,12 @@
     export default {
         props: ['pdf_file', 'title'],
         components: {
-            "vue-pdf-app": () => ({
-                component: new Promise((res) => {
+            // "VuePdfApp": () => ({
+            //     component: new Promise((res) => {
 
-                })
-            })
+            //     })
+            // })
+            VuePdfApp
 
         },
 
@@ -59,7 +60,9 @@
 
             this.pdf_path = host + this.pdf_file;
             this.pdf_path = window.location.origin + '/lib/web/viewer.html?file=' + this.pdf_file;
-             this.$emit('loaded');
+          
+                 this.$emit('loaded');
+         
         },
     };
 
