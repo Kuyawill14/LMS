@@ -19,20 +19,19 @@
 
                             </v-card>
 
-                        
+
                             <v-card style="height: 522px;"
                                 v-if="type=='Link'  &&  subModuleData.link.search('youtube') == -1">
-                                <iframe title="google drive viewer"  class="holds-the-iframe"
+                                <iframe title="google drive viewer" class="holds-the-iframe"
                                     :src="  subModuleData.link != null ? scrapeDocID(subModuleData.link) : ''"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     style="width: 100% !important;height: 522px !important"></iframe>
 
                             </v-card>
 
-                            
-                            <v-card style="height: 522px;"
-                               v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
-                                <iframe title="google drive viewer"  class="holds-the-iframe"
+
+                            <v-card style="height: 522px;" v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
+                                <iframe title="google drive viewer" class="holds-the-iframe"
                                     :src="'https://view.officeapps.live.com/op/embed.aspx?src=' +docpath + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     style="width: 100% !important;height: 522px !important"></iframe>
@@ -42,7 +41,8 @@
 
                             <div class="player-container">
 
-                                <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"   style="width: 100% !important;height: 522px !important"
+                                <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"
+                                    style="width: 100% !important;height: 522px !important"
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
@@ -52,11 +52,21 @@
                                 :pdf_file="subModuleData.file_attachment"
                                 v-on:closePdf="pdfdialog = false" /> -->
 
+                            <!-- <v-skeleton-loader 
+                                class="mx-auto"
+                            
+                                type="card"
+                                ></v-skeleton-loader> -->
+                            <div style="width: 100% !important;height: 75vh !important" v-if="pdfLoaded == false">
+                                <v-progress-linear indeterminate color="orange darken-2">
+                                </v-progress-linear>
+                            </div>
 
-                                <pdfviewer :key="subModuleData.sub_module_name + 1"   style="width: 100% !important;height: 75vh !important"
-                                v-if="type=='Document' && ext == 'pdf'  && isSelectedModule " :title="subModuleData.sub_module_name"
-                                :pdf_file="subModuleData.file_attachment"
-                                v-on:closePdf="pdfdialog = false" />
+                            <pdfviewer :key="subModuleData.sub_module_name + 1"
+                                style="width: 100% !important;height: 75vh !important"
+                                v-if="type=='Document' && ext == 'pdf'  && isSelectedModule "
+                                :title="subModuleData.sub_module_name" :pdf_file="subModuleData.file_attachment"
+                                v-on:closePdf="pdfdialog = false" @loaded="pdfLoaded = true" />
                             <!-- </v-dialog> -->
                         </v-container>
 
@@ -93,9 +103,12 @@
                             <v-tab-item id="description">
 
                                 <v-card-text class="text--primary">
-                                    <div v-html="subModuleData.description == 'undefined' ? '' : subModuleData.description"></div>
+                                    <div
+                                        v-html="subModuleData.description == 'undefined' ? '' : subModuleData.description">
+                                    </div>
 
-                                    <a v-if="type != 'Link'" :href="'/storage/' + subModuleData.file_attachment" target="_blank">Download</a>
+                                    <a v-if="type != 'Link'" :href="'/storage/' + subModuleData.file_attachment"
+                                        target="_blank">Download</a>
 
                                 </v-card-text>
                             </v-tab-item>
@@ -126,7 +139,7 @@
             <v-col lg="3" cols="12" sm="12" md="12" class="pa-0 border"
                 v-if="isExpand == false && isChangeSize == false" style="height:100vh;">
                 <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
-                    :expand="removeX"  />
+                    :expand="removeX" />
             </v-col>
 
             <v-dialog v-model="listDialaog" max-width="600px" class="list_modal" style="overflow-y:auto">
@@ -135,8 +148,8 @@
             </v-dialog>
         </v-row>
 
-        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize" @click="listDialaog = !listDialaog"
-            style="z-index:999">
+        <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize"
+            @click="listDialaog = !listDialaog" style="z-index:999">
             <v-icon>mdi-menu</v-icon>
         </v-btn>
 
@@ -172,15 +185,10 @@
         },
         data() {
             return {
+                pdfLoaded: false,
                 docpath: window.location.origin + '/storage/',
                 pdfdialog: false,
-                config: {
-                    toolbar: {
-                        toolbarViewerLeft: {
-                            findbar: false
-                        }
-                    }
-                },
+
                 contentHover: false,
                 removeX: true,
                 listDialaog: false,
@@ -265,7 +273,8 @@
             setInterval(() => {
                 if (window.innerWidth < 1264) {
                     this.isChangeSize = true;
-                  $('#app > div.v-dialog__content > div > div > div.expansion-pannel-container').attr('style','height: auto !important');
+                    $('#app > div.v-dialog__content > div > div > div.expansion-pannel-container').attr('style',
+                        'height: auto !important');
                 } else {
                     this.isChangeSize = false;
                 }
@@ -302,21 +311,19 @@
     }
 
     .ipOhDr {
-    max-width: 100%;
+        max-width: 100%;
     }
-   
 
 </style>
 
 <style>
-   .ipOhDr > .ly-iframe-wrapper > iframe{
-  width: 100% !important;
-  height: 522px !important
+    .ipOhDr>.ly-iframe-wrapper>iframe {
+        width: 100% !important;
+        height: 522px !important
     }
+
     .v-dialog--active {
         overflow-x: hidden;
     }
-
-
 
 </style>
