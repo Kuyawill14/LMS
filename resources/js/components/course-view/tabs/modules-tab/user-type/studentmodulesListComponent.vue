@@ -85,7 +85,7 @@
 
                                 </v-list-item-subtitle>
                                 <v-list-item-subtitle> Required time:
-                                    {{ convertTime(-1,itemSubModule.required_time)}}
+                                    {{ convertTime(-1,itemSubModule.required_time*60)}}
 
                                 </v-list-item-subtitle>
                             </v-list-item-content>
@@ -93,7 +93,7 @@
                             <v-list-item-action>
 
                                 <v-icon
-                                    :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time) ? 'success' : 'lighten'">
+                                    :color="checkTimeSpent(studentSubModuleProgress,itemSubModule,itemSubModule.required_time*60) ? 'success' : 'lighten'">
                                     mdi-check</v-icon>
 
                             </v-list-item-action>
@@ -124,6 +124,7 @@
         mapGetters,
         mapActions
     } from "vuex";
+    import axios from 'axios';
     export default {
         props: ['role', 'expand'],
         components: {
@@ -159,7 +160,8 @@
                 _mainModule_id: '',
                 _subModule_id: '',
                 isSelectedModule: false,
-                warning_type: 0
+                warning_type: 0,
+                blurTimer: false,
             }
         },
         computed: {
@@ -190,38 +192,52 @@
 
 
                 } else {
-                    console.log(itemModule);
+                    // console.log(itemModule);
 
                     if (itemModule.isPublished == 1) {
 
 
-                        var date = new Date();
-                        var startDate = new Date(itemModule.date_from);
-                        var endDate = new Date(itemModule.date_to);
+                        axios.get('/api/time_today')
+                            .then((res) => {
+                                var date = moment(String(res.data)).format('MM-DD-YYYY');
+                                var startDate = moment(String(itemModule.date_from)).format('MM-DD-YYYY');;
+                                var endDate = moment(String(itemModule.date_to)).format('MM-DD-YYYY');;
+// console.log('res.datetime', res.data);
+                                console.log('date', date);
+                                console.log('startDate', startDate);
+                                console.log('endDate', endDate);
 
-                        if (itemModule.date_from != null && itemModule.date_to != null) {
-                            if (startDate <= date && date <= endDate) {
-                                this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
-                                this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
-                                    studentSubModuleProgress);
-                                this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+                                if (itemModule.date_from != null && itemModule.date_to != null) {
+                                    if (startDate <= date && date <= endDate) {
+                                        this.setTimeSpent(itemModule_id, itemSubModule_id,
+                                        studentSubModuleProgress);
+                                        this.addSubStudentProgress(itemModule_id, itemSubModule_id,
+                                            itemSubModule_type,
+                                            studentSubModuleProgress);
+                                        this.passToMainComponent(this.getSub_module(itemModule_id),
+                                            itemSubModule_id);
 
-                                this.isSelectedModule = true;
+                                        this.isSelectedModule = true;
 
 
-                            } else {
-                                this.toastInfo('Module not available, You can only access this module from ' + this
-                                    .format_date(itemModule.date_from) + ' to ' + this.format_date(itemModule
-                                        .date_to));
-                            }
-                        } else {
-                               this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
-                                this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
-                                    studentSubModuleProgress);
-                                this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+                                    } else {
+                                        this.toastInfo(
+                                            'Module not available, You can only access this module from ' + this
+                                            .format_date(itemModule.date_from) + ' to ' + this.format_date(
+                                                itemModule
+                                                .date_to));
+                                    }
+                                } else {
+                                    this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+                                    this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
+                                        studentSubModuleProgress);
+                                    this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
 
-                                this.isSelectedModule = true;
-                        }
+                                    this.isSelectedModule = true;
+                                }
+                            })
+
+
 
 
                     } else {
@@ -261,7 +277,7 @@
 
                         if (arr[j] !== undefined && subModules_arr[i] !== undefined) {
                             if (arr[j].sub_module_id == subModules_arr[i].id) {
-                                if (arr[j].time_spent >= subModules_arr[i].required_time) {
+                                if (arr[j].time_spent >= subModules_arr[i].required_time * 60) {
 
                                     count++;
 
@@ -487,32 +503,26 @@
 
             $(window).blur(function () {
 
-                // let blurTimer = setTimeout(() => {
+                this.blurTimer = setTimeout(() => {
 
-                let activeElement = document.activeElement;
-                let iframeElement = document.querySelector('iframe');
+                    let activeElement = document.activeElement;
+                    let iframeElement = document.querySelector('iframe');
 
-                /*  
+
                     if (activeElement === iframeElement) {
                         console.log(document.activeElement.tagName);
-                        execute your code here
 
-                        we only want to listen for the first time we click into the iframe
-                      this.isBlur = setInterval(() => {
-                         document.activeElement.blur();
+                        this.isBlur = setInterval(() => {
+                            document.activeElement.blur();
 
-                      }, 1000);
-                        clearInterval(blurTimer);
+                        }, 1000);
+
 
                     } else {
                         console.log(document.activeElement.tagName);
                         self.triggerWarning()
                     }
-                }, 0); */
-
-
-
-
+                }, 0);
 
 
 
@@ -521,6 +531,7 @@
         },
 
         beforeDestroy() {
+            clearInterval(this.blurTimer);
             clearInterval(this.ctrTime);
             clearInterval(this.updateTime);
             clearInterval(this.isBlur);

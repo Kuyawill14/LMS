@@ -17,7 +17,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_idle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! v-idle */ "./node_modules/v-idle/build/vidle.min.js");
 /* harmony import */ var v_idle__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(v_idle__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _warningDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./warningDialog */ "./resources/js/components/course-view/tabs/modules-tab/user-type/warningDialog.vue");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -150,6 +152,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'expand'],
   components: {
@@ -183,10 +186,11 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       _mainModule_id: '',
       _subModule_id: '',
       isSelectedModule: false,
-      warning_type: 0
+      warning_type: 0,
+      blurTimer: false
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)(["getmain_module", "getSub_module", "getAll_sub_module", "getStudentModuleProgress"])),
   methods: {
     closeHandlerModule: function closeHandlerModule() {
       if (this.role == 'Teacher') {
@@ -198,34 +202,49 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       }
     },
     subModuleClick: function subModuleClick(itemModule, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
+      var _this = this;
+
       $(window).scrollTop(0);
 
       if (this.role == 'Teacher') {
         this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
         this.isSelectedModule = true;
       } else {
-        console.log(itemModule);
-
+        // console.log(itemModule);
         if (itemModule.isPublished == 1) {
-          var date = new Date();
-          var startDate = new Date(itemModule.date_from);
-          var endDate = new Date(itemModule.date_to);
+          axios__WEBPACK_IMPORTED_MODULE_4___default().get('/api/time_today').then(function (res) {
+            var date = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(res.data)).format('MM-DD-YYYY');
+            var startDate = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(itemModule.date_from)).format('MM-DD-YYYY');
+            ;
+            var endDate = (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(itemModule.date_to)).format('MM-DD-YYYY');
+            ; // console.log('res.datetime', res.data);
 
-          if (itemModule.date_from != null && itemModule.date_to != null) {
-            if (startDate <= date && date <= endDate) {
-              this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
-              this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
-              this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
-              this.isSelectedModule = true;
+            console.log('date', date);
+            console.log('startDate', startDate);
+            console.log('endDate', endDate);
+
+            if (itemModule.date_from != null && itemModule.date_to != null) {
+              if (startDate <= date && date <= endDate) {
+                _this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+
+                _this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
+
+                _this.passToMainComponent(_this.getSub_module(itemModule_id), itemSubModule_id);
+
+                _this.isSelectedModule = true;
+              } else {
+                _this.toastInfo('Module not available, You can only access this module from ' + _this.format_date(itemModule.date_from) + ' to ' + _this.format_date(itemModule.date_to));
+              }
             } else {
-              this.toastInfo('Module not available, You can only access this module from ' + this.format_date(itemModule.date_from) + ' to ' + this.format_date(itemModule.date_to));
+              _this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
+
+              _this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
+
+              _this.passToMainComponent(_this.getSub_module(itemModule_id), itemSubModule_id);
+
+              _this.isSelectedModule = true;
             }
-          } else {
-            this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
-            this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
-            this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
-            this.isSelectedModule = true;
-          }
+          });
         } else {
           this.toastInfo('Module not available, The instructor still not yet publish this module.');
           this.isSelectedModule = false;
@@ -253,7 +272,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
         for (var j = 0; j < arr.length; j++) {
           if (arr[j] !== undefined && subModules_arr[i] !== undefined) {
             if (arr[j].sub_module_id == subModules_arr[i].id) {
-              if (arr[j].time_spent >= subModules_arr[i].required_time) {
+              if (arr[j].time_spent >= subModules_arr[i].required_time * 60) {
                 count++;
               }
             }
@@ -271,7 +290,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
     //             }
     //         }
     addSubStudentProgress: function addSubStudentProgress(mainModule_id, subModule_id, type) {
-      var _this = this;
+      var _this2 = this;
 
       if (this.role == 'Student') {
         this.tempSubId = subModule_id;
@@ -279,13 +298,13 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
         this.studentSubModuleProgressForm.sub_module_id = subModule_id;
         this.studentSubModuleProgressForm.type = type;
         this.studentSubModuleProgressForm.course_id = this.$route.params.id;
-        axios.post("/api/student_sub_module/insert", {
+        axios__WEBPACK_IMPORTED_MODULE_4___default().post("/api/student_sub_module/insert", {
           studentProgress: this.studentSubModuleProgressForm
         }).then(function (res) {
-          _this.$store.dispatch('studentmodule_progress', _this.$route.params.id); // this.$store.dispatch('fetchClassList')
+          _this2.$store.dispatch('studentmodule_progress', _this2.$route.params.id); // this.$store.dispatch('fetchClassList')
 
 
-          _this.fetchStudentModuleProgress();
+          _this2.fetchStudentModuleProgress();
         });
       }
     },
@@ -331,7 +350,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       }
     },
     setTimeSpent: function setTimeSpent(mainModule_id, subModule_id) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.role == 'Student') {
         this._mainModule_id = mainModule_id;
@@ -342,31 +361,31 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
         this.ctrTime = false;
         this.updateTime = false;
         this.ctrTime = setInterval(function () {
-          _this2.timespent++;
-          _this2.time = true;
+          _this3.timespent++;
+          _this3.time = true;
         }, 1000);
         this.updateTime = setInterval(function () {
-          _this2.updateStudentTimeProgress(mainModule_id, subModule_id, _this2.timespent);
+          _this3.updateStudentTimeProgress(mainModule_id, subModule_id, _this3.timespent);
         }, 20000);
       }
     },
     updateStudentTimeProgress: function updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
-      var _this3 = this;
+      var _this4 = this;
 
       var studentProgress = {};
       studentProgress.main_module_id = main_module_id;
       studentProgress.sub_module_id = subModule_id;
       studentProgress.time_spent = time_spent;
-      var res = axios.post("/api/student_sub_module/updatetime", {
+      var res = axios__WEBPACK_IMPORTED_MODULE_4___default().post("/api/student_sub_module/updatetime", {
         studentProgress: studentProgress
       }).then(function (res) {
         var data = res.data['studentProgress'];
 
-        for (var i = 0; i < _this3.studentSubModuleProgress.length; i++) {
-          if (_this3.studentSubModuleProgress[i].sub_module_id == data.sub_module_id) {
-            _this3.studentSubModuleProgress[i].time_spent = data.time_spent;
+        for (var i = 0; i < _this4.studentSubModuleProgress.length; i++) {
+          if (_this4.studentSubModuleProgress[i].sub_module_id == data.sub_module_id) {
+            _this4.studentSubModuleProgress[i].time_spent = data.time_spent;
 
-            _this3.$store.dispatch('studentmodule_progress', _this3.$route.params.id); // this.$store.dispatch('fetchClassList')
+            _this4.$store.dispatch('studentmodule_progress', _this4.$route.params.id); // this.$store.dispatch('fetchClassList')
 
 
             break;
@@ -375,10 +394,10 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       });
     },
     fetchStudentModuleProgress: function fetchStudentModuleProgress() {
-      var _this4 = this;
+      var _this5 = this;
 
-      axios.get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
-        _this4.studentSubModuleProgress = res.data;
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("/api/student_sub_module/all/".concat(this.$route.params.id)).then(function (res) {
+        _this5.studentSubModuleProgress = res.data;
       });
     },
     confirmWarning_fn: function confirmWarning_fn() {
@@ -404,18 +423,18 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       this.warning_type = 1;
     },
     forceRerender: function forceRerender() {
-      var _this5 = this;
+      var _this6 = this;
 
       // Remove my-component from the DOM
       this.renderComponent = false;
       this.$nextTick(function () {
         // Add the component back in
-        _this5.renderComponent = true;
+        _this6.renderComponent = true;
       });
     }
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this7 = this;
 
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -423,15 +442,15 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
           switch (_context.prev = _context.next) {
             case 0:
               // this.fetchClass();
-              _this6.fetchStudentModuleProgress();
+              _this7.fetchStudentModuleProgress();
 
-              _this6.$store.dispatch('fetchMainModule', _this6.$route.params.id);
+              _this7.$store.dispatch('fetchMainModule', _this7.$route.params.id);
 
-              _this6.$store.dispatch('studentmodule_progress', _this6.$route.params.id);
+              _this7.$store.dispatch('studentmodule_progress', _this7.$route.params.id);
 
-              _this6.loading = false;
+              _this7.loading = false;
               setTimeout(function () {
-                _this6.firstLoad = false;
+                _this7.firstLoad = false;
               }, 5000);
 
             case 5:
@@ -458,26 +477,26 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
 
     window.addEventListener("onbeforeunload", this.preventNav);
     $(window).blur(function () {
-      // let blurTimer = setTimeout(() => {
-      var activeElement = document.activeElement;
-      var iframeElement = document.querySelector('iframe');
-      /*  
-          if (activeElement === iframeElement) {
-              console.log(document.activeElement.tagName);
-              execute your code here
-               we only want to listen for the first time we click into the iframe
-            this.isBlur = setInterval(() => {
-               document.activeElement.blur();
-             }, 1000);
-              clearInterval(blurTimer);
-           } else {
-              console.log(document.activeElement.tagName);
-              self.triggerWarning()
-          }
-      }, 0); */
+      var _this8 = this;
+
+      this.blurTimer = setTimeout(function () {
+        var activeElement = document.activeElement;
+        var iframeElement = document.querySelector('iframe');
+
+        if (activeElement === iframeElement) {
+          console.log(document.activeElement.tagName);
+          _this8.isBlur = setInterval(function () {
+            document.activeElement.blur();
+          }, 1000);
+        } else {
+          console.log(document.activeElement.tagName);
+          self.triggerWarning();
+        }
+      }, 0);
     });
   },
   beforeDestroy: function beforeDestroy() {
+    clearInterval(this.blurTimer);
     clearInterval(this.ctrTime);
     clearInterval(this.updateTime);
     clearInterval(this.isBlur);
@@ -9549,7 +9568,7 @@ var render = function() {
                                     _vm._s(
                                       _vm.convertTime(
                                         -1,
-                                        itemSubModule.required_time
+                                        itemSubModule.required_time * 60
                                       )
                                     ) +
                                     "\n\n                            "
@@ -9569,7 +9588,7 @@ var render = function() {
                                     color: _vm.checkTimeSpent(
                                       _vm.studentSubModuleProgress,
                                       itemSubModule,
-                                      itemSubModule.required_time
+                                      itemSubModule.required_time * 60
                                     )
                                       ? "success"
                                       : "lighten"
