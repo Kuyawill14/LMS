@@ -282,6 +282,7 @@
                             this.sendVerification(this.form.email);
                             this.toastSuccess('Account Registerd: Please check your email for Verification!');
                             this.login(this.form.email,this.form.password)
+                            window.removeEventListener('beforeunload', this.preventNav)
                             //this.form.student_id = '';
                             //this.$refs.Registerform.reset();
                             //this.steps = 1;
@@ -338,6 +339,7 @@
         beforeMount(){
              window.addEventListener("beforeunload", this.preventNav);
         },
+        
      /*    beforeDestroy(){
             window.removeEventListener('beforeunload', this.beforeWindowUnload)
         }, */

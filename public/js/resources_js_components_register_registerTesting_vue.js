@@ -340,10 +340,11 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
 
                       _this2.toastSuccess('Account Registerd: Please check your email for Verification!');
 
-                      _this2.login(_this2.form.email, _this2.form.password); //this.form.student_id = '';
+                      _this2.login(_this2.form.email, _this2.form.password);
+
+                      window.removeEventListener('beforeunload', _this2.preventNav); //this.form.student_id = '';
                       //this.$refs.Registerform.reset();
                       //this.steps = 1;
-
                     } else {
                       _this2.toastError(res.data.message);
                     }
