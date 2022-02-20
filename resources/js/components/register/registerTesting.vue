@@ -38,7 +38,7 @@
                                               <v-text-field
                                                 :rules="StudentIdRules"
                                                 :dense="$vuetify.breakpoint.mdAndUp"
-                                                placeholder="e.g. 18-1234"
+                                                placeholder="e.g. 18-1234, SHS-18-1234"
                                                 v-model="form.student_id"
                                                 label="Student ID Number"
                                                 outlined
@@ -49,7 +49,10 @@
                                      <v-row v-if="steps == 2" align="center" justify="center">
                                         <v-col cols="12" md="8" xl="7" class="text-left">
                                             <v-alert  dismissible dense class="text-left" 
-                                             type="info">Please used your exact birthday you used in enrollment!</v-alert>
+                                             type="info">Please use your exact birthday you used in the enrollment.
+                                             <br>
+                                             Need help? Send us a message @<a href="https://www.messenger.com/t/102514265611526/" target="_blank" class="white--text"> Messenger</a>
+                                              </v-alert>
                                              <div class="font-weight-bold">Personal Details</div>
                                          </v-col>
                                        
@@ -254,7 +257,7 @@
                             this.valid_type = res.data.type;
                             this.isValid_id = true;
                             this.isValid_id_mesage = res.data.message;
-                            setTimeout(() => (this.isValid_id = false), 500);
+                            setTimeout(() => (this.isValid_id = false), 5000);
                         }
                     }).catch((error)=>{
                       setTimeout(() => (this.ischecking = false), 500);

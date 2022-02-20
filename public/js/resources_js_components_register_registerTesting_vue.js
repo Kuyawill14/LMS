@@ -191,6 +191,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 var loginRegisterFooter = function loginRegisterFooter() {
   return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterFooter */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterFooter.vue"));
 };
@@ -318,7 +321,7 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                       _this2.isValid_id_mesage = res.data.message;
                       setTimeout(function () {
                         return _this2.isValid_id = false;
-                      }, 500);
+                      }, 5000);
                     }
                   })["catch"](function (error) {
                     setTimeout(function () {
@@ -782,7 +785,7 @@ var render = function() {
                                                         _vm.$vuetify.breakpoint
                                                           .mdAndUp,
                                                       placeholder:
-                                                        "e.g. 18-1234",
+                                                        "e.g. 18-1234, SHS-18-1234",
                                                       label:
                                                         "Student ID Number",
                                                       outlined: ""
@@ -842,7 +845,24 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "Please used your exact birthday you used in enrollment!"
+                                                        "Please use your exact birthday you used in the enrollment.\n                                         "
+                                                      ),
+                                                      _c("br"),
+                                                      _vm._v(
+                                                        "\n                                         Need help? Send us a message @"
+                                                      ),
+                                                      _c(
+                                                        "a",
+                                                        {
+                                                          staticClass:
+                                                            "white--text",
+                                                          attrs: {
+                                                            href:
+                                                              "https://www.messenger.com/t/102514265611526/",
+                                                            target: "_blank"
+                                                          }
+                                                        },
+                                                        [_vm._v(" Messenger")]
                                                       )
                                                     ]
                                                   ),
