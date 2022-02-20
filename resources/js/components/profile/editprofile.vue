@@ -328,23 +328,20 @@
                 }
             },
             async UpdateDetails() {
-                this.isSaving = !this.isSaving;
-                let test = btoa('test123')
+                this.isSaving = true;;
                 axios.post('/api/profile/updateDetails', this.UserDetails)
                     .then(res => {
+                       
+                        //this.isSaving = !this.isSaving;
+                        setTimeout(() => (this.isSaving = false, this.isNeChanges = false), 500);
                         this.toastSuccess('Profile Successfully Updated');
-                        this.isSaving = !this.isSaving;
                     })
                     .catch(e => {
+                        setTimeout(() => (this.isSaving = false), 500);
                         this.toastError('Something went wrong in updating your profile!');
-                        this.isSaving = !this.isSaving;
+                        //this.isSaving = !this.isSaving;
+                        
                     })
-
-                /*  this.$https.post('/api/profile/updateDetails', this.UserDetails)
-                 .then((response) => {
-                     ////console.log(response.data);
-                     this.isSaving = !this.isSaving;
-                 }); */
             },
             async fetchDeparmentList() {
                 axios.get('/api/admin/department/all')

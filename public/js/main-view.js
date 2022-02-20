@@ -807,6 +807,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 var mainNavbar = function mainNavbar() {
   return __webpack_require__.e(/*! import() | layout */ "layout").then(__webpack_require__.bind(__webpack_require__, /*! ./navigation/main-navbar */ "./resources/js/components/layout/navigation/main-navbar.vue"));
 };
@@ -11286,21 +11289,30 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _c("h4", [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.UserDetails.firstName +
-                                          " " +
-                                          _vm.UserDetails.lastName
-                                      ) +
-                                        _vm._s(
-                                          _vm.UserDetails.suffix != "" &&
-                                            _vm.UserDetails.suffix != null
-                                            ? ", " + _vm.UserDetails.suffix
-                                            : ""
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "justify-center text-center",
+                                      staticStyle: { "max-width": "200px" }
+                                    },
+                                    [
+                                      _c("h4", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.UserDetails.firstName +
+                                              " " +
+                                              _vm.UserDetails.lastName
+                                          ) +
+                                            _vm._s(
+                                              _vm.UserDetails.suffix != "" &&
+                                                _vm.UserDetails.suffix != null
+                                                ? ", " + _vm.UserDetails.suffix
+                                                : ""
+                                            )
                                         )
-                                    )
-                                  ]),
+                                      ])
+                                    ]
+                                  ),
                                   _vm._v(" "),
                                   _c(
                                     "p",

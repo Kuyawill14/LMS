@@ -191,7 +191,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var loginRegisterFooter = function loginRegisterFooter() {
   return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterFooter */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterFooter.vue"));
 };
@@ -228,14 +227,14 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
       nameRules: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
-        return v && v.length <= 20 || 'Name must be less than 20 characters';
+        return v && v.length <= 20 || 'Must be less than 50 characters';
       }],
       StudentIdRules: [function (v) {
         return !!v || 'Student ID is required';
       }, function (v) {
         return v && v.length >= 5 || 'min 5 characters';
       }, function (v) {
-        return v && v.length <= 12 || 'Max 12 characters';
+        return v && v.length <= 20 || 'Max 12 characters';
       }],
       emailRules: [function (v) {
         return !!v || "Required";
@@ -247,10 +246,10 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
           return !!value || "Field is required.";
         },
         min: function min(v) {
-          return v && v.length >= 6 || "Minimun 6 characters";
+          return v && v.length >= 6 || "Minimum 6 characters";
         },
         max: function max(v) {
-          return v && v.length <= 15 || "Maximun 12 characters";
+          return v && v.length <= 20 || "Maximum 20 characters";
         }
       },
       showPass: false,
@@ -304,39 +303,60 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                   _this2.ischecking = true;
                   axios.get('/api/register/check_student_id/' + _this2.form.student_id).then(function (res) {
                     if (res.data.success == true) {
-                      _this2.steps += 1;
-                      _this2.ischecking = false;
+                      setTimeout(function () {
+                        return _this2.ischecking = false, _this2.steps += 1;
+                      }, 500);
 
                       _this2.$refs.Registerform.resetValidation();
                     } else {
                       //this.toastError(res.data.message);
-                      _this2.ischecking = false;
+                      setTimeout(function () {
+                        return _this2.ischecking = false;
+                      }, 500);
                       _this2.valid_type = res.data.type;
                       _this2.isValid_id = true;
                       _this2.isValid_id_mesage = res.data.message;
                       setTimeout(function () {
                         return _this2.isValid_id = false;
-                      }, 5000);
+                      }, 500);
                     }
                   })["catch"](function (error) {
-                    _this2.ischecking = false;
+                    setTimeout(function () {
+                      return _this2.ischecking = false;
+                    }, 500);
                     console.log(error);
 
                     _this2.toastError('To many request, Please try again later');
                   });
                 } else if (_this2.steps == 2) {
+                  _this2.ischecking = true;
                   axios.put('/api/register/check_student_details/' + _this2.form.student_id, _this2.form).then(function (res) {
                     if (res.data.success == true) {
-                      _this2.steps += 1;
-
-                      _this2.$refs.Registerform.resetValidation();
+                      //this.steps += 1;
+                      setTimeout(function () {
+                        return _this2.ischecking = false, _this2.steps += 1, _this2.$refs.Registerform.resetValidation();
+                      }, 500);
                     } else {
+                      setTimeout(function () {
+                        return _this2.ischecking = false;
+                      }, 500);
+
                       _this2.toastError(res.data.message);
                     }
+                  })["catch"](function (e) {
+                    setTimeout(function () {
+                      return _this2.ischecking = false;
+                    }, 500);
+
+                    _this2.toastError('To many request, Please try again later');
                   });
                 } else if (_this2.steps == 3) {
+                  _this2.ischecking = true;
                   axios.put('/api/register/account/' + _this2.form.student_id, _this2.form).then(function (res) {
                     if (res.data.success == true) {
+                      setTimeout(function () {
+                        return _this2.ischecking = false;
+                      }, 500);
                       _this2.isRegistering = true;
 
                       _this2.sendVerification(_this2.form.email);
@@ -350,8 +370,16 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                       //this.steps = 1;
                     } else {
                       _this2.toastError(res.data.message);
+
+                      setTimeout(function () {
+                        return _this2.ischecking = false;
+                      }, 500);
                     }
                   })["catch"](function (e) {
+                    setTimeout(function () {
+                      return _this2.ischecking = false;
+                    }, 500);
+
                     _this2.toastError(e.response.data.errors.email[0]);
                   });
                 }
@@ -433,10 +461,6 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
   beforeMount: function beforeMount() {
     window.addEventListener("beforeunload", this.preventNav);
   }
-  /*    beforeDestroy(){
-         window.removeEventListener('beforeunload', this.beforeWindowUnload)
-     }, */
-
 });
 
 /***/ }),
@@ -758,7 +782,7 @@ var render = function() {
                                                         _vm.$vuetify.breakpoint
                                                           .mdAndUp,
                                                       placeholder:
-                                                        "e.g. 181234",
+                                                        "e.g. 18-1234",
                                                       label:
                                                         "Student ID Number",
                                                       outlined: ""
@@ -1191,14 +1215,24 @@ var render = function() {
                                       _vm._v(" "),
                                       _c(
                                         "v-row",
-                                        { staticClass: "mt-0 pt-0 pb-5" },
+                                        {
+                                          staticClass: "mt-0 pt-0 pb-5",
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center"
+                                          }
+                                        },
                                         [
                                           _c(
                                             "v-col",
                                             {
                                               staticClass:
-                                                "text-center  mt-0 pt-0",
-                                              attrs: { cols: "12" }
+                                                "text-center d-flex  mt-0 pt-0",
+                                              attrs: {
+                                                cols: "12",
+                                                md: "8",
+                                                xl: "7"
+                                              }
                                             },
                                             [
                                               _vm.steps > 1
@@ -1219,15 +1253,21 @@ var render = function() {
                                                     },
                                                     [
                                                       _vm._v(
-                                                        "\n                                        Previus\n                                    "
+                                                        "\n                                        Previous\n                                    "
                                                       )
                                                     ]
                                                   )
                                                 : _vm._e(),
                                               _vm._v(" "),
+                                              _c("v-spacer"),
+                                              _vm._v(" "),
                                               _c(
                                                 "v-btn",
                                                 {
+                                                  class:
+                                                    _vm.steps == 3
+                                                      ? ""
+                                                      : "pl-10 pr-10",
                                                   attrs: {
                                                     disabled: !_vm.valid,
                                                     loading: _vm.ischecking,

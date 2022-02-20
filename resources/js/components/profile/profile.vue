@@ -91,12 +91,12 @@
                             @change="onFileChange">
                      </v-col>
 
-                     <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
-                         <h3 class="font-weight-bold">{{UserDetails.firstName+' '+UserDetails.lastName}}
+                     <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center text-center">
+                         <h3 style="max-width: 280px; text-center" class="font-weight-bold">{{UserDetails.firstName+' '+UserDetails.lastName}}
                              {{UserDetails.suffix != '' && UserDetails.suffix != null  ? ', '+UserDetails.suffix : ''}}</h3>
                          
                      </v-col>
-                      <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
+                      <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center text-center">
                           <div class="grey--text font-italic">{{UserDetails.email}}</div>
                      </v-col>
                      <!--  <v-col cols="12" class="mb-0 pb-0 mt-1 pt-0 d-flex justify-center">
@@ -245,7 +245,7 @@
                     this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
                 }
                 else{
-                    this.toastError('File must be less than or 1mb only!');
+                    this.toastError('File must be less than or equal to 1 megabytes only!');
                 }
 
                     /* const uploadedImage = element.target.files[0];

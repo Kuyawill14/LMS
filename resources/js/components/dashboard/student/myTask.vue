@@ -13,7 +13,7 @@
             spinner="line-scale" color="#EF6C00"  size="30" />
        
             <v-list class="pa-1">
-                <v-list-item v-if="mytask.length == 0 && !isGetting" :style="!$vuetify.breakpoint.mdAndUp ? 'margin-top:10rem' : 'margin-top:5rem'" >
+                <v-list-item v-if="mytask.length == 0 && !isGetting" :style="!$vuetify.breakpoint.mdAndUp ? 'margin-top:10rem' : 'margin-top:4rem'" >
                     <v-list-item-content>
                             <v-row align="center" class="mt-3" justify="center"  >
                             <v-col cols="12" class="text-center">
@@ -121,4 +121,14 @@
     }
 
 </script>
+
+<style scoped>
+.centered{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+</style>
 

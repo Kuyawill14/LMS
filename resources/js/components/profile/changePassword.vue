@@ -35,7 +35,7 @@
                             </v-col>
                             <v-col cols="12" md="5">
                                 <v-text-field :append-icon="showNew ?'mdi-eye':'mdi-eye-off'" dense
-                                    :rules="[rules.required, rules.min]" v-model="form.new_password" outlined
+                                    :rules="[rules.required, rules.min, rules.max]" v-model="form.new_password" outlined
                                     :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                     :type="showNew ? 'text' : 'password'" @click:append="showNew = !showNew">
                                     </v-text-field>
@@ -50,7 +50,7 @@
                             </v-col>
                             <v-col cols="12" md="5">
                                 <v-text-field :append-icon="ShowNewRetype ?'mdi-eye':'mdi-eye-off'" dense outlined
-                                    :rules="[rules.required, rules.min]" v-model="form.confirm_password"
+                                    :rules="[rules.required, rules.min, rules.max]" v-model="form.confirm_password"
                                     :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                     :type="ShowNewRetype ? 'text' : 'password'"
                                     @click:append="ShowNewRetype = !ShowNewRetype">
@@ -92,7 +92,8 @@
                 },
                 rules: {
                     required: value => !!value || "Field is required.",
-                    min: v => (v && v.length >= 6) || "Min 6 characters"
+                    min: v => (v && v.length >= 6) || "Min 6 characters",
+                    max: v => (v && v.length <= 20) || "Max 20 characters"
                 }
             }
         },

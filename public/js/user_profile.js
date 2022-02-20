@@ -354,27 +354,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var test;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this.isSaving = !_this.isSaving;
-                test = btoa('test123');
+                _this.isSaving = true;
+                ;
                 axios.post('/api/profile/updateDetails', _this.UserDetails).then(function (res) {
+                  //this.isSaving = !this.isSaving;
+                  setTimeout(function () {
+                    return _this.isSaving = false, _this.isNeChanges = false;
+                  }, 500);
+
                   _this.toastSuccess('Profile Successfully Updated');
-
-                  _this.isSaving = !_this.isSaving;
                 })["catch"](function (e) {
-                  _this.toastError('Something went wrong in updating your profile!');
+                  setTimeout(function () {
+                    return _this.isSaving = false;
+                  }, 500);
 
-                  _this.isSaving = !_this.isSaving;
+                  _this.toastError('Something went wrong in updating your profile!'); //this.isSaving = !this.isSaving;
+
                 });
-                /*  this.$https.post('/api/profile/updateDetails', this.UserDetails)
-                 .then((response) => {
-                     ////console.log(response.data);
-                     this.isSaving = !this.isSaving;
-                 }); */
 
               case 3:
               case "end":

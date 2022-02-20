@@ -508,7 +508,7 @@ Route::prefix('/register')->group(function() {
 });
 
 Route::get('/email-verification', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::middleware('throttle:10')->post('/resend-verification', [VerificationController::class, 'resendVerificationEmail']);
+Route::middleware('throttle:15')->post('/resend-verification', [VerificationController::class, 'resendVerificationEmail']);
 Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEmail']);
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);

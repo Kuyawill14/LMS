@@ -196,7 +196,7 @@ class AuthController extends Controller
         }
 
         $check_student_email = User::find($check_student_id->user_id);
-        if($check_student_email->email == null){
+        if($check_student_email->email == null || $check_student_email->email == ''){
             return response()->json([
                 "message" => "Student ID Number is Valid!",
                 "success" => true
@@ -254,10 +254,9 @@ class AuthController extends Controller
 
     public function ResgisterAccount(Request $request, $id){
 
-    
         $validated = $request->validate([
             'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:6','max:15' ,'confirmed']
+            'password' => ['required', 'min:6','max:20' ,'confirmed']
         ]);
 
         $check_student_id = tbl_userDetails::where('student_id', $id)->first();

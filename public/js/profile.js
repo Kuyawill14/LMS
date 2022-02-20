@@ -282,7 +282,7 @@ var myCalendar = function myCalendar() {
         this.tmpProfile = this.UserDetails.profile_pic;
         this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
       } else {
-        this.toastError('File must be less than or 1mb only!');
+        this.toastError('File must be less than or equal to 1 megabytes only!');
       }
       /* const uploadedImage = element.target.files[0];
       if(!uploadedImage){ 
@@ -773,26 +773,33 @@ var render = function() {
                             "v-col",
                             {
                               staticClass:
-                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
+                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center text-center",
                               attrs: { cols: "12" }
                             },
                             [
-                              _c("h3", { staticClass: "font-weight-bold" }, [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.UserDetails.firstName +
-                                      " " +
-                                      _vm.UserDetails.lastName
-                                  ) +
-                                    "\n                             " +
+                              _c(
+                                "h3",
+                                {
+                                  staticClass: "font-weight-bold",
+                                  staticStyle: { "max-width": "280px" }
+                                },
+                                [
+                                  _vm._v(
                                     _vm._s(
-                                      _vm.UserDetails.suffix != "" &&
-                                        _vm.UserDetails.suffix != null
-                                        ? ", " + _vm.UserDetails.suffix
-                                        : ""
-                                    )
-                                )
-                              ])
+                                      _vm.UserDetails.firstName +
+                                        " " +
+                                        _vm.UserDetails.lastName
+                                    ) +
+                                      "\n                             " +
+                                      _vm._s(
+                                        _vm.UserDetails.suffix != "" &&
+                                          _vm.UserDetails.suffix != null
+                                          ? ", " + _vm.UserDetails.suffix
+                                          : ""
+                                      )
+                                  )
+                                ]
+                              )
                             ]
                           ),
                           _vm._v(" "),
@@ -800,7 +807,7 @@ var render = function() {
                             "v-col",
                             {
                               staticClass:
-                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center",
+                                "mb-0 pb-0 mt-0 pt-0 d-flex justify-center text-center",
                               attrs: { cols: "12" }
                             },
                             [

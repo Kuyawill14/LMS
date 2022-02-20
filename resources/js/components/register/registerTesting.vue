@@ -35,11 +35,10 @@
                                          <v-col cols="12" md="8" xl="7">
                                              <v-alert v-model="isValid_id" dismissible dense class="text-left" 
                                              :type="valid_type == 'Not_Valid' ? 'error' : 'info'">{{isValid_id_mesage}}</v-alert>
-
                                               <v-text-field
                                                 :rules="StudentIdRules"
                                                 :dense="$vuetify.breakpoint.mdAndUp"
-                                                placeholder="e.g. 181234"
+                                                placeholder="e.g. 18-1234"
                                                 v-model="form.student_id"
                                                 label="Student ID Number"
                                                 outlined
@@ -137,16 +136,16 @@
                                                 outlined
                                                 @click:append="showConfirmPass = !showConfirmPass"
                                             ></v-text-field>
-                                         </v-col>
-                                        
+                                         </v-col>                                        
                                      </v-row>
 
-                                     <v-row class="mt-0 pt-0 pb-5">
-                                      <v-col class="text-center  mt-0 pt-0" cols="12">
+                                     <v-row class="mt-0 pt-0 pb-5" align="center" justify="center">
+                                      <v-col class="text-center d-flex  mt-0 pt-0"  cols="12" md="8" xl="7">
                                            <v-btn  v-if="steps > 1" @click="steps=steps-1" color="secondary"   >
-                                            Previus
+                                            Previous
                                         </v-btn>
-                                        <v-btn :disabled="!valid" :loading="ischecking"  @click="validate" :color="steps == 3 ? 'success' : 'primary'"   >
+                                        <v-spacer></v-spacer>
+                                        <v-btn :class="steps == 3 ? '' : 'pl-10 pr-10'" :disabled="!valid" :loading="ischecking"  @click="validate" :color="steps == 3 ? 'success' : 'primary'"   >
                                             {{steps == 3 ? 'Register' : 'Next'}}
                                         </v-btn>
                                       </v-col>
@@ -202,12 +201,12 @@
             }),
             nameRules: [
                 v => !!v || 'Field is required',
-                v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+                v => (v && v.length <= 20) || 'Must be less than 50 characters',
             ],
             StudentIdRules: [
                 v => !!v || 'Student ID is required',
                 v => (v && v.length >= 5) || 'min 5 characters',
-                v => (v && v.length <= 12) || 'Max 12 characters',
+                v => (v && v.length <= 20) || 'Max 12 characters',
             ],
             emailRules: [
                 v => !!v || "Required",
@@ -215,8 +214,8 @@
             ],
             rules: {
                 required: value => !!value || "Field is required.",
-                min: v => (v && v.length >= 6) || "Minimun 6 characters",
-                max: v => (v && v.length <= 15) || "Maximun 12 characters"
+                min: v => (v && v.length >= 6) || "Minimum 6 characters",
+                max: v => (v && v.length <= 20) || "Maximum 20 characters"
             },
             showPass: false,
             showConfirmPass: false,
@@ -247,38 +246,44 @@
                     axios.get('/api/register/check_student_id/'+this.form.student_id)
                     .then((res)=>{
                         if(res.data.success == true){
-                            this.steps += 1;
-                            this.ischecking = false;
+                            setTimeout(() => (this.ischecking = false, this.steps += 1), 500);
                             this.$refs.Registerform.resetValidation()
                         }else{
                             //this.toastError(res.data.message);
-                            this.ischecking = false;
+                            setTimeout(() => (this.ischecking = false), 500);
                             this.valid_type = res.data.type;
                             this.isValid_id = true;
                             this.isValid_id_mesage = res.data.message;
-                            setTimeout(() => (this.isValid_id = false), 5000);
+                            setTimeout(() => (this.isValid_id = false), 500);
                         }
                     }).catch((error)=>{
-                      this.ischecking = false;
+                      setTimeout(() => (this.ischecking = false), 500);
                       console.log(error)
                       this.toastError('To many request, Please try again later');
                     })
                 }else if(this.steps == 2){
+                    this.ischecking = true;
                     axios.put('/api/register/check_student_details/'+this.form.student_id, this.form)
                     .then((res)=>{
                         if(res.data.success == true){
-                            this.steps += 1;
-                            this.$refs.Registerform.resetValidation()
-                        }else{
+                            //this.steps += 1;
+                            setTimeout(() => (this.ischecking = false, this.steps += 1, this.$refs.Registerform.resetValidation()), 500);
                             
+                        }else{
+                            setTimeout(() => (this.ischecking = false), 500);
                             this.toastError(res.data.message);
                             
                         }
+                    }).catch((e)=>{
+                        setTimeout(() => (this.ischecking = false), 500);
+                        this.toastError('To many request, Please try again later');
                     })
                 }else if(this.steps == 3){
+                     this.ischecking = true;
                      axios.put('/api/register/account/'+this.form.student_id, this.form)
                     .then((res)=>{
                         if(res.data.success == true){
+                            setTimeout(() => (this.ischecking = false), 500);
                             this.isRegistering = true;
                             this.sendVerification(this.form.email);
                             this.toastSuccess('Account Registerd: Please check your email for Verification!');
@@ -289,8 +294,10 @@
                             //this.steps = 1;
                         }else{
                             this.toastError(res.data.message);
+                            setTimeout(() => (this.ischecking = false), 500);
                         }
                     }).catch(e => {
+                        setTimeout(() => (this.ischecking = false), 500);
                         this.toastError(e.response.data.errors.email[0]);
                     })
                 }
@@ -340,10 +347,7 @@
         beforeMount(){
              window.addEventListener("beforeunload", this.preventNav);
         },
-        
-     /*    beforeDestroy(){
-            window.removeEventListener('beforeunload', this.beforeWindowUnload)
-        }, */
+    
     };
 
 </script>

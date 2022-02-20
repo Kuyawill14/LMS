@@ -49,7 +49,7 @@ class UserProfileController extends Controller
         // $userDetails->current_sessions = Session::getId();
         $userDetails->department_id = $department != null ? $department->department_id : null;
 
-        if($currentUser->email == 'admin@gmail.com'){
+        if($currentUser->email == 'isueorange@gmail.com'){
             $userDetails->verified = $userDetails->verified = true;
         }else{
             $userDetails->verified = $currentUser->email_verified_at != null ? true : false;

@@ -108,6 +108,9 @@ __webpack_require__.r(__webpack_exports__);
         },
         min: function min(v) {
           return v && v.length >= 6 || "Min 6 characters";
+        },
+        max: function max(v) {
+          return v && v.length <= 20 || "Max 20 characters";
         }
       }
     };
@@ -372,7 +375,11 @@ var render = function() {
                                     ? "mdi-eye"
                                     : "mdi-eye-off",
                                   dense: "",
-                                  rules: [_vm.rules.required, _vm.rules.min],
+                                  rules: [
+                                    _vm.rules.required,
+                                    _vm.rules.min,
+                                    _vm.rules.max
+                                  ],
                                   outlined: "",
                                   type: _vm.showNew ? "text" : "password"
                                 },
@@ -438,7 +445,11 @@ var render = function() {
                                     : "mdi-eye-off",
                                   dense: "",
                                   outlined: "",
-                                  rules: [_vm.rules.required, _vm.rules.min],
+                                  rules: [
+                                    _vm.rules.required,
+                                    _vm.rules.min,
+                                    _vm.rules.max
+                                  ],
                                   type: _vm.ShowNewRetype ? "text" : "password"
                                 },
                                 on: {

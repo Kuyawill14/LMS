@@ -59,6 +59,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(tbl_user_departments::class, 'user_id');
     }
 
+  /*   public function lastSession()
+    {
+        return $this->hasOne('sessions')->orderBy('last_activity', 'DESC')->whereNotNull('user_id')->take(1);
+    } */
+    
     // /**
     //  * The accessors to append to the model's array form.
     //  *
