@@ -65,10 +65,7 @@
         "vue-lazytube": "^1.0.2",
         "vue-material": "^1.0.0-beta-15",
         "vue-pdf": "^4.3.0",
-<<<<<<< HEAD
-=======
         "vue-pdf-app": "^2.1.0",
->>>>>>> e95f754056bba8308bc34af82de8ae02520d5457
         "vue-quill": "^1.5.1",
         "vue-quill-editor": "^3.0.6",
         "vue-router": "^3.5.2",
