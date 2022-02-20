@@ -6446,7 +6446,11 @@ vue-confetti@^2.2.2:
 
 vue-core-video-player@^0.2.0:
   version "0.2.0"
+<<<<<<< HEAD
   resolved "https://registry.yarnpkg.com/vue-core-video-player/-/vue-core-video-player-0.2.0.tgz#70da2d5607554fda67bf8477f27002354263a681"
+=======
+  resolved "https://registry.npmjs.org/vue-core-video-player/-/vue-core-video-player-0.2.0.tgz"
+>>>>>>> e95f754056bba8308bc34af82de8ae02520d5457
   integrity sha512-NmUohYKDeuZIZLjax/z4K4MlS//ZcEtSejFkCSznYb6/pO5MEeIyNB6MjBuoE11iswpCe2wb6y8O/RcF5LfMhw==
   dependencies:
     core-js "^2.6.5"
@@ -6536,6 +6540,16 @@ vue-material@^1.0.0-beta-15:
     vue-github-buttons "^3.1.0"
     vue-toc "0.0.1"
 
+<<<<<<< HEAD
+=======
+vue-pdf-app@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/vue-pdf-app/-/vue-pdf-app-2.1.0.tgz"
+  integrity sha512-eQUeDBdvwxBUvnrojBY+jfaKmwEVwHNC7be6eHreG1yxPSvPFoBzFa93411u15/Ze4NmZCIJKXEWvFz/RM6lxQ==
+  dependencies:
+    vue "^2.6.11"
+
+>>>>>>> e95f754056bba8308bc34af82de8ae02520d5457
 vue-pdf@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/vue-pdf/-/vue-pdf-4.3.0.tgz#d5f790ee7967e7b7aa9089b97b11ab168e19dbd0"
@@ -6619,7 +6633,11 @@ vue-toc@0.0.1:
   dependencies:
     vue "^2.6.10"
 
+<<<<<<< HEAD
 vue@^2.5.22, vue@^2.6.10, vue@^2.6.12, vue@^2.6.14:
+=======
+vue@^2.5.22, vue@^2.6.10, vue@^2.6.11, vue@^2.6.12, vue@^2.6.14:
+>>>>>>> e95f754056bba8308bc34af82de8ae02520d5457
   version "2.6.14"
   resolved "https://registry.npmjs.org/vue/-/vue-2.6.14.tgz"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==

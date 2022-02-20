@@ -215,7 +215,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="orange darken-1" text @click="semesterModal = false">
+                        <v-btn color="orange darken-1" text @click="deleteModal = false">
                             Cancel
                         </v-btn>
                         <v-btn color="secondary" text :loading="isSubmitting" @click="deleteSchoolyear_semester()">
@@ -343,7 +343,11 @@
                 };
                 axios.post('/api/admin/schoolyears_semesters/delete', data)
                     .then((res) => {
-                        ////console.log(res.data);
+                      if(res.data.status == '1') {
+                           this.toastSuccess(res.data.message);
+                      } else {
+                             this.toastError(res.data.message);
+                      }
                         this.fetchAllSchoolyear_semester();
                         this.deleteModal = false;
                       

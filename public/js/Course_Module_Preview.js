@@ -162,6 +162,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -183,15 +202,9 @@ var modulesListComponent = function modulesListComponent() {
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getmain_module"])),
   data: function data() {
     return {
+      pdfLoaded: false,
       docpath: window.location.origin + '/storage/',
       pdfdialog: false,
-      config: {
-        toolbar: {
-          toolbarViewerLeft: {
-            findbar: false
-          }
-        }
-      },
       contentHover: false,
       removeX: true,
       listDialaog: false,
@@ -289,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.exitFullscreen[data-v-2a6a4450] {\n    position: absolute;\n    border-radius: 0;\n    right: 0;\n    top: 70px;\n    z-index: 99;\n}\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n.ipOhDr[data-v-2a6a4450] {\nmax-width: 100%;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.exitFullscreen[data-v-2a6a4450] {\n    position: absolute;\n    border-radius: 0;\n    right: 0;\n    top: 70px;\n    z-index: 99;\n}\n.bottom-content[data-v-2a6a4450] {\n\n    padding-left: 30px;\n}\n.video-c[data-v-2a6a4450] {\n    min-height: 470px;\n}\n.border[data-v-2a6a4450] {\n    border-left: 1px solid #e0e0e0;\n}\n.ipOhDr[data-v-2a6a4450] {\n    max-width: 100%;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -313,7 +326,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.ipOhDr > .ly-iframe-wrapper > iframe{\nwidth: 100% !important;\nheight: 522px !important\n}\n.v-dialog--active {\n      overflow-x: hidden;\n}\n\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.ipOhDr>.ly-iframe-wrapper>iframe {\n    width: 100% !important;\n    height: 522px !important\n}\n.v-dialog--active {\n    overflow-x: hidden;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -621,7 +634,6 @@ var render = function() {
                                         },
                                         attrs: {
                                           title: "google drive viewer",
-                                          id: "pdf-iframe",
                                           src:
                                             _vm.subModuleData.link != null
                                               ? _vm.scrapeDocID(
@@ -651,7 +663,6 @@ var render = function() {
                                         },
                                         attrs: {
                                           title: "google drive viewer",
-                                          id: "pdf-iframe",
                                           src:
                                             "https://view.officeapps.live.com/op/embed.aspx?src=" +
                                             _vm.docpath +
@@ -685,6 +696,27 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
+                              _vm.pdfLoaded == false
+                                ? _c(
+                                    "div",
+                                    {
+                                      staticStyle: {
+                                        width: "100% !important",
+                                        height: "75vh !important"
+                                      }
+                                    },
+                                    [
+                                      _c("v-progress-linear", {
+                                        attrs: {
+                                          indeterminate: "",
+                                          color: "orange darken-2"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
                               _vm.type == "Document" &&
                               _vm.ext == "pdf" &&
                               _vm.isSelectedModule
@@ -692,17 +724,19 @@ var render = function() {
                                     key: _vm.subModuleData.sub_module_name + 1,
                                     staticStyle: {
                                       width: "100% !important",
-                                      height: "522px !important"
+                                      height: "75vh !important"
                                     },
                                     attrs: {
                                       title: _vm.subModuleData.sub_module_name,
                                       pdf_file:
-                                        "/storage/" +
                                         _vm.subModuleData.file_attachment
                                     },
                                     on: {
                                       closePdf: function($event) {
                                         _vm.pdfdialog = false
+                                      },
+                                      loaded: function($event) {
+                                        _vm.pdfLoaded = true
                                       }
                                     }
                                   })

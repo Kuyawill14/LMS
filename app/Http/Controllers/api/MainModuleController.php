@@ -66,6 +66,10 @@ class MainModuleController extends Controller
         ->orderBy('tbl_sub_modules.id', 'ASC')
         
         ->get();
+
+        foreach ($allSubModules as  $submodule) {
+            $submodule->required_time = $submodule->required_time/ 60;
+        }
         return $allSubModules;
 }
 

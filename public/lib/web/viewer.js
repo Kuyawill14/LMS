@@ -2102,7 +2102,7 @@
         };
         exports.PDFViewerApplication = PDFViewerApplication;
         var validateFileURL; {
-            var HOSTED_VIEWER_ORIGINS = ["http://127.0.0.1:8000/", "https://isu-orange.com/", "http://isu-orange.com/", "null", "http://mozilla.github.io", "https://mozilla.github.io"];
+            var HOSTED_VIEWER_ORIGINS = ["http://127.0.0.1:8000/", "https://isu-orange.com/", "http://isu-orange.com/", "null", "http://mozilla.github.io/", "https://mozilla.github.io/", "https://orangestr.sgp1.digitaloceanspaces.com/", "https://orangestr.sgp1.cdn.digitaloceanspaces.com/"];
 
             validateFileURL = function validateFileURL(file) {
                 if (file === undefined) {

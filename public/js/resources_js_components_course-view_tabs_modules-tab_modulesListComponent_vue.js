@@ -350,7 +350,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     if (this.type_action == 'edit_file') {
-      this.submodule['required_time'] = this.submodule['required_time'] / 60;
+      // this.submodule['required_time'] = this.submodule['required_time'] / 60;
       this.subModuleForm = this.submodule;
       var newfile = new File([""], window.location.origin + '/' + this.submodule.file_attachment);
       ;
@@ -517,8 +517,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     if (this.type_action == 'edit_link') {
-      this.linkForm = this.submodule;
-      this.linkForm['required_time'] = this.submodule['required_time'] / 60;
+      this.linkForm = this.submodule; // this.linkForm['required_time'] = this.submodule['required_time'] / 60;
     }
   }
 });
@@ -1023,6 +1022,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -38519,7 +38519,9 @@ var render = function() {
                                                         : _vm._e(),
                                                       _vm._v(" "),
                                                       itemModule.isPublished ==
-                                                      0
+                                                        0 ||
+                                                      itemModule.isPublished ==
+                                                        null
                                                         ? _c(
                                                             "svg",
                                                             {

@@ -6,12 +6,12 @@
 </template>
 
 <script>
-    import pdf from 'vue-pdf';
+    //import pdf from 'vue-pdf';
     export default {
         props: ['pdf_file'],
-        components: {
+        /* components: {
             pdf
-        },
+        }, */
         data() {
             return {
                 dialog: false,

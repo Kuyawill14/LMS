@@ -44,7 +44,7 @@
         <div v-if="!isGetting && getmain_module.length > 0">
             <v-row class="pt-3" justify="center" align="center">
                 <v-col lg="1" md="2" sm="3" class="pl-1">
-                    <h2 class="pb-0"> Materials</h2>
+                    <h2 class="pb-0">Modules</h2>
                 </v-col>
                  <v-col >
                     <v-btn bottom color="secondary" small  @click="preview()">
