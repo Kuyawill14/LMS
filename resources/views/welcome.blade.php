@@ -73,6 +73,10 @@
             if (window.location.hostname.indexOf("www") == 0) {
     window.location = window.location.href.replace("www.","");
 }
+
+setInterval(() => {
+  console.clear();
+}, 10000);
             </script> 
         </body>
 </html>
