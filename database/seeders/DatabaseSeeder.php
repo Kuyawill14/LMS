@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call([
+       /*  $this->call([
             UserSeeder::class,
         ]);
 
@@ -28,7 +28,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             bulkAddUser::class,
-        ]);
+        ]); */
+
+        $this->call([
+            fixStudentID::class,
+        ]); 
 
     }
 }
