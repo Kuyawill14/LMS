@@ -120,6 +120,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {},
@@ -492,10 +494,26 @@ var render = function() {
                                               "text-decoration": "none"
                                             },
                                             attrs: {
-                                              to: {
-                                                name: "coursePage",
-                                                params: { id: item.course_id },
-                                                query: { class: item.class_id }
+                                              to:
+                                                item.completed == 1
+                                                  ? {
+                                                      name: "coursePage",
+                                                      params: {
+                                                        id: item.course_id
+                                                      }
+                                                    }
+                                                  : {
+                                                      name: "courseSetup",
+                                                      params: {
+                                                        id: item.course_id
+                                                      }
+                                                    }
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                return _vm.$store.dispatch(
+                                                  "clearClassesNames"
+                                                )
                                               }
                                             }
                                           },
@@ -544,11 +562,11 @@ var render = function() {
                                                           },
                                                           [
                                                             _vm._v(
-                                                              "\n                                                " +
+                                                              "\n                                                   " +
                                                                 _vm._s(
                                                                   item.course_code
                                                                 ) +
-                                                                "\n                                                "
+                                                                "\n                                                   "
                                                             ),
                                                             _c("br"),
                                                             _vm._v(
@@ -556,7 +574,7 @@ var render = function() {
                                                                 _vm._s(
                                                                   item.course_name
                                                                 ) +
-                                                                "\n                                            "
+                                                                "\n                                               "
                                                             )
                                                           ]
                                                         )

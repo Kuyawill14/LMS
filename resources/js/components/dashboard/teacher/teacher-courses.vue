@@ -24,12 +24,14 @@
                             </v-col>
 
                         </v-row>
-
+ <!--   :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}" -->
                         <v-slide-group v-model="model" class="px-1" active-class="success" show-arrows
                             mobile-breakpoint="1000" center-active>
                             <v-slide-item v-for="(item, i) in allCourse" :key="'class' + i" v-slot:default="{ active }">
                                 <router-link
-                                    :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
+                                @click="$store.dispatch('clearClassesNames')" 
+                                :to="item.completed == 1 ? {name: 'coursePage', params: {id: item.course_id}} : {name: 'courseSetup', params: {id: item.course_id}}"
+                                 
                                     style="text-decoration: none">
                                     <v-card :color="active ? undefined : 'grey lighten-1'" class="my-4 mx-3"
                                         height="200" width="250">
