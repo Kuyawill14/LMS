@@ -16,13 +16,13 @@ class UserSeeder extends Seeder
     public function run()
     {
         $data = DB::table('users')->insert([
-            'email' => 'admin@gmail.com',
+            'email' => 'isueorange@gmail.com',
             'role' => 'Admin',
             'password' => Hash::make("##super##Log1")
         ]);
 
         
-        $users_id = DB::table('users')->where('email', 'admin@gmail.com')
+        $users_id = DB::table('users')->where('email', 'isueorange@gmail.com')
         ->select('id')->first();
         DB::table('tbl_user_details')->insert([
             'user_id' =>  $users_id->id,

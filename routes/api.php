@@ -501,13 +501,13 @@ Route::post('/logout', [AuthController::class, 'logout']);
 //Route::post('/register', [AuthController::class, 'UserRegister']);
 
 Route::prefix('/register')->group(function() {
-    Route::get('/check_student_id/{id}', [AuthController::class, 'CheckStudentId']);
-    Route::put('/check_student_details/{id}', [AuthController::class, 'CheckStudentDetails']);
-    Route::put('/account/{id}', [AuthController::class, 'ResgisterAccount']);
+    Route::middleware('throttle:15')->get('/check_student_id/{id}', [AuthController::class, 'CheckStudentId']);
+    Route::middleware('throttle:15')->put('/check_student_details/{id}', [AuthController::class, 'CheckStudentDetails']);
+    Route::middleware('throttle:15')->put('/account/{id}', [AuthController::class, 'ResgisterAccount']);
 });
 
 Route::get('/email-verification', [VerificationController::class, 'verify'])->name('verification.verify');
-Route::post('/resend-verification', [VerificationController::class, 'resendVerificationEmail']);
+Route::middleware('throttle:10')->post('/resend-verification', [VerificationController::class, 'resendVerificationEmail']);
 Route::post('/change-email', [VerificationController::class, 'UpdateAndResendEmail']);
 
 Route::middleware('auth:sanctum')->post('/change-password', [AuthController::class, 'ChangePassword']);

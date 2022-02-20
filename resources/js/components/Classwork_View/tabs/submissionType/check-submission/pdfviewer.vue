@@ -1,14 +1,17 @@
 <template>
     <div class="ma-0 pa-0">
-        <iframe   height="100%" class="pdf-viewer holds-the-iframe"  width=100% :src="`${pdf_file}`" ></iframe>               
+        <iframe   height="100%" class="pdf-viewer holds-the-iframe"  width=100% :src="`${pdf_file}`" ></iframe>      
+        <!-- <pdf  height="100%"  width=100% :src="pdf_file"></pdf> -->
     </div>
 </template>
 
 <script>
-
-
+    import pdf from 'vue-pdf';
     export default {
         props: ['pdf_file'],
+        components: {
+            pdf
+        },
         data() {
             return {
                 dialog: false,
@@ -19,7 +22,7 @@
         mounted() {
         var host = window.location.protocol + "//" + window.location.host;
        
-       this.pdf_path = host+ this.pdf_file;
+         this.pdf_path = host+ this.pdf_file;
          this.pdf_path  =  window.location.origin+'/lib/web/viewer.html?file='+ this.pdf_path; 
 
         },

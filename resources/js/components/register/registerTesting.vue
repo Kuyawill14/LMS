@@ -146,7 +146,7 @@
                                            <v-btn  v-if="steps > 1" @click="steps=steps-1" color="secondary"   >
                                             Previus
                                         </v-btn>
-                                        <v-btn :disabled="!valid"  @click="validate" :color="steps == 3 ? 'success' : 'primary'"   >
+                                        <v-btn :disabled="!valid" :loading="ischecking"  @click="validate" :color="steps == 3 ? 'success' : 'primary'"   >
                                             {{steps == 3 ? 'Register' : 'Next'}}
                                         </v-btn>
                                       </v-col>
@@ -221,7 +221,8 @@
             showConfirmPass: false,
             isValid_id: false,
             isValid_id_mesage: null,
-            valid_type: null
+            valid_type: null,
+            ischecking: false,
         }),
         computed: {
             passwordMatch() {
@@ -241,18 +242,25 @@
             },
             async nextStep(){
                 if(this.steps == 1){
+                    this.ischecking = true;
                     axios.get('/api/register/check_student_id/'+this.form.student_id)
                     .then((res)=>{
                         if(res.data.success == true){
                             this.steps += 1;
+                            this.ischecking = false;
                             this.$refs.Registerform.resetValidation()
                         }else{
                             //this.toastError(res.data.message);
+                            this.ischecking = false;
                             this.valid_type = res.data.type;
                             this.isValid_id = true;
                             this.isValid_id_mesage = res.data.message;
                             setTimeout(() => (this.isValid_id = false), 5000);
                         }
+                    }).catch((error)=>{
+                      this.ischecking = false;
+                      console.log(error)
+                      this.toastError('To many request, Please try again later');
                     })
                 }else if(this.steps == 2){
                     axios.put('/api/register/check_student_details/'+this.form.student_id, this.form)

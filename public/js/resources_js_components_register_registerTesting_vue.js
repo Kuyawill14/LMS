@@ -254,7 +254,8 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
       showConfirmPass: false,
       isValid_id: false,
       isValid_id_mesage: null,
-      valid_type: null
+      valid_type: null,
+      ischecking: false
     };
   },
   computed: {
@@ -297,13 +298,16 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (_this2.steps == 1) {
+                  _this2.ischecking = true;
                   axios.get('/api/register/check_student_id/' + _this2.form.student_id).then(function (res) {
                     if (res.data.success == true) {
                       _this2.steps += 1;
+                      _this2.ischecking = false;
 
                       _this2.$refs.Registerform.resetValidation();
                     } else {
                       //this.toastError(res.data.message);
+                      _this2.ischecking = false;
                       _this2.valid_type = res.data.type;
                       _this2.isValid_id = true;
                       _this2.isValid_id_mesage = res.data.message;
@@ -311,6 +315,11 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                         return _this2.isValid_id = false;
                       }, 5000);
                     }
+                  })["catch"](function (error) {
+                    _this2.ischecking = false;
+                    console.log(error);
+
+                    _this2.toastError('To many request, Please try again later');
                   });
                 } else if (_this2.steps == 2) {
                   axios.put('/api/register/check_student_details/' + _this2.form.student_id, _this2.form).then(function (res) {
@@ -1158,6 +1167,7 @@ var render = function() {
                                                 {
                                                   attrs: {
                                                     disabled: !_vm.valid,
+                                                    loading: _vm.ischecking,
                                                     color:
                                                       _vm.steps == 3
                                                         ? "success"

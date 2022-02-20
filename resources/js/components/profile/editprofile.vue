@@ -64,7 +64,7 @@
                 <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                     <v-row>
                         <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
-                            Middle Name
+                            Middle Inital
                         </v-col>
                         <v-col cols="12" md="6"
                             :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
@@ -88,6 +88,20 @@
                         </v-col>
                     </v-row>
                 </v-col>
+                 <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                    <v-row>
+                        <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                            Suffix
+                        </v-col>
+                        <v-col cols="12" md="6"
+                            :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                            <v-text-field @change="isNeChanges = true" dense
+                                :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'" type="text" outlined
+                                 v-model="UserDetails.suffix" class="mb-0 pb-0"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-col>
+
 <!-- 
                 <v-col cols="12" class="mb-0 pb-0">
                     <v-row>

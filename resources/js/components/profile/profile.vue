@@ -92,7 +92,8 @@
                      </v-col>
 
                      <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">
-                         <h3 class="font-weight-bold">{{UserDetails.firstName+' '+UserDetails.lastName}}</h3>
+                         <h3 class="font-weight-bold">{{UserDetails.firstName+' '+UserDetails.lastName}}
+                             {{UserDetails.suffix != '' && UserDetails.suffix != null  ? ', '+UserDetails.suffix : ''}}</h3>
                          
                      </v-col>
                       <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0 d-flex justify-center">

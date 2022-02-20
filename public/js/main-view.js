@@ -11292,7 +11292,13 @@ var render = function() {
                                         _vm.UserDetails.firstName +
                                           " " +
                                           _vm.UserDetails.lastName
-                                      )
+                                      ) +
+                                        _vm._s(
+                                          _vm.UserDetails.suffix != "" &&
+                                            _vm.UserDetails.suffix != null
+                                            ? ", " + _vm.UserDetails.suffix
+                                            : ""
+                                        )
                                     )
                                   ]),
                                   _vm._v(" "),

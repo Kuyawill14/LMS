@@ -221,6 +221,8 @@ class UserProfileController extends Controller
                 $UpdateDetails->firstName = $request->firstName;
                 $UpdateDetails->middleName = $request->middleName;
                 $UpdateDetails->lastName = $request->lastName;
+                $UpdateDetails->suffix = $request->suffix;
+                $UpdateDetails->birthday = date('Y-m-d', strtotime($request->birthday));
                 $UpdateDetails->address = $request->address;
                 $UpdateDetails->cp_no = $request->cp_no;
                 //$UpdateDetails->social_account =  $request->social_account;

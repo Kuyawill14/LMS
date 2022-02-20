@@ -51,7 +51,7 @@
                                     </v-avatar>
                                  </v-badge>
 
-                                <h4>{{ UserDetails.firstName+' '+UserDetails.lastName }}</h4>
+                                <h4>{{ UserDetails.firstName+' '+UserDetails.lastName }}{{UserDetails.suffix != '' && UserDetails.suffix != null  ? ', '+UserDetails.suffix : ''}}</h4>
                                 <p class="text-caption mt-1">
                                     {{ UserDetails.email }}
                                 </p>

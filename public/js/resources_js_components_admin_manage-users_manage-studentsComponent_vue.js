@@ -305,6 +305,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -334,6 +340,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         firstName: "",
         middleName: "",
         lastName: "",
+        suffix: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -355,8 +362,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return v && v.length <= 20 || 'Name must be less than 20 characters';
       }],
       loginEmailRules: [function (v) {
-        return !!v || "Field is required";
-      }, function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
       }],
       RoleRules: [function (v) {
@@ -388,7 +393,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         value: 'firstName',
         align: 'start'
       }, {
-        text: 'Middle Name',
+        text: 'Middle Initial',
         value: 'middleName',
         align: 'start'
       }, {
@@ -534,6 +539,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.form.firstName = details.firstName;
       this.form.middleName = details.middleName;
       this.form.lastName = details.lastName;
+      this.form.suffix = details.suffix;
+      this.form.birthDay = details.birthday;
       this.form.email = details.email;
       this.form.student_id = details.student_id;
       this.form.verified = details.isVerified;
@@ -1244,6 +1251,7 @@ var render = function() {
         [
           _c(
             "v-card",
+            { staticClass: "pa-1" },
             [
               _c("v-card-title", {}, [
                 _vm._v(
@@ -1360,7 +1368,6 @@ var render = function() {
                               _c("v-text-field", {
                                 attrs: {
                                   label: "Middle Initial",
-                                  rules: _vm.nameRules,
                                   name: "middleName",
                                   type: "text",
                                   color: "primary",
@@ -1423,6 +1430,38 @@ var render = function() {
                               attrs: { cols: "12", md: "12" }
                             },
                             [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "lastName" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Suffix",
+                                  name: "suffix",
+                                  type: "text",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.suffix,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "suffix", $$v)
+                                  },
+                                  expression: "form.suffix"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
                               _c("v-text-field", {
                                 attrs: {
                                   label: "Birthday",
@@ -1463,7 +1502,6 @@ var render = function() {
                                     attrs: {
                                       label: "Email",
                                       name: "Email",
-                                      rules: _vm.loginEmailRules,
                                       type: "email",
                                       color: "primary",
                                       outlined: ""

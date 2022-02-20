@@ -103,8 +103,8 @@
             </v-col>
         </v-row>
 
-        <v-dialog v-model="dialog" width="500">
-            <v-card>
+        <v-dialog  v-model="dialog" width="500">
+            <v-card class="pa-1">
                 <v-card-title class="">
                     {{this.type == "add" ? 'Add Student' :  'Update Student'}}
                 </v-card-title>
@@ -129,7 +129,7 @@
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="middleName" />
-                                <v-text-field label="Middle Initial" :rules="nameRules" name="middleName"
+                                <v-text-field label="Middle Initial"  name="middleName"
                                     v-model="form.middleName" type="text" color="primary" outlined />
                             </v-col>
 
@@ -138,6 +138,12 @@
                                 <v-text-field label="Last Name" :rules="nameRules" name="lastname"
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
+                            </v-col>
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="lastName" />
+                                <v-text-field label="Suffix" name="suffix"
+                                    v-model="form.suffix" type="text" color="primary" outlined
+                                   />
                             </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
@@ -148,7 +154,7 @@
 
                             <v-col class="ma-0 pa-0 mb-1" v-if="this.type == 'edit'" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
-                                <v-text-field label="Email" name="Email" :rules="loginEmailRules" v-model="form.email"
+                                <v-text-field label="Email" name="Email"  v-model="form.email"
                                     type="email" color="primary" outlined />
                             </v-col>
 
@@ -316,6 +322,7 @@
                     firstName: "",
                     middleName: "",
                     lastName: "",
+                    suffix: "",
                     email: "",
                     password: "",
                     password_confirmation: "",
@@ -334,7 +341,6 @@
                     v => (v && v.length <= 20) || 'Name must be less than 20 characters',
                 ],
                 loginEmailRules: [
-                    v => !!v || "Field is required",
                     v => /.+@.+\..+/.test(v) || "Email must be valid"
                 ],
 
@@ -367,7 +373,7 @@
                         align: 'start',
                     },
                     {
-                        text: 'Middle Name',
+                        text: 'Middle Initial',
                         value: 'middleName',
                         align: 'start',
                     },
@@ -537,6 +543,8 @@
                 this.form.firstName = details.firstName;
                 this.form.middleName = details.middleName;
                 this.form.lastName = details.lastName;
+                this.form.suffix = details.suffix;
+                this.form.birthDay = details.birthday;
                 this.form.email = details.email;
                 this.form.student_id = details.student_id;
                 this.form.verified = details.isVerified;

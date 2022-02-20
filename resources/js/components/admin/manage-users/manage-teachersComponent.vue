@@ -143,6 +143,12 @@
                                     v-model="form.lastName" type="text" color="primary" outlined
                                     @keyup="SetPassword(form.lastName)" />
                             </v-col>
+                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                                <HasError class="error--text" :form="form" field="lastName" />
+                                <v-text-field label="Suffix" name="suffix"
+                                    v-model="form.suffix" type="text" color="primary" outlined
+                                   />
+                            </v-col>
 
                             <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="email" />
@@ -286,7 +292,9 @@
                     password: "",
                     password_confirmation: "",
                     verified: null,
-                    department: null
+                    department: null,
+                    birthDay: new Date(),
+                    suffix:""
                 }),
 
 
@@ -328,7 +336,7 @@
                         align: 'start',
                     },
                     {
-                        text: 'Middle Name',
+                        text: 'Middle Initial',
                         value: 'middleName',
                         align: 'start',
                     },

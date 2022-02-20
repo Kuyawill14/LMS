@@ -249,6 +249,8 @@ class ManageUserController extends Controller
                $UpdateDetails->firstName = $request->firstName;
                $UpdateDetails->middleName = $request->middleName;
                $UpdateDetails->lastName = $request->lastName;
+               $UpdateDetails->suffix = $request->suffix;
+               $UpdateDetails->birthday = date('Y-m-d', strtotime($request->birthDay));
                $UpdateDetails->address = $request->address;
                $UpdateDetails->student_id = $request->student_id;
                $UpdateDetails->cp_no = $request->cp_no;

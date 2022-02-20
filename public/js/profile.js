@@ -187,6 +187,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() | user_profile */ "user_profile").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -782,7 +783,14 @@ var render = function() {
                                     _vm.UserDetails.firstName +
                                       " " +
                                       _vm.UserDetails.lastName
-                                  )
+                                  ) +
+                                    "\n                             " +
+                                    _vm._s(
+                                      _vm.UserDetails.suffix != "" &&
+                                        _vm.UserDetails.suffix != null
+                                        ? ", " + _vm.UserDetails.suffix
+                                        : ""
+                                    )
                                 )
                               ])
                             ]

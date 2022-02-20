@@ -282,6 +282,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -22903,7 +22917,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                            Middle Name\n                        "
+                                "\n                            Middle Inital\n                        "
                               )
                             ]
                           ),
@@ -23007,6 +23021,75 @@ var render = function() {
                                     _vm.$set(_vm.UserDetails, "lastName", $$v)
                                   },
                                   expression: "UserDetails.lastName"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pb-0 mb-0"
+                        : "pb-0 mb-0 mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Suffix\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "mb-0 pb-0",
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
+                                attrs: {
+                                  dense: "",
+                                  type: "text",
+                                  outlined: ""
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
+                                model: {
+                                  value: _vm.UserDetails.suffix,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "suffix", $$v)
+                                  },
+                                  expression: "UserDetails.suffix"
                                 }
                               })
                             ],

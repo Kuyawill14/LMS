@@ -199,6 +199,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -225,7 +231,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         password: "",
         password_confirmation: "",
         verified: null,
-        department: null
+        department: null,
+        birthDay: new Date(),
+        suffix: ""
       }),
       nameRules: [function (v) {
         return !!v || 'Field is required';
@@ -1014,6 +1022,38 @@ var render = function() {
                                     _vm.$set(_vm.form, "lastName", $$v)
                                   },
                                   expression: "form.lastName"
+                                }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              staticClass: "ma-0 pa-0 mb-1",
+                              attrs: { cols: "12", md: "12" }
+                            },
+                            [
+                              _c("HasError", {
+                                staticClass: "error--text",
+                                attrs: { form: _vm.form, field: "lastName" }
+                              }),
+                              _vm._v(" "),
+                              _c("v-text-field", {
+                                attrs: {
+                                  label: "Suffix",
+                                  name: "suffix",
+                                  type: "text",
+                                  color: "primary",
+                                  outlined: ""
+                                },
+                                model: {
+                                  value: _vm.form.suffix,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.form, "suffix", $$v)
+                                  },
+                                  expression: "form.suffix"
                                 }
                               })
                             ],
