@@ -70,9 +70,9 @@
             <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-messaging.js"></script>
 
            <script>
-//             if (window.location.hostname.indexOf("www") == 0) {
-//     window.location = window.location.href.replace("www.","");
-// }
+            if (window.location.hostname.indexOf("www") == 0) {
+    window.location = window.location.href.replace("www.","");
+}
             </script> 
         </body>
 </html>
