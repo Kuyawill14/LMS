@@ -419,7 +419,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.search) {
         return this.teacherList.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.user_id.toString().includes(v);
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.user_id.toString().includes(v);
           });
         });
       } else {
@@ -909,10 +909,11 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "div",
-                            { attrs: { width: "30%" } },
+                            { attrs: { width: "50%" } },
                             [
                               _c("v-text-field", {
                                 attrs: {
+                                  placeholder: "First Name,Last Name",
                                   "append-icon": "mdi-magnify",
                                   label: "Search",
                                   "single-line": "",

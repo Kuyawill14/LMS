@@ -311,6 +311,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -347,7 +350,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         student_id: "",
         birthDay: new Date(),
         verified: null,
-        department: null
+        department: null,
+        updateIndex: null
       }),
       studenIdRule: [function (v) {
         return !!v || 'Student ID is required';
@@ -426,9 +430,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.search) {
         return this.StudentList.filter(function (item) {
           return _this.search.toLowerCase().split(' ').every(function (v) {
-            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.middleName.toLowerCase().includes(v) || item.student_id == null ? item.lastName.toLowerCase().includes(v) : item.student_id.toString().includes(v);
-          });
+            return item.firstName.toLowerCase().includes(v) || item.lastName.toLowerCase().includes(v) || item.student_id.toString().includes(v);
+          }); //.includes(v) : item.student_id.toString().includes(v))
         });
+        /* 
+                             return this.StudentList.filter((item) => {
+                                return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                                    .includes(v) || item.lastName.toLowerCase()
+                                    .includes(v) || item.user_id.toString()
+                                    .includes(v))
+                            }) */
       } else {
         return this.StudentList;
       }
@@ -531,8 +542,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.type = 'add';
       this.dialog = true;
     },
-    openEdit: function openEdit(details, index) {
-      this.updateIndex = index;
+    openEdit: function openEdit(details, Dataindex) {
+      console.log(Dataindex);
+      this.updateIndex = Dataindex;
       this.type = 'edit';
       this.dialog = true;
       this.form.user_id = details.user_id;
@@ -696,14 +708,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     updateDataInfrontEnd: function updateDataInfrontEnd(data) {
-      this.StudentList[this.updateIndex].user_id = data.user_id;
-      this.StudentList[this.updateIndex].firstName = data.firstName;
-      this.StudentList[this.updateIndex].middleName = data.middleName;
-      this.StudentList[this.updateIndex].lastName = data.lastName;
-      this.StudentList[this.updateIndex].email = data.email;
-      this.StudentList[this.updateIndex].student_id = data.student_id;
-      this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
-      this.StudentList[this.updateIndex].department_name = data.department.name;
+      this.StudentList.forEach(function (item) {
+        if (data.user_id == item.user_id) {
+          item.user_id = data.user_id;
+          item.firstName = data.firstName;
+          item.middleName = data.middleName;
+          item.suffix = data.suffix;
+          item.birthday = data.birthDay;
+          item.lastName = data.lastName;
+          item.email = data.email;
+          item.student_id = data.student_id;
+        }
+      });
+      /* this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
+      this.StudentList[this.updateIndex].department_name = data.department.name; */
+
       this.$refs.RegisterForm.reset();
     }
   },
@@ -961,21 +980,29 @@ var render = function() {
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _c("v-text-field", {
-                            attrs: {
-                              "append-icon": "mdi-magnify",
-                              label: "Search",
-                              "single-line": "",
-                              "hide-details": ""
-                            },
-                            model: {
-                              value: _vm.search,
-                              callback: function($$v) {
-                                _vm.search = $$v
-                              },
-                              expression: "search"
-                            }
-                          })
+                          _c(
+                            "div",
+                            { attrs: { width: "50%" } },
+                            [
+                              _c("v-text-field", {
+                                attrs: {
+                                  placeholder: "Student ID, Last Name",
+                                  "append-icon": "mdi-magnify",
+                                  label: "Search",
+                                  "single-line": "",
+                                  "hide-details": ""
+                                },
+                                model: {
+                                  value: _vm.search,
+                                  callback: function($$v) {
+                                    _vm.search = $$v
+                                  },
+                                  expression: "search"
+                                }
+                              })
+                            ],
+                            1
+                          )
                         ],
                         1
                       ),
@@ -997,8 +1024,8 @@ var render = function() {
                                   _c(
                                     "tbody",
                                     [
-                                      _vm._l(items, function(item, index) {
-                                        return _c("tr", { key: index }, [
+                                      _vm._l(items, function(item, i) {
+                                        return _c("tr", { key: item.id }, [
                                           _c(
                                             "td",
                                             { staticStyle: { width: "7%" } },
@@ -1042,13 +1069,16 @@ var render = function() {
                                             _vm._v(
                                               " " +
                                                 _vm._s(item.student_id) +
-                                                " "
+                                                "  "
                                             )
                                           ]),
                                           _vm._v(" "),
                                           _c("td", [
                                             _vm._v(
-                                              " " + _vm._s(item.lastName) + " "
+                                              " " +
+                                                _vm._s(item.lastName) +
+                                                " " +
+                                                _vm._s(i)
                                             )
                                           ]),
                                           _vm._v(" "),
@@ -1155,7 +1185,7 @@ var render = function() {
                                                     click: function($event) {
                                                       return _vm.openEdit(
                                                         item,
-                                                        index
+                                                        i
                                                       )
                                                     }
                                                   }
@@ -1181,7 +1211,7 @@ var render = function() {
                                                     click: function($event) {
                                                       return _vm.openDelete(
                                                         item.user_id,
-                                                        index
+                                                        i
                                                       )
                                                     }
                                                   }
@@ -1222,7 +1252,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          3233114472
+                          1458592408
                         )
                       })
                     ],
@@ -1566,39 +1596,6 @@ var render = function() {
                                 1
                               )
                             : _vm._e(),
-                          _vm._v(" "),
-                          _c(
-                            "v-col",
-                            {
-                              staticClass: "ma-0 pa-0 mb-1",
-                              attrs: { cols: "12", md: "12" }
-                            },
-                            [
-                              _c("HasError", {
-                                staticClass: "error--text",
-                                attrs: { form: _vm.form, field: "department" }
-                              }),
-                              _vm._v(" "),
-                              _c("v-select", {
-                                attrs: {
-                                  items: _vm.department,
-                                  "item-value": "id",
-                                  "item-text": "name",
-                                  "return-object": "",
-                                  label: "Department",
-                                  outlined: ""
-                                },
-                                model: {
-                                  value: _vm.form.department,
-                                  callback: function($$v) {
-                                    _vm.$set(_vm.form, "department", $$v)
-                                  },
-                                  expression: "form.department"
-                                }
-                              })
-                            ],
-                            1
-                          ),
                           _vm._v(" "),
                           _vm.form.verified == null && _vm.type == "edit"
                             ? _c(

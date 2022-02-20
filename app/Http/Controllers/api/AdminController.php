@@ -28,11 +28,25 @@ class AdminController extends Controller
         $student = User::where("role","Student")->count();
 
     
-        $ActiveStudent = User::where("role","Student")
+       /*  $ActiveStudent = User::where("role","Student")
         ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
         ->whereNotNull('sessions.user_id')
-        ->groupBy('sessions.id')
-        ->count();
+        ->count(); */
+
+        $ActiveStudent = User::where("role","Student")
+        ->leftJoin('sessions',function($query){
+            $query->on('sessions.user_id','=','users.id')
+            ->whereRaw('sessions.id IN (select MAX(a2.id) from users as a2 join sessions as u2 on u2.user_id = a2.id group by u2.id)');
+            })
+        ->whereNotNull('sessions.user_id')
+        ->get();
+    
+          
+       /*  $ActiveStudent  =   User::select( 'users.*',
+        DB::raw('(select * from sessions where user_id  =  users.id order by id asc limit 1) as activity')  )
+        ->where("role","Student")
+        ->whereNotNull('sessions.user_id')
+        ->count(); */
 
         $OfflineStudent = User::where("role","Student")
         ->leftJoin('sessions', 'sessions.user_id', '=','users.id')

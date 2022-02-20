@@ -5,7 +5,7 @@
                 <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? '' : 'ma-0 pa-0'" cols="12" sm="12" md="12">
                     <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
                         <loginRegisterImageConatiner></loginRegisterImageConatiner>
-                        <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm? 'ma-0 pa-3 mb-10' :'ma-0 pa-0'" cols="12" md="5">
+                        <v-col :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm? 'ma-0 pa-3 mb-12' :'ma-0 pa-0'" cols="12" md="5">
                             <vue-element-loading :active="isRegistering" spinner="bar-fade-scale" color="#EF6C00" />
                             
                             <v-row>
@@ -32,14 +32,14 @@
                                      <v-form @submit.prevent="validate" ref="Registerform" v-model="valid" lazy-validation>
                                       
                                      <v-row v-if="steps == 1" align="center" justify="center">
-                                         <v-col cols="12" md="7">
+                                         <v-col cols="12" md="8" xl="7">
                                              <v-alert v-model="isValid_id" dismissible dense class="text-left" 
                                              :type="valid_type == 'Not_Valid' ? 'error' : 'info'">{{isValid_id_mesage}}</v-alert>
 
                                               <v-text-field
                                                 :rules="StudentIdRules"
-                                                dense
-                                                placeholder="e.g. 18****"
+                                                :dense="$vuetify.breakpoint.mdAndUp"
+                                                placeholder="e.g. 181234"
                                                 v-model="form.student_id"
                                                 label="Student ID Number"
                                                 outlined
@@ -48,51 +48,51 @@
                                      </v-row>
 
                                      <v-row v-if="steps == 2" align="center" justify="center">
-                                        <v-col cols="12" md="7" class="text-left">
+                                        <v-col cols="12" md="8" xl="7" class="text-left">
                                             <v-alert  dismissible dense class="text-left" 
                                              type="info">Please used your exact birthday you used in enrollment!</v-alert>
                                              <div class="font-weight-bold">Personal Details</div>
                                          </v-col>
                                        
-                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
+                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 :rules="nameRules"
                                                 v-model="form.firstName"
                                                 label="First Name"
                                                 outlined
                                             ></v-text-field>
                                          </v-col>
-                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
+                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 :rules="nameRules"
                                                 v-model="form.middleName"
                                                 label="Middle Initial"
                                                 outlined
                                             ></v-text-field>
                                          </v-col>
-                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
+                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 :rules="nameRules"
                                                 v-model="form.lastName"
                                                 label="Last Name"
                                                 outlined
                                             ></v-text-field>
                                          </v-col>
-                                          <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
+                                          <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 v-model="form.suffix"
                                                 label="Suffix"
                                                 outlined
                                             ></v-text-field>
                                          </v-col>
 
-                                         <v-col class="pt-0 mt-0" cols="12" md="7">
+                                         <v-col class="pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 type="Date"
                                                 v-model="form.birthday"
                                                 label="Birthday"
@@ -103,9 +103,9 @@
 
                                      <v-row v-if="steps == 3" align="center" justify="center">
                                        
-                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
+                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 type="email"
                                                 :rules="emailRules"
                                                 v-model="form.email"
@@ -113,22 +113,22 @@
                                                 outlined
                                             ></v-text-field>
                                          </v-col>
-                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="7">
+                                         <v-col class="mb-0 pb-0 pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                                                 :type="showPass ? 'text' : 'password'"
                                                 v-model="form.password"
-                                                :rules="[rules.required, rules.min]"
+                                                :rules="[rules.required, rules.min, rules.max]"
                                                 label="Password"
                                                 outlined
                                                 @click:append="showPass = !showPass"
                                             ></v-text-field>
                                          </v-col>
 
-                                          <v-col class=" pt-0 mt-0" cols="12" md="7">
+                                          <v-col class=" pt-0 mt-0" cols="12" md="8" xl="7">
                                               <v-text-field
-                                                dense
+                                                :dense="$vuetify.breakpoint.mdAndUp"
                                                 :append-icon="showConfirmPass ? 'mdi-eye' : 'mdi-eye-off'"
                                                 :type="showConfirmPass ? 'text' : 'password'"
                                                 :rules="[rules.required, passwordMatch]"
@@ -215,7 +215,8 @@
             ],
             rules: {
                 required: value => !!value || "Field is required.",
-                min: v => (v && v.length >= 6) || "min 6 characters"
+                min: v => (v && v.length >= 6) || "Minimun 6 characters",
+                max: v => (v && v.length <= 15) || "Maximun 12 characters"
             },
             showPass: false,
             showConfirmPass: false,

@@ -44,8 +44,8 @@
                         Teacher
 
                         <v-spacer></v-spacer>
-                        <div width="30%">
-                            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
+                        <div width="50%">
+                            <v-text-field v-model="search" placeholder="First Name,Last Name" append-icon="mdi-magnify" label="Search" single-line
                                 hide-details>
                             </v-text-field>
                         </div>
@@ -406,7 +406,6 @@
                     return this.teacherList.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
                             .includes(v) || item.lastName.toLowerCase()
-                            .includes(v) || item.middleName.toLowerCase()
                             .includes(v) || item.user_id.toString()
                             .includes(v))
                     })

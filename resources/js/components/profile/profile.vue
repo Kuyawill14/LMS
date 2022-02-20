@@ -240,12 +240,12 @@
                 this.imageFile = element.target.files[0];
                 if( this.imageFile.size <= 1000000){
                     this.isUploading = true;
-                    //this.UpdateProfile();
+                    this.UpdateProfile();
                     this.tmpProfile = this.UserDetails.profile_pic;
                     this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
                 }
                 else{
-                    this.toastError('The File is more than 1mb');
+                    this.toastError('File must be less than or 1mb only!');
                 }
 
                     /* const uploadedImage = element.target.files[0];

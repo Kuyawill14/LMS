@@ -36,23 +36,26 @@
                         Students
 
                         <v-spacer></v-spacer>
-                        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line
-                            hide-details>
-                        </v-text-field>
+                        <div width="50%">
+                             <v-text-field v-model="search" placeholder="Student ID, Last Name" append-icon="mdi-magnify" label="Search" single-line
+                                hide-details>
+                            </v-text-field>
+                        </div>
+                       
                     </v-card-title>
 
                     <v-data-table :headers="headers" :items="filteredItems" :items-per-page="10" class="elevation-1">
                         <template v-slot:body="{ items }">
                             <tbody>
-                                <tr v-for="(item, index) in items" :key="index">
+                                <tr v-for="(item, i) in items" :key="item.id">
                                     <td style="width:7%">
                                         <v-icon :color="item.isActive != 0 ? 'success' : ''">mdi-circle-medium</v-icon>
                                         <span
                                             :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
 
                                     </td>
-                                    <td> {{item.student_id}} </td>
-                                    <td> {{item.lastName }} </td>
+                                    <td> {{item.student_id}}  </td>
+                                    <td> {{item.lastName }} {{i}}</td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
@@ -70,13 +73,13 @@
                                     </td>
                                     <td>
 
-                                        <v-btn icon color="success" @click="openEdit(item, index)">
+                                        <v-btn icon color="success" @click="openEdit(item, i)">
                                             <v-icon>
                                                 mdi-pencil
                                             </v-icon>
 
                                         </v-btn>
-                                        <v-btn icon color="red" @click="openDelete(item.user_id, index)">
+                                        <v-btn icon color="red" @click="openDelete(item.user_id, i)">
                                             <v-icon>
                                                 mdi-delete
                                             </v-icon>
@@ -170,11 +173,11 @@
 
 
 
-                            <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
+                          <!--   <v-col class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <HasError class="error--text" :form="form" field="department" />
                                 <v-select :items="department" item-value="id" v-model="form.department" item-text="name"
                                     return-object label="Department"  outlined></v-select>
-                            </v-col>
+                            </v-col> -->
 
                             <v-col v-if="form.verified == null && type == 'edit'" class="ma-0 pa-0 mb-1" cols="12" md="12">
                                 <v-btn @click="VerifyUser(form.user_id)" block :disabled="isVerifying" rounded large
@@ -329,7 +332,8 @@
                     student_id: "",
                     birthDay: new Date(),
                     verified: null,
-                    department: null
+                    department: null,
+                    updateIndex: null
                 }),
                 studenIdRule: [
                     v => !!v || 'Student ID is required',
@@ -416,16 +420,22 @@
                     return this.StudentList.filter((item) => {
                         return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
                             .includes(v) || item.lastName.toLowerCase()
-                            .includes(v) || item.middleName.toLowerCase()
-                            .includes(v) || item.student_id == null ? item.lastName.toLowerCase()
-                            .includes(v) : item.student_id.toString().includes(v))
+                            .includes(v) || item.student_id.toString()
+                            .includes(v))
+                            //.includes(v) : item.student_id.toString().includes(v))
                     })
+/* 
+                     return this.StudentList.filter((item) => {
+                        return this.search.toLowerCase().split(' ').every(v => item.firstName.toLowerCase()
+                            .includes(v) || item.lastName.toLowerCase()
+                            .includes(v) || item.user_id.toString()
+                            .includes(v))
+                    }) */
                 } else {
                     return this.StudentList;
                 }
 
-            }
-
+            },
         },
 
         methods: {
@@ -535,8 +545,9 @@
                 this.type = 'add'
                 this.dialog = true;
             },
-            openEdit(details, index) {
-                this.updateIndex = index;
+            openEdit(details, Dataindex) {
+                console.log(Dataindex);
+                this.updateIndex = Dataindex;
                 this.type = 'edit'
                 this.dialog = true;
                 this.form.user_id = details.user_id;
@@ -549,7 +560,6 @@
                 this.form.student_id = details.student_id;
                 this.form.verified = details.isVerified;
                 this.form.department = details.department_id;
-
                 if (!this.valid) {
                     this.$refs.RegisterForm.resetValidation();
                 }
@@ -620,6 +630,7 @@
             validate() {
                 this.IsAddUpdating = true;
                 if (this.$refs.RegisterForm.validate()) {
+
                     if (this.type == 'add') {
                         this.form.role = 'Student';
                         this.form.password_confirmation = this.form.password
@@ -665,14 +676,23 @@
                     })
             },
             updateDataInfrontEnd(data) {
-                this.StudentList[this.updateIndex].user_id = data.user_id;
-                this.StudentList[this.updateIndex].firstName = data.firstName;
-                this.StudentList[this.updateIndex].middleName = data.middleName;
-                this.StudentList[this.updateIndex].lastName = data.lastName;
-                this.StudentList[this.updateIndex].email = data.email;
-                this.StudentList[this.updateIndex].student_id = data.student_id;
-                this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
-                this.StudentList[this.updateIndex].department_name = data.department.name;
+                this.StudentList.forEach(item => {
+                    if(data.user_id == item.user_id){
+                        item.user_id = data.user_id;
+                        item.firstName = data.firstName;
+                        item.middleName = data.middleName;
+                        item.suffix = data.suffix;
+                        item.birthday = data.birthDay;
+                        item.lastName = data.lastName;
+                        item.email = data.email;
+                        item.student_id = data.student_id;
+                    }
+                });
+
+
+                
+                /* this.StudentList[this.updateIndex].department_short_name = data.department.short_name;
+                this.StudentList[this.updateIndex].department_name = data.department.name; */
                 this.$refs.RegisterForm.reset();
             }
         },

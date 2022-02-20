@@ -257,25 +257,22 @@ class ManageUserController extends Controller
                $UpdateDetails->social_account =  $request->social_account;
                $UpdateDetails->save();
 
-           
-                if(isset( $request->department['id'])) {
-                 $departments = tbl_user_departments::where('user_id',$id)->first();
-                if($departments) {
-                    $departments->department_id = $request->department['id'];
-                    $departments->save();
-                } else {
-                    $departments = new tbl_user_departments;
-                    $departments->user_id = $id;
-                    $departments->department_id = $request->department['id'];
-                    $departments->save();
+               if($user->role != 'Student'){
+                    if(isset( $request->department['id'])) {
+                        $departments = tbl_user_departments::where('user_id',$id)->first();
+                        if($departments) {
+                            $departments->department_id = $request->department['id'];
+                            $departments->save();
+                        } else {
+                            $departments = new tbl_user_departments;
+                            $departments->user_id = $id;
+                            $departments->department_id = $request->department['id'];
+                            $departments->save();
+                        }
+                        
+                    }
                 }
-                      
-                 }
-             
                
-
-       
-
                $user->email = $request->email;
                $user->save();
                return "Details Successfully Updated";

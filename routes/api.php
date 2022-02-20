@@ -397,7 +397,8 @@ Route::middleware('auth:sanctum')->prefix('/student-course')->group(function () 
 });
 
 //Get all teachers
-Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
+/* middleware('auth:sanctum')-> */
+Route::prefix('/admin')->group(function () {
 
     Route::get('/users/all/{user_type}', [ManageUserController::class, 'getAllusers']);
     Route::post('/users/add/{user_type}', [ManageUserController::class, 'adduser']);

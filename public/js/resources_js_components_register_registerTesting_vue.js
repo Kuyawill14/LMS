@@ -247,7 +247,10 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
           return !!value || "Field is required.";
         },
         min: function min(v) {
-          return v && v.length >= 6 || "min 6 characters";
+          return v && v.length >= 6 || "Minimun 6 characters";
+        },
+        max: function max(v) {
+          return v && v.length <= 15 || "Maximun 12 characters";
         }
       },
       showPass: false,
@@ -567,7 +570,7 @@ var render = function() {
                           class:
                             _vm.$vuetify.breakpoint.xs ||
                             _vm.$vuetify.breakpoint.sm
-                              ? "ma-0 pa-3 mb-10"
+                              ? "ma-0 pa-3 mb-12"
                               : "ma-0 pa-0",
                           attrs: { cols: "12", md: "5" }
                         },
@@ -709,7 +712,11 @@ var render = function() {
                                               _c(
                                                 "v-col",
                                                 {
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c(
@@ -747,9 +754,11 @@ var render = function() {
                                                   _c("v-text-field", {
                                                     attrs: {
                                                       rules: _vm.StudentIdRules,
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       placeholder:
-                                                        "e.g. 18****",
+                                                        "e.g. 181234",
                                                       label:
                                                         "Student ID Number",
                                                       outlined: ""
@@ -790,7 +799,11 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass: "text-left",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c(
@@ -827,12 +840,18 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       rules: _vm.nameRules,
                                                       label: "First Name",
                                                       outlined: ""
@@ -859,12 +878,18 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       rules: _vm.nameRules,
                                                       label: "Middle Initial",
                                                       outlined: ""
@@ -892,12 +917,18 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       rules: _vm.nameRules,
                                                       label: "Last Name",
                                                       outlined: ""
@@ -924,12 +955,18 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       label: "Suffix",
                                                       outlined: ""
                                                     },
@@ -953,12 +990,18 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass: "pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       type: "Date",
                                                       label: "Birthday",
                                                       outlined: ""
@@ -999,12 +1042,18 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       type: "email",
                                                       rules: _vm.emailRules,
                                                       label: "Email",
@@ -1031,12 +1080,18 @@ var render = function() {
                                                 {
                                                   staticClass:
                                                     "mb-0 pb-0 pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       "append-icon": _vm.showPass
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
@@ -1045,7 +1100,8 @@ var render = function() {
                                                         : "password",
                                                       rules: [
                                                         _vm.rules.required,
-                                                        _vm.rules.min
+                                                        _vm.rules.min,
+                                                        _vm.rules.max
                                                       ],
                                                       label: "Password",
                                                       outlined: ""
@@ -1078,12 +1134,18 @@ var render = function() {
                                                 "v-col",
                                                 {
                                                   staticClass: " pt-0 mt-0",
-                                                  attrs: { cols: "12", md: "7" }
+                                                  attrs: {
+                                                    cols: "12",
+                                                    md: "8",
+                                                    xl: "7"
+                                                  }
                                                 },
                                                 [
                                                   _c("v-text-field", {
                                                     attrs: {
-                                                      dense: "",
+                                                      dense:
+                                                        _vm.$vuetify.breakpoint
+                                                          .mdAndUp,
                                                       "append-icon": _vm.showConfirmPass
                                                         ? "mdi-eye"
                                                         : "mdi-eye-off",
