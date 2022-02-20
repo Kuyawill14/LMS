@@ -204,7 +204,7 @@ class AuthController extends Controller
 
         }else{
             return response()->json([
-                "message" => "This Student ID Number has already have an account!",
+                "message" => "This Student ID Number is already in use!",
                 "type"=>"Already_Account",
                 "success" => false
             ]);
@@ -238,7 +238,7 @@ class AuthController extends Controller
                 ]);
             }else{
                 return response()->json([
-                    "message" => "Invalid Birthday!",
+                    "message" => "Your birthday does not match on our records",
                     "success" => false
                 ]);
             }
