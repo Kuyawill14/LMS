@@ -30,9 +30,12 @@ class DatabaseSeeder extends Seeder
             bulkAddUser::class,
         ]); */
 
-        $this->call([
+        /* $this->call([
             fixStudentID::class,
-        ]); 
+        ]);  */
 
+        $this->call([
+            VerifyAllEmail::class,
+        ]); 
     }
 }

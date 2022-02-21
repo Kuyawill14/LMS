@@ -168,7 +168,67 @@
 
                 </v-col>
             </v-row>
+
+       <!--      <v-btn @click="ConfirmDialog = true">
+                Test
+            </v-btn> -->
+            <v-row justify="center">
+                <v-dialog v-model="ConfirmDialog" persistent max-width="500">
+                <v-card>
+                    <div class="pa-2">
+                         <v-alert   dense class="text-left" 
+                        type="info">
+                         Confirm Details: Before you click <span class="font-weight-medium">Confirm</span>, make sure you're using an active email address because 
+                        all information regarding your class's activity will be sent to that email.
+
+                        </v-alert>
+                    </div>
+                   
+                   <!--  <v-card-title class="text-h5">
+                    Confirm Details
+                    </v-card-title> -->
+                 <v-divider></v-divider>
+                        <v-container class="pl-6 pr-6">
+                            <v-row >
+                                 <v-col cols="12" style="font-size: 20px">
+                                    <span class="font-weight-bold">First Name: </span>
+                                     <span>{{form.firstName}}</span> <br>
+                                     <span class="font-weight-bold">Middle Initial: </span>
+                                     <span>{{form.middleName}}</span> <br>
+
+                                     <span class="font-weight-bold">Last Name: </span>
+                                     <span>{{form.lastName}}</span> <br>
+
+                                     <span class="font-weight-bold">Suffix: </span>
+                                     <span>{{form.suffix}}</span> <br>
+
+                                      <span class="font-weight-bold">Birthday: </span>
+                                      <span>{{form.birthday}}</span> <br>
+                                      <v-divider></v-divider>
+                                       
+                                      <span class="font-weight-bold">Email: </span>
+                                      <span>{{form.email}}</span> <br>
+
+                                       <span class="font-weight-bold">Password: </span>
+                                      <span>{{form.password}}</span> <br>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                     
+                    <v-card-actions class="pt-2 pb-3">
+                        <v-spacer></v-spacer>
+                        <v-btn color="secondary" text  @click="ConfirmDialog = false, ischecking =false">
+                            cancel
+                        </v-btn>
+                        <v-btn color="primary" text  @click="registerAccount()">
+                            Confirm
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+                </v-dialog>
+            </v-row>
         </v-container>
+        
 
     </v-app>
 </template>
@@ -209,7 +269,7 @@
             StudentIdRules: [
                 v => !!v || 'Student ID is required',
                 v => (v && v.length >= 5) || 'min 5 characters',
-                v => (v && v.length <= 20) || 'Max 12 characters',
+                v => (v && v.length <= 20) || 'Max 20 characters',
             ],
             emailRules: [
                 v => !!v || "Required",
@@ -226,6 +286,7 @@
             isValid_id_mesage: null,
             valid_type: null,
             ischecking: false,
+            ConfirmDialog: false,
         }),
         computed: {
             passwordMatch() {
@@ -283,7 +344,8 @@
                     })
                 }else if(this.steps == 3){
                      this.ischecking = true;
-                     axios.put('/api/register/account/'+this.form.student_id, this.form)
+                     this.ConfirmDialog = true;
+                     /* axios.put('/api/register/account/'+this.form.student_id, this.form)
                     .then((res)=>{
                         if(res.data.success == true){
                             setTimeout(() => (this.ischecking = false), 500);
@@ -292,9 +354,32 @@
                             this.toastSuccess('Account Registerd: Please check your email for Verification!');
                             this.login(this.form.email,this.form.password)
                             window.removeEventListener('beforeunload', this.preventNav)
-                            //this.form.student_id = '';
-                            //this.$refs.Registerform.reset();
-                            //this.steps = 1;
+                        }else{
+                            this.toastError(res.data.message);
+                            setTimeout(() => (this.ischecking = false), 500);
+                        }
+                    }).catch(e => {
+                        setTimeout(() => (this.ischecking = false), 500);
+                        this.toastError(e.response.data.errors.email[0]);
+                    }) */
+                }
+            },
+            registerAccount(){
+                this.ConfirmDialog = false;
+                 axios.put('/api/register/account/'+this.form.student_id, this.form)
+                    .then((res)=>{
+                        if(res.data.success == true){
+                            setTimeout(() => (this.ischecking = false), 500);
+                            this.isRegistering = true;
+                            if(res.data.isVerified){
+                                 this.toastSuccess('Account Registered Successfully!');
+                            }else{
+                                this.toastSuccess('Account Registerd: Please check your email for Verification!');
+                                this.sendVerification(this.form.email);
+                            }
+                            //this.sendVerification(this.form.email);
+                            this.login(this.form.email,this.form.password)
+                            window.removeEventListener('beforeunload', this.preventNav)
                         }else{
                             this.toastError(res.data.message);
                             setTimeout(() => (this.ischecking = false), 500);
@@ -303,7 +388,6 @@
                         setTimeout(() => (this.ischecking = false), 500);
                         this.toastError(e.response.data.errors.email[0]);
                     })
-                }
             },
             async sendVerification(email){
                  axios.post('/api/resend-verification', {email: email})

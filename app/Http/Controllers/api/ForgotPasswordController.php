@@ -55,9 +55,10 @@ class ForgotPasswordController extends Controller
 
        //$status = Notification::send($user, new SendPasswordResetNotification($tokenData->token,  $user->id));
 
-        Notification::send($user, new SendPasswordResetNotification($tokenData->token,  $user->id));
+      
 
        if($tokenData){
+        Notification::send($user, new SendPasswordResetNotification($tokenData->token,  $user->id));
             return response()->json([
                 "message" => "Please check your email for confirmation",
                 "success" => true

@@ -356,14 +356,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       studenIdRule: [function (v) {
         return !!v || 'Student ID is required';
       }, function (v) {
-        return v && v.length >= 6 || 'min 6 characters';
+        return v && v.length >= 6 || 'Min 6 characters';
       }, function (v) {
-        return v && v.length <= 8 || 'Max 8 characters';
+        return v && v.length <= 20 || 'Max 20 characters';
       }],
       nameRules: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
-        return v && v.length <= 20 || 'Name must be less than 20 characters';
+        return v && v.length <= 50 || 'Name must be less than 50 characters';
       }],
       loginEmailRules: [function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
@@ -620,8 +620,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this7.isVerifying = true;
                 axios__WEBPACK_IMPORTED_MODULE_1___default().put('/api/admin/verifyUser/' + id).then(function (res) {
                   if (res.data.success == true) {
+                    _this7.markAsVerify(id);
+
                     _this7.form.verified = 'Verified';
-                    _this7.StudentList[_this7.updateIndex].isVerified = 'Verified';
 
                     _this7.toastSuccess('User Successfully Verified!');
 
@@ -644,6 +645,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    markAsVerify: function markAsVerify(id) {
+      this.StudentList.forEach(function (item) {
+        if (id == item.user_id) {
+          item.isVerified = 'Verified';
+        }
+      });
     },
     validate: function validate() {
       var _this8 = this;
@@ -980,29 +988,22 @@ var render = function() {
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { attrs: { width: "50%" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  placeholder: "Student ID, Last Name",
-                                  "append-icon": "mdi-magnify",
-                                  label: "Search",
-                                  "single-line": "",
-                                  "hide-details": ""
-                                },
-                                model: {
-                                  value: _vm.search,
-                                  callback: function($$v) {
-                                    _vm.search = $$v
-                                  },
-                                  expression: "search"
-                                }
-                              })
-                            ],
-                            1
-                          )
+                          _c("v-text-field", {
+                            attrs: {
+                              placeholder: "Student ID, Last Name",
+                              "append-icon": "mdi-magnify",
+                              label: "Search",
+                              "single-line": "",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.search,
+                              callback: function($$v) {
+                                _vm.search = $$v
+                              },
+                              expression: "search"
+                            }
+                          })
                         ],
                         1
                       ),
@@ -1067,19 +1068,12 @@ var render = function() {
                                           _vm._v(" "),
                                           _c("td", [
                                             _vm._v(
-                                              " " +
-                                                _vm._s(item.student_id) +
-                                                "  "
+                                              " " + _vm._s(item.student_id)
                                             )
                                           ]),
                                           _vm._v(" "),
                                           _c("td", [
-                                            _vm._v(
-                                              " " +
-                                                _vm._s(item.lastName) +
-                                                " " +
-                                                _vm._s(i)
-                                            )
+                                            _vm._v(" " + _vm._s(item.lastName))
                                           ]),
                                           _vm._v(" "),
                                           _c("td", [
@@ -1252,7 +1246,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1458592408
+                          188704215
                         )
                       })
                     ],

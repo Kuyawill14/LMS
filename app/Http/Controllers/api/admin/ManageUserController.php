@@ -215,13 +215,16 @@ class ManageUserController extends Controller
         $details->birthday = $usertype == 'Student' ? date('Y-m-d', strtotime($request->birthDay)) : null;
         $details->save();
 
-
-        if($usertype != 'CampusDirector' &&  $usertype != 'SecurityGuard') {
-            $departments = new tbl_user_departments;
-            $departments->user_id = $New->id;
-            $departments->department_id = $request->department['id'];
-            $departments->save();
+        if($usertype != 'Student'){
+            if($usertype != 'CampusDirector' &&  $usertype != 'SecurityGuard') {
+                $departments = new tbl_user_departments;
+                $departments->user_id = $New->id;
+                $departments->department_id = $request->department['id'];
+                $departments->save();
+            }
         }
+
+        
        
 
         return response()->json([

@@ -194,6 +194,66 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var loginRegisterFooter = function loginRegisterFooter() {
   return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterFooter */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterFooter.vue"));
 };
@@ -237,7 +297,7 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
       }, function (v) {
         return v && v.length >= 5 || 'min 5 characters';
       }, function (v) {
-        return v && v.length <= 20 || 'Max 12 characters';
+        return v && v.length <= 20 || 'Max 20 characters';
       }],
       emailRules: [function (v) {
         return !!v || "Required";
@@ -260,7 +320,8 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
       isValid_id: false,
       isValid_id_mesage: null,
       valid_type: null,
-      ischecking: false
+      ischecking: false,
+      ConfirmDialog: false
     };
   },
   computed: {
@@ -355,36 +416,24 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
                   });
                 } else if (_this2.steps == 3) {
                   _this2.ischecking = true;
-                  axios.put('/api/register/account/' + _this2.form.student_id, _this2.form).then(function (res) {
-                    if (res.data.success == true) {
-                      setTimeout(function () {
-                        return _this2.ischecking = false;
-                      }, 500);
-                      _this2.isRegistering = true;
-
-                      _this2.sendVerification(_this2.form.email);
-
-                      _this2.toastSuccess('Account Registerd: Please check your email for Verification!');
-
-                      _this2.login(_this2.form.email, _this2.form.password);
-
-                      window.removeEventListener('beforeunload', _this2.preventNav); //this.form.student_id = '';
-                      //this.$refs.Registerform.reset();
-                      //this.steps = 1;
-                    } else {
-                      _this2.toastError(res.data.message);
-
-                      setTimeout(function () {
-                        return _this2.ischecking = false;
-                      }, 500);
-                    }
-                  })["catch"](function (e) {
-                    setTimeout(function () {
-                      return _this2.ischecking = false;
-                    }, 500);
-
-                    _this2.toastError(e.response.data.errors.email[0]);
-                  });
+                  _this2.ConfirmDialog = true;
+                  /* axios.put('/api/register/account/'+this.form.student_id, this.form)
+                  .then((res)=>{
+                     if(res.data.success == true){
+                         setTimeout(() => (this.ischecking = false), 500);
+                         this.isRegistering = true;
+                         this.sendVerification(this.form.email);
+                         this.toastSuccess('Account Registerd: Please check your email for Verification!');
+                         this.login(this.form.email,this.form.password)
+                         window.removeEventListener('beforeunload', this.preventNav)
+                     }else{
+                         this.toastError(res.data.message);
+                         setTimeout(() => (this.ischecking = false), 500);
+                     }
+                  }).catch(e => {
+                     setTimeout(() => (this.ischecking = false), 500);
+                     this.toastError(e.response.data.errors.email[0]);
+                  }) */
                 }
 
               case 1:
@@ -394,6 +443,44 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
           }
         }, _callee2);
       }))();
+    },
+    registerAccount: function registerAccount() {
+      var _this3 = this;
+
+      this.ConfirmDialog = false;
+      axios.put('/api/register/account/' + this.form.student_id, this.form).then(function (res) {
+        if (res.data.success == true) {
+          setTimeout(function () {
+            return _this3.ischecking = false;
+          }, 500);
+          _this3.isRegistering = true;
+
+          if (res.data.isVerified) {
+            _this3.toastSuccess('Account Registered Successfully!');
+          } else {
+            _this3.toastSuccess('Account Registerd: Please check your email for Verification!');
+
+            _this3.sendVerification(_this3.form.email);
+          } //this.sendVerification(this.form.email);
+
+
+          _this3.login(_this3.form.email, _this3.form.password);
+
+          window.removeEventListener('beforeunload', _this3.preventNav);
+        } else {
+          _this3.toastError(res.data.message);
+
+          setTimeout(function () {
+            return _this3.ischecking = false;
+          }, 500);
+        }
+      })["catch"](function (e) {
+        setTimeout(function () {
+          return _this3.ischecking = false;
+        }, 500);
+
+        _this3.toastError(e.response.data.errors.email[0]);
+      });
     },
     sendVerification: function sendVerification(email) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -421,25 +508,25 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
       }))();
     },
     login: function login(email, password) {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this3.loginForm.email = email;
-                _this3.loginForm.password = password;
+                _this4.loginForm.email = email;
+                _this4.loginForm.password = password;
                 axios.get('/sanctum/csrf-cookie').then(function (response) {
-                  _this3.loginForm.post('/api/login').then(function (res) {
+                  _this4.loginForm.post('/api/login').then(function (res) {
                     if (res.data.success == true) {
-                      _this3.$store.dispatch('clear_current_user');
+                      _this4.$store.dispatch('clear_current_user');
 
-                      _this3.$router.push({
+                      _this4.$router.push({
                         path: "/"
                       });
                     } else {
-                      _this3.toastError(res.data.message);
+                      _this4.toastError(res.data.message);
                     }
                   });
                 });
@@ -1330,6 +1417,214 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("loginRegisterFooter")
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-row",
+            { attrs: { justify: "center" } },
+            [
+              _c(
+                "v-dialog",
+                {
+                  attrs: { persistent: "", "max-width": "500" },
+                  model: {
+                    value: _vm.ConfirmDialog,
+                    callback: function($$v) {
+                      _vm.ConfirmDialog = $$v
+                    },
+                    expression: "ConfirmDialog"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "pa-2" },
+                        [
+                          _c(
+                            "v-alert",
+                            {
+                              staticClass: "text-left",
+                              attrs: { dense: "", type: "info" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                     Confirm Details: Before you click "
+                              ),
+                              _c(
+                                "span",
+                                { staticClass: "font-weight-medium" },
+                                [_vm._v("Confirm")]
+                              ),
+                              _vm._v(
+                                ", make sure you're using an active email address because \n                    all information regarding your class's activity will be sent to that email.\n\n                    "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-divider"),
+                      _vm._v(" "),
+                      _c(
+                        "v-container",
+                        { staticClass: "pl-6 pr-6" },
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                {
+                                  staticStyle: { "font-size": "20px" },
+                                  attrs: { cols: "12" }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("First Name: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(_vm._s(_vm.form.firstName))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("Middle Initial: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(_vm._s(_vm.form.middleName))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("Last Name: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(_vm._s(_vm.form.lastName))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("Suffix: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v(_vm._s(_vm.form.suffix))]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("Birthday: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(_vm._s(_vm.form.birthday))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c("v-divider"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("Email: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v(_vm._s(_vm.form.email))]),
+                                  _vm._v(" "),
+                                  _c("br"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "font-weight-bold" },
+                                    [_vm._v("Password: ")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [
+                                    _vm._v(_vm._s(_vm.form.password))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("br")
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        { staticClass: "pt-2 pb-3" },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "secondary", text: "" },
+                              on: {
+                                click: function($event) {
+                                  ;(_vm.ConfirmDialog = false),
+                                    (_vm.ischecking = false)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        cancel\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { color: "primary", text: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.registerAccount()
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        Confirm\n                    "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )

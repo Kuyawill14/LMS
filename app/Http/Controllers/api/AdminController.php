@@ -36,19 +36,16 @@ class AdminController extends Controller
         $OfflineStudent = User::where("role","Student")
         ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
         ->whereNull('sessions.user_id')
-        ->groupBy('sessions.id')
         ->count();
 
         $ActiveTeacher = User::where("role","Teacher")
         ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
         ->whereNotNull('sessions.user_id')
-        ->groupBy('sessions.id')
         ->count();
 
         $OfflineTeacher = User::where("role","Teacher")
         ->leftJoin('sessions', 'sessions.user_id', '=','users.id')
         ->whereNull('sessions.user_id')
-        ->groupBy('sessions.id')
         ->count();
 
         return ['teacher'=> $teacher,'student'=> $student, 'ActiveStudent'=> $ActiveStudent, 'ActiveTeacher'=> $ActiveTeacher, 
@@ -67,6 +64,16 @@ class AdminController extends Controller
 
         return $teachers;
     }
+
+    public function VerifyAllStudent() {
+        $accounts = User::where("role","Teacher")
+        ->whereNull('email_verified_at')
+        ->get();
+
+        return $teachers;
+    }
+
+
 
 
 

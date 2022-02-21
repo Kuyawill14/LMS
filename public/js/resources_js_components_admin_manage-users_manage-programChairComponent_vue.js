@@ -238,7 +238,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       nameRules: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
-        return v && v.length <= 20 || 'Name must be less than 20 characters';
+        return v && v.length <= 50 || 'Name must be less than 50 characters';
       }],
       loginEmailRules: [function (v) {
         return !!v || "Field is required";
@@ -648,28 +648,21 @@ var render = function() {
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { attrs: { width: "30%" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  "append-icon": "mdi-magnify",
-                                  label: "Search",
-                                  "single-line": "",
-                                  "hide-details": ""
-                                },
-                                model: {
-                                  value: _vm.search,
-                                  callback: function($$v) {
-                                    _vm.search = $$v
-                                  },
-                                  expression: "search"
-                                }
-                              })
-                            ],
-                            1
-                          )
+                          _c("v-text-field", {
+                            attrs: {
+                              "append-icon": "mdi-magnify",
+                              label: "Search",
+                              "single-line": "",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.search,
+                              callback: function($$v) {
+                                _vm.search = $$v
+                              },
+                              expression: "search"
+                            }
+                          })
                         ],
                         1
                       ),

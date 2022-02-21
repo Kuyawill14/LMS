@@ -36,11 +36,11 @@
                         Students
 
                         <v-spacer></v-spacer>
-                        <div width="50%">
+                        
                              <v-text-field v-model="search" placeholder="Student ID, Last Name" append-icon="mdi-magnify" label="Search" single-line
                                 hide-details>
                             </v-text-field>
-                        </div>
+                        
                        
                     </v-card-title>
 
@@ -54,8 +54,8 @@
                                             :class="item.isActive != 0 ? 'success--text' : ''">{{item.isActive != 0 ? 'Online' : 'Oflline'}}</span>
 
                                     </td>
-                                    <td> {{item.student_id}}  </td>
-                                    <td> {{item.lastName }} {{i}}</td>
+                                    <td> {{item.student_id}}</td>
+                                    <td> {{item.lastName }}</td>
                                     <td> {{item.firstName}} </td>
                                     <td> {{item.middleName}} </td>
                                     <td> {{item.email}} </td>
@@ -337,12 +337,12 @@
                 }),
                 studenIdRule: [
                     v => !!v || 'Student ID is required',
-                    v => (v && v.length >= 6) || 'min 6 characters',
-                    v => (v && v.length <= 8) || 'Max 8 characters',
+                    v => (v && v.length >= 6) || 'Min 6 characters',
+                    v => (v && v.length <= 20) || 'Max 20 characters',
                 ],
                 nameRules: [
                     v => !!v || 'Field is required',
-                    v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+                    v => (v && v.length <= 50) || 'Name must be less than 50 characters',
                 ],
                 loginEmailRules: [
                     v => /.+@.+\..+/.test(v) || "Email must be valid"
@@ -612,8 +612,8 @@
                 this.isVerifying = true;
                 axios.put('/api/admin/verifyUser/' + id).then((res) => {
                         if (res.data.success == true) {
+                            this.markAsVerify(id)
                             this.form.verified = 'Verified';
-                            this.StudentList[this.updateIndex].isVerified = 'Verified';
                             this.toastSuccess('User Successfully Verified!');
                             this.isVerifying = false;
 
@@ -626,6 +626,13 @@
                         this.toastError('Something went wrong!');
                         this.isVerifying = false;
                     })
+            },
+            markAsVerify(id){
+                this.StudentList.forEach(item => {
+                    if(id== item.user_id){
+                        item.isVerified = 'Verified';
+                    }
+                });
             },
             validate() {
                 this.IsAddUpdating = true;

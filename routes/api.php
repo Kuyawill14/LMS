@@ -228,7 +228,7 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
 
 //notification
 Route::middleware('auth:sanctum')->prefix('/notification')->group(function () {
-    Route::get('/notifCount', [NotificationController::class, 'getNotificationCount']);
+    Route::withoutMiddleware('throttle:api')->get('/notifCount', [NotificationController::class, 'getNotificationCount']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
     Route::put('/markread/{id}', [NotificationController::class, 'UnreadNotification']);
     Route::put('/hide/{id}', [NotificationController::class, 'HideNotification']);
@@ -397,8 +397,7 @@ Route::middleware('auth:sanctum')->prefix('/student-course')->group(function () 
 });
 
 //Get all teachers
-/* middleware('auth:sanctum')-> */
-Route::prefix('/admin')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/admin')->group(function () {
 
     Route::get('/users/all/{user_type}', [ManageUserController::class, 'getAllusers']);
     Route::post('/users/add/{user_type}', [ManageUserController::class, 'adduser']);
@@ -527,7 +526,6 @@ Route::post('/vaccination/upload', [VaccinationController::class, 'bulkAddVaccin
 
 
 Route::get('/export_teacher', [BackupController::class, 'backupTeacherToCSV']);
-
 
 
 

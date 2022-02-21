@@ -44,11 +44,11 @@
                         Teacher
 
                         <v-spacer></v-spacer>
-                        <div width="50%">
+                      
                             <v-text-field v-model="search" placeholder="First Name,Last Name" append-icon="mdi-magnify" label="Search" single-line
                                 hide-details>
                             </v-text-field>
-                        </div>
+                   
 
                     </v-card-title>
 
@@ -300,7 +300,7 @@
 
                 nameRules: [
                     v => !!v || 'Field is required',
-                    v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+                    v => (v && v.length <= 50) || 'Name must be less than 50 characters',
                 ],
                 loginEmailRules: [
                     v => !!v || "Field is required",
@@ -587,7 +587,7 @@
                             })
                             .catch((err) => {
                                 this.IsAddUpdating = false;
-                                this.toastError('Something went wrong!');
+                                this.toastError('Something went wrong while adding Faculty!');
                             })
 
 

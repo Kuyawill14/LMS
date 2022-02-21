@@ -324,7 +324,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       nameRules: [function (v) {
         return !!v || 'Field is required';
       }, function (v) {
-        return v && v.length <= 20 || 'Name must be less than 20 characters';
+        return v && v.length <= 50 || 'Name must be less than 50 characters';
       }],
       loginEmailRules: [function (v) {
         return !!v || "Field is required";
@@ -609,7 +609,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           })["catch"](function (err) {
             _this6.IsAddUpdating = false;
 
-            _this6.toastError('Something went wrong!');
+            _this6.toastError('Something went wrong while adding Faculty!');
           });
         } else if (this.type == 'edit') {
           this.form.post('/api/admin/users/update/' + this.form.user_id).then(function (res) {
@@ -907,29 +907,22 @@ var render = function() {
                           ),
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { attrs: { width: "50%" } },
-                            [
-                              _c("v-text-field", {
-                                attrs: {
-                                  placeholder: "First Name,Last Name",
-                                  "append-icon": "mdi-magnify",
-                                  label: "Search",
-                                  "single-line": "",
-                                  "hide-details": ""
-                                },
-                                model: {
-                                  value: _vm.search,
-                                  callback: function($$v) {
-                                    _vm.search = $$v
-                                  },
-                                  expression: "search"
-                                }
-                              })
-                            ],
-                            1
-                          )
+                          _c("v-text-field", {
+                            attrs: {
+                              placeholder: "First Name,Last Name",
+                              "append-icon": "mdi-magnify",
+                              label: "Search",
+                              "single-line": "",
+                              "hide-details": ""
+                            },
+                            model: {
+                              value: _vm.search,
+                              callback: function($$v) {
+                                _vm.search = $$v
+                              },
+                              expression: "search"
+                            }
+                          })
                         ],
                         1
                       ),

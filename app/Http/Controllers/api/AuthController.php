@@ -271,8 +271,12 @@ class AuthController extends Controller
             $check_user->email = $request->email;
             $check_user->password = Hash::make($request->password);
             $check_user->save();
+
+            $isverified = $check_user->email_verified_at != null ? true : false;
+
             return response()->json([
                 "message" => "Your Account has been Registered!",
+                "isVerified"=>$isverified,
                 "success" => true
             ]);
         }
