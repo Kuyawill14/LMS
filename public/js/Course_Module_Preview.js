@@ -665,7 +665,6 @@ var render = function() {
                                           title: "google drive viewer",
                                           src:
                                             "https://view.officeapps.live.com/op/embed.aspx?src=" +
-                                            _vm.docpath +
                                             _vm.subModuleData.file_attachment,
                                           sandbox:
                                             "allow-same-origin allow-scripts allow-popups allow-forms"
@@ -696,7 +695,10 @@ var render = function() {
                                 1
                               ),
                               _vm._v(" "),
-                              _vm.pdfLoaded == false
+                              _vm.pdfLoaded == false &&
+                              _vm.type == "Document" &&
+                              _vm.ext == "pdf" &&
+                              _vm.isSelectedModule
                                 ? _c(
                                     "div",
                                     {

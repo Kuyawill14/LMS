@@ -32,7 +32,7 @@
 
                             <v-card style="height: 522px;" v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
                                 <iframe title="google drive viewer" class="holds-the-iframe"
-                                    :src="'https://view.officeapps.live.com/op/embed.aspx?src=' +docpath + subModuleData.file_attachment"
+                                    :src="'https://view.officeapps.live.com/op/embed.aspx?src=' + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                     style="width: 100% !important;height: 522px !important"></iframe>
 
@@ -57,7 +57,7 @@
                             
                                 type="card"
                                 ></v-skeleton-loader> -->
-                            <div style="width: 100% !important;height: 75vh !important" v-if="pdfLoaded == false">
+                            <div style="width: 100% !important;height: 75vh !important" v-if="pdfLoaded == false && type=='Document' && ext == 'pdf'  && isSelectedModule">
                                 <v-progress-linear indeterminate color="orange darken-2">
                                 </v-progress-linear>
                             </div>

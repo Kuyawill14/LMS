@@ -46,6 +46,7 @@ use App\Http\Controllers\WebNotificationController;
 use App\Http\Controllers\api\vaccination\VaccinationController;
 
 use App\Http\Controllers\api\backup\BackupController;
+use Carbon\Carbon;
 
 
 
@@ -529,3 +530,10 @@ Route::get('/export_teacher', [BackupController::class, 'backupTeacherToCSV']);
 
 
 
+<<<<<<< HEAD
+=======
+
+Route::middleware('auth:sanctum')->get('/time_today', function () {
+    return $date = Carbon::now();
+});
+>>>>>>> ae29dcf65e69260c44a6392b1e2c4d4f87923270
