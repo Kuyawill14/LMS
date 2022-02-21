@@ -529,11 +529,6 @@ Route::post('/vaccination/upload', [VaccinationController::class, 'bulkAddVaccin
 Route::get('/export_teacher', [BackupController::class, 'backupTeacherToCSV']);
 
 
-
-<<<<<<< HEAD
-=======
-
 Route::middleware('auth:sanctum')->get('/time_today', function () {
     return $date = Carbon::now();
 });
->>>>>>> ae29dcf65e69260c44a6392b1e2c4d4f87923270
