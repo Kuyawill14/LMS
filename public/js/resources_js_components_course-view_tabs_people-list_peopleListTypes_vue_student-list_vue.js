@@ -363,22 +363,22 @@ var classJoinRequest = function classJoinRequest() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
-                      this.Class_id = res.data[0].class_id;
-                      this.getStudents();
-                      this.classNames = res.data;
-                      this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
-                      res.data.forEach(item => {
-                          this.classNames.push(item);
-                      });
-                      this.isloading = false;
-                       
-                  }) */
+                /*  axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
+                     this.Class_id = res.data[0].class_id;
+                     this.getStudents();
+                     this.classNames = res.data;
+                     this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                     res.data.forEach(item => {
+                         this.classNames.push(item);
+                     });
+                     this.isloading = false;
+                      
+                 }) */
                 if (_this5.getClassesNames.length == 0) {
                   _this5.$store.dispatch('fetchClassesNames', _this5.$route.params.id).then(function () {
                     _this5.Class_id = _this5.getClassesNames[0].class_id;
                     _this5.classNames = _this5.getClassesNames.filter(function (item) {
-                      return item.class_id != _this5.$route.params.id;
+                      return item.class_name != 'All Class';
                     });
 
                     _this5.getStudents();
@@ -388,7 +388,7 @@ var classJoinRequest = function classJoinRequest() {
                 } else {
                   _this5.Class_id = _this5.getClassesNames[0].class_id;
                   _this5.classNames = _this5.getClassesNames.filter(function (item) {
-                    return item.class_id != _this5.$route.params.id;
+                    return item.class_name != 'All Class';
                   });
 
                   _this5.getStudents();

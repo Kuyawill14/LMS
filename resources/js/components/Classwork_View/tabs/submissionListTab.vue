@@ -173,7 +173,7 @@ export default {
                 .then(()=>{
                     
                     this.ClassList = this.getClassesNames.filter((item) => {
-                        return item.class_id != this.$route.params.id;
+                        return item.class_name != 'All Class';
                     })
                     this.Class_id = this.ClassList[0].class_id;
                     this.GetList();
@@ -181,7 +181,7 @@ export default {
                 })
             }else{
                 this.ClassList = this.getClassesNames.filter((item) => {
-                    return item.class_id != this.$route.params.id;
+                    return item.class_name != 'All Class';     
                 })
                  this.Class_id = this.ClassList[0].class_id;
                 this.GetList();

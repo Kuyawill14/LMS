@@ -146,6 +146,18 @@ var announcementPostList = function announcementPostList() {
             id: this.$route.params.id
           });
         }
+        /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
+                //this.classNames = res.data;
+                
+                res.data.forEach(item => {
+                    this.classNames.push(item);
+                });
+                this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                this.isloading = false;
+                
+            })
+        */
+
       }
     },
     SlicePostList: function SlicePostList(index) {
