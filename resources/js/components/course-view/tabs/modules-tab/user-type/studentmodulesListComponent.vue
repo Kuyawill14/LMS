@@ -137,7 +137,7 @@
                 isBlur: false,
                 renderComponent: true,
                 warning_count: 0,
-                idleTimer: 30,
+                idleTimer: 180,
                 idleTimer_reminder: [10, 20],
                 click_id: null,
                 loading: true,
