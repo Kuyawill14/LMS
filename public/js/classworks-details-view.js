@@ -3977,7 +3977,7 @@ var subjectiveSubmission = function subjectiveSubmission() {
                 if (_this3.getClassesNames.length == 0) {
                   _this3.$store.dispatch('fetchClassesNames', _this3.$route.params.id).then(function () {
                     _this3.ClassList = _this3.getClassesNames.filter(function (item) {
-                      return item.class_id != _this3.$route.params.id;
+                      return item.class_name != 'All Class';
                     });
                     _this3.Class_id = _this3.ClassList[0].class_id;
 
@@ -3985,7 +3985,7 @@ var subjectiveSubmission = function subjectiveSubmission() {
                   });
                 } else {
                   _this3.ClassList = _this3.getClassesNames.filter(function (item) {
-                    return item.class_id != _this3.$route.params.id;
+                    return item.class_name != 'All Class';
                   });
                   _this3.Class_id = _this3.ClassList[0].class_id;
 

@@ -271,7 +271,7 @@ import { mapGetters } from 'vuex'
                 })
             },
             async fetchClassnames() {
-              /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
+               /*  axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
                     this.Class_id = res.data[0].class_id;
                     this.getStudents();
                     this.classNames = res.data;
@@ -288,7 +288,8 @@ import { mapGetters } from 'vuex'
                     .then(()=>{
                         this.Class_id = this.getClassesNames[0].class_id;
                         this.classNames= this.getClassesNames.filter((item) => {
-                            return item.class_id != this.$route.params.id;
+                            return item.class_name != 'All Class';
+                            
                         })
                         this.getStudents();
                         this.isloading = false;
@@ -296,7 +297,7 @@ import { mapGetters } from 'vuex'
                 }else{
                     this.Class_id = this.getClassesNames[0].class_id;
                     this.classNames= this.getClassesNames.filter((item) => {
-                        return item.class_id != this.$route.params.id;
+                        return item.class_name != 'All Class';
                     })
                     this.getStudents();
                     this.isloading = false;
