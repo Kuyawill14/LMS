@@ -24,14 +24,15 @@
                         "You have been inactive for " +  timer_count + " seconds. Your timer will be paused."
                         :     "You have leave the module's page. Your timer will be paused."
                         }}
-                        
+
                     </p>
                     <v-btn color="primary" :disabled="!isTimerDone || isTimerClickedFailed == true" rounded large
                         class="ml-3 mr-3 mt-2" @click="fn_timer_done()">
                         Confirm {{ timer == 0 ? '' : timer}}
                     </v-btn>
                     <br><br>
-                    <span v-if="!isTimerClickedFailed "> Please click <b>Confirm</b> before {{failed_timer}} seconds</span>
+                    <span v-if="!isTimerClickedFailed "> Please click <b>Confirm</b> before {{failed_timer}}
+                        seconds</span>
                 </v-col>
             </v-row>
         </v-card-text>
@@ -68,20 +69,20 @@
                 }
                 var tmp_timer = setInterval(() => {
 
-                   
+
                     if (this.timer == 0) {
                         this.isTimerDone = true;
                         clearInterval(tmp_timer);
                         this.checkTimerFailed();
                     } else {
-                         this.timer = this.timer - 1;
+                        this.timer = this.timer - 1;
                     }
 
                 }, 1000);
 
             },
             checkTimerFailed() {
-            
+
                 var _failed_timer = 30;
                 this.failed_timer = 5;
                 this.isTimerClickedFailed = false;
@@ -94,7 +95,7 @@
                         this.isTimerDone = false;
                         this.checkTimerDone(_failed_timer * this.counter);
                         clearInterval(tmp_timer_failed);
-    this.counter++ ;
+                        this.counter++;
                     }
 
                 }, 1000);
