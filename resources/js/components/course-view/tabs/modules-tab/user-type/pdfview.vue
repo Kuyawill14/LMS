@@ -44,6 +44,11 @@
                 pdf_path: null,
                 config: {
                     toolbar: {
+                          sidebar: {
+    viewThumbnail: true,
+    viewOutline: true,
+    viewAttachments: true,
+  },
                         toolbarViewerLeft: {
                             findbar: false,
                             download: false
@@ -78,6 +83,9 @@
 
 
 <style>
+#secondaryToolbarToggle,#sidebarToggle {
+    display: none;
+}
     .holds-the-iframe {
         background: url('https://orangestr.sgp1.digitaloceanspaces.com/loading/loading/Infinity-1.5s-200px.gif') center center no-repeat;
     }

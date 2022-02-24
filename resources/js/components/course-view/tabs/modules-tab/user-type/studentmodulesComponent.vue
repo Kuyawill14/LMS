@@ -107,7 +107,7 @@
                                         v-html="subModuleData.description == 'undefined' ? '' : subModuleData.description">
                                     </div>
 
-                                    <a v-if="type != 'Link'" :href="'/storage/' + subModuleData.file_attachment"
+                                    <a v-if="type != 'Link'" :href="subModuleData.file_attachment"
                                         target="_blank">Download</a>
 
                                 </v-card-text>
@@ -149,7 +149,7 @@
         </v-row>
 
         <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize"
-            @click="listDialaog = !listDialaog" style="z-index:999">
+            @click="listDialaog = !listDialaog" style="z-index: 2;bottom: 31px;right: 20px;">
             <v-icon>mdi-menu</v-icon>
         </v-btn>
 
@@ -285,7 +285,11 @@
     }
 
 </script>
-
+<style>
+ #errorWrapper {
+     z-index: 0 !important;
+ }
+</style>
 <style scoped>
     .exitFullscreen {
         position: absolute;

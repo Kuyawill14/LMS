@@ -163,7 +163,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       isBlur: false,
       renderComponent: true,
       warning_count: 0,
-      idleTimer: 30,
+      idleTimer: 180,
       idleTimer_reminder: [10, 20],
       click_id: null,
       loading: true,
@@ -515,6 +515,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -9713,7 +9714,7 @@ var render = function() {
                                 " seconds. Your timer will be paused."
                             : "You have leave the module's page. Your timer will be paused."
                         ) +
-                        "\n                    \n                "
+                        "\n\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -9751,7 +9752,9 @@ var render = function() {
                         _vm._v(" Please click "),
                         _c("b", [_vm._v("Confirm")]),
                         _vm._v(
-                          " before " + _vm._s(_vm.failed_timer) + " seconds"
+                          " before " +
+                            _vm._s(_vm.failed_timer) +
+                            "\n                    seconds"
                         )
                       ])
                     : _vm._e()
