@@ -279,7 +279,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var subModules_arr = this.getSub_module(mainModule_id); //   ////console.log(subModules_arr);
 
       for (var i = 0; i < subModules_arr.length; i++) {
-        total += parseFloat(subModules_arr[i].required_time);
+        total += parseFloat(subModules_arr[i].required_time * 60);
       } //  ////console.log('time', subModules_arr)
 
 
@@ -806,7 +806,8 @@ var render = function() {
                                                         "(" +
                                                           _vm._s(
                                                             _vm.convertTime(
-                                                              sub_module.required_time
+                                                              sub_module.required_time *
+                                                                60
                                                             )
                                                           ) +
                                                           ")\n                                        "

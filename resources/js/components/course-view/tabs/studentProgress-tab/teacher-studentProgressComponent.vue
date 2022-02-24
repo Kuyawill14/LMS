@@ -134,12 +134,13 @@
                                             <td class="text-center"
                                                 v-for="(subModule, index) in SubModuleProgress(main_module.id,student.id )"
                                                 :key="index">
+                                      
                                                 <v-chip
                                                     :color="checkTimeSpent(subModule.time_spent,subModule.required_time)"
                                                     text-color="white">
                                                     {{  student['id11'+ subModule.sub_module_id]  = convertTime(subModule.time_spent)}}
                                                 </v-chip>
-                                              
+                                             
                                             </td>
 
                                             <td class="text-center">
@@ -293,7 +294,7 @@
                 for (let i = 0; i < subModule.length; i++) {
                     submodule_header.push({
                         text: subModule[i].sub_module_name + '<br>(' + this.convertTime(subModule[i]
-                            .required_time) + ')',
+                            .required_time * 60) + ')',
                         value: 'id11' + subModule[i].id,
                         align: 'center',
                     })

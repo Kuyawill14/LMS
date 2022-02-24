@@ -109,7 +109,7 @@
                                                 v-for="(sub_module, index) in  getSub_module(main_module.id)"
                                                 :key="index">
                                                 {{sub_module.sub_module_name}}
-                                                <br>({{ convertTime(sub_module.required_time)}})
+                                                <br>({{ convertTime(sub_module.required_time*60)}})
                                             </th>
 
                                             <th class="text-center">
@@ -272,7 +272,7 @@
                 var subModules_arr = this.getSub_module(mainModule_id);
                 //   ////console.log(subModules_arr);
                 for (var i = 0; i < subModules_arr.length; i++) {
-                    total += parseFloat(subModules_arr[i].required_time);
+                    total += parseFloat(subModules_arr[i].required_time *60);
                 }
                 //  ////console.log('time', subModules_arr)
                 return this.convertTime(total);
