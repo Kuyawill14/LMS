@@ -278,9 +278,9 @@ var myCalendar = function myCalendar() {
 
       if (this.imageFile.size <= 1000000) {
         this.isUploading = true;
-        this.UpdateProfile();
         this.tmpProfile = this.UserDetails.profile_pic;
         this.UserDetails.profile_pic = URL.createObjectURL(this.imageFile);
+        this.UpdateProfile();
       } else {
         this.toastError('File must be less than or equal to 1 megabytes only!');
       }
@@ -324,7 +324,8 @@ var myCalendar = function myCalendar() {
                 fd = new FormData();
                 fd.append('file', _this2.imageFile);
                 axios.post('/api/profile/profile_picture', fd).then(function (res) {
-                  _this2.toastSuccess('Profile picture successfully updated');
+                  _this2.toastSuccess('Profile picture successfully updated'); //this.UserDetails.profile_pic = res.data.link;
+
 
                   _this2.isUploading = false;
                 })["catch"](function (e) {

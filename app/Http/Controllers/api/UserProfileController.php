@@ -200,7 +200,12 @@ class UserProfileController extends Controller
             }
             
             $UpdatePicture->save();
-            return "Profile Picture Updated";
+            return response()->json([
+                "message" => "Profile Picture Updated",
+                "link" => $UpdatePicture->profile_pic,
+                "success" => true
+            ]);
+        
         }
     }
 

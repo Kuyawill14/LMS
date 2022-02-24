@@ -240,9 +240,9 @@
                 this.imageFile = element.target.files[0];
                 if( this.imageFile.size <= 1000000){
                     this.isUploading = true;
-                    this.UpdateProfile();
                     this.tmpProfile = this.UserDetails.profile_pic;
                     this.UserDetails.profile_pic =   URL.createObjectURL(this.imageFile)
+                    this.UpdateProfile();
                 }
                 else{
                     this.toastError('File must be less than or equal to 1 megabytes only!');
@@ -296,7 +296,10 @@
                 axios.post('/api/profile/profile_picture', fd)
                 .then(res=>{
                  this.toastSuccess('Profile picture successfully updated');     
+                 //this.UserDetails.profile_pic = res.data.link;
                    this.isUploading = false;
+                   
+
                 })
                 .catch(e=>{
                     this.UserDetails.profile_pic = this.tmpProfile;
