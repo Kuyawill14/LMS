@@ -193,6 +193,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -279,7 +280,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       for (var i = 0; i < subModule.length; i++) {
         submodule_header.push({
-          text: subModule[i].sub_module_name + '<br>(' + this.convertTime(subModule[i].required_time) + ')',
+          text: subModule[i].sub_module_name + '<br>(' + this.convertTime(subModule[i].required_time * 60) + ')',
           value: 'id11' + subModule[i].id,
           align: 'center'
         });
