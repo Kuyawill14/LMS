@@ -112,7 +112,7 @@ class ClassworkController extends Controller
 
 
         foreach($GradingCategory as $item){ 
-            $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
+           /*  $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_submissions.status' ,'tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date'
@@ -128,12 +128,42 @@ class ClassworkController extends Controller
             ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->where('tbl_class_classworks.availability', '!=',2)
             ->orderBy('created_at', 'DESC')
+            ->get(); */
+
+            $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
+            ->where('tbl_userclasses.course_id','=', $id)
+            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
+            ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish')
+            ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
+            ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
+            ->where('tbl_userclasses.user_id','=', $userId)
+            ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
+            ->where('tbl_class_classworks.grading_criteria', $item->id)
+            ->where('tbl_class_classworks.availability', '!=',2)
+            ->orderBy('created_at', 'DESC')
             ->get();
 
             foreach($classworkAll as $clwk){
                 if($clwk->type == "Objective Type"){
                     $clwk->total_questions = tbl_Questions::where('classwork_id','=', $clwk->classwork_id)->count();
                 }
+
+                $checkSubmission = tbl_Submission::where('tbl_submissions.classwork_id', $clwk['classwork_id'])
+                ->where('tbl_submissions.user_id', $userId)->first();
+                if($checkSubmission){
+                    $clwk['status'] =  $checkSubmission->status;
+                    $clwk['score'] =  $checkSubmission->points;
+                    $clwk['graded'] =  $checkSubmission->graded;
+                    $clwk['Sub_date'] =  $checkSubmission->updated_at;
+                }else{
+                    $clwk['status'] =  null;
+                    $clwk['score'] =  null;
+                    $clwk['graded'] =  null;
+                    $clwk['Sub_date'] = null;
+                }
+
+              
+
             }
             
             $totalClasswork += count($classworkAll);

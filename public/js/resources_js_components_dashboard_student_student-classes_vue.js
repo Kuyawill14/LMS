@@ -411,7 +411,7 @@ var render = function() {
                           _vm._v(" "),
                           _c("v-divider"),
                           _vm._v(" "),
-                          _vm.allClass.length < 0
+                          _vm.allClass.length != 0
                             ? _c(
                                 "div",
                                 [

@@ -16,6 +16,7 @@ use App\Mail\SendEmailVerification;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Carbon\Carbon;
+use App\Rules\CheckOldPassword;
 
 
 class AuthController extends Controller
@@ -131,11 +132,29 @@ class AuthController extends Controller
 
 // '$2y$10$cRl5lx14qOBXEh5tzJZZn.ajz5YzZCWE1si3ao7g7aCiIexktqlRG'
     public function ChangePassword(Request $request){
-        
-        $validated = $request->validate([
-            'new_password' => ['required', 'min:6'],
+      /*   $validated = $request->validate([
+            'password' => ['required', 'min:6','max:30' ,'confirmed']
+        ]); */
+
+        $request->validate([
+            'current_password' => ['required', new CheckOldPassword],
+            'new_password' => ['required','min:6','max:30'],
+            'new_confirm_password' => ['same:new_password'],
         ]);
-        if(Hash::check(strval($request->current_password), auth()->user()->password)){
+
+
+        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+
+       /*  if(Auth::attempt($request->only('password'))){
+            return auth()->user()->password;
+        }else{
+            return '123';
+        } */
+
+        
+        
+
+       /*  if(Hash::check(strval($request->current_password), auth()->user()->password)){
             auth()->user()->password = Hash::make($request->new_password);
             auth()->user()->update();
             
@@ -143,19 +162,18 @@ class AuthController extends Controller
 
             Auth::guard('web')->login(auth()->user());
 
-            // auth()->user();
             
             return 1;
         }
         else{
             return 0;
-        } 
+        }  */
     }
 
     public function ConfirmPassword(Request $request){
         
         $validated = $request->validate([
-            'password' => ['required']
+            'password' => ['required', '']
         ]);
 
         if(Hash::check(strval($request->password), auth()->user()->password)){

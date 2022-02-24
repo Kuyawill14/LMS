@@ -100,7 +100,7 @@ __webpack_require__.r(__webpack_exports__);
       form: {
         current_password: null,
         new_password: null,
-        confirm_password: null
+        new_confirm_password: null
       },
       rules: {
         required: function required(value) {
@@ -125,13 +125,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/change-password', this.form).then(function (res) {
-        if (res.data == 1) {
-          _this.toastSuccess('Password Successfully Changed');
+        _this.toastSuccess('Password Successfully Changed');
+        /* if (res.data == 1) {
+            
+           
         } else {
-          _this.toastError('Something went wrong in changing your password!');
-        }
+            this.toastError('Something went wrong in while changing your password!');
+        } */
+
       })["catch"](function (e) {
-        _this.toastError('Something went wrong in changing your password!');
+        _this.toastError('Something went wrong in while changing your password!');
       });
     }
   }
@@ -263,6 +266,11 @@ var render = function() {
             {
               ref: "form",
               attrs: { "lazy-validation": "" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                }
+              },
               model: {
                 value: _vm.valid,
                 callback: function($$v) {
@@ -458,11 +466,15 @@ var render = function() {
                                   }
                                 },
                                 model: {
-                                  value: _vm.form.confirm_password,
+                                  value: _vm.form.new_confirm_password,
                                   callback: function($$v) {
-                                    _vm.$set(_vm.form, "confirm_password", $$v)
+                                    _vm.$set(
+                                      _vm.form,
+                                      "new_confirm_password",
+                                      $$v
+                                    )
                                   },
-                                  expression: "form.confirm_password"
+                                  expression: "form.new_confirm_password"
                                 }
                               })
                             ],

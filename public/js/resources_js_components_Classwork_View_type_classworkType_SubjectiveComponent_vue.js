@@ -524,6 +524,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/attachLinkDialog.vue"));
 };
@@ -895,6 +900,11 @@ var attachlinkDiaglog = function attachlinkDiaglog() {
 
         if (_this7.FileList.length != 0) {
           _this7.FileList.splice(index, 1);
+        }
+
+        if (_this7.classworkDetails.Submitted_Answers.length == 0) {
+          _this7.classworkDetails.Sub_id = null;
+          _this7.tempId = null;
         }
 
         _this7.uploadPercentage = 0;
@@ -1397,6 +1407,16 @@ var render = function() {
                                       "https://www.youtube.com/watch?v=[video-id]"
                                     )
                                   ])
+                                ]),
+                                _vm._v(
+                                  "\r\n                                  Note:\r\n                                "
+                                ),
+                                _c("ul", [
+                                  _c("li", [
+                                    _vm._v(
+                                      "If a link is from google drive make sure to that the link is shared to anyone."
+                                    )
+                                  ])
                                 ])
                               ])
                             ]
@@ -1423,7 +1443,7 @@ var render = function() {
                                 attrs: {
                                   rules: _vm.linkNameRule,
                                   outlined: "",
-                                  dense: "",
+                                  dense: _vm.$vuetify.breakpoint.mdAndUp,
                                   rows: "1",
                                   label: "Title",
                                   "auto-grow": ""
@@ -1452,7 +1472,7 @@ var render = function() {
                                 attrs: {
                                   rules: _vm.linkRules,
                                   outlined: "",
-                                  dense: "",
+                                  dense: _vm.$vuetify.breakpoint.mdAndUp,
                                   rows: "1",
                                   label: "Link",
                                   "auto-grow": ""
@@ -2127,6 +2147,8 @@ var render = function() {
                                                                         staticClass:
                                                                           "pl-12 pr-12 pb-3 pt-3",
                                                                         attrs: {
+                                                                          loading:
+                                                                            _vm.isUploadSaving,
                                                                           block:
                                                                             "",
                                                                           color:
@@ -2162,7 +2184,13 @@ var render = function() {
                                                                         _vm._s(
                                                                           attrs.expanded
                                                                         ) +
-                                                                        "\r\n                                    Add "
+                                                                        "\r\n                                    " +
+                                                                        _vm._s(
+                                                                          _vm.isUploadSaving
+                                                                            ? "Uploading.."
+                                                                            : "Add"
+                                                                        ) +
+                                                                        " "
                                                                     ),
                                                                     _c(
                                                                       "v-icon",
@@ -2187,7 +2215,7 @@ var render = function() {
                                                         ],
                                                         null,
                                                         false,
-                                                        3245075026
+                                                        3145010825
                                                       )
                                                     },
                                                     [

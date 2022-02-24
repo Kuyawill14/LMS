@@ -12,7 +12,7 @@
                     <v-card class="mx-auto pa-2">
                         <h3>My Classes</h3>
                          <v-divider></v-divider>
-                         <div v-if="allClass.length < 0">
+                         <div v-if="allClass.length != 0">
                             <v-slide-group v-model="model" class="px-1" active-class="success" show-arrows
                                 mobile-breakpoint="1000" center-active>
                                 <v-slide-item v-for="(item, i) in allClass" :key="'class' + i" v-slot:default="{ active }">

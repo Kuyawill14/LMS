@@ -10,7 +10,7 @@
         <v-col cols="12">
 
             <vue-element-loading :active="isChanging" spinner="bar-fade-scale" color="#EF6C00" />
-            <v-form ref="form" v-model="valid" lazy-validation>
+            <v-form @submit.prevent="" ref="form" v-model="valid" lazy-validation>
                 <v-row>
                     <v-col cols="12" class="mb-0 pb-0">
                         <v-row>
@@ -50,7 +50,7 @@
                             </v-col>
                             <v-col cols="12" md="5">
                                 <v-text-field :append-icon="ShowNewRetype ?'mdi-eye':'mdi-eye-off'" dense outlined
-                                    :rules="[rules.required, rules.min, rules.max]" v-model="form.confirm_password"
+                                    :rules="[rules.required, rules.min, rules.max]" v-model="form.new_confirm_password"
                                     :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'"
                                     :type="ShowNewRetype ? 'text' : 'password'"
                                     @click:append="ShowNewRetype = !ShowNewRetype">
@@ -88,7 +88,7 @@
                 form: {
                     current_password: null,
                     new_password: null,
-                    confirm_password: null
+                    new_confirm_password: null
                 },
                 rules: {
                     required: value => !!value || "Field is required.",
@@ -106,16 +106,17 @@
             changepassword() {
                 axios.post('/api/change-password', this.form)
                     .then(res => {
-                        if (res.data == 1) {
-                            this.toastSuccess('Password Successfully Changed');
+                        this.toastSuccess('Password Successfully Changed');
+                        /* if (res.data == 1) {
+                            
                            
                         } else {
-                            this.toastError('Something went wrong in changing your password!');
-                        }
+                            this.toastError('Something went wrong in while changing your password!');
+                        } */
 
                     })
                     .catch((e) => {
-                        this.toastError('Something went wrong in changing your password!');
+                        this.toastError('Something went wrong in while changing your password!');
                     })
             }
         }

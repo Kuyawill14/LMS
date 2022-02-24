@@ -187,7 +187,9 @@
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                                  <v-badge overlap color="red" :value="item.unfinishClaswork" :content="item.unfinishClaswork" bordered top    offset-x="45" offset-y="17">
-                                                    <v-icon v-bind="attrs" v-on="on" large>mdi-book-open-variant</v-icon>
+                                                    <v-btn :to="{name: 'classwork', params:{id: item.course_id}}"  x-large v-bind="attrs" v-on="on" icon>
+                                                        <v-icon large>mdi-book-open-variant</v-icon>
+                                                    </v-btn>
                                                 </v-badge>
                                             </template>
                                             <span>Unfinish Classwork</span>

@@ -51,6 +51,10 @@
                                     <li>https://docs.google.com/document/d/[document-id]</li>
                                     <li>https://www.youtube.com/watch?v=[video-id]</li>
                                 </ul>
+                                  Note:
+                                <ul>
+                                    <li>If a link is from google drive make sure to that the link is shared to anyone.</li>
+                                </ul>
                             </span>
                         </v-tooltip>
                      </span>
@@ -64,7 +68,7 @@
                           :rules="linkNameRule"
                           class="mb-0 pb-0"
                           outlined
-                          dense
+                          :dense="$vuetify.breakpoint.mdAndUp"
                           rows="1"
                           label="Title"
                           auto-grow
@@ -77,7 +81,7 @@
                           :rules="linkRules"
                           class="mb-0 pb-0"
                           outlined
-                          dense
+                          :dense="$vuetify.breakpoint.mdAndUp"
                           rows="1"
                           label="Link"
                           auto-grow
@@ -239,6 +243,7 @@
                             <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
+                                  :loading="isUploadSaving"
                                     block
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     color="primary"
@@ -249,7 +254,7 @@
                                     v-on="on"
                                   >
                                   {{attrs.expanded}}
-                                    Add <v-icon right>mdi-plus</v-icon>
+                                    {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
                                   </v-btn>
                                 </template>
                                 <v-list nav dense>
@@ -868,6 +873,11 @@ export default {
                   this.classworkDetails.Submitted_Answers.splice(index, 1);
                   if(this.FileList.length != 0){
                     this.FileList.splice(index, 1);
+                  }
+
+                  if(this.classworkDetails.Submitted_Answers.length == 0){
+                    this.classworkDetails.Sub_id = null;
+                    this.tempId = null;
                   }
                   this.uploadPercentage = 0;
                   this.isUploading[index] = false;
