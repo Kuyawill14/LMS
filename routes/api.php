@@ -157,6 +157,7 @@ Route::middleware('auth:sanctum')->prefix('/classwork')->group(function () {
     Route::post('/insert', [ClassworkController::class, 'store']);
     Route::post('/share', [ClassworkController::class, 'ShareClasswork']);
     Route::post('/multiple_share', [ClassworkController::class, 'MultipleShareClasswork']);
+    Route::post('/duplicate', [ClassworkController::class, 'DuplicateClasswork']);
 
     
     Route::post('/unshare', [ClassworkController::class, 'UnshareClasswork']);

@@ -124,6 +124,7 @@ var classComponent = function classComponent() {
   },
   beforeDestroy: function beforeDestroy() {
     window.removeEventListener('beforeunload', this.beforeWindowUnload);
+    localStorage.removeItem("step");
   }
 });
 

@@ -328,10 +328,27 @@
                                         </div> 
 
                                             <div v-if="!isOpening && OpenFileType == 'media'" >
-                                            <v-img
+                                                
+                                            <div class="pl-5 pr-5 pb-4 text-center d-flex">
+                                                <!-- <v-btn x-large icon><v-icon large>mdi-chevron-left</v-icon></v-btn> -->
+                                                <v-spacer></v-spacer>
+                                                
+
+                                                 <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on"  x-large @click="rotateRight" icon><v-icon large>mdi-crop-rotate</v-icon></v-btn>
+                                                    </template>
+                                                    <span>Rotate Image</span>
+                                                </v-tooltip>
+                                                 <v-spacer></v-spacer>
+                                                <!-- <v-btn x-large   icon><v-icon large>mdi-chevron-right</v-icon></v-btn> -->
+                                            </div>
+                                            <div >
+                                                 <v-img
+                                                :style="`transform: rotate(${rotation}deg) scale(${scale});`"
                                                 :src="path"
                                                 max-width="100%"
-                                                max-height="80vh"
+                                                max-height="70vh"
                                                 contain>
                                                 <template v-slot:placeholder>
                                                 <v-row
@@ -345,9 +362,14 @@
                                                 </v-row>
                                                 </template>
                                             </v-img>
+                                            </div>
+                                           
+
+                                           
                                         </div>   
 
                                     </div>
+
                                 </v-card>
                                 </v-container>
                         </v-col>
@@ -437,6 +459,8 @@ const pdfviewer = () => import('./pdfviewer');
         ],
         valid: true,
         info: true,
+        rotation: 0,
+        scale: 1,
 
       }
     },
@@ -715,7 +739,16 @@ const pdfviewer = () => import('./pdfviewer');
             this.path = null;
             this.$emit("prevStudent");
             setTimeout(() => (this.reRunRubrics()),300);
-          }
+          },
+          rotateRight() {
+                this.rotation += 90
+                if (this.rotation % 180 == 0)this.scale = 1;
+                else this.scale = 0.6;
+                
+            },
+        rotateLeft() {
+            this.rotation += 90
+        }
        
     },
     beforeDestroy(){

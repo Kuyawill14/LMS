@@ -40,7 +40,7 @@ export default {
             axios.delete('/api/classwork/remove/'+this.DeleteDetails.id)
             .then(res=>{
                 this.$emit("ToggleRefresh");
-                this.toastSuccess();
+                this.toastNormal('Classwork Successfully Deleted');
             })
         }
     },

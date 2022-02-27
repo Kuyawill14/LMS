@@ -25,7 +25,10 @@
 
 
      <v-dialog v-model="duplicateDialog"  persistent max-width="400">
-            <duplicateClassworkDialog v-on:CloseDialog="duplicateDialog = !duplicateDialog" v-if="duplicateDialog"></duplicateClassworkDialog>
+            <duplicateClassworkDialog :duplicateId="duplicateId" 
+            v-on:ToggleRefresh="CheckDuplicateId"
+            v-on:CloseDialog="duplicateDialog = false"
+            v-if="duplicateDialog"></duplicateClassworkDialog>
     </v-dialog>
 
 
@@ -59,7 +62,7 @@
             <deleteDialog 
             :DeleteDetails="DeleteDetails"
             v-on:toggleDialog="Removedialog = !Removedialog"
-            v-on:ToggleRefresh="$emit('ToggleRefresh'), Removedialog = !Removedialog"
+            v-on:ToggleRefresh="$emit('ToggleRefreshClasswork'), Removedialog = !Removedialog"
             v-if="Removedialog"></deleteDialog>
         </v-dialog>
 
@@ -123,9 +126,9 @@
                                                              <v-list-item v-if="item.submittion_count == 0" link @click="RemoveCLasswork(item)" ma-0 pa-0>
                                                                 <v-list-item-title><v-icon left>mdi-delete</v-icon>Delete</v-list-item-title>
                                                             </v-list-item>
-                                                           <!--  <v-list-item link @click="duplicateDialog = true"  ma-0 pa-0>
+                                                            <v-list-item link @click="OpenDuplicateDiaglog(item.id)"  ma-0 pa-0>
                                                                 <v-list-item-title><v-icon left>mdi-content-copy</v-icon>Duplicate classwork</v-list-item-title>
-                                                            </v-list-item> -->
+                                                            </v-list-item>
                                                         </v-list>
                                                     </v-menu>
                                                  
@@ -298,6 +301,7 @@
                 right: true,
                 bottom: true,
                 transition: 'slide-y-reverse-transition',
+                duplicateId: null
             }
         },
          watch: {
@@ -346,6 +350,16 @@
             SliceClasswork(){
                 this.classworks[this.classworkIndex].splice(this.ArchiveIndex, 1);
                 this.archiveDialog = !this.archiveDialog;
+            },
+            OpenDuplicateDiaglog(classwork_id){
+                this.duplicateDialog = true;
+                this.duplicateId = classwork_id;
+            },
+            CheckDuplicateId(id){
+                if(this.$route.params.id == id){
+                    this.$emit('ToggleRefreshClasswork');
+                }
+                this.duplicateDialog = false;
             }
         },
         mounted(){

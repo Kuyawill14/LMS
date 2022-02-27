@@ -158,6 +158,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var VueElementLoading = function VueElementLoading() {
@@ -304,6 +313,28 @@ var deleteClass = function deleteClass() {
             }
           }
         }, _callee2);
+      }))();
+    },
+    CopyClassCode: function CopyClassCode(code) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var CodeText;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                CodeText = code;
+                navigator.clipboard.writeText(CodeText);
+
+                _this5.toastNormal('Class code copied');
+
+              case 3:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
       }))();
     }
   }),
@@ -22892,13 +22923,87 @@ var render = function() {
                                     _vm._v(_vm._s(item.class_name) + " ")
                                   ]),
                                   _vm._v(" "),
-                                  _c("v-list-item-subtitle", [
-                                    _vm._v(
-                                      "Class code: " +
-                                        _vm._s(item.class_code) +
-                                        " "
-                                    )
-                                  ]),
+                                  _c(
+                                    "v-list-item-subtitle",
+                                    [
+                                      _vm._v(
+                                        "Class code: " +
+                                          _vm._s(item.class_code) +
+                                          " \n\n                                "
+                                      ),
+                                      _c(
+                                        "v-tooltip",
+                                        {
+                                          attrs: { top: "", small: "" },
+                                          scopedSlots: _vm._u(
+                                            [
+                                              {
+                                                key: "activator",
+                                                fn: function(ref) {
+                                                  var on = ref.on
+                                                  var attrs = ref.attrs
+                                                  return [
+                                                    _c(
+                                                      "v-btn",
+                                                      _vm._g(
+                                                        _vm._b(
+                                                          {
+                                                            attrs: {
+                                                              small: "",
+                                                              icon: ""
+                                                            },
+                                                            on: {
+                                                              click: function(
+                                                                $event
+                                                              ) {
+                                                                return _vm.CopyClassCode(
+                                                                  item.class_code
+                                                                )
+                                                              }
+                                                            }
+                                                          },
+                                                          "v-btn",
+                                                          attrs,
+                                                          false
+                                                        ),
+                                                        on
+                                                      ),
+                                                      [
+                                                        _c(
+                                                          "v-icon",
+                                                          {
+                                                            attrs: {
+                                                              color: "blue",
+                                                              small: ""
+                                                            }
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "mdi-content-copy"
+                                                            )
+                                                          ]
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ]
+                                                }
+                                              }
+                                            ],
+                                            null,
+                                            true
+                                          )
+                                        },
+                                        [
+                                          _vm._v(" "),
+                                          _c("small", [
+                                            _vm._v("Copy class code")
+                                          ])
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
                                   _vm._v(" "),
                                   item.schedule != false &&
                                   item.schedule != null

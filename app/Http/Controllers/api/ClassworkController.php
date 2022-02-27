@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\tbl_classwork;
 use App\Models\tbl_classClassworks;
 use App\Models\tbl_Questions;
+use App\Models\tbl_SubQuestion;
+use App\Models\tbl_choice;
 use App\Models\tbl_Submission;
 use App\Models\tbl_userclass;
 use App\Models\tbl_comment;
@@ -462,7 +464,15 @@ class ClassworkController extends Controller
         if(auth('sanctum')->user()->role != 'Student'){
             $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->where('tbl_classworks.user_id', $userId)
+            ->where('tbl_classworks.deleted_at', null)
             ->first();
+
+            if(!$classworkDetails){
+                return response()->json([
+                    "message" => "Classwork not found!",
+                    "success" => false,
+                ]);
+            }
 
 
             $submitted_count = tbl_Submission::where('tbl_submissions.classwork_id', $id)->count();
@@ -489,8 +499,7 @@ class ClassworkController extends Controller
             }
 
         
-            $checkClassworkFirst = tbl_classClassworks::withTrashed()
-            ->where('classwork_id', $id)
+            $checkClassworkFirst = tbl_classClassworks::where('classwork_id', $id)
             ->where('class_id', $fetchClass->class_id)->first();
 
             if(!$checkClassworkFirst){
@@ -698,11 +707,21 @@ class ClassworkController extends Controller
                 ->LeftJoin('tbl_sub_questions', 'tbl_sub_questions.mainQuestion_id','=', 'tbl_questions.id')
                 ->LeftJoin('tbl_question_analytics', 'tbl_question_analytics.question_id','=', 'tbl_questions.id')
                 ->forceDelete();
+
+                $QuestionList =  tbl_Questions::where('tbl_questions.classwork_id', $id)->get();
+                foreach($QuestionList as $item){
+                    $DelAnswer = tbl_choice::where('question_id', $item['id'])->delete();
+                    $DeleteSubquestion = tbl_SubQuestion::where('mainQuestion_id', $item['id'])->delete();
+                    $DeleteQuestion = tbl_Questions::where('id', $item['id'])->delete();
+                }
+
             }
             elseif($DelCLasswork->type == "Subjective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
                 ->forceDelete();
-                Storage::delete('public/'.$DelCLasswork->attachment);
+                //Storage::delete('public/'.$DelCLasswork->attachment);
+
+
 
             }
             $DelCLasswork->forceDelete();
@@ -876,6 +895,95 @@ class ClassworkController extends Controller
         $UpdateClasswork->save(); */
         return;
      }
+
+     public function DuplicateClasswork(Request $request){
+        $userId = auth('sanctum')->id();
+        $request->validate([
+            'classwork_id' => ['required'],
+            'course_id' => ['required'],
+        ]);
+
+        $CheckCourse = tbl_teacher_course::where('course_id', $request->course_id)
+        ->where('user_id', $userId)->first();
+
+        if(!$CheckCourse){
+            return response()->json([
+                "message" => "Course not found!",
+                "success" => false,
+            ]);
+        }
+
+
+        $checkClasswork = tbl_classwork::where('tbl_classworks.id', $request->classwork_id)
+        ->where('tbl_classworks.user_id', $userId)->first();
+
+        if(!$checkClasswork){
+            return response()->json([
+                "message" => "Classwork not found!",
+                "success" => false,
+            ]);
+        }
+        DB::beginTransaction();
+
+        $DuplicateClasswork = new tbl_classwork;
+        $DuplicateClasswork->course_id = $request->course_id;
+        $DuplicateClasswork->user_id = $userId;
+        $DuplicateClasswork->type =  $checkClasswork->type;
+        $DuplicateClasswork->title =  $checkClasswork->title;
+        $DuplicateClasswork->instruction =  $checkClasswork->instruction;
+        $DuplicateClasswork->duration =  $checkClasswork->duration;
+        $DuplicateClasswork->points =  $checkClasswork->points;
+        $DuplicateClasswork->attachment = $checkClasswork->attachment;
+        $DuplicateClasswork->save();
+
+
+        if($checkClasswork->type == 'Objective Type'){
+            $QuestionList =  tbl_Questions::where('tbl_questions.classwork_id', $checkClasswork->id)->get();
+
+            foreach($QuestionList as $item){
+
+                $newQuestion = new tbl_Questions;
+                $newQuestion->classwork_id = $DuplicateClasswork->id;
+                $newQuestion->question = $item['question'];
+                $newQuestion->answer = $item['answer'];
+                $newQuestion->type = $item['type'];
+                $newQuestion->points = $item['points'];
+                $newQuestion->sensitivity = $item['sensitivity'];
+                $newQuestion->required = $item['required'];
+                $newQuestion->save();
+
+                $QuestionChoiceList = tbl_choice::where('tbl_choices.question_id', $item['id'])->get();
+                foreach($QuestionChoiceList as $ques_choice){
+                    $newChoice = new tbl_choice;
+                    $newChoice->question_id = $newQuestion->id;
+                    $newChoice->Choice = $ques_choice['Choice'];
+                    $newChoice->isDestructor = $ques_choice['isDestructor'];
+                    $newChoice->save();
+
+                    $checkSubQuestion = tbl_SubQuestion::where('answer_id', $ques_choice['id'])
+                    ->where('mainQuestion_id', $item['id'])
+                    ->first();
+                    if($checkSubQuestion){
+                        $newSubques = new tbl_SubQuestion;
+                        $newSubques->mainQuestion_id = $newQuestion->id;
+                        $newSubques->answer_id = $ques_choice['id'];
+                        $newSubques->sub_question = $checkSubQuestion->sub_question;
+                        $newSubques->save();
+                    }
+
+                }
+            }
+        }
+
+        DB::commit();
+        return $DuplicateClasswork;
+
+        return response()->json([
+            "message" => "Classwork Successfully Duplicated!",
+            "success" => true,
+        ]);
+     }
+     
 
 
      

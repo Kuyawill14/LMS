@@ -280,6 +280,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -330,7 +333,8 @@ var duplicateClassworkDialog = function duplicateClassworkDialog() {
       top: false,
       right: true,
       bottom: true,
-      transition: 'slide-y-reverse-transition'
+      transition: 'slide-y-reverse-transition',
+      duplicateId: null
     };
   },
   watch: {
@@ -409,6 +413,17 @@ var duplicateClassworkDialog = function duplicateClassworkDialog() {
     SliceClasswork: function SliceClasswork() {
       this.classworks[this.classworkIndex].splice(this.ArchiveIndex, 1);
       this.archiveDialog = !this.archiveDialog;
+    },
+    OpenDuplicateDiaglog: function OpenDuplicateDiaglog(classwork_id) {
+      this.duplicateDialog = true;
+      this.duplicateId = classwork_id;
+    },
+    CheckDuplicateId: function CheckDuplicateId(id) {
+      if (this.$route.params.id == id) {
+        this.$emit('ToggleRefreshClasswork');
+      }
+
+      this.duplicateDialog = false;
     }
   },
   mounted: function mounted() {
@@ -22853,9 +22868,11 @@ var render = function() {
         [
           _vm.duplicateDialog
             ? _c("duplicateClassworkDialog", {
+                attrs: { duplicateId: _vm.duplicateId },
                 on: {
+                  ToggleRefresh: _vm.CheckDuplicateId,
                   CloseDialog: function($event) {
-                    _vm.duplicateDialog = !_vm.duplicateDialog
+                    _vm.duplicateDialog = false
                   }
                 }
               })
@@ -22939,7 +22956,7 @@ var render = function() {
                             _vm.Removedialog = !_vm.Removedialog
                           },
                           ToggleRefresh: function($event) {
-                            _vm.$emit("ToggleRefresh"),
+                            _vm.$emit("ToggleRefreshClasswork"),
                               (_vm.Removedialog = !_vm.Removedialog)
                           }
                         }
@@ -23395,7 +23412,56 @@ var render = function() {
                                                                         ],
                                                                         1
                                                                       )
-                                                                    : _vm._e()
+                                                                    : _vm._e(),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "v-list-item",
+                                                                    {
+                                                                      attrs: {
+                                                                        link:
+                                                                          "",
+                                                                        "ma-0":
+                                                                          "",
+                                                                        "pa-0":
+                                                                          ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.OpenDuplicateDiaglog(
+                                                                            item.id
+                                                                          )
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _c(
+                                                                        "v-list-item-title",
+                                                                        [
+                                                                          _c(
+                                                                            "v-icon",
+                                                                            {
+                                                                              attrs: {
+                                                                                left:
+                                                                                  ""
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "mdi-content-copy"
+                                                                              )
+                                                                            ]
+                                                                          ),
+                                                                          _vm._v(
+                                                                            "Duplicate classwork"
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
                                                                 ],
                                                                 1
                                                               )

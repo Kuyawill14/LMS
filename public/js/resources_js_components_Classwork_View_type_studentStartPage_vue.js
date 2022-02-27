@@ -325,7 +325,7 @@ var render = function() {
                             _vm.CheckFormatDue(
                               _vm.classworkDetails.currentDate
                             ) &&
-                          _vm.classworkDetails.status != "Submitted"
+                          _vm.classworkDetails.status == null
                             ? _c(
                                 "v-col",
                                 {

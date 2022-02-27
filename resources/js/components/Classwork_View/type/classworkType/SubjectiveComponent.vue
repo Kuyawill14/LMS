@@ -219,7 +219,7 @@
                                                       </v-progress-linear>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
-                                            <v-list-item-action>
+                                            <v-list-item-action v-if="!classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)">
                                                  <v-tooltip v-if="(classworkDetails.status == 'Submitting' || isResubmit) && classworkDetails.publish == null" top>
                                                   <template v-slot:activator="{ on, attrs }">
                                                       
@@ -239,7 +239,7 @@
                      
                           </v-col>
                         
-                           <v-col v-if="classworkDetails.publish == null" class="ma-0 pa-0 mb-4 " cols="12" >
+                           <v-col v-if="!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)" class="ma-0 pa-0 mb-4 " cols="12" >
                             <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn

@@ -36,10 +36,9 @@
 
 
         <div class="ml-0 mr-0" v-show="get_isDataLoaded" >
-            <classworkList v-on:ToggleRefresh="getGeneralClassworks()" 
-           
+            <classworkList 
             :ClassworkLength="ClassworkLength"
-            v-on:reloadClassworks="getGeneralClassworks()"
+            v-on:reloadClassworks="reloadClassworks()"
             :classworks="get_Classworks" :role="role"></classworkList>
         </div>
       
@@ -143,6 +142,24 @@
                    
                 });
             },
+            reloadClassworks(){
+                this.$store.dispatch('SetDataisNotLoaded');
+                 this.$store.dispatch('fetchClassworks', this.$route.params.id)
+                .then(()=>{
+                    this.$store.dispatch('SetDataisLoaded');
+                    if(this.role == 'Teacher'){
+                        this.get_Classworks.forEach(element => {
+                            this.ClassworkLength+= element.length;
+                        });
+                    }else if(this.role == 'Student'){
+                         this.get_Classworks.ClassworksList.forEach(element => {
+                            this.ClassworkLength+= element.length;
+                        });
+                    }
+                    
+                   
+                });
+            }
         },
         beforeRouteLeave(to, from, next) {
             this.isLeaving = true;

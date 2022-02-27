@@ -415,6 +415,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -469,7 +491,9 @@ var pdfviewer = function pdfviewer() {
         return v && v >= 0 || "Points should be above or equal to 0";
       }],
       valid: true,
-      info: true
+      info: true,
+      rotation: 0,
+      scale: 1
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
@@ -878,6 +902,13 @@ var pdfviewer = function pdfviewer() {
           }
         }, _callee8);
       }))();
+    },
+    rotateRight: function rotateRight() {
+      this.rotation += 90;
+      if (this.rotation % 180 == 0) this.scale = 1;else this.scale = 0.6;
+    },
+    rotateLeft: function rotateLeft() {
+      this.rotation += 90;
     }
   },
   beforeDestroy: function beforeDestroy() {
@@ -2996,60 +3027,150 @@ var render = function() {
                                     _vm._v(" "),
                                     !_vm.isOpening &&
                                     _vm.OpenFileType == "media"
-                                      ? _c(
-                                          "div",
-                                          [
-                                            _c("v-img", {
-                                              attrs: {
-                                                src: _vm.path,
-                                                "max-width": "100%",
-                                                "max-height": "80vh",
-                                                contain: ""
-                                              },
-                                              scopedSlots: _vm._u(
-                                                [
-                                                  {
-                                                    key: "placeholder",
-                                                    fn: function() {
-                                                      return [
-                                                        _c(
-                                                          "v-row",
-                                                          {
-                                                            staticClass:
-                                                              "fill-height ma-0",
-                                                            attrs: {
-                                                              align: "center",
-                                                              justify: "center"
-                                                            }
-                                                          },
-                                                          [
+                                      ? _c("div", [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "pl-5 pr-5 pb-4 text-center d-flex"
+                                            },
+                                            [
+                                              _c("v-spacer"),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-tooltip",
+                                                {
+                                                  attrs: { top: "" },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          var attrs = ref.attrs
+                                                          return [
                                                             _c(
-                                                              "v-progress-circular",
-                                                              {
-                                                                attrs: {
-                                                                  indeterminate:
-                                                                    "",
-                                                                  color:
-                                                                    "grey lighten-5"
-                                                                }
-                                                              }
+                                                              "v-btn",
+                                                              _vm._g(
+                                                                _vm._b(
+                                                                  {
+                                                                    attrs: {
+                                                                      "x-large":
+                                                                        "",
+                                                                      icon: ""
+                                                                    },
+                                                                    on: {
+                                                                      click:
+                                                                        _vm.rotateRight
+                                                                    }
+                                                                  },
+                                                                  "v-btn",
+                                                                  attrs,
+                                                                  false
+                                                                ),
+                                                                on
+                                                              ),
+                                                              [
+                                                                _c(
+                                                                  "v-icon",
+                                                                  {
+                                                                    attrs: {
+                                                                      large: ""
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "mdi-crop-rotate"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ],
+                                                              1
                                                             )
-                                                          ],
-                                                          1
-                                                        )
-                                                      ]
-                                                    },
-                                                    proxy: true
-                                                  }
-                                                ],
-                                                null,
-                                                false,
-                                                4034393411
-                                              )
-                                            })
-                                          ],
-                                          1
-                                        )
+                                                          ]
+                                                        }
+                                                      }
+                                                    ],
+                                                    null,
+                                                    false,
+                                                    1487549548
+                                                  )
+                                                },
+                                                [
+                                                  _vm._v(" "),
+                                                  _c("span", [
+                                                    _vm._v("Rotate Image")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("v-spacer")
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            [
+                                              _c("v-img", {
+                                                style:
+                                                  "transform: rotate(" +
+                                                  _vm.rotation +
+                                                  "deg) scale(" +
+                                                  _vm.scale +
+                                                  ");",
+                                                attrs: {
+                                                  src: _vm.path,
+                                                  "max-width": "100%",
+                                                  "max-height": "70vh",
+                                                  contain: ""
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key: "placeholder",
+                                                      fn: function() {
+                                                        return [
+                                                          _c(
+                                                            "v-row",
+                                                            {
+                                                              staticClass:
+                                                                "fill-height ma-0",
+                                                              attrs: {
+                                                                align: "center",
+                                                                justify:
+                                                                  "center"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "v-progress-circular",
+                                                                {
+                                                                  attrs: {
+                                                                    indeterminate:
+                                                                      "",
+                                                                    color:
+                                                                      "grey lighten-5"
+                                                                  }
+                                                                }
+                                                              )
+                                                            ],
+                                                            1
+                                                          )
+                                                        ]
+                                                      },
+                                                      proxy: true
+                                                    }
+                                                  ],
+                                                  null,
+                                                  false,
+                                                  4034393411
+                                                )
+                                              })
+                                            ],
+                                            1
+                                          )
+                                        ])
                                       : _vm._e()
                                   ]
                                 )

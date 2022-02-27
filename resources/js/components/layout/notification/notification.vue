@@ -286,6 +286,12 @@ import axios from 'axios';
                             }
                         }
                 }
+                else if(data.notification_type == 'publish_module'){
+                    let modulePath = '/course/'+data.c_id+'/my-modules';
+                      if(this.$route.path != modulePath){
+                          this.$router.push({path: modulePath});
+                        }
+                }
                  else if(data.notification_type == 'classwork_graded'){
                   let startPath = '/classwork/'+data.from_course+'/classwork-details';
                     if(this.$route.path != startPath){

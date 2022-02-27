@@ -67,7 +67,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 axios["delete"]('/api/classwork/remove/' + _this.DeleteDetails.id).then(function (res) {
                   _this.$emit("ToggleRefresh");
 
-                  _this.toastSuccess();
+                  _this.toastNormal('Classwork Successfully Deleted');
                 });
 
               case 1:

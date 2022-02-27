@@ -23,6 +23,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var classworkListStudent = function classworkListStudent() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkListType_classworkListStudent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkListType/classworkListStudent */ "./resources/js/components/course-view/tabs/classwork-tab/classworkListType/classworkListStudent.vue"));
 };
@@ -138,6 +141,11 @@ var render = function() {
                     attrs: {
                       ClassworkLength: _vm.ClassworkLength,
                       classworks: _vm.classworks
+                    },
+                    on: {
+                      ToggleRefreshClasswork: function($event) {
+                        return _vm.$emit("reloadClassworks")
+                      }
                     }
                   })
                 : _vm._e()

@@ -91,8 +91,6 @@
                 localStorage.setItem("step", this.e1);
             }
         },
-    
-       
         mounted(){
             let step = localStorage.getItem("step");
             if(step != null){
@@ -104,6 +102,8 @@
         },
         beforeDestroy(){
             window.removeEventListener('beforeunload', this.beforeWindowUnload)
+            localStorage.removeItem("step");
+
         },
 
     }

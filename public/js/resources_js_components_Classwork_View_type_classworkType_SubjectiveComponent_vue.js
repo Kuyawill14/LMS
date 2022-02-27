@@ -1973,124 +1973,140 @@ var render = function() {
                                                               1
                                                             ),
                                                             _vm._v(" "),
-                                                            _c(
-                                                              "v-list-item-action",
-                                                              [
-                                                                (_vm
-                                                                  .classworkDetails
-                                                                  .status ==
-                                                                  "Submitting" ||
-                                                                  _vm.isResubmit) &&
-                                                                _vm
-                                                                  .classworkDetails
-                                                                  .publish ==
-                                                                  null
-                                                                  ? _c(
-                                                                      "v-tooltip",
-                                                                      {
-                                                                        attrs: {
-                                                                          top:
-                                                                            ""
-                                                                        },
-                                                                        scopedSlots: _vm._u(
-                                                                          [
-                                                                            {
-                                                                              key:
-                                                                                "activator",
-                                                                              fn: function(
-                                                                                ref
-                                                                              ) {
-                                                                                var on =
-                                                                                  ref.on
-                                                                                var attrs =
-                                                                                  ref.attrs
-                                                                                return [
-                                                                                  _c(
-                                                                                    "v-btn",
-                                                                                    _vm._g(
-                                                                                      _vm._b(
-                                                                                        {
-                                                                                          directives: [
-                                                                                            {
-                                                                                              name:
-                                                                                                "show",
-                                                                                              rawName:
-                                                                                                "v-show",
-                                                                                              value:
-                                                                                                _vm.isUpIndex !=
-                                                                                                index,
-                                                                                              expression:
-                                                                                                "isUpIndex != index"
-                                                                                            }
-                                                                                          ],
-                                                                                          attrs: {
-                                                                                            loading:
-                                                                                              _vm.isDeleting &&
-                                                                                              _vm.isDeleting_id ==
-                                                                                                index,
-                                                                                            rounded:
-                                                                                              "",
-                                                                                            small:
-                                                                                              "",
-                                                                                            icon:
-                                                                                              "",
-                                                                                            text:
-                                                                                              ""
-                                                                                          },
-                                                                                          on: {
-                                                                                            click: function(
-                                                                                              $event
-                                                                                            ) {
-                                                                                              return _vm.DeleteUpload(
-                                                                                                index
-                                                                                              )
-                                                                                            }
-                                                                                          }
-                                                                                        },
-                                                                                        "v-btn",
-                                                                                        attrs,
-                                                                                        false
-                                                                                      ),
-                                                                                      on
-                                                                                    ),
-                                                                                    [
+                                                            !_vm
+                                                              .classworkDetails
+                                                              .graded &&
+                                                            (_vm
+                                                              .classworkDetails
+                                                              .availability == 1
+                                                              ? _vm.format_date1(
+                                                                  _vm.DateToday
+                                                                ) <=
+                                                                _vm.format_date1(
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .to_date
+                                                                )
+                                                              : true)
+                                                              ? _c(
+                                                                  "v-list-item-action",
+                                                                  [
+                                                                    (_vm
+                                                                      .classworkDetails
+                                                                      .status ==
+                                                                      "Submitting" ||
+                                                                      _vm.isResubmit) &&
+                                                                    _vm
+                                                                      .classworkDetails
+                                                                      .publish ==
+                                                                      null
+                                                                      ? _c(
+                                                                          "v-tooltip",
+                                                                          {
+                                                                            attrs: {
+                                                                              top:
+                                                                                ""
+                                                                            },
+                                                                            scopedSlots: _vm._u(
+                                                                              [
+                                                                                {
+                                                                                  key:
+                                                                                    "activator",
+                                                                                  fn: function(
+                                                                                    ref
+                                                                                  ) {
+                                                                                    var on =
+                                                                                      ref.on
+                                                                                    var attrs =
+                                                                                      ref.attrs
+                                                                                    return [
                                                                                       _c(
-                                                                                        "v-icon",
+                                                                                        "v-btn",
+                                                                                        _vm._g(
+                                                                                          _vm._b(
+                                                                                            {
+                                                                                              directives: [
+                                                                                                {
+                                                                                                  name:
+                                                                                                    "show",
+                                                                                                  rawName:
+                                                                                                    "v-show",
+                                                                                                  value:
+                                                                                                    _vm.isUpIndex !=
+                                                                                                    index,
+                                                                                                  expression:
+                                                                                                    "isUpIndex != index"
+                                                                                                }
+                                                                                              ],
+                                                                                              attrs: {
+                                                                                                loading:
+                                                                                                  _vm.isDeleting &&
+                                                                                                  _vm.isDeleting_id ==
+                                                                                                    index,
+                                                                                                rounded:
+                                                                                                  "",
+                                                                                                small:
+                                                                                                  "",
+                                                                                                icon:
+                                                                                                  "",
+                                                                                                text:
+                                                                                                  ""
+                                                                                              },
+                                                                                              on: {
+                                                                                                click: function(
+                                                                                                  $event
+                                                                                                ) {
+                                                                                                  return _vm.DeleteUpload(
+                                                                                                    index
+                                                                                                  )
+                                                                                                }
+                                                                                              }
+                                                                                            },
+                                                                                            "v-btn",
+                                                                                            attrs,
+                                                                                            false
+                                                                                          ),
+                                                                                          on
+                                                                                        ),
                                                                                         [
-                                                                                          _vm._v(
-                                                                                            "mdi-close"
+                                                                                          _c(
+                                                                                            "v-icon",
+                                                                                            [
+                                                                                              _vm._v(
+                                                                                                "mdi-close"
+                                                                                              )
+                                                                                            ]
                                                                                           )
-                                                                                        ]
+                                                                                        ],
+                                                                                        1
                                                                                       )
-                                                                                    ],
-                                                                                    1
-                                                                                  )
-                                                                                ]
-                                                                              }
-                                                                            }
-                                                                          ],
-                                                                          null,
-                                                                          true
-                                                                        )
-                                                                      },
-                                                                      [
-                                                                        _vm._v(
-                                                                          " "
-                                                                        ),
-                                                                        _c(
-                                                                          "span",
+                                                                                    ]
+                                                                                  }
+                                                                                }
+                                                                              ],
+                                                                              null,
+                                                                              true
+                                                                            )
+                                                                          },
                                                                           [
                                                                             _vm._v(
-                                                                              "Delete"
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Delete"
+                                                                                )
+                                                                              ]
                                                                             )
                                                                           ]
                                                                         )
-                                                                      ]
-                                                                    )
-                                                                  : _vm._e()
-                                                              ],
-                                                              1
-                                                            )
+                                                                      : _vm._e()
+                                                                  ],
+                                                                  1
+                                                                )
+                                                              : _vm._e()
                                                           ],
                                                           1
                                                         )
@@ -2108,7 +2124,14 @@ var render = function() {
                                         1
                                       ),
                                       _vm._v(" "),
-                                      _vm.classworkDetails.publish == null
+                                      !_vm.classworkDetails.graded &&
+                                      _vm.classworkDetails.publish == null &&
+                                      (_vm.classworkDetails.availability == 1
+                                        ? _vm.format_date1(_vm.DateToday) <=
+                                          _vm.format_date1(
+                                            _vm.classworkDetails.to_date
+                                          )
+                                        : true)
                                         ? _c(
                                             "v-col",
                                             {

@@ -64,7 +64,16 @@
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title>{{item.class_name}} </v-list-item-title>
-                                <v-list-item-subtitle>Class code: {{item.class_code}} </v-list-item-subtitle>
+                                <v-list-item-subtitle>Class code: {{item.class_code}} 
+
+                                    <v-tooltip top small>
+                                    <template v-slot:activator="{ on, attrs }">
+                                    
+                                        <v-btn  v-on="on" v-bind="attrs" @click="CopyClassCode(item.class_code)" small icon><v-icon color="blue" small>mdi-content-copy</v-icon></v-btn>
+                                    </template>
+                                    <small>Copy class code</small>
+                                </v-tooltip>
+                                </v-list-item-subtitle>
                                 <v-list-item-subtitle v-if="item.schedule != false && item.schedule != null">
                                     <span class="font-weight-medium">Schedule: </span>
                                     <div  v-for="(data, index) in item.schedule" :key="index">
@@ -238,6 +247,11 @@
             },
             async reloadClasses() {
                 this.fetchSubjectCourseClassList(this.$route.params.id);
+            },
+             async CopyClassCode(code){
+                let CodeText = code;
+                navigator.clipboard.writeText(CodeText);
+                this.toastNormal('Class code copied');
             },
 
 

@@ -115,7 +115,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 var classworkList = function classworkList() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_classworkList_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkList */ "./resources/js/components/course-view/tabs/classwork-tab/classworkList.vue"));
 };
@@ -163,6 +162,24 @@ var newClassworkModal = function newClassworkModal() {
         } else if (_this.role == 'Student') {
           _this.get_Classworks.ClassworksList.forEach(function (element) {
             _this.ClassworkLength += element.length;
+          });
+        }
+      });
+    },
+    reloadClassworks: function reloadClassworks() {
+      var _this2 = this;
+
+      this.$store.dispatch('SetDataisNotLoaded');
+      this.$store.dispatch('fetchClassworks', this.$route.params.id).then(function () {
+        _this2.$store.dispatch('SetDataisLoaded');
+
+        if (_this2.role == 'Teacher') {
+          _this2.get_Classworks.forEach(function (element) {
+            _this2.ClassworkLength += element.length;
+          });
+        } else if (_this2.role == 'Student') {
+          _this2.get_Classworks.ClassworksList.forEach(function (element) {
+            _this2.ClassworkLength += element.length;
           });
         }
       });
@@ -347,11 +364,8 @@ var render = function() {
               role: _vm.role
             },
             on: {
-              ToggleRefresh: function($event) {
-                return _vm.getGeneralClassworks()
-              },
               reloadClassworks: function($event) {
-                return _vm.getGeneralClassworks()
+                return _vm.reloadClassworks()
               }
             }
           })

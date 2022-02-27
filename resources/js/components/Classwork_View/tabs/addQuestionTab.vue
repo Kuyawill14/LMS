@@ -731,6 +731,7 @@ export default {
             editorOption: {
                 placeholder: 'type here ...',
                 theme:'bubble',
+
                 blur: true,
                 editorData:null,
                 modules: {
@@ -1447,7 +1448,7 @@ export default {
     text-align: center
 }
 .editor .ql-editor img{
-  
+   
     max-height: 10rem !important;
 }
 .editor .ql-container{
@@ -1456,7 +1457,12 @@ export default {
 .editor .ql-editor{
     min-height: 65px !important;
     max-height: 300px !important;
+     
 }
+
+/* .editor .ql-editor input{
+    color: black !important;
+} */
 
 
  
