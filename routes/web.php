@@ -30,14 +30,12 @@ Route::get('/testView', function () {
     return view('view');
 });
 
-Route::get('/', function () {
+Route::middleware(['throttle:WebRouteLimiter'])->get('/', function () {
     return view('welcome');
 })->name('login');
 
 
-
-/* middleware(['throttle:WebRouteLimiter'])-> */
-Route::get('/{any}', function () {
+Route::middleware(['throttle:WebRouteLimiter'])->get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
 
