@@ -30,7 +30,7 @@ Route::get('/testView', function () {
     return view('view');
 });
 
-Route::middleware(['throttle:WebRouteLimiter'])->get('/', function () {
+Route::get('/', function () {
     return view('welcome');
 })->name('login');
 
