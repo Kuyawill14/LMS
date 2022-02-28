@@ -164,6 +164,8 @@ var newClassworkModal = function newClassworkModal() {
             _this.ClassworkLength += element.length;
           });
         }
+      })["catch"](function (error) {
+        location.reload();
       });
     },
     reloadClassworks: function reloadClassworks() {

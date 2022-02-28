@@ -1932,6 +1932,18 @@ Vue.use((vue_quill_editor__WEBPACK_IMPORTED_MODULE_7___default())
 
 
 
+axios.interceptors.response.use(undefined, function (error) {
+  if (error) {
+    var originalRequest = error.config;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      _store_store__WEBPACK_IMPORTED_MODULE_10__.default.dispatch('clearClassesNames');
+      _store_store__WEBPACK_IMPORTED_MODULE_10__.default.dispatch('clear_current_user');
+      return _router__WEBPACK_IMPORTED_MODULE_11__.default.push('/login');
+    }
+  }
+});
 Vue.component('main-component', __webpack_require__(/*! ./components/app.vue */ "./resources/js/components/app.vue").default);
 Vue.mixin(_objectSpread(_objectSpread({}, _mixins_titleMixin__WEBPACK_IMPORTED_MODULE_12__.default), {}, {
   methods: {

@@ -46,7 +46,19 @@ Vue.use(VueQuillEditor, /* { default global options } */ )
 import store from "./store/store";
 import router from "./router";
 
-import titleMixin from './mixins/titleMixin'
+import titleMixin from './mixins/titleMixin';
+
+axios.interceptors.response.use(undefined, function (error) {
+    if(error) {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            store.dispatch('clearClassesNames');
+            store.dispatch('clear_current_user')
+            return router.push('/login')
+        }
+    }
+})
 
 Vue.component('main-component', require('./components/app.vue').default);
 Vue.mixin({

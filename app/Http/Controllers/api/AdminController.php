@@ -65,13 +65,6 @@ class AdminController extends Controller
         return $teachers;
     }
 
-    public function VerifyAllStudent() {
-        $accounts = User::where("role","Teacher")
-        ->whereNull('email_verified_at')
-        ->get();
-
-        return $teachers;
-    }
 
 
 
