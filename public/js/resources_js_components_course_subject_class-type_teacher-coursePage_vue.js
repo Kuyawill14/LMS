@@ -286,6 +286,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -1629,7 +1630,38 @@ var render = function() {
                                                                 "div",
                                                                 {
                                                                   staticClass:
-                                                                    "mt-2 pl-4"
+                                                                    "mt-2 pl-4",
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.$store.dispatch(
+                                                                        "clearClassesNames"
+                                                                      ),
+                                                                        item.completed ==
+                                                                        1
+                                                                          ? _vm.$router.push(
+                                                                              {
+                                                                                name:
+                                                                                  "coursePage",
+                                                                                params: {
+                                                                                  id:
+                                                                                    item.id
+                                                                                }
+                                                                              }
+                                                                            )
+                                                                          : _vm.$router.push(
+                                                                              {
+                                                                                name:
+                                                                                  "courseSetup",
+                                                                                params: {
+                                                                                  id:
+                                                                                    item.id
+                                                                                }
+                                                                              }
+                                                                            )
+                                                                    }
+                                                                  }
                                                                 },
                                                                 [
                                                                   _vm._v(
@@ -1711,13 +1743,7 @@ var render = function() {
                                                                                           _vm._g(
                                                                                             _vm._b(
                                                                                               {
-                                                                                                staticStyle: {
-                                                                                                  "z-index":
-                                                                                                    "100"
-                                                                                                },
                                                                                                 attrs: {
-                                                                                                  "x-large":
-                                                                                                    "",
                                                                                                   icon:
                                                                                                     ""
                                                                                                 },

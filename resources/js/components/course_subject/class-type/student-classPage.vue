@@ -91,7 +91,7 @@
         
             <v-row>
                 <v-col style="cursor: pointer;" cols="12" xl="3" lg="3" md="6"  
-                @click="$router.push({name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}})"
+               
                 v-for="(item, i) in allClassesData" :key="'class' + i">
 
                     <v-hover v-slot="{ hover }">
@@ -99,6 +99,7 @@
                     <div class="card-expansion">
                         <v-card class="mx-auto" :elevation="hover ? 16 : 2">
                              <v-img
+                              @click="$router.push({name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}})"
                                :src="CheckBackgroundPath(item.course_picture)"
                                  :height="$vuetify.breakpoint.lgAndUp ? 200 : 160"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text d-flex flex-row justify-space-between grey lighten-2"
@@ -180,7 +181,7 @@
                                 </div>
                                 <v-divider></v-divider>
                                 <div class="d-flex">
-                                    <div class="mt-2 pl-4" >
+                                    <div class="mt-2 pl-4"  @click="$router.push({name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}})" >
                                         <span  :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{ item.class_name}}</span> <br>
                                         <span :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'"> Class code: {{ item.class_code}}</span>
                                     </div>
@@ -212,8 +213,6 @@
                 <v-col v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs" class="mt-3" style="cursor: pointer;" cols="12" xl="3" lg="3" md="6"  >
                     <div>
                         <v-hover v-slot="{ hover }">
-                            
-
                             <v-tooltip>
                                 <template v-slot:activator="{ on, attrs }">
                                     <div  class="card-expansion">

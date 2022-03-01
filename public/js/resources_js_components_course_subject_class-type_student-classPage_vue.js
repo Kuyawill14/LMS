@@ -287,7 +287,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 var confirmUnenroll = function confirmUnenroll() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmUnenroll_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmUnenroll */ "./resources/js/components/course_subject/class-type/dialog/confirmUnenroll.vue"));
 };
@@ -1001,16 +1000,7 @@ var render = function() {
                       {
                         key: "class" + i,
                         staticStyle: { cursor: "pointer" },
-                        attrs: { cols: "12", xl: "3", lg: "3", md: "6" },
-                        on: {
-                          click: function($event) {
-                            return _vm.$router.push({
-                              name: "coursePage",
-                              params: { id: item.course_id },
-                              query: { class: item.class_id }
-                            })
-                          }
-                        }
+                        attrs: { cols: "12", xl: "3", lg: "3", md: "6" }
                       },
                       [
                         _c("v-hover", {
@@ -1048,6 +1038,19 @@ var render = function() {
                                                   gradient:
                                                     "to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)",
                                                   "aspect-ratio": "1"
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.$router.push({
+                                                      name: "coursePage",
+                                                      params: {
+                                                        id: item.course_id
+                                                      },
+                                                      query: {
+                                                        class: item.class_id
+                                                      }
+                                                    })
+                                                  }
                                                 },
                                                 scopedSlots: _vm._u(
                                                   [
@@ -1416,7 +1419,27 @@ var render = function() {
                                                                   "div",
                                                                   {
                                                                     staticClass:
-                                                                      "mt-2 pl-4"
+                                                                      "mt-2 pl-4",
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        return _vm.$router.push(
+                                                                          {
+                                                                            name:
+                                                                              "coursePage",
+                                                                            params: {
+                                                                              id:
+                                                                                item.course_id
+                                                                            },
+                                                                            query: {
+                                                                              class:
+                                                                                item.class_id
+                                                                            }
+                                                                          }
+                                                                        )
+                                                                      }
+                                                                    }
                                                                   },
                                                                   [
                                                                     _c(

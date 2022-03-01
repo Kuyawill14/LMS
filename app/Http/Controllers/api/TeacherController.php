@@ -619,8 +619,6 @@ class TeacherController extends Controller
     }
 
     public function MultiplerejectJoinRequest(Request $request){
-
-        return $request;
         foreach($request->request_id as $item){
             $checkJoinRequest = tbl_join_request::find($item['id']);
             if($checkJoinRequest){

@@ -91,6 +91,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Class_id'],
   data: function data() {
@@ -99,10 +131,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isLoading: true,
       selectedStudent: [],
       isSelectedAll: false,
-      selectedCount: 0
+      selectedCount: 0,
+      confirmDialog: false,
+      confirmType: ''
     };
   },
   methods: {
+    openConfirmDialog: function openConfirmDialog(type) {
+      this.confirmDialog = true;
+      this.confirmType = type;
+    },
+    confirmFunction: function confirmFunction() {
+      if (this.confirmType == 'accept') {
+        this.AcceptAllSelectedRequest();
+      } else if (this.confirmType == 'reject') {
+        this.RejectAllSelectedJoinRequest();
+      }
+    },
     fetchJoinRequest: function fetchJoinRequest() {
       var _this = this;
 
@@ -213,6 +258,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
 
                   _this3.isLoading = false;
+                  _this3.confirmDialog = false;
                 })["catch"](function (err) {//this.toastError('Something went wrong!')
                 });
 
@@ -284,6 +330,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       _this5.$store.dispatch('UpdateJoinCount');
                     }
                   }
+
+                  _this5.confirmDialog = false;
                 })["catch"](function (err) {
                   _this5.toastError('Something went wrong!');
                 });
@@ -460,7 +508,7 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      return _vm.RejectAllSelectedJoinRequest()
+                      return _vm.openConfirmDialog("reject")
                     }
                   }
                 },
@@ -474,7 +522,7 @@ var render = function() {
                   attrs: { disabled: _vm.selectedCount == 0, color: "primary" },
                   on: {
                     click: function($event) {
-                      return _vm.AcceptAllSelectedRequest()
+                      return _vm.openConfirmDialog("accept")
                     }
                   }
                 },
@@ -788,6 +836,88 @@ var render = function() {
                 1
               )
             : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.confirmDialog,
+            callback: function($$v) {
+              _vm.confirmDialog = $$v
+            },
+            expression: "confirmDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "pa-2" },
+            [
+              _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.confirmType == "accept" ? "Accept" : "Reject") +
+                    " Student\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", { staticClass: "font-weight-bold" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "subtitle-1 ",
+                    staticStyle: { "line-height": "1.1" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Are you sure " +
+                        _vm._s(_vm.confirmType) +
+                        " all selected student?"
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { rounded: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.confirmDialog = false), (_vm.confirmType = "")
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Cancel\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", rounded: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.confirmFunction()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Confirm\n            ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )

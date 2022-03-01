@@ -1,11 +1,13 @@
 <template>
     <div>
+
+       
         <v-row>
             <v-col cols="12 d-flex" class="mt-2">
                 Join Request
                 <v-spacer></v-spacer>
-                 <v-btn :disabled="selectedCount == 0" @click="RejectAllSelectedJoinRequest()" color="secondary">Reject Selected</v-btn>
-                <v-btn class="ml-2" @click="AcceptAllSelectedRequest()" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
+                 <v-btn :disabled="selectedCount == 0" @click="openConfirmDialog('reject')" color="secondary">Reject Selected</v-btn>
+                <v-btn class="ml-2" @click="openConfirmDialog('accept')" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
                 <v-btn outlined class="ml-2" @click="selectAllStudent" color="primary">
                    
                     {{isSelectedAll ? 'Unselect All' : 'Select All'}}
@@ -68,6 +70,36 @@
                 </v-col>
 
         </v-row>
+
+         <v-dialog  v-model="confirmDialog" persistent max-width="400">
+             <v-card class="pa-2">
+                <v-card-title class="text-h5 mb-3">
+                {{confirmType == 'accept' ? 'Accept' : 'Reject'}} Student
+                </v-card-title>
+                <v-card-text class="font-weight-bold">
+                    <div class="subtitle-1 " style="line-height:1.1">
+                        Are you sure {{confirmType}} all selected student?</div>
+                    </v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    rounded
+                    text
+                    @click="confirmDialog= false, confirmType = ''"
+                >
+                    Cancel
+                </v-btn>
+                <v-btn
+                    color="primary"
+                    rounded
+                    text
+                    @click="confirmFunction()"
+                >
+                    Confirm
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 <script>
@@ -80,9 +112,23 @@ export default {
             selectedStudent: [],
             isSelectedAll: false,
             selectedCount: 0,
+            confirmDialog: false,
+            confirmType: ''
         }
     },
     methods:{
+        openConfirmDialog(type){
+            this.confirmDialog = true;
+            this.confirmType = type;
+        },
+        confirmFunction(){
+            if(this.confirmType == 'accept'){
+                this.AcceptAllSelectedRequest();
+
+            }else if(this.confirmType == 'reject'){
+                this.RejectAllSelectedJoinRequest();
+            }
+        },
         async fetchJoinRequest(){
             await axios.get('/api/teacher/fetch_student_join_request/'+this.$route.params.id)
             .then((res)=>{
@@ -149,7 +195,8 @@ export default {
                         }
                     this.$store.dispatch('fetchAllStudents',this.$route.params.id)
                 }
-                this.isLoading = false
+                this.isLoading = false;
+                this.confirmDialog = false;
             })
             .catch((err)=>{
                 //this.toastError('Something went wrong!')
@@ -159,10 +206,6 @@ export default {
 
 
         async RejectJoinRequest(id, index){
-
-            
-
-
             await axios.delete('/api/teacher/reject_student_join_request/'+id)
             .then(()=>{
                 this.JoinRequestList.splice(index, 1);
@@ -193,6 +236,7 @@ export default {
                         this.$store.dispatch('UpdateJoinCount');
                     }                        
                 }
+                this.confirmDialog = false;
             })
             .catch((err)=>{
                 this.toastError('Something went wrong!')
