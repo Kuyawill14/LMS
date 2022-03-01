@@ -171,9 +171,10 @@
 
             closeHandlerModule() {
                 if (this.role == 'Teacher') {
-                    this.$router.push({
-                        path: 'modules'
-                    })
+                    // this.$router.push({
+                    //     path: 'modules'
+                    // })
+                    window.location.replace('modules')
                 } else {
                     this.$emit('listClose');
                 }

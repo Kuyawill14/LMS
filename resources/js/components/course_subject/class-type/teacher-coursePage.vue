@@ -17,6 +17,13 @@
         </v-dialog>
 
 
+  <v-dialog v-model="cloneDialog" persistent max-width="400">
+            <confirmDeleteCourse v-on:toggleCancelDialog="cloneDialog = !cloneDialog"
+                v-on:toggleconfirm="cloneCourse()" :course="cloneDetails" v-if="cloneDialog">
+            </confirmDeleteCourse>
+        </v-dialog>
+
+
         
 
         <v-row align="center" justify="center" class="pt-10" v-if="coursesLength == 0">
@@ -156,6 +163,12 @@
                                                 <v-list-item-title>Delete</v-list-item-title>
 
                                             </v-list-item>
+
+
+                                            <v-list-item @click="duplicate_course(item)"  link>
+                                                <v-list-item-title>Duplicate Course</v-list-item-title>
+
+                                            </v-list-item>
                                         </v-list>
                                     </v-menu>
                                     <v-spacer></v-spacer>
@@ -246,6 +259,7 @@
 <script>
     const confirmArchiveCourse = () => import("./dialog/confirmArchiveCourse")
      const confirmDeleteCourse = () => import("./dialog/confirmDeleteCourse")
+     const confirmCloneCourse = () => import("./dialog/confirmCloneCourse")
     import {
         mapGetters,
         mapActions
@@ -253,7 +267,8 @@
     export default {
         components: {
             confirmArchiveCourse,
-            confirmDeleteCourse
+            confirmDeleteCourse,
+            confirmCloneCourse
         },
         data() {
             return {
@@ -276,6 +291,8 @@
                     course_picture: '',
                     course_code: '',
                 },
+                cloneDetails: {},
+                cloneDialog: false,
                 Archivedialog: false,
                 ArchiveDetails: {},
                 allCoursesData: [],
@@ -294,6 +311,23 @@
         computed: mapGetters(['allCourse']),
         methods: {
             ...mapActions(['fetchCourseList']),
+            cloneCoursePrompt(course_data) {
+             
+                this.cloneDetails = course_data;
+                this.Archivedialog = !this.Archivedialog
+            },
+
+            duplicate_course(course_data) {
+                axios.post('/api/course/duplicate', {course_data: course_data})
+                .then(res=> {
+                    this.fetchCourses();
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            },
+
+
             validate () {
                
                 if( this.$refs.form.validate()){

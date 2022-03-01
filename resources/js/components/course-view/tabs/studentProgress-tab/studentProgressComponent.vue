@@ -69,14 +69,8 @@
                                             <td class="text-center">
                                                 {{getTotalCompleted(getStudentMainModuleProgress(UserDetails.id))}}</td>
 
-
                                             <td class="text-center">
                                                 {{getTotalPercent(getStudentMainModuleProgress(UserDetails.id))}}%</td>
-
-
-
-
-
                                         </tr>
                                    
 

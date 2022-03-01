@@ -111,6 +111,9 @@ Route::middleware('auth:sanctum')->prefix('/course')->group(function () {
     Route::delete('/delete/{id}', [SubjectCourseController::class, 'DeleteCourse']);
     Route::get('/status', [SubjectCourseController::class, 'CheckCourseStatus']);
     Route::put('/file-remove/{id}', [SubjectCourseController::class, 'RemoveUploadedFile']); 
+
+
+    Route::post('/duplicate', [SubjectCourseController::class, 'duplicateCourse']); 
 });
 
 
