@@ -264,6 +264,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -272,11 +294,16 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmDeleteCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmDeleteCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmDeleteCourse.vue"));
 };
 
+var confirmCloneCourse = function confirmCloneCourse() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmCloneCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmCloneCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmCloneCourse.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     confirmArchiveCourse: confirmArchiveCourse,
-    confirmDeleteCourse: confirmDeleteCourse
+    confirmDeleteCourse: confirmDeleteCourse,
+    confirmCloneCourse: confirmCloneCourse
   },
   data: function data() {
     return {
@@ -299,6 +326,8 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
         course_picture: '',
         course_code: ''
       },
+      cloneDetails: {},
+      cloneDialog: false,
       Archivedialog: false,
       ArchiveDetails: {},
       allCoursesData: [],
@@ -315,6 +344,33 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
+    cloneCourseConfirm: function cloneCourseConfirm(course_data) {
+      this.cloneDetails = course_data;
+      this.cloneDialog = !this.cloneDialog;
+    },
+    cloneCourse: function cloneCourse(course_data) {
+      var _this = this;
+
+      axios.post('/api/course/duplicate', {
+        course_data: course_data
+      }).then(function (res) {
+        _this.$store.dispatch('fetchCourseList').then(function () {
+          _this.allCoursesData = _this.allCourse;
+          _this.coursesLength = _this.allCourse.length;
+          _this.isGetting = false;
+
+          _this.toastSuccess(course_data.name + ' have been successfully cloned');
+
+          _this.cloneDialog = !_this.cloneDialog;
+        });
+      })["catch"](function (err) {
+        console.log(err);
+
+        _this.toastError('Something went wrong. Please refresh the page and please try again.');
+
+        _this.cloneDialog = !_this.cloneDialog;
+      });
+    },
     validate: function validate() {
       if (this.$refs.form.validate()) {
         this.createCourse();
@@ -339,33 +395,33 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
       this.deleteDiaglog = !this.deleteDiaglog;
     },
     archiveCourse: function archiveCourse() {
-      var _this = this;
+      var _this2 = this;
 
       axios["delete"]('/api/course/archiveCourse/' + this.ArchiveDetails.course_id).then(function (res) {
-        _this.fetchCourses();
+        _this2.fetchCourses();
 
-        _this.Archivedialog = !_this.Archivedialog;
+        _this2.Archivedialog = !_this2.Archivedialog;
       });
     },
     deleteCourse: function deleteCourse() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios["delete"]('/api/course/delete/' + this.ArchiveDetails.course_id).then(function (res) {
         if (res.data.success == true) {
-          _this2.deleteDiaglog = !_this2.deleteDiaglog;
+          _this3.deleteDiaglog = !_this3.deleteDiaglog;
 
-          _this2.fetchCourses();
+          _this3.fetchCourses();
 
-          _this2.toastSuccess("Successfully deleted!");
+          _this3.toastSuccess("Successfully deleted!");
         } else {
-          _this2.deleteDiaglog = !_this2.deleteDiaglog;
+          _this3.deleteDiaglog = !_this3.deleteDiaglog;
 
-          _this2.toastInfo(res.data.message);
+          _this3.toastInfo(res.data.message);
         }
       })["catch"](function (e) {
-        _this2.toastError('Something went wrong while deleting the course!');
+        _this3.toastError('Something went wrong while deleting the course!');
 
-        _this2.deleteDiaglog = !_this2.deleteDiaglog;
+        _this3.deleteDiaglog = !_this3.deleteDiaglog;
       });
     },
     openAddmodal: function openAddmodal() {
@@ -386,20 +442,20 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
       this.form.course_id = selectedCourse.course_id;
     },
     createCourse: function createCourse() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.isloading = true;
 
       if (this.form.course_name != "" && this.form.course_code != "") {
         this.$store.dispatch('createCourse', this.form).then(function (res) {
-          _this3.dialog = false;
+          _this4.dialog = false;
           var id = res.id;
 
-          _this3.toastSuccess("Your course has been Added", 'done');
+          _this4.toastSuccess("Your course has been Added", 'done');
 
-          _this3.isLeaving = true;
+          _this4.isLeaving = true;
 
-          _this3.$router.push({
+          _this4.$router.push({
             name: 'courseSetup',
             params: {
               id: id
@@ -416,23 +472,23 @@ var confirmDeleteCourse = function confirmDeleteCourse() {
       });
     },
     fetchCourses: function fetchCourses() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.school_year_id = 0;
       this.semester_id = 0;
       this.isGetting = true;
       this.$store.dispatch('fetchCourseList').then(function () {
-        _this4.allCoursesData = _this4.allCourse;
-        _this4.coursesLength = _this4.allCourse.length;
-        _this4.isGetting = false;
+        _this5.allCoursesData = _this5.allCourse;
+        _this5.coursesLength = _this5.allCourse.length;
+        _this5.isGetting = false;
       });
     },
     fetchAllSchoolyear_semester: function fetchAllSchoolyear_semester() {
-      var _this5 = this;
+      var _this6 = this;
 
       axios.get('/api/admin/schoolyears_semesters/all').then(function (res) {
-        _this5.school_year = res.data.school_year;
-        _this5.semester = res.data.semester;
+        _this6.school_year = res.data.school_year;
+        _this6.semester = res.data.semester;
       });
     },
     schoolYearFilter: function schoolYearFilter() {
@@ -710,6 +766,34 @@ var render = function() {
         1
       ),
       _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "500" },
+          model: {
+            value: _vm.cloneDialog,
+            callback: function($$v) {
+              _vm.cloneDialog = $$v
+            },
+            expression: "cloneDialog"
+          }
+        },
+        [
+          _c("confirmCloneCourse", {
+            attrs: { course: _vm.cloneDetails },
+            on: {
+              toggleCancelDialog: function($event) {
+                _vm.cloneDialog = !_vm.cloneDialog
+              },
+              toggleconfirm: function($event) {
+                return _vm.cloneCourse(_vm.cloneDetails)
+              }
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _vm.coursesLength == 0
         ? _c(
             "v-row",
@@ -727,7 +811,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                    mdi-book-variant-multiple\n                "
+                      "\n                mdi-book-variant-multiple\n            "
                     )
                   ]),
                   _vm._v(" "),
@@ -735,7 +819,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
-                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and\n                    Assignment and etc. "
+                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and\n                Assignment and etc. "
                     )
                   ]),
                   _vm._v(" "),
@@ -801,7 +885,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-card-title", [
                     _vm._v(
-                      "\n                     Create Course\n                "
+                      "\n                    Create Course\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -880,7 +964,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Cancel\n                    ")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -1255,7 +1339,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                                    mdi-dots-vertical\n                                                "
+                                                                      "\n                                                mdi-dots-vertical\n                                            "
                                                                     )
                                                                   ]
                                                                 )
@@ -1352,7 +1436,34 @@ var render = function() {
                                                             ],
                                                             1
                                                           )
-                                                        : _vm._e()
+                                                        : _vm._e(),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item",
+                                                        {
+                                                          attrs: { link: "" },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.cloneCourseConfirm(
+                                                                item
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-list-item-title",
+                                                            [
+                                                              _vm._v(
+                                                                "Duplicate Course"
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
                                                     ],
                                                     1
                                                   )
@@ -1458,10 +1569,11 @@ var render = function() {
                                                                                 },
                                                                                 [
                                                                                   _vm._v(
-                                                                                    _vm._s(
-                                                                                      item.course_code
-                                                                                    ) +
-                                                                                      "\n                                                        "
+                                                                                    "\n                                                            " +
+                                                                                      _vm._s(
+                                                                                        item.course_code
+                                                                                      ) +
+                                                                                      "\n                                                            "
                                                                                   ),
                                                                                   _c(
                                                                                     "br"
@@ -1521,7 +1633,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\n                                        " +
+                                                                    "\n                                            " +
                                                                       _vm._s(
                                                                         item.student_count +
                                                                           " students"
@@ -1530,12 +1642,12 @@ var render = function() {
                                                                   ),
                                                                   _c("br"),
                                                                   _vm._v(
-                                                                    "\n                                        " +
+                                                                    "\n                                            " +
                                                                       _vm._s(
                                                                         item.class_count +
                                                                           " class"
                                                                       ) +
-                                                                      "\n                                    "
+                                                                      "\n                                        "
                                                                   )
                                                                 ]
                                                               ),

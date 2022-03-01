@@ -194,9 +194,10 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
   methods: {
     closeHandlerModule: function closeHandlerModule() {
       if (this.role == 'Teacher') {
-        this.$router.push({
-          path: 'modules'
-        });
+        // this.$router.push({
+        //     path: 'modules'
+        // })
+        window.location.replace('modules');
       } else {
         this.$emit('listClose');
       }

@@ -220,12 +220,6 @@ class SubModuleController extends Controller
         }
 
             return $link;
-        
-
-
-
-
-
     }
 
     /**
