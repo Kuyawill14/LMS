@@ -4,7 +4,7 @@
             <v-col cols="12 d-flex" class="mt-2">
                 Join Request
                 <v-spacer></v-spacer>
-                 <v-btn :disabled="selectedCount == 0" @click="selectAllStudent" color="secondary">Reject Selected</v-btn>
+                 <v-btn :disabled="selectedCount == 0" @click="RejectAllSelectedJoinRequest()" color="secondary">Reject Selected</v-btn>
                 <v-btn class="ml-2" @click="AcceptAllSelectedRequest()" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
                 <v-btn outlined class="ml-2" @click="selectAllStudent" color="primary">
                    
@@ -56,7 +56,7 @@
                                         </v-tooltip>
 
 
-                                        <div  class="pl-7 mt-1">
+                                        <div  class="pl-5 mt-1">
                                             <v-checkbox @click="markSelect(selectedStudent[index].isSelected)" v-model="selectedStudent[index].isSelected" hide-details></v-checkbox>
                                         </div>
                                         
@@ -135,24 +135,20 @@ export default {
                 }
             });
 
-            await axios.put('/api/teacher/multiple_accept_student_join_request', data)
+            await axios.put('/api/teacher/multiple_accept_student_join_request', {request_id : data})
             .then((res)=>{
-
-                /* if(res.status == 200 && res.data.status == 1){  
-                    this.JoinRequestList.splice(index, 1);
-                    this.toastSuccess(res.data.message)
-                    this.$store.dispatch('UpdateJoinCount');
+                if(res.status == 200 && res.data.status == 1){  
+                        for (let i = 0; i < this.selectedStudent.length; i++) {
+                            if(this.selectedStudent[i].isSelected == true){
+                                 this.JoinRequestList.splice(i, 1);
+                                 this.selectedStudent.splice(i, 1);
+                                 this.selectedCount--;
+                                 this.isSelectedAll = false;
+                                 this.$store.dispatch('UpdateJoinCount');
+                            }                        
+                        }
                     this.$store.dispatch('fetchAllStudents',this.$route.params.id)
                 }
-                else if(res.status == 200 && res.data.status == 2){
-                    this.JoinRequestList.splice(index, 1);
-                    this.toastInfo(res.data.message)
-                    this.$store.dispatch('UpdateJoinCount');
-                }
-                else{
-                    this.toastError(res.data.message)
-                }
-                 */
                 this.isLoading = false
             })
             .catch((err)=>{
@@ -163,10 +159,40 @@ export default {
 
 
         async RejectJoinRequest(id, index){
+
+            
+
+
             await axios.delete('/api/teacher/reject_student_join_request/'+id)
             .then(()=>{
                 this.JoinRequestList.splice(index, 1);
                 this.$store.dispatch('UpdateJoinCount');
+            })
+            .catch((err)=>{
+                this.toastError('Something went wrong!')
+            })
+        },
+
+        async RejectAllSelectedJoinRequest(){
+            let data = [];
+            this.selectedStudent.forEach(item => {
+                if(item.isSelected == true){
+                    data.push({
+                        id: item.id
+                    })
+                }
+            });
+            await axios.put('/api/teacher/multiple_reject_student_join_request',{request_id : data})
+            .then(()=>{
+                for (let i = 0; i < this.selectedStudent.length; i++) {
+                    if(this.selectedStudent[i].isSelected == true){
+                        this.JoinRequestList.splice(i, 1);
+                        this.selectedStudent.splice(i, 1);
+                        this.selectedCount--;
+                        this.isSelectedAll = false;
+                        this.$store.dispatch('UpdateJoinCount');
+                    }                        
+                }
             })
             .catch((err)=>{
                 this.toastError('Something went wrong!')

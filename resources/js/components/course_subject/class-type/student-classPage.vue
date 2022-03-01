@@ -189,7 +189,7 @@
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                                  <v-badge overlap color="red" :value="item.unfinishClaswork" :content="item.unfinishClaswork" bordered top    offset-x="45" offset-y="17">
-                                                    <v-btn style="z-index:100" :to="{name: 'classwork', params:{id: item.course_id}}"  x-large v-bind="attrs" v-on="on" icon>
+                                                    <v-btn  :to="{name: 'classwork', params:{id: item.course_id}}"  x-large v-bind="attrs" v-on="on" icon>
                                                         <v-icon large>mdi-book-open-variant</v-icon>
                                                     </v-btn>
                                                 </v-badge>
@@ -214,7 +214,7 @@
                         <v-hover v-slot="{ hover }">
                             
 
-                            <v-tooltip top>
+                            <v-tooltip>
                                 <template v-slot:activator="{ on, attrs }">
                                     <div  class="card-expansion">
                                         <v-card v-bind="attrs" v-on="on"  @click="openJoinmodal" :height="!$vuetify.breakpoint.md ? '356' : '310'" :elevation="hover ? 16 : 2" class="mx-auto" color="#F5F5F5">
@@ -233,7 +233,7 @@
                          </v-hover>
                     </div>
                 </v-col>
-                <v-col v-if="$vuetify.breakpoint.md" class="text-right">                
+                <v-col v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs" class="text-right">                
                  <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on" bottom color="primary" dark fab fixed right @click="openJoinmodal">

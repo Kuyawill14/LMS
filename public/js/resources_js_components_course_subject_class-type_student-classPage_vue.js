@@ -1521,10 +1521,6 @@ var render = function() {
                                                                                             _vm._g(
                                                                                               _vm._b(
                                                                                                 {
-                                                                                                  staticStyle: {
-                                                                                                    "z-index":
-                                                                                                      "100"
-                                                                                                  },
                                                                                                   attrs: {
                                                                                                     to: {
                                                                                                       name:
@@ -1649,7 +1645,6 @@ var render = function() {
                                           _c(
                                             "v-tooltip",
                                             {
-                                              attrs: { top: "" },
                                               scopedSlots: _vm._u(
                                                 [
                                                   {
@@ -1764,7 +1759,7 @@ var render = function() {
                                   ],
                                   null,
                                   false,
-                                  2540104777
+                                  4056100424
                                 )
                               })
                             ],
@@ -1774,7 +1769,9 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.$vuetify.breakpoint.md
+                  _vm.$vuetify.breakpoint.md ||
+                  _vm.$vuetify.breakpoint.sm ||
+                  _vm.$vuetify.breakpoint.xs
                     ? _c(
                         "v-col",
                         { staticClass: "text-right" },

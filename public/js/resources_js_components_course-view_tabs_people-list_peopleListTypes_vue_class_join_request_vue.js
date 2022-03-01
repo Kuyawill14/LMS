@@ -192,22 +192,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
                 _context3.next = 4;
-                return axios.put('/api/teacher/multiple_accept_student_join_request', data).then(function (res) {
-                  /* if(res.status == 200 && res.data.status == 1){  
-                      this.JoinRequestList.splice(index, 1);
-                      this.toastSuccess(res.data.message)
-                      this.$store.dispatch('UpdateJoinCount');
-                      this.$store.dispatch('fetchAllStudents',this.$route.params.id)
+                return axios.put('/api/teacher/multiple_accept_student_join_request', {
+                  request_id: data
+                }).then(function (res) {
+                  if (res.status == 200 && res.data.status == 1) {
+                    for (var i = 0; i < _this3.selectedStudent.length; i++) {
+                      if (_this3.selectedStudent[i].isSelected == true) {
+                        _this3.JoinRequestList.splice(i, 1);
+
+                        _this3.selectedStudent.splice(i, 1);
+
+                        _this3.selectedCount--;
+                        _this3.isSelectedAll = false;
+
+                        _this3.$store.dispatch('UpdateJoinCount');
+                      }
+                    }
+
+                    _this3.$store.dispatch('fetchAllStudents', _this3.$route.params.id);
                   }
-                  else if(res.status == 200 && res.data.status == 2){
-                      this.JoinRequestList.splice(index, 1);
-                      this.toastInfo(res.data.message)
-                      this.$store.dispatch('UpdateJoinCount');
-                  }
-                  else{
-                      this.toastError(res.data.message)
-                  }
-                   */
+
                   _this3.isLoading = false;
                 })["catch"](function (err) {//this.toastError('Something went wrong!')
                 });
@@ -245,31 +249,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    selectAllStudent: function selectAllStudent() {
+    RejectAllSelectedJoinRequest: function RejectAllSelectedJoinRequest() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (_this5.isSelectedAll) {
-                  _this5.selectedStudent.forEach(function (item) {
-                    item.isSelected = false;
-                    _this5.selectedCount--;
-                  });
+                data = [];
 
-                  _this5.isSelectedAll = false;
-                } else {
-                  _this5.selectedStudent.forEach(function (item) {
-                    item.isSelected = true;
-                    _this5.selectedCount++;
-                  });
+                _this5.selectedStudent.forEach(function (item) {
+                  if (item.isSelected == true) {
+                    data.push({
+                      id: item.id
+                    });
+                  }
+                });
 
-                  _this5.isSelectedAll = true;
-                }
+                _context5.next = 4;
+                return axios.put('/api/teacher/multiple_reject_student_join_request', {
+                  request_id: data
+                }).then(function () {
+                  for (var i = 0; i < _this5.selectedStudent.length; i++) {
+                    if (_this5.selectedStudent[i].isSelected == true) {
+                      _this5.JoinRequestList.splice(i, 1);
 
-              case 1:
+                      _this5.selectedStudent.splice(i, 1);
+
+                      _this5.selectedCount--;
+                      _this5.isSelectedAll = false;
+
+                      _this5.$store.dispatch('UpdateJoinCount');
+                    }
+                  }
+                })["catch"](function (err) {
+                  _this5.toastError('Something went wrong!');
+                });
+
+              case 4:
               case "end":
                 return _context5.stop();
             }
@@ -277,7 +296,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    markSelect: function markSelect(check) {
+    selectAllStudent: function selectAllStudent() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
@@ -285,7 +304,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (check == true) _this6.selectedCount++;else _this6.selectedCount--;
+                if (_this6.isSelectedAll) {
+                  _this6.selectedStudent.forEach(function (item) {
+                    item.isSelected = false;
+                    _this6.selectedCount--;
+                  });
+
+                  _this6.isSelectedAll = false;
+                } else {
+                  _this6.selectedStudent.forEach(function (item) {
+                    item.isSelected = true;
+                    _this6.selectedCount++;
+                  });
+
+                  _this6.isSelectedAll = true;
+                }
 
               case 1:
               case "end":
@@ -293,6 +326,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee6);
+      }))();
+    },
+    markSelect: function markSelect(check) {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                if (check == true) _this7.selectedCount++;else _this7.selectedCount--;
+
+              case 1:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
       }))();
     }
   },
@@ -407,7 +458,11 @@ var render = function() {
                     disabled: _vm.selectedCount == 0,
                     color: "secondary"
                   },
-                  on: { click: _vm.selectAllStudent }
+                  on: {
+                    click: function($event) {
+                      return _vm.RejectAllSelectedJoinRequest()
+                    }
+                  }
                 },
                 [_vm._v("Reject Selected")]
               ),
@@ -688,7 +743,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c(
                                     "div",
-                                    { staticClass: "pl-7 mt-1" },
+                                    { staticClass: "pl-5 mt-1" },
                                     [
                                       _c("v-checkbox", {
                                         attrs: { "hide-details": "" },
