@@ -123,6 +123,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Class_id'],
   data: function data() {
@@ -499,63 +507,76 @@ var render = function() {
               _vm._v("\n            Join Request\n            "),
               _c("v-spacer"),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    disabled: _vm.selectedCount == 0,
-                    color: "secondary"
-                  },
-                  on: {
-                    click: function($event) {
-                      return _vm.openConfirmDialog("reject")
-                    }
-                  }
-                },
-                [_vm._v("Reject Selected")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "ml-2",
-                  attrs: { disabled: _vm.selectedCount == 0, color: "primary" },
-                  on: {
-                    click: function($event) {
-                      return _vm.openConfirmDialog("accept")
-                    }
-                  }
-                },
-                [_vm._v("Accept Selected")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "ml-2",
-                  attrs: { outlined: "", color: "primary" },
-                  on: { click: _vm.selectAllStudent }
-                },
-                [
-                  _vm._v(
-                    "\n               \n                " +
-                      _vm._s(
-                        _vm.isSelectedAll ? "Unselect All" : "Select All"
-                      ) +
-                      "\n                 "
-                  ),
-                  _c("v-icon", { attrs: { right: "" } }, [
-                    _vm._v(
-                      _vm._s(
-                        _vm.isSelectedAll
-                          ? "mdi-checkbox-marked"
-                          : "mdi-checkbox-blank-outline"
-                      ) + " "
-                    )
-                  ])
-                ],
-                1
-              )
+              _vm.JoinRequestList.length > 0
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            disabled: _vm.selectedCount == 0,
+                            color: "secondary"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.openConfirmDialog("reject")
+                            }
+                          }
+                        },
+                        [_vm._v("Reject Selected")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "ml-2",
+                          attrs: {
+                            disabled: _vm.selectedCount == 0,
+                            color: "primary"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.openConfirmDialog("accept")
+                            }
+                          }
+                        },
+                        [_vm._v("Accept Selected")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "ml-2",
+                          attrs: { outlined: "", color: "primary" },
+                          on: { click: _vm.selectAllStudent }
+                        },
+                        [
+                          _vm._v(
+                            "\n               \n                " +
+                              _vm._s(
+                                _vm.isSelectedAll
+                                  ? "Unselect All"
+                                  : "Select All"
+                              ) +
+                              "\n                 "
+                          ),
+                          _c("v-icon", { attrs: { right: "" } }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm.isSelectedAll
+                                  ? "mdi-checkbox-marked"
+                                  : "mdi-checkbox-blank-outline"
+                              ) + " "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -646,7 +667,7 @@ var render = function() {
                                   _vm._s(item.firstName) +
                                     " " +
                                     _vm._s(item.lastName) +
-                                    " (" +
+                                    " (ID: " +
                                     _vm._s(item.student_id) +
                                     ")"
                                 )
@@ -667,67 +688,6 @@ var render = function() {
                                 "div",
                                 { staticClass: "d-flex" },
                                 [
-                                  _c(
-                                    "v-tooltip",
-                                    {
-                                      attrs: { top: "" },
-                                      scopedSlots: _vm._u(
-                                        [
-                                          {
-                                            key: "activator",
-                                            fn: function(ref) {
-                                              var on = ref.on
-                                              var attrs = ref.attrs
-                                              return [
-                                                _c(
-                                                  "v-btn",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {
-                                                        staticClass: "mr-2",
-                                                        attrs: { icon: "" },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.AcceptJoinRequest(
-                                                              item.id,
-                                                              index
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      "v-btn",
-                                                      attrs,
-                                                      false
-                                                    ),
-                                                    on
-                                                  ),
-                                                  [
-                                                    _c(
-                                                      "v-icon",
-                                                      {
-                                                        attrs: { color: "blue" }
-                                                      },
-                                                      [_vm._v("mdi-check")]
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              ]
-                                            }
-                                          }
-                                        ],
-                                        null,
-                                        true
-                                      )
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [_vm._v("Accept Request")])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
                                   _c(
                                     "v-tooltip",
                                     {
@@ -786,6 +746,67 @@ var render = function() {
                                     [
                                       _vm._v(" "),
                                       _c("span", [_vm._v("Reject Request")])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { top: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {
+                                                        staticClass: "mr-2",
+                                                        attrs: { icon: "" },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.AcceptJoinRequest(
+                                                              item.id,
+                                                              index
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      "v-btn",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: { color: "blue" }
+                                                      },
+                                                      [_vm._v("mdi-check")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Accept Request")])
                                     ]
                                   ),
                                   _vm._v(" "),

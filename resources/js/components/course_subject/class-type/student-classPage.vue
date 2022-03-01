@@ -73,8 +73,8 @@
             <v-row >
                 <v-col class="mb-0 pb-0 d-flex" cols="12" md="12" lg="8">
                     <h2 :class="$vuetify.breakpoint.mdAndUp ? 'mr-4' : ''" >My Classes</h2> 
-                    <v-spacer v-if="!$vuetify.breakpoint.mdAndUp && allClassesData.length > 6"></v-spacer>
-                    <v-btn v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs && allClassesData.length > 6" @click="openJoinmodal" color="primary">Join Class</v-btn>
+                    <v-spacer v-if="!$vuetify.breakpoint.mdAndUp && allClassesData.length > 8"></v-spacer>
+                    <v-btn v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs && allClassesData.length > 8" @click="openJoinmodal" color="primary">Join Class</v-btn>
                 </v-col>
                 <v-col lg="2" class="text-right">
                     <v-select class="mr-2 my-0" hide-details dense :items="school_year" item-text="schoolyear" item-value="id"
@@ -213,27 +213,29 @@
                 <v-col v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs" class="mt-3" style="cursor: pointer;" cols="12" xl="3" lg="3" md="6"  >
                     <div>
                         <v-hover v-slot="{ hover }">
-                            <v-tooltip>
-                                <template v-slot:activator="{ on, attrs }">
+                            
                                     <div  class="card-expansion">
-                                        <v-card v-bind="attrs" v-on="on"  @click="openJoinmodal" :height="!$vuetify.breakpoint.md ? '356' : '310'" :elevation="hover ? 16 : 2" class="mx-auto" color="#F5F5F5">
+                                        <v-card   @click="openJoinmodal" :height="!$vuetify.breakpoint.md ? '356' : '310'" :elevation="hover ? 16 : 2" class="mx-auto" color="#F5F5F5">
                                             <v-row >
                                                 <v-col  cols="12" class="text-center">
-                                                    <v-icon :style="!$vuetify.breakpoint.md ? 'font-size: 10rem; margin-top:5rem' : 'font-size: 10rem; margin-top:3.5rem'" x-large color="#E0E0E0">
-                                                        mdi-plus-thick
-                                                    </v-icon>
+                                                    <v-tooltip top >
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-icon v-bind="attrs" v-on="on" :style="!$vuetify.breakpoint.md ? 'font-size: 10rem; margin-top:5rem' : 'font-size: 10rem; margin-top:3.5rem'" x-large color="#E0E0E0">
+                                                                mdi-plus-thick
+                                                            </v-icon>
+                                                        </template>
+                                                        <span>Join Class</span>
+                                                    </v-tooltip>
                                                 </v-col>
                                             </v-row>
                                         </v-card>
                                     </div>
-                                </template>
-                                <span>Join Class</span>
-                            </v-tooltip>
+                          
                          </v-hover>
                     </div>
                 </v-col>
                 <v-col v-if="$vuetify.breakpoint.md || $vuetify.breakpoint.sm || $vuetify.breakpoint.xs" class="text-right">                
-                 <v-tooltip top>
+                 <v-tooltip top min-width="100">
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on" bottom color="primary" dark fab fixed right @click="openJoinmodal">
                         <v-icon>mdi-plus</v-icon>

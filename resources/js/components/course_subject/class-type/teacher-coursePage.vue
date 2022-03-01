@@ -165,11 +165,11 @@
                                                 <v-list-item-title>Archive</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item @click="DeleteConfirm(item.course_name, item.id)"
+                                            <!-- <v-list-item @click="DeleteConfirm(item.course_name, item.id)"
                                                 v-if="item.student_count == 0" link>
                                                 <v-list-item-title>Delete</v-list-item-title>
 
-                                            </v-list-item>
+                                            </v-list-item> -->
 
 
                                             <v-list-item @click="cloneCourseConfirm(item)" link>

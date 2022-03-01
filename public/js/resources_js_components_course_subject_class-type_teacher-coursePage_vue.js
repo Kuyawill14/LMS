@@ -1407,38 +1407,6 @@ var render = function() {
                                                         1
                                                       ),
                                                       _vm._v(" "),
-                                                      item.student_count == 0
-                                                        ? _c(
-                                                            "v-list-item",
-                                                            {
-                                                              attrs: {
-                                                                link: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.DeleteConfirm(
-                                                                    item.course_name,
-                                                                    item.id
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-list-item-title",
-                                                                [
-                                                                  _vm._v(
-                                                                    "Delete"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
                                                       _c(
                                                         "v-list-item",
                                                         {

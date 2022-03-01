@@ -6,13 +6,16 @@
             <v-col cols="12 d-flex" class="mt-2">
                 Join Request
                 <v-spacer></v-spacer>
-                 <v-btn :disabled="selectedCount == 0" @click="openConfirmDialog('reject')" color="secondary">Reject Selected</v-btn>
+                <div v-if="JoinRequestList.length > 0">
+                     <v-btn :disabled="selectedCount == 0" @click="openConfirmDialog('reject')" color="secondary">Reject Selected</v-btn>
                 <v-btn class="ml-2" @click="openConfirmDialog('accept')" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
                 <v-btn outlined class="ml-2" @click="selectAllStudent" color="primary">
                    
                     {{isSelectedAll ? 'Unselect All' : 'Select All'}}
                      <v-icon right>{{isSelectedAll ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'}} </v-icon>
                     </v-btn>
+                </div>
+                
                     
             </v-col>
             <v-col v-if="isLoading"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
@@ -25,6 +28,8 @@
                     </v-col>
                 </v-row>
             </v-col>
+
+            
              <v-col v-if="!isLoading"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                         <v-list class="mb-0 pb-0">
                         <v-list-item class="mb-0 pb-0" v-show="item.class_id == Class_id || Class_id == $route.params.id" v-for="(item, index) in JoinRequestList" v-bind:key="item.user_id">
@@ -34,11 +39,22 @@
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title>{{item.firstName}} {{item.lastName}} ({{item.student_id}})</v-list-item-title>
+                                <v-list-item-title>{{item.firstName}} {{item.lastName}} (ID: {{item.student_id}})</v-list-item-title>
                                 <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action class="pa-0 ma-0">
                                 <div class="d-flex">
+
+                                    
+                                        <v-tooltip nudge-top top>
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-btn @click="RejectJoinRequest(item.id, index)" v-bind="attrs"  v-on="on" class="mr-2"  icon>
+                                            <v-icon  color="red">mdi-close</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <span>Reject Request</span>
+                                        </v-tooltip>
+                                        
                                         <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                              <v-btn @click="AcceptJoinRequest(item.id, index)" v-bind="attrs"  v-on="on" class="mr-2"  icon>
@@ -48,14 +64,6 @@
                                         <span>Accept Request</span>
                                         </v-tooltip>
 
-                                        <v-tooltip nudge-top top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn @click="RejectJoinRequest(item.id, index)" v-bind="attrs"  v-on="on" class="mr-2"  icon>
-                                            <v-icon  color="red">mdi-close</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <span>Reject Request</span>
-                                        </v-tooltip>
 
 
                                         <div  class="pl-5 mt-1">
