@@ -277,6 +277,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var confirmArchiveCourse = function confirmArchiveCourse() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course_subject_class-type_dialog_confirmArchiveCourse_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/confirmArchiveCourse */ "./resources/js/components/course_subject/class-type/dialog/confirmArchiveCourse.vue"));
 };
@@ -335,19 +344,31 @@ var confirmCloneCourse = function confirmCloneCourse() {
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['allCourse']),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['fetchCourseList'])), {}, {
-    cloneCoursePrompt: function cloneCoursePrompt(course_data) {
+    cloneCourseConfirm: function cloneCourseConfirm(course_data) {
       this.cloneDetails = course_data;
-      this.Archivedialog = !this.Archivedialog;
+      this.cloneDialog = !this.cloneDialog;
     },
-    duplicate_course: function duplicate_course(course_data) {
+    cloneCourse: function cloneCourse(course_data) {
       var _this = this;
 
       axios.post('/api/course/duplicate', {
         course_data: course_data
       }).then(function (res) {
-        _this.fetchCourses();
+        _this.$store.dispatch('fetchCourseList').then(function () {
+          _this.allCoursesData = _this.allCourse;
+          _this.coursesLength = _this.allCourse.length;
+          _this.isGetting = false;
+
+          _this.toastSuccess(course_data.name + ' have been successfully cloned');
+
+          _this.cloneDialog = !_this.cloneDialog;
+        });
       })["catch"](function (err) {
         console.log(err);
+
+        _this.toastError('Something went wrong. Please refresh the page and please try again.');
+
+        _this.cloneDialog = !_this.cloneDialog;
       });
     },
     validate: function validate() {
@@ -748,7 +769,7 @@ var render = function() {
       _c(
         "v-dialog",
         {
-          attrs: { persistent: "", "max-width": "400" },
+          attrs: { persistent: "", "max-width": "500" },
           model: {
             value: _vm.cloneDialog,
             callback: function($$v) {
@@ -758,19 +779,17 @@ var render = function() {
           }
         },
         [
-          _vm.cloneDialog
-            ? _c("confirmDeleteCourse", {
-                attrs: { course: _vm.cloneDetails },
-                on: {
-                  toggleCancelDialog: function($event) {
-                    _vm.cloneDialog = !_vm.cloneDialog
-                  },
-                  toggleconfirm: function($event) {
-                    return _vm.cloneCourse()
-                  }
-                }
-              })
-            : _vm._e()
+          _c("confirmCloneCourse", {
+            attrs: { course: _vm.cloneDetails },
+            on: {
+              toggleCancelDialog: function($event) {
+                _vm.cloneDialog = !_vm.cloneDialog
+              },
+              toggleconfirm: function($event) {
+                return _vm.cloneCourse(_vm.cloneDetails)
+              }
+            }
+          })
         ],
         1
       ),
@@ -792,7 +811,7 @@ var render = function() {
                 [
                   _c("v-icon", { staticStyle: { "font-size": "14rem" } }, [
                     _vm._v(
-                      "\n                    mdi-book-variant-multiple\n                "
+                      "\n                mdi-book-variant-multiple\n            "
                     )
                   ]),
                   _vm._v(" "),
@@ -800,7 +819,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", [
                     _vm._v(
-                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and\n                    Assignment and etc. "
+                      " Creating Course, you'll be able to Create Classes, manage Learning Materials, Create Quiz and\n                Assignment and etc. "
                     )
                   ]),
                   _vm._v(" "),
@@ -866,7 +885,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("v-card-title", [
                     _vm._v(
-                      "\n                     Create Course\n                "
+                      "\n                    Create Course\n                "
                     )
                   ]),
                   _vm._v(" "),
@@ -945,7 +964,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("Cancel")]
+                        [_vm._v("Cancel\n                    ")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -1320,7 +1339,7 @@ var render = function() {
                                                                   },
                                                                   [
                                                                     _vm._v(
-                                                                      "\n                                                    mdi-dots-vertical\n                                                "
+                                                                      "\n                                                mdi-dots-vertical\n                                            "
                                                                     )
                                                                   ]
                                                                 )
@@ -1427,7 +1446,7 @@ var render = function() {
                                                             click: function(
                                                               $event
                                                             ) {
-                                                              return _vm.duplicate_course(
+                                                              return _vm.cloneCourseConfirm(
                                                                 item
                                                               )
                                                             }
@@ -1550,10 +1569,11 @@ var render = function() {
                                                                                 },
                                                                                 [
                                                                                   _vm._v(
-                                                                                    _vm._s(
-                                                                                      item.course_code
-                                                                                    ) +
-                                                                                      "\n                                                        "
+                                                                                    "\n                                                            " +
+                                                                                      _vm._s(
+                                                                                        item.course_code
+                                                                                      ) +
+                                                                                      "\n                                                            "
                                                                                   ),
                                                                                   _c(
                                                                                     "br"
@@ -1613,7 +1633,7 @@ var render = function() {
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "\n                                        " +
+                                                                    "\n                                            " +
                                                                       _vm._s(
                                                                         item.student_count +
                                                                           " students"
@@ -1622,12 +1642,12 @@ var render = function() {
                                                                   ),
                                                                   _c("br"),
                                                                   _vm._v(
-                                                                    "\n                                        " +
+                                                                    "\n                                            " +
                                                                       _vm._s(
                                                                         item.class_count +
                                                                           " class"
                                                                       ) +
-                                                                      "\n                                    "
+                                                                      "\n                                        "
                                                                   )
                                                                 ]
                                                               ),

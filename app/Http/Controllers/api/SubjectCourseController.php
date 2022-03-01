@@ -358,6 +358,8 @@ class SubjectCourseController extends Controller
         $this->duplicateGradingCriteria($course_data['id'],$new_course->id);
 
         DB::commit();
+
+        return 1;
     }
 
     public function duplicateGradingCriteria($course_id,$new_course_id) {

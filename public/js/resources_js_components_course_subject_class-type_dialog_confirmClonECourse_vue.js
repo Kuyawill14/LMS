@@ -42,21 +42,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['ArchiveDetails']
+  props: ['course']
 });
 
 /***/ }),
@@ -151,9 +138,9 @@ var render = function() {
     [
       _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
         _vm._v(
-          "\n      Clone " +
-            _vm._s(_vm.course.course_code + " - " + _vm.course_name) +
-            "\n    "
+          "\n        Are you sure to clone " +
+            _vm._s(_vm.course.course_code + " - " + _vm.course.course_name) +
+            "?\n    "
         )
       ]),
       _vm._v(" "),
@@ -163,24 +150,19 @@ var render = function() {
           { staticClass: "subtitle-1 ", staticStyle: { "line-height": "1.1" } },
           [
             _vm._v(
-              "\n             Cloning this course you'll able to clone the following course contents:\n              "
+              "\n            Cloning this course you'll able to clone the following course contents:\n            "
             ),
             _c("br"),
-            _vm._v("\n              Grading Criteria \n              "),
+            _vm._v(" "),
             _c("br"),
-            _vm._v("\n              Modules\n              "),
-            _c("br"),
-            _vm._v("\n              Classworks \n              "),
-            _c("br"),
-            _vm._v(
-              "\n\n             \n             Are you sure to clone this "
-            ),
-            _c("span", { staticClass: "font-weight-bold" }, [
-              _vm._v(" " + _vm._s(_vm.course_code + " - " + _vm.course_name))
-            ]),
-            _vm._v(
-              "?\n             \n             \n             \n             \n             "
-            )
+            _vm._v(" "),
+            _c("ul", [
+              _c("li", [_vm._v(" Grading Criteria ")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Modules")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Classworks")])
+            ])
           ]
         )
       ]),
@@ -200,7 +182,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n        Cancel\n      ")]
+            [_vm._v("\n            Cancel\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -213,7 +195,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n        Confirm\n      ")]
+            [_vm._v("\n            Confirm\n        ")]
           )
         ],
         1
