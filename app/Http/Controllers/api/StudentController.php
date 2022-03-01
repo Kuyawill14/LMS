@@ -346,6 +346,7 @@ class StudentController extends Controller
         $SubmitSubj = tbl_Submission::find($id);
         if($SubmitSubj){
             $SubmitSubj->status = "Submitted";
+            $SubmitSubj->submitted_at = date('Y-m-d H:i:s');
             $SubmitSubj->save();
 
        $courseAndClassId = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $SubmitSubj->classwork_id)

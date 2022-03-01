@@ -123,24 +123,24 @@
 
             
             <v-row class="mt-3"  >
-                <v-col cols="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
+                <v-col style="cursor: pointer;" cols="12" xl="3" lg="3" md="6" v-for="(item, i) in allCoursesData" :key="'course'+i">
+                <v-hover v-slot="{ hover }">
+             
                     <div class="card-expansion">
-                        <v-card class="mx-auto">
-                    
-                                 <v-img
-                               :src="CheckBackgroundPath(item.course_picture)" height="200px" link
+                        <v-card class="mx-auto" :elevation="hover ? 16 : 2">
+                                <v-img 
+                                @click="$store.dispatch('clearClassesNames'), 
+                                 item.completed == 1 ? $router.push({name: 'coursePage', params: {id: item.id}}) : $router.push({name: 'courseSetup', params: {id: item.id}})"
+                                :src="CheckBackgroundPath(item.course_picture)" height="200px" link
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" class="white--text grey lighten-2"
-                                aspect-ratio="1"
-                            
-                            >
+                                aspect-ratio="1" >
                                
                                  <v-menu transition="slide-y-transition" bottom >
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white" >
-                                                <v-icon>
+                                            <v-btn :x-large="$vuetify.breakpoint.sm || $vuetify.breakpoint.xs" icon v-bind="attrs" v-on="on" class="float-right" color="white" >
+                                                <v-icon :x-large="$vuetify.breakpoint.sm || $vuetify.breakpoint.xs">
                                                     mdi-dots-vertical
                                                 </v-icon>
-
                                             </v-btn>
                                         </template>
                                         <v-list class="pa-1">
@@ -213,7 +213,7 @@
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                                  <v-badge overlap color="red" :value="item.join_request_count" :content="item.join_request_count" bordered top    offset-x="45" offset-y="17">
-                                                     <v-btn @click="item.completed == 1 ? $router.push({name: 'Student-list', params: {id: item.id},query:{view: 'join_request'} }) : ''"  icon v-bind="attrs" v-on="on">
+                                                     <v-btn x-large style="z-index:100" @click="item.completed == 1 ? $router.push({name: 'Student-list', params: {id: item.id},query:{view: 'join_request'} }) : ''"  icon v-bind="attrs" v-on="on">
                                                          <v-icon large>mdi-account-arrow-right-outline</v-icon>
                                                      </v-btn>
                                                 </v-badge>
@@ -229,6 +229,7 @@
                         </v-card>
 
                     </div>
+                       </v-hover>
 
                 </v-col>
             </v-row>

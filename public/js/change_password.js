@@ -111,6 +111,9 @@ __webpack_require__.r(__webpack_exports__);
         },
         max: function max(v) {
           return v && v.length <= 20 || "Max 20 characters";
+        },
+        blank: function blank(v) {
+          return v && !!v.trim() || 'Field cannot be blank';
         }
       }
     };
@@ -318,7 +321,11 @@ var render = function() {
                                     ? "mdi-eye"
                                     : "mdi-eye-off",
                                   dense: "",
-                                  rules: [_vm.rules.required, _vm.rules.min],
+                                  rules: [
+                                    _vm.rules.required,
+                                    _vm.rules.min,
+                                    _vm.rules.blank
+                                  ],
                                   outlined: "",
                                   type: _vm.showCurrent ? "text" : "password"
                                 },
@@ -386,7 +393,8 @@ var render = function() {
                                   rules: [
                                     _vm.rules.required,
                                     _vm.rules.min,
-                                    _vm.rules.max
+                                    _vm.rules.max,
+                                    _vm.rules.blank
                                   ],
                                   outlined: "",
                                   type: _vm.showNew ? "text" : "password"
@@ -456,7 +464,8 @@ var render = function() {
                                   rules: [
                                     _vm.rules.required,
                                     _vm.rules.min,
-                                    _vm.rules.max
+                                    _vm.rules.max,
+                                    _vm.rules.blank
                                   ],
                                   type: _vm.ShowNewRetype ? "text" : "password"
                                 },
