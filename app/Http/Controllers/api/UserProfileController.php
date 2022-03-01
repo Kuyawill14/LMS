@@ -230,9 +230,7 @@ class UserProfileController extends Controller
         ]);
         
     
-
-        
-
+        $user = User::find($userId);
         if($user){
             $UpdateDetails = tbl_userDetails::where('tbl_user_details.user_id',$userId)->first();
             if($UpdateDetails){
@@ -243,11 +241,7 @@ class UserProfileController extends Controller
                 $UpdateDetails->birthday = date('Y-m-d', strtotime($request->birthday));
                 $UpdateDetails->address = $request->address;
                 $UpdateDetails->cp_no = $request->cp_no;
-                //$UpdateDetails->social_account =  $request->social_account;
-                //$UpdateDetails->student_id =  $request->student_id;
-                // $UpdateDetails->department =  $request->department;
                 $UpdateDetails->save();
-
                 $user->email = $request->email;
                 $user->save();
                 return "Details Successfully Updated";
