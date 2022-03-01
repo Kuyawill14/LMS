@@ -224,7 +224,9 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::post('/change_class_picture', [TeacherController::class, 'ChangeClassPicture']);
     Route::get('/fetch_student_join_request/{id}', [TeacherController::class, 'FetchClassJoinRequest']);
     Route::put('/accept_student_join_request/{id}', [TeacherController::class, 'AcceptJoinRequest']);
+    Route::put('/multiple_accept_student_join_request', [TeacherController::class, 'MultipleAcceptJoinRequest']);
     Route::delete('/reject_student_join_request/{id}', [TeacherController::class, 'rejectJoinRequest']);
+    Route::delete('/multiple_reject_student_join_request', [TeacherController::class, 'MultiplerejectJoinRequest']);
     
     
 });

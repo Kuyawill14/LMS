@@ -92,7 +92,7 @@ class SubmissionController extends Controller
                     $Sub->graded = $Submission->graded;
                     $time = (Carbon::parse($Submission->updated_at)->timestamp * 1000) - (Carbon::parse($Submission->created_at)->timestamp * 1000);
                     $Sub->timeSpent =  floor(($time/1000)/60);
-                    $Sub->updated_at = $Submission->updated_at;
+                    $Sub->updated_at = $Submission->submitted_at == null ? $Submission->updated_at : $Submission->submitted_at;
                     $Sub->rubrics_score = unserialize($Submission->rubrics_score);
 
 

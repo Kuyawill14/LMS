@@ -296,6 +296,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails'],
@@ -313,6 +327,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }],
       FieldRules: [function (v) {
         return !!v || 'Field is required';
+      }, function (v) {
+        return v && !!v.trim() || 'Field cannot be blank';
       }],
       phoneNumberRules: [function (v) {
         return v && v.length >= 11 || 'min 11 characters';
@@ -325,6 +341,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return v && v.length >= 6 || 'min 6 characters';
       }, function (v) {
         return v && v.length <= 8 || 'Max 8 characters';
+      }, function (v) {
+        return v && !!v.trim() || 'Student Id cannot be blank';
       }],
       isloading: true,
       departmentsList: [],
@@ -364,16 +382,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   //this.isSaving = !this.isSaving;
                   setTimeout(function () {
                     return _this.isSaving = false, _this.isNeChanges = false;
-                  }, 500);
+                  }, 500); //
 
-                  _this.toastSuccess('Profile Successfully Updated');
-                })["catch"](function (e) {
+                  if (res.status == 200) {
+                    _this.toastSuccess('Profile Successfully Updated');
+                  } else if (res.status == 422) {
+                    _this.toastSuccess('The given data was invalid');
+                  }
+                })["catch"](function (error) {
                   setTimeout(function () {
                     return _this.isSaving = false;
                   }, 500);
 
-                  _this.toastError('Something went wrong in updating your profile!'); //this.isSaving = !this.isSaving;
-
+                  _this.toastError('Something went wrong in updating your profile!');
                 });
 
               case 3:
@@ -22935,11 +22956,7 @@ var render = function() {
                                 class: _vm.$vuetify.breakpoint.lgAndUp
                                   ? ""
                                   : "ma-0 pa-0",
-                                attrs: {
-                                  dense: "",
-                                  outlined: "",
-                                  rules: _vm.FieldRules
-                                },
+                                attrs: { dense: "", outlined: "" },
                                 on: {
                                   change: function($event) {
                                     _vm.isNeChanges = true
@@ -23090,6 +23107,75 @@ var render = function() {
                                     _vm.$set(_vm.UserDetails, "suffix", $$v)
                                   },
                                   expression: "UserDetails.suffix"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    {
+                      class: _vm.$vuetify.breakpoint.lgAndUp
+                        ? "pb-0 mb-0"
+                        : "pb-0 mb-0 mt-0 pt-0",
+                      attrs: { cols: "12" }
+                    },
+                    [
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.xs
+                                ? "mb-0 pb-0"
+                                : "mt-2",
+                              attrs: { cols: "12", md: "2" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Birthday\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-col",
+                            {
+                              class: _vm.$vuetify.breakpoint.lgAndUp
+                                ? "pb-0 mb-0"
+                                : "pb-0 mb-0 mt-0 pt-0",
+                              attrs: { cols: "12", md: "6" }
+                            },
+                            [
+                              _c("v-text-field", {
+                                staticClass: "mb-0 pb-0",
+                                class: _vm.$vuetify.breakpoint.lgAndUp
+                                  ? ""
+                                  : "ma-0 pa-0",
+                                attrs: {
+                                  dense: "",
+                                  type: "date",
+                                  outlined: ""
+                                },
+                                on: {
+                                  change: function($event) {
+                                    _vm.isNeChanges = true
+                                  }
+                                },
+                                model: {
+                                  value: _vm.UserDetails.birthday,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.UserDetails, "birthday", $$v)
+                                  },
+                                  expression: "UserDetails.birthday"
                                 }
                               })
                             ],

@@ -69,7 +69,7 @@
                         <v-col cols="12" md="6"
                             :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
                             <v-text-field dense @change="isNeChanges = true" outlined
-                                :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'" :rules="FieldRules"
+                                :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'" 
                                 v-model="UserDetails.middleName"></v-text-field>
                         </v-col>
                     </v-row>
@@ -98,6 +98,20 @@
                             <v-text-field @change="isNeChanges = true" dense
                                 :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'" type="text" outlined
                                  v-model="UserDetails.suffix" class="mb-0 pb-0"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-col>
+
+                  <v-col cols="12" :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                    <v-row>
+                        <v-col cols="12" md="2" :class="$vuetify.breakpoint.xs ? 'mb-0 pb-0': 'mt-2'">
+                            Birthday
+                        </v-col>
+                        <v-col cols="12" md="6"
+                            :class="$vuetify.breakpoint.lgAndUp ? 'pb-0 mb-0' : 'pb-0 mb-0 mt-0 pt-0'">
+                            <v-text-field  @change="isNeChanges = true" dense
+                                :class="$vuetify.breakpoint.lgAndUp ? '' : 'ma-0 pa-0'" type="date" outlined
+                                 v-model="UserDetails.birthday" class="mb-0 pb-0"></v-text-field>
                         </v-col>
                     </v-row>
                 </v-col>
@@ -291,6 +305,7 @@
                 ],
                 FieldRules: [
                     v => !!v || 'Field is required',
+                    v => v && !!v.trim() || 'Field cannot be blank',
                 ],
                 phoneNumberRules: [
                     v => (v && v.length >= 11) || 'min 11 characters',
@@ -300,6 +315,7 @@
                     v => !!v || 'Student ID is required',
                     v => (v && v.length >= 6) || 'min 6 characters',
                     v => (v && v.length <= 8) || 'Max 8 characters',
+                    v => v && !!v.trim() || 'Student Id cannot be blank',
                 ],
                 isloading: true,
                 departmentsList: [],
@@ -334,13 +350,18 @@
                        
                         //this.isSaving = !this.isSaving;
                         setTimeout(() => (this.isSaving = false, this.isNeChanges = false), 500);
-                        this.toastSuccess('Profile Successfully Updated');
+                        //
+                         if(res.status == 200){
+                            this.toastSuccess('Profile Successfully Updated');
+                         }else if(res.status == 422){
+                             this.toastSuccess('The given data was invalid');
+                         }
+
+                        
                     })
-                    .catch(e => {
+                    .catch(error => {
                         setTimeout(() => (this.isSaving = false), 500);
                         this.toastError('Something went wrong in updating your profile!');
-                        //this.isSaving = !this.isSaving;
-                        
                     })
             },
             async fetchDeparmentList() {

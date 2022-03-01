@@ -219,7 +219,20 @@ class UserProfileController extends Controller
     {
         //return $request;
         $userId = auth('sanctum')->id();
-        $user = User::find($userId);
+        
+
+        $request->validate([
+            'firstName' => ['required'],
+            'middleName' => ['required'],
+            'lastName' => ['required'],
+            'birthday' => ['required'],
+            'email' => ['required'],
+        ]);
+        
+    
+
+        
+
         if($user){
             $UpdateDetails = tbl_userDetails::where('tbl_user_details.user_id',$userId)->first();
             if($UpdateDetails){

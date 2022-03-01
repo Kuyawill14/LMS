@@ -71,8 +71,10 @@
         <div  v-if="coursesLength != 0 && isGetting == false">
             
             <v-row >
-                <v-col class="mb-0 pb-0" cols="12" md="12" lg="8">
-                    <h2>My Classes</h2>
+                <v-col class="mb-0 pb-0 d-flex" cols="12" md="12" lg="8">
+                    <h2 :class="$vuetify.breakpoint.mdAndUp ? 'mr-4' : ''" >My Classes</h2> 
+                    <v-spacer v-if="!$vuetify.breakpoint.mdAndUp && allClassesData.length > 6"></v-spacer>
+                    <v-btn v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs && allClassesData.length > 6" @click="openJoinmodal" color="primary">Join Class</v-btn>
                 </v-col>
                 <v-col lg="2" class="text-right">
                     <v-select class="mr-2 my-0" hide-details dense :items="school_year" item-text="schoolyear" item-value="id"
@@ -86,12 +88,16 @@
 
             </v-row>
 
-          
-
+        
             <v-row>
-                <v-col cols="12" xl="3" lg="3" md="6"  v-for="(item, i) in allClassesData" :key="'class' + i">
+                <v-col style="cursor: pointer;" cols="12" xl="3" lg="3" md="6"  
+                @click="$router.push({name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}})"
+                v-for="(item, i) in allClassesData" :key="'class' + i">
+
+                    <v-hover v-slot="{ hover }">
+                  
                     <div class="card-expansion">
-                        <v-card class="mx-auto">
+                        <v-card class="mx-auto" :elevation="hover ? 16 : 2">
                              <v-img
                                :src="CheckBackgroundPath(item.course_picture)"
                                  :height="$vuetify.breakpoint.lgAndUp ? 200 : 160"
@@ -101,8 +107,8 @@
                                 <v-spacer></v-spacer>
                                   <v-menu transition="slide-y-transition" bottom >
                                         <template v-slot:activator="{ on, attrs }">
-                                            <v-btn icon v-bind="attrs" v-on="on" class="float-right" color="white" >
-                                                <v-icon>
+                                            <v-btn icon :x-large="$vuetify.breakpoint.sm || $vuetify.breakpoint.xs" v-bind="attrs" v-on="on" class="float-right" color="white" >
+                                                <v-icon :x-large="$vuetify.breakpoint.sm || $vuetify.breakpoint.xs">
                                                     mdi-dots-vertical
                                                 </v-icon>
                                             </v-btn>
@@ -118,11 +124,7 @@
                                     </v-menu>
                                
                             </v-app-bar>
-                               
-                              
-                           
-
-
+                            
                                 <template v-slot:placeholder>
                                 <v-row
                                     class="fill-height ma-0"
@@ -187,7 +189,7 @@
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                                  <v-badge overlap color="red" :value="item.unfinishClaswork" :content="item.unfinishClaswork" bordered top    offset-x="45" offset-y="17">
-                                                    <v-btn :to="{name: 'classwork', params:{id: item.course_id}}"  x-large v-bind="attrs" v-on="on" icon>
+                                                    <v-btn style="z-index:100" :to="{name: 'classwork', params:{id: item.course_id}}"  x-large v-bind="attrs" v-on="on" icon>
                                                         <v-icon large>mdi-book-open-variant</v-icon>
                                                     </v-btn>
                                                 </v-badge>
@@ -203,9 +205,35 @@
 
                     </div>
 
+                      </v-hover>
+
                 </v-col>
-                <v-col class="text-right">
-                
+
+                <v-col v-if="!$vuetify.breakpoint.sm && !$vuetify.breakpoint.xs" class="mt-3" style="cursor: pointer;" cols="12" xl="3" lg="3" md="6"  >
+                    <div>
+                        <v-hover v-slot="{ hover }">
+                            
+
+                            <v-tooltip top>
+                                <template v-slot:activator="{ on, attrs }">
+                                    <div  class="card-expansion">
+                                        <v-card v-bind="attrs" v-on="on"  @click="openJoinmodal" :height="!$vuetify.breakpoint.md ? '356' : '310'" :elevation="hover ? 16 : 2" class="mx-auto" color="#F5F5F5">
+                                            <v-row >
+                                                <v-col  cols="12" class="text-center">
+                                                    <v-icon :style="!$vuetify.breakpoint.md ? 'font-size: 10rem; margin-top:5rem' : 'font-size: 10rem; margin-top:3.5rem'" x-large color="#E0E0E0">
+                                                        mdi-plus-thick
+                                                    </v-icon>
+                                                </v-col>
+                                            </v-row>
+                                        </v-card>
+                                    </div>
+                                </template>
+                                <span>Join Class</span>
+                            </v-tooltip>
+                         </v-hover>
+                    </div>
+                </v-col>
+                <v-col v-if="$vuetify.breakpoint.md" class="text-right">                
                  <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                     <v-btn v-bind="attrs" v-on="on" bottom color="primary" dark fab fixed right @click="openJoinmodal">

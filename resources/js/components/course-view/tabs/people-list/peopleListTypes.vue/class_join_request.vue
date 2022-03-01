@@ -1,8 +1,17 @@
 <template>
     <div>
         <v-row>
-            <v-col cols="12" class="mt-2">
+            <v-col cols="12 d-flex" class="mt-2">
                 Join Request
+                <v-spacer></v-spacer>
+                 <v-btn :disabled="selectedCount == 0" @click="selectAllStudent" color="secondary">Reject Selected</v-btn>
+                <v-btn class="ml-2" @click="AcceptAllSelectedRequest()" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
+                <v-btn outlined class="ml-2" @click="selectAllStudent" color="primary">
+                   
+                    {{isSelectedAll ? 'Unselect All' : 'Select All'}}
+                     <v-icon right>{{isSelectedAll ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'}} </v-icon>
+                    </v-btn>
+                    
             </v-col>
             <v-col v-if="isLoading"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
                 <v-row >
@@ -23,7 +32,7 @@
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title>{{item.firstName}} {{item.lastName}}</v-list-item-title>
+                                <v-list-item-title>{{item.firstName}} {{item.lastName}} ({{item.student_id}})</v-list-item-title>
                                 <v-list-item-subtitle>{{item.email}}</v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action class="pa-0 ma-0">
@@ -45,6 +54,12 @@
                                         </template>
                                         <span>Reject Request</span>
                                         </v-tooltip>
+
+
+                                        <div  class="pl-7 mt-1">
+                                            <v-checkbox @click="markSelect(selectedStudent[index].isSelected)" v-model="selectedStudent[index].isSelected" hide-details></v-checkbox>
+                                        </div>
+                                        
                                 </div>
                                 
                             </v-list-item-action>
@@ -61,7 +76,10 @@ export default {
     data(){
         return{
             JoinRequestList:[],
-            isLoading: true
+            isLoading: true,
+            selectedStudent: [],
+            isSelectedAll: false,
+            selectedCount: 0,
         }
     },
     methods:{
@@ -69,6 +87,13 @@ export default {
             await axios.get('/api/teacher/fetch_student_join_request/'+this.$route.params.id)
             .then((res)=>{
                 this.JoinRequestList = res.data;
+                res.data.forEach(item => {
+                    this.selectedStudent.push({
+                        isSelected: false,
+                        id: item.id
+                    })
+                });
+                
                 this.isLoading = false
             })
             .catch((err)=>{
@@ -100,6 +125,43 @@ export default {
             })
         },
 
+        async AcceptAllSelectedRequest(){
+            let data = [];
+            this.selectedStudent.forEach(item => {
+                if(item.isSelected == true){
+                    data.push({
+                        id: item.id
+                    })
+                }
+            });
+
+            await axios.put('/api/teacher/multiple_accept_student_join_request', data)
+            .then((res)=>{
+
+                /* if(res.status == 200 && res.data.status == 1){  
+                    this.JoinRequestList.splice(index, 1);
+                    this.toastSuccess(res.data.message)
+                    this.$store.dispatch('UpdateJoinCount');
+                    this.$store.dispatch('fetchAllStudents',this.$route.params.id)
+                }
+                else if(res.status == 200 && res.data.status == 2){
+                    this.JoinRequestList.splice(index, 1);
+                    this.toastInfo(res.data.message)
+                    this.$store.dispatch('UpdateJoinCount');
+                }
+                else{
+                    this.toastError(res.data.message)
+                }
+                 */
+                this.isLoading = false
+            })
+            .catch((err)=>{
+                //this.toastError('Something went wrong!')
+            })
+        },
+
+
+
         async RejectJoinRequest(id, index){
             await axios.delete('/api/teacher/reject_student_join_request/'+id)
             .then(()=>{
@@ -110,6 +172,25 @@ export default {
                 this.toastError('Something went wrong!')
             })
         },
+        async selectAllStudent(){
+            if(this.isSelectedAll){
+                 this.selectedStudent.forEach(item => {
+                    item.isSelected = false;
+                    this.selectedCount--;
+                });
+                this.isSelectedAll = false;
+            }else{
+                 this.selectedStudent.forEach(item => {
+                    item.isSelected = true;
+                    this.selectedCount++;
+                });
+                this.isSelectedAll = true;
+            }
+        },
+        async markSelect(check){
+            if(check == true)this.selectedCount++;
+            else this.selectedCount--;
+        }
 
     },
     mounted(){
