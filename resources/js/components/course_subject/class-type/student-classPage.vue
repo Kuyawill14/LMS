@@ -125,35 +125,21 @@
                                     </v-menu>
                                
                             </v-app-bar>
-                            
                                 <template v-slot:placeholder>
-                                <v-row
-                                    class="fill-height ma-0"
-                                    align="center"
-                                    justify="center"
-                                >
-                                    <v-progress-circular
-                                    indeterminate
-                                    color="grey lighten-5"
-                                    ></v-progress-circular>
-                                </v-row>
+                                    <v-row class="fill-height ma-0" align="center" justify="center">
+                                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                                    </v-row>
                                 </template>
-
                                   <v-card-subtitle class="mt-12">
-                                      
-                                    <v-progress-linear :value="item.progress" height="6" class="rounded-sm">
-                                    </v-progress-linear>
-                                    <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}%
-                                    </span>
-                                    <span class="text-caption "> Completed </span>
+                                    <v-progress-linear :value="item.progress" height="6" class="rounded-sm"></v-progress-linear>
+                                    <span class="text-caption float-right"> {{ parseFloat(item.progress.toFixed(2))}}%</span>
+                                    <span class="text-caption"> Completed </span>
                                 </v-card-subtitle>
                             </v-img>
                              <v-hover v-slot="{ hover }">
                             <v-card-subtitle class="ml-0 pl-0 mt-0 pt-0">
                                 <div>
-                                
                                     <router-link
-                                       
                                         :to="{name: 'coursePage', params: {id: item.course_id}, query:{class: item.class_id}}"
                                         style="text-decoration: none">
                                        <!--  <p  class="mb-0 pb-0 mb-2" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px' : 'font-size: 14px'">{{item.course_code }}
@@ -164,12 +150,10 @@
                                         <v-list-item :class="hover ? 'blue--text' : 'primary--text'">
                                             <v-list-item-content  >
                                                 <v-list-item-title>
-                                                    <p  class="mb-0 pb-0 mb-2 pr-4" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
+                                                    <p class="mb-0 pb-0 mb-2 pr-4" :style="$vuetify.breakpoint.lgAndUp ? 'font-size: 16px;text-overflow: ellipsis;overflow: hidden; ' : 'font-size: 14px;text-overflow: ellipsis;overflow: hidden; '">{{item.course_code }}
                                                         <br> 
                                                         <span style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</span>
                                                     </p>
-                                                 
-                                                   
                                                 </v-list-item-title>
                                             <!--    <v-list-item-subtitle :class="hover ? 'blue--text' : ''" >
                                                     <div class="text-body-1" style="text-overflow: ellipsis;overflow: hidden; ">{{ item.course_name}}</div>
@@ -190,7 +174,7 @@
                                         <v-tooltip top>
                                             <template v-slot:activator="{ on, attrs }">
                                                  <v-badge overlap color="red" :value="item.unfinishClaswork" :content="item.unfinishClaswork" bordered top    offset-x="45" offset-y="17">
-                                                    <v-btn  :to="{name: 'classwork', params:{id: item.course_id}}"  x-large v-bind="attrs" v-on="on" icon>
+                                                    <v-btn  :to="{name: 'classwork', params:{id: item.course_id}}"  v-bind="attrs" v-on="on" icon>
                                                         <v-icon large>mdi-book-open-variant</v-icon>
                                                     </v-btn>
                                                 </v-badge>

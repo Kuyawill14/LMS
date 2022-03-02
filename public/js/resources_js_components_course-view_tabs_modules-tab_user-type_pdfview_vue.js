@@ -434,12 +434,12 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "v-card",
-    {},
-    [_c("vue-pdf-app", { attrs: { pdf: _vm.pdf_file, config: _vm.config } })],
-    1
-  )
+  return _c("v-card", {}, [
+    _c("iframe", {
+      staticClass: "pdf-viewer holds-the-iframe",
+      attrs: { height: "100%", width: "100%", src: "" + _vm.pdf_file }
+    })
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

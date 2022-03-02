@@ -138,11 +138,8 @@
                             this.ClassworkLength+= element.length;
                         });
                     }
-                    
-                   
-                }).catch((error)=>{
-                     location.reload();
-                 });
+                
+                })
             },
             reloadClassworks(){
                 this.$store.dispatch('SetDataisNotLoaded');

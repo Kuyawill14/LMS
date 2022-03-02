@@ -287,7 +287,7 @@ var render = function() {
                   width: "70",
                   "max-height": "70",
                   "max-width": "70",
-                  src: "../images/isu_logo1.png"
+                  src: "../images/ccsict_logo_2.png"
                 }
               }),
               _vm._v(" "),
@@ -297,7 +297,7 @@ var render = function() {
                   width: "70",
                   "max-height": "70",
                   "max-width": "70",
-                  src: "../images/ccsict_logo_2.png"
+                  src: "../images/isu_logo1.png"
                 }
               })
             ],
@@ -321,7 +321,7 @@ var render = function() {
                       width: "100",
                       "max-height": "100",
                       "max-width": "100",
-                      src: "../images/isu_logo1.png"
+                      src: "../images/ccsict_logo_2.png"
                     }
                   }),
                   _vm._v(" "),
@@ -331,7 +331,7 @@ var render = function() {
                       width: "100",
                       "max-height": "100",
                       "max-width": "100",
-                      src: "../images/ccsict_logo_2.png"
+                      src: "../images/isu_logo1.png"
                     }
                   })
                 ],

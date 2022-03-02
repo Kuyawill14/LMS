@@ -10612,7 +10612,8 @@ var render = function() {
                                     {
                                       on: {
                                         click: function($event) {
-                                          return _vm.GotoThisNotification(item)
+                                          _vm.GotoThisNotification(item),
+                                            (_vm.closing = true)
                                         }
                                       }
                                     },
@@ -10741,7 +10742,8 @@ var render = function() {
                                     {
                                       on: {
                                         click: function($event) {
-                                          return _vm.GotoThisNotification(item)
+                                          _vm.GotoThisNotification(item),
+                                            (_vm.closing = true)
                                         }
                                       }
                                     },

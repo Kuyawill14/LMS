@@ -7,12 +7,11 @@
                 Join Request
                 <v-spacer></v-spacer>
                 <div v-if="JoinRequestList.length > 0">
-                     <v-btn :disabled="selectedCount == 0" @click="openConfirmDialog('reject')" color="secondary">Reject Selected</v-btn>
-                <v-btn class="ml-2" @click="openConfirmDialog('accept')" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
-                <v-btn outlined class="ml-2" @click="selectAllStudent" color="primary">
-                   
-                    {{isSelectedAll ? 'Unselect All' : 'Select All'}}
-                     <v-icon right>{{isSelectedAll ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'}} </v-icon>
+                    <v-btn :disabled="selectedCount == 0" @click="openConfirmDialog('reject')" color="secondary">Reject Selected</v-btn>
+                    <v-btn class="ml-2" @click="openConfirmDialog('accept')" :disabled="selectedCount == 0" color="primary">Accept Selected</v-btn>
+                    <v-btn outlined class="ml-2" @click="selectAllStudent" color="primary">
+                        {{isSelectedAll ? 'Unselect All' : 'Select All'}}
+                        <v-icon right>{{isSelectedAll ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'}} </v-icon>
                     </v-btn>
                 </div>
                 
@@ -31,7 +30,7 @@
 
             
              <v-col v-if="!isLoading"  class="mb-0 pb-0 mt-0 pt-0" cols="12" >
-                        <v-list class="mb-0 pb-0">
+                    <v-list class="mb-0 pb-0">
                         <v-list-item class="mb-0 pb-0" v-show="item.class_id == Class_id || Class_id == $route.params.id" v-for="(item, index) in JoinRequestList" v-bind:key="item.user_id">
                             <v-list-item-avatar color="secondary" >
                                 <v-img 
@@ -44,39 +43,33 @@
                             </v-list-item-content>
                             <v-list-item-action class="pa-0 ma-0">
                                 <div class="d-flex">
-
-                                    
-                                        <v-tooltip nudge-top top>
+                                    ` <v-tooltip nudge-top top>
                                         <template v-slot:activator="{ on, attrs }">
                                             <v-btn @click="RejectJoinRequest(item.id, index)" v-bind="attrs"  v-on="on" class="mr-2"  icon>
                                             <v-icon  color="red">mdi-close</v-icon>
                                             </v-btn>
                                         </template>
                                         <span>Reject Request</span>
-                                        </v-tooltip>
-                                        
-                                        <v-tooltip top>
+                                    </v-tooltip>
+                                    
+                                    <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
-                                             <v-btn @click="AcceptJoinRequest(item.id, index)" v-bind="attrs"  v-on="on" class="mr-2"  icon>
+                                            <v-btn @click="AcceptJoinRequest(item.id, index)" v-bind="attrs"  v-on="on" class="mr-2"  icon>
                                             <v-icon  color="blue">mdi-check</v-icon>
                                         </v-btn>
                                         </template>
                                         <span>Accept Request</span>
-                                        </v-tooltip>
+                                    </v-tooltip>
 
-
-
-                                        <div  class="pl-5 mt-1">
-                                            <v-checkbox @click="markSelect(selectedStudent[index].isSelected)" v-model="selectedStudent[index].isSelected" hide-details></v-checkbox>
-                                        </div>
-                                        
+                                    <div class="pl-5 mt-1">
+                                        <v-checkbox @click="markSelect(selectedStudent[index].isSelected)" v-model="selectedStudent[index].isSelected" hide-details></v-checkbox>
+                                    </div>`
                                 </div>
                                 
                             </v-list-item-action>
                         </v-list-item>
                     </v-list>
                 </v-col>
-
         </v-row>
 
          <v-dialog  v-model="confirmDialog" persistent max-width="400">
@@ -90,19 +83,10 @@
                     </v-card-text>
                 <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn
-                    rounded
-                    text
-                    @click="confirmDialog= false, confirmType = ''"
-                >
+                <v-btn rounded text @click="confirmDialog= false, confirmType = ''">
                     Cancel
                 </v-btn>
-                <v-btn
-                    color="primary"
-                    rounded
-                    text
-                    @click="confirmFunction()"
-                >
+                <v-btn color="primary" rounded text @click="confirmFunction()">
                     Confirm
                 </v-btn>
                 </v-card-actions>

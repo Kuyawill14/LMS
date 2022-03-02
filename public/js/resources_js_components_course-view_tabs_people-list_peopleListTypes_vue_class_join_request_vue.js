@@ -115,22 +115,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Class_id'],
   data: function data() {
@@ -553,13 +537,13 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n               \n                " +
+                            "\n                    " +
                               _vm._s(
                                 _vm.isSelectedAll
                                   ? "Unselect All"
                                   : "Select All"
                               ) +
-                              "\n                 "
+                              "\n                    "
                           ),
                           _c("v-icon", { attrs: { right: "" } }, [
                             _vm._v(
@@ -688,6 +672,9 @@ var render = function() {
                                 "div",
                                 { staticClass: "d-flex" },
                                 [
+                                  _vm._v(
+                                    "\n                                ` "
+                                  ),
                                   _c(
                                     "v-tooltip",
                                     {
@@ -841,7 +828,8 @@ var render = function() {
                                       })
                                     ],
                                     1
-                                  )
+                                  ),
+                                  _vm._v("`\n                            ")
                                 ],
                                 1
                               )
