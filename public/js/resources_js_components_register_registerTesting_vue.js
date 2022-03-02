@@ -244,16 +244,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var loginRegisterFooter = function loginRegisterFooter() {
   return __webpack_require__.e(/*! import() | login_layout */ "login_layout").then(__webpack_require__.bind(__webpack_require__, /*! ../layout/LoginRegisterLayout/LoginRegisterFooter */ "./resources/js/components/layout/LoginRegisterLayout/LoginRegisterFooter.vue"));
 };
@@ -717,7 +707,11 @@ var render = function() {
                                         "v-col",
                                         {
                                           staticClass: " text-left",
-                                          attrs: { cols: "12", md: "7" }
+                                          attrs: {
+                                            cols: "12",
+                                            md: "8",
+                                            xl: "7"
+                                          }
                                         },
                                         [
                                           _c(
@@ -1427,200 +1421,208 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-row",
-            { attrs: { justify: "center" } },
-            [
-              _c(
-                "v-dialog",
-                {
-                  attrs: { persistent: "", "max-width": "500" },
-                  model: {
-                    value: _vm.ConfirmDialog,
-                    callback: function($$v) {
-                      _vm.ConfirmDialog = $$v
-                    },
-                    expression: "ConfirmDialog"
-                  }
-                },
+          _vm.ConfirmDialog
+            ? _c(
+                "v-row",
+                { attrs: { justify: "center" } },
                 [
                   _c(
-                    "v-card",
+                    "v-dialog",
+                    {
+                      attrs: { persistent: "", "max-width": "500" },
+                      model: {
+                        value: _vm.ConfirmDialog,
+                        callback: function($$v) {
+                          _vm.ConfirmDialog = $$v
+                        },
+                        expression: "ConfirmDialog"
+                      }
+                    },
                     [
                       _c(
-                        "div",
-                        { staticClass: "pa-2" },
+                        "v-card",
                         [
                           _c(
-                            "v-alert",
-                            {
-                              staticClass: "text-left",
-                              attrs: { dense: "", type: "info" }
-                            },
-                            [
-                              _vm._v(
-                                "\n                     Confirm Details: Before you click "
-                              ),
-                              _c(
-                                "span",
-                                { staticClass: "font-weight-medium" },
-                                [_vm._v("Confirm")]
-                              ),
-                              _vm._v(
-                                ", make sure you're using an active email address because \n                    all information regarding your class's activity will be sent to that email.\n\n                    "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-divider"),
-                      _vm._v(" "),
-                      _c(
-                        "v-container",
-                        { staticClass: "pl-6 pr-6" },
-                        [
-                          _c(
-                            "v-row",
+                            "div",
+                            { staticClass: "pa-2" },
                             [
                               _c(
-                                "v-col",
+                                "v-alert",
                                 {
-                                  staticStyle: { "font-size": "20px" },
-                                  attrs: { cols: "12" }
+                                  staticClass: "text-left",
+                                  attrs: { dense: "", type: "info" }
                                 },
                                 [
+                                  _vm._v(
+                                    "\n                     Confirm Details: Before you click "
+                                  ),
                                   _c(
                                     "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("First Name: ")]
+                                    { staticClass: "font-weight-medium" },
+                                    [_vm._v("Confirm")]
                                   ),
-                                  _vm._v(" "),
-                                  _c("span", [
-                                    _vm._v(_vm._s(_vm.form.firstName))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
+                                  _vm._v(
+                                    ", make sure you're using an active email address because \n                    all information regarding your class's activity will be sent to that email.\n\n                    "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-divider"),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "pl-6 pr-6" },
+                            [
+                              _c(
+                                "v-row",
+                                [
                                   _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("Middle Initial: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", [
-                                    _vm._v(_vm._s(_vm.form.middleName))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("Last Name: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", [
-                                    _vm._v(_vm._s(_vm.form.lastName))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("Suffix: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", [_vm._v(_vm._s(_vm.form.suffix))]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("Birthday: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", [
-                                    _vm._v(_vm._s(_vm.form.birthday))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c("v-divider"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("Email: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", [_vm._v(_vm._s(_vm.form.email))]),
-                                  _vm._v(" "),
-                                  _c("br"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "font-weight-bold" },
-                                    [_vm._v("Password: ")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("span", [
-                                    _vm._v(_vm._s(_vm.form.password))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("br")
+                                    "v-col",
+                                    {
+                                      staticStyle: { "font-size": "20px" },
+                                      attrs: { cols: "12" }
+                                    },
+                                    [
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("First Name: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.firstName))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("Middle Initial: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.middleName))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("Last Name: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.lastName))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("Suffix: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.suffix))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("Birthday: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.birthday))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c("v-divider"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("Email: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.email))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v("Password: ")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(_vm._s(_vm.form.password))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("br")
+                                    ],
+                                    1
+                                  )
                                 ],
                                 1
                               )
                             ],
                             1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        { staticClass: "pt-2 pb-3" },
-                        [
-                          _c("v-spacer"),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "secondary", text: "" },
-                              on: {
-                                click: function($event) {
-                                  ;(_vm.ConfirmDialog = false),
-                                    (_vm.ischecking = false)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                        cancel\n                    "
-                              )
-                            ]
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-btn",
-                            {
-                              attrs: { color: "primary", text: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.registerAccount()
-                                }
-                              }
-                            },
+                            "v-card-actions",
+                            { staticClass: "pt-2 pb-3" },
                             [
-                              _vm._v(
-                                "\n                        Confirm\n                    "
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "secondary", text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      ;(_vm.ConfirmDialog = false),
+                                        (_vm.ischecking = false)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        cancel\n                    "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { color: "primary", text: "" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.registerAccount()
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                        Confirm\n                    "
+                                  )
+                                ]
                               )
-                            ]
+                            ],
+                            1
                           )
                         ],
                         1
@@ -1631,9 +1633,7 @@ var render = function() {
                 ],
                 1
               )
-            ],
-            1
-          )
+            : _vm._e()
         ],
         1
       )
