@@ -239,7 +239,7 @@
                             <v-checkbox v-if="!isHaveSubmission" v-model="selectedData[mainIndex].selected" @click="CheckSelectedCount(selectedData[mainIndex].selected)" hide-details></v-checkbox>
                         </v-col>
                          <v-col cols="12" class="mb-0 pb-0 pt-0 pr-6 mt-3 text-right ">
-                            <v-btn small @click="selectedData[mainIndex].isEditing = false"
+                            <v-btn small @click="selectedData[mainIndex].isEditing = false,isEditing_id = null"
                             v-if="selectedData[mainIndex].isEditing" outlined color="primary" rounded>Preview</v-btn>
                         </v-col>
                     </v-row>
@@ -337,12 +337,18 @@
                                                                     <v-icon>mdi-image</v-icon>
                                                                 </v-btn> -->
 
-                                                                 <v-btn
-                                                                 v-if="!isHaveSubmission" 
-                                                                @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
-                                                                icon class="mt-3 pl-2 pr-2">
-                                                                <v-icon>mdi-close</v-icon>
-                                                            </v-btn>
+        
+                                                            <v-tooltip top>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                     <v-btn v-bind="attrs" v-on="on"
+                                                                        v-if="!isHaveSubmission"  
+                                                                        @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                                        icon class="mt-3 pl-2 pr-2">
+                                                                        <v-icon>mdi-close</v-icon>
+                                                                    </v-btn>
+                                                                </template>
+                                                                <span>Remove Option</span>
+                                                            </v-tooltip>
                                                             </div>
                                                            
                                                         </v-container>
@@ -374,6 +380,7 @@
                                                         <editor
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
+                                                        @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                         class="editor"
                                                         @focus="item.answer = item.answer == '<p>Option 1</p>' ? '' : item.answer"
                                                         placeholder="Enter Answer"
@@ -382,12 +389,20 @@
                                                         :options="editorOption"/>
                                                       </div>
 
-                                                      <v-btn
-                                                      v-if="!isHaveSubmission" 
-                                                    @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
-                                                    icon class="mt-3 pl-2 pr-2">
-                                                    <v-icon>mdi-close</v-icon>
-                                                </v-btn>
+                                                     
+
+
+                                                <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                         <v-btn v-bind="attrs" v-on="on"
+                                                            v-if="!isHaveSubmission" 
+                                                            @click="RemoveOption(Ans.id,mainIndex,i,item.type)"
+                                                            icon class="mt-3 pl-2 pr-2">
+                                                            <v-icon>mdi-close</v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <span>Remove Answer</span>
+                                                </v-tooltip>
                                             </v-container>
                                         </v-col>
 
@@ -399,6 +414,7 @@
                                                         @focus="Answer.Choice = Answer.Choice == '<p>Option '+(i+1)+'</p>' || Answer.Choice == '<p>Answer '+(i+1)+'</p>' ? '' : Answer.Choice"
                                                         :disabled="quill_disabled"
                                                         @change="isNewChanges = true"
+                                                        @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                         class="editor"
                                                         placeholder="Enter Answer"
                                                         ref="myTextEditor"
@@ -413,12 +429,19 @@
                                                             <v-icon>mdi-image</v-icon>
                                                         </v-btn> -->
 
-                                                         <v-btn
-                                                         v-if="!isHaveSubmission" 
-                                                            @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
-                                                            icon class="mt-3 pl-2 pr-2">
-                                                            <v-icon>mdi-close</v-icon>
-                                                        </v-btn>
+                                                        <v-tooltip top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn  v-bind="attrs" v-on="on"
+                                                                v-if="!isHaveSubmission" 
+                                                                    @click="RemoveOption(Answer.id,mainIndex,i,item.type)"
+                                                                    icon class="mt-3 pl-2 pr-2">
+                                                                    <v-icon>mdi-close</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Remove Answer</span>
+                                                        </v-tooltip>
+
+
                                                     </div>
                                                      
                                                   </v-container>
@@ -450,7 +473,7 @@
                                                 <v-radio-group :rules="rules" v-model="item.answer">
                                                     <v-radio
                                                     :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                    @click="isNewChanges = true"
+                                                    @change="isNewChanges = true,SaveAllQuestion()"
                                                     color="primary"
                                                     :key="n"
                                                     name="Answer" 
@@ -484,6 +507,7 @@
                                                           <editor
                                                             :disabled="quill_disabled"
                                                              @change="isNewChanges = true"
+                                                             @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                             class="editor"
                                                             placeholder="Enter Question" 
                                                             ref="myTextEditor"
@@ -496,6 +520,7 @@
                                                      <div style="width:100%" class="mb-3" >
                                                             <editor
                                                             @change="isNewChanges = true"
+                                                            @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                              :disabled="quill_disabled"
                                                             class="editor"
                                                             placeholder="Enter Answer" 
@@ -504,12 +529,19 @@
                                                             :options="editorOption"/>
                                                       </div>
 
-                                                     <v-btn
-                                                        v-if="!isHaveSubmission" 
-                                                        @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index].id, mainIndex,  sub_index)"
-                                                        icon class="mt-3 pl-2 pr-2">
-                                                        <v-icon>mdi-close</v-icon>
-                                                    </v-btn>
+                                                    
+
+                                                      <v-tooltip top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <v-btn v-bind="attrs" v-on="on"
+                                                                v-if="!isHaveSubmission" 
+                                                                @click="RemoveMatch(item.id, SubQues.id, getAll_questions.Answer[mainIndex].SubAnswer[sub_index].id, mainIndex,  sub_index)"
+                                                                icon class="mt-3 pl-2 pr-2">
+                                                                <v-icon>mdi-close</v-icon>
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Remove Answer</span>
+                                                     </v-tooltip>
                                                     </v-container>
                                                </v-col>
                                            </v-row>
@@ -547,12 +579,19 @@
                                                         ref="myTextEditor"
                                                         :options="editorOption"/>
                                                     </div>
-                                                     <v-btn
-                                                        v-if="!isHaveSubmission"
-                                                        @click="removeDestructor(destruc.id, destruc_index,mainIndex)"
-                                                        icon class="mt-3 pl-2 pr-2">
-                                                        <v-icon>mdi-close</v-icon>
-                                                    </v-btn>
+                                                    
+
+                                                    <v-tooltip top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                             <v-btn v-bind="attrs" v-on="on"
+                                                                v-if="!isHaveSubmission"
+                                                                @click="removeDestructor(destruc.id, destruc_index,mainIndex)"
+                                                                icon class="mt-3 pl-2 pr-2">
+                                                                <v-icon>mdi-close</v-icon>
+                                                            </v-btn>
+                                                        </template>
+                                                        <span>Remove Destructor</span>
+                                                     </v-tooltip>
                                                 </v-col>
                                             </v-row>
                                         </v-col>
@@ -980,6 +1019,12 @@ export default {
                     Choice : '<p>'+'Option '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
                     question_id : id,
                 })
+
+                 this.$toasted.show('New option has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000,
+                });
             })
             
         },
@@ -998,7 +1043,13 @@ export default {
                     Choice : '',
                     question_id : id
                 })
-                this.SaveAllQuestion();
+
+                this.$toasted.show('New match has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000,
+                });
+                //this.SaveAllQuestion();
             })
 
 
@@ -1250,6 +1301,12 @@ export default {
             })
             .then((res)=>{
                 //this.isNewChanges = false;
+                 this.$toasted.show('Question has been duplicated', {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        duration: 5000,
+                    });
+
                 for (let i = 0; i < res.data.question_id.length; i++) {
                     this.getAll_questions.Question.push({
                         id: res.data.question_id[i],
@@ -1289,8 +1346,6 @@ export default {
                                 Choice : this.DuplicateAnswers[i].SubAnswer[j].Choice,
                                 question_id : res.data.question_id[i],
                             })
-
-                             
                          }
 
                          for (let x = 0; x < res.data.answer_id[i].Destructors_id.length; x++) {

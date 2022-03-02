@@ -587,43 +587,27 @@ class TeacherController extends Controller
     public function MultipleAcceptJoinRequest(Request $request)
     {
 
-        return $request;
-
-
-        
-        $checkJoinRequest = tbl_join_request::find($id);
-        if($checkJoinRequest){
-
-            $checkUserClass = tbl_userclass::where('class_id', $checkJoinRequest->class_id)
-            ->where('user_id', $checkJoinRequest->user_id)->where('course_id', $checkJoinRequest->course_id)
-            ->first();
-
-            if($checkUserClass){
-                return response()->json([
-                'course_id'=>$checkJoinRequest->course_id, 
-                'status'=> 2, 
-                'message'=>"This student is already in the class!"],200);
+        foreach($request->request_id as $item){
+            $checkJoinRequest = tbl_join_request::find($item['id']);
+            if($checkJoinRequest){
+                $checkUserClass = tbl_userclass::where('class_id', $checkJoinRequest->class_id)
+                ->where('user_id', $checkJoinRequest->user_id)->where('course_id', $checkJoinRequest->course_id)
+                ->first();
+    
+                if(!$checkUserClass){
+                    $JoinClass = new tbl_userclass;
+                    $JoinClass->class_id = $checkJoinRequest->class_id;
+                    $JoinClass->user_id = $checkJoinRequest->user_id;
+                    $JoinClass->course_id = $checkJoinRequest->course_id;
+                    $JoinClass->save();
+                    broadcast(new NewUserCLass($JoinClass))->toOthers();
+                }
+                $checkJoinRequest->delete();
             }
-
-            
-            $JoinClass = new tbl_userclass;
-            $JoinClass->class_id = $checkJoinRequest->class_id;
-            $JoinClass->user_id = $checkJoinRequest->user_id;
-            $JoinClass->course_id = $checkJoinRequest->course_id;
-            $JoinClass->save();
-            broadcast(new NewUserCLass($JoinClass))->toOthers();
-            $checkJoinRequest->delete();
-
-         
-
-            return response()->json([
-            'course_id'=>$JoinClass->course_id, 
-            'status'=> 1, 
-            'message'=>"Student successfully added in class!"],200);
         }
         return response()->json([
             'status'=> 1, 
-            'message'=>"Something went wrong!"],201);
+            'message'=>"Student successfully added in class!"],200);
     }
     
 
@@ -634,10 +618,12 @@ class TeacherController extends Controller
         }
     }
 
-    public function MultiplerejectJoinRequest($id){
-        $checkJoinRequest = tbl_join_request::find($id);
-        if($checkJoinRequest){
-            $checkJoinRequest->delete();
+    public function MultiplerejectJoinRequest(Request $request){
+        foreach($request->request_id as $item){
+            $checkJoinRequest = tbl_join_request::find($item['id']);
+            if($checkJoinRequest){
+                $checkJoinRequest->delete();
+            }
         }
     }
 

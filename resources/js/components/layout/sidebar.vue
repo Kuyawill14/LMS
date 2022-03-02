@@ -26,7 +26,7 @@
 
 
             <div class="text-center">
-                <v-menu bottom min-width="200px" rounded offset-y>
+                <v-menu  bottom min-width="200px" rounded offset-y>
                     <template v-slot:activator="{ on }">
                         
                         <v-btn icon x-large v-on="on">

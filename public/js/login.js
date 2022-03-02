@@ -174,11 +174,15 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
         return !!v || "Required";
       }, function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
+      }, function (v) {
+        return v && !!v.trim() || 'Field cannot be blank';
       }],
       emailRules: [function (v) {
         return !!v || "Required";
       }, function (v) {
         return /.+@.+\..+/.test(v) || "Email must be valid";
+      }, function (v) {
+        return v && !!v.trim() || 'Field cannot be blank';
       }],
       show: false,
       rules: {
@@ -187,6 +191,9 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
         },
         min: function min(v) {
           return v && v.length >= 6 || "Min 6 characters";
+        },
+        blank: function blank(v) {
+          return v && !!v.trim() || 'Field cannot be blank';
         }
       },
       ToManyAttepmtError: null,
@@ -243,14 +250,12 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
 
             _this2.toastError(res.data.message);
           }
-        })["catch"](function (err) {
-          if (err.response.status == 429) {
-            _this2.toastError(err.response.data.errors[_this2.form.email][0]);
-          } else {
-            _this2.toastError(err.response.data.message);
-          }
 
           _this2.isLoggin = false;
+        })["catch"](function (err) {
+          _this2.isLoggin = false;
+
+          _this2.toastError("Incorrect Email or Password. Please try again");
         });
       });
     }
@@ -23012,7 +23017,8 @@ var render = function() {
                                                             : "mdi-eye-off",
                                                           rules: [
                                                             _vm.rules.required,
-                                                            _vm.rules.min
+                                                            _vm.rules.min,
+                                                            _vm.rules.blank
                                                           ],
                                                           type: _vm.show
                                                             ? "text"

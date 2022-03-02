@@ -6,7 +6,7 @@
         </v-dialog>
         <v-menu 
         :max-height="$vuetify.breakpoint.xs ? 500 : 650"
-        v-model="menu" rounded="0" :close-on-content-click="closing" :nudge-width="400" offset-y :max-width="400">
+        v-model="menu"   rounded="0" :close-on-content-click="closing" :nudge-width="400" offset-y :max-width="400">
             <template v-slot:activator="{ on, attrs }">
                 <v-btn @click="fetchNotificationall(attrs),isClose = false" icon v-bind="attrs" v-on="on">
                     <v-badge :content="get_notification_count" :value="get_notification_count" color="red darken-2"
@@ -54,7 +54,7 @@
                         
                         <template v-for="(item, index) in get_notification">
                             <v-list-item  :class="item.status == null || item.status == 0 ? 'grey_active' : ''" link v-show="item.hide_notif == 0 || item.hide_notif == null" :key="item.id">
-                                <v-list-item-avatar @click="GotoThisNotification(item)">
+                                <v-list-item-avatar @click="GotoThisNotification(item),closing = true">
                                     <v-icon style="font-size:1.7rem !important" color="blue" v-if="item.notification_type == 'class_invite' || item.notification_type == 'class_joined'" large>mdi-account-plus</v-icon>
                                     <v-icon style="font-size:1.7rem !important" color="red" v-if="item.notification_type == 'post_annoucement'" large>mdi-bullhorn-outline</v-icon>
                                     <v-icon style="font-size:1.7rem !important" color="green" v-if="item.notification_type == 'classwork_assigned'" large> mdi-book-open-variant</v-icon>
@@ -64,7 +64,7 @@
                                     <v-icon style="font-size:1.7rem !important" color="yellow darken-3" v-if="item.notification_type == 'publish_module'" large>mdi-book-variant-multiple</v-icon>
 
                                 </v-list-item-avatar>
-                                <v-list-item-content @click="GotoThisNotification(item)" >
+                                <v-list-item-content @click="GotoThisNotification(item),closing = true" >
                                     
                                     <v-list-item-title style="font-size:14px" class="font-weight-medium">
                                         <v-badge :content="item.status == 1 ? '' :'new'" :value="item.status == 1 ? '' :'new'" 

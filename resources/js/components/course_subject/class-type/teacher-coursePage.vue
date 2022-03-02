@@ -165,11 +165,11 @@
                                                 <v-list-item-title>Archive</v-list-item-title>
 
                                             </v-list-item>
-                                            <v-list-item @click="DeleteConfirm(item.course_name, item.id)"
+                                            <!-- <v-list-item @click="DeleteConfirm(item.course_name, item.id)"
                                                 v-if="item.student_count == 0" link>
                                                 <v-list-item-title>Delete</v-list-item-title>
 
-                                            </v-list-item>
+                                            </v-list-item> -->
 
 
                                             <v-list-item @click="cloneCourseConfirm(item)" link>
@@ -222,7 +222,8 @@
                                         {{item.class_count+' class'}}
                                     </div> -->
                                         <div class="d-flex">
-                                            <div class="mt-2 pl-4">
+                                            <div class="mt-2 pl-4" @click="$store.dispatch('clearClassesNames'), 
+                                 item.completed == 1 ? $router.push({name: 'coursePage', params: {id: item.id}}) : $router.push({name: 'courseSetup', params: {id: item.id}})">
                                                 {{item.student_count+' students'}} <br>
                                                 {{item.class_count+' class'}}
                                             </div>
@@ -233,7 +234,7 @@
                                                         <v-badge overlap color="red" :value="item.join_request_count"
                                                             :content="item.join_request_count" bordered top
                                                             offset-x="45" offset-y="17">
-                                                            <v-btn x-large style="z-index:100"
+                                                            <v-btn  
                                                                 @click="item.completed == 1 ? $router.push({name: 'Student-list', params: {id: item.id},query:{view: 'join_request'} }) : ''"
                                                                 icon v-bind="attrs" v-on="on">
                                                                 <v-icon large>mdi-account-arrow-right-outline</v-icon>

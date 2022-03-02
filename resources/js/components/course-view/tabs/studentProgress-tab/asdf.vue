@@ -1,16 +1,10 @@
 <template>
-
-
     <div class="pt-4">
-        <h2>
-            Student Progress
-        </h2>
+        <h2>Student Progress</h2>
         <v-btn bottom color="primary" dark fab fixed right @click="openAdd()">
             <v-icon>mdi-plus</v-icon>
         </v-btn>
         <v-row class="pt-2">
-
-
             <v-col>
                 <v-card>
                     <v-tabs color="deep-purple accent-4" right>

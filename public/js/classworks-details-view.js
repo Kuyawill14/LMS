@@ -922,6 +922,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1290,6 +1329,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     Choice: '<p>' + 'Option ' + (_this5.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
                     question_id: id
                   });
+
+                  _this5.$toasted.show('New option has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000
+                  });
                 });
 
               case 1:
@@ -1324,7 +1369,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     question_id: id
                   });
 
-                  _this6.SaveAllQuestion();
+                  _this6.$toasted.show('New match has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000
+                  }); //this.SaveAllQuestion();
+
                 });
                 /* this.isNewChanges = true; */
 
@@ -1670,6 +1720,12 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   answer: _this14.DuplicateAnswers
                 }).then(function (res) {
                   //this.isNewChanges = false;
+                  _this14.$toasted.show('Question has been duplicated', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 5000
+                  });
+
                   for (var i = 0; i < res.data.question_id.length; i++) {
                     _this14.getAll_questions.Question.push({
                       id: res.data.question_id[i],
@@ -36530,9 +36586,10 @@ var render = function() {
                                                 },
                                                 on: {
                                                   click: function($event) {
-                                                    _vm.selectedData[
+                                                    ;(_vm.selectedData[
                                                       mainIndex
-                                                    ].isEditing = false
+                                                    ].isEditing = false),
+                                                      (_vm.isEditing_id = null)
                                                   }
                                                 }
                                               },
@@ -37109,42 +37166,92 @@ var render = function() {
                                                                                           "d-flex"
                                                                                       },
                                                                                       [
-                                                                                        !_vm.isHaveSubmission
-                                                                                          ? _c(
-                                                                                              "v-btn",
-                                                                                              {
-                                                                                                staticClass:
-                                                                                                  "mt-3 pl-2 pr-2",
-                                                                                                attrs: {
-                                                                                                  icon:
-                                                                                                    ""
-                                                                                                },
-                                                                                                on: {
-                                                                                                  click: function(
-                                                                                                    $event
+                                                                                        _c(
+                                                                                          "v-tooltip",
+                                                                                          {
+                                                                                            attrs: {
+                                                                                              top:
+                                                                                                ""
+                                                                                            },
+                                                                                            scopedSlots: _vm._u(
+                                                                                              [
+                                                                                                {
+                                                                                                  key:
+                                                                                                    "activator",
+                                                                                                  fn: function(
+                                                                                                    ref
                                                                                                   ) {
-                                                                                                    return _vm.RemoveOption(
-                                                                                                      Ans.id,
-                                                                                                      mainIndex,
-                                                                                                      i,
-                                                                                                      item.type
-                                                                                                    )
+                                                                                                    var on =
+                                                                                                      ref.on
+                                                                                                    var attrs =
+                                                                                                      ref.attrs
+                                                                                                    return [
+                                                                                                      !_vm.isHaveSubmission
+                                                                                                        ? _c(
+                                                                                                            "v-btn",
+                                                                                                            _vm._g(
+                                                                                                              _vm._b(
+                                                                                                                {
+                                                                                                                  staticClass:
+                                                                                                                    "mt-3 pl-2 pr-2",
+                                                                                                                  attrs: {
+                                                                                                                    icon:
+                                                                                                                      ""
+                                                                                                                  },
+                                                                                                                  on: {
+                                                                                                                    click: function(
+                                                                                                                      $event
+                                                                                                                    ) {
+                                                                                                                      return _vm.RemoveOption(
+                                                                                                                        Ans.id,
+                                                                                                                        mainIndex,
+                                                                                                                        i,
+                                                                                                                        item.type
+                                                                                                                      )
+                                                                                                                    }
+                                                                                                                  }
+                                                                                                                },
+                                                                                                                "v-btn",
+                                                                                                                attrs,
+                                                                                                                false
+                                                                                                              ),
+                                                                                                              on
+                                                                                                            ),
+                                                                                                            [
+                                                                                                              _c(
+                                                                                                                "v-icon",
+                                                                                                                [
+                                                                                                                  _vm._v(
+                                                                                                                    "mdi-close"
+                                                                                                                  )
+                                                                                                                ]
+                                                                                                              )
+                                                                                                            ],
+                                                                                                            1
+                                                                                                          )
+                                                                                                        : _vm._e()
+                                                                                                    ]
                                                                                                   }
                                                                                                 }
-                                                                                              },
-                                                                                              [
-                                                                                                _c(
-                                                                                                  "v-icon",
-                                                                                                  [
-                                                                                                    _vm._v(
-                                                                                                      "mdi-close"
-                                                                                                    )
-                                                                                                  ]
-                                                                                                )
                                                                                               ],
-                                                                                              1
+                                                                                              null,
+                                                                                              true
                                                                                             )
-                                                                                          : _vm._e()
+                                                                                          },
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              " "
+                                                                                            ),
+                                                                                            _c(
+                                                                                              "span",
+                                                                                              [
+                                                                                                _vm._v(
+                                                                                                  "Remove Option"
+                                                                                                )
+                                                                                              ]
+                                                                                            )
+                                                                                          ]
+                                                                                        )
                                                                                       ],
                                                                                       1
                                                                                     )
@@ -37352,6 +37459,14 @@ var render = function() {
                                                                                   ) {
                                                                                     _vm.isNewChanges = true
                                                                                   },
+                                                                                  blur: function(
+                                                                                    $event
+                                                                                  ) {
+                                                                                    _vm.isNewChanges ==
+                                                                                    true
+                                                                                      ? _vm.SaveAllQuestion()
+                                                                                      : ""
+                                                                                  },
                                                                                   focus: function(
                                                                                     $event
                                                                                   ) {
@@ -37385,44 +37500,94 @@ var render = function() {
                                                                         _vm._v(
                                                                           " "
                                                                         ),
-                                                                        !_vm.isHaveSubmission
-                                                                          ? _c(
-                                                                              "v-btn",
-                                                                              {
-                                                                                staticClass:
-                                                                                  "mt-3 pl-2 pr-2",
-                                                                                attrs: {
-                                                                                  icon:
-                                                                                    ""
-                                                                                },
-                                                                                on: {
-                                                                                  click: function(
-                                                                                    $event
+                                                                        _c(
+                                                                          "v-tooltip",
+                                                                          {
+                                                                            attrs: {
+                                                                              top:
+                                                                                ""
+                                                                            },
+                                                                            scopedSlots: _vm._u(
+                                                                              [
+                                                                                {
+                                                                                  key:
+                                                                                    "activator",
+                                                                                  fn: function(
+                                                                                    ref
                                                                                   ) {
-                                                                                    return _vm.RemoveOption(
-                                                                                      _vm
-                                                                                        .Ans
-                                                                                        .id,
-                                                                                      mainIndex,
-                                                                                      _vm.i,
-                                                                                      item.type
-                                                                                    )
+                                                                                    var on =
+                                                                                      ref.on
+                                                                                    var attrs =
+                                                                                      ref.attrs
+                                                                                    return [
+                                                                                      !_vm.isHaveSubmission
+                                                                                        ? _c(
+                                                                                            "v-btn",
+                                                                                            _vm._g(
+                                                                                              _vm._b(
+                                                                                                {
+                                                                                                  staticClass:
+                                                                                                    "mt-3 pl-2 pr-2",
+                                                                                                  attrs: {
+                                                                                                    icon:
+                                                                                                      ""
+                                                                                                  },
+                                                                                                  on: {
+                                                                                                    click: function(
+                                                                                                      $event
+                                                                                                    ) {
+                                                                                                      return _vm.RemoveOption(
+                                                                                                        _vm
+                                                                                                          .Ans
+                                                                                                          .id,
+                                                                                                        mainIndex,
+                                                                                                        _vm.i,
+                                                                                                        item.type
+                                                                                                      )
+                                                                                                    }
+                                                                                                  }
+                                                                                                },
+                                                                                                "v-btn",
+                                                                                                attrs,
+                                                                                                false
+                                                                                              ),
+                                                                                              on
+                                                                                            ),
+                                                                                            [
+                                                                                              _c(
+                                                                                                "v-icon",
+                                                                                                [
+                                                                                                  _vm._v(
+                                                                                                    "mdi-close"
+                                                                                                  )
+                                                                                                ]
+                                                                                              )
+                                                                                            ],
+                                                                                            1
+                                                                                          )
+                                                                                        : _vm._e()
+                                                                                    ]
                                                                                   }
                                                                                 }
-                                                                              },
-                                                                              [
-                                                                                _c(
-                                                                                  "v-icon",
-                                                                                  [
-                                                                                    _vm._v(
-                                                                                      "mdi-close"
-                                                                                    )
-                                                                                  ]
-                                                                                )
                                                                               ],
-                                                                              1
+                                                                              null,
+                                                                              true
                                                                             )
-                                                                          : _vm._e()
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              " "
+                                                                            ),
+                                                                            _c(
+                                                                              "span",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Remove Answer"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ]
+                                                                        )
                                                                       ],
                                                                       1
                                                                     )
@@ -37535,6 +37700,14 @@ var render = function() {
                                                                                         $event
                                                                                       ) {
                                                                                         _vm.isNewChanges = true
+                                                                                      },
+                                                                                      blur: function(
+                                                                                        $event
+                                                                                      ) {
+                                                                                        _vm.isNewChanges ==
+                                                                                        true
+                                                                                          ? _vm.SaveAllQuestion()
+                                                                                          : ""
                                                                                       }
                                                                                     },
                                                                                     model: {
@@ -37567,42 +37740,92 @@ var render = function() {
                                                                                   "d-flex"
                                                                               },
                                                                               [
-                                                                                !_vm.isHaveSubmission
-                                                                                  ? _c(
-                                                                                      "v-btn",
-                                                                                      {
-                                                                                        staticClass:
-                                                                                          "mt-3 pl-2 pr-2",
-                                                                                        attrs: {
-                                                                                          icon:
-                                                                                            ""
-                                                                                        },
-                                                                                        on: {
-                                                                                          click: function(
-                                                                                            $event
+                                                                                _c(
+                                                                                  "v-tooltip",
+                                                                                  {
+                                                                                    attrs: {
+                                                                                      top:
+                                                                                        ""
+                                                                                    },
+                                                                                    scopedSlots: _vm._u(
+                                                                                      [
+                                                                                        {
+                                                                                          key:
+                                                                                            "activator",
+                                                                                          fn: function(
+                                                                                            ref
                                                                                           ) {
-                                                                                            return _vm.RemoveOption(
-                                                                                              Answer.id,
-                                                                                              mainIndex,
-                                                                                              i,
-                                                                                              item.type
-                                                                                            )
+                                                                                            var on =
+                                                                                              ref.on
+                                                                                            var attrs =
+                                                                                              ref.attrs
+                                                                                            return [
+                                                                                              !_vm.isHaveSubmission
+                                                                                                ? _c(
+                                                                                                    "v-btn",
+                                                                                                    _vm._g(
+                                                                                                      _vm._b(
+                                                                                                        {
+                                                                                                          staticClass:
+                                                                                                            "mt-3 pl-2 pr-2",
+                                                                                                          attrs: {
+                                                                                                            icon:
+                                                                                                              ""
+                                                                                                          },
+                                                                                                          on: {
+                                                                                                            click: function(
+                                                                                                              $event
+                                                                                                            ) {
+                                                                                                              return _vm.RemoveOption(
+                                                                                                                Answer.id,
+                                                                                                                mainIndex,
+                                                                                                                i,
+                                                                                                                item.type
+                                                                                                              )
+                                                                                                            }
+                                                                                                          }
+                                                                                                        },
+                                                                                                        "v-btn",
+                                                                                                        attrs,
+                                                                                                        false
+                                                                                                      ),
+                                                                                                      on
+                                                                                                    ),
+                                                                                                    [
+                                                                                                      _c(
+                                                                                                        "v-icon",
+                                                                                                        [
+                                                                                                          _vm._v(
+                                                                                                            "mdi-close"
+                                                                                                          )
+                                                                                                        ]
+                                                                                                      )
+                                                                                                    ],
+                                                                                                    1
+                                                                                                  )
+                                                                                                : _vm._e()
+                                                                                            ]
                                                                                           }
                                                                                         }
-                                                                                      },
-                                                                                      [
-                                                                                        _c(
-                                                                                          "v-icon",
-                                                                                          [
-                                                                                            _vm._v(
-                                                                                              "mdi-close"
-                                                                                            )
-                                                                                          ]
-                                                                                        )
                                                                                       ],
-                                                                                      1
+                                                                                      null,
+                                                                                      true
                                                                                     )
-                                                                                  : _vm._e()
+                                                                                  },
+                                                                                  [
+                                                                                    _vm._v(
+                                                                                      " "
+                                                                                    ),
+                                                                                    _c(
+                                                                                      "span",
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          "Remove Answer"
+                                                                                        )
+                                                                                      ]
+                                                                                    )
+                                                                                  ]
+                                                                                )
                                                                               ],
                                                                               1
                                                                             )
@@ -37800,10 +38023,11 @@ var render = function() {
                                                                                         ]
                                                                                     },
                                                                                     on: {
-                                                                                      click: function(
+                                                                                      change: function(
                                                                                         $event
                                                                                       ) {
-                                                                                        _vm.isNewChanges = true
+                                                                                        ;(_vm.isNewChanges = true),
+                                                                                          _vm.SaveAllQuestion()
                                                                                       }
                                                                                     }
                                                                                   }
@@ -37956,6 +38180,14 @@ var render = function() {
                                                                                                 $event
                                                                                               ) {
                                                                                                 _vm.isNewChanges = true
+                                                                                              },
+                                                                                              blur: function(
+                                                                                                $event
+                                                                                              ) {
+                                                                                                _vm.isNewChanges ==
+                                                                                                true
+                                                                                                  ? _vm.SaveAllQuestion()
+                                                                                                  : ""
                                                                                               }
                                                                                             },
                                                                                             model: {
@@ -38033,6 +38265,14 @@ var render = function() {
                                                                                                 $event
                                                                                               ) {
                                                                                                 _vm.isNewChanges = true
+                                                                                              },
+                                                                                              blur: function(
+                                                                                                $event
+                                                                                              ) {
+                                                                                                _vm.isNewChanges ==
+                                                                                                true
+                                                                                                  ? _vm.SaveAllQuestion()
+                                                                                                  : ""
                                                                                               }
                                                                                             },
                                                                                             model: {
@@ -38073,51 +38313,101 @@ var render = function() {
                                                                                     _vm._v(
                                                                                       " "
                                                                                     ),
-                                                                                    !_vm.isHaveSubmission
-                                                                                      ? _c(
-                                                                                          "v-btn",
-                                                                                          {
-                                                                                            staticClass:
-                                                                                              "mt-3 pl-2 pr-2",
-                                                                                            attrs: {
-                                                                                              icon:
-                                                                                                ""
-                                                                                            },
-                                                                                            on: {
-                                                                                              click: function(
-                                                                                                $event
+                                                                                    _c(
+                                                                                      "v-tooltip",
+                                                                                      {
+                                                                                        attrs: {
+                                                                                          top:
+                                                                                            ""
+                                                                                        },
+                                                                                        scopedSlots: _vm._u(
+                                                                                          [
+                                                                                            {
+                                                                                              key:
+                                                                                                "activator",
+                                                                                              fn: function(
+                                                                                                ref
                                                                                               ) {
-                                                                                                return _vm.RemoveMatch(
-                                                                                                  item.id,
-                                                                                                  SubQues.id,
-                                                                                                  _vm
-                                                                                                    .getAll_questions
-                                                                                                    .Answer[
-                                                                                                    mainIndex
-                                                                                                  ]
-                                                                                                    .SubAnswer[
-                                                                                                    sub_index
-                                                                                                  ]
-                                                                                                    .id,
-                                                                                                  mainIndex,
-                                                                                                  sub_index
-                                                                                                )
+                                                                                                var on =
+                                                                                                  ref.on
+                                                                                                var attrs =
+                                                                                                  ref.attrs
+                                                                                                return [
+                                                                                                  !_vm.isHaveSubmission
+                                                                                                    ? _c(
+                                                                                                        "v-btn",
+                                                                                                        _vm._g(
+                                                                                                          _vm._b(
+                                                                                                            {
+                                                                                                              staticClass:
+                                                                                                                "mt-3 pl-2 pr-2",
+                                                                                                              attrs: {
+                                                                                                                icon:
+                                                                                                                  ""
+                                                                                                              },
+                                                                                                              on: {
+                                                                                                                click: function(
+                                                                                                                  $event
+                                                                                                                ) {
+                                                                                                                  return _vm.RemoveMatch(
+                                                                                                                    item.id,
+                                                                                                                    SubQues.id,
+                                                                                                                    _vm
+                                                                                                                      .getAll_questions
+                                                                                                                      .Answer[
+                                                                                                                      mainIndex
+                                                                                                                    ]
+                                                                                                                      .SubAnswer[
+                                                                                                                      sub_index
+                                                                                                                    ]
+                                                                                                                      .id,
+                                                                                                                    mainIndex,
+                                                                                                                    sub_index
+                                                                                                                  )
+                                                                                                                }
+                                                                                                              }
+                                                                                                            },
+                                                                                                            "v-btn",
+                                                                                                            attrs,
+                                                                                                            false
+                                                                                                          ),
+                                                                                                          on
+                                                                                                        ),
+                                                                                                        [
+                                                                                                          _c(
+                                                                                                            "v-icon",
+                                                                                                            [
+                                                                                                              _vm._v(
+                                                                                                                "mdi-close"
+                                                                                                              )
+                                                                                                            ]
+                                                                                                          )
+                                                                                                        ],
+                                                                                                        1
+                                                                                                      )
+                                                                                                    : _vm._e()
+                                                                                                ]
                                                                                               }
                                                                                             }
-                                                                                          },
-                                                                                          [
-                                                                                            _c(
-                                                                                              "v-icon",
-                                                                                              [
-                                                                                                _vm._v(
-                                                                                                  "mdi-close"
-                                                                                                )
-                                                                                              ]
-                                                                                            )
                                                                                           ],
-                                                                                          1
+                                                                                          null,
+                                                                                          true
                                                                                         )
-                                                                                      : _vm._e()
+                                                                                      },
+                                                                                      [
+                                                                                        _vm._v(
+                                                                                          " "
+                                                                                        ),
+                                                                                        _c(
+                                                                                          "span",
+                                                                                          [
+                                                                                            _vm._v(
+                                                                                              "Remove Answer"
+                                                                                            )
+                                                                                          ]
+                                                                                        )
+                                                                                      ]
+                                                                                    )
                                                                                   ],
                                                                                   1
                                                                                 )
@@ -38325,41 +38615,91 @@ var render = function() {
                                                                               _vm._v(
                                                                                 " "
                                                                               ),
-                                                                              !_vm.isHaveSubmission
-                                                                                ? _c(
-                                                                                    "v-btn",
-                                                                                    {
-                                                                                      staticClass:
-                                                                                        "mt-3 pl-2 pr-2",
-                                                                                      attrs: {
-                                                                                        icon:
-                                                                                          ""
-                                                                                      },
-                                                                                      on: {
-                                                                                        click: function(
-                                                                                          $event
+                                                                              _c(
+                                                                                "v-tooltip",
+                                                                                {
+                                                                                  attrs: {
+                                                                                    top:
+                                                                                      ""
+                                                                                  },
+                                                                                  scopedSlots: _vm._u(
+                                                                                    [
+                                                                                      {
+                                                                                        key:
+                                                                                          "activator",
+                                                                                        fn: function(
+                                                                                          ref
                                                                                         ) {
-                                                                                          return _vm.removeDestructor(
-                                                                                            destruc.id,
-                                                                                            destruc_index,
-                                                                                            mainIndex
-                                                                                          )
+                                                                                          var on =
+                                                                                            ref.on
+                                                                                          var attrs =
+                                                                                            ref.attrs
+                                                                                          return [
+                                                                                            !_vm.isHaveSubmission
+                                                                                              ? _c(
+                                                                                                  "v-btn",
+                                                                                                  _vm._g(
+                                                                                                    _vm._b(
+                                                                                                      {
+                                                                                                        staticClass:
+                                                                                                          "mt-3 pl-2 pr-2",
+                                                                                                        attrs: {
+                                                                                                          icon:
+                                                                                                            ""
+                                                                                                        },
+                                                                                                        on: {
+                                                                                                          click: function(
+                                                                                                            $event
+                                                                                                          ) {
+                                                                                                            return _vm.removeDestructor(
+                                                                                                              destruc.id,
+                                                                                                              destruc_index,
+                                                                                                              mainIndex
+                                                                                                            )
+                                                                                                          }
+                                                                                                        }
+                                                                                                      },
+                                                                                                      "v-btn",
+                                                                                                      attrs,
+                                                                                                      false
+                                                                                                    ),
+                                                                                                    on
+                                                                                                  ),
+                                                                                                  [
+                                                                                                    _c(
+                                                                                                      "v-icon",
+                                                                                                      [
+                                                                                                        _vm._v(
+                                                                                                          "mdi-close"
+                                                                                                        )
+                                                                                                      ]
+                                                                                                    )
+                                                                                                  ],
+                                                                                                  1
+                                                                                                )
+                                                                                              : _vm._e()
+                                                                                          ]
                                                                                         }
                                                                                       }
-                                                                                    },
-                                                                                    [
-                                                                                      _c(
-                                                                                        "v-icon",
-                                                                                        [
-                                                                                          _vm._v(
-                                                                                            "mdi-close"
-                                                                                          )
-                                                                                        ]
-                                                                                      )
                                                                                     ],
-                                                                                    1
+                                                                                    null,
+                                                                                    true
                                                                                   )
-                                                                                : _vm._e()
+                                                                                },
+                                                                                [
+                                                                                  _vm._v(
+                                                                                    " "
+                                                                                  ),
+                                                                                  _c(
+                                                                                    "span",
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        "Remove Destructor"
+                                                                                      )
+                                                                                    ]
+                                                                                  )
+                                                                                ]
+                                                                              )
                                                                             ],
                                                                             1
                                                                           )

@@ -43,7 +43,7 @@
                                                     <v-text-field class="mb-0 pb-0" :dense="$vuetify.breakpoint.mdAndUp"
                                                         outlined v-model="form.password"
                                                         :append-icon="show ?'mdi-eye':'mdi-eye-off'"
-                                                        :rules="[rules.required, rules.min]"
+                                                        :rules="[rules.required, rules.min, rules.blank]"
                                                         :type="show ? 'text' : 'password'" name="password"
                                                         label="Password" prepend-inner-icon="lock"
                                                         hint="At least 6 characters" color="primary" counter
@@ -148,16 +148,19 @@
                 }),
                 loginEmailRules: [
                     v => !!v || "Required",
-                    v => /.+@.+\..+/.test(v) || "Email must be valid"
+                    v => /.+@.+\..+/.test(v) || "Email must be valid",
+                    v => v && !!v.trim() || 'Field cannot be blank',
                 ],
                 emailRules: [
                     v => !!v || "Required",
-                    v => /.+@.+\..+/.test(v) || "Email must be valid"
+                    v => /.+@.+\..+/.test(v) || "Email must be valid",
+                    v => v && !!v.trim() || 'Field cannot be blank',
                 ],
                 show: false,
                 rules: {
                     required: value => !!value || "Required.",
-                    min: v => (v && v.length >= 6) || "Min 6 characters"
+                    min: v => (v && v.length >= 6) || "Min 6 characters",
+                    blank: v => v && !!v.trim() || 'Field cannot be blank',
                 },
                 ToManyAttepmtError: null,
                 isForgotPassword: false,
@@ -195,6 +198,7 @@
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     this.form.post('/api/login')
                         .then((res) => {
+                          
                             if (res.data.success == true) {
                                 this.$store.dispatch('clear_current_user');
                                 this.$router.push({
@@ -208,14 +212,12 @@
                                 this.isLoggin = false;
                                 this.toastError(res.data.message);
                             }
+
+                             this.isLoggin = false;
                         })
                         .catch(err => {
-                            if (err.response.status == 429) {
-                                this.toastError(err.response.data.errors[this.form.email][0]);
-                            } else {
-                                this.toastError(err.response.data.message);
-                            }
-                            this.isLoggin = false;
+                             this.isLoggin = false;
+                            this.toastError("Incorrect Email or Password. Please try again");
 
                         })
 

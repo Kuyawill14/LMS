@@ -91,6 +91,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['Class_id'],
   data: function data() {
@@ -99,10 +123,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isLoading: true,
       selectedStudent: [],
       isSelectedAll: false,
-      selectedCount: 0
+      selectedCount: 0,
+      confirmDialog: false,
+      confirmType: ''
     };
   },
   methods: {
+    openConfirmDialog: function openConfirmDialog(type) {
+      this.confirmDialog = true;
+      this.confirmType = type;
+    },
+    confirmFunction: function confirmFunction() {
+      if (this.confirmType == 'accept') {
+        this.AcceptAllSelectedRequest();
+      } else if (this.confirmType == 'reject') {
+        this.RejectAllSelectedJoinRequest();
+      }
+    },
     fetchJoinRequest: function fetchJoinRequest() {
       var _this = this;
 
@@ -192,23 +229,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 });
 
                 _context3.next = 4;
-                return axios.put('/api/teacher/multiple_accept_student_join_request', data).then(function (res) {
-                  /* if(res.status == 200 && res.data.status == 1){  
-                      this.JoinRequestList.splice(index, 1);
-                      this.toastSuccess(res.data.message)
-                      this.$store.dispatch('UpdateJoinCount');
-                      this.$store.dispatch('fetchAllStudents',this.$route.params.id)
+                return axios.put('/api/teacher/multiple_accept_student_join_request', {
+                  request_id: data
+                }).then(function (res) {
+                  if (res.status == 200 && res.data.status == 1) {
+                    for (var i = 0; i < _this3.selectedStudent.length; i++) {
+                      if (_this3.selectedStudent[i].isSelected == true) {
+                        _this3.JoinRequestList.splice(i, 1);
+
+                        _this3.selectedStudent.splice(i, 1);
+
+                        _this3.selectedCount--;
+                        _this3.isSelectedAll = false;
+
+                        _this3.$store.dispatch('UpdateJoinCount');
+                      }
+                    }
+
+                    _this3.$store.dispatch('fetchAllStudents', _this3.$route.params.id);
                   }
-                  else if(res.status == 200 && res.data.status == 2){
-                      this.JoinRequestList.splice(index, 1);
-                      this.toastInfo(res.data.message)
-                      this.$store.dispatch('UpdateJoinCount');
-                  }
-                  else{
-                      this.toastError(res.data.message)
-                  }
-                   */
+
                   _this3.isLoading = false;
+                  _this3.confirmDialog = false;
                 })["catch"](function (err) {//this.toastError('Something went wrong!')
                 });
 
@@ -245,31 +287,48 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee4);
       }))();
     },
-    selectAllStudent: function selectAllStudent() {
+    RejectAllSelectedJoinRequest: function RejectAllSelectedJoinRequest() {
       var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (_this5.isSelectedAll) {
-                  _this5.selectedStudent.forEach(function (item) {
-                    item.isSelected = false;
-                    _this5.selectedCount--;
-                  });
+                data = [];
 
-                  _this5.isSelectedAll = false;
-                } else {
-                  _this5.selectedStudent.forEach(function (item) {
-                    item.isSelected = true;
-                    _this5.selectedCount++;
-                  });
+                _this5.selectedStudent.forEach(function (item) {
+                  if (item.isSelected == true) {
+                    data.push({
+                      id: item.id
+                    });
+                  }
+                });
 
-                  _this5.isSelectedAll = true;
-                }
+                _context5.next = 4;
+                return axios.put('/api/teacher/multiple_reject_student_join_request', {
+                  request_id: data
+                }).then(function () {
+                  for (var i = 0; i < _this5.selectedStudent.length; i++) {
+                    if (_this5.selectedStudent[i].isSelected == true) {
+                      _this5.JoinRequestList.splice(i, 1);
 
-              case 1:
+                      _this5.selectedStudent.splice(i, 1);
+
+                      _this5.selectedCount--;
+                      _this5.isSelectedAll = false;
+
+                      _this5.$store.dispatch('UpdateJoinCount');
+                    }
+                  }
+
+                  _this5.confirmDialog = false;
+                })["catch"](function (err) {
+                  _this5.toastError('Something went wrong!');
+                });
+
+              case 4:
               case "end":
                 return _context5.stop();
             }
@@ -277,7 +336,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee5);
       }))();
     },
-    markSelect: function markSelect(check) {
+    selectAllStudent: function selectAllStudent() {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
@@ -285,7 +344,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (check == true) _this6.selectedCount++;else _this6.selectedCount--;
+                if (_this6.isSelectedAll) {
+                  _this6.selectedStudent.forEach(function (item) {
+                    item.isSelected = false;
+                    _this6.selectedCount--;
+                  });
+
+                  _this6.isSelectedAll = false;
+                } else {
+                  _this6.selectedStudent.forEach(function (item) {
+                    item.isSelected = true;
+                    _this6.selectedCount++;
+                  });
+
+                  _this6.isSelectedAll = true;
+                }
 
               case 1:
               case "end":
@@ -293,6 +366,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee6);
+      }))();
+    },
+    markSelect: function markSelect(check) {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                if (check == true) _this7.selectedCount++;else _this7.selectedCount--;
+
+              case 1:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7);
       }))();
     }
   },
@@ -400,59 +491,76 @@ var render = function() {
               _vm._v("\n            Join Request\n            "),
               _c("v-spacer"),
               _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  attrs: {
-                    disabled: _vm.selectedCount == 0,
-                    color: "secondary"
-                  },
-                  on: { click: _vm.selectAllStudent }
-                },
-                [_vm._v("Reject Selected")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "ml-2",
-                  attrs: { disabled: _vm.selectedCount == 0, color: "primary" },
-                  on: {
-                    click: function($event) {
-                      return _vm.AcceptAllSelectedRequest()
-                    }
-                  }
-                },
-                [_vm._v("Accept Selected")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  staticClass: "ml-2",
-                  attrs: { outlined: "", color: "primary" },
-                  on: { click: _vm.selectAllStudent }
-                },
-                [
-                  _vm._v(
-                    "\n               \n                " +
-                      _vm._s(
-                        _vm.isSelectedAll ? "Unselect All" : "Select All"
-                      ) +
-                      "\n                 "
-                  ),
-                  _c("v-icon", { attrs: { right: "" } }, [
-                    _vm._v(
-                      _vm._s(
-                        _vm.isSelectedAll
-                          ? "mdi-checkbox-marked"
-                          : "mdi-checkbox-blank-outline"
-                      ) + " "
-                    )
-                  ])
-                ],
-                1
-              )
+              _vm.JoinRequestList.length > 0
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            disabled: _vm.selectedCount == 0,
+                            color: "secondary"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.openConfirmDialog("reject")
+                            }
+                          }
+                        },
+                        [_vm._v("Reject Selected")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "ml-2",
+                          attrs: {
+                            disabled: _vm.selectedCount == 0,
+                            color: "primary"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.openConfirmDialog("accept")
+                            }
+                          }
+                        },
+                        [_vm._v("Accept Selected")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "ml-2",
+                          attrs: { outlined: "", color: "primary" },
+                          on: { click: _vm.selectAllStudent }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(
+                                _vm.isSelectedAll
+                                  ? "Unselect All"
+                                  : "Select All"
+                              ) +
+                              "\n                    "
+                          ),
+                          _c("v-icon", { attrs: { right: "" } }, [
+                            _vm._v(
+                              _vm._s(
+                                _vm.isSelectedAll
+                                  ? "mdi-checkbox-marked"
+                                  : "mdi-checkbox-blank-outline"
+                              ) + " "
+                            )
+                          ])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             ],
             1
           ),
@@ -543,7 +651,7 @@ var render = function() {
                                   _vm._s(item.firstName) +
                                     " " +
                                     _vm._s(item.lastName) +
-                                    " (" +
+                                    " (ID: " +
                                     _vm._s(item.student_id) +
                                     ")"
                                 )
@@ -564,67 +672,9 @@ var render = function() {
                                 "div",
                                 { staticClass: "d-flex" },
                                 [
-                                  _c(
-                                    "v-tooltip",
-                                    {
-                                      attrs: { top: "" },
-                                      scopedSlots: _vm._u(
-                                        [
-                                          {
-                                            key: "activator",
-                                            fn: function(ref) {
-                                              var on = ref.on
-                                              var attrs = ref.attrs
-                                              return [
-                                                _c(
-                                                  "v-btn",
-                                                  _vm._g(
-                                                    _vm._b(
-                                                      {
-                                                        staticClass: "mr-2",
-                                                        attrs: { icon: "" },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            return _vm.AcceptJoinRequest(
-                                                              item.id,
-                                                              index
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      "v-btn",
-                                                      attrs,
-                                                      false
-                                                    ),
-                                                    on
-                                                  ),
-                                                  [
-                                                    _c(
-                                                      "v-icon",
-                                                      {
-                                                        attrs: { color: "blue" }
-                                                      },
-                                                      [_vm._v("mdi-check")]
-                                                    )
-                                                  ],
-                                                  1
-                                                )
-                                              ]
-                                            }
-                                          }
-                                        ],
-                                        null,
-                                        true
-                                      )
-                                    },
-                                    [
-                                      _vm._v(" "),
-                                      _c("span", [_vm._v("Accept Request")])
-                                    ]
+                                  _vm._v(
+                                    "\n                                ` "
                                   ),
-                                  _vm._v(" "),
                                   _c(
                                     "v-tooltip",
                                     {
@@ -687,8 +737,69 @@ var render = function() {
                                   ),
                                   _vm._v(" "),
                                   _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: { top: "" },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "v-btn",
+                                                  _vm._g(
+                                                    _vm._b(
+                                                      {
+                                                        staticClass: "mr-2",
+                                                        attrs: { icon: "" },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            return _vm.AcceptJoinRequest(
+                                                              item.id,
+                                                              index
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      "v-btn",
+                                                      attrs,
+                                                      false
+                                                    ),
+                                                    on
+                                                  ),
+                                                  [
+                                                    _c(
+                                                      "v-icon",
+                                                      {
+                                                        attrs: { color: "blue" }
+                                                      },
+                                                      [_vm._v("mdi-check")]
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        true
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Accept Request")])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
                                     "div",
-                                    { staticClass: "pl-7 mt-1" },
+                                    { staticClass: "pl-5 mt-1" },
                                     [
                                       _c("v-checkbox", {
                                         attrs: { "hide-details": "" },
@@ -717,7 +828,8 @@ var render = function() {
                                       })
                                     ],
                                     1
-                                  )
+                                  ),
+                                  _vm._v("`\n                            ")
                                 ],
                                 1
                               )
@@ -733,6 +845,88 @@ var render = function() {
                 1
               )
             : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "400" },
+          model: {
+            value: _vm.confirmDialog,
+            callback: function($$v) {
+              _vm.confirmDialog = $$v
+            },
+            expression: "confirmDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            { staticClass: "pa-2" },
+            [
+              _c("v-card-title", { staticClass: "text-h5 mb-3" }, [
+                _vm._v(
+                  "\n            " +
+                    _vm._s(_vm.confirmType == "accept" ? "Accept" : "Reject") +
+                    " Student\n            "
+                )
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", { staticClass: "font-weight-bold" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "subtitle-1 ",
+                    staticStyle: { "line-height": "1.1" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Are you sure " +
+                        _vm._s(_vm.confirmType) +
+                        " all selected student?"
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { rounded: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.confirmDialog = false), (_vm.confirmType = "")
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Cancel\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", rounded: "", text: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.confirmFunction()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Confirm\n            ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )

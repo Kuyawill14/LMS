@@ -8,25 +8,28 @@
     
     <v-container v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
         class="pb-0 mb-0 pl-5 d-flex justify-space-between">
+
+         <v-img height="70" width="70" max-height="70" max-width="70"
+            src="../images/ccsict_logo_2.png"></v-img>
+            
         <v-img height="70" width="70" max-height="70" max-width="70"
             src="../images/isu_logo1.png"></v-img>
 
-        <v-img height="70" width="70" max-height="70" max-width="70"
-            src="../images/ccsict_logo_2.png"></v-img>
+       
     </v-container>
 
     <v-container v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm"
         class="pt-10 mb-0 pl-5 d-flex justify-center">
         <div style="width: 250px;">
-            <v-img class="float-right" height="100" width="100" max-height="100" max-width="100"
-                src="../images/isu_logo1.png"></v-img>
+            
 
-            <v-img height="100" width="100" max-height="100" max-width="100"
+            <v-img class="float-right" height="100" width="100" max-height="100" max-width="100"
                 src="../images/ccsict_logo_2.png"></v-img>
+
+                <v-img  height="100" width="100" max-height="100" max-width="100"
+                src="../images/isu_logo1.png"></v-img>
         </div>
     </v-container>
-
-
 
     <v-container class=" " fluid
         :style="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'padding-top: 35px;'">

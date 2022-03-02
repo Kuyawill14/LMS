@@ -11,7 +11,7 @@
                             <v-row>
                                 <v-col cols="12">
                                     <v-row align="center" justify="center">
-                                        <v-col class=" text-left" cols="12" md="7">
+                                        <v-col class=" text-left" cols="12"  md="8" xl="7">
                                         <div class="text-md-h5 text-xs-h5 text-sm-h6 font-weight-bold">Sign
                                             Up <span class="font-weight-regular">Now</span> <span class="font-weight-regular text-subtitle-1"> (Step {{steps}} of 3)</span>  </div>
                                         <p class="mt-2">Login Your Account <router-link class="blue--text"
@@ -20,13 +20,6 @@
                                     </v-col>
                                     </v-row>
                                 </v-col>
-                                 
-                               <!--  <v-col class="text-center" cols="12">
-                                    <v-btn color="primary" small dark fab>
-                                        {{steps}}
-                                    </v-btn>
-                                
-                                </v-col> -->
 
                                  <v-col class="text-center mb-0 pb-0" cols="12">
                                      <v-form @submit.prevent="validate" ref="Registerform" v-model="valid" lazy-validation>
@@ -157,9 +150,6 @@
                                     </v-form>
                                      
                                 </v-col>
-                             <!--    <v-col class="text-center mt-0 pt-0" cols="12">
-                                   
-                                </v-col> -->
                             </v-row>
                         </v-col>
 
@@ -172,7 +162,7 @@
        <!--      <v-btn @click="ConfirmDialog = true">
                 Test
             </v-btn> -->
-            <v-row justify="center">
+            <v-row justify="center" v-if="ConfirmDialog">
                 <v-dialog v-model="ConfirmDialog" persistent max-width="500">
                 <v-card>
                     <div class="pa-2">
