@@ -343,6 +343,7 @@
                          this.toastSuccess(course_data.name + ' have been successfully cloned')
                         this.cloneDialog = !this.cloneDialog
 
+
                 });
 
                     })

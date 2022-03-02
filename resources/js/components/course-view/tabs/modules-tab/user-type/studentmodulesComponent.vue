@@ -1,14 +1,14 @@
 <template>
     <div>
         <v-row>
-            <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12" class="pa-0">
+            <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12" :style="listDialaog && isChangeSize ? 'display: none': 'display:block'" class="pa-0">
                 <v-row v-if="subModuleData != null">
 
                     <v-col>
                         <v-container fluid class="pa-0" @mouseover="contentHover=true"
                             @mouseleave="contentHover = false">
                             <v-btn bottom color="secondary" dark right class="exitFullscreen"
-                                v-if="isExpand && contentHover" @click="isExpand =false ">
+                                v-if="isExpand && contentHover " @click="isExpand =false ">
                                 <v-icon>mdi-arrow-left</v-icon>
                             </v-btn>
                             <v-card style="height: 522px;"
@@ -30,7 +30,7 @@
                             </v-card>
 
 
-                            <v-card style="height: 522px;" v-if="(ext != 'mp4' && ext != 'pdf')   && type=='Document'">
+                            <v-card style="height: 522px;" v-if="(ext != 'mp4' && ext != 'pdf') && type=='Document'">
                                 <iframe title="google drive viewer" class="holds-the-iframe"
                                     :src="'https://view.officeapps.live.com/op/embed.aspx?src=' + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
@@ -40,7 +40,6 @@
 
 
                             <div class="player-container">
-
                                 <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"
                                     style="width: 100% !important;height: 522px !important"
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
@@ -57,7 +56,8 @@
                             
                                 type="card"
                                 ></v-skeleton-loader> -->
-                            <div style="width: 100% !important;height: 75vh !important" v-if="pdfLoaded == false && type=='Document' && ext == 'pdf'  && isSelectedModule">
+                            <div style="width: 100% !important;height: 75vh !important"
+                                v-if="pdfLoaded == false && type=='Document' && ext == 'pdf'  && isSelectedModule">
                                 <v-progress-linear indeterminate color="orange darken-2">
                                 </v-progress-linear>
                             </div>
@@ -137,20 +137,26 @@
             </v-col>
 
             <v-col lg="3" cols="12" sm="12" md="12" class="pa-0 border"
-                v-if="isExpand == false && isChangeSize == false" style="height:100vh;">
-                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
-                    :expand="removeX" />
+                :style="isExpand == false && isChangeSize == false || listDialaog? 'display:block' : 'display:none'" style="height:100vh;">
+
+                    <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
+                        :expand="removeX" v-on:selected_item="continueTime()" />
+
             </v-col>
 
-            <v-dialog v-model="listDialaog" max-width="600px" class="list_modal" style="overflow-y:auto">
-                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
-                    :expand="!removeX" />
-            </v-dialog>
+            <!-- <v-dialog v-model="listDialaog" max-width="600px" class="list_modal" style="overflow-y:auto">
+                <keep-alive>
+                    <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
+                        :expand="!removeX" />
+                </keep-alive>
+            </v-dialog> -->
+
+            
         </v-row>
 
         <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize"
             @click="listDialaog = !listDialaog" style="z-index: 2;bottom: 31px;right: 20px;">
-            <v-icon>mdi-menu</v-icon>
+            <v-icon>{{listDialaog == false ? 'mdi-table-of-contents' : 'mdi-bookshelf'}}</v-icon>
         </v-btn>
 
 
@@ -259,7 +265,6 @@
             },
             scrollToElement(options) {
                 const el = this.$el.getElementsByClassName('v-tab--active')[0];
-
                 if (el) {
                     el.scrollIntoView(options);
                 }
@@ -279,16 +284,17 @@
                     this.isChangeSize = false;
                 }
 
-            }, 500)
+            }, 200)
         },
 
     }
 
 </script>
 <style>
- #errorWrapper {
-     z-index: 0 !important;
- }
+    #errorWrapper {
+        z-index: 0 !important;
+    }
+
 </style>
 <style scoped>
     .exitFullscreen {

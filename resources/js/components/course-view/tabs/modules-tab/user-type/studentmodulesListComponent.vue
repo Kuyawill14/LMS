@@ -34,7 +34,7 @@
                 </v-list-item-content>
 
                 <v-list-item-action v-if="expand">
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="role == 'Teacher'">
                         <template v-slot:activator="{ on, attrs }">
 
 
@@ -182,7 +182,7 @@
 
             subModuleClick(itemModule, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
                 $(window).scrollTop(0);
-
+                // this.$emeit('selected_item');
 
                 if (this.role == 'Teacher') {
                     this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
@@ -389,6 +389,7 @@
                     this.updateTime = setInterval(() => {
                         this.updateStudentTimeProgress(mainModule_id, subModule_id, this.timespent);
                     }, 20000);
+
                 }
             },
             updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
@@ -501,6 +502,7 @@
             //     e.preventDefault();
             // });
             window.addEventListener("onbeforeunload", this.preventNav);
+document.addEventListener('contextmenu', event => event.preventDefault());
 
             $(window).blur(function () {
 
@@ -512,11 +514,11 @@
 
                     if (activeElement === iframeElement) {
                         console.log(document.activeElement.tagName);
-
-                        this.isBlur = setInterval(() => {
-                            document.activeElement.blur();
-
-                        }, 1000);
+//  document.activeElement.blur();
+          document.activeElement.blur();  
+                    //     this.isBlur = setInterval(() => {
+                    //    document.activeElement.blur();     
+                    //     }, 1000);
 
 
                     } else {
@@ -529,6 +531,10 @@
 
 
             });
+            
+                     
+
+
         },
 
         beforeDestroy() {

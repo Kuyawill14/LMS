@@ -205,7 +205,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
     subModuleClick: function subModuleClick(itemModule, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
       var _this = this;
 
-      $(window).scrollTop(0);
+      $(window).scrollTop(0); // this.$emeit('selected_item');
 
       if (this.role == 'Teacher') {
         this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
@@ -477,18 +477,20 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
     // });
 
     window.addEventListener("onbeforeunload", this.preventNav);
+    document.addEventListener('contextmenu', function (event) {
+      return event.preventDefault();
+    });
     $(window).blur(function () {
-      var _this8 = this;
-
       this.blurTimer = setTimeout(function () {
         var activeElement = document.activeElement;
         var iframeElement = document.querySelector('iframe');
 
         if (activeElement === iframeElement) {
-          console.log(document.activeElement.tagName);
-          _this8.isBlur = setInterval(function () {
-            document.activeElement.blur();
-          }, 1000);
+          console.log(document.activeElement.tagName); //  document.activeElement.blur();
+
+          document.activeElement.blur(); //     this.isBlur = setInterval(() => {
+          //    document.activeElement.blur();     
+          //     }, 1000);
         } else {
           console.log(document.activeElement.tagName);
           self.triggerWarning();
@@ -9369,69 +9371,73 @@ var render = function() {
                 ? _c(
                     "v-list-item-action",
                     [
-                      _c(
-                        "v-tooltip",
-                        {
-                          attrs: { bottom: "" },
-                          scopedSlots: _vm._u(
-                            [
-                              {
-                                key: "activator",
-                                fn: function(ref) {
-                                  var on = ref.on
-                                  var attrs = ref.attrs
-                                  return [
-                                    _c(
-                                      "v-btn",
-                                      _vm._g(
-                                        _vm._b(
-                                          {
-                                            attrs: { icon: "" },
-                                            on: {
-                                              click: function($event) {
-                                                return _vm.closeHandlerModule()
-                                              }
-                                            }
-                                          },
-                                          "v-btn",
-                                          attrs,
-                                          false
-                                        ),
-                                        on
-                                      ),
-                                      [
+                      _vm.role == "Teacher"
+                        ? _c(
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
                                         _c(
-                                          "v-icon",
-                                          {
-                                            attrs: { color: "grey lighten-1" }
-                                          },
-                                          [_vm._v("mdi-close")]
+                                          "v-btn",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                attrs: { icon: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    return _vm.closeHandlerModule()
+                                                  }
+                                                }
+                                              },
+                                              "v-btn",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _c(
+                                              "v-icon",
+                                              {
+                                                attrs: {
+                                                  color: "grey lighten-1"
+                                                }
+                                              },
+                                              [_vm._v("mdi-close")]
+                                            )
+                                          ],
+                                          1
                                         )
-                                      ],
-                                      1
-                                    )
-                                  ]
-                                }
-                              }
-                            ],
-                            null,
-                            false,
-                            609812686
-                          )
-                        },
-                        [
-                          _vm._v(" "),
-                          _c("span", [
-                            _vm._v(
-                              _vm._s(
-                                _vm.role == "Teacher"
-                                  ? "Close Preview"
-                                  : "Close Modules Content"
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                609812686
                               )
-                            )
-                          ])
-                        ]
-                      )
+                            },
+                            [
+                              _vm._v(" "),
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.role == "Teacher"
+                                      ? "Close Preview"
+                                      : "Close Modules Content"
+                                  )
+                                )
+                              ])
+                            ]
+                          )
+                        : _vm._e()
                     ],
                     1
                   )

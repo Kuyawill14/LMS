@@ -181,6 +181,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -279,7 +285,7 @@ var modulesListComponent = function modulesListComponent() {
       } else {
         _this.isChangeSize = false;
       }
-    }, 500);
+    }, 200);
   }
 });
 
@@ -302,7 +308,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#errorWrapper {\n    z-index: 0 !important;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#errorWrapper {\n    z-index: 0 !important;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -612,6 +618,10 @@ var render = function() {
             "v-col",
             {
               staticClass: "pa-0",
+              style:
+                _vm.listDialaog && _vm.isChangeSize
+                  ? "display: none"
+                  : "display:block",
               attrs: {
                 lg: _vm.isExpand == true ? 12 : 9,
                 sm: "12",
@@ -1008,47 +1018,27 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.isExpand == false && _vm.isChangeSize == false
-            ? _c(
-                "v-col",
-                {
-                  staticClass: "pa-0 border",
-                  staticStyle: { height: "100vh" },
-                  attrs: { lg: "3", cols: "12", sm: "12", md: "12" }
-                },
-                [
-                  _c("modulesListComponent", {
-                    attrs: { role: _vm.role, expand: _vm.removeX },
-                    on: {
-                      subModule: _vm.getsubModuleData,
-                      listClose: _vm.expandContent
-                    }
-                  })
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
           _c(
-            "v-dialog",
+            "v-col",
             {
-              staticClass: "list_modal",
-              staticStyle: { "overflow-y": "auto" },
-              attrs: { "max-width": "600px" },
-              model: {
-                value: _vm.listDialaog,
-                callback: function($$v) {
-                  _vm.listDialaog = $$v
-                },
-                expression: "listDialaog"
-              }
+              staticClass: "pa-0 border",
+              staticStyle: { height: "100vh" },
+              style:
+                (_vm.isExpand == false && _vm.isChangeSize == false) ||
+                _vm.listDialaog
+                  ? "display:block"
+                  : "display:none",
+              attrs: { lg: "3", cols: "12", sm: "12", md: "12" }
             },
             [
               _c("modulesListComponent", {
-                attrs: { role: _vm.role, expand: !_vm.removeX },
+                attrs: { role: _vm.role, expand: _vm.removeX },
                 on: {
                   subModule: _vm.getsubModuleData,
-                  listClose: _vm.expandContent
+                  listClose: _vm.expandContent,
+                  selected_item: function($event) {
+                    return _vm.continueTime()
+                  }
                 }
               })
             ],
@@ -1077,7 +1067,17 @@ var render = function() {
                 }
               }
             },
-            [_c("v-icon", [_vm._v("mdi-menu")])],
+            [
+              _c("v-icon", [
+                _vm._v(
+                  _vm._s(
+                    _vm.listDialaog == false
+                      ? "mdi-table-of-contents"
+                      : "mdi-bookshelf"
+                  )
+                )
+              ])
+            ],
             1
           )
         : _vm._e()
