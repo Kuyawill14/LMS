@@ -56,6 +56,23 @@ class MainModuleController extends Controller
         return $allMainModules;
     }
 
+    public function removeCDN($link) {
+        $txt = explode('.',$link);
+        $new = '';
+        for($i = 0; $i < count($txt) ; $i++) {
+
+            if($i !=2) {
+            $new .= '.' .$txt[$i];
+
+         }
+
+
+
+
+        }
+
+        return  ltrim($new, '.');
+    }
 
     public function fetchSubmodule($id ) {
         //
@@ -67,8 +84,15 @@ class MainModuleController extends Controller
         
         ->get();
 
+
+
+
         foreach ($allSubModules as  $submodule) {
             $submodule->required_time = $submodule->required_time/ 60;
+
+
+            $submodule->file_attachment = $this->removeCDN($submodule->file_attachment);
+          
         }
         return $allSubModules;
 }

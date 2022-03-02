@@ -33,8 +33,8 @@
 
                 </v-list-item-content>
 
-                <v-list-item-action v-if="expand">
-                    <v-tooltip bottom v-if="role == 'Teacher'">
+                <v-list-item-action v-if="expand && role == 'Teacher'">
+                    <v-tooltip bottom >
                         <template v-slot:activator="{ on, attrs }">
 
 
@@ -182,7 +182,7 @@
 
             subModuleClick(itemModule, itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress) {
                 $(window).scrollTop(0);
-                // this.$emeit('selected_item');
+                this.$emit('selected_item');
 
                 if (this.role == 'Teacher') {
                     this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);

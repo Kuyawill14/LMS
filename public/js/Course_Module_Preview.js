@@ -1037,7 +1037,7 @@ var render = function() {
                   subModule: _vm.getsubModuleData,
                   listClose: _vm.expandContent,
                   selected_item: function($event) {
-                    return _vm.continueTime()
+                    _vm.listDialaog = !_vm.listDialaog
                   }
                 }
               })

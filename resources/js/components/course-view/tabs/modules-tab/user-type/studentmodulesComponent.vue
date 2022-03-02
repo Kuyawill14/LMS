@@ -137,10 +137,10 @@
             </v-col>
 
             <v-col lg="3" cols="12" sm="12" md="12" class="pa-0 border"
-                :style="isExpand == false && isChangeSize == false || listDialaog? 'display:block' : 'display:none'" style="height:100vh;">
+                :style="isExpand == false && isChangeSize == false || listDialaog ? 'display:block' : 'display:none'" style="height:100vh;">
 
                     <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
-                        :expand="removeX" v-on:selected_item="continueTime()" />
+                        :expand="removeX" v-on:selected_item="listDialaog = !listDialaog" />
 
             </v-col>
 
