@@ -1405,33 +1405,6 @@ var render = function() {
                                                           )
                                                         ],
                                                         1
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "v-list-item",
-                                                        {
-                                                          attrs: { link: "" },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.cloneCourseConfirm(
-                                                                item
-                                                              )
-                                                            }
-                                                          }
-                                                        },
-                                                        [
-                                                          _c(
-                                                            "v-list-item-title",
-                                                            [
-                                                              _vm._v(
-                                                                "Duplicate Course"
-                                                              )
-                                                            ]
-                                                          )
-                                                        ],
-                                                        1
                                                       )
                                                     ],
                                                     1

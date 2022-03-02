@@ -172,10 +172,10 @@
                                             </v-list-item> -->
 
 
-                                            <v-list-item @click="cloneCourseConfirm(item)" link>
+                                            <!-- <v-list-item @click="cloneCourseConfirm(item)" link>
                                                 <v-list-item-title>Duplicate Course</v-list-item-title>
 
-                                            </v-list-item>
+                                            </v-list-item> -->
                                         </v-list>
                                     </v-menu>
                                     <v-spacer></v-spacer>
