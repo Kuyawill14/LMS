@@ -15,6 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -240,8 +241,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['UserDetails', 'postDetails'],
+  props: ['postDetails'],
   data: function data() {
     return {
       CommentList: [],
@@ -268,6 +270,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     };
   },
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(["get_CurrentUser"]),
   methods: {
     format_date: function format_date(value) {
       if (value) {
@@ -1201,32 +1204,36 @@ var render = function() {
                                                   _c(
                                                     "div",
                                                     [
-                                                      (item.u_id ==
-                                                        _vm.UserDetails.id ||
-                                                        _vm.UserDetails.role ==
-                                                          "Teacher") &&
-                                                      _vm.idEditing_id !=
-                                                        item.id
-                                                        ? _c(
-                                                            "v-menu",
-                                                            {
-                                                              attrs: {
-                                                                "offset-y": ""
-                                                              },
-                                                              scopedSlots: _vm._u(
-                                                                [
-                                                                  {
-                                                                    key:
-                                                                      "activator",
-                                                                    fn: function(
-                                                                      ref
-                                                                    ) {
-                                                                      var on =
-                                                                        ref.on
-                                                                      var attrs =
-                                                                        ref.attrs
-                                                                      return [
-                                                                        _c(
+                                                      _c(
+                                                        "v-menu",
+                                                        {
+                                                          attrs: {
+                                                            "offset-y": ""
+                                                          },
+                                                          scopedSlots: _vm._u(
+                                                            [
+                                                              {
+                                                                key:
+                                                                  "activator",
+                                                                fn: function(
+                                                                  ref
+                                                                ) {
+                                                                  var on =
+                                                                    ref.on
+                                                                  var attrs =
+                                                                    ref.attrs
+                                                                  return [
+                                                                    (item.u_id ==
+                                                                      _vm
+                                                                        .get_CurrentUser
+                                                                        .id ||
+                                                                      _vm
+                                                                        .get_CurrentUser
+                                                                        .role ==
+                                                                        "Teacher") &&
+                                                                    _vm.idEditing_id !=
+                                                                      item.id
+                                                                      ? _c(
                                                                           "v-btn",
                                                                           _vm._g(
                                                                             _vm._b(
@@ -1262,77 +1269,31 @@ var render = function() {
                                                                           ],
                                                                           1
                                                                         )
-                                                                      ]
-                                                                    }
-                                                                  }
-                                                                ],
-                                                                null,
-                                                                true
-                                                              )
+                                                                      : _vm._e()
+                                                                  ]
+                                                                }
+                                                              }
+                                                            ],
+                                                            null,
+                                                            true
+                                                          )
+                                                        },
+                                                        [
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-list",
+                                                            {
+                                                              attrs: {
+                                                                "pa-0": "",
+                                                                "ma-0": ""
+                                                              }
                                                             },
                                                             [
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "v-list",
-                                                                {
-                                                                  attrs: {
-                                                                    "pa-0": "",
-                                                                    "ma-0": ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  item.u_id ==
-                                                                  _vm
-                                                                    .UserDetails
-                                                                    .id
-                                                                    ? _c(
-                                                                        "v-list-item",
-                                                                        {
-                                                                          attrs: {
-                                                                            "ma-0":
-                                                                              "",
-                                                                            "pa-0":
-                                                                              ""
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _c(
-                                                                            "v-list-item-title",
-                                                                            [
-                                                                              _c(
-                                                                                "v-btn",
-                                                                                {
-                                                                                  attrs: {
-                                                                                    text:
-                                                                                      ""
-                                                                                  },
-                                                                                  on: {
-                                                                                    click: function(
-                                                                                      $event
-                                                                                    ) {
-                                                                                      ;(_vm.UpdateComment =
-                                                                                        item.content),
-                                                                                        (_vm.isEditing = true),
-                                                                                        (_vm.idEditing_id =
-                                                                                          item.id)
-                                                                                    }
-                                                                                  }
-                                                                                },
-                                                                                [
-                                                                                  _vm._v(
-                                                                                    "Edit"
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ],
-                                                                            1
-                                                                          )
-                                                                        ],
-                                                                        1
-                                                                      )
-                                                                    : _vm._e(),
-                                                                  _vm._v(" "),
-                                                                  _c(
+                                                              item.u_id ==
+                                                              _vm
+                                                                .get_CurrentUser
+                                                                .id
+                                                                ? _c(
                                                                     "v-list-item",
                                                                     {
                                                                       attrs: {
@@ -1357,21 +1318,63 @@ var render = function() {
                                                                                 click: function(
                                                                                   $event
                                                                                 ) {
-                                                                                  return _vm.RemoveComment(
-                                                                                    item.id,
-                                                                                    index
-                                                                                  )
+                                                                                  ;(_vm.UpdateComment =
+                                                                                    item.content),
+                                                                                    (_vm.isEditing = true),
+                                                                                    (_vm.idEditing_id =
+                                                                                      item.id)
                                                                                 }
                                                                               }
                                                                             },
                                                                             [
                                                                               _vm._v(
-                                                                                "Remove"
+                                                                                "Edit"
                                                                               )
                                                                             ]
                                                                           )
                                                                         ],
                                                                         1
+                                                                      )
+                                                                    ],
+                                                                    1
+                                                                  )
+                                                                : _vm._e(),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "v-list-item",
+                                                                {
+                                                                  attrs: {
+                                                                    "ma-0": "",
+                                                                    "pa-0": ""
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "v-list-item-title",
+                                                                    [
+                                                                      _c(
+                                                                        "v-btn",
+                                                                        {
+                                                                          attrs: {
+                                                                            text:
+                                                                              ""
+                                                                          },
+                                                                          on: {
+                                                                            click: function(
+                                                                              $event
+                                                                            ) {
+                                                                              return _vm.RemoveComment(
+                                                                                item.id,
+                                                                                index
+                                                                              )
+                                                                            }
+                                                                          }
+                                                                        },
+                                                                        [
+                                                                          _vm._v(
+                                                                            "Remove"
+                                                                          )
+                                                                        ]
                                                                       )
                                                                     ],
                                                                     1
@@ -1382,7 +1385,9 @@ var render = function() {
                                                             ],
                                                             1
                                                           )
-                                                        : _vm._e()
+                                                        ],
+                                                        1
+                                                      )
                                                     ],
                                                     1
                                                   )
@@ -1794,13 +1799,13 @@ var render = function() {
                               _c("v-img", {
                                 attrs: {
                                   src:
-                                    _vm.UserDetails.profile_pic == null ||
-                                    _vm.UserDetails.profile_pic == ""
+                                    _vm.get_CurrentUser.profile_pic == null ||
+                                    _vm.get_CurrentUser.profile_pic == ""
                                       ? "https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=" +
-                                        (_vm.UserDetails.firstName +
+                                        (_vm.get_CurrentUser.firstName +
                                           " " +
-                                          _vm.UserDetails.lastName)
-                                      : _vm.UserDetails.profile_pic
+                                          _vm.get_CurrentUser.lastName)
+                                      : _vm.get_CurrentUser.profile_pic
                                 }
                               })
                             ],

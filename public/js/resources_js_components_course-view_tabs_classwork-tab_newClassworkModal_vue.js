@@ -168,6 +168,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -242,6 +257,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   methods: {
+    DownLoadFile: function DownLoadFile(index) {
+      var embedSrc = URL.createObjectURL(this.file[index]); //let path = file.replace('.cdn','');
+
+      window.open(embedSrc, '_blank');
+    },
     RemoveFile: function RemoveFile(index) {
       this.file_name.splice(index, 1);
       this.file.splice(index, 1);
@@ -295,7 +315,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   fd.append('file[' + index + ']', _this2.file[index]);
                   fd.append('attachment_name[' + index + ']', _this2.file_name[index].name);
                   fd.append('attachment_size[' + index + ']', _this2.file_name[index].size);
-                  fd.append('attachment_extension[' + index + ']', _this2.file_name[index].extesion);
+                  fd.append('attachment_extension[' + index + ']', _this2.file_name[index].extension);
                 } //this.form.course_id = this.$route.params.id;
 
 
@@ -358,8 +378,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     onFileChange: function onFileChange(element) {
-      this.uploadIndex = this.counter; //this.file[this.counter] = element[0];
-
+      this.uploadIndex = this.counter;
       this.file.push(element[0]); //this.tmpName[this.counter] = element[0].name;
 
       if (element[0].size > 1000000) {
@@ -380,7 +399,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         size: this.fileSize[this.counter],
         extension: this.extension
       });
-      console.log(this.file_name);
       this.addFile();
     },
     CheckFileIcon: function CheckFileIcon(ext) {
@@ -9192,9 +9210,100 @@ var render = function() {
                                       _c(
                                         "v-list-item-content",
                                         [
-                                          _c("v-list-item-title", [
-                                            _vm._v(_vm._s(item.name))
-                                          ]),
+                                          _c("v-hover", {
+                                            scopedSlots: _vm._u(
+                                              [
+                                                {
+                                                  key: "default",
+                                                  fn: function(ref) {
+                                                    var hover = ref.hover
+                                                    return [
+                                                      _c(
+                                                        "v-list-item-title",
+                                                        {
+                                                          class: hover
+                                                            ? "blue--text"
+                                                            : "",
+                                                          staticStyle: {
+                                                            cursor: "pointer"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              return _vm.DownLoadFile(
+                                                                index
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c(
+                                                            "v-tooltip",
+                                                            {
+                                                              attrs: {
+                                                                top: ""
+                                                              },
+                                                              scopedSlots: _vm._u(
+                                                                [
+                                                                  {
+                                                                    key:
+                                                                      "activator",
+                                                                    fn: function(
+                                                                      ref
+                                                                    ) {
+                                                                      var on =
+                                                                        ref.on
+                                                                      var attrs =
+                                                                        ref.attrs
+                                                                      return [
+                                                                        _c(
+                                                                          "span",
+                                                                          _vm._g(
+                                                                            _vm._b(
+                                                                              {},
+                                                                              "span",
+                                                                              attrs,
+                                                                              false
+                                                                            ),
+                                                                            on
+                                                                          ),
+                                                                          [
+                                                                            _vm._v(
+                                                                              _vm._s(
+                                                                                item.name
+                                                                              )
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ]
+                                                                    }
+                                                                  }
+                                                                ],
+                                                                null,
+                                                                true
+                                                              )
+                                                            },
+                                                            [
+                                                              _vm._v(" "),
+                                                              _c("span", [
+                                                                _vm._v(
+                                                                  "Preview File"
+                                                                )
+                                                              ])
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              null,
+                                              true
+                                            )
+                                          }),
                                           _vm._v(" "),
                                           _c(
                                             "v-list-item-subtitle",

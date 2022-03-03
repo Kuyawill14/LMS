@@ -20,7 +20,7 @@
                         </v-card>
                     </v-expand-transition> -->
                     <v-card class="pa-2">
-                        <announcementCreate :classNames="classNames" :UserDetails='UserDetails' v-on:ReloadData="connect"> </announcementCreate>
+                        <announcementCreate :classNames="classNames" :UserDetails='get_CurrentUser' v-on:ReloadData="connect"> </announcementCreate>
                     </v-card>
                 </v-col>
             </v-row>
@@ -41,7 +41,7 @@
 
             <v-row v-if="!isGetting"  class="mt-3">
             <v-col cols="12" md="8" lg="8" class="ma-auto">
-                <announcementPostList v-on:SlicePost="SlicePostList"  v-on:loadmore="loadMore()" :classNames="classNames" :UserDetails="UserDetails" > </announcementPostList>
+                <announcementPostList v-on:SlicePost="SlicePostList"  v-on:loadmore="loadMore()" :classNames="classNames" :UserDetails="get_CurrentUser" > </announcementPostList>
                
             </v-col>
         </v-row>
@@ -56,13 +56,12 @@
         mapActions
     } from "vuex";
     export default {
-        props:['UserDetails'],
         components: {
             announcementCreate,
             //VueElementLoading,
             announcementPostList
         },
-        computed: mapGetters(["getclass_post","getClassesNames"]),
+        computed: mapGetters(["getclass_post","getClassesNames", "get_CurrentUser"]),
         data () {
             return {
                 content: '',
@@ -107,7 +106,7 @@
                 this.ClassName = data;
             },
             fetchClassnames() {
-                if(this.UserDetails.role == 'Teacher'){
+                if(this.get_CurrentUser.role == 'Teacher'){
                     if(this.getClassesNames.length == 0){
                         this.$store.dispatch('fetchClassesNames', this.$route.params.id)
                         .then(()=>{

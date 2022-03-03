@@ -177,15 +177,20 @@
                             </v-tooltip> -->
 
 
-                              <v-list-item-action-text >
+                                  <v-list-item-action-text >
                                         <v-tooltip  top>
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                <v-btn v-if="item.hide_notif == 0 ||  item.hide_notif == null" small style="z-index:50" icon v-bind="attrs" v-on="on"
                                                     @click="NotificationHide(item.n_id, index, item.status)">
                                                     <v-icon small>mdi-close</v-icon>
                                                 </v-btn>
+
+                                                <v-btn v-else small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                    @click="UnhideNotification(item.n_id, index)">
+                                                    <v-icon small>mdi-eye</v-icon>
+                                                </v-btn>
                                             </template>
-                                            <span>Hide notification</span>
+                                            <span>{{item.hide_notif == 0 || item.hide_notif == null ? 'Hide notification' : 'Unhide notification'}}</span>
                                         </v-tooltip>
                                     </v-list-item-action-text>
                                     <v-spacer></v-spacer>
@@ -330,6 +335,12 @@ export default {
               this.$store.dispatch("LessNotificationCount");
           }
        })
+    },
+    UnhideNotification(id,  index){
+      axios.put('/api/notification/unhide/'+id)
+      .then((res)=>{
+        this.get_notification.splice(index, 1);
+      })
     },
     markAllasRead(){
       axios.post('/api/notification/mark-all')

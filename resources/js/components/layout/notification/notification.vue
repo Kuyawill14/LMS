@@ -89,12 +89,17 @@
                                     <v-list-item-action-text >
                                         <v-tooltip  top>
                                             <template v-slot:activator="{ on, attrs }">
-                                                <v-btn small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                <v-btn v-if="item.status == 1" small style="z-index:50" icon v-bind="attrs" v-on="on"
                                                     @click="NotificationHide(item.n_id),closing = false">
                                                     <v-icon small>mdi-close</v-icon>
                                                 </v-btn>
+
+                                                 <v-btn v-else small style="z-index:50" icon v-bind="attrs" v-on="on"
+                                                    @click="markAsread(item.n_id)">
+                                                    <v-icon small>mdi-check</v-icon>
+                                                </v-btn>
                                             </template>
-                                            <span>Hide notification</span>
+                                            <span> {{item.status == 1 ? 'Hide notification' : 'Mark as read'}}</span>
                                         </v-tooltip>
                                     </v-list-item-action-text>
                                     <v-spacer></v-spacer>

@@ -19,6 +19,8 @@ use App\Models\tbl_userDetails;
 use App\Models\tbl_join_request;
 use App\Models\tbl_comment;
 use App\Models\tbl_student_exam_activity_log;
+use App\Models\tbl_choice;
+
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -335,6 +337,8 @@ class TeacherController extends Controller
 
             if($checkClasswork ->isNew == null){
                 $TempAnswers = array();
+
+                //return $request;
             
                 $Tmp = unserialize($updateObj->Submitted_Answers);
                 if($request->check != true){
@@ -347,7 +351,7 @@ class TeacherController extends Controller
                                 
                             }
                             else{
-                                $item['Answer'] = null;
+                                $item['Answer'] = "Wrong answer";
                             }
                         
                             array_push($TempAnswers, $item);
@@ -368,7 +372,13 @@ class TeacherController extends Controller
                         $updateObj->points = ($updateObj->points - $request->old_essay_points);
                         $updateObj->points = ($updateObj->points + $request->essay_points);
                     }
-                }else{
+                }
+               /*  else if($item['type'] == 'Identification'){
+                    $item['Answer'] = null;
+                    
+                    
+                } */
+                else{
                     $updateObj->points = ($updateObj->points + $request->points);
                 }
                 

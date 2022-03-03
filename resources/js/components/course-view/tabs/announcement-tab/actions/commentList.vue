@@ -75,14 +75,14 @@
                             </v-col>
                             <v-col cols="4" class="text-right mb-0 pb-0">
                                  <div >
-                                    <v-menu  v-if="(item.u_id == UserDetails.id || UserDetails.role == 'Teacher') && idEditing_id != item.id" offset-y >
+                                    <v-menu   offset-y >
                                     <template v-slot:activator="{ on, attrs }">
-                                        <v-btn small icon v-bind="attrs" v-on="on">
+                                        <v-btn v-if="(item.u_id == get_CurrentUser.id || get_CurrentUser.role == 'Teacher') && idEditing_id != item.id" small icon v-bind="attrs" v-on="on">
                                             <v-icon small>mdi-dots-vertical</v-icon>
                                         </v-btn> 
                                     </template>
                                     <v-list pa-0 ma-0>
-                                        <v-list-item v-if="item.u_id == UserDetails.id" ma-0 pa-0>
+                                        <v-list-item v-if="item.u_id == get_CurrentUser.id" ma-0 pa-0>
                                             <v-list-item-title><v-btn @click="UpdateComment = item.content,isEditing = true, idEditing_id = item.id" text>Edit</v-btn></v-list-item-title>
                                         </v-list-item>
                                         <v-list-item ma-0 pa-0>
@@ -176,8 +176,8 @@
             <v-list class="mb-0 pb-0 mt-0 pt-0 ">
                 <v-list-item class="mb-0 pb-0" >
                     <v-list-item-avatar class="mt-0 pt-0" v-if="$vuetify.breakpoint.mdAndUp" color="secondary" >
-                        <v-img :src="UserDetails.profile_pic == null || UserDetails.profile_pic == ''? 
-                        'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (UserDetails.firstName+' '+UserDetails.lastName) : UserDetails.profile_pic">
+                        <v-img :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 
+                        'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' + (get_CurrentUser.firstName+' '+get_CurrentUser.lastName) : get_CurrentUser.profile_pic">
                         </v-img>
                     </v-list-item-avatar>
                     <v-list-item-content class="ma-0 pa-0 mb-4 mt-4">
@@ -218,8 +218,9 @@
 </template>
 <script>
 import moment from 'moment-timezone';
+ import {mapGetters} from "vuex";
 export default {
-    props:['UserDetails','postDetails'],
+    props:['postDetails'],
     data(){
         return{
             CommentList:[],
@@ -250,6 +251,7 @@ export default {
         
         }
     },
+    computed: mapGetters(["get_CurrentUser"]),
     methods:{
          format_date(value){
             if (value) {

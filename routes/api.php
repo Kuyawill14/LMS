@@ -239,6 +239,7 @@ Route::middleware('auth:sanctum')->prefix('/notification')->group(function () {
     Route::post('/new', [NotificationController::class, 'NewNotification']);
     Route::put('/markread/{id}', [NotificationController::class, 'UnreadNotification']);
     Route::put('/hide/{id}', [NotificationController::class, 'HideNotification']);
+    Route::put('/unhide/{id}', [NotificationController::class, 'UnHideNotification']);
     Route::delete('/delete/{id}', [NotificationController::class, 'DeleteNotification']);
     Route::post('/new', [NotificationController::class, 'NewNotification']);
     

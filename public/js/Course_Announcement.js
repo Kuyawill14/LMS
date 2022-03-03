@@ -79,13 +79,12 @@ var announcementPostList = function announcementPostList() {
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['UserDetails'],
   components: {
     announcementCreate: announcementCreate,
     //VueElementLoading,
     announcementPostList: announcementPostList
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getclass_post", "getClassesNames"]),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["getclass_post", "getClassesNames", "get_CurrentUser"]),
   data: function data() {
     return {
       content: '',
@@ -127,7 +126,7 @@ var announcementPostList = function announcementPostList() {
     fetchClassnames: function fetchClassnames() {
       var _this2 = this;
 
-      if (this.UserDetails.role == 'Teacher') {
+      if (this.get_CurrentUser.role == 'Teacher') {
         if (this.getClassesNames.length == 0) {
           this.$store.dispatch('fetchClassesNames', this.$route.params.id).then(function () {
             _this2.classNames = _this2.getClassesNames;
@@ -8688,7 +8687,7 @@ var render = function() {
                   _c("announcementCreate", {
                     attrs: {
                       classNames: _vm.classNames,
-                      UserDetails: _vm.UserDetails
+                      UserDetails: _vm.get_CurrentUser
                     },
                     on: { ReloadData: _vm.connect }
                   })
@@ -8761,7 +8760,7 @@ var render = function() {
                   _c("announcementPostList", {
                     attrs: {
                       classNames: _vm.classNames,
-                      UserDetails: _vm.UserDetails
+                      UserDetails: _vm.get_CurrentUser
                     },
                     on: {
                       SlicePost: _vm.SlicePostList,

@@ -281,18 +281,18 @@
                                                            <!--      </v-btn> -->
                                                             </v-list-item-title>
                                                         </v-list-item>
-                                                         <v-list-item  @click="EditDocument(item.attachment)">
+<!--                                                          <v-list-item  @click="EditDocument(item.attachment)">
                                                             <v-list-item-title>
-                                                               <!--  <v-btn text 
+                                                                <v-btn text 
                                                                     :loading="removeIndex == i && isRemoving"
-                                                                    @click="removeDialog = true, removeIndex = i,isRemoving = true"> -->
+                                                                    @click="removeDialog = true, removeIndex = i,isRemoving = true">
                                                                     <v-icon>
                                                                         mdi-pencil-outline
                                                                     </v-icon>
                                                                     Edit
-                                                              <!--   </v-btn> -->
+                                                                </v-btn>
                                                             </v-list-item-title>
-                                                        </v-list-item>
+                                                        </v-list-item> -->
                                                     </v-list>
                                                     </v-menu>
                                             </v-list-item-action>
@@ -630,6 +630,7 @@
                     .then((res) => {
                         this.counter++;
                         this.uploadIndex = null;
+                        this.Details.attachment[this.Details.attachment.length-1].attachment = res.data;
                     })
             },
             RemoveFile(index) {

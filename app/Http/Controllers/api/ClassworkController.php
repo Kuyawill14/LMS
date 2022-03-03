@@ -207,9 +207,15 @@ class ClassworkController extends Controller
                 'attachment'=> preg_replace('/\bpublic\/\b/', '', $newFile), 'extension'=> $request->attachment_extension[$counter]];
                 array_push($attachments, $tmpdata); */
 
+               /*  $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', );
+                $Uploadname = $original_file_name.'_'.time().'.'.;
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkAttachments/'.$newClasswork->id.'/'.$userId, $file, $Uploadname , 'public');
+ */
                 $original_file_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $request->attachment_name[$counter]);
                 $Uploadname = $original_file_name.'_'.time().'.'.$request->attachment_extension[$counter];
-                $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkAttachments/'.$newClasswork->id.'/'.$userId, $file, $Uploadname , 'public');
+                $upload_file = Storage::disk('DO_spaces')->putFileAs('classworkAttachments'.$newClasswork->id.'/'.$userId, $file, $Uploadname ,'public');
+
+
                 $path = \Config::get('app.do_url').'/'. $upload_file;
                 $tmpdata = ['name'=> $request->attachment_name[$counter], 'size'=> $request->attachment_size[$counter],
                 'attachment'=> $path, 'extension'=> $request->attachment_extension[$counter]];
@@ -462,7 +468,7 @@ class ClassworkController extends Controller
 
         $classworkDetails;
         if(auth('sanctum')->user()->role != 'Student'){
-            $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
+            $classworkDetails = tbl_classwork::where('tbl_classworks.id',$id)
             ->where('tbl_classworks.user_id', $userId)
             ->where('tbl_classworks.deleted_at', null)
             ->first();
@@ -475,6 +481,17 @@ class ClassworkController extends Controller
             }
 
 
+            $tmpPoint = 0;
+            if($classworkDetails->type == "Objective Type"){
+                $totoalPoints = tbl_Questions::where('tbl_questions.classwork_id', $id)
+                ->select('tbl_questions.points')->get();
+                foreach($totoalPoints as $item){
+                    $tmpPoint += $item['points'];
+                }
+            }
+
+            $classworkDetails->points = $tmpPoint;
+            $classworkDetails->save();
             $submitted_count = tbl_Submission::where('tbl_submissions.classwork_id', $id)->count();
             $classworkDetails->submitted_count =  $submitted_count;
             if(!$classworkDetails){

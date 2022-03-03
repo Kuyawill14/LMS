@@ -253,6 +253,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -348,18 +353,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
       });
     },
-    markAllasRead: function markAllasRead() {
+    UnhideNotification: function UnhideNotification(id, index) {
       var _this4 = this;
 
+      axios.put('/api/notification/unhide/' + id).then(function (res) {
+        _this4.get_notification.splice(index, 1);
+      });
+    },
+    markAllasRead: function markAllasRead() {
+      var _this5 = this;
+
       axios.post('/api/notification/mark-all').then(function (res) {
-        _this4.get_notification.forEach(function (item) {
+        _this5.get_notification.forEach(function (item) {
           if (item.status == null) {
             item.status = 1;
           }
         });
 
         for (var i = 0; i < res.data; i++) {
-          _this4.$store.dispatch("LessNotificationCount");
+          _this5.$store.dispatch("LessNotificationCount");
         }
       });
     }
@@ -1309,54 +1321,111 @@ var render = function() {
                                                           var on = ref.on
                                                           var attrs = ref.attrs
                                                           return [
-                                                            _c(
-                                                              "v-btn",
-                                                              _vm._g(
-                                                                _vm._b(
-                                                                  {
-                                                                    staticStyle: {
-                                                                      "z-index":
-                                                                        "50"
-                                                                    },
-                                                                    attrs: {
-                                                                      small: "",
-                                                                      icon: ""
-                                                                    },
-                                                                    on: {
-                                                                      click: function(
-                                                                        $event
-                                                                      ) {
-                                                                        return _vm.NotificationHide(
-                                                                          item.n_id,
-                                                                          index,
-                                                                          item.status
-                                                                        )
-                                                                      }
-                                                                    }
-                                                                  },
+                                                            item.hide_notif ==
+                                                              0 ||
+                                                            item.hide_notif ==
+                                                              null
+                                                              ? _c(
                                                                   "v-btn",
-                                                                  attrs,
-                                                                  false
-                                                                ),
-                                                                on
-                                                              ),
-                                                              [
-                                                                _c(
-                                                                  "v-icon",
-                                                                  {
-                                                                    attrs: {
-                                                                      small: ""
-                                                                    }
-                                                                  },
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        staticStyle: {
+                                                                          "z-index":
+                                                                            "50"
+                                                                        },
+                                                                        attrs: {
+                                                                          small:
+                                                                            "",
+                                                                          icon:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.NotificationHide(
+                                                                              item.n_id,
+                                                                              index,
+                                                                              item.status
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
                                                                   [
-                                                                    _vm._v(
-                                                                      "mdi-close"
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      {
+                                                                        attrs: {
+                                                                          small:
+                                                                            ""
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-close"
+                                                                        )
+                                                                      ]
                                                                     )
-                                                                  ]
+                                                                  ],
+                                                                  1
                                                                 )
-                                                              ],
-                                                              1
-                                                            )
+                                                              : _c(
+                                                                  "v-btn",
+                                                                  _vm._g(
+                                                                    _vm._b(
+                                                                      {
+                                                                        staticStyle: {
+                                                                          "z-index":
+                                                                            "50"
+                                                                        },
+                                                                        attrs: {
+                                                                          small:
+                                                                            "",
+                                                                          icon:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.UnhideNotification(
+                                                                              item.n_id,
+                                                                              index
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      "v-btn",
+                                                                      attrs,
+                                                                      false
+                                                                    ),
+                                                                    on
+                                                                  ),
+                                                                  [
+                                                                    _c(
+                                                                      "v-icon",
+                                                                      {
+                                                                        attrs: {
+                                                                          small:
+                                                                            ""
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-eye"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  ],
+                                                                  1
+                                                                )
                                                           ]
                                                         }
                                                       }
@@ -1368,7 +1437,15 @@ var render = function() {
                                                 [
                                                   _vm._v(" "),
                                                   _c("span", [
-                                                    _vm._v("Hide notification")
+                                                    _vm._v(
+                                                      _vm._s(
+                                                        item.hide_notif == 0 ||
+                                                          item.hide_notif ==
+                                                            null
+                                                          ? "Hide notification"
+                                                          : "Unhide notification"
+                                                      )
+                                                    )
                                                   ])
                                                 ]
                                               )

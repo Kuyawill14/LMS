@@ -299,6 +299,21 @@ class NotificationController extends Controller
         return "Notification not found";
     }
 
+    public function UnHideNotification($id){
+        $userId = auth("sanctum")->id();
+        $HideNotif = UserNotification::where("user_notifications.notification_id", $id)
+        ->where("user_notifications.user_id",$userId)->first();
+        if($HideNotif){
+            $HideNotif->hide_notif = 0;
+            $HideNotif->save();
+            return "Notification Unhide";
+        }
+       
+        return "Notification not found";
+    }
+
+    
+
     public function DeleteNotification($id){
         $removeNotif = tbl_notification::find($id);
         if($removeNotif){

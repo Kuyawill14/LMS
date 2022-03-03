@@ -699,6 +699,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -837,7 +863,19 @@ var resetConfirmation = function resetConfirmation() {
           var _loop3 = function _loop3(_j) {
             if (_this.getAll_questions.Question[i].id == _this.ViewDetails.Submitted_Answers[_j].Question_id) {
               if (_this.getAll_questions.Question[i].type == 'Multiple Choice' || _this.getAll_questions.Question[i].type == 'Identification' || _this.getAll_questions.Question[i].type == 'True or False') {
-                var student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+                var student_ans;
+                /* if(this.getAll_questions.Question[i].type == 'Identification'){
+                    if(this.getAll_questions.Question[i].sensitivity){
+                        student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                    }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
+                        this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
+                    }else{
+                        this.ViewDetails.Submitted_Answers[j].Answer;
+                    }
+                    
+                } */
+
+                student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
                 _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
 
                 if (_this.getAll_questions.Question[i].type == 'Identification') {
@@ -863,6 +901,8 @@ var resetConfirmation = function resetConfirmation() {
                     });
                   }
                 } else {
+                  /*  student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                   let Question_answer = this.getAll_questions.Question[i].answer */
                   var _Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
 
                   if (_Question_answer == student_ans) {
@@ -1104,7 +1144,8 @@ var resetConfirmation = function resetConfirmation() {
           if (_this2.getAll_questions.Question[i].id == _this2.ViewDetails.Submitted_Answers[_j2].Question_id) {
             if (_this2.getAll_questions.Question[i].type == 'Multiple Choice' || _this2.getAll_questions.Question[i].type == 'Identification' || _this2.getAll_questions.Question[i].type == 'True or False') {
               (function () {
-                var student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+                var student_ans = void 0;
+                student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
                 _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
 
                 if (_this2.getAll_questions.Question[i].type == 'Identification') {
@@ -1130,6 +1171,8 @@ var resetConfirmation = function resetConfirmation() {
                     });
                   }
                 } else {
+                  /* student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                  let Question_answer = this.getAll_questions.Question[i].answer; */
                   var _Question_answer2 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
 
                   if (_Question_answer2 == student_ans) {
@@ -1294,7 +1337,7 @@ var resetConfirmation = function resetConfirmation() {
                 _this4.UpdateDetails.check = type == 'Essay' ? true : data;
                 _this4.UpdateDetails.points = points;
                 _this4.UpdateDetails.question_id = id;
-                _this4.UpdateDetails.answer = answer;
+                _this4.UpdateDetails.answer = type == 'Identification' ? _this4.getAll_questions.Answer[index].options[0].Choice : answer;
                 _this4.UpdateDetails.user_id = _this4.ViewDetails.user_id;
 
                 if (type == 'Essay') {
@@ -1312,12 +1355,20 @@ var resetConfirmation = function resetConfirmation() {
                         _this4.ViewDetails.points = _this4.ViewDetails.points + parseInt(_this4.SubmittedAnswer[index].score);
                         _this4.EssayOldPoints[index] = parseInt(_this4.SubmittedAnswer[index].score);
                       }
-                    } else {
+                    } else if (type == 'Identification') {
                       if (data == true) {
-                        _this4.SubmittedAnswer[index] = answer;
+                        _this4.SubmittedAnswer[index].Answer = _this4.getAll_questions.Answer[index].options[0].Choice;
                         _this4.ViewDetails.points = _this4.ViewDetails.points + points;
                       } else {
-                        _this4.SubmittedAnswer[index] = "";
+                        _this4.SubmittedAnswer[index].Answer = "Wrong answer";
+                        _this4.ViewDetails.points = _this4.ViewDetails.points - points;
+                      }
+                    } else {
+                      if (data == true) {
+                        _this4.SubmittedAnswer[index].Answer = answer;
+                        _this4.ViewDetails.points = _this4.ViewDetails.points + points;
+                      } else {
+                        _this4.SubmittedAnswer[index].Answer = "Wrong answer";
                         _this4.ViewDetails.points = _this4.ViewDetails.points - points;
                       }
                     }
@@ -3370,7 +3421,7 @@ var render = function() {
                                                                     "v-list-item-icon",
                                                                     {
                                                                       staticClass:
-                                                                        "ma-0 pa-0 mt-2"
+                                                                        "ma-0 pa-0"
                                                                     },
                                                                     [
                                                                       item.type !=
@@ -3378,52 +3429,206 @@ var render = function() {
                                                                       item.type !=
                                                                         "Essay"
                                                                         ? _c(
-                                                                            "v-checkbox",
-                                                                            {
-                                                                              staticClass:
-                                                                                "mt-0 pt-0",
-                                                                              attrs: {
-                                                                                "hide-details":
-                                                                                  "",
-                                                                                color:
-                                                                                  "success"
-                                                                              },
-                                                                              on: {
-                                                                                click: function(
-                                                                                  $event
-                                                                                ) {
-                                                                                  return _vm.UpdateScore(
-                                                                                    item.type,
-                                                                                    item.id,
-                                                                                    _vm
-                                                                                      .Check[
-                                                                                      index
-                                                                                    ],
-                                                                                    item.points,
-                                                                                    index,
-                                                                                    item.answer
+                                                                            "div",
+                                                                            [
+                                                                              _vm
+                                                                                .Check[
+                                                                                index
+                                                                              ]
+                                                                                ? _c(
+                                                                                    "v-tooltip",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        top:
+                                                                                          ""
+                                                                                      },
+                                                                                      scopedSlots: _vm._u(
+                                                                                        [
+                                                                                          {
+                                                                                            key:
+                                                                                              "activator",
+                                                                                            fn: function(
+                                                                                              ref
+                                                                                            ) {
+                                                                                              var on =
+                                                                                                ref.on
+                                                                                              var attrs =
+                                                                                                ref.attrs
+                                                                                              return [
+                                                                                                _c(
+                                                                                                  "v-btn",
+                                                                                                  _vm._g(
+                                                                                                    _vm._b(
+                                                                                                      {
+                                                                                                        attrs: {
+                                                                                                          icon:
+                                                                                                            ""
+                                                                                                        },
+                                                                                                        on: {
+                                                                                                          click: function(
+                                                                                                            $event
+                                                                                                          ) {
+                                                                                                            ;(_vm.Check[
+                                                                                                              index
+                                                                                                            ] = false),
+                                                                                                              _vm.UpdateScore(
+                                                                                                                item.type,
+                                                                                                                item.id,
+                                                                                                                _vm
+                                                                                                                  .Check[
+                                                                                                                  index
+                                                                                                                ],
+                                                                                                                item.points,
+                                                                                                                index,
+                                                                                                                item.answer
+                                                                                                              )
+                                                                                                          }
+                                                                                                        }
+                                                                                                      },
+                                                                                                      "v-btn",
+                                                                                                      attrs,
+                                                                                                      false
+                                                                                                    ),
+                                                                                                    on
+                                                                                                  ),
+                                                                                                  [
+                                                                                                    _c(
+                                                                                                      "v-icon",
+                                                                                                      {
+                                                                                                        attrs: {
+                                                                                                          color:
+                                                                                                            "success"
+                                                                                                        }
+                                                                                                      },
+                                                                                                      [
+                                                                                                        _vm._v(
+                                                                                                          "mdi-checkbox-marked"
+                                                                                                        )
+                                                                                                      ]
+                                                                                                    )
+                                                                                                  ],
+                                                                                                  1
+                                                                                                )
+                                                                                              ]
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        null,
+                                                                                        true
+                                                                                      )
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        " "
+                                                                                      ),
+                                                                                      _c(
+                                                                                        "span",
+                                                                                        [
+                                                                                          _vm._v(
+                                                                                            "Mark as Incorrect"
+                                                                                          )
+                                                                                        ]
+                                                                                      )
+                                                                                    ]
                                                                                   )
-                                                                                }
-                                                                              },
-                                                                              model: {
-                                                                                value:
-                                                                                  _vm
-                                                                                    .Check[
-                                                                                    index
-                                                                                  ],
-                                                                                callback: function(
-                                                                                  $$v
-                                                                                ) {
-                                                                                  _vm.$set(
-                                                                                    _vm.Check,
-                                                                                    index,
-                                                                                    $$v
+                                                                                : _c(
+                                                                                    "v-tooltip",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        top:
+                                                                                          ""
+                                                                                      },
+                                                                                      scopedSlots: _vm._u(
+                                                                                        [
+                                                                                          {
+                                                                                            key:
+                                                                                              "activator",
+                                                                                            fn: function(
+                                                                                              ref
+                                                                                            ) {
+                                                                                              var on =
+                                                                                                ref.on
+                                                                                              var attrs =
+                                                                                                ref.attrs
+                                                                                              return [
+                                                                                                _c(
+                                                                                                  "v-btn",
+                                                                                                  _vm._g(
+                                                                                                    _vm._b(
+                                                                                                      {
+                                                                                                        attrs: {
+                                                                                                          icon:
+                                                                                                            ""
+                                                                                                        },
+                                                                                                        on: {
+                                                                                                          click: function(
+                                                                                                            $event
+                                                                                                          ) {
+                                                                                                            ;(_vm.Check[
+                                                                                                              index
+                                                                                                            ] = true),
+                                                                                                              _vm.UpdateScore(
+                                                                                                                item.type,
+                                                                                                                item.id,
+                                                                                                                _vm
+                                                                                                                  .Check[
+                                                                                                                  index
+                                                                                                                ],
+                                                                                                                item.points,
+                                                                                                                index,
+                                                                                                                item.answer
+                                                                                                              )
+                                                                                                          }
+                                                                                                        }
+                                                                                                      },
+                                                                                                      "v-btn",
+                                                                                                      attrs,
+                                                                                                      false
+                                                                                                    ),
+                                                                                                    on
+                                                                                                  ),
+                                                                                                  [
+                                                                                                    _c(
+                                                                                                      "v-icon",
+                                                                                                      {
+                                                                                                        attrs: {
+                                                                                                          color:
+                                                                                                            "red"
+                                                                                                        }
+                                                                                                      },
+                                                                                                      [
+                                                                                                        _vm._v(
+                                                                                                          "mdi-close-box-outline"
+                                                                                                        )
+                                                                                                      ]
+                                                                                                    )
+                                                                                                  ],
+                                                                                                  1
+                                                                                                )
+                                                                                              ]
+                                                                                            }
+                                                                                          }
+                                                                                        ],
+                                                                                        null,
+                                                                                        true
+                                                                                      )
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        " "
+                                                                                      ),
+                                                                                      _c(
+                                                                                        "span",
+                                                                                        [
+                                                                                          _vm._v(
+                                                                                            "Mark as correct"
+                                                                                          )
+                                                                                        ]
+                                                                                      )
+                                                                                    ]
                                                                                   )
-                                                                                },
-                                                                                expression:
-                                                                                  "Check[index]"
-                                                                              }
-                                                                            }
+                                                                            ],
+                                                                            1
                                                                           )
                                                                         : _vm._e(),
                                                                       _vm._v(
@@ -3513,8 +3718,7 @@ var render = function() {
                                                                             1
                                                                           )
                                                                         : _vm._e()
-                                                                    ],
-                                                                    1
+                                                                    ]
                                                                   ),
                                                                   _vm._v(" "),
                                                                   _c(

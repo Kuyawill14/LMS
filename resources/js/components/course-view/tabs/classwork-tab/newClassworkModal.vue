@@ -101,7 +101,22 @@
                                         </v-icon>
                                     </v-list-item-avatar>
                                     <v-list-item-content>
-                                        <v-list-item-title>{{item.name}}</v-list-item-title>
+                                       <!--  <v-list-item-title>{{item.name}}</v-list-item-title> -->
+
+                                        <v-hover v-slot="{ hover }">
+                                                
+                                    
+                                                    <v-list-item-title  :class="hover ? 'blue--text' : ''"
+                                                            style="cursor:pointer" @click="DownLoadFile(index)">
+                                                            <v-tooltip top>
+                                                        <template v-slot:activator="{ on, attrs }">
+                                                            <span v-on="on" v-bind="attrs">{{item.name}}</span>
+                                                                </template>
+                                                        <span>Preview File</span>
+                                                    </v-tooltip>
+                                                </v-list-item-title>
+                                                    
+                                                </v-hover>
                                          <v-list-item-subtitle> 
                                              <!-- <v-progress-linear v-if="uploadIndex == index && uploadPercentage != 100"  rounded :value="uploadPercentage"></v-progress-linear> -->
                                               <v-progress-linear
@@ -216,6 +231,13 @@ export default {
         },
     },
     methods:{
+        DownLoadFile(index) {
+            let embedSrc = URL.createObjectURL(this.file[index]);
+
+
+            //let path = file.replace('.cdn','');
+            window.open(embedSrc, '_blank');
+        },
         RemoveFile(index){
             this.file_name.splice(index,1);
             this.file.splice(index,1);
@@ -258,8 +280,10 @@ export default {
                 fd.append('file['+index+']', this.file[index]); 
                 fd.append('attachment_name['+index+']',  this.file_name[index].name);
                 fd.append('attachment_size['+index+']',  this.file_name[index].size);
-                fd.append('attachment_extension['+index+']',  this.file_name[index].extesion);
+                fd.append('attachment_extension['+index+']',  this.file_name[index].extension);
             } 
+
+            
              //this.form.course_id = this.$route.params.id;
             this.$store.dispatch('createClasswork', fd)
             .then(res=>{
@@ -299,7 +323,6 @@ export default {
 
         onFileChange(element) {
                  this.uploadIndex = this.counter;
-                //this.file[this.counter] = element[0];
                 this.file.push(element[0]);
                 //this.tmpName[this.counter] = element[0].name;
                 if(element[0].size > 1000000){
@@ -320,7 +343,6 @@ export default {
                     size: this.fileSize[this.counter],
                     extension: this.extension
                 });
-                console.log(this.file_name);
                 this.addFile();
             },
              CheckFileIcon(ext){

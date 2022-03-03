@@ -333,12 +333,38 @@
                                             <v-col cols="12" class="mt-0 pt-0 mb-0 pb-0">
                                                 <v-list>
                                                     <v-list-item class="ma-0 pa-0">
-                                                        <v-list-item-icon class="ma-0 pa-0 mt-2">
-                                                            <v-checkbox v-if="item.type != 'Matching type' && item.type != 'Essay'" hide-details
-                                                                @click="UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)"
+                                                        <v-list-item-icon class="ma-0 pa-0">
+                                                          <!--   <v-checkbox v-if="item.type != 'Matching type' && item.type != 'Essay'" hide-details
+                                                                
                                                                 class="mt-0 pt-0" color="success"
                                                                 v-model="Check[index]">
-                                                            </v-checkbox>
+                                                            </v-checkbox> -->
+
+                                                            <div v-if="item.type != 'Matching type' && item.type != 'Essay'">
+                                                                
+
+                                                                <v-tooltip v-if="Check[index]"  top>
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                       <v-btn  icon v-bind="attrs" v-on="on"
+                                                                        @click="Check[index] = false, UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)">
+                                                                            <v-icon color="success">mdi-checkbox-marked</v-icon> 
+                                                                        </v-btn>
+                                                                    </template>
+                                                                    <span>Mark as Incorrect</span>
+                                                                </v-tooltip>
+
+                                                                <v-tooltip v-else top>
+                                                                    <template v-slot:activator="{ on, attrs }">
+                                                                         <v-btn  icon v-bind="attrs" v-on="on"
+                                                                            @click="Check[index] = true, UpdateScore(item.type ,item.id, Check[index], item.points, index,item.answer)">
+                                                                                <v-icon color="red">mdi-close-box-outline</v-icon> 
+                                                                            </v-btn>
+                                                                    </template>
+                                                                    <span>Mark as correct</span>
+                                                                </v-tooltip>
+
+                                                                
+                                                            </div>
 
                                                             <div v-if="item.type == 'Essay'" class="mt-0 pt-0 pr-2 mb-0 pb-0">
                                                                 <v-text-field 
@@ -824,15 +850,33 @@
                                 if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this
                                     .getAll_questions.Question[i].type == 'Identification' || this
                                     .getAll_questions.Question[i].type == 'True or False') {
-                                    let student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                    
+                                    let student_ans;
+                                    /* if(this.getAll_questions.Question[i].type == 'Identification'){
+                                        if(this.getAll_questions.Question[i].sensitivity){
+                                            student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                                        }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
+                                            this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
+                                        }else{
+                                            this.ViewDetails.Submitted_Answers[j].Answer;
+                                        }
+                                        
+                                    } */
+
+                                    student_ans = this.getAll_questions.Question[i].sensitivity ? this
                                         .ViewDetails.Submitted_Answers[j].Answer :
                                         this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
                                         .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
                                             j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
                                         .Answer;
+                                    
+                                        
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
 
                                     if (this.getAll_questions.Question[i].type == 'Identification') {
+
+                                        
+
                                         if (this.getAll_questions.Answer[i].options.length == 0) {
                                             let Question_answer = this.getAll_questions.Question[i]
                                                 .sensitivity ? this.getAll_questions.Question[i].answer :
@@ -862,6 +906,8 @@
                                         }
 
                                     } else {
+                                       /*  student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                                        let Question_answer = this.getAll_questions.Question[i].answer */
                                         let Question_answer = this.getAll_questions.Question[i].sensitivity ?
                                             this.getAll_questions.Question[i].answer :
                                             this.getAll_questions.Question[i].answer != null && this
@@ -1109,15 +1155,21 @@
                            if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this
                                     .getAll_questions.Question[i].type == 'Identification' || this
                                     .getAll_questions.Question[i].type == 'True or False') {
-                                    let student_ans = this.getAll_questions.Question[i].sensitivity ? this
+
+                                    let student_ans; 
+                                    
+                                     student_ans = this.getAll_questions.Question[i].sensitivity ? this
                                         .ViewDetails.Submitted_Answers[j].Answer :
                                         this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
                                         .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
                                             j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
                                         .Answer;
+
+                                   
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
 
                                     if (this.getAll_questions.Question[i].type == 'Identification') {
+
                                         if (this.getAll_questions.Answer[i].options.length == 0) {
                                             let Question_answer = this.getAll_questions.Question[i]
                                                 .sensitivity ? this.getAll_questions.Question[i].answer :
@@ -1147,6 +1199,8 @@
                                         }
 
                                     } else {
+                                        /* student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                                        let Question_answer = this.getAll_questions.Question[i].answer; */
                                         let Question_answer = this.getAll_questions.Question[i].sensitivity ?
                                             this.getAll_questions.Question[i].answer :
                                             this.getAll_questions.Question[i].answer != null && this
@@ -1295,7 +1349,7 @@
                 this.UpdateDetails.check = type == 'Essay' ? true : data;
                 this.UpdateDetails.points =  points;
                 this.UpdateDetails.question_id = id;
-                this.UpdateDetails.answer = answer;
+                this.UpdateDetails.answer =  type == 'Identification' ? this.getAll_questions.Answer[index].options[0].Choice : answer;
                 this.UpdateDetails.user_id = this.ViewDetails.user_id;
                 if(type == 'Essay'){
                     this.UpdateDetails.essay_points = this.SubmittedAnswer[index].score;
@@ -1315,12 +1369,21 @@
                                     this.ViewDetails.points = this.ViewDetails.points + parseInt(this.SubmittedAnswer[index].score);
                                     this.EssayOldPoints[index] = parseInt(this.SubmittedAnswer[index].score);
                                 }
-                            } else {
-                                if (data == true) {
-                                    this.SubmittedAnswer[index] = answer;
+                            } else if(type == 'Identification'){
+                                 if (data == true) {
+                                    this.SubmittedAnswer[index].Answer = this.getAll_questions.Answer[index].options[0].Choice;
                                     this.ViewDetails.points = this.ViewDetails.points + points;
                                 } else {
-                                    this.SubmittedAnswer[index] = "";
+                                    this.SubmittedAnswer[index].Answer = "Wrong answer";
+                                    this.ViewDetails.points = this.ViewDetails.points - points;
+                                }
+                            }
+                            else {
+                                if (data == true) {
+                                    this.SubmittedAnswer[index].Answer = answer;
+                                    this.ViewDetails.points = this.ViewDetails.points + points;
+                                } else {
+                                    this.SubmittedAnswer[index].Answer = "Wrong answer";
                                     this.ViewDetails.points = this.ViewDetails.points - points;
                                 }
                             }

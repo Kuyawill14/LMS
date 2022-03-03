@@ -2613,6 +2613,7 @@ var rubrics = function rubrics() {
       }).then(function (res) {
         _this7.counter++;
         _this7.uploadIndex = null;
+        _this7.Details.attachment[_this7.Details.attachment.length - 1].attachment = res.data;
       });
     },
     RemoveFile: function RemoveFile(index) {
@@ -40274,41 +40275,6 @@ var render = function() {
                                                                         ),
                                                                         _vm._v(
                                                                           "\n                                                                    Delete\n                                                           "
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    )
-                                                                  ],
-                                                                  1
-                                                                ),
-                                                                _vm._v(" "),
-                                                                _c(
-                                                                  "v-list-item",
-                                                                  {
-                                                                    on: {
-                                                                      click: function(
-                                                                        $event
-                                                                      ) {
-                                                                        return _vm.EditDocument(
-                                                                          item.attachment
-                                                                        )
-                                                                      }
-                                                                    }
-                                                                  },
-                                                                  [
-                                                                    _c(
-                                                                      "v-list-item-title",
-                                                                      [
-                                                                        _c(
-                                                                          "v-icon",
-                                                                          [
-                                                                            _vm._v(
-                                                                              "\n                                                                        mdi-pencil-outline\n                                                                    "
-                                                                            )
-                                                                          ]
-                                                                        ),
-                                                                        _vm._v(
-                                                                          "\n                                                                    Edit\n                                                              "
                                                                         )
                                                                       ],
                                                                       1
