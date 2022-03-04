@@ -14,7 +14,17 @@
                        <v-list class="pl-3" >
                             <v-list-item class="ma-0 pa-0"  v-for="Ans in answer.options" :key="Ans.id">
                                 <v-list-item-icon class="ma-0 pa-0">
-                                    <v-radio-group hide-details :name="'option'+question.id"  class="ma-0 pa-0 mt-1" v-model="question.answer">
+                                    <v-radio-group v-if="question.isNew" hide-details :name="'option'+question.id"  class="ma-0 pa-0 mt-1" v-model="question.answer">
+                                        <v-radio
+                                         :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                        readonly
+                                        color="primary"
+                                        :key="Ans.id"
+                                        :value="Ans.id">
+                                        </v-radio>
+                                    </v-radio-group>
+
+                                   <v-radio-group v-else hide-details :name="'option'+question.id"  class="ma-0 pa-0 mt-1" v-model="question.answer">
                                         <v-radio
                                          :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                         readonly
@@ -23,6 +33,7 @@
                                         :value="Ans.Choice">
                                         </v-radio>
                                     </v-radio-group>
+
                                 </v-list-item-icon>
                                 <v-list-item-content class="ma-0 pa-0">
                                     <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">

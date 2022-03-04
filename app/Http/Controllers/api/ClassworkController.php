@@ -132,7 +132,7 @@ class ClassworkController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get(); */
 
-            $classworkAll = tbl_classClassworks::whereNull('tbl_class_classworks.deleted_at')
+            $classworkAll = tbl_classClassworks::withTrashed()
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish')
@@ -517,6 +517,7 @@ class ClassworkController extends Controller
 
         
             $checkClassworkFirst = tbl_classClassworks::where('classwork_id', $id)
+            ->withTrashed()
             ->where('class_id', $fetchClass->class_id)->first();
 
             if(!$checkClassworkFirst){

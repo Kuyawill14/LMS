@@ -113,7 +113,17 @@
                                                     <v-list class="pl-8" >
                                                         <v-list-item class="ma-0 pa-0"  v-for="(Ans, i) in getAll_questions.Answer[index].options" :key="i">
                                                             <v-list-item-icon class="ma-0 pa-0">
-                                                                <v-radio-group hide-details :name="'option'+item.id" v-model="item.answer"  class="ma-0 pa-0 mt-1" >
+                                                                <v-radio-group v-if="item.isNew" hide-details :name="'option'+item.id" v-model="item.answer"  class="ma-0 pa-0 mt-1" >
+                                                                    <v-radio
+                                                                    :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                            
+                                                                    color="primary"
+                                                                    :key="Ans.id"
+                                                                    :value="Ans.id">
+                                                                    </v-radio>
+                                                                </v-radio-group>
+
+                                                                <v-radio-group v-else hide-details :name="'option'+item.id" v-model="item.answer"  class="ma-0 pa-0 mt-1" >
                                                                     <v-radio
                                                                     :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                             

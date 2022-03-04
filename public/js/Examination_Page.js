@@ -979,6 +979,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -25941,73 +25954,141 @@ var render = function() {
                                                                                 "ma-0 pa-0"
                                                                             },
                                                                             [
-                                                                              _c(
-                                                                                "v-radio-group",
-                                                                                {
-                                                                                  staticClass:
-                                                                                    "ma-0 pa-0 mt-1",
-                                                                                  attrs: {
-                                                                                    "hide-details":
-                                                                                      "",
-                                                                                    name:
-                                                                                      "option" +
-                                                                                      index
-                                                                                  },
-                                                                                  model: {
-                                                                                    value:
-                                                                                      _vm
-                                                                                        .FinalAnswers[
-                                                                                        index
-                                                                                      ]
-                                                                                        .Answer,
-                                                                                    callback: function(
-                                                                                      $$v
-                                                                                    ) {
-                                                                                      _vm.$set(
-                                                                                        _vm
-                                                                                          .FinalAnswers[
-                                                                                          index
-                                                                                        ],
-                                                                                        "Answer",
-                                                                                        $$v
-                                                                                      )
-                                                                                    },
-                                                                                    expression:
-                                                                                      "FinalAnswers[index].Answer"
-                                                                                  }
-                                                                                },
-                                                                                [
-                                                                                  _c(
-                                                                                    "v-radio",
+                                                                              item.isNew
+                                                                                ? _c(
+                                                                                    "v-radio-group",
                                                                                     {
-                                                                                      style: _vm
-                                                                                        .$vuetify
-                                                                                        .breakpoint
-                                                                                        .mdAndUp
-                                                                                        ? "transform: scale(1.3)"
-                                                                                        : "transform: scale(1.35)",
+                                                                                      staticClass:
+                                                                                        "ma-0 pa-0 mt-1",
                                                                                       attrs: {
+                                                                                        "hide-details":
+                                                                                          "",
                                                                                         name:
                                                                                           "option" +
-                                                                                          index,
-                                                                                        value:
-                                                                                          Ans.Choice
+                                                                                          index
                                                                                       },
-                                                                                      on: {
-                                                                                        click: function(
-                                                                                          $event
-                                                                                        ) {
-                                                                                          _vm.FinalAnswers[
+                                                                                      model: {
+                                                                                        value:
+                                                                                          _vm
+                                                                                            .FinalAnswers[
                                                                                             index
-                                                                                          ].answer_id =
-                                                                                            Ans.id
-                                                                                        }
+                                                                                          ]
+                                                                                            .Answer,
+                                                                                        callback: function(
+                                                                                          $$v
+                                                                                        ) {
+                                                                                          _vm.$set(
+                                                                                            _vm
+                                                                                              .FinalAnswers[
+                                                                                              index
+                                                                                            ],
+                                                                                            "Answer",
+                                                                                            $$v
+                                                                                          )
+                                                                                        },
+                                                                                        expression:
+                                                                                          "FinalAnswers[index].Answer"
                                                                                       }
-                                                                                    }
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "v-radio",
+                                                                                        {
+                                                                                          style: _vm
+                                                                                            .$vuetify
+                                                                                            .breakpoint
+                                                                                            .mdAndUp
+                                                                                            ? "transform: scale(1.3)"
+                                                                                            : "transform: scale(1.35)",
+                                                                                          attrs: {
+                                                                                            name:
+                                                                                              "option" +
+                                                                                              index,
+                                                                                            value:
+                                                                                              Ans.id
+                                                                                          },
+                                                                                          on: {
+                                                                                            click: function(
+                                                                                              $event
+                                                                                            ) {
+                                                                                              _vm.FinalAnswers[
+                                                                                                index
+                                                                                              ].answer_id =
+                                                                                                Ans.id
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      )
+                                                                                    ],
+                                                                                    1
                                                                                   )
-                                                                                ],
-                                                                                1
-                                                                              )
+                                                                                : _c(
+                                                                                    "v-radio-group",
+                                                                                    {
+                                                                                      staticClass:
+                                                                                        "ma-0 pa-0 mt-1",
+                                                                                      attrs: {
+                                                                                        "hide-details":
+                                                                                          "",
+                                                                                        name:
+                                                                                          "option" +
+                                                                                          index
+                                                                                      },
+                                                                                      model: {
+                                                                                        value:
+                                                                                          _vm
+                                                                                            .FinalAnswers[
+                                                                                            index
+                                                                                          ]
+                                                                                            .Answer,
+                                                                                        callback: function(
+                                                                                          $$v
+                                                                                        ) {
+                                                                                          _vm.$set(
+                                                                                            _vm
+                                                                                              .FinalAnswers[
+                                                                                              index
+                                                                                            ],
+                                                                                            "Answer",
+                                                                                            $$v
+                                                                                          )
+                                                                                        },
+                                                                                        expression:
+                                                                                          "FinalAnswers[index].Answer"
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _c(
+                                                                                        "v-radio",
+                                                                                        {
+                                                                                          style: _vm
+                                                                                            .$vuetify
+                                                                                            .breakpoint
+                                                                                            .mdAndUp
+                                                                                            ? "transform: scale(1.3)"
+                                                                                            : "transform: scale(1.35)",
+                                                                                          attrs: {
+                                                                                            name:
+                                                                                              "option" +
+                                                                                              index,
+                                                                                            value:
+                                                                                              Ans.Choice
+                                                                                          },
+                                                                                          on: {
+                                                                                            click: function(
+                                                                                              $event
+                                                                                            ) {
+                                                                                              _vm.FinalAnswers[
+                                                                                                index
+                                                                                              ].answer_id =
+                                                                                                Ans.id
+                                                                                            }
+                                                                                          }
+                                                                                        }
+                                                                                      )
+                                                                                    ],
+                                                                                    1
+                                                                                  )
                                                                             ],
                                                                             1
                                                                           ),

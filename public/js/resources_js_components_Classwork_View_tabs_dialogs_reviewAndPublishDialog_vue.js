@@ -309,6 +309,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
@@ -1261,57 +1271,109 @@ var render = function() {
                                                                               "ma-0 pa-0"
                                                                           },
                                                                           [
-                                                                            _c(
-                                                                              "v-radio-group",
-                                                                              {
-                                                                                staticClass:
-                                                                                  "ma-0 pa-0 mt-1",
-                                                                                attrs: {
-                                                                                  "hide-details":
-                                                                                    "",
-                                                                                  name:
-                                                                                    "option" +
-                                                                                    item.id
-                                                                                },
-                                                                                model: {
-                                                                                  value:
-                                                                                    item.answer,
-                                                                                  callback: function(
-                                                                                    $$v
-                                                                                  ) {
-                                                                                    _vm.$set(
-                                                                                      item,
-                                                                                      "answer",
-                                                                                      $$v
-                                                                                    )
-                                                                                  },
-                                                                                  expression:
-                                                                                    "item.answer"
-                                                                                }
-                                                                              },
-                                                                              [
-                                                                                _c(
-                                                                                  "v-radio",
+                                                                            item.isNew
+                                                                              ? _c(
+                                                                                  "v-radio-group",
                                                                                   {
-                                                                                    key:
-                                                                                      Ans.id,
-                                                                                    style: _vm
-                                                                                      .$vuetify
-                                                                                      .breakpoint
-                                                                                      .mdAndUp
-                                                                                      ? "transform: scale(1.3)"
-                                                                                      : "transform: scale(1.35)",
+                                                                                    staticClass:
+                                                                                      "ma-0 pa-0 mt-1",
                                                                                     attrs: {
-                                                                                      color:
-                                                                                        "primary",
+                                                                                      "hide-details":
+                                                                                        "",
+                                                                                      name:
+                                                                                        "option" +
+                                                                                        item.id
+                                                                                    },
+                                                                                    model: {
                                                                                       value:
-                                                                                        Ans.Choice
+                                                                                        item.answer,
+                                                                                      callback: function(
+                                                                                        $$v
+                                                                                      ) {
+                                                                                        _vm.$set(
+                                                                                          item,
+                                                                                          "answer",
+                                                                                          $$v
+                                                                                        )
+                                                                                      },
+                                                                                      expression:
+                                                                                        "item.answer"
                                                                                     }
-                                                                                  }
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "v-radio",
+                                                                                      {
+                                                                                        key:
+                                                                                          Ans.id,
+                                                                                        style: _vm
+                                                                                          .$vuetify
+                                                                                          .breakpoint
+                                                                                          .mdAndUp
+                                                                                          ? "transform: scale(1.3)"
+                                                                                          : "transform: scale(1.35)",
+                                                                                        attrs: {
+                                                                                          color:
+                                                                                            "primary",
+                                                                                          value:
+                                                                                            Ans.id
+                                                                                        }
+                                                                                      }
+                                                                                    )
+                                                                                  ],
+                                                                                  1
                                                                                 )
-                                                                              ],
-                                                                              1
-                                                                            )
+                                                                              : _c(
+                                                                                  "v-radio-group",
+                                                                                  {
+                                                                                    staticClass:
+                                                                                      "ma-0 pa-0 mt-1",
+                                                                                    attrs: {
+                                                                                      "hide-details":
+                                                                                        "",
+                                                                                      name:
+                                                                                        "option" +
+                                                                                        item.id
+                                                                                    },
+                                                                                    model: {
+                                                                                      value:
+                                                                                        item.answer,
+                                                                                      callback: function(
+                                                                                        $$v
+                                                                                      ) {
+                                                                                        _vm.$set(
+                                                                                          item,
+                                                                                          "answer",
+                                                                                          $$v
+                                                                                        )
+                                                                                      },
+                                                                                      expression:
+                                                                                        "item.answer"
+                                                                                    }
+                                                                                  },
+                                                                                  [
+                                                                                    _c(
+                                                                                      "v-radio",
+                                                                                      {
+                                                                                        key:
+                                                                                          Ans.id,
+                                                                                        style: _vm
+                                                                                          .$vuetify
+                                                                                          .breakpoint
+                                                                                          .mdAndUp
+                                                                                          ? "transform: scale(1.3)"
+                                                                                          : "transform: scale(1.35)",
+                                                                                        attrs: {
+                                                                                          color:
+                                                                                            "primary",
+                                                                                          value:
+                                                                                            Ans.Choice
+                                                                                        }
+                                                                                      }
+                                                                                    )
+                                                                                  ],
+                                                                                  1
+                                                                                )
                                                                           ],
                                                                           1
                                                                         ),

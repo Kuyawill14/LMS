@@ -167,7 +167,7 @@
                                 <div class="text-right pt-1">
                                     <v-chip v-if="classworkDetails.status == 'Submitted'" color="success">
                                         <v-icon left>mdi-check</v-icon> Score:
-                                        {{classworkDetails.score+'/'+classworkDetails.points}}
+                                        {{classworkDetails.score.toFixed()+'/'+classworkDetails.points}}
                                     </v-chip>
                                 </div>
                                 <v-row style="height:4vh"></v-row>

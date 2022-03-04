@@ -961,6 +961,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1215,6 +1232,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                       answer: 'N/A Answer',
                       points: 1,
                       type: 'Multiple Choice',
+                      isNew: true,
                       sensitivity: 0
                     });
 
@@ -1225,19 +1243,23 @@ var studentViewForTeacher = function studentViewForTeacher() {
                         id: res.data.choices_id[0],
                         Choice: '',
                         question_id: res.data.question_id
-                      }, {
-                        id: res.data.choices_id[1],
-                        Choice: '',
-                        question_id: res.data.question_id
-                      }, {
-                        id: res.data.choices_id[2],
-                        Choice: '',
-                        question_id: res.data.question_id
-                      }, {
-                        id: res.data.choices_id[3],
-                        Choice: '',
-                        question_id: res.data.question_id
-                      }],
+                      }
+                      /*  {
+                           id : res.data.choices_id[1],
+                           Choice : '',
+                           question_id : res.data.question_id,
+                      },
+                       {
+                           id : res.data.choices_id[2],
+                           Choice : '',
+                           question_id : res.data.question_id,
+                      },
+                       {
+                           id : res.data.choices_id[3],
+                           Choice : '',
+                           question_id : res.data.question_id,
+                      } */
+                      ],
                       SubQuestion: [],
                       SubAnswer: [],
                       Destructors: []
@@ -1280,29 +1302,47 @@ var studentViewForTeacher = function studentViewForTeacher() {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _this4.isNewChanges = true;
+                //this.isNewChanges = true;
 
-                if (_this4.getAll_questions.Answer[Mainindex].options.length == 0) {
-                  _this4.getAll_questions.Answer[Mainindex].options.push({
-                    id: '',
-                    Choice: _this4.getAll_questions.Question[Mainindex].answer,
-                    question_id: id
-                  });
-
-                  _this4.getAll_questions.Answer[Mainindex].options.push({
-                    id: '',
-                    Choice: '<p>' + 'Answer ' + (_this4.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
-                    question_id: id
-                  });
-                } else {
-                  _this4.getAll_questions.Answer[Mainindex].options.push({
-                    id: '',
-                    Choice: '<p>' + 'Answer ' + (_this4.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
-                    question_id: id
-                  });
+                /* if(this.getAll_questions.Answer[Mainindex].options.length == 0){
+                     this.getAll_questions.Answer[Mainindex].options.push({
+                        id : '',
+                        Choice : this.getAll_questions.Question[Mainindex].answer,
+                        question_id : id,
+                    })
+                     this.getAll_questions.Answer[Mainindex].options.push({
+                        id : '',
+                        Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                        question_id : id,
+                    })
                 }
+                else{
+                     this.getAll_questions.Answer[Mainindex].options.push({
+                        id : '',
+                        Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                        question_id : id,
+                    })
+                } */
+                axios.post('/api/question/addOption', {
+                  type: "Multiple Choice",
+                  question_id: id
+                }).then(function (res) {
+                  _this4.isNewChanges = true;
 
-              case 2:
+                  _this4.getAll_questions.Answer[Mainindex].options.push({
+                    id: res.data.answer_id,
+                    Choice: '',
+                    question_id: id
+                  });
+
+                  _this4.$toasted.show('New answer has been added', {
+                    theme: "toasted-primary",
+                    position: "top-center",
+                    duration: 4000
+                  });
+                });
+
+              case 1:
               case "end":
                 return _context6.stop();
             }
@@ -1494,6 +1534,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }))();
     },
     CheckType: function CheckType(id, type, mainIndex) {
+      var _this10 = this;
+
       this.isNewChanges = true;
 
       if (type == 'Multiple Choice') {
@@ -1522,41 +1564,60 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     })
                   });
             }else{ */
-          this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-            id: null,
-            answer_id: null,
-            sub_question: ''
-          });
+
+          /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
+             id: null,
+             answer_id: null,
+             sub_question: ''
+          })
           this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-            id: null,
-            Choice: '',
+             id : null, 
+             Choice : '',
+             question_id : id
+          }) */
+          //}
+          axios.post('/api/question/addOption', {
+            type: type,
             question_id: id
-          }); //}
+          }).then(function (res) {
+            _this10.getAll_questions.Answer[mainIndex].SubQuestion.push({
+              id: res.data.sub_question_id,
+              answer_id: null,
+              sub_question: ''
+            });
+
+            _this10.getAll_questions.Answer[mainIndex].SubAnswer.push({
+              id: res.data.answer_id,
+              Choice: '',
+              question_id: id
+            }); //this.SaveAllQuestion();
+
+          });
         }
       }
     },
     SaveAllQuestion: function SaveAllQuestion() {
-      var _this10 = this;
+      var _this11 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
           while (1) {
             switch (_context12.prev = _context12.next) {
               case 0:
-                _this10.isAddingNewQuestion = true;
-                _this10.showSnackbar = true;
-                _this10.isSavingAllQuestion = true;
-                axios.put('/api/question/save_all_question/' + _this10.$route.query.clwk, _this10.getAll_questions).then(function (res) {
+                _this11.isAddingNewQuestion = true;
+                _this11.showSnackbar = true;
+                _this11.isSavingAllQuestion = true;
+                axios.put('/api/question/save_all_question/' + _this11.$route.query.clwk, _this11.getAll_questions).then(function (res) {
                   if (res.data.success == true) {
-                    _this10.isSavingAllQuestion = false;
-                    _this10.isNewChanges = false; //this.GetQuestion();
+                    _this11.isSavingAllQuestion = false;
+                    _this11.isNewChanges = false; //this.GetQuestion();
 
                     setTimeout(function () {
-                      _this10.showSnackbar = false;
+                      _this11.showSnackbar = false;
                     }, 3000);
                   }
 
-                  _this10.isAddingNewQuestion = false;
+                  _this11.isAddingNewQuestion = false;
                 });
 
               case 4:
@@ -1575,7 +1636,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }
     },
     SelectAll: function SelectAll() {
-      var _this11 = this;
+      var _this12 = this;
 
       if (this.selectedDataCount == this.getAll_questions.Question.length) {
         this.selectedData.forEach(function (item) {
@@ -1586,7 +1647,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
         this.selectedDataCount = 0;
         this.selectedData.forEach(function (item) {
           item.selected = true;
-          _this11.selectedDataCount++;
+          _this12.selectedDataCount++;
         });
       }
     },
@@ -1597,7 +1658,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.selectedDataCount = 0;
     },
     DeleteSelected: function DeleteSelected() {
-      var _this12 = this;
+      var _this13 = this;
 
       this.isAddingNewQuestion = true;
       var question_id_list = [];
@@ -1615,34 +1676,34 @@ var studentViewForTeacher = function studentViewForTeacher() {
         question: question_id_list
       }).then(function (res) {
         if (res.data.success == true) {
-          _this12.Deletedialog = !_this12.Deletedialog;
+          _this13.Deletedialog = !_this13.Deletedialog;
           question_id_list.forEach(function (item) {
-            var tmp_question = _this12.getAll_questions.Question;
+            var tmp_question = _this13.getAll_questions.Question;
 
             for (var index = 0; index < tmp_question.length; index++) {
               if (item.question_id == tmp_question[index].id) {
-                _this12.getAll_questions.Question.splice(index, 1);
+                _this13.getAll_questions.Question.splice(index, 1);
 
-                _this12.getAll_questions.Answer.splice(index, 1);
+                _this13.getAll_questions.Answer.splice(index, 1);
 
-                _this12.selectedData.splice(index, 1);
+                _this13.selectedData.splice(index, 1);
               }
             }
           });
 
-          _this12.$toasted.show('Question has been deleted', {
+          _this13.$toasted.show('Question has been deleted', {
             theme: "toasted-primary",
             position: "top-center",
             duration: 5000
           });
 
-          _this12.selectedDataCount = 0;
+          _this13.selectedDataCount = 0;
 
-          if (_this12.getAll_questions.Question.length == 0) {
-            _this12.Qlength = 0;
+          if (_this13.getAll_questions.Question.length == 0) {
+            _this13.Qlength = 0;
           }
 
-          _this12.isAddingNewQuestion = false;
+          _this13.isAddingNewQuestion = false;
         }
       });
     },
@@ -1652,25 +1713,25 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.DeleteSingledialog = true;
     },
     deleteSingleQuestion: function deleteSingleQuestion() {
-      var _this13 = this;
+      var _this14 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
           while (1) {
             switch (_context13.prev = _context13.next) {
               case 0:
-                axios["delete"]('/api/question/remove/' + _this13.DeleteDetails.id).then(function (res) {
-                  _this13.getAll_questions.Question.splice(_this13.DeleteIndex, 1);
+                axios["delete"]('/api/question/remove/' + _this14.DeleteDetails.id).then(function (res) {
+                  _this14.getAll_questions.Question.splice(_this14.DeleteIndex, 1);
 
-                  _this13.getAll_questions.Answer.splice(_this13.DeleteIndex, 1);
+                  _this14.getAll_questions.Answer.splice(_this14.DeleteIndex, 1);
 
-                  _this13.selectedData.splice(_this13.DeleteIndex, 1);
+                  _this14.selectedData.splice(_this14.DeleteIndex, 1);
 
-                  _this13.DeleteSingledialog = false;
-                  _this13.DeleteDetails = null;
-                  _this13.Qlength = _this13.getAll_questions.Question.length;
+                  _this14.DeleteSingledialog = false;
+                  _this14.DeleteDetails = null;
+                  _this14.Qlength = _this14.getAll_questions.Question.length;
 
-                  _this13.$toasted.show('Question has been deleted', {
+                  _this14.$toasted.show('Question has been deleted', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 5000
@@ -1708,83 +1769,83 @@ var studentViewForTeacher = function studentViewForTeacher() {
       this.DuplicateQuestionAction();
     },
     DuplicateQuestionAction: function DuplicateQuestionAction() {
-      var _this14 = this;
+      var _this15 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee14() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee14$(_context14) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                axios.put('/api/question/store_duplicate_question/' + _this14.$route.query.clwk, {
-                  question: _this14.DuplicateQuestion,
-                  answer: _this14.DuplicateAnswers
+                axios.put('/api/question/store_duplicate_question/' + _this15.$route.query.clwk, {
+                  question: _this15.DuplicateQuestion,
+                  answer: _this15.DuplicateAnswers
                 }).then(function (res) {
                   //this.isNewChanges = false;
-                  _this14.$toasted.show('Question has been duplicated', {
+                  _this15.$toasted.show('Question has been duplicated', {
                     theme: "toasted-primary",
                     position: "top-center",
                     duration: 5000
                   });
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    _this14.getAll_questions.Question.push({
+                    _this15.getAll_questions.Question.push({
                       id: res.data.question_id[i],
-                      question: _this14.DuplicateQuestion[i].question,
-                      answer: _this14.DuplicateQuestion[i].answer,
-                      points: _this14.DuplicateQuestion[i].points,
-                      type: _this14.DuplicateQuestion[i].type,
-                      sensitivity: _this14.DuplicateQuestion[i].sensitivity
+                      question: _this15.DuplicateQuestion[i].question,
+                      answer: _this15.DuplicateQuestion[i].answer,
+                      points: _this15.DuplicateQuestion[i].points,
+                      type: _this15.DuplicateQuestion[i].type,
+                      sensitivity: _this15.DuplicateQuestion[i].sensitivity
                     });
 
-                    _this14.selectedData.push({
+                    _this15.selectedData.push({
                       id: res.data.question_id[i],
                       selected: false,
                       isEditing: true
                     });
 
-                    _this14.getAll_questions.Answer.push({
+                    _this15.getAll_questions.Answer.push({
                       options: [],
                       SubQuestion: [],
                       SubAnswer: [],
                       Destructors: []
                     });
 
-                    if (_this14.DuplicateQuestion[i].type == 'Multiple Choice' || _this14.DuplicateQuestion[i].type == 'Identification') {
+                    if (_this15.DuplicateQuestion[i].type == 'Multiple Choice' || _this15.DuplicateQuestion[i].type == 'Identification') {
                       for (var j = 0; j < res.data.answer_id[i].options_id.length; j++) {
-                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].options.push({
+                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].options.push({
                           id: res.data.answer_id[i].options_id[j],
-                          Choice: _this14.DuplicateAnswers[i].options[j].Choice,
+                          Choice: _this15.DuplicateAnswers[i].options[j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
-                    } else if (_this14.DuplicateQuestion[i].type == 'Matching type') {
+                    } else if (_this15.DuplicateQuestion[i].type == 'Matching type') {
                       for (var _j = 0; _j < res.data.answer_id[i].SubQuestion_id.length; _j++) {
-                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].SubQuestion.push({
+                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].SubQuestion.push({
                           id: res.data.answer_id[i].SubQuestion_id[_j],
-                          sub_question: _this14.DuplicateAnswers[i].SubQuestion[_j].sub_question,
+                          sub_question: _this15.DuplicateAnswers[i].SubQuestion[_j].sub_question,
                           answer_id: res.data.answer_id[i].SubAnswer_id[_j]
                         });
 
-                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].SubAnswer.push({
+                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].SubAnswer.push({
                           id: res.data.answer_id[i].SubAnswer_id[_j],
-                          Choice: _this14.DuplicateAnswers[i].SubAnswer[_j].Choice,
+                          Choice: _this15.DuplicateAnswers[i].SubAnswer[_j].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
 
                       for (var x = 0; x < res.data.answer_id[i].Destructors_id.length; x++) {
-                        _this14.getAll_questions.Answer[_this14.getAll_questions.Answer.length - 1].Destructors.push({
+                        _this15.getAll_questions.Answer[_this15.getAll_questions.Answer.length - 1].Destructors.push({
                           id: res.data.answer_id[i].Destructors_id[x],
-                          Choice: _this14.DuplicateAnswers[i].Destructors[x].Choice,
+                          Choice: _this15.DuplicateAnswers[i].Destructors[x].Choice,
                           question_id: res.data.question_id[i]
                         });
                       }
                     }
                   }
 
-                  _this14.isAddingNewQuestion = false;
+                  _this15.isAddingNewQuestion = false;
 
-                  _this14.UnselectAll();
+                  _this15.UnselectAll();
 
                   setTimeout(function () {
                     return window.scrollTo(0, document.body.scrollHeight);
@@ -1824,33 +1885,33 @@ var studentViewForTeacher = function studentViewForTeacher() {
       }
     },
     AddDestructor: function AddDestructor(mainIndex, id) {
-      var _this15 = this;
+      var _this16 = this;
 
       axios.post('/api/question/add_new_destructor', {
         question_id: id
       }).then(function (res) {
         if (res.data.success == true) {
-          _this15.getAll_questions.Answer[mainIndex].Destructors.push({
+          _this16.getAll_questions.Answer[mainIndex].Destructors.push({
             question_id: id,
             id: res.data.newDestructor_id,
             Choice: null
           });
 
-          _this15.$toasted.show('New Desctrutor has been added', {
+          _this16.$toasted.show('New Desctrutor has been added', {
             theme: "toasted-primary",
             position: "top-center",
             duration: 5000
           });
         } else {
-          _this15.toastError('Something went wrong while adding new destructor');
+          _this16.toastError('Something went wrong while adding new destructor');
         }
       });
     },
     removeDestructor: function removeDestructor(id, index, mainIndex) {
-      var _this16 = this;
+      var _this17 = this;
 
       axios["delete"]('/api/question/remove_destructor/' + id).then(function () {
-        _this16.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
+        _this17.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
       });
     },
     UpdateDestructor: function UpdateDestructor(id, index, mainIndex, data) {
@@ -1863,10 +1924,10 @@ var studentViewForTeacher = function studentViewForTeacher() {
     }
   },
   created: function created() {
-    var _this17 = this;
+    var _this18 = this;
 
     this.$nextTick(function () {
-      _this17.quill_disabled = false;
+      _this18.quill_disabled = false;
     });
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -4086,7 +4147,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n   \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n    min-height: 65px !important;\r\n    max-height: 300px !important;\n}\r\n\r\n/* .editor .ql-editor input{\r\n    color: black !important;\r\n} */\r\n\r\n\r\n \r\n\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.fade-in-enter-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-leave-active {\r\n  transition: all 0.5s ease;\n}\n.fade-in-enter, .fade-in-leave-to {\r\n  position: absolute; /* add for smooth transition between elements */\r\n  opacity: 0;\n}\n.centered{\r\n    position: fixed;\r\n    top: 50%;\r\n    left: 50%;\r\n    transform: translate(-50%, -50%);\n}\r\n\r\n\r\n /* .ql-toolbar.ql-snow {\r\n        background: #f2f2f2;\r\n        border: none;\r\n }\r\n .ql-bold,.ql-italic,.ql-underline, .ql-strike\r\n    ,.ql-picker-label,.ql-align,.ql-list,.ql-link\r\n    ,.ql-image,.ql-video\r\n    {\r\n        outline: none !important;\r\n        border:none !important;\r\n    }  */\n.centered-input >>> input {\r\n    text-align: center\n}\n.editor .ql-editor img{\r\n   \r\n    max-height: 10rem !important;\n}\n.editor .ql-container{\r\n    max-height: 50rem;\n}\n.editor .ql-editor{\r\n    min-height: 50px !important;\r\n    max-height: 300px !important;\n}\r\n\r\n/* .editor .ql-editor input{\r\n    color: black !important;\r\n} */\r\n\r\n\r\n \r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -36899,7 +36960,12 @@ var render = function() {
                                                                           change: function(
                                                                             $event
                                                                           ) {
-                                                                            _vm.isNewChanges = true
+                                                                            item.question !=
+                                                                              "" ||
+                                                                            item.question !=
+                                                                              null
+                                                                              ? (_vm.isNewChanges = true)
+                                                                              : (_vm.isNewChanges = false)
                                                                           }
                                                                         },
                                                                         model: {
@@ -37026,69 +37092,133 @@ var render = function() {
                                                                                     }
                                                                                   },
                                                                                   [
-                                                                                    _c(
-                                                                                      "v-radio-group",
-                                                                                      {
-                                                                                        key:
-                                                                                          Ans.id,
-                                                                                        model: {
-                                                                                          value:
-                                                                                            item.answer,
-                                                                                          callback: function(
-                                                                                            $$v
-                                                                                          ) {
-                                                                                            _vm.$set(
-                                                                                              item,
-                                                                                              "answer",
-                                                                                              $$v
-                                                                                            )
-                                                                                          },
-                                                                                          expression:
-                                                                                            "item.answer"
-                                                                                        }
-                                                                                      },
-                                                                                      [
-                                                                                        _c(
-                                                                                          "v-radio",
+                                                                                    item.isNew
+                                                                                      ? _c(
+                                                                                          "v-radio-group",
                                                                                           {
-                                                                                            staticClass:
-                                                                                              "pa-0 ma-0",
-                                                                                            style: _vm
-                                                                                              .$vuetify
-                                                                                              .breakpoint
-                                                                                              .mdAndUp
-                                                                                              ? "transform: scale(1.3)"
-                                                                                              : "transform: scale(1.35)",
-                                                                                            attrs: {
-                                                                                              color:
-                                                                                                "primary",
-                                                                                              disabled:
-                                                                                                Ans.Choice ==
-                                                                                                "",
-                                                                                              name:
-                                                                                                "Answer",
+                                                                                            key:
+                                                                                              Ans.id,
+                                                                                            model: {
                                                                                               value:
-                                                                                                Ans.Choice
-                                                                                            },
-                                                                                            on: {
-                                                                                              click: function(
-                                                                                                $event
+                                                                                                item.answer,
+                                                                                              callback: function(
+                                                                                                $$v
                                                                                               ) {
-                                                                                                item.answer ==
-                                                                                                  Ans.id
+                                                                                                _vm.$set(
+                                                                                                  item,
+                                                                                                  "answer",
+                                                                                                  $$v
+                                                                                                )
                                                                                               },
-                                                                                              change: function(
-                                                                                                $event
-                                                                                              ) {
-                                                                                                ;(_vm.isNewChanges = true),
-                                                                                                  _vm.SaveAllQuestion()
-                                                                                              }
+                                                                                              expression:
+                                                                                                "item.answer"
                                                                                             }
-                                                                                          }
+                                                                                          },
+                                                                                          [
+                                                                                            _c(
+                                                                                              "v-radio",
+                                                                                              {
+                                                                                                staticClass:
+                                                                                                  "pa-0 ma-0",
+                                                                                                style: _vm
+                                                                                                  .$vuetify
+                                                                                                  .breakpoint
+                                                                                                  .mdAndUp
+                                                                                                  ? "transform: scale(1.3)"
+                                                                                                  : "transform: scale(1.35)",
+                                                                                                attrs: {
+                                                                                                  color:
+                                                                                                    "primary",
+                                                                                                  disabled:
+                                                                                                    Ans.Choice ==
+                                                                                                    "",
+                                                                                                  name:
+                                                                                                    "Answer",
+                                                                                                  value:
+                                                                                                    Ans.id
+                                                                                                },
+                                                                                                on: {
+                                                                                                  click: function(
+                                                                                                    $event
+                                                                                                  ) {
+                                                                                                    item.answer ==
+                                                                                                      Ans.id
+                                                                                                  },
+                                                                                                  change: function(
+                                                                                                    $event
+                                                                                                  ) {
+                                                                                                    ;(_vm.isNewChanges = true),
+                                                                                                      _vm.SaveAllQuestion()
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            )
+                                                                                          ],
+                                                                                          1
                                                                                         )
-                                                                                      ],
-                                                                                      1
-                                                                                    ),
+                                                                                      : _c(
+                                                                                          "v-radio-group",
+                                                                                          {
+                                                                                            key:
+                                                                                              Ans.id,
+                                                                                            model: {
+                                                                                              value:
+                                                                                                item.answer,
+                                                                                              callback: function(
+                                                                                                $$v
+                                                                                              ) {
+                                                                                                _vm.$set(
+                                                                                                  item,
+                                                                                                  "answer",
+                                                                                                  $$v
+                                                                                                )
+                                                                                              },
+                                                                                              expression:
+                                                                                                "item.answer"
+                                                                                            }
+                                                                                          },
+                                                                                          [
+                                                                                            _c(
+                                                                                              "v-radio",
+                                                                                              {
+                                                                                                staticClass:
+                                                                                                  "pa-0 ma-0",
+                                                                                                style: _vm
+                                                                                                  .$vuetify
+                                                                                                  .breakpoint
+                                                                                                  .mdAndUp
+                                                                                                  ? "transform: scale(1.3)"
+                                                                                                  : "transform: scale(1.35)",
+                                                                                                attrs: {
+                                                                                                  color:
+                                                                                                    "primary",
+                                                                                                  disabled:
+                                                                                                    Ans.Choice ==
+                                                                                                    "",
+                                                                                                  name:
+                                                                                                    "Answer",
+                                                                                                  value:
+                                                                                                    Ans.Choice
+                                                                                                },
+                                                                                                on: {
+                                                                                                  click: function(
+                                                                                                    $event
+                                                                                                  ) {
+                                                                                                    item.answer ==
+                                                                                                      Ans.Choice
+                                                                                                  },
+                                                                                                  change: function(
+                                                                                                    $event
+                                                                                                  ) {
+                                                                                                    ;(_vm.isNewChanges = true),
+                                                                                                      _vm.SaveAllQuestion()
+                                                                                                  }
+                                                                                                }
+                                                                                              }
+                                                                                            )
+                                                                                          ],
+                                                                                          1
+                                                                                        ),
                                                                                     _vm._v(
                                                                                       " "
                                                                                     ),

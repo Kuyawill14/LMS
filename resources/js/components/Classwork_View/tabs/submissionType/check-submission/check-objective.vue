@@ -129,7 +129,7 @@
                                     </span><span>{{ViewDetails.timeSpent != null ? ViewDetails.timeSpent+' minutes': ''}}</span>
                                 </v-col> -->
                                 <v-col cols="12" class="ma-0 pa-0 pb-2 mt-1">
-                                    <v-btn block text rounded v-if="ViewDetails.status == 'Submitted'"
+                                    <v-btn block text rounded v-if="ViewDetails.status != null"
                                         :loading="isReseting" @click="dialog = !dialog" color="primary">
                                         <v-icon left>mdi-restart</v-icon> Reset Submission
                                     </v-btn>
@@ -401,7 +401,17 @@
                                                             v-for="(Ans, i) in getAll_questions.Answer[index].options"
                                                             :key="i">
                                                             <v-list-item-icon class="ma-0 pa-0 ">
-                                                                <v-radio-group hide-details :name="'option'+index"
+                                                                <v-radio-group readonly v-if="item.isNew" hide-details :name="'option'+index"
+                                                                    class="ma-0 pa-0 mt-1"
+                                                                    v-model="SubmittedAnswer[index].Answer">
+                                                                    <v-radio
+                                                                        :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                        hide-details color="primary" :key="index"
+                                                                        :value="Ans.id">
+                                                                    </v-radio>
+                                                                </v-radio-group>
+
+                                                                 <v-radio-group readonly v-else hide-details :name="'option'+index"
                                                                     class="ma-0 pa-0 mt-1"
                                                                     v-model="SubmittedAnswer[index].Answer">
                                                                     <v-radio
@@ -410,15 +420,25 @@
                                                                         :value="Ans.Choice">
                                                                     </v-radio>
                                                                 </v-radio-group>
+
+
                                                             </v-list-item-icon>
                                                             <v-list-item-content class="ma-0 pa-0">
                                                                 <div style="line-height:1.4"
                                                                     class="Subtitle-1 ma-0 pa-0 d-flex">
                                                                     <span v-html="Ans.Choice"
                                                                         class="post-content"></span>
-                                                                    <span class="caption primary--text ml-1"
-                                                                        v-if="item.answer == Ans.Choice">(correct
-                                                                        answer)</span>
+                                                                        <span v-if="item.isNew">
+                                                                              <span class="caption primary--text ml-1"
+                                                                                v-if="item.answer == Ans.id">(correct
+                                                                                answer)</span>
+                                                                        </span>
+                                                                        <span v-else>
+                                                                             <span class="caption primary--text ml-1"
+                                                                                v-if="item.answer == Ans.Choice">(correct
+                                                                                answer)</span>
+                                                                        </span>
+                                                                  
                                                                 </div>
                                                             </v-list-item-content>
                                                         </v-list-item>
@@ -490,7 +510,7 @@
 
                                                                     <span v-html="TrueOrFalse[n]"></span>
                                                                     <span class="caption primary--text ml-1 "
-                                                                        v-if="inputCheck[n] == SubmittedAnswer[index].Answer">(correct
+                                                                        v-if="inputCheck[n] == item.answer">(correct
                                                                         answer)</span>
                                                                 </div>
                                                             </v-list-item-content>
@@ -863,18 +883,19 @@
                                         
                                     } */
 
-                                    student_ans = this.getAll_questions.Question[i].sensitivity ? this
-                                        .ViewDetails.Submitted_Answers[j].Answer :
-                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
-                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
-                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
-                                        .Answer;
+                                   
                                     
                                         
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
 
                                     if (this.getAll_questions.Question[i].type == 'Identification') {
 
+                                         student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                        .ViewDetails.Submitted_Answers[j].Answer :
+                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                        .Answer;
                                         
 
                                         if (this.getAll_questions.Answer[i].options.length == 0) {
@@ -884,30 +905,86 @@
                                                 .getAll_questions.Question[i].answer != '' ? this
                                                 .getAll_questions.Question[i].answer.toLowerCase() : this
                                                 .getAll_questions.Question[i].answer;
-                                            if (Question_answer == student_ans) {
+
+                                                Question_answer = Question_answer.replace('<p>', '').trim();
+                                                Question_answer = Question_answer.replace('</p>', '').trim();
+                                                student_ans = student_ans.replace('<p>', '').trim();
+                                                student_ans = student_ans.replace('</p>', '').trim();
+
+                                            if (Question_answer.replace(/\s+/g,'').trim() == student_ans.replace(/\s+/g,'').trim()) {
                                                 this.Check[i] = true;
-                                                this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
                                                 this.Check[i] = false;
                                             }
-                                        } else {
+                                        } 
+                                        else {
+                                            
                                             this.Check[i] = false;
                                             this.getAll_questions.Answer[i].options.forEach(item => {
                                                 let Question_answer = this.getAll_questions.Question[i]
                                                     .sensitivity ? item.Choice :
                                                     item.Choice != null && item.Choice != '' ? item
                                                     .Choice.toLowerCase() : item.Choice;
-                                                if (student_ans == Question_answer) {
+
+                                                Question_answer = Question_answer.replace('<p>', '').trim();
+                                                Question_answer = Question_answer.replace('</p>', '').trim();
+                                                Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                student_ans = student_ans.replace('<p>', '').trim();
+                                                student_ans = student_ans.replace('</p>', '').trim();
+                                                student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                
+
+                                                console.log(Question_answer+ '--'+student_ans);
+
+                                                if (student_ans.replace(/\s+/g,'').trim() == Question_answer.replace(/\s+/g,'').trim()) {
                                                     this.Check[i] = true;
-                                                   this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                                   //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
                                         }
 
-                                    } else {
-                                       /*  student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                                        let Question_answer = this.getAll_questions.Question[i].answer */
+                                    }
+                                    else if(this.getAll_questions.Question[i].type == 'Multiple Choice'){
+                                        if(this.getAll_questions.Question[i].isNew){
+                                           student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                                        let Question_answer = this.getAll_questions.Question[i].answer;
+                                        if (Question_answer == student_ans) {
+                                            this.Check[i] = true;
+                                             //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                        } else {
+                                            this.Check[i] = false;
+                                        }
+                                             
+                                        }else{
+                                           student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                            .ViewDetails.Submitted_Answers[j].Answer :
+                                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                            .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                                j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                            .Answer;
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ?
+                                                this.getAll_questions.Question[i].answer :
+                                                this.getAll_questions.Question[i].answer != null && this
+                                                .getAll_questions.Question[i].answer != '' ? this.getAll_questions
+                                                .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
+                                                    i].answer;
+                                            if (Question_answer == student_ans) {
+                                                this.Check[i] = true;
+                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                            } else {
+                                                this.Check[i] = false;
+                                            }
+                                        }
+                                    }
+                                    else if(this.getAll_questions.Question[i].type == 'True or False'){
+                                       student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                        .ViewDetails.Submitted_Answers[j].Answer :
+                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                        .Answer;
                                         let Question_answer = this.getAll_questions.Question[i].sensitivity ?
                                             this.getAll_questions.Question[i].answer :
                                             this.getAll_questions.Question[i].answer != null && this
@@ -916,7 +993,7 @@
                                                 i].answer;
                                         if (Question_answer == student_ans) {
                                             this.Check[i] = true;
-                                             this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                             //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                         } else {
                                             this.Check[i] = false;
                                         }
@@ -928,10 +1005,6 @@
 
                                     this.EssayOldPoints[i] = score;
                                     this.ViewDetails.points += score;
-                                   /*  if(!this.Check[i]){
-                                        this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                        this.questionIndex = i
-                                    } */
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     
                                     let Ans = new Array();
@@ -945,7 +1018,7 @@
                                                 item.subquestion_id) {
                                                 if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
                                                     match_check[counter] = true;
-                                                    this.ViewDetails.points += matchpoints;
+                                                    //this.ViewDetails.points += matchpoints;
 
                                                 } else {
                                                     match_check[counter] = false;
@@ -963,21 +1036,7 @@
                                     Ans_list.SubAnswer = [];
                                     let sub_ques_count = 0;
 
-                                   /*  this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                                        this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
-                                            if(sub_ans.subquestion_id == subQuestion.id){
-                                                Ans_list.SubQuestion.push({
-                                                    Ans_Letter: sub_ans.Ans_letter,
-                                                    Answer: sub_ans.Answers,
-                                                    SubQuestion: subQuestion.sub_question,
-                                                    SubQuestion_id: subQuestion.id,
-                                                    is_correct: true,
-                                                    Correct_Answer: null
-                                                });
-                                            }
-                                        });
-                                    }); */
-
+                            
                                     
                                     this.ViewDetails.Submitted_Answers[j].question_pattern.SubQuestion.forEach(sub_ques => {
                                         this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
@@ -1020,43 +1079,7 @@
                                     });
                                     
 
-                                    
-
-                                /* 
-                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                                        let alpha_count = 0;
-                                         this.Alphabet.forEach(alpha => {
-                                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
-                                                  this.getAll_questions.Answer[i].SubAnswer.forEach(answer_list => {
-                                                    if(sub_ans.Ans_id == answer_list.id){
-                                                            Ans_list.SubAnswer[alpha_count] = {
-                                                            SubChoice: answer_list.Choice,
-                                                            SubChoice_id: answer_list.id,
-                                                            index: alpha_count
-                                                        }
-                                                    }
-                                                });                                                 
-                                             }
-                                             alpha_count++;
-                                         });
-                                    }); */
-
-                                   
-                                    /* console.log(Ans_list.SubAnswer);
-                           
-                                    let des_count = 0;
                                 
-                                    for (let v = 0; v <  Ans_list.SubAnswer.length; v++) {
-                                        if(Ans_list.SubAnswer[v] == null){
-                                            Ans_list.SubAnswer[v] = {
-                                                SubChoice: this.getAll_questions.Answer[i].Destructors[des_count].Choice,
-                                                SubChoice_id: this.getAll_questions.Answer[i].Destructors[des_count].id,
-                                                index: v
-                                            }
-                                           des_count++;
-                                        }
-                                    } */
-
                                     let tmpChoices = new Array();
                                     this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
                                         this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
@@ -1069,10 +1092,6 @@
                                         })
                                     });
 
-                                   /*  for (let a = 0; a < Ans.length; a++) {
-                                        Ans[a].SubChoice = tmpChoices[a].choice;
-                                    } */
-
                                     this.SubmittedAnswer[i] = Ans_list;
                                     this.Check[i] = match_check;
                                 }
@@ -1081,10 +1100,11 @@
                         }
 
                     }
-
+                    this.CheckScore(this.ViewDetails.id)
+                    //this.ReSaveScore();
                     this.isLoaded = true;
                     this.$emit('isMounted');
-                    this.ReSaveScore();
+                    
                 });
 
             },
@@ -1150,25 +1170,42 @@
 
                 for (let i = 0; i < this.getAll_questions.Question.length; i++) {
 
-                    for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
-                        if (this.getAll_questions.Question[i].id == this.ViewDetails.Submitted_Answers[j].Question_id) {
-                           if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this
+                        for (let j = 0; j < this.ViewDetails.Submitted_Answers.length; j++) {
+                            if (this.getAll_questions.Question[i].id == this.ViewDetails.Submitted_Answers[j]
+                                .Question_id) {
+
+
+
+                                if (this.getAll_questions.Question[i].type == 'Multiple Choice' || this
                                     .getAll_questions.Question[i].type == 'Identification' || this
                                     .getAll_questions.Question[i].type == 'True or False') {
-
-                                    let student_ans; 
                                     
-                                     student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                    let student_ans;
+                                    /* if(this.getAll_questions.Question[i].type == 'Identification'){
+                                        if(this.getAll_questions.Question[i].sensitivity){
+                                            student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                                        }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
+                                            this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
+                                        }else{
+                                            this.ViewDetails.Submitted_Answers[j].Answer;
+                                        }
+                                        
+                                    } */
+
+                                   
+                                    
+                                        
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+
+                                    if (this.getAll_questions.Question[i].type == 'Identification') {
+
+                                         student_ans = this.getAll_questions.Question[i].sensitivity ? this
                                         .ViewDetails.Submitted_Answers[j].Answer :
                                         this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
                                         .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
                                             j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
                                         .Answer;
-
-                                   
-                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
-
-                                    if (this.getAll_questions.Question[i].type == 'Identification') {
+                                        
 
                                         if (this.getAll_questions.Answer[i].options.length == 0) {
                                             let Question_answer = this.getAll_questions.Question[i]
@@ -1177,30 +1214,86 @@
                                                 .getAll_questions.Question[i].answer != '' ? this
                                                 .getAll_questions.Question[i].answer.toLowerCase() : this
                                                 .getAll_questions.Question[i].answer;
-                                            if (Question_answer == student_ans) {
+
+
+                                                 Question_answer = Question_answer.replace('<p>', '').trim();
+                                                Question_answer = Question_answer.replace('</p>', '').trim();
+                                                student_ans = student_ans.replace('<p>', '').trim();
+                                                student_ans = student_ans.replace('</p>', '').trim();
+
+
+                                            if (Question_answer.replace(/^\s+|\s+$/gm,'') == student_ans.replace(/^\s+|\s+$/gm,'')) {
                                                 this.Check[i] = true;
-                                                this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
                                                 this.Check[i] = false;
                                             }
-                                        } else {
+                                        } 
+                                        else {
+                                            
                                             this.Check[i] = false;
                                             this.getAll_questions.Answer[i].options.forEach(item => {
                                                 let Question_answer = this.getAll_questions.Question[i]
                                                     .sensitivity ? item.Choice :
                                                     item.Choice != null && item.Choice != '' ? item
                                                     .Choice.toLowerCase() : item.Choice;
-                                                if (student_ans == Question_answer) {
+
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+
+
+                                                if (student_ans.replace(/^\s+|\s+$/gm,'') == Question_answer.replace(/^\s+|\s+$/gm,'')) {
                                                     this.Check[i] = true;
-                                                   this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                                   //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
                                         }
 
-                                    } else {
-                                        /* student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                                        let Question_answer = this.getAll_questions.Question[i].answer; */
+                                    }
+                                    else if(this.getAll_questions.Question[i].type == 'Multiple Choice'){
+                                        if(this.getAll_questions.Question[i].isNew){
+                                           student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                                        let Question_answer = this.getAll_questions.Question[i].answer;
+                                        if (Question_answer == student_ans) {
+                                            this.Check[i] = true;
+                                             //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                        } else {
+                                            this.Check[i] = false;
+                                        }
+                                             
+                                        }else{
+                                           student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                            .ViewDetails.Submitted_Answers[j].Answer :
+                                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                            .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                                j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                            .Answer;
+                                            let Question_answer = this.getAll_questions.Question[i].sensitivity ?
+                                                this.getAll_questions.Question[i].answer :
+                                                this.getAll_questions.Question[i].answer != null && this
+                                                .getAll_questions.Question[i].answer != '' ? this.getAll_questions
+                                                .Question[i].answer.toLowerCase() : this.getAll_questions.Question[
+                                                    i].answer;
+                                            if (Question_answer == student_ans) {
+                                                this.Check[i] = true;
+                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                            } else {
+                                                this.Check[i] = false;
+                                            }
+                                        }
+                                    }
+                                    else if(this.getAll_questions.Question[i].type == 'True or False'){
+                                       student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                        .ViewDetails.Submitted_Answers[j].Answer :
+                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                        .Answer;
                                         let Question_answer = this.getAll_questions.Question[i].sensitivity ?
                                             this.getAll_questions.Question[i].answer :
                                             this.getAll_questions.Question[i].answer != null && this
@@ -1209,127 +1302,119 @@
                                                 i].answer;
                                         if (Question_answer == student_ans) {
                                             this.Check[i] = true;
-                                             this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                                             //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                         } else {
                                             this.Check[i] = false;
                                         }
                                     }
-                                }
-                                 else if (this.getAll_questions.Question[i].type == 'Essay') {
-                                this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
-                                this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-                                this.EssayOldPoints[i] = parseInt(this.ViewDetails.Submitted_Answers[j].score);
-                               /*  if(this.Check[i]){
-                                    this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                } */
-                                this.ViewDetails.points +=  parseInt(this.ViewDetails.Submitted_Answers[j].score);
-                                
-                            } else if (this.getAll_questions.Question[i].type == 'Matching type') {
+                                } else if (this.getAll_questions.Question[i].type == 'Essay') {
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+                                    this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
+                                    let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
 
-                                let Ans = new Array();
-                                let match_check = new Array();
-                                let counter = 0;
-                                let matchpoints = Math.round((this.getAll_questions.Question[i].points / this.getAll_questions.Answer[i].SubQuestion.length));
-                                this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
-                                    for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
-                                        .length; x++) {
-                                        if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
-                                            item.subquestion_id) {
-                                            if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
-                                                match_check[counter] = true;
-                                                this.ViewDetails.points += matchpoints;
+                                    this.EssayOldPoints[i] = score;
+                                    this.ViewDetails.points += score;
+                                } else if (this.getAll_questions.Question[i].type == 'Matching type') {
+                                    
+                                    let Ans = new Array();
+                                    let match_check = new Array();
+                                    let counter = 0;
+                                    let matchpoints = Math.round((this.getAll_questions.Question[i].points / this.getAll_questions.Answer[i].SubQuestion.length));
+                                    this.ViewDetails.Submitted_Answers[j].Answer.forEach(item => {
+                                        for (let x = 0; x < this.getAll_questions.Answer[i].SubQuestion
+                                            .length; x++) {
+                                            if (this.getAll_questions.Answer[i].SubQuestion[x].id ==
+                                                item.subquestion_id) {
+                                                if (this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                                                    match_check[counter] = true;
+                                                    //this.ViewDetails.points += matchpoints;
 
-                                            } else {
-                                                match_check[counter] = false;
+                                                } else {
+                                                    match_check[counter] = false;
+                                                }
                                             }
+
                                         }
-
-                                    }
-                                    counter += 1;
-                                });
+                                        counter += 1;
+                                    });
 
 
-                                let Ans_list = {};
+                                    let Ans_list = {};
                                     Ans_list.SubQuestion = [];
+                                    let subAndDes =  this.getAll_questions.Answer[i].SubAnswer.length + this.getAll_questions.Answer[i].Destructors.length;
                                     Ans_list.SubAnswer = [];
                                     let sub_ques_count = 0;
 
-                                    this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
+                            
+                                    
+                                    this.ViewDetails.Submitted_Answers[j].question_pattern.SubQuestion.forEach(sub_ques => {
                                         this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
-                                            if(sub_ans.subquestion_id == subQuestion.id){
+                                            if(sub_ques.id == subQuestion.id){
                                                 Ans_list.SubQuestion.push({
-                                                    Ans_Letter: sub_ans.Ans_letter,
-                                                    Answer: sub_ans.Answers,
+                                                    Ans_Letter: null,
+                                                    Answer: null,
                                                     SubQuestion: subQuestion.sub_question,
                                                     SubQuestion_id: subQuestion.id,
-                                                    is_correct: true,
                                                     Correct_Answer: null
+                                                });
+                                            }
+                                        });
+
+                                        this.ViewDetails.Submitted_Answers[j].Answer.forEach(user_ans => {
+                                            Ans_list.SubQuestion.forEach(ans => {
+                                                if(user_ans.subquestion_id == ans.SubQuestion_id){
+                                                    ans.Ans_Letter = user_ans.Ans_letter;
+                                                    ans.Answer = user_ans.Answers;
+                                                }
+                                            });
+                                        });
+
+                                    });
+
+
+                                    this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
+                                        this.getAll_questions.Answer[i].SubAnswer.push(destruc);
+                                    });
+                                    
+                                    this.ViewDetails.Submitted_Answers[j].question_pattern.SubAnswer.forEach(sub_ans => {
+                                        this.getAll_questions.Answer[i].SubAnswer.forEach(subAnswer => {
+                                            if(sub_ans.id == subAnswer.id){
+                                                Ans_list.SubAnswer.push({
+                                                    SubChoice: subAnswer.Choice,
+                                                    SubChoice_id: subAnswer.id,
                                                 });
                                             }
                                         });
                                     });
                                     
 
-                                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                                        let alpha_count = 0;
-                                         this.Alphabet.forEach(alpha => {
-                                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
-                                                  this.getAll_questions.Answer[i].SubAnswer.forEach(answer_list => {
-                                                    if(sub_ans.Ans_id == answer_list.id){
-                                                            Ans_list.SubAnswer[alpha_count] = {
-                                                            SubChoice: answer_list.Choice,
-                                                            SubChoice_id: answer_list.id,
-                                                            index: alpha_count
-                                                        }
-                                                    }
-                                                });                                                 
-                                             }
-                                             alpha_count++;
-                                         });
+                                
+                                    let tmpChoices = new Array();
+                                    this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
+                                        this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
+                                            if (item.choice_id == choice.id) {
+                                                tmpChoices.push({
+                                                    id: choice.id,
+                                                    choice: choice.Choice,
+                                                })
+                                            }
+                                        })
                                     });
 
-                                    let des_count = 0;
-                                    for (let v = 0; v < Ans_list.SubAnswer.length; v++) {
-                                        if(Ans_list.SubAnswer[v] == null){
-                                            Ans_list.SubAnswer[v] = {
-                                                SubChoice: this.getAll_questions.Answer[i].Destructors[des_count].Choice,
-                                                SubChoice_id: this.getAll_questions.Answer[i].Destructors[des_count].id,
-                                                index: v
-                                            }
-                                           des_count++;
-                                        }
-                                    }
-
-
-
-                                let tmpChoices = new Array();
-                                this.ViewDetails.Submitted_Answers[j].Choices_id.forEach(item => {
-                                    this.getAll_questions.Answer[i].SubAnswer.forEach(choice => {
-                                        if (item.choice_id == choice.id) {
-                                            tmpChoices.push({
-                                                id: choice.id,
-                                                choice: choice.Choice,
-                                            })
-                                        }
-                                    })
-                                });
-
-                                /* for (let a = 0; a < Ans.length; a++) {
-                                    Ans[a].SubChoice = tmpChoices[a].choice;
-                                } */
-
-                                this.SubmittedAnswer[i] = Ans_list;
-                                this.Check[i] = match_check;
+                                    this.SubmittedAnswer[i] = Ans_list;
+                                    this.Check[i] = match_check;
+                                }
                             }
+
                         }
 
                     }
 
-                }
-
                 this.fetchStudentActivity();
+                this.CheckScore(this.ViewDetails.id)
                 this.isLoaded = true;
-                this.ReSaveScore();
+                //this.ReSaveScore();
+                
                 
 
 
@@ -1507,6 +1592,16 @@
                      this.loading_activity = false;
                     this.toastError('Something went wrong');
                 })
+            },
+             CheckScore(sub_id){
+                 if(sub_id != null){
+                     axios.get('/api/question/StudentScore/'+sub_id)
+                    .then(res=>{
+                        this.ViewDetails.points = res.data;
+                        //this.ReSaveScore(res.data);
+                    })
+                 }
+                
             }
         },
         beforeDestroy() {

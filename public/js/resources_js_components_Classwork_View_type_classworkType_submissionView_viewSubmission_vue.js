@@ -244,6 +244,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -295,8 +314,7 @@ __webpack_require__.r(__webpack_exports__);
           var _loop2 = function _loop2(j) {
             if (_this.QuestionAndAnswer.Question[_i].id == _this.classworkDetails.Submitted_Answers[j].Question_id) {
               if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False') {
-                var student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
-                _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+                var student_ans;
 
                 if (_this.QuestionAndAnswer.Question[_i].answer == _this.classworkDetails.Submitted_Answers[j].Answer) {
                   _this.Check[_i] = true;
@@ -305,6 +323,8 @@ __webpack_require__.r(__webpack_exports__);
                 }
 
                 if (_this.QuestionAndAnswer.Question[_i].type == 'Identification') {
+                  student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
+                  _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
                   _this.Check[_i] = false;
 
                   _this.QuestionAndAnswer.Answer[_i].forEach(function (item) {
@@ -314,10 +334,36 @@ __webpack_require__.r(__webpack_exports__);
                       _this.Check[_i] = true;
                     }
                   });
-                } else {
-                  var Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
+                } else if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice') {
+                  if (_this.QuestionAndAnswer.Question[_i].isNew) {
+                    student_ans = _this.classworkDetails.Submitted_Answers[j].Answer;
+                    var Question_answer = _this.QuestionAndAnswer.Question[_i].answer;
+                    _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
 
-                  if (Question_answer == student_ans) {
+                    if (Question_answer == student_ans) {
+                      _this.Check[_i] = true;
+                    } else {
+                      _this.Check[_i] = false;
+                    }
+                  } else {
+                    student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
+                    _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+
+                    var _Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
+
+                    if (_Question_answer == student_ans) {
+                      _this.Check[_i] = true;
+                    } else {
+                      _this.Check[_i] = false;
+                    }
+                  }
+                } else {
+                  student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
+                  _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
+
+                  var _Question_answer2 = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.QuestionAndAnswer.Question[_i].answer : _this.QuestionAndAnswer.Question[_i].answer != null && _this.QuestionAndAnswer.Question[_i].answer != '' ? _this.QuestionAndAnswer.Question[_i].answer.toLowerCase() : _this.QuestionAndAnswer.Question[_i].answer;
+
+                  if (_Question_answer2 == student_ans) {
                     _this.Check[_i] = true;
                   } else {
                     _this.Check[_i] = false;
@@ -883,38 +929,79 @@ var render = function() {
                                             : "d-flex flex-row ma-0 pa-0 pl-2"
                                         },
                                         [
-                                          _c(
-                                            "v-radio-group",
-                                            {
-                                              staticClass: "ma-0 pa-0",
-                                              attrs: { name: "option" + index },
-                                              model: {
-                                                value:
-                                                  _vm.SubmittedAnswer[index]
-                                                    .Answer,
-                                                callback: function($$v) {
-                                                  _vm.$set(
-                                                    _vm.SubmittedAnswer[index],
-                                                    "Answer",
-                                                    $$v
-                                                  )
+                                          item.isNew
+                                            ? _c(
+                                                "v-radio-group",
+                                                {
+                                                  staticClass: "ma-0 pa-0",
+                                                  attrs: {
+                                                    name: "option" + index
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.SubmittedAnswer[index]
+                                                        .Answer,
+                                                    callback: function($$v) {
+                                                      _vm.$set(
+                                                        _vm.SubmittedAnswer[
+                                                          index
+                                                        ],
+                                                        "Answer",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "SubmittedAnswer[index].Answer"
+                                                  }
                                                 },
-                                                expression:
-                                                  "SubmittedAnswer[index].Answer"
-                                              }
-                                            },
-                                            [
-                                              _c("v-radio", {
-                                                key: index,
-                                                attrs: {
-                                                  readonly: "",
-                                                  color: "primary",
-                                                  value: Ans.Choice
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          ),
+                                                [
+                                                  _c("v-radio", {
+                                                    key: index,
+                                                    attrs: {
+                                                      readonly: "",
+                                                      color: "primary",
+                                                      value: Ans.id
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              )
+                                            : _c(
+                                                "v-radio-group",
+                                                {
+                                                  staticClass: "ma-0 pa-0",
+                                                  attrs: {
+                                                    name: "option" + index
+                                                  },
+                                                  model: {
+                                                    value:
+                                                      _vm.SubmittedAnswer[index]
+                                                        .Answer,
+                                                    callback: function($$v) {
+                                                      _vm.$set(
+                                                        _vm.SubmittedAnswer[
+                                                          index
+                                                        ],
+                                                        "Answer",
+                                                        $$v
+                                                      )
+                                                    },
+                                                    expression:
+                                                      "SubmittedAnswer[index].Answer"
+                                                  }
+                                                },
+                                                [
+                                                  _c("v-radio", {
+                                                    key: index,
+                                                    attrs: {
+                                                      readonly: "",
+                                                      color: "primary",
+                                                      value: Ans.Choice
+                                                    }
+                                                  })
+                                                ],
+                                                1
+                                              ),
                                           _vm._v(" "),
                                           _c(
                                             "div",
@@ -933,16 +1020,41 @@ var render = function() {
                                                 }
                                               }),
                                               _vm._v(" "),
-                                              item.answer == Ans.Choice
-                                                ? _c(
-                                                    "span",
-                                                    {
-                                                      staticClass:
-                                                        "caption primary--text ml-1 mt-1"
-                                                    },
-                                                    [_vm._v("(correct answer)")]
-                                                  )
-                                                : _vm._e()
+                                              item.isNew
+                                                ? _c("span", [
+                                                    item.answer == Ans.id
+                                                      ? _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "caption primary--text ml-1 mt-1"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "(correct answer)"
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ])
+                                                : _vm._e(),
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                item.answer == Ans.Choice
+                                                  ? _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "caption primary--text ml-1 mt-1"
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          "(correct answer)"
+                                                        )
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ])
                                             ]
                                           )
                                         ],

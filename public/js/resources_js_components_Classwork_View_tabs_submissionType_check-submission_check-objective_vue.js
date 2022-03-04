@@ -725,6 +725,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var resetConfirmation = function resetConfirmation() {
@@ -875,16 +895,20 @@ var resetConfirmation = function resetConfirmation() {
                     
                 } */
 
-                student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
                 _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
 
                 if (_this.getAll_questions.Question[i].type == 'Identification') {
+                  student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+
                   if (_this.getAll_questions.Answer[i].options.length == 0) {
                     var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+                    Question_answer = Question_answer.replace('<p>', '').trim();
+                    Question_answer = Question_answer.replace('</p>', '').trim();
+                    student_ans = student_ans.replace('<p>', '').trim();
+                    student_ans = student_ans.replace('</p>', '').trim();
 
-                    if (Question_answer == student_ans) {
-                      _this.Check[i] = true;
-                      _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                    if (Question_answer.replace(/\s+/g, '').trim() == student_ans.replace(/\s+/g, '').trim()) {
+                      _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                     } else {
                       _this.Check[i] = false;
                     }
@@ -893,21 +917,47 @@ var resetConfirmation = function resetConfirmation() {
 
                     _this.getAll_questions.Answer[i].options.forEach(function (item) {
                       var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                      Question_answer = Question_answer.replace('<p>', '').trim();
+                      Question_answer = Question_answer.replace('</p>', '').trim();
+                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                      student_ans = student_ans.replace('<p>', '').trim();
+                      student_ans = student_ans.replace('</p>', '').trim();
+                      student_ans = student_ans.replace('&nbsp;', '').trim();
+                      console.log(Question_answer + '--' + student_ans);
 
-                      if (student_ans == Question_answer) {
-                        _this.Check[i] = true;
-                        _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                      if (student_ans.replace(/\s+/g, '').trim() == Question_answer.replace(/\s+/g, '').trim()) {
+                        _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                       }
                     });
                   }
-                } else {
-                  /*  student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                   let Question_answer = this.getAll_questions.Question[i].answer */
-                  var _Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+                } else if (_this.getAll_questions.Question[i].type == 'Multiple Choice') {
+                  if (_this.getAll_questions.Question[i].isNew) {
+                    student_ans = _this.ViewDetails.Submitted_Answers[_j].Answer;
+                    var _Question_answer = _this.getAll_questions.Question[i].answer;
 
-                  if (_Question_answer == student_ans) {
-                    _this.Check[i] = true;
-                    _this.ViewDetails.points += _this.getAll_questions.Question[i].points;
+                    if (_Question_answer == student_ans) {
+                      _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    } else {
+                      _this.Check[i] = false;
+                    }
+                  } else {
+                    student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+
+                    var _Question_answer2 = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+
+                    if (_Question_answer2 == student_ans) {
+                      _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    } else {
+                      _this.Check[i] = false;
+                    }
+                  }
+                } else if (_this.getAll_questions.Question[i].type == 'True or False') {
+                  student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+
+                  var _Question_answer3 = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
+
+                  if (_Question_answer3 == student_ans) {
+                    _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                   } else {
                     _this.Check[i] = false;
                   }
@@ -918,10 +968,6 @@ var resetConfirmation = function resetConfirmation() {
                 var score = parseInt(_this.ViewDetails.Submitted_Answers[_j].score);
                 _this.EssayOldPoints[i] = score;
                 _this.ViewDetails.points += score;
-                /*  if(!this.Check[i]){
-                     this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                     this.questionIndex = i
-                 } */
               } else if (_this.getAll_questions.Question[i].type == 'Matching type') {
                 var Ans = new Array();
                 var match_check = new Array();
@@ -932,8 +978,7 @@ var resetConfirmation = function resetConfirmation() {
                   for (var x = 0; x < _this.getAll_questions.Answer[i].SubQuestion.length; x++) {
                     if (_this.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
                       if (_this.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
-                        match_check[_counter2] = true;
-                        _this.ViewDetails.points += matchpoints;
+                        match_check[_counter2] = true; //this.ViewDetails.points += matchpoints;
                       } else {
                         match_check[_counter2] = false;
                       }
@@ -948,20 +993,6 @@ var resetConfirmation = function resetConfirmation() {
                 var subAndDes = _this.getAll_questions.Answer[i].SubAnswer.length + _this.getAll_questions.Answer[i].Destructors.length;
                 Ans_list.SubAnswer = [];
                 var sub_ques_count = 0;
-                /*  this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                     this.getAll_questions.Answer[i].SubQuestion.forEach(subQuestion => {
-                         if(sub_ans.subquestion_id == subQuestion.id){
-                             Ans_list.SubQuestion.push({
-                                 Ans_Letter: sub_ans.Ans_letter,
-                                 Answer: sub_ans.Answers,
-                                 SubQuestion: subQuestion.sub_question,
-                                 SubQuestion_id: subQuestion.id,
-                                 is_correct: true,
-                                 Correct_Answer: null
-                             });
-                         }
-                     });
-                 }); */
 
                 _this.ViewDetails.Submitted_Answers[_j].question_pattern.SubQuestion.forEach(function (sub_ques) {
                   _this.getAll_questions.Answer[i].SubQuestion.forEach(function (subQuestion) {
@@ -1000,38 +1031,6 @@ var resetConfirmation = function resetConfirmation() {
                     }
                   });
                 });
-                /* 
-                     this.ViewDetails.Submitted_Answers[j].Answer.forEach(sub_ans => {
-                        let alpha_count = 0;
-                         this.Alphabet.forEach(alpha => {
-                             if(alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()){
-                                  this.getAll_questions.Answer[i].SubAnswer.forEach(answer_list => {
-                                    if(sub_ans.Ans_id == answer_list.id){
-                                            Ans_list.SubAnswer[alpha_count] = {
-                                            SubChoice: answer_list.Choice,
-                                            SubChoice_id: answer_list.id,
-                                            index: alpha_count
-                                        }
-                                    }
-                                });                                                 
-                             }
-                             alpha_count++;
-                         });
-                    }); */
-
-                /* console.log(Ans_list.SubAnswer);
-                                        let des_count = 0;
-                                             for (let v = 0; v <  Ans_list.SubAnswer.length; v++) {
-                    if(Ans_list.SubAnswer[v] == null){
-                        Ans_list.SubAnswer[v] = {
-                            SubChoice: this.getAll_questions.Answer[i].Destructors[des_count].Choice,
-                            SubChoice_id: this.getAll_questions.Answer[i].Destructors[des_count].id,
-                            index: v
-                        }
-                       des_count++;
-                    }
-                } */
-
 
                 var tmpChoices = new Array();
 
@@ -1045,10 +1044,6 @@ var resetConfirmation = function resetConfirmation() {
                     }
                   });
                 });
-                /*  for (let a = 0; a < Ans.length; a++) {
-                     Ans[a].SubChoice = tmpChoices[a].choice;
-                 } */
-
 
                 _this.SubmittedAnswer[i] = Ans_list;
                 _this.Check[i] = match_check;
@@ -1065,11 +1060,12 @@ var resetConfirmation = function resetConfirmation() {
           _loop2(i);
         }
 
+        _this.CheckScore(_this.ViewDetails.id); //this.ReSaveScore();
+
+
         _this.isLoaded = true;
 
         _this.$emit('isMounted');
-
-        _this.ReSaveScore();
       });
     },
     ReMatchQuestions: function ReMatchQuestions() {
@@ -1140,155 +1136,178 @@ var resetConfirmation = function resetConfirmation() {
       }
 
       var _loop5 = function _loop5(i) {
-        for (var _j2 = 0; _j2 < _this2.ViewDetails.Submitted_Answers.length; _j2++) {
+        var _loop6 = function _loop6(_j2) {
           if (_this2.getAll_questions.Question[i].id == _this2.ViewDetails.Submitted_Answers[_j2].Question_id) {
             if (_this2.getAll_questions.Question[i].type == 'Multiple Choice' || _this2.getAll_questions.Question[i].type == 'Identification' || _this2.getAll_questions.Question[i].type == 'True or False') {
-              (function () {
-                var student_ans = void 0;
+              var student_ans;
+              /* if(this.getAll_questions.Question[i].type == 'Identification'){
+                  if(this.getAll_questions.Question[i].sensitivity){
+                      student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
+                  }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
+                      this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
+                  }else{
+                      this.ViewDetails.Submitted_Answers[j].Answer;
+                  }
+                  
+              } */
+
+              _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
+
+              if (_this2.getAll_questions.Question[i].type == 'Identification') {
                 student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
-                _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
 
-                if (_this2.getAll_questions.Question[i].type == 'Identification') {
-                  if (_this2.getAll_questions.Answer[i].options.length == 0) {
-                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+                if (_this2.getAll_questions.Answer[i].options.length == 0) {
+                  var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+                  Question_answer = Question_answer.replace('<p>', '').trim();
+                  Question_answer = Question_answer.replace('</p>', '').trim();
+                  student_ans = student_ans.replace('<p>', '').trim();
+                  student_ans = student_ans.replace('</p>', '').trim();
 
-                    if (Question_answer == student_ans) {
-                      _this2.Check[i] = true;
-                      _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
-                    } else {
-                      _this2.Check[i] = false;
-                    }
+                  if (Question_answer.replace(/^\s+|\s+$/gm, '') == student_ans.replace(/^\s+|\s+$/gm, '')) {
+                    _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                   } else {
                     _this2.Check[i] = false;
-
-                    _this2.getAll_questions.Answer[i].options.forEach(function (item) {
-                      var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-
-                      if (student_ans == Question_answer) {
-                        _this2.Check[i] = true;
-                        _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
-                      }
-                    });
                   }
                 } else {
-                  /* student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                  let Question_answer = this.getAll_questions.Question[i].answer; */
-                  var _Question_answer2 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+                  _this2.Check[i] = false;
 
-                  if (_Question_answer2 == student_ans) {
-                    _this2.Check[i] = true;
-                    _this2.ViewDetails.points += _this2.getAll_questions.Question[i].points;
+                  _this2.getAll_questions.Answer[i].options.forEach(function (item) {
+                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                    Question_answer = Question_answer.replace('<p>', '').trim();
+                    Question_answer = Question_answer.replace('</p>', '').trim();
+                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                    student_ans = student_ans.replace('<p>', '').trim();
+                    student_ans = student_ans.replace('</p>', '').trim();
+                    student_ans = student_ans.replace('&nbsp;', '').trim();
+
+                    if (student_ans.replace(/^\s+|\s+$/gm, '') == Question_answer.replace(/^\s+|\s+$/gm, '')) {
+                      _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    }
+                  });
+                }
+              } else if (_this2.getAll_questions.Question[i].type == 'Multiple Choice') {
+                if (_this2.getAll_questions.Question[i].isNew) {
+                  student_ans = _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+                  var _Question_answer4 = _this2.getAll_questions.Question[i].answer;
+
+                  if (_Question_answer4 == student_ans) {
+                    _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                  } else {
+                    _this2.Check[i] = false;
+                  }
+                } else {
+                  student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+
+                  var _Question_answer5 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+
+                  if (_Question_answer5 == student_ans) {
+                    _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                   } else {
                     _this2.Check[i] = false;
                   }
                 }
-              })();
+              } else if (_this2.getAll_questions.Question[i].type == 'True or False') {
+                student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+
+                var _Question_answer6 = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
+
+                if (_Question_answer6 == student_ans) {
+                  _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                } else {
+                  _this2.Check[i] = false;
+                }
+              }
             } else if (_this2.getAll_questions.Question[i].type == 'Essay') {
               _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
               _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check;
-              _this2.EssayOldPoints[i] = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
-              /*  if(this.Check[i]){
-                   this.ViewDetails.points += this.getAll_questions.Question[i].points;
-               } */
-
-              _this2.ViewDetails.points += parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
+              var score = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
+              _this2.EssayOldPoints[i] = score;
+              _this2.ViewDetails.points += score;
             } else if (_this2.getAll_questions.Question[i].type == 'Matching type') {
-              (function () {
-                var Ans = new Array();
-                var match_check = new Array();
-                var counter = 0;
-                var matchpoints = Math.round(_this2.getAll_questions.Question[i].points / _this2.getAll_questions.Answer[i].SubQuestion.length);
+              var Ans = new Array();
+              var match_check = new Array();
+              var _counter4 = 0;
+              var matchpoints = Math.round(_this2.getAll_questions.Question[i].points / _this2.getAll_questions.Answer[i].SubQuestion.length);
 
-                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (item) {
-                  for (var x = 0; x < _this2.getAll_questions.Answer[i].SubQuestion.length; x++) {
-                    if (_this2.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
-                      if (_this2.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
-                        match_check[counter] = true;
-                        _this2.ViewDetails.points += matchpoints;
-                      } else {
-                        match_check[counter] = false;
-                      }
+              _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (item) {
+                for (var x = 0; x < _this2.getAll_questions.Answer[i].SubQuestion.length; x++) {
+                  if (_this2.getAll_questions.Answer[i].SubQuestion[x].id == item.subquestion_id) {
+                    if (_this2.getAll_questions.Answer[i].SubAnswer[x].Choice == item.Answers) {
+                      match_check[_counter4] = true; //this.ViewDetails.points += matchpoints;
+                    } else {
+                      match_check[_counter4] = false;
                     }
-                  }
-
-                  counter += 1;
-                });
-
-                var Ans_list = {};
-                Ans_list.SubQuestion = [];
-                Ans_list.SubAnswer = [];
-                var sub_ques_count = 0;
-
-                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (sub_ans) {
-                  _this2.getAll_questions.Answer[i].SubQuestion.forEach(function (subQuestion) {
-                    if (sub_ans.subquestion_id == subQuestion.id) {
-                      Ans_list.SubQuestion.push({
-                        Ans_Letter: sub_ans.Ans_letter,
-                        Answer: sub_ans.Answers,
-                        SubQuestion: subQuestion.sub_question,
-                        SubQuestion_id: subQuestion.id,
-                        is_correct: true,
-                        Correct_Answer: null
-                      });
-                    }
-                  });
-                });
-
-                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (sub_ans) {
-                  var alpha_count = 0;
-
-                  _this2.Alphabet.forEach(function (alpha) {
-                    if (alpha.toUpperCase() == sub_ans.Ans_letter.toUpperCase()) {
-                      _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (answer_list) {
-                        if (sub_ans.Ans_id == answer_list.id) {
-                          Ans_list.SubAnswer[alpha_count] = {
-                            SubChoice: answer_list.Choice,
-                            SubChoice_id: answer_list.id,
-                            index: alpha_count
-                          };
-                        }
-                      });
-                    }
-
-                    alpha_count++;
-                  });
-                });
-
-                var des_count = 0;
-
-                for (var v = 0; v < Ans_list.SubAnswer.length; v++) {
-                  if (Ans_list.SubAnswer[v] == null) {
-                    Ans_list.SubAnswer[v] = {
-                      SubChoice: _this2.getAll_questions.Answer[i].Destructors[des_count].Choice,
-                      SubChoice_id: _this2.getAll_questions.Answer[i].Destructors[des_count].id,
-                      index: v
-                    };
-                    des_count++;
                   }
                 }
 
-                var tmpChoices = new Array();
+                _counter4 += 1;
+              });
 
-                _this2.ViewDetails.Submitted_Answers[_j2].Choices_id.forEach(function (item) {
-                  _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (choice) {
-                    if (item.choice_id == choice.id) {
-                      tmpChoices.push({
-                        id: choice.id,
-                        choice: choice.Choice
-                      });
+              var Ans_list = {};
+              Ans_list.SubQuestion = [];
+              var subAndDes = _this2.getAll_questions.Answer[i].SubAnswer.length + _this2.getAll_questions.Answer[i].Destructors.length;
+              Ans_list.SubAnswer = [];
+              var sub_ques_count = 0;
+
+              _this2.ViewDetails.Submitted_Answers[_j2].question_pattern.SubQuestion.forEach(function (sub_ques) {
+                _this2.getAll_questions.Answer[i].SubQuestion.forEach(function (subQuestion) {
+                  if (sub_ques.id == subQuestion.id) {
+                    Ans_list.SubQuestion.push({
+                      Ans_Letter: null,
+                      Answer: null,
+                      SubQuestion: subQuestion.sub_question,
+                      SubQuestion_id: subQuestion.id,
+                      Correct_Answer: null
+                    });
+                  }
+                });
+
+                _this2.ViewDetails.Submitted_Answers[_j2].Answer.forEach(function (user_ans) {
+                  Ans_list.SubQuestion.forEach(function (ans) {
+                    if (user_ans.subquestion_id == ans.SubQuestion_id) {
+                      ans.Ans_Letter = user_ans.Ans_letter;
+                      ans.Answer = user_ans.Answers;
                     }
                   });
                 });
-                /* for (let a = 0; a < Ans.length; a++) {
-                    Ans[a].SubChoice = tmpChoices[a].choice;
-                } */
+              });
 
+              _this2.getAll_questions.Answer[i].Destructors.forEach(function (destruc) {
+                _this2.getAll_questions.Answer[i].SubAnswer.push(destruc);
+              });
 
-                _this2.SubmittedAnswer[i] = Ans_list;
-                _this2.Check[i] = match_check;
-              })();
+              _this2.ViewDetails.Submitted_Answers[_j2].question_pattern.SubAnswer.forEach(function (sub_ans) {
+                _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (subAnswer) {
+                  if (sub_ans.id == subAnswer.id) {
+                    Ans_list.SubAnswer.push({
+                      SubChoice: subAnswer.Choice,
+                      SubChoice_id: subAnswer.id
+                    });
+                  }
+                });
+              });
+
+              var tmpChoices = new Array();
+
+              _this2.ViewDetails.Submitted_Answers[_j2].Choices_id.forEach(function (item) {
+                _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (choice) {
+                  if (item.choice_id == choice.id) {
+                    tmpChoices.push({
+                      id: choice.id,
+                      choice: choice.Choice
+                    });
+                  }
+                });
+              });
+
+              _this2.SubmittedAnswer[i] = Ans_list;
+              _this2.Check[i] = match_check;
             }
           }
+        };
+
+        for (var _j2 = 0; _j2 < _this2.ViewDetails.Submitted_Answers.length; _j2++) {
+          _loop6(_j2);
         }
       };
 
@@ -1297,8 +1316,8 @@ var resetConfirmation = function resetConfirmation() {
       }
 
       this.fetchStudentActivity();
-      this.isLoaded = true;
-      this.ReSaveScore();
+      this.CheckScore(this.ViewDetails.id);
+      this.isLoaded = true; //this.ReSaveScore();
     },
     UpdateEssayScore: function UpdateEssayScore(type, id, data, points, index, answer) {
       var _this3 = this;
@@ -1627,6 +1646,15 @@ var resetConfirmation = function resetConfirmation() {
 
         _this13.toastError('Something went wrong');
       });
+    },
+    CheckScore: function CheckScore(sub_id) {
+      var _this14 = this;
+
+      if (sub_id != null) {
+        axios.get('/api/question/StudentScore/' + sub_id).then(function (res) {
+          _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
+        });
+      }
     }
   },
   beforeDestroy: function beforeDestroy() {
@@ -2361,7 +2389,7 @@ var render = function() {
                                   attrs: { cols: "12" }
                                 },
                                 [
-                                  _vm.ViewDetails.status == "Submitted"
+                                  _vm.ViewDetails.status != null
                                     ? _c(
                                         "v-btn",
                                         {
@@ -3838,65 +3866,129 @@ var render = function() {
                                                                                   "ma-0 pa-0 "
                                                                               },
                                                                               [
-                                                                                _c(
-                                                                                  "v-radio-group",
-                                                                                  {
-                                                                                    staticClass:
-                                                                                      "ma-0 pa-0 mt-1",
-                                                                                    attrs: {
-                                                                                      "hide-details":
-                                                                                        "",
-                                                                                      name:
-                                                                                        "option" +
-                                                                                        index
-                                                                                    },
-                                                                                    model: {
-                                                                                      value:
-                                                                                        _vm
-                                                                                          .SubmittedAnswer[
-                                                                                          index
-                                                                                        ]
-                                                                                          .Answer,
-                                                                                      callback: function(
-                                                                                        $$v
-                                                                                      ) {
-                                                                                        _vm.$set(
-                                                                                          _vm
-                                                                                            .SubmittedAnswer[
-                                                                                            index
-                                                                                          ],
-                                                                                          "Answer",
-                                                                                          $$v
-                                                                                        )
-                                                                                      },
-                                                                                      expression:
-                                                                                        "SubmittedAnswer[index].Answer"
-                                                                                    }
-                                                                                  },
-                                                                                  [
-                                                                                    _c(
-                                                                                      "v-radio",
+                                                                                item.isNew
+                                                                                  ? _c(
+                                                                                      "v-radio-group",
                                                                                       {
-                                                                                        key: index,
-                                                                                        style: _vm
-                                                                                          .$vuetify
-                                                                                          .breakpoint
-                                                                                          .mdAndUp
-                                                                                          ? "transform: scale(1.3)"
-                                                                                          : "transform: scale(1.35)",
+                                                                                        staticClass:
+                                                                                          "ma-0 pa-0 mt-1",
                                                                                         attrs: {
+                                                                                          readonly:
+                                                                                            "",
                                                                                           "hide-details":
                                                                                             "",
-                                                                                          color:
-                                                                                            "primary",
+                                                                                          name:
+                                                                                            "option" +
+                                                                                            index
+                                                                                        },
+                                                                                        model: {
                                                                                           value:
-                                                                                            Ans.Choice
+                                                                                            _vm
+                                                                                              .SubmittedAnswer[
+                                                                                              index
+                                                                                            ]
+                                                                                              .Answer,
+                                                                                          callback: function(
+                                                                                            $$v
+                                                                                          ) {
+                                                                                            _vm.$set(
+                                                                                              _vm
+                                                                                                .SubmittedAnswer[
+                                                                                                index
+                                                                                              ],
+                                                                                              "Answer",
+                                                                                              $$v
+                                                                                            )
+                                                                                          },
+                                                                                          expression:
+                                                                                            "SubmittedAnswer[index].Answer"
                                                                                         }
-                                                                                      }
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "v-radio",
+                                                                                          {
+                                                                                            key: index,
+                                                                                            style: _vm
+                                                                                              .$vuetify
+                                                                                              .breakpoint
+                                                                                              .mdAndUp
+                                                                                              ? "transform: scale(1.3)"
+                                                                                              : "transform: scale(1.35)",
+                                                                                            attrs: {
+                                                                                              "hide-details":
+                                                                                                "",
+                                                                                              color:
+                                                                                                "primary",
+                                                                                              value:
+                                                                                                Ans.id
+                                                                                            }
+                                                                                          }
+                                                                                        )
+                                                                                      ],
+                                                                                      1
                                                                                     )
-                                                                                  ],
-                                                                                  1
-                                                                                )
+                                                                                  : _c(
+                                                                                      "v-radio-group",
+                                                                                      {
+                                                                                        staticClass:
+                                                                                          "ma-0 pa-0 mt-1",
+                                                                                        attrs: {
+                                                                                          readonly:
+                                                                                            "",
+                                                                                          "hide-details":
+                                                                                            "",
+                                                                                          name:
+                                                                                            "option" +
+                                                                                            index
+                                                                                        },
+                                                                                        model: {
+                                                                                          value:
+                                                                                            _vm
+                                                                                              .SubmittedAnswer[
+                                                                                              index
+                                                                                            ]
+                                                                                              .Answer,
+                                                                                          callback: function(
+                                                                                            $$v
+                                                                                          ) {
+                                                                                            _vm.$set(
+                                                                                              _vm
+                                                                                                .SubmittedAnswer[
+                                                                                                index
+                                                                                              ],
+                                                                                              "Answer",
+                                                                                              $$v
+                                                                                            )
+                                                                                          },
+                                                                                          expression:
+                                                                                            "SubmittedAnswer[index].Answer"
+                                                                                        }
+                                                                                      },
+                                                                                      [
+                                                                                        _c(
+                                                                                          "v-radio",
+                                                                                          {
+                                                                                            key: index,
+                                                                                            style: _vm
+                                                                                              .$vuetify
+                                                                                              .breakpoint
+                                                                                              .mdAndUp
+                                                                                              ? "transform: scale(1.3)"
+                                                                                              : "transform: scale(1.35)",
+                                                                                            attrs: {
+                                                                                              "hide-details":
+                                                                                                "",
+                                                                                              color:
+                                                                                                "primary",
+                                                                                              value:
+                                                                                                Ans.Choice
+                                                                                            }
+                                                                                          }
+                                                                                        )
+                                                                                      ],
+                                                                                      1
+                                                                                    )
                                                                               ],
                                                                               1
                                                                             ),
@@ -3936,21 +4028,47 @@ var render = function() {
                                                                                     _vm._v(
                                                                                       " "
                                                                                     ),
-                                                                                    item.answer ==
-                                                                                    Ans.Choice
+                                                                                    item.isNew
                                                                                       ? _c(
                                                                                           "span",
-                                                                                          {
-                                                                                            staticClass:
-                                                                                              "caption primary--text ml-1"
-                                                                                          },
                                                                                           [
-                                                                                            _vm._v(
-                                                                                              "(correct\n                                                                    answer)"
-                                                                                            )
+                                                                                            item.answer ==
+                                                                                            Ans.id
+                                                                                              ? _c(
+                                                                                                  "span",
+                                                                                                  {
+                                                                                                    staticClass:
+                                                                                                      "caption primary--text ml-1"
+                                                                                                  },
+                                                                                                  [
+                                                                                                    _vm._v(
+                                                                                                      "(correct\n                                                                            answer)"
+                                                                                                    )
+                                                                                                  ]
+                                                                                                )
+                                                                                              : _vm._e()
                                                                                           ]
                                                                                         )
-                                                                                      : _vm._e()
+                                                                                      : _c(
+                                                                                          "span",
+                                                                                          [
+                                                                                            item.answer ==
+                                                                                            Ans.Choice
+                                                                                              ? _c(
+                                                                                                  "span",
+                                                                                                  {
+                                                                                                    staticClass:
+                                                                                                      "caption primary--text ml-1"
+                                                                                                  },
+                                                                                                  [
+                                                                                                    _vm._v(
+                                                                                                      "(correct\n                                                                            answer)"
+                                                                                                    )
+                                                                                                  ]
+                                                                                                )
+                                                                                              : _vm._e()
+                                                                                          ]
+                                                                                        )
                                                                                   ]
                                                                                 )
                                                                               ]
@@ -4370,11 +4488,7 @@ var render = function() {
                                                                                       .inputCheck[
                                                                                       n
                                                                                     ] ==
-                                                                                    _vm
-                                                                                      .SubmittedAnswer[
-                                                                                      index
-                                                                                    ]
-                                                                                      .Answer
+                                                                                    item.answer
                                                                                       ? _c(
                                                                                           "span",
                                                                                           {

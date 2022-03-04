@@ -19,7 +19,7 @@
       </v-col>
       
       <v-col v-else cols="12" sm="12"   justify="center">
-        <v-row align="center" justify="center">
+        <v-row v-if="classworkDetails.publish == null" align="center" justify="center">
           <v-col v-if="classworkDetails.response_late == 0 && CheckFormatDue(classworkDetails.to_date) <= CheckFormatDue(classworkDetails.currentDate)  && classworkDetails.status == null" cols="12" md="7" lg="6" xl="6">
                 <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
           </v-col>
@@ -39,6 +39,30 @@
             
           </v-col>
         </v-row>
+
+        <v-row v-else align="center" justify="center">
+          <v-col v-if="classworkDetails.status == null"  cols="12" md="7" lg="6" xl="6">
+                <responseLatePageWarning :course_id="classworkDetails.course_id" ></responseLatePageWarning>
+          </v-col>
+
+          <v-col v-else  cols="12">
+                <v-row align="center" justify="center">
+                <v-col v-if="classworkDetails.type == 'Objective Type'" sm="12" md="12" lg="10" xl="10" cols="12">
+                  <objectiveType v-if="classworkDetails.type == 'Objective Type'" :classworkDetails="classworkDetails" 
+                :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                ></objectiveType>  
+                </v-col>
+                <v-col v-if="classworkDetails.type == 'Subjective Type'" cols="12" sm="12" md="12" lg="10" xl="10">
+                    <subjectiveType v-if="classworkDetails.type == 'Subjective Type'" :classworkDetails="classworkDetails" 
+                  :totalPoints="totalPoints" :totalQuestion="totalQuestion"
+                  ></subjectiveType> 
+                </v-col>
+              </v-row>
+          </v-col>
+           
+        </v-row>
+
+
       </v-col>
     </v-row>
 </div>

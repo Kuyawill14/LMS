@@ -275,7 +275,18 @@
                                                                 v-for="(Ans,i) in getAll_questions.Answer[index]"
                                                                 :key="i">
                                                                 <v-list-item-icon class="ma-0 pa-0">
-                                                                    <v-radio-group hide-details :name="'option'+index"
+                                                                    <v-radio-group v-if="item.isNew" hide-details :name="'option'+index"
+                                                                        class="ma-0 pa-0 mt-1"
+                                                                        v-model="FinalAnswers[index].Answer">
+                                                                        <v-radio
+                                                                            :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
+                                                                            :name="'option'+index"
+                                                                            @click="FinalAnswers[index].answer_id = Ans.id"
+                                                                            :value="Ans.id">
+                                                                        </v-radio>
+                                                                    </v-radio-group>
+
+                                                                     <v-radio-group v-else hide-details :name="'option'+index"
                                                                         class="ma-0 pa-0 mt-1"
                                                                         v-model="FinalAnswers[index].Answer">
                                                                         <v-radio
@@ -285,6 +296,8 @@
                                                                             :value="Ans.Choice">
                                                                         </v-radio>
                                                                     </v-radio-group>
+
+
                                                                 </v-list-item-icon>
                                                                 <v-list-item-content class="ma-0 pa-0">
                                                                     <div style="line-height:1.4"

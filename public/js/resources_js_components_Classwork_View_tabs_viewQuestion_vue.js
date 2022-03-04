@@ -152,6 +152,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['question', 'answer'],
   data: function data() {
@@ -373,37 +384,79 @@ var render = function() {
                                 "v-list-item-icon",
                                 { staticClass: "ma-0 pa-0" },
                                 [
-                                  _c(
-                                    "v-radio-group",
-                                    {
-                                      staticClass: "ma-0 pa-0 mt-1",
-                                      attrs: {
-                                        "hide-details": "",
-                                        name: "option" + _vm.question.id
-                                      },
-                                      model: {
-                                        value: _vm.question.answer,
-                                        callback: function($$v) {
-                                          _vm.$set(_vm.question, "answer", $$v)
+                                  _vm.question.isNew
+                                    ? _c(
+                                        "v-radio-group",
+                                        {
+                                          staticClass: "ma-0 pa-0 mt-1",
+                                          attrs: {
+                                            "hide-details": "",
+                                            name: "option" + _vm.question.id
+                                          },
+                                          model: {
+                                            value: _vm.question.answer,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.question,
+                                                "answer",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "question.answer"
+                                          }
                                         },
-                                        expression: "question.answer"
-                                      }
-                                    },
-                                    [
-                                      _c("v-radio", {
-                                        key: Ans.id,
-                                        style: _vm.$vuetify.breakpoint.mdAndUp
-                                          ? "transform: scale(1.3)"
-                                          : "transform: scale(1.35)",
-                                        attrs: {
-                                          readonly: "",
-                                          color: "primary",
-                                          value: Ans.Choice
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
+                                        [
+                                          _c("v-radio", {
+                                            key: Ans.id,
+                                            style: _vm.$vuetify.breakpoint
+                                              .mdAndUp
+                                              ? "transform: scale(1.3)"
+                                              : "transform: scale(1.35)",
+                                            attrs: {
+                                              readonly: "",
+                                              color: "primary",
+                                              value: Ans.id
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "v-radio-group",
+                                        {
+                                          staticClass: "ma-0 pa-0 mt-1",
+                                          attrs: {
+                                            "hide-details": "",
+                                            name: "option" + _vm.question.id
+                                          },
+                                          model: {
+                                            value: _vm.question.answer,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.question,
+                                                "answer",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "question.answer"
+                                          }
+                                        },
+                                        [
+                                          _c("v-radio", {
+                                            key: Ans.id,
+                                            style: _vm.$vuetify.breakpoint
+                                              .mdAndUp
+                                              ? "transform: scale(1.3)"
+                                              : "transform: scale(1.35)",
+                                            attrs: {
+                                              readonly: "",
+                                              color: "primary",
+                                              value: Ans.Choice
+                                            }
+                                          })
+                                        ],
+                                        1
+                                      )
                                 ],
                                 1
                               ),

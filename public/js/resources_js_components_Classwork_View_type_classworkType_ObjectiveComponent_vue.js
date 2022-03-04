@@ -1629,8 +1629,7 @@ var render = function() {
                                                       _vm._v(
                                                         " Score:\n                                    " +
                                                           _vm._s(
-                                                            _vm.classworkDetails
-                                                              .score +
+                                                            _vm.classworkDetails.score.toFixed() +
                                                               "/" +
                                                               _vm
                                                                 .classworkDetails

@@ -66,6 +66,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var objectiveType = function objectiveType() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_ObjectiveComponent_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./classworkType/ObjectiveComponent */ "./resources/js/components/Classwork_View/type/classworkType/ObjectiveComponent.vue"));
 };
@@ -316,120 +340,234 @@ var render = function() {
                     "v-col",
                     { attrs: { cols: "12", sm: "12", justify: "center" } },
                     [
-                      _c(
-                        "v-row",
-                        { attrs: { align: "center", justify: "center" } },
-                        [
-                          _vm.classworkDetails.response_late == 0 &&
-                          _vm.CheckFormatDue(_vm.classworkDetails.to_date) <=
-                            _vm.CheckFormatDue(
-                              _vm.classworkDetails.currentDate
-                            ) &&
-                          _vm.classworkDetails.status == null
-                            ? _c(
-                                "v-col",
-                                {
-                                  attrs: {
-                                    cols: "12",
-                                    md: "7",
-                                    lg: "6",
-                                    xl: "6"
-                                  }
-                                },
-                                [
-                                  _c("responseLatePageWarning", {
-                                    attrs: {
-                                      course_id: _vm.classworkDetails.course_id
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            : _c(
-                                "v-col",
-                                { attrs: { cols: "12" } },
-                                [
-                                  _c(
-                                    "v-row",
+                      _vm.classworkDetails.publish == null
+                        ? _c(
+                            "v-row",
+                            { attrs: { align: "center", justify: "center" } },
+                            [
+                              _vm.classworkDetails.response_late == 0 &&
+                              _vm.CheckFormatDue(
+                                _vm.classworkDetails.to_date
+                              ) <=
+                                _vm.CheckFormatDue(
+                                  _vm.classworkDetails.currentDate
+                                ) &&
+                              _vm.classworkDetails.status == null
+                                ? _c(
+                                    "v-col",
                                     {
                                       attrs: {
-                                        align: "center",
-                                        justify: "center"
+                                        cols: "12",
+                                        md: "7",
+                                        lg: "6",
+                                        xl: "6"
                                       }
                                     },
                                     [
-                                      _vm.classworkDetails.type ==
-                                      "Objective Type"
-                                        ? _c(
-                                            "v-col",
-                                            {
-                                              attrs: {
-                                                sm: "12",
-                                                md: "12",
-                                                lg: "10",
-                                                xl: "10",
-                                                cols: "12"
-                                              }
-                                            },
-                                            [
-                                              _vm.classworkDetails.type ==
-                                              "Objective Type"
-                                                ? _c("objectiveType", {
-                                                    attrs: {
-                                                      classworkDetails:
-                                                        _vm.classworkDetails,
-                                                      totalPoints:
-                                                        _vm.totalPoints,
-                                                      totalQuestion:
-                                                        _vm.totalQuestion
-                                                    }
-                                                  })
-                                                : _vm._e()
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e(),
-                                      _vm._v(" "),
-                                      _vm.classworkDetails.type ==
-                                      "Subjective Type"
-                                        ? _c(
-                                            "v-col",
-                                            {
-                                              attrs: {
-                                                cols: "12",
-                                                sm: "12",
-                                                md: "12",
-                                                lg: "10",
-                                                xl: "10"
-                                              }
-                                            },
-                                            [
-                                              _vm.classworkDetails.type ==
-                                              "Subjective Type"
-                                                ? _c("subjectiveType", {
-                                                    attrs: {
-                                                      classworkDetails:
-                                                        _vm.classworkDetails,
-                                                      totalPoints:
-                                                        _vm.totalPoints,
-                                                      totalQuestion:
-                                                        _vm.totalQuestion
-                                                    }
-                                                  })
-                                                : _vm._e()
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
+                                      _c("responseLatePageWarning", {
+                                        attrs: {
+                                          course_id:
+                                            _vm.classworkDetails.course_id
+                                        }
+                                      })
                                     ],
                                     1
                                   )
-                                ],
-                                1
-                              )
-                        ],
-                        1
-                      )
+                                : _c(
+                                    "v-col",
+                                    { attrs: { cols: "12" } },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _vm.classworkDetails.type ==
+                                          "Objective Type"
+                                            ? _c(
+                                                "v-col",
+                                                {
+                                                  attrs: {
+                                                    sm: "12",
+                                                    md: "12",
+                                                    lg: "10",
+                                                    xl: "10",
+                                                    cols: "12"
+                                                  }
+                                                },
+                                                [
+                                                  _vm.classworkDetails.type ==
+                                                  "Objective Type"
+                                                    ? _c("objectiveType", {
+                                                        attrs: {
+                                                          classworkDetails:
+                                                            _vm.classworkDetails,
+                                                          totalPoints:
+                                                            _vm.totalPoints,
+                                                          totalQuestion:
+                                                            _vm.totalQuestion
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.classworkDetails.type ==
+                                          "Subjective Type"
+                                            ? _c(
+                                                "v-col",
+                                                {
+                                                  attrs: {
+                                                    cols: "12",
+                                                    sm: "12",
+                                                    md: "12",
+                                                    lg: "10",
+                                                    xl: "10"
+                                                  }
+                                                },
+                                                [
+                                                  _vm.classworkDetails.type ==
+                                                  "Subjective Type"
+                                                    ? _c("subjectiveType", {
+                                                        attrs: {
+                                                          classworkDetails:
+                                                            _vm.classworkDetails,
+                                                          totalPoints:
+                                                            _vm.totalPoints,
+                                                          totalQuestion:
+                                                            _vm.totalQuestion
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                            ],
+                            1
+                          )
+                        : _c(
+                            "v-row",
+                            { attrs: { align: "center", justify: "center" } },
+                            [
+                              _vm.classworkDetails.status == null
+                                ? _c(
+                                    "v-col",
+                                    {
+                                      attrs: {
+                                        cols: "12",
+                                        md: "7",
+                                        lg: "6",
+                                        xl: "6"
+                                      }
+                                    },
+                                    [
+                                      _c("responseLatePageWarning", {
+                                        attrs: {
+                                          course_id:
+                                            _vm.classworkDetails.course_id
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                : _c(
+                                    "v-col",
+                                    { attrs: { cols: "12" } },
+                                    [
+                                      _c(
+                                        "v-row",
+                                        {
+                                          attrs: {
+                                            align: "center",
+                                            justify: "center"
+                                          }
+                                        },
+                                        [
+                                          _vm.classworkDetails.type ==
+                                          "Objective Type"
+                                            ? _c(
+                                                "v-col",
+                                                {
+                                                  attrs: {
+                                                    sm: "12",
+                                                    md: "12",
+                                                    lg: "10",
+                                                    xl: "10",
+                                                    cols: "12"
+                                                  }
+                                                },
+                                                [
+                                                  _vm.classworkDetails.type ==
+                                                  "Objective Type"
+                                                    ? _c("objectiveType", {
+                                                        attrs: {
+                                                          classworkDetails:
+                                                            _vm.classworkDetails,
+                                                          totalPoints:
+                                                            _vm.totalPoints,
+                                                          totalQuestion:
+                                                            _vm.totalQuestion
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e(),
+                                          _vm._v(" "),
+                                          _vm.classworkDetails.type ==
+                                          "Subjective Type"
+                                            ? _c(
+                                                "v-col",
+                                                {
+                                                  attrs: {
+                                                    cols: "12",
+                                                    sm: "12",
+                                                    md: "12",
+                                                    lg: "10",
+                                                    xl: "10"
+                                                  }
+                                                },
+                                                [
+                                                  _vm.classworkDetails.type ==
+                                                  "Subjective Type"
+                                                    ? _c("subjectiveType", {
+                                                        attrs: {
+                                                          classworkDetails:
+                                                            _vm.classworkDetails,
+                                                          totalPoints:
+                                                            _vm.totalPoints,
+                                                          totalQuestion:
+                                                            _vm.totalQuestion
+                                                        }
+                                                      })
+                                                    : _vm._e()
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                            ],
+                            1
+                          )
                     ],
                     1
                   )

@@ -71,7 +71,16 @@
                  <v-container ml-0 pl-0 v-if="item.type == 'Multiple Choice'">
                      <v-container :class="!$vuetify.breakpoint.xs ? 'd-flex flex-row ma-0 pa-0 mb-1 ml-8': 'd-flex flex-row ma-0 pa-0 pl-2'" 
                      v-for="(Ans, i) in QuestionAndAnswer.Answer[index]" :key="i">
-                        <v-radio-group :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
+                        <v-radio-group v-if="item.isNew" :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
+                            <v-radio
+                            readonly
+                            color="primary"
+                            :key="index"
+                            :value="Ans.id">
+                            </v-radio>
+                            </v-radio-group>
+
+                            <v-radio-group v-else :name="'option'+index"  class="ma-0 pa-0" v-model="SubmittedAnswer[index].Answer">
                             <v-radio
                             readonly
                             color="primary"
@@ -79,9 +88,19 @@
                             :value="Ans.Choice">
                             </v-radio>
                             </v-radio-group>
+
+
                             <div style="line-height:1.4" class="Subtitle-1 ma-0 pa-0 d-flex">
                                 <span v-html="Ans.Choice" class="post-content"></span>
-                                <span class="caption primary--text ml-1 mt-1" v-if="item.answer == Ans.Choice">(correct answer)</span>
+                                <span v-if="item.isNew">
+                                    <span class="caption primary--text ml-1 mt-1" v-if="item.answer == Ans.id">(correct answer)</span>
+                                </span>
+                                <span>
+                                    <span  class="caption primary--text ml-1 mt-1" v-if="item.answer == Ans.Choice">(correct answer)</span>
+                                </span>
+                                
+                               
+                                 
                             </div>
                         </v-container>
                  </v-container>
@@ -285,9 +304,13 @@ import moment from 'moment/src/moment';
                             
                             if(this.QuestionAndAnswer.Question[i].id == this.classworkDetails.Submitted_Answers[j].Question_id){
                                 if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
-                                    let student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
-                                    this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
-                                     this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                    let student_ans;
+                                    
+                                    
+                                  
+
+
+
                                     if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
                                         this.Check[i] = true;
                                     }
@@ -295,6 +318,11 @@ import moment from 'moment/src/moment';
                                         this.Check[i] = false;
                                     }
                                      if(this.QuestionAndAnswer.Question[i].type == 'Identification'){
+                                        student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                        this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
+                                        this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+
+
                                         this.Check[i] = false;
                                         this.QuestionAndAnswer.Answer[i].forEach(item => {
                                             let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
@@ -304,7 +332,36 @@ import moment from 'moment/src/moment';
             
                                         });
                                     }
+                                    else if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice'){
+                                        if(this.QuestionAndAnswer.Question[i].isNew){
+                                             student_ans = this.classworkDetails.Submitted_Answers[j].Answer;
+                                             let Question_answer = this.QuestionAndAnswer.Question[i].answer;
+                                             this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                             if(Question_answer == student_ans){
+                                                this.Check[i] = true;
+                                            }
+                                            else{
+                                                this.Check[i] = false;
+                                            }
+                                             
+                                        }else{
+                                             student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                            this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
+                                            this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+                                            let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
+                                            this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
+                                            if(Question_answer == student_ans){
+                                                this.Check[i] = true;
+                                            }
+                                            else{
+                                                this.Check[i] = false;
+                                            }
+                                        }
+                                    }
                                     else{
+                                        student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                        this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
+                                        this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
                                         let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
                                         this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
                                         if(Question_answer == student_ans){

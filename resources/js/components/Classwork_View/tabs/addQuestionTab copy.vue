@@ -287,7 +287,7 @@
                                                     :disabled="quill_disabled"
                                                     class="editor"
                                                     @blur="isNewChanges == true ? SaveAllQuestion() : ''" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
-                                                     @change="item.question != '' || item.question != null ? isNewChanges = true : isNewChanges = false"
+                                                     @change="isNewChanges = true"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
                                                     v-model="item.question"
@@ -305,21 +305,7 @@
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container fluid  class="d-flex flex-row ma-0 pa-0">
-                                                            
-                                                        <v-radio-group v-if="item.isNew" :key="Ans.id"  v-model="item.answer">
-                                                            <v-radio
-                                                            :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
-                                                                @click="item.answer == Ans.id"
-                                                                color="primary"
-                                                                class="pa-0 ma-0"
-                                                                :disabled="Ans.Choice == ''"
-                                                                 @change="isNewChanges = true,SaveAllQuestion()"
-                                                                name="Answer"
-                                                                :value="Ans.id">
-                                                                </v-radio>
-                                                        </v-radio-group>
-
-                                                        <v-radio-group v-else :key="Ans.id"  v-model="item.answer">
+                                                        <v-radio-group :key="Ans.id"  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
                                                                 @click="item.answer == Ans.Choice"
@@ -331,9 +317,6 @@
                                                                 :value="Ans.Choice">
                                                                 </v-radio>
                                                         </v-radio-group>
-
-
-
                                                           <div style="width:100%" class="mb-3">
                                                                 <editor
                                                                  @focus="Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
@@ -945,7 +928,6 @@ export default {
                    answer: 'N/A Answer',
                    points: 1,
                    type: 'Multiple Choice',
-                   isNew: true,
                    sensitivity: 0,
                })
                this.isEditing_id = res.data.question_id;
@@ -1002,8 +984,8 @@ export default {
         },
 
         async AddAnswer(id, Mainindex){
-            //this.isNewChanges = true;
-            /* if(this.getAll_questions.Answer[Mainindex].options.length == 0){
+            this.isNewChanges = true;
+            if(this.getAll_questions.Answer[Mainindex].options.length == 0){
                  this.getAll_questions.Answer[Mainindex].options.push({
                     id : '',
                     Choice : this.getAll_questions.Question[Mainindex].answer,
@@ -1021,27 +1003,7 @@ export default {
                     Choice : '<p>'+'Answer '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
                     question_id : id,
                 })
-            } */
-
-             axios.post('/api/question/addOption', {
-                type: "Multiple Choice",
-                question_id: id
-            }).then((res)=>{
-                this.isNewChanges = true;
-                this.getAll_questions.Answer[Mainindex].options.push({
-                    id : res.data.answer_id,
-                    Choice : '',
-                    question_id : id,
-                })
-
-                 this.$toasted.show('New answer has been added', {
-                    theme: "toasted-primary",
-                    position: "top-center",
-                    duration: 4000,
-                });
-            })
-
-            
+            }
            
         },
 
