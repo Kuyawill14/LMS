@@ -127,7 +127,7 @@
                         </v-list-item-title>
                     </v-list-item-content>
 
-                </v-list-item> -
+                </v-list-item> 
                 <v-list-item link class="list-nav" :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
                     <v-list-item-action>
                         <v-icon>mdi-chart-box-outline</v-icon>
