@@ -4,7 +4,7 @@
             <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12" :style="listDialaog && isChangeSize ? 'display: none': 'display:block'" class="pa-0">
                 <v-row v-if="subModuleData != null">
 
-                    <v-col>
+                    <v-col >
                         <v-container fluid class="pa-0" @mouseover="contentHover=true"
                             @mouseleave="contentHover = false">
                             <v-btn bottom color="secondary" dark right class="exitFullscreen"
@@ -20,28 +20,28 @@
                             </v-card>
 
 
-                            <v-card style="height: 522px;"
+                            <v-card style="height: 75vh"
                                 v-if="type=='Link'  &&  subModuleData.link.search('youtube') == -1">
                                 <iframe title="google drive viewer" class="holds-the-iframe"
                                     :src="  subModuleData.link != null ? scrapeDocID(subModuleData.link) : ''"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="width: 100% !important;height: 522px !important"></iframe>
+                                    style="width: 100% !important;height: 75vh !important"></iframe>
 
                             </v-card>
 
 
-                            <v-card style="height: 522px;" v-if="(ext != 'mp4' && ext != 'pdf') && type=='Document'">
+                            <v-card style="height: 75vh" v-if="(ext != 'mp4' && ext != 'pdf') && type=='Document'">
                                 <iframe title="google drive viewer" class="holds-the-iframe"
                                     :src="'https://view.officeapps.live.com/op/embed.aspx?src=' + subModuleData.file_attachment"
                                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="width: 100% !important;height: 522px !important"></iframe>
+                                    style="width: 100% !important;height: 75vh !important"></iframe>
 
                             </v-card>
 
 
                             <div class="player-container">
                                 <vue-core-video-player v-if="ext == 'mp4'  && type=='Video'"
-                                    style="width: 100% !important;height: 522px !important"
+                                    style="width: 100% !important;height: 75vh !important"
                                     :src="'/storage/' + subModuleData.file_attachment"></vue-core-video-player>
                             </div>
 
@@ -270,7 +270,9 @@
                 }
             },
         },
-        created() {
+        mounted() {
+            this.$forceUpdate();
+
             ////console.log(this.role);
             if (this.subModuleData) {
                 this.loading = true;

@@ -34,7 +34,7 @@
                 </v-list-item-content>
 
                 <v-list-item-action v-if="expand && role == 'Teacher'">
-                    <v-tooltip bottom >
+                    <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
 
 
@@ -48,8 +48,19 @@
                 </v-list-item-action>
             </v-list-item>
         </v-card>
+
+        <div v-if="loading && role != 'Teacher' ">
+            <v-card elevation="2" style="border-radius: 0;" v-for="i in 5" :key="i">
+                <v-skeleton-loader :loading="loading" type="list-item-avatar-two-line"> </v-skeleton-loader>
+            </v-card>
+        </div>
+
+
         <div class="expansion-pannel-container">
+
+
             <v-expansion-panels focusable style="margin-left: 1px;">
+
                 <v-expansion-panel v-for="(itemModule, i) in getmain_module" :key="'module'+i">
 
                     <v-expansion-panel-header>
@@ -203,7 +214,7 @@
                                 var date = moment(String(res.data)).format('MM-DD-YYYY');
                                 var startDate = moment(String(itemModule.date_from)).format('MM-DD-YYYY');;
                                 var endDate = moment(String(itemModule.date_to)).format('MM-DD-YYYY');;
-// console.log('res.datetime', res.data);
+                                // console.log('res.datetime', res.data);
                                 console.log('date', date);
                                 console.log('startDate', startDate);
                                 console.log('endDate', endDate);
@@ -211,7 +222,7 @@
                                 if (itemModule.date_from != null && itemModule.date_to != null) {
                                     if (startDate <= date && date <= endDate) {
                                         this.setTimeSpent(itemModule_id, itemSubModule_id,
-                                        studentSubModuleProgress);
+                                            studentSubModuleProgress);
                                         this.addSubStudentProgress(itemModule_id, itemSubModule_id,
                                             itemSubModule_type,
                                             studentSubModuleProgress);
@@ -471,15 +482,18 @@
 
             // this.fetchClass();
 
+
             this.fetchStudentModuleProgress();
 
-            this.$store.dispatch('fetchMainModule', this.$route.params.id);
+          
 
             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
+           this.$store.dispatch('fetchMainModule', this.$route.params.id).then(()=>{
             this.loading = false;
-            setTimeout(() => {
-                this.firstLoad = false;
-            }, 5000);
+            });
+            // setTimeout(() => {
+            //     this.firstLoad = false;
+            // }, 5000);
 
 
         },
@@ -502,11 +516,11 @@
             //     e.preventDefault();
             // });
             window.addEventListener("onbeforeunload", this.preventNav);
-document.addEventListener('contextmenu', event => event.preventDefault());
+            document.addEventListener('contextmenu', event => event.preventDefault());
 
             $(window).blur(function () {
 
-                this.blurTimer = setTimeout(() => {
+              
 
                     let activeElement = document.activeElement;
                     let iframeElement = document.querySelector('iframe');
@@ -514,25 +528,25 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
                     if (activeElement === iframeElement) {
                         console.log(document.activeElement.tagName);
-//  document.activeElement.blur();
-          document.activeElement.blur();  
-                    //     this.isBlur = setInterval(() => {
-                    //    document.activeElement.blur();     
-                    //     }, 1000);
+                        //  document.activeElement.blur();
+                        document.activeElement.blur();
+                        //     this.isBlur = setInterval(() => {
+                        //    document.activeElement.blur();     
+                        //     }, 1000);
 
 
                     } else {
                         console.log(document.activeElement.tagName);
                         self.triggerWarning()
                     }
-                }, 0);
+             
 
 
 
 
             });
-            
-                     
+
+
 
 
         },
