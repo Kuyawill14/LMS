@@ -270,10 +270,11 @@ var modulesListComponent = function modulesListComponent() {
       }
     }
   },
-  created: function created() {
+  mounted: function mounted() {
     var _this = this;
 
-    ////console.log(this.role);
+    this.$forceUpdate(); ////console.log(this.role);
+
     if (this.subModuleData) {
       this.loading = true;
     }
@@ -703,13 +704,13 @@ var render = function() {
                               _vm.subModuleData.link.search("youtube") == -1
                                 ? _c(
                                     "v-card",
-                                    { staticStyle: { height: "522px" } },
+                                    { staticStyle: { height: "75vh" } },
                                     [
                                       _c("iframe", {
                                         staticClass: "holds-the-iframe",
                                         staticStyle: {
                                           width: "100% !important",
-                                          height: "522px !important"
+                                          height: "75vh !important"
                                         },
                                         attrs: {
                                           title: "google drive viewer",
@@ -732,13 +733,13 @@ var render = function() {
                               _vm.type == "Document"
                                 ? _c(
                                     "v-card",
-                                    { staticStyle: { height: "522px" } },
+                                    { staticStyle: { height: "75vh" } },
                                     [
                                       _c("iframe", {
                                         staticClass: "holds-the-iframe",
                                         staticStyle: {
                                           width: "100% !important",
-                                          height: "522px !important"
+                                          height: "75vh !important"
                                         },
                                         attrs: {
                                           title: "google drive viewer",
@@ -761,7 +762,7 @@ var render = function() {
                                     ? _c("vue-core-video-player", {
                                         staticStyle: {
                                           width: "100% !important",
-                                          height: "522px !important"
+                                          height: "75vh !important"
                                         },
                                         attrs: {
                                           src:

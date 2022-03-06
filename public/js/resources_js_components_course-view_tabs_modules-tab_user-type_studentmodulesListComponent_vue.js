@@ -147,6 +147,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
@@ -446,16 +457,16 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
               // this.fetchClass();
               _this7.fetchStudentModuleProgress();
 
-              _this7.$store.dispatch('fetchMainModule', _this7.$route.params.id);
-
               _this7.$store.dispatch('studentmodule_progress', _this7.$route.params.id);
 
-              _this7.loading = false;
-              setTimeout(function () {
-                _this7.firstLoad = false;
-              }, 5000);
+              _this7.$store.dispatch('fetchMainModule', _this7.$route.params.id).then(function () {
+                _this7.loading = false;
+              }); // setTimeout(() => {
+              //     this.firstLoad = false;
+              // }, 5000);
 
-            case 5:
+
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -482,21 +493,19 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
       return event.preventDefault();
     });
     $(window).blur(function () {
-      this.blurTimer = setTimeout(function () {
-        var activeElement = document.activeElement;
-        var iframeElement = document.querySelector('iframe');
+      var activeElement = document.activeElement;
+      var iframeElement = document.querySelector('iframe');
 
-        if (activeElement === iframeElement) {
-          console.log(document.activeElement.tagName); //  document.activeElement.blur();
+      if (activeElement === iframeElement) {
+        console.log(document.activeElement.tagName); //  document.activeElement.blur();
 
-          document.activeElement.blur(); //     this.isBlur = setInterval(() => {
-          //    document.activeElement.blur();     
-          //     }, 1000);
-        } else {
-          console.log(document.activeElement.tagName);
-          self.triggerWarning();
-        }
-      }, 0);
+        document.activeElement.blur(); //     this.isBlur = setInterval(() => {
+        //    document.activeElement.blur();     
+        //     }, 1000);
+      } else {
+        console.log(document.activeElement.tagName);
+        self.triggerWarning();
+      }
     });
   },
   beforeDestroy: function beforeDestroy() {
@@ -9445,6 +9454,32 @@ var render = function() {
         ],
         1
       ),
+      _vm._v(" "),
+      _vm.loading && _vm.role != "Teacher"
+        ? _c(
+            "div",
+            _vm._l(5, function(i) {
+              return _c(
+                "v-card",
+                {
+                  key: i,
+                  staticStyle: { "border-radius": "0" },
+                  attrs: { elevation: "2" }
+                },
+                [
+                  _c("v-skeleton-loader", {
+                    attrs: {
+                      loading: _vm.loading,
+                      type: "list-item-avatar-two-line"
+                    }
+                  })
+                ],
+                1
+              )
+            }),
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",

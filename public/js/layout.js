@@ -620,6 +620,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
@@ -1876,7 +1889,9 @@ var render = function() {
             "v-list-item-content",
             [
               _c("v-list-item-title", [
-                _vm._v("\n                Back to My Course\n            ")
+                _vm._v(
+                  "\n                    Back to My Course\n                "
+                )
               ])
             ],
             1
@@ -1921,7 +1936,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Overview\n                    "
+                                  "\n                            Overview\n                        "
                                 )
                               ]
                             )
@@ -1954,7 +1969,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        Announcement\n                    "
+                              "\n                            Announcement\n                        "
                             )
                           ]
                         )
@@ -1987,7 +2002,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Classes\n                    "
+                                  "\n                            Classes\n                        "
                                 )
                               ]
                             )
@@ -2021,7 +2036,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Modules\n                    "
+                                  "\n                            Modules\n                        "
                                 )
                               ]
                             )
@@ -2053,7 +2068,7 @@ var render = function() {
                           "v-list-item-title",
                           { staticClass: "font-weight-medium" },
                           [
-                            _vm._v("\n                        Classwork"),
+                            _vm._v("\n                            Classwork"),
                             _c("br"),
                             _vm._v(" "),
                             _c(
@@ -2096,7 +2111,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Grade Book\n                    "
+                                  "\n                            Grade Book\n                        "
                                 )
                               ]
                             )
@@ -2134,7 +2149,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Student's Progress\n                    "
+                                  "\n                            Student's Progress\n                        "
                                 )
                               ]
                             )
@@ -2151,11 +2166,11 @@ var render = function() {
                       "v-list-item",
                       {
                         staticClass: "list-nav",
-                        attrs: {
-                          link: "",
-                          to: { name: "student-modules" },
-                          exact: ""
-                        }
+                        class:
+                          _vm.$route.name == "student-modules"
+                            ? "v-list-item--active"
+                            : "",
+                        attrs: { link: "", href: "my-modules", exact: "" }
                       },
                       [
                         _c(
@@ -2172,7 +2187,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Modules\n                    "
+                                  "\n                            Modules\n                        "
                                 )
                               ]
                             )
@@ -2183,7 +2198,7 @@ var render = function() {
                       1
                     )
                   : _vm._e(),
-                _vm._v(" "),
+                _vm._v(" -\n                "),
                 _vm.role == "Student"
                   ? _c(
                       "v-list-item",
@@ -2210,7 +2225,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        My Progress\n                    "
+                                  "\n                            My Progress\n                        "
                                 )
                               ]
                             )
@@ -2248,7 +2263,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        My Grades\n                    "
+                                  "\n                            My Grades\n                        "
                                 )
                               ]
                             )
@@ -2304,11 +2319,11 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        " +
+                              "\n                            " +
                                 _vm._s(
                                   _vm.role == "Student" ? "People" : "Student"
                                 ) +
-                                "\n                        "
+                                "\n                            "
                             ),
                             _vm.role == "Student" ? _c("br") : _vm._e(),
                             _vm._v(" "),
@@ -2345,7 +2360,7 @@ var render = function() {
                           [
                             _c("v-icon", [
                               _vm._v(
-                                "mdi-chart-timeline-variant-shimmer\n                    "
+                                "mdi-chart-timeline-variant-shimmer\n                        "
                               )
                             ])
                           ],
@@ -2360,7 +2375,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Grading Criteria\n                    "
+                                  "\n                            Grading Criteria\n                        "
                                 )
                               ]
                             )
@@ -2393,7 +2408,7 @@ var render = function() {
                           { staticClass: "font-weight-medium" },
                           [
                             _vm._v(
-                              "\n                        About\n                    "
+                              "\n                            About\n                        "
                             )
                           ]
                         )
@@ -2426,7 +2441,7 @@ var render = function() {
                               { staticClass: "font-weight-medium" },
                               [
                                 _vm._v(
-                                  "\n                        Settings\n                    "
+                                  "\n                            Settings\n                        "
                                 )
                               ]
                             )

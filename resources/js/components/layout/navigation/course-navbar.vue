@@ -103,7 +103,7 @@
                     </v-list-item-content>
                 </v-list-item>
 
-
+<!-- 
                 <v-list-item link class="list-nav" :to="{name: 'student-modules'}" exact v-if="role == 'Student'">
                     <v-list-item-action>
                         <v-icon>mdi-book-variant-multiple</v-icon>
@@ -114,7 +114,20 @@
                         </v-list-item-title>
                     </v-list-item-content>
 
-                </v-list-item>
+                </v-list-item> -->
+
+                
+             <v-list-item link class="list-nav" :class="$route.name == 'student-modules' ? 'v-list-item--active' : ''" href="my-modules" exact v-if="role == 'Student'">
+                    <v-list-item-action>
+                        <v-icon>mdi-book-variant-multiple</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium">
+                            Modules
+                        </v-list-item-title>
+                    </v-list-item-content>
+
+                </v-list-item> 
                 <v-list-item link class="list-nav" :to="{name: 'mystudentProgress'}" exact v-if="role == 'Student'">
                     <v-list-item-action>
                         <v-icon>mdi-chart-box-outline</v-icon>
