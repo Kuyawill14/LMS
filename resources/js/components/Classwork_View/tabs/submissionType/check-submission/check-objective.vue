@@ -66,10 +66,17 @@
                                     <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0">
                                         <div class="d-flex mb-2 ">
 
-                                            <v-btn :disabled="SubmittedLength == 1 || currentIndex == 0" icon
-                                                @click="PrevStudent()">
-                                                <v-icon>mdi-chevron-left</v-icon>
-                                            </v-btn>
+                                            
+
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on" :disabled="SubmittedLength == 1 || currentIndex == 0" icon
+                                                        @click="PrevStudent()">
+                                                        <v-icon>mdi-chevron-left</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Previous Student</span>
+                                            </v-tooltip>
                                             <v-spacer></v-spacer>
                                             <div class="text-center">
                                                 <div class="font-weight-medium">
@@ -82,12 +89,15 @@
                                             </div>
 
                                             <v-spacer></v-spacer>
-
-                                            <v-btn :disabled="currentIndex == SubmittedLength-1" icon
-                                                @click="NextStudent()">
-                                                <v-icon>mdi-chevron-right</v-icon>
-                                            </v-btn>
-
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                     <v-btn v-bind="attrs" v-on="on" :disabled="currentIndex == SubmittedLength-1" icon
+                                                        @click="NextStudent()">
+                                                        <v-icon>mdi-chevron-right</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Next Student</span>
+                                            </v-tooltip>
                                         </div>
                                         <v-divider></v-divider>
                                     </v-col>
@@ -141,7 +151,7 @@
                                     
                                     <span><v-icon left>mdi-comment</v-icon>Private Comments</span>
                                     <v-spacer></v-spacer>
-                                    <span>
+                                   <!--  <span>
                                         <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                              <v-btn icon v-bind="attrs" v-on="on"  small>
@@ -150,10 +160,10 @@
                                         </template>
                                         <span>Refresh Comment</span>
                                         </v-tooltip>
-                                    </span>
+                                    </span> -->
                                 </div>
                                 <v-divider></v-divider>
-                                <v-list max-height="350" style="overflow-y:scroll;scrollbar-width: thin;"
+                                <v-list v-if="isLoaded" max-height="350" style="overflow-y:scroll;scrollbar-width: thin;"
                                     class="mb-0 pb-0">
 
                                     <v-list-item class="mb-0 pb-0" v-for="(item, i) in ViewDetails.comments" :key="i">
@@ -244,7 +254,7 @@
 
 
                         <v-card outlined elevation="2" class=" pa-4 "
-                            v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '' && isLoaded">
+                            v-if="(ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '') && isLoaded">
                             <v-row class="mt-12 pt-12" justify="center" align-content="center">
                                 <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
                                     <v-icon style="font-size:7rem">
@@ -258,6 +268,7 @@
                                 </v-col>
                             </v-row>
                         </v-card>
+
                         <v-card v-if="ViewDetails.status != null">
                             <v-tabs background-color="" center-active centered v-model="tab">
                                 <v-tab>Answers</v-tab>
@@ -266,7 +277,6 @@
                             </v-tabs>
                         </v-card>
                         <v-tabs-items v-model="tab" class="mt-2">
-
                             <v-tab-item>
                                 <v-card elevation="2" outlined class="pa-5 "
                                     v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
@@ -314,15 +324,40 @@
                                         </div>
                                         <v-spacer></v-spacer>
                                         <div>
-                                            <v-btn :disabled="questionIndex == 0" @click="questionIndex--"
-                                                color="primary" class="mr-1" outlined rounded>
-                                                Previous
-                                            </v-btn>
-                                            <v-btn class="pl-9 pr-9"
-                                                :disabled="questionIndex == getAll_questions.Question.length-1"
-                                                @click="questionIndex++" color="primary" rounded>
-                                                Next
-                                            </v-btn>
+                                           
+
+                                             <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on"
+                                                     :icon="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" :disabled="questionIndex == 0" @click="questionIndex--"
+                                                        color="primary" 
+                                                        :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mr-3': 'mr-1'" outlined rounded>
+                                                        <v-icon v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm">mdi-chevron-left</v-icon>
+                                                        <span v-else>Previous</span>
+                                                    </v-btn>
+
+                                                </template>
+                                                <span>Previous Question</span>
+                                            </v-tooltip>
+
+
+                                          
+
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn v-bind="attrs" v-on="on"
+                                                      :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'pl-9 pr-9'"
+                                                        :outlined="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+                                                        :icon="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+                                                            :disabled="questionIndex == getAll_questions.Question.length-1"
+                                                            @click="questionIndex++" color="primary" rounded>
+                                                            <v-icon v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm">mdi-chevron-right</v-icon>
+                                                            <span v-else>Next</span>
+                                                        </v-btn>
+
+                                                </template>
+                                                <span>Next Question</span>
+                                            </v-tooltip>
                                         </div>
 
                                     </div>
@@ -543,10 +578,17 @@
                                                                         <v-row>
                                                                             <v-col class="d-flex flex-row pa-0" cols="12" v-for="(item, i) in SubmittedAnswer[index].SubQuestion" :key="item.id">
                                                                                 <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
-                                                                                    <v-checkbox hide-details
+                                                                                  <!--   <v-checkbox hide-details
                                                                                     class="ma-0 pa-0 mt-2" color="success"
                                                                                     v-model="Check[index][i]">
-                                                                                </v-checkbox>
+                                                                                </v-checkbox> -->
+
+                                                                                 <v-btn
+                                                                                     icon>
+                                                                                    <v-icon :color="Check[index][i]  ? 'success' : 'red'" >
+                                                                                    {{Check[index][i] ? 'mdi-checkbox-marked':'mdi-close-box-outline'}}
+                                                                                    </v-icon>
+                                                                                </v-btn>
                                                                                 </div> 
                                                                     
                                                                                 
@@ -666,7 +708,6 @@
 
                             <v-tab-item>
                                 <v-card elevation="5" v-if="isLoaded">
-                                 
                                     <v-simple-table :loading="loading_activity">
                                         <template v-slot:default>
                                             <thead>
@@ -684,15 +725,10 @@
                                                     <td>{{ format_date_log(item.created_at) }}</td>
                                                     <td>{{ item.description }}</td>
                                                 </tr>
-
-
                                                 <tr v-if="student_activity_logs.length == 0">
                                                     <td class="text-cemter" colspan="2">No data available</td>
                                                 
                                                 </tr>
-
-
-
                                             </tbody>
                                         </template>
                                     </v-simple-table>
@@ -728,6 +764,7 @@
         mapGetters,
         mapActions
     } from "vuex";
+import axios from 'axios';
 
     export default {
         props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex","CheckDataSection"],
@@ -796,7 +833,7 @@
                 }
             },
             fetchQuestions() {
-                this.ViewDetails.points = 0;
+                //this.ViewDetails.points = 0;
                 this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res) => {
 
                     let Submitted_length = this.ViewDetails.Submitted_Answers.length;
@@ -933,10 +970,7 @@
                                                 student_ans = student_ans.replace('<p>', '').trim();
                                                 student_ans = student_ans.replace('</p>', '').trim();
                                                 student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                
-
-                                                console.log(Question_answer+ '--'+student_ans);
-
+                                                //console.log(student_ans+" - "+Question_answer);
                                                 if (student_ans.replace(/\s+/g,'').trim() == Question_answer.replace(/\s+/g,'').trim()) {
                                                     this.Check[i] = true;
                                                    //this.ViewDetails.points += this.getAll_questions.Question[i].points;
@@ -1109,7 +1143,7 @@
 
             },
             ReMatchQuestions() {
-                this.ViewDetails.points = 0;
+                //this.ViewDetails.points = 0;
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
                 let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length - Submitted_length;
@@ -1221,7 +1255,7 @@
                                                 student_ans = student_ans.replace('<p>', '').trim();
                                                 student_ans = student_ans.replace('</p>', '').trim();
 
-
+                                             
                                             if (Question_answer.replace(/^\s+|\s+$/gm,'') == student_ans.replace(/^\s+|\s+$/gm,'')) {
                                                 this.Check[i] = true;
                                                 //this.ViewDetails.points += this.getAll_questions.Question[i].points;
@@ -1483,7 +1517,6 @@
                     })
             },
             async ResetSubmission() {
-                //////console.log(this.ListData[this.resetIndex].points)
                 this.isReseting = true;
                 if (this.ViewDetails.status != null && this.ViewDetails.status != '') {
                     axios.put('/api/teacher/reset-obj/' + this.ViewDetails.id)
@@ -1493,6 +1526,7 @@
                                 this.isReseting = false;
                                 this.student_activity_logs = [];
                                 this.$emit('RestSubmission')
+                                this.$store.dispatch('setCurrectClassworkSubmission',1)
                             }
 
                         })
@@ -1561,13 +1595,16 @@
                     })
             },
             async NextStudent() {
+                
                 this.questionIndex = 0;
                 this.SubmittedAnswer = [];
                 this.Check = [];
                 this.isLoaded = false;
                 this.$emit("nextStudent");
-                setTimeout(() => (this.ReMatchQuestions()), 300);
-                this.fetchStudentActivity();
+                //this.RegetSubmittedAnswer();
+                setTimeout(() => (this.RegetSubmittedAnswer()) , 200);
+                //setTimeout(() => (this.ReMatchQuestions()) , 300);
+                //this.fetchStudentActivity();
             },
             async PrevStudent() {
                 this.questionIndex = 0;
@@ -1575,8 +1612,10 @@
                 this.Check = [];
                 this.isLoaded = false;
                 this.$emit("prevStudent");
-                setTimeout(() => (this.ReMatchQuestions()), 300);
-                this.fetchStudentActivity();
+                //this.RegetSubmittedAnswer();
+                setTimeout(() => (this.RegetSubmittedAnswer()) , 200);
+                //setTimeout(() => (this.getSubmittedAnswer(), this.ReMatchQuestions()), 300);
+                //this.fetchStudentActivity();
             },
             fetchStudentActivity() {
                 this.loading_activity = true;
@@ -1602,6 +1641,33 @@
                     })
                  }
                 
+            },
+            async getSubmittedAnswer(){
+                 await axios.get('/api/submission/submitted_answer/'+this.ViewDetails.id)
+                .then((res)=>{
+                    this.ViewDetails.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                    this.ViewDetails.rubrics_score = res.data.submitted_answer.rubrics_score;
+                    this.ViewDetails.comments = res.data.comment;
+                    this.fetchQuestions();
+                })
+            },
+            async RegetSubmittedAnswer(){
+                this.ViewDetails.Submitted_Answers = [];
+                this.ViewDetails.rubrics_score = [];
+                this.ViewDetails.comments = [];
+                
+                if(this.ViewDetails.status != null && this.ViewDetails.status != ''){
+                     axios.get('/api/submission/submitted_answer/'+this.ViewDetails.id)
+                    .then((res)=>{
+                        this.ViewDetails.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                        this.ViewDetails.rubrics_score = res.data.submitted_answer.rubrics_score;
+                        this.ViewDetails.comments = res.data.comment;
+                        this.ReMatchQuestions()
+                        this.fetchStudentActivity();
+                    })
+                }else{
+                    this.isLoaded = true;
+                }
             }
         },
         beforeDestroy() {
@@ -1609,8 +1675,10 @@
         },
 
         mounted() {
-            if (this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != '') {
-                this.fetchQuestions();
+            
+            if (this.ViewDetails.status != null && this.ViewDetails.status != '') {
+                this.getSubmittedAnswer();
+               
             } else {
                 this.isLoaded = true;
                 this.$emit('isMounted');

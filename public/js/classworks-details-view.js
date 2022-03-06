@@ -978,6 +978,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1788,14 +1789,29 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   });
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    _this15.getAll_questions.Question.push({
-                      id: res.data.question_id[i],
-                      question: _this15.DuplicateQuestion[i].question,
-                      answer: _this15.DuplicateQuestion[i].answer,
-                      points: _this15.DuplicateQuestion[i].points,
-                      type: _this15.DuplicateQuestion[i].type,
-                      sensitivity: _this15.DuplicateQuestion[i].sensitivity
-                    });
+                    console.log(res.data.question_answer_id[i]);
+
+                    if (_this15.DuplicateQuestion[i].isNew) {
+                      _this15.getAll_questions.Question.push({
+                        id: res.data.question_id[i],
+                        question: _this15.DuplicateQuestion[i].question,
+                        answer: res.data.question_answer_id[i],
+                        points: _this15.DuplicateQuestion[i].points,
+                        type: _this15.DuplicateQuestion[i].type,
+                        sensitivity: _this15.DuplicateQuestion[i].sensitivity,
+                        isNew: _this15.DuplicateQuestion[i].isNew
+                      });
+                    } else {
+                      _this15.getAll_questions.Question.push({
+                        id: res.data.question_id[i],
+                        question: _this15.DuplicateQuestion[i].question,
+                        answer: _this15.DuplicateQuestion[i].answer,
+                        points: _this15.DuplicateQuestion[i].points,
+                        type: _this15.DuplicateQuestion[i].type,
+                        sensitivity: _this15.DuplicateQuestion[i].sensitivity,
+                        isNew: _this15.DuplicateQuestion[i].isNew
+                      });
+                    }
 
                     _this15.selectedData.push({
                       id: res.data.question_id[i],
@@ -37245,22 +37261,11 @@ var render = function() {
                                                                                               disabled:
                                                                                                 _vm.quill_disabled,
                                                                                               placeholder:
-                                                                                                "Enter Answer",
+                                                                                                "Enter Option",
                                                                                               options:
                                                                                                 _vm.editorOption
                                                                                             },
                                                                                             on: {
-                                                                                              focus: function(
-                                                                                                $event
-                                                                                              ) {
-                                                                                                Ans.Choice ==
-                                                                                                "<p>Option " +
-                                                                                                  (i +
-                                                                                                    1) +
-                                                                                                  "</p>"
-                                                                                                  ? ""
-                                                                                                  : Ans.Choice
-                                                                                              },
                                                                                               change: function(
                                                                                                 $event
                                                                                               ) {
@@ -37603,7 +37608,7 @@ var render = function() {
                                                                                   ) {
                                                                                     item.answer =
                                                                                       item.answer ==
-                                                                                      "<p>Option 1</p>"
+                                                                                      "<p>Answer 1</p>"
                                                                                         ? ""
                                                                                         : item.answer
                                                                                   }

@@ -8,7 +8,7 @@
                  <v-list class="pt-0 mt-0">
 
               <v-list-item class="mb-0 pb-0">
-                <v-list-item-icon class="pt-4" color="secondary">
+               <!--  <v-list-item-icon class="pt-4" color="secondary">
                      <v-select
                     outlined
                     dense
@@ -20,7 +20,7 @@
                     item-text="class_name"
                     item-value="class_id">
                     </v-select>
-                </v-list-item-icon>
+                </v-list-item-icon> -->
               
                  <v-list-item-content>
                      <v-list-item-subtitle>
@@ -55,7 +55,9 @@
                  <v-list-item-content>
                      <v-list-item-subtitle>
                            <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
-                           <v-list-item-subtitle v-if="item.status == 'Submitted'"> <v-icon small color="success">mdi-check</v-icon> Submitted</v-list-item-subtitle>
+                           <v-list-item-subtitle class="error--text"> 
+                               No Submission
+                        </v-list-item-subtitle>
                      </v-list-item-subtitle>
                  </v-list-item-content>
                  <v-list-item-action>
@@ -99,11 +101,11 @@
 </template>
 <script>
 export default {
-    props:['ListData', 'ClassList','classworkDetails'],
+    props:['ListData', 'ClassList','classworkDetails','class_id'],
     data(){
         return{
             student:[],
-            Class: this.$route.params.id,
+            Class: this.class_id,
             selectAll: false,
             SelectedAll_submission_id:[],
             iReseting: false,

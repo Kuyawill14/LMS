@@ -53,13 +53,16 @@ class AuthController extends Controller
         }
         
 
+      /*   (Auth::attempt($request->only('email', 'password'))) */
         
-        if(Auth::attempt($request->only('email', 'password'))){
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)){
             //$authToken = $user->createToken('auth-token')->plainTextToken;
             //$token = $request->user()->createToken('auth-token');          
-            //$request->session()->regenerate();
-            Auth::logoutOtherDevices($request->password);
+           
+            //
             if($request->email != "isueorange@gmail.com"){
+                Auth::logoutOtherDevices($request->password);
+                $request->session()->regenerate();
                 return response()->json([
                     "message" => "Login Success",
                     "verified" => auth("sanctum")->user()->email_verified_at != null ? true : false,

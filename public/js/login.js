@@ -11,8 +11,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-fb-customer-chat */ "./node_modules/vue-fb-customer-chat/dist/vue-fb-customer-chat.umd.js");
-/* harmony import */ var vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-fb-customer-chat */ "./node_modules/vue-fb-customer-chat/dist/vue-fb-customer-chat.umd.js");
+/* harmony import */ var vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -146,7 +161,7 @@ var loginRegisterImageConatiner = function loginRegisterImageConatiner() {
 };
 
 
-Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
+Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_1___default()), {
   page_id: 102514265611526,
   //  change 'null' to your Facebook Page ID,
   theme_color: '#333333',
@@ -168,7 +183,8 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
       valid: true,
       form: new Form({
         email: "",
-        password: ""
+        password: "",
+        remember: false
       }),
       loginEmailRules: [function (v) {
         return !!v || "Required";
@@ -243,22 +259,79 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_0___default()), {
 
             if ($('#fb-root')) {
               $('#fb-root').css('display', 'none');
-            } // this.toastSuccess(res.data.message);
+            }
 
+            _this2.StartFireBasePushNotification();
           } else {
             _this2.isLoggin = false;
 
             _this2.toastError(res.data.message);
-          }
+          } //this.isLoggin = false;
 
-          _this2.isLoggin = false;
         })["catch"](function (err) {
           _this2.isLoggin = false;
 
           _this2.toastError("Incorrect Email or Password. Please try again");
         });
       });
+    },
+    StartFireBasePushNotification: function StartFireBasePushNotification() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var firebaseConfig, messaging;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                firebaseConfig = {
+                  apiKey: "AIzaSyDWhE_gfbOrfbU88UwTZNDKYg0_ND0QQsQ",
+                  authDomain: "isue-orange-pushnotification.firebaseapp.com",
+                  projectId: "isue-orange-pushnotification",
+                  storageBucket: "isue-orange-pushnotification.appspot.com",
+                  messagingSenderId: "914599704994",
+                  appId: "1:914599704994:web:5e7e272dd3fb83013f5afb"
+                };
+
+                if (!firebase.apps.length) {
+                  firebase.initializeApp(firebaseConfig);
+                } else {
+                  firebase.app();
+                }
+
+                messaging = firebase.messaging();
+                messaging.requestPermission().then(function () {
+                  return messaging.getToken();
+                }).then(function (response) {
+                  axios.post('/api/store_token', {
+                    token: response
+                  }).then(function (res) {});
+                })["catch"](function (error) {});
+                messaging.onMessage(function (_ref) {
+                  var _ref$data = _ref.data,
+                      body = _ref$data.body,
+                      title = _ref$data.title;
+                  new Notification(title, {
+                    body: body
+                  });
+                });
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
+    /*   classNotification(){
+            window.OneSignal = window.OneSignal || [];
+              OneSignal.push(function() {
+              OneSignal.init({
+                  appId: "2b9acbc0-fd01-474c-bdc8-754c01abcd18",
+              });
+          });
+      }
+       */
+
   },
   created: function created() {
     // window.open("", "_self");
@@ -22816,7 +22889,7 @@ var render = function() {
                         "v-col",
                         {
                           class: _vm.$vuetify.breakpoint.xs
-                            ? "ma-0 pa-3"
+                            ? "ma-0 pa-3 PB-0"
                             : "ma-0 pa-0",
                           attrs: { cols: "12", md: "5" }
                         },
@@ -22996,7 +23069,7 @@ var render = function() {
                                                     "v-col",
                                                     {
                                                       staticClass:
-                                                        "ma-0 pa-0 mt-2",
+                                                        "ma-0 pa-0 mt-2 mb-0",
                                                       attrs: {
                                                         cols: "12",
                                                         md: "8"
@@ -23072,7 +23145,7 @@ var render = function() {
                                                     "v-col",
                                                     {
                                                       staticClass:
-                                                        "ma-0 pa-0 text-right",
+                                                        "ma-0 pa-0  d-flex",
                                                       attrs: {
                                                         cols: "12",
                                                         md: "8"
@@ -23080,28 +23153,74 @@ var render = function() {
                                                     },
                                                     [
                                                       _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "float-right",
-                                                          attrs: { href: "#" },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              $event.preventDefault()
-                                                              ;(_vm.isForgotPassword = !_vm.isForgotPassword),
-                                                                (_vm.IsloadingComponent = !_vm.IsloadingComponent)
-                                                            }
-                                                          }
-                                                        },
+                                                        "span",
                                                         [
-                                                          _vm._v(
-                                                            "Forgot Password?"
+                                                          _c("v-checkbox", {
+                                                            staticClass:
+                                                              "ma-0 pa-0",
+                                                            attrs: {
+                                                              "hide-spin-buttons":
+                                                                "",
+                                                              label:
+                                                                "Remember me"
+                                                            },
+                                                            model: {
+                                                              value:
+                                                                _vm.form
+                                                                  .remember,
+                                                              callback: function(
+                                                                $$v
+                                                              ) {
+                                                                _vm.$set(
+                                                                  _vm.form,
+                                                                  "remember",
+                                                                  $$v
+                                                                )
+                                                              },
+                                                              expression:
+                                                                "form.remember"
+                                                            }
+                                                          })
+                                                        ],
+                                                        1
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c("v-spacer"),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "span",
+                                                        { staticClass: "mt-0" },
+                                                        [
+                                                          _c(
+                                                            "a",
+                                                            {
+                                                              staticStyle: {
+                                                                "text-decoration":
+                                                                  "none"
+                                                              },
+                                                              attrs: {
+                                                                href: "#"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  $event.preventDefault()
+                                                                  ;(_vm.isForgotPassword = !_vm.isForgotPassword),
+                                                                    (_vm.IsloadingComponent = !_vm.IsloadingComponent)
+                                                                }
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "Forgot Password?"
+                                                              )
+                                                            ]
                                                           )
                                                         ]
                                                       )
-                                                    ]
+                                                    ],
+                                                    1
                                                   ),
                                                   _vm._v(" "),
                                                   _c(

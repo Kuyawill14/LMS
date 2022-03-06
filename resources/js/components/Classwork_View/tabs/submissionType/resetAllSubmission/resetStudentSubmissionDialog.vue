@@ -9,7 +9,7 @@
 
               <v-list-item class="mb-0 pb-0">
                 
-                <v-list-item-icon class="pt-4" color="secondary">
+              <!--   <v-list-item-icon class="pt-4" color="secondary">
                      <v-select
                     outlined
                     dense
@@ -22,7 +22,7 @@
                     item-value="class_id">
                     </v-select>
                 </v-list-item-icon>
-              
+               -->
                  <v-list-item-content>
                      <v-list-item-subtitle>
                            <v-list-item-title class="font-weight-medium"></v-list-item-title>
@@ -57,6 +57,7 @@
                      <v-list-item-subtitle>
                            <v-list-item-title class="font-weight-medium">{{item.firstName +' '+item.lastName}}</v-list-item-title>
                            <v-list-item-subtitle v-if="item.status == 'Submitted'"> <v-icon small color="success">mdi-check</v-icon> Submitted</v-list-item-subtitle>
+                            <v-list-item-subtitle v-if="item.status == 'Taking'"> <v-icon small color="blue">mdi-pencil</v-icon> Taking</v-list-item-subtitle>
                      </v-list-item-subtitle>
                  </v-list-item-content>
                  <v-list-item-action>
@@ -72,7 +73,6 @@
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
-           
            <v-btn rounded block color="primary" @click="resetConfirm = true" :loading="iReseting" :disabled="resetCount == 0">
                     Reset Submissions
                 </v-btn>
@@ -100,11 +100,11 @@
 </template>
 <script>
 export default {
-    props:['ListData', 'ClassList'],
+    props:['ListData', 'ClassList','class_id'],
     data(){
         return{
             student:[],
-            Class: this.$route.params.id,
+            Class: null,
             selectAll: false,
             SelectedAll_submission_id:[],
             iReseting: false,
@@ -124,7 +124,7 @@ export default {
             }) */
 
             this.ListData.forEach(item => {
-                if(item.status == 'Submitted'){
+                if(item.status == 'Submitted' || item.status == 'Taking'){
                     this.studentCount++;
                     item.Sumissionstatus =  false;
                     this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus});
@@ -146,8 +146,16 @@ export default {
                       }
                   });
                 }else{ */
-                    this.ListData.forEach(item => {
+                  /*   this.ListData.forEach(item => {
                       if(item.status == 'Submitted' && item.class_id == this.Class){
+                        this.resetCount++;
+                        item.Sumissionstatus =  true;
+                        this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
+                      }
+                  });  */
+
+                   this.ListData.forEach(item => {
+                      if((item.status == 'Submitted' || item.status == 'Taking' )&& item.class_id == this.Class){
                         this.resetCount++;
                         item.Sumissionstatus =  true;
                         this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
@@ -210,7 +218,7 @@ export default {
         },
     },
     created(){
-        this.Class = this.ClassList[0].class_id;
+        this.Class = this.class_id;
         this.getSubmittedStudents();
     }
 }

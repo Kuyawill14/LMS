@@ -282,7 +282,7 @@ var render = function() {
                         "v-card",
                         {
                           staticClass: "d-flex pa-1",
-                          attrs: { elevation: "2", outlined: "" }
+                          attrs: { elevation: 2, outlined: "" }
                         },
                         [
                           _vm.$vuetify.breakpoint.mdAndUp

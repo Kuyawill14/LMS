@@ -41,6 +41,10 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 Vue.use(VueQuillEditor, /* { default global options } */ )
 
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
+import Vue from 'vue'
+Vue.use(VueViewer)
 
 //Vuex Store
 import store from "./store/store";

@@ -6,7 +6,7 @@
         <v-container fluid ma-0 pa-0>
             <v-row no-gutters>
                 <v-col  v-if="!get_Viewing" cols="12" :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mt-0 pt-0' : 'mt-0 pt-0'">
-                    <v-card elevation="2" class="d-flex pa-1" outlined>
+                    <v-card  :elevation="2" class="d-flex pa-1" outlined>
 
                        <v-tooltip v-if="$vuetify.breakpoint.mdAndUp" top>
                             <template v-slot:activator="{ on, attrs }">

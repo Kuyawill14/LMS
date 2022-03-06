@@ -10,4 +10,15 @@ class tbl_Submission extends Model
 {
     use HasFactory, SoftDeletes;
     protected $table = 'tbl_submissions';
+
+ /*    public function getSubmittedAnswersAttribute($value)
+    {
+        @unserialize($value) !== false ? unserialize($value) : $value;
+
+    } */
+
+
+   
+
+   
 }

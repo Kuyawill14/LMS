@@ -65,7 +65,7 @@
                                         </v-tooltip>
                                     </template>
                                     <v-list class="pa-2">
-                                        <v-list-item @click="resetdialog = !resetdialog">
+                                        <v-list-item :disabled="selectedStatus == 'No Submission'"  @click="resetdialog = !resetdialog">
                                             <v-list-item-title><v-icon left>mdi-restart</v-icon> Reset Submission</v-list-item-title>
                                         </v-list-item>
                                         <v-list-item @click="alertDialog = !alertDialog">
@@ -214,7 +214,7 @@
     </v-col> -->
         <v-row v-if="resetdialog">
             <v-dialog v-model="resetdialog" persistent max-width="650">
-                    <resetStudentSubmissionDialog  scrollable v-on:toggleDialog="resetdialog = !resetdialog"
+                    <resetStudentSubmissionDialog :class_id="Class"  scrollable v-on:toggleDialog="resetdialog = !resetdialog"
                     v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList"
                     v-if="resetdialog"></resetStudentSubmissionDialog>
             </v-dialog>
@@ -222,7 +222,7 @@
         
         <v-row v-if="alertDialog">
             <v-dialog v-model="alertDialog" persistent max-width="650">
-                    <multipleAlertStudent scrollable v-on:toggleDialog="alertDialog = !alertDialog"
+                    <multipleAlertStudent scrollable v-on:toggleDialog="alertDialog = !alertDialog" :class_id="Class"
                     v-on:StartReset="MultipleResetSubmission" :ListData="ListData" :ClassList="ClassList" :classworkDetails="classworkDetails"
                     v-if="alertDialog"></multipleAlertStudent>
             </v-dialog>
@@ -558,7 +558,7 @@
             },
             FilteredClass() {
                 this.ShowLoading();
-                //this.$emit('reloadSubmission', this.Class);
+                this.$emit('reloadSubmission', this.Class);
                /*  this.Over_total = 0;
                 this.Submitted_count = 0;
                 this.ShowLoading();

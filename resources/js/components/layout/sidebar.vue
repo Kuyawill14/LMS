@@ -157,7 +157,6 @@
         watch: {
             $route(to, from) {
                 this.navBarType = this.$route.matched[1].name;
-
             }
         },
         computed: {
@@ -193,8 +192,12 @@
             this.navBarType = this.$route.matched[1].name;
              if($('#fb-root').is(":visible")) {
             $('#fb-root').css('display', 'none');
-            // $('#help-btn').css('background', '#ffffff7d' );
-            // $('#fb-customer-chat > span > iframe').css('display', 'none');
+            }
+
+            if(Notification.permission === "granted"){
+                this.isAlloweNotification = true;
+            }else{
+                this.isAlloweNotification = false;
             }
         },
         created() {
@@ -205,8 +208,7 @@
             // $('#fb-customer-chat > span > iframe').css('display', 'none');
             }
 
-          
-         
+    
 
         }
 

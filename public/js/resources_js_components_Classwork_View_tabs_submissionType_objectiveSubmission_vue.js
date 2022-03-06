@@ -595,8 +595,8 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }, 400);
     },
     FilteredClass: function FilteredClass() {
-      this.ShowLoading(); //this.$emit('reloadSubmission', this.Class);
-
+      this.ShowLoading();
+      this.$emit('reloadSubmission', this.Class);
       /*  this.Over_total = 0;
        this.Submitted_count = 0;
        this.ShowLoading();
@@ -948,6 +948,11 @@ var render = function() {
                                                   _c(
                                                     "v-list-item",
                                                     {
+                                                      attrs: {
+                                                        disabled:
+                                                          _vm.selectedStatus ==
+                                                          "No Submission"
+                                                      },
                                                       on: {
                                                         click: function(
                                                           $event
@@ -1721,6 +1726,7 @@ var render = function() {
                           _vm.resetdialog
                             ? _c("resetStudentSubmissionDialog", {
                                 attrs: {
+                                  class_id: _vm.Class,
                                   scrollable: "",
                                   ListData: _vm.ListData,
                                   ClassList: _vm.ClassList
@@ -1762,6 +1768,7 @@ var render = function() {
                             ? _c("multipleAlertStudent", {
                                 attrs: {
                                   scrollable: "",
+                                  class_id: _vm.Class,
                                   ListData: _vm.ListData,
                                   ClassList: _vm.ClassList,
                                   classworkDetails: _vm.classworkDetails
