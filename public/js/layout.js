@@ -2198,7 +2198,7 @@ var render = function() {
                       1
                     )
                   : _vm._e(),
-                _vm._v(" -\n                "),
+                _vm._v(" "),
                 _vm.role == "Student"
                   ? _c(
                       "v-list-item",
