@@ -149,21 +149,6 @@
                 </v-card>
             </v-col>
         </v-row>
-<!-- 
-          <v-bottom-navigation v-if="!$vuetify.breakpoint.lgAndUp" v-model="tab" color="primary" app grow>
-            <v-btn v-for="(item, index) in profile_tabs" :key="index" :to="{name: item.name}" @click="items[1].text = item.text">
-                <span>{{item.text}}</span>
-               <v-icon> {{item.icon}}</v-icon>
-            </v-btn>
-
-        </v-bottom-navigation> -->
-        <!-- <div>
-            <img id="input-preview" alt="This is the preview of the image you are going to upload."/>
-        </div>
-
-          <div>
-            <img id="output-preview" alt="This is the compressed result of the image you will upload."/>  
-        </div> -->
     </div>
 </template>
 
@@ -172,14 +157,15 @@
     const changePassword = () => import(/* webpackChunkName: "changge_password" */ './changePassword')
     const coursesProgress = () => import(/* webpackChunkName: "course_progress" */'./coursesProgress')
     const myCalendar = () => import(/* webpackChunkName: "my_calendar" */'./myCalendar')
-    
+    //import imageCompressor from 'vue-image-compressor';
     export default {
         props:['role','UserDetails'],
         components:{
             editProfile,
             changePassword,
             coursesProgress,
-            myCalendar
+            myCalendar,
+            ///imageCompressor 
         },
         data () {
             return {
@@ -234,6 +220,10 @@
             TestUpload(){
              this.$refs.fileInput.click();
             },
+           /*  getFiles(obj){
+                console.log(obj);
+                this.UserDetails.profile_pic = URL.createObjectURL(obj.compressed.file);
+            }, */
             onFileChange(element) {    
                 
                

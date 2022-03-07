@@ -283,6 +283,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -23126,15 +23128,35 @@ var render = function() {
                                                           _c(
                                                             "v-list-item-subtitle",
                                                             [
-                                                              _vm._v(
-                                                                "\r\n                                                         Created: " +
-                                                                  _vm._s(
-                                                                    _vm.format_date(
-                                                                      item.created_at
+                                                              _c(
+                                                                "span",
+                                                                {
+                                                                  staticClass:
+                                                                    "primary--text"
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "(" +
+                                                                      _vm._s(
+                                                                        item.points
+                                                                      ) +
+                                                                      " points)"
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c("br"),
+                                                              _vm._v(" "),
+                                                              _c("span", [
+                                                                _vm._v(
+                                                                  "Created: " +
+                                                                    _vm._s(
+                                                                      _vm.format_date(
+                                                                        item.created_at
+                                                                      )
                                                                     )
-                                                                  ) +
-                                                                  "\r\n                                                    "
-                                                              )
+                                                                )
+                                                              ])
                                                             ]
                                                           )
                                                         ],

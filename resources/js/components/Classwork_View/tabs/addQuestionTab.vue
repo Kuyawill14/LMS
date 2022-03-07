@@ -306,7 +306,7 @@
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container fluid  class="d-flex flex-row ma-0 pa-0">
-                                                            
+                                                                  {{item.answer}}
                                                         <v-radio-group v-if="item.isNew" :key="Ans.id"  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
@@ -487,6 +487,7 @@
                                         </v-col>
                                        
                                         <v-col v-for="(x, n) in inputCheck" :key="n" class="ma-0 pa-0" cols="11">
+                                          
                                             <v-container class="d-flex flex-row ma-0 pa-0">
                                                 <v-radio-group :rules="rules" v-model="item.answer">
                                                     <v-radio

@@ -84,7 +84,7 @@
                                         </v-tooltip>
                                     </template>
                                     <v-list class="pa-2">
-                                        <v-list-item v-if="selectedStatus != 'No Submission'"  @click="resetdialog = !resetdialog">
+                                        <v-list-item :disabled="selectedStatus == 'No Submission'" @click="resetdialog = !resetdialog">
                                             <v-list-item-title><v-icon left>mdi-restart</v-icon> Reset Submission</v-list-item-title>
                                         </v-list-item>
                                         <v-list-item @click="alertDialog = !alertDialog">

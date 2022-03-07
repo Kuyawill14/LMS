@@ -74,10 +74,19 @@
               window.location = window.location.href.replace("www.","");
           }
 
-          setInterval(() => {
+         /*  setInterval(() => {
             console.clear();
-          }, 10000);
+          }, 10000); */
           </script> 
+       <!--    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+          <script>
+            window.OneSignal = window.OneSignal || [];
+            OneSignal.push(function() {
+              OneSignal.init({
+                appId: "2b9acbc0-fd01-474c-bdc8-754c01abcd18",
+              });
+            });
+          </script> -->
 
       
         </script>

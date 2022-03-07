@@ -2,302 +2,381 @@
 
 
 
-      <v-card >
-        <v-toolbar dense shaped class="fixed-bar" floating color="primary" app >
+      <div >
+
+          <v-dialog v-model="dialog" persistent max-width="400">
+            <resetConfirmation
+            v-on:toggleCancelDialog="dialog = !dialog"
+            v-on:toggleconfirm="ResetSubmission()"
+            :ViewDetails="CheckData"
+            v-if="dialog"></resetConfirmation>
+        </v-dialog>
+       <!--  <v-toolbar dense shaped class="fixed-bar" floating color="primary" app >
             <v-btn dark icon @click="$emit('closeDialog')" >
                 <v-icon>mdi-close</v-icon>
             </v-btn>
-        </v-toolbar>
+        </v-toolbar> -->
 
-        <v-card-text style="margin-bottom:10rem" class="ma-0 pa-0 pl-1 pr-1 ">
-            <v-row no-gutters>
-                <v-col cols="12" md="4" lg="4" :class="!$vuetify.breakpoint.mdAndUp ? '' : 'pr-3'">
-                        <v-container fluid ma-0 pa-0>
-                        <v-card  v-show="$vuetify.breakpoint.mdAndUp || SelectedNav == 0" class="pa-5 pb-8 pt-0" elevation="1" outlined>
-                            <v-row  no-gutters>
-                                <v-col class="ma-0 pa-0">
-                                        <v-list class="ma-0 pa-0">
-                                            <v-list-item  class="ma-0 pa-0">
-                                                <v-list-item-avatar color="secondary">
-                                                    <v-img alt="Profile"
-                                                        :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : CheckData.profile_pic">
-                                                    </v-img>
-                                                </v-list-item-avatar>
-                                            
-                                                <v-list-item-content>
-                                                    <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                    <v-list-item-subtitle :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
-                                                </v-list-item-content>
-                                                <v-list-item-action v-if="CheckData.status == 'Submitted'" class="mt-8">
-                                                    <v-text-field rounded hide-details :loading="isSavingScore" 
-                                                @keyup="SaveScore()" v-model="CheckData.points" 
-                                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
-                                                </v-list-item-action>
-                                            </v-list-item>
-                                    </v-list>
-                                </v-col>
-                                <v-col  cols="12" class="ma-0 pa-0 pb-4">
-                                    <v-btn rounded v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
-                                        @click="ResetSubmission(CheckData)" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
-                                </v-col>
-                                <v-col cols="12">
-                                    <v-row>
-                                        <v-col cols="12">
-                                            <h2>{{classworkDetails.title}}</h2>
+            <v-row no-gutters align="center" justify="center">
+                <v-col cols="12" class="mb-2 mt-0 pt-0">
+                       <v-card elevation="2" outlined class="pl-2 pr-4 pb-2">
+                           <v-list>
+                               <v-list-item>
+                                   <v-list-item-avatar size="52" color="primary">
+                                       <v-icon color="white" size="30"> 
+                                           mdi-book-open-variant
+                                       </v-icon>
+                                   </v-list-item-avatar>
+                                   <v-list-item-content>
+                                       <v-list-item-title style="font-size:22px" class="font-weight-bold">
+                                           {{classworkDetails.title}}
+                                       </v-list-item-title>
+                                       <v-list-item-subtitle class="font-weight-medium">
+                                           Due: {{ CheckData.availability == 1 ? format_date(CheckData.to_date) : 'No due date'}}
+                                       </v-list-item-subtitle>
+                                     
+                                   </v-list-item-content>
+                                     <v-list-item-action>
+                                            <v-list-item-action-text>
+                                                <v-btn  @click="$emit('closeDialog')" small dark color="red" rounded >
+                                                    <v-icon small>mdi-close</v-icon> Close
+                                                </v-btn>  
+                                            </v-list-item-action-text>
+                                             <v-spacer></v-spacer>
+                                          
+                                       </v-list-item-action>
+                               </v-list-item>
+                           </v-list>
+                       </v-card>
+                   </v-col>
+                    <v-col cols="12" md="12" lg="10">
+                        <v-row no-gutters>
+                            <v-col cols="12" md="4" lg="4" :class="!$vuetify.breakpoint.mdAndUp ? '' : 'pr-3'">
+                                <v-container fluid ma-0 pa-0>
+                                <v-card  v-show="$vuetify.breakpoint.mdAndUp || SelectedNav == 0" class="pa-5 pb-8 pt-3 mt-1" elevation="1" outlined>
+                                    <v-row  no-gutters>
+                                        <v-col cols="12" class="text-center pl-5 pr-5" >
+                                            <v-list-item-subtitle style="font-size: 15px">
+                                                {{CheckDataSection}}
+                                            </v-list-item-subtitle>
                                         </v-col>
+                                        <v-col class="ma-0 pa-0">
+                                             <v-row class="mb-0 pb-0">
+                                                    <v-col cols="12" class="mb-0 pb-0">
+                                                        <div class="d-flex mb-2 ">
+                                                            <v-btn :disabled="SubmittedLength == 1 || currentIndex == 0" icon @click="PrevStudent()">
+                                                                <v-icon>mdi-chevron-left</v-icon>
+                                                            </v-btn>
+                                                            <v-spacer></v-spacer>
+                                                               <div class="text-center">
+                                                                    <div class="font-weight-medium">
+                                                                   
+                                                                        {{(currentIndex+1)+'/'+SubmittedLength}}
+                                                                    </div>
+                                                                    <div>
+                                                                        <small class="mt-3">Switch Student</small>
+                                                                    </div>
+                                                                
+                                                                </div>
+                                                            <v-spacer></v-spacer>
 
-                                        <v-col cols="12" v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" >
-                                    
-                                        <!--  <v-row v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''"> -->
-                                            <!--  <v-col v-for="(item, index) in CheckData.Submitted_Answers" :key="index" class="mb-0 pb-0 mt-0 pt-0" cols="12" > -->
-                                                <!-- <div class="d-flex"> -->
-                                                    <!--  <div class="body-1 pr-2 pl-2 mt-2">
-                                                        {{index+1}}.
-                                                    </div> -->
-
-                                                        <!--  <div style="width:100%"> -->
-                                                            <!--  <v-hover  v-slot="{ hover }"> -->
-                                                            <!-- <v-alert
-                                                                dense
-                                                                class="mb-1 pa-2"
-                                                                style="cursor:pointer"
-                                                                    :class="hover ? 'grey lighten-2' :''"
-                                                                    outlined
-                                                                    :icon="item.fileExte == 'pdf' ? 'mdi-file-pdf': item.fileExte == 'docx'? 'mdi-file-word': 
-                                                                    item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'mdi-folder-multiple-image' :''"
-                                                                :color="item.fileExte == 'pdf' ? 'red' : item.fileExte == 'docx'? 'blue':
-                                                                    item.fileExte == 'jpg' ||  item.fileExte == 'png' ||  item.fileExte == 'bmp' ? 'info': ''"
-                                                                >
-                                                                <v-row align="center" >
-                                                                    <v-col class="grow text-left">
-                                                                    <div  :class="hover ? 'text-decoration-underline':''"> {{item.name}}</div>
-                                                                    </v-col>
-                                                                    <v-col class="shrink d-flex">
-                                                                    <div class="black--text mt-1 mr-1">{{item.fileSize}}</div>
-                                                                    <div class="pt-1">
-                                                                        <v-tooltip top>
+                                                            <v-btn :disabled="currentIndex == SubmittedLength-1" icon @click="NextStudent()">
+                                                                <v-icon>mdi-chevron-right</v-icon>
+                                                            </v-btn>
+                                                        </div>
+                                                        <v-divider></v-divider>
+                                                    </v-col>
+                                                </v-row>
+                                                <div>
+                                                    <v-alert v-model="info" type="info" class="mb-0 mt-0" dense  dismissible>
+                                                       To grade students, just put score and pressed the <span style="font-size: 20px" class="font-weight-bold">Enter</span> key to save and go to next student.
+                                                    </v-alert>
+                                                </div>
+                                                <v-list class="ma-0 pa-0">
+                                                    <v-list-item  class="ma-0 pa-0">
+                                                        <v-list-item-avatar color="secondary">
+                                                            <v-img alt="Profile"
+                                                                :src="CheckData.profile_pic == null || CheckData.profile_pic == '' ? 'https://ui-avatars.com/api/?background=random&color=fff&name=' + (CheckData.firstName+' '+CheckData.lastName) : CheckData.profile_pic">
+                                                            </v-img>
+                                                        </v-list-item-avatar>
+                                                    
+                                                        <v-list-item-content>
+                                                            <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
+                                                            <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                             <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
+                                                        </v-list-item-content>
+                                                       <!--  @keyup="validate" -->
+                                                        <v-list-item-action style="max-width:250px !important"  class="mt-4">
+                                                            <v-form style="width:160px !important" @submit.prevent="validate()" ref="pointsform" v-model="valid" lazy-validation>
+                                                                <v-text-field rounded 
+                                                                @focus="CheckData.points = CheckData.graded == 1 ? CheckData.points  : CheckData.points == null"
+                                                                :hide-details="valid"
+                                                                :loading="isSavingScore" 
+                                                                :rules="pointsRules"
+                                                                v-model="CheckData.points" 
+                                                                dense outlined label="Score" type="number" :suffix="'/' +classworkDetails.points" :max="classworkDetails.points"  min="0"></v-text-field>
+                                                            </v-form>
+                                                        </v-list-item-action>
+                                                    </v-list-item>
+                                            </v-list>
+                                        </v-col>
+                                        <v-col v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"  cols="12" class="ma-0 pa-0 pb-4 pt-3">
+                                            <v-btn rounded text block v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
+                                                @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
+                                        </v-col>
+                                        <v-col cols="12">
+                                            <v-row v-if="isLoaded" >
+                                                <v-col cols="12" v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" >                    
+                                                    <v-list nav outlined>
+                                                        <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
+                                                            <v-list-item-icon class="pr-0 mr-0 mr-1">
+                                                                    <v-icon large :color="CheckFileIconColor(item.fileExte)" >
+                                                                        {{CheckFileIcon(item.fileExte)}}
+                                                                    </v-icon>
+                                                            </v-list-item-icon>
+                                                            <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
+                                                                <v-list-item-title>
+                                                                    {{item.name}}
+                                                                </v-list-item-title>
+                                                            </v-list-item-content>
+                                                            <v-list-item-action>
+                                                                    <v-tooltip top>
                                                                         <template v-slot:activator="{ on, attrs }">
                                                                             <v-btn  v-bind="attrs" v-on="on" 
                                                                             rounded small icon text @click="DownloadFile(item.link)"> <v-icon color="blue">mdi-download</v-icon></v-btn>
                                                                         </template>
                                                                         <span>Download</span>
-                                                                        </v-tooltip>
-                                                                    </div>
-                                                                    </v-col>
-                                                                </v-row>
-                                                                </v-alert> -->
-                                                                
-                                                                <v-list nav outlined>
-                                                                    <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
-                                                                        <v-list-item-icon class="pr-0 mr-0 mr-1">
-                                                                                <v-icon large :color="CheckFileIconColor(item.fileExte)" >
-                                                                                    {{CheckFileIcon(item.fileExte)}}
-                                                                                </v-icon>
-                                                                        </v-list-item-icon>
-                                                                        <v-list-item-content @click="OpenFile(item.fileExte, item.link)">
-                                                                            <v-list-item-title>
-                                                                                {{item.name}}
-                                                                            </v-list-item-title>
-                                                                        </v-list-item-content>
-                                                                        <v-list-item-action>
-                                                                                <v-tooltip top>
-                                                                                    <template v-slot:activator="{ on, attrs }">
-                                                                                        <v-btn  v-bind="attrs" v-on="on" 
-                                                                                        rounded small icon text @click="DownloadFile(item.link)"> <v-icon color="blue">mdi-download</v-icon></v-btn>
-                                                                                    </template>
-                                                                                    <span>Download</span>
-                                                                                </v-tooltip>
-                                                                        </v-list-item-action>
+                                                                    </v-tooltip>
+                                                            </v-list-item-action>
+                                                        </v-list-item>
+                                                    </v-list>
+                                                </v-col>
+                                            </v-row>
+                                        
+                                        </v-col>
+                                    </v-row>
+                                    <div class="pt-5 pb-1">
+                                            <v-divider></v-divider>
+                                    </div>
+                                        <div class="mt-12" v-if="isReloadRubrics">
+                                            <vue-element-loading :active="isReloadRubrics" duration="0.7" spinner="line-scale" color="#EF6C00"  size="40" />
+                                        </div>
+                                        <v-list v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted' && !isReloadRubrics">
+                                        <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
+                                            <v-list-item-icon tile>
+                                                <div class="font-weight-bold">{{item.points}}%</div>
+                                            </v-list-item-icon>
+                                            <v-list-item-content>
+                                                <v-list-item-title class="font-weight-medium">
+                                                    {{item.criteria_name}}
+                                                </v-list-item-title>
+                                                <div>
+                                                    <p>{{item.description}}</p>
+                                                </div>
+                                            </v-list-item-content>
+                                                <v-list-item-action style="width:40% !important" >
+                                                    <v-text-field rounded hide-details v-model="CheckData.rubrics_score[index].points" type="number" :suffix="'/' +item.points" class="ma-0 pa-0" dense outlined :label="item.criteria_name" >
+                                                    </v-text-field>
+                                                </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
+                                    <div v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'" class="text-right">
+                                        <v-btn @click="SaveRubricsScore()" small class="primary" dark>
+                                            Save
+                                        </v-btn>
+                                    </div>
+
+                                </v-card>
+
+                                    <v-card v-show="$vuetify.breakpoint.mdAndUp || SelectedNav == 2"   class="mt-2 scrollComment" elevation="1" outlined>
+                                    <div class="pt-3 pl-4 pr-4 pb-2">
+                                    <v-icon left>mdi-comment</v-icon>Private Comments
+                                    </div>
+                                    
+                                    <v-divider></v-divider>
+                                    <v-list v-if="isLoaded" max-height="350" style="overflow-y:scroll;scrollbar-width: thin;" class="mb-0 pb-0">
+                            
+                                        <v-list-item class="mb-0 pb-0" v-for="(item, i) in CheckData.comments" :key="i">
+                                        <v-list-item-avatar>
+                                            <v-img 
+                                            :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : item.profile_pic">
+                                            </v-img>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content>
+                                           <div v-if="isUpdatingComment && isUpdatingComment_id == item.id">
+                                                <v-list-item-title class="mb-2" v-html="item.name"></v-list-item-title>
+                                                <editor :options="options" class="CommentEditor"  placeholder="Comment" v-model="item.content"  theme="bubble" ></editor>
+                                                <div class="d-flex justify-end mt-2">
+                                                
+                                                    <v-btn small @click="UpdateComment(item.content, item.id)" dark color="success" class="mr-2">update</v-btn>
+                                                    <v-btn small dark @click="isUpdatingComment = false, isUpdatingComment_id = null, item.content = isUpdatingComment_old_data" color="red">Cancel</v-btn>
+                                                </div>
+                                            </div>
+
+                                            <v-alert v-else  color="#F5F5F5" class="rounded-xl mt-0 mb-0 pb-0">
+                                                <v-list-item-title> 
+                                                    <div class="d-flex justify-space-between">
+                                                        <div :class="item.u_id == get_CurrentUser.id ? 'mb-0 pb-0 pt-2' : 'pt-2 pb-2'" style="max-width:90%">{{item.name}}</div>
+                                                        <div >
+                                                            <v-menu offset-x >
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-btn icon v-bind="attrs" v-on="on">
+                                                                        <v-icon dark small >mdi-dots-vertical</v-icon>
+                                                                    </v-btn> 
+                                                                </template>
+                                                                <v-list dense nav>
+                                                                    <v-list-item  @click="isUpdatingComment = true, isUpdatingComment_id = item.id, isUpdatingComment_old_data = item.content" >
+                                                                        <v-list-item-title>Edit</v-list-item-title>
+                                                                    </v-list-item>
+                                                                    <v-list-item  @click="DeleteComment(item.id, i)">
+                                                                        <v-list-item-title>Remove</v-list-item-title>
                                                                     </v-list-item>
                                                                 </v-list>
-                                                        <!--        </v-hover> -->
-                                                        <!--    </div> -->
-                                                    <!--    </div> -->
-                                                <!--  </v-col> -->
-                                            <!--  </v-row> -->
-                                        </v-col>
-                                    
-                                        
-                                    </v-row>
-                                    
-                                            
-
-                                </v-col>
-                            </v-row>
-                            <div class="pt-5 pb-1">
-                                    <v-divider></v-divider>
-                            </div>
-                            
-                                <v-list v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'">
-                                <v-list-item v-for="(item, index) in classworkDetails.rubrics" :key="index" class="mb-0 pb-0">
-                                    <v-list-item-avatar tile>
-                                        <div class="font-weight-bold">{{item.points}}%</div>
-                                    </v-list-item-avatar>
-                                    <v-list-item-content>
-                                        <v-list-item-title class="font-weight-medium">
-                                            {{item.criteria_name}}
-                                        </v-list-item-title>
-                                        <div>
-                                            <p>{{item.description}}</p>
-                                        </div>
-                                       <!--  <v-list-item-subtitle>
-                                            {{item.description}}
-                                        </v-list-item-subtitle> -->
-                                    </v-list-item-content>
-                                        <v-list-item-action style="width:30%" >
-                                            <v-text-field rounded hide-details v-model="CheckData.rubrics_score[index].points" type="number" :suffix="'/' +item.points" class="ma-0 pa-0" dense outlined :label="item.criteria_name" >
-                                            </v-text-field>
-                                        </v-list-item-action>
-                                </v-list-item>
-                            </v-list>
-                            <div v-if="classworkDetails.rubrics.length != 0 && CheckData.status == 'Submitted'" class="text-right">
-                                <v-btn @click="SaveRubricsScore()" small class="primary" dark>
-                                    Save
-                                </v-btn>
-                            </div>
-
-                        </v-card>
-
-                            <v-card v-show="$vuetify.breakpoint.mdAndUp || SelectedNav == 2"   class="mt-2 scrollComment" elevation="1" outlined>
-                            <div class="pt-3 pl-4 pr-4 pb-2">
-                            <v-icon left>mdi-comment</v-icon>Private Comments
-                            </div>
-                            
-                            <v-divider></v-divider>
-                            <v-list max-height="350" style="overflow-y:scroll;scrollbar-width: thin;" class="mb-0 pb-0">
-                    
-                                <v-list-item class="mb-0 pb-0" v-for="(item, i) in CheckData.comments" :key="i">
-                                <v-list-item-avatar>
-                                    <v-img 
-                                    :src="item.profile_pic == null || item.profile_pic == ''? 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=' +  item.name : item.profile_pic">
-                                    </v-img>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title>
-                                        {{item.name}}
-                                    </v-list-item-title>
-                                   <!--  <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle> -->
-                                     <div>
-                                        <p>{{item.content}}</p>
-                                    </div>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-btn icon>
-                                    <v-icon small color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                    </v-btn>
-                                </v-list-item-action>
-                                </v-list-item>
-                        
-                            </v-list>
-                            <v-divider></v-divider>
-                            <v-list class="mb-0 pb-0 mt-0 pt-0">
-                                <v-list-item class="mb-0 pb-0">
-                                <v-list-item-avatar color="secondary">
-                                    <v-img 
-                                    :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
-                                    </v-img>
-                                </v-list-item-avatar>
-                                <v-list-item-content class="ma-0 pa-0">
-                                    <v-textarea
-                                        :loading="isCommenting"
-                                        v-model="comment"
-                                        prepend-avatar="mdi-emoticon-dead"
-                                        filled
-                                        rounded
-                                        dense
-                                        auto-grow
-                                        rows="1"
-                                        clear-icon="mdi-close-circle"
-                                        clearable
-                                        placeholder="Comment"
-                                        class="pa-0 mt-7"
-                                        type="text"
-                                        >
-                                        </v-textarea>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-btn :loading="isCommenting" @click="addComment(CheckData)" icon>
-                                    <v-icon  color="primary">mdi-send</v-icon>
-                                    </v-btn>
-                                </v-list-item-action>
-                                </v-list-item>
-                            </v-list>
-                        </v-card>
-                    </v-container>
-                </v-col>
-                    <v-col  cols="12" md="8" lg="8" class="pt-1">
-                        <v-container class="pt-1" v-if="(CheckData.Submitted_Answers == null || CheckData.Submitted_Answers == '') && ($vuetify.breakpoint.mdAndUp || SelectedNav == 1)" fluid ma-0 pa-0>
-                        <v-card style="height: 40rem" class="pa-2">
-                            <v-row   justify="center" align-content="center" >
-                                <v-col style="margin-top: 10rem" cols="12"   class="text-center">
-                                    <v-icon style="font-size:8rem">
-                                        mdi-notebook-remove-outline
-                                    </v-icon>
-                                    <h2> Empty Submission </h2>
-                                    <p class="mb-0 pb-0"> This student did not submit yet!</p>
-                                    <v-btn @click="alertStudent()" color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-card>
+                                                            </v-menu>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </v-list-item-title>
+                                                <v-list-item-subtitle class="mb-3">{{format_date(item.comment_date)}}</v-list-item-subtitle>
+                                                <div class="ml-2">
+                                                    <span class="commentContent" v-html="item.content"></span>
+                                                </div>
+                                            </v-alert>
+                                        </v-list-item-content>
+                                        </v-list-item>
                                 
+                                    </v-list>
+                                    <v-divider></v-divider>
+                                    <v-list class="mb-0 pb-0 mt-0 pt-0">
+                                        <v-list-item class="mb-0 pb-0">
+                                        <v-list-item-avatar color="secondary">
+                                            <v-img 
+                                            :src="get_CurrentUser.profile_pic == null || get_CurrentUser.profile_pic == ''? 'https://ui-avatars.com/api/?background=random&color=fff&name=' +  get_CurrentUser.firstName+' '+get_CurrentUser.lastName : get_CurrentUser.profile_pic">
+                                            </v-img>
+                                        </v-list-item-avatar>
+                                        <v-list-item-content class="ma-0 pa-0">
+                                                <editor :options="options" class="CommentEditor"   placeholder="Comment" 
+                                                    v-model="comment"  theme="bubble" ></editor>
+                                        </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-btn :loading="isCommenting" @click="addComment(CheckData)" icon>
+                                            <v-icon  color="primary">mdi-send</v-icon>
+                                            </v-btn>
+                                        </v-list-item-action>
+                                        </v-list-item>
+                                    </v-list>
+                                </v-card>
+                            </v-container>
+                        </v-col>
+                            <v-col v-if="isLoaded" cols="12" md="8" lg="8" class="pt-1">
+                                <v-container class="pt-1" v-if="(CheckData.Submitted_Answers == null || CheckData.Submitted_Answers == '') && ($vuetify.breakpoint.mdAndUp || SelectedNav == 1)" fluid ma-0 pa-0>
+                                <v-card style="height: 40rem" class="pa-2">
+                                    <v-row   justify="center" align-content="center" >
+                                        <v-col style="margin-top: 10rem" cols="12"   class="text-center">
+                                            <v-icon style="font-size:8rem">
+                                                mdi-notebook-remove-outline
+                                            </v-icon>
+                                            <h2> Empty Submission </h2>
+                                            <p class="mb-0 pb-0"> This student did not submit yet!</p>
+                                            <v-btn @click="alertStudent()" color="primary">Alert Student <v-icon right>mdi-account-alert</v-icon> </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-card>
+                                        
+                                    
+                                </v-container>
                             
-                        </v-container>
-                    
-                        <v-container v-if="(CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != '') && ($vuetify.breakpoint.mdAndUp || SelectedNav == 1)" fluid ma-0 pa-0>
-                        <v-card >
-                            <div class="pa-3"  :style="OpenFileType == 'document' ?
-                            
-                            $vuetify.breakpoint.mdAndUp ? 'height:90vh !important;' : 'height:85vh !important;' : $vuetify.breakpoint.mdAndUp ? 'height:90vh !important' : 'height:85vh !important'">
-                                <div class="pa-3 text-center" >
-                                    <v-progress-circular
-                                    style="margin-top:23rem"
-                                    :size="50"
-                                    color="primary"
-                                    indeterminate
-                                    v-if="isOpening">
-                                    </v-progress-circular>
-                                </div>
-
-                                <div v-if="!isOpening && OpenFileType == 'document'">
-                                    <iframe title="google pdf viewer" id="pdf-iframe" 
-                                    :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + path" 
-                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
-                                </div> 
-            
-                                <div v-if="!isOpening && OpenFileType == 'link'">
-                                    <iframe title="Link" 
-                                    :src="path" 
-                                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                                    style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
-                                </div> 
-
-                                    <div v-if="!isOpening && OpenFileType == 'media'" >
-                                    <v-img
-                                        :src="path"
-                                        max-width="100%"
-                                        max-height="80vh"
-                                        contain>
-                                        <template v-slot:placeholder>
-                                        <v-row
-                                            class="fill-height ma-0"
-                                            align="center"
-                                            justify="center">
+                                <v-container v-if="(CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != '') && ($vuetify.breakpoint.mdAndUp || SelectedNav == 1)" fluid ma-0 pa-0>
+                                <v-card >
+                                    <div class="pa-3"  :style="OpenFileType == 'document' ?
+                                    
+                                    $vuetify.breakpoint.mdAndUp ? 'height:90vh !important;' : 'height:85vh !important;' : $vuetify.breakpoint.mdAndUp ? 'height:90vh !important' : 'height:85vh !important'">
+                                        <div class="pa-3 text-center" >
                                             <v-progress-circular
+                                            style="margin-top:23rem"
+                                            :size="50"
+                                            color="primary"
                                             indeterminate
-                                            color="grey lighten-5"
-                                            ></v-progress-circular>
-                                        </v-row>
-                                        </template>
-                                    </v-img>
-                                </div>   
+                                            v-if="isOpening">
+                                            </v-progress-circular>
+                                        </div>
 
-                            </div>
-                        </v-card>
-                        </v-container>
+                                        <div v-if="!isOpening && OpenFileType == 'document'">
+                                        
+
+                                            <iframe v-if="OpenFileExtension == 'docx' || OpenFileExtension == 'doc'" title="google drive viewer" id="pdf-iframe" class="holds-the-iframe"
+                                            :src="'https://view.officeapps.live.com/op/embed.aspx?src='+path"
+                                         
+                                            style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
+
+
+                                            <pdfviewer  style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"
+                                            v-else-if="OpenFileExtension == 'pdf'" 
+                                            :pdf_file="path"/>
+
+                                            <iframe v-else title="google pdf viewer" 
+                                            :src="'https://docs.google.com/viewer?embedded=true&amp;url=' + path" 
+                                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                            style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
+                                        </div> 
+                    
+                                        <div v-if="!isOpening && OpenFileType == 'link'">
+                                            <iframe title="Link" 
+                                            :src="path" 
+                                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                                            style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
+                                        </div> 
+
+                                            <div v-if="!isOpening && OpenFileType == 'media'" >
+                                                
+                                            <div class="pl-5 pr-5 pb-4 text-center d-flex">
+                                                <!-- <v-btn x-large icon><v-icon large>mdi-chevron-left</v-icon></v-btn> -->
+                                                <v-spacer></v-spacer>
+                                                
+
+                                                 <v-tooltip top>
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn v-bind="attrs" v-on="on"  x-large @click="rotateRight" icon><v-icon large>mdi-crop-rotate</v-icon></v-btn>
+                                                    </template>
+                                                    <span>Rotate Image</span>
+                                                </v-tooltip>
+                                                 <v-spacer></v-spacer>
+                                                <!-- <v-btn x-large   icon><v-icon large>mdi-chevron-right</v-icon></v-btn> -->
+                                            </div>
+                                            <div >
+                                                 <v-img
+                                                :style="`transform: rotate(${rotation}deg) scale(${scale});`"
+                                                :src="path"
+                                                max-width="100%"
+                                                max-height="70vh"
+                                                contain>
+                                                <template v-slot:placeholder>
+                                                <v-row
+                                                    class="fill-height ma-0"
+                                                    align="center"
+                                                    justify="center">
+                                                    <v-progress-circular
+                                                    indeterminate
+                                                    color="grey lighten-5"
+                                                    ></v-progress-circular>
+                                                </v-row>
+                                                </template>
+                                            </v-img>
+                                            </div>
+                                           
+
+                                           
+                                        </div>   
+
+                                    </div>
+
+                                </v-card>
+                                </v-container>
+                        </v-col>
+                  </v-row>
                 </v-col>
             </v-row>
-        </v-card-text>
+   
         <div  class="pt-10">
               <v-bottom-navigation
        
@@ -324,17 +403,27 @@
         </div>
            
             
-      </v-card>
+      </div>
 
 
 </template>
 <script>
 import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
+const resetConfirmation = () => import('../../dialogs/resetConfirmation')
+const pdfviewer = () => import('./pdfviewer');
+
   export default {
-    props:['CheckData','classworkDetails'],
+    props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex','CheckDataSection'],
+    components:{
+        resetConfirmation,
+        pdfviewer
+    },
     data () {
       return {
+        isUpdatingComment: false,
+        isUpdatingComment_id: null,
+        isUpdatingComment_old_data: null,
         dialog: false,
         notifications: false,
         sound: true,
@@ -350,8 +439,30 @@ import {mapGetters} from "vuex";
         RubricsPoints:[],
         SaveRubricsData: [],
         OpenFileType: null,
+        OpenFileExtension: null,
         isOpening: true,
         SelectedNav: 0,
+        isReloadRubrics: false,
+         options:{
+            modules: {
+                'toolbar': [
+                    ['bold', 'italic', 'underline', 'strike'],
+            
+                    [{ 'list': 'bullet' }],
+                    ['image'],
+                ],
+            }
+        },
+         pointsRules:[
+            v => !!v || 'Points is required',
+            v => ( v && v >= 0 ) || "Points should be above or equal to 0",
+        ],
+        valid: true,
+        info: true,
+        rotation: 0,
+        scale: 1,
+        isLoaded: false,
+
       }
     },
     computed:{
@@ -405,9 +516,22 @@ import {mapGetters} from "vuex";
         DownloadFile(link){
             //var host = window.location.protocol + "//" + window.location.host;
             //window.location = link
-            window.open(link,'_blank');
+
+            let path = link.replace('.cdn', '');
+            window.open(path,'_blank');
+
+            
+        },
+        validate() {
+            if (this.$refs.pointsform.validate()) {
+                //this.SaveScore(); 
+                this.score = this.CheckData.points;
+                this.isSavingScore = !this.isSavingScore;
+                this.UpdateScore();
+            }
         },
         SaveScore(){
+            
             clearTimeout(this.timeout);
             var self = this;
             this.timeout = setTimeout(function () {
@@ -438,19 +562,32 @@ import {mapGetters} from "vuex";
             this.UpdateScore();
         },
         async UpdateScore(){
-            if(this.score <= this.classworkDetails.points){
-                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, data: this.CheckData.rubrics_score})
+            let studentDetails = {};
+            studentDetails.user_id = this.CheckData.user_id;
+            studentDetails.classwork_id = this.CheckData.classwork_id;
+            studentDetails.class_id = this.CheckData.class_id;
+            if(this.score <= this.classworkDetails.points && this.score >= 0){
+                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, 
+                data: this.CheckData.rubrics_score,
+                details: studentDetails,
+                })
                 .then(res=>{
                     if(res.status == 200){
                         this.toastSuccess("Score Updated");
                         this.isSavingScore = !this.isSavingScore;
-                        this.$emit('UpdateSubmission', this.CheckData.id);
+                        this.CheckData.id = res.data.submission_id;
+                        this.$emit('UpdateSubmission', this.CheckData.user_id);
+                        
+
+                        if(this.currentIndex != this.SubmittedLength-1){
+                            this.NextStudent();
+                        }
                     }
                 })
             }
             else{
                 this.isSavingScore = !this.isSavingScore;
-                 this.toastError('Score is higher than the set points!');
+                 this.toastError('The set points is invalid!');
             }
             
         },
@@ -474,11 +611,13 @@ import {mapGetters} from "vuex";
               this.SelectedNav = 1;
               this.isOpening = true;
               if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
-                          this.OpenFileType = 'media';
-                  this.path = link;
+                  this.OpenFileType = 'media';
+                  this.OpenFileExtension = extension;
+                  this.path = link.replace('.cdn', '');
                  setTimeout(() => (this.isOpening = false), 500);
               }
               else if(extension == 'link'){
+                  this.OpenFileExtension = extension;
                   this.OpenFileType = 'link';
                     let str = link;
                     if(str.includes('www.youtube.com') || str.includes('m.youtube.com' )){
@@ -494,6 +633,7 @@ import {mapGetters} from "vuex";
                     else if(str.includes('drive.google.com')){
                         let d = str.replace(/.*\/d\//, '').replace(/\/.*/, '');
                         let path = "https://drive.google.com/file/d/" + d + "/preview";
+                        
                         this.path = path;
                     }
                     else{
@@ -502,8 +642,9 @@ import {mapGetters} from "vuex";
                   setTimeout(() => (this.isOpening = false), 500);
               }
               else{
+                  this.OpenFileExtension = extension;
                   this.OpenFileType = 'document'
-                  this.path = link;
+                  this.path = link.replace('.cdn', '');
                  setTimeout(() => (this.isOpening = false), 500);
               }
           },
@@ -521,13 +662,32 @@ import {mapGetters} from "vuex";
                       content : res.data.comment,
                       id : res.data.id,
                       name : res.data.name,
-                      profile_pic : res.data.profile_pic
+                      profile_pic : res.data.profile_pic,
+                      u_id : this.get_CurrentUser.user_id,
+                    comment_date : new Date()
+
                     })
-                    this.comment = null;
+                    this.comment = '';
                   }
                   
               })
                this.isCommenting = false;
+          },
+          async DeleteComment(id, index){
+              axios.delete('/api/post/classwork/comment/delete/'+id)
+              .then(res=>{
+                  if(res.data.success == true){
+                      this.CheckData.comments.splice(index, 1);
+                  }
+              })
+          },
+           async UpdateComment(content, id){
+              axios.put('/api/post/comment/update/'+id,  {comment: content})
+              .then(res=>{
+                 this.isUpdatingComment = false;
+                 this.isUpdatingComment_id = null;
+                 this.isUpdatingComment_old_data = null;
+              })
           },
           checkRubrics(){
               if(this.classworkDetails.rubrics.length != 0){
@@ -539,26 +699,100 @@ import {mapGetters} from "vuex";
                     }
               }
           },
-        async ResetSubmission(data){
-            //console.log(data);
-            axios.put('/api/teacher/reset-sbj/'+data.id, {files : data.Submitted_Answers})
+        reRunRubrics(){
+            //if(this.classworkDetails.rubrics.length != 0){
+                if(this.CheckData.rubrics_score == null || this.CheckData.rubrics_score == false){
+                        this.CheckData.rubrics_score = [];
+                        this.classworkDetails.rubrics.forEach(item => {
+                        this.CheckData.rubrics_score.push({ id: item.id , points : null})
+                    });
+                    this.isReloadRubrics = false;
+                }
+                else{
+                    this.isReloadRubrics = false;
+                }
+               
+            /* }
+            else{
+                this.isReloadRubrics = false;
+            } */
+
+             if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
+                 this.OpenFile(this.CheckData.Submitted_Answers[0].fileExte, this.CheckData.Submitted_Answers[0].link)
+             }
+        },
+        async ResetSubmission(){
+            axios.put('/api/teacher/reset-sbj/'+this.CheckData.id, {files : this.CheckData.Submitted_Answers})
             .then(()=>{
-                this.$emit('SubmissionReset', data.id);
+                this.$emit('SubmissionReset', this.CheckData.id);
+                this.$store.dispatch('setCurrectClassworkSubmission',1)
+                this.dialog = false;
             })
-        }
-    },
-    created(){
-        if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
+        },
+         async NextStudent(){
+             this.isLoaded = false;
+             this.isReloadRubrics = true;
+            this.path = null;
+            this.$emit("nextStudent");
+
+           setTimeout(() => (this.RegetSubmittedAnswer()),300);
+          },
+          async PrevStudent(){
+              this.isLoaded = false;
+            this.isReloadRubrics = true;
+            this.path = null;
+            this.$emit("prevStudent");
+            setTimeout(() => (this.RegetSubmittedAnswer()),300);
+          },
+          rotateRight() {
+                this.rotation += 90
+                if (this.rotation % 180 == 0)this.scale = 1;
+                else this.scale = 0.6;
+                
+            },
+        rotateLeft() {
+            this.rotation += 90
+        },
+        async getSubmittedAnswer(){
+            await axios.get('/api/submission/submitted_answer/'+this.CheckData.id)
+            .then((res)=>{
+                this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
+                this.CheckData.comments = res.data.comment;
+                this.isLoaded = true;
+            })
+        },
+        async RegetSubmittedAnswer(){
+            this.CheckData.Submitted_Answers = [];
+            this.CheckData.rubrics_score = [];
+            this.CheckData.comments = [];
             
+            if(this.CheckData.status != null && this.CheckData.status != ''){
+                axios.get('/api/submission/submitted_answer/'+this.CheckData.id)
+                .then((res)=>{
+                    this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                    this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
+                    this.CheckData.comments = res.data.comment;
+                    this.reRunRubrics();
+                     this.isLoaded = true;
+                })
+            }else{
+                this.reRunRubrics();
+                this.isLoaded = true;
+            }
+        },
+        async getFileExtension(){
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
+                 this.OpenFileExtension = extension;
                 this.OpenFileType = 'media';
                   this.path = path;
                   this.isOpening = false
               }
                else if(extension == 'link'){
                   this.OpenFileType = 'link';
+                  this.OpenFileExtension = extension;
                   let str = path;
                   if(str.includes('www.youtube.com')){
                     let res = str.split("=");
@@ -577,17 +811,25 @@ import {mapGetters} from "vuex";
                   this.isOpening = false
               }
               else {
+                this.OpenFileExtension = extension;
                 this.OpenFileType = 'document'
-                  this.path = path;
-                  this.isOpening = false
+                this.path = path;
+                this.isOpening = false
               }
-            //var host = window.location.protocol + "//" + window.location.host;
-               ////console.log(host)
-            //let viewer ="https://docs.google.com/gview?url=https://path.com/to/your/pdf.pdf&embedded=true";
-            //this.pdf_path = path;
+        }
+       
+    },
+    beforeDestroy(){
+        this.$emit('closeDialog');
+    },
+    created(){
+        if(this.CheckData.status != null && this.CheckData.status != ''){
+            this.getSubmittedAnswer();
+            this.getFileExtension();
         }
         this.checkRubrics();
         this.$emit('isMounted');
+        //setTimeout(() => (this.info = false), 5000);
     }
   
   }
@@ -635,4 +877,27 @@ input[type=number] {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+.post-content  img{
+        max-height: 15rem !important;
+    }
+.CommentEditor >  iframe{
+    width: 100% !important;
+height: 20rem !important;
+}
+.CommentEditor >  .ql-editor img{
+
+    max-height: 25rem !important;
+}
+.CommentEditor >  .ql-container{
+    max-height: 70rem;
+}
+</style>
+<style>
+    div.ql-tooltip{
+        left: 0px !important;
+        top: -10px !important;
+    }
+    div>.ql-tooltip-arrow{
+        display: none !important;
+    }
 </style>

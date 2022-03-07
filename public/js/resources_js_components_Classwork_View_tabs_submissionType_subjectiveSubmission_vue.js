@@ -1227,46 +1227,38 @@ var render = function() {
                                             "v-list",
                                             { staticClass: "pa-2" },
                                             [
-                                              _vm.selectedStatus !=
-                                              "No Submission"
-                                                ? _c(
-                                                    "v-list-item",
-                                                    {
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          _vm.resetdialog = !_vm.resetdialog
-                                                        }
-                                                      }
-                                                    },
+                                              _c(
+                                                "v-list-item",
+                                                {
+                                                  attrs: {
+                                                    disabled:
+                                                      _vm.selectedStatus ==
+                                                      "No Submission"
+                                                  },
+                                                  on: {
+                                                    click: function($event) {
+                                                      _vm.resetdialog = !_vm.resetdialog
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c(
+                                                    "v-list-item-title",
                                                     [
                                                       _c(
-                                                        "v-list-item-title",
-                                                        [
-                                                          _c(
-                                                            "v-icon",
-                                                            {
-                                                              attrs: {
-                                                                left: ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "mdi-restart"
-                                                              )
-                                                            ]
-                                                          ),
-                                                          _vm._v(
-                                                            " Reset Submission"
-                                                          )
-                                                        ],
-                                                        1
+                                                        "v-icon",
+                                                        { attrs: { left: "" } },
+                                                        [_vm._v("mdi-restart")]
+                                                      ),
+                                                      _vm._v(
+                                                        " Reset Submission"
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                : _vm._e(),
+                                                ],
+                                                1
+                                              ),
                                               _vm._v(" "),
                                               _c(
                                                 "v-list-item",

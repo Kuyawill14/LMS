@@ -548,7 +548,9 @@ var render = function() {
                               attrs: { elevation: "2" },
                               on: {
                                 click: function($event) {
-                                  _vm.calendarDialog = true
+                                  _vm.$vuetify.breakpoint.mdAndUp
+                                    ? (_vm.calendarDialog = true)
+                                    : ""
                                 }
                               }
                             },
@@ -646,7 +648,7 @@ var render = function() {
                 },
                 [
                   _c("span", { staticStyle: { "font-size": "10px" } }, [
-                    _vm._v("My Tasks")
+                    _vm._v("My Task")
                   ]),
                   _vm._v(" "),
                   _c("v-icon", [_vm._v("mdi-clipboard-edit-outline")])

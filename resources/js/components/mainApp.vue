@@ -90,7 +90,6 @@
         beforeMount(){
            //window.addEventListener("offline", this.isOffline);
            /*  window.addEventListener('online',  function(){
-
             });
 
             */

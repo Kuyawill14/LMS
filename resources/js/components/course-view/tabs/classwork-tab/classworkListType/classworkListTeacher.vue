@@ -100,7 +100,9 @@
                                                           {{item.title}}
                                                     </v-list-item-title>
                                                     <v-list-item-subtitle >
-                                                         Created: {{format_date(item.created_at)}}
+                                                        <span class="primary--text">({{item.points}} points)</span>
+                                                        <br>
+                                                         <span>Created: {{format_date(item.created_at)}}</span>                                                         
                                                     </v-list-item-subtitle>
                                                 </v-list-item-content>
                                                 <v-list-item-action>

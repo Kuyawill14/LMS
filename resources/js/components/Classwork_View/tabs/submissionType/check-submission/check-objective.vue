@@ -943,14 +943,23 @@ import axios from 'axios';
                                                 .getAll_questions.Question[i].answer.toLowerCase() : this
                                                 .getAll_questions.Question[i].answer;
 
-                                                Question_answer = Question_answer.replace('<p>', '').trim();
-                                                Question_answer = Question_answer.replace('</p>', '').trim();
-                                                student_ans = student_ans.replace('<p>', '').trim();
-                                                student_ans = student_ans.replace('</p>', '').trim();
 
-                                            if (Question_answer.replace(/\s+/g,'').trim() == student_ans.replace(/\s+/g,'').trim()) {
+                                                if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
+                                               
+                                                if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
+                                               
+                                            if (Question_answer == student_ans) {
                                                 this.Check[i] = true;
-                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
                                                 this.Check[i] = false;
                                             }
@@ -964,16 +973,21 @@ import axios from 'axios';
                                                     item.Choice != null && item.Choice != '' ? item
                                                     .Choice.toLowerCase() : item.Choice;
 
-                                                Question_answer = Question_answer.replace('<p>', '').trim();
-                                                Question_answer = Question_answer.replace('</p>', '').trim();
-                                                Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                student_ans = student_ans.replace('<p>', '').trim();
-                                                student_ans = student_ans.replace('</p>', '').trim();
-                                                student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                //console.log(student_ans+" - "+Question_answer);
-                                                if (student_ans.replace(/\s+/g,'').trim() == Question_answer.replace(/\s+/g,'').trim()) {
+                                                if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
+                                                
+                                                 if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
+                                                if (student_ans == Question_answer) {
                                                     this.Check[i] = true;
-                                                   //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
@@ -1033,12 +1047,21 @@ import axios from 'axios';
                                         }
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
-                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+                                   
                                     this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-                                    let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
-
+                                    let score;
+                                    const hasKey = 'score' in this.ViewDetails.Submitted_Answers[j];
+                                    if(hasKey) {
+                                        score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                    }
+                                    else {
+                                        this.ViewDetails.Submitted_Answers[j].score = "";
+                                        this.ViewDetails.Submitted_Answers[j].check = false;
+                                        score = 0;
+                                    }
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.EssayOldPoints[i] = score;
-                                    this.ViewDetails.points += score;
+                                    //this.ViewDetails.points += score;
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     
                                     let Ans = new Array();
@@ -1250,13 +1273,21 @@ import axios from 'axios';
                                                 .getAll_questions.Question[i].answer;
 
 
-                                                 Question_answer = Question_answer.replace('<p>', '').trim();
-                                                Question_answer = Question_answer.replace('</p>', '').trim();
-                                                student_ans = student_ans.replace('<p>', '').trim();
-                                                student_ans = student_ans.replace('</p>', '').trim();
+                                                if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
 
-                                             
-                                            if (Question_answer.replace(/^\s+|\s+$/gm,'') == student_ans.replace(/^\s+|\s+$/gm,'')) {
+                                                 if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
+
+                                            if (Question_answer == student_ans) {
                                                 this.Check[i] = true;
                                                 //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
@@ -1265,6 +1296,7 @@ import axios from 'axios';
                                         } 
                                         else {
                                             
+                                             
                                             this.Check[i] = false;
                                             this.getAll_questions.Answer[i].options.forEach(item => {
                                                 let Question_answer = this.getAll_questions.Question[i]
@@ -1272,17 +1304,22 @@ import axios from 'axios';
                                                     item.Choice != null && item.Choice != '' ? item
                                                     .Choice.toLowerCase() : item.Choice;
 
+                                               if(Question_answer != null){
                                                     Question_answer = Question_answer.replace('<p>', '').trim();
                                                     Question_answer = Question_answer.replace('</p>', '').trim();
                                                     Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
+
+                                                 if(student_ans != null){
                                                     student_ans = student_ans.replace('<p>', '').trim();
                                                     student_ans = student_ans.replace('</p>', '').trim();
                                                     student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
 
-
-                                                if (student_ans.replace(/^\s+|\s+$/gm,'') == Question_answer.replace(/^\s+|\s+$/gm,'')) {
+                                                if (student_ans == Question_answer) {
                                                     this.Check[i] = true;
-                                                   //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
@@ -1342,12 +1379,22 @@ import axios from 'axios';
                                         }
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
-                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+                                    //this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-                                    let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
-
+                                    //let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                    let score;
+                                    const hasKey = 'score' in this.ViewDetails.Submitted_Answers[j];
+                                    if(hasKey) {
+                                        score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                    }
+                                    else {
+                                        this.ViewDetails.Submitted_Answers[j].score = "";
+                                        this.ViewDetails.Submitted_Answers[j].check = false;
+                                        score = 0;
+                                    }
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.EssayOldPoints[i] = score;
-                                    this.ViewDetails.points += score;
+                                    //this.ViewDetails.points += score;
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     
                                     let Ans = new Array();
@@ -1468,14 +1515,12 @@ import axios from 'axios';
                 this.UpdateDetails.check = type == 'Essay' ? true : data;
                 this.UpdateDetails.points =  points;
                 this.UpdateDetails.question_id = id;
-                this.UpdateDetails.answer =  type == 'Identification' ? this.getAll_questions.Answer[index].options[0].Choice : answer;
+                this.UpdateDetails.answer =  type == 'Identification' ? this.getAll_questions.Answer[index].options[Math.floor(Math.random() * this.getAll_questions.Answer[index].options.length)].Choice : answer;
                 this.UpdateDetails.user_id = this.ViewDetails.user_id;
                 if(type == 'Essay'){
                     this.UpdateDetails.essay_points = this.SubmittedAnswer[index].score;
                     this.UpdateDetails.old_essay_points = this.EssayOldPoints[index];
                 }
-                
-                
                 axios.put('/api/teacher/update-score/' + this.ViewDetails.id, this.UpdateDetails)
                     .then(res => {
                         if (res.status == 200) {
@@ -1490,7 +1535,8 @@ import axios from 'axios';
                                 }
                             } else if(type == 'Identification'){
                                  if (data == true) {
-                                    this.SubmittedAnswer[index].Answer = this.getAll_questions.Answer[index].options[0].Choice;
+                                    
+                                    this.SubmittedAnswer[index].Answer = this.getAll_questions.Answer[index].options[Math.floor(Math.random() * this.getAll_questions.Answer[index].options.length)].Choice;
                                     this.ViewDetails.points = this.ViewDetails.points + points;
                                 } else {
                                     this.SubmittedAnswer[index].Answer = "Wrong answer";
@@ -1506,7 +1552,7 @@ import axios from 'axios';
                                     this.ViewDetails.points = this.ViewDetails.points - points;
                                 }
                             }
-
+                            this.toastSuccess('Score successfully updated!');
                         }
                     })
             },

@@ -979,6 +979,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1995,6 +1996,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -37108,6 +37114,13 @@ var render = function() {
                                                                                     }
                                                                                   },
                                                                                   [
+                                                                                    _vm._v(
+                                                                                      "\r\n                                                                  " +
+                                                                                        _vm._s(
+                                                                                          item.answer
+                                                                                        ) +
+                                                                                        "\r\n                                                        "
+                                                                                    ),
                                                                                     item.isNew
                                                                                       ? _c(
                                                                                           "v-radio-group",
@@ -39815,6 +39828,47 @@ var render = function() {
                                                   outlined: "",
                                                   min: "0",
                                                   label: "Points",
+                                                  type: "number"
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.isNewChanges = true
+                                                  }
+                                                },
+                                                model: {
+                                                  value: _vm.Details.points,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.Details,
+                                                      "points",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "Details.points"
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Objective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mb-0  pt-0 mt-0",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
+                                          _vm.Details.type == "Objective Type"
+                                            ? _c("v-text-field", {
+                                                attrs: {
+                                                  readonly: "",
+                                                  rules: _vm.pointsrules,
+                                                  outlined: "",
+                                                  min: "0",
+                                                  label: "Total Points",
                                                   type: "number"
                                                 },
                                                 on: {

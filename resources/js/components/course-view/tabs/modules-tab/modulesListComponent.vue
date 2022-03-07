@@ -734,7 +734,6 @@
                 clearInterval(this.to_date_jq_getter);
             },
            async SendNotificationToCourse(data, isPublished){
-
                 let notifDetails = {};
                 notifDetails.course_id = this.$route.params.id;
                 notifDetails.module_name = data.module_name;
@@ -743,6 +742,7 @@
                 notifDetails.date_to = data.date_to;
                 notifDetails.availability = this.publishAvailabity;
                 notifDetails.isPublished = isPublished == 'published' ? true : false;
+                
                 notifDetails.type = 'module';
                 axios.post('/api/notification/new', notifDetails)
                 .then(res=>{

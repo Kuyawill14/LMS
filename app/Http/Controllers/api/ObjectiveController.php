@@ -61,7 +61,7 @@ class ObjectiveController extends Controller
         foreach($temQuest as $cl){
             $tempanswer;
 
-            if($cl->isNew){
+            if($cl->isNew && $cl->type == 'Multiple Choice'){
                 $tempanswer = intval($cl->answer);
             }else{
                 $tempanswer = $cl->answer;
@@ -174,7 +174,7 @@ class ObjectiveController extends Controller
                 $temQuest = $Questions;        
                 foreach($temQuest as $cl){
                     $tempanswer;
-                    if($cl->isNew){
+                    if($cl->isNew && $cl->type == 'Multiple Choice'){
                         $tempanswer = intval($cl->answer);
                     }else{
                         $tempanswer = $cl->answer;
@@ -1436,8 +1436,23 @@ class ObjectiveController extends Controller
                         $userAns = $ques['sensitivity'] ? $cl['Answer'] : strtolower($cl['Answer']);
                         $questionAns = $ques['sensitivity'] ? $ques['answer'] : strtolower($ques['answer']);
 
+                      
+
+
                         if($cl['type'] == 'Identification'){
+                            $questionAns =  $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                            $questionAns = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                            $questionAns = $questionAns != null ? str_replace('&nbsp;', '', $questionAns) : $questionAns;
+                            $questionAns = $questionAns != null ? trim($questionAns) : $questionAns;
+    
+                            $userAns =  $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+                            $userAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+                            $userAns = $userAns != null ? str_replace('&nbsp;', '', $userAns) : $userAns;
+                            $userAns = $userAns != null ? trim($userAns) : $userAns;
+
                             if(trim($questionAns, " ") == trim($userAns, " ")){
+
+                                
                                 $score += $ques['points'];
                             }
                             else{
@@ -1445,7 +1460,11 @@ class ObjectiveController extends Controller
                                 $check = false;
                                 foreach($answer_list as $answer){
                                     $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
-                                    if(trim($other_answer," ") == trim($userAns, " ")){
+                                    $other_answer =  $other_answer != null ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                    $other_answer = $other_answer != null ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                    $other_answer = $other_answer != null ? str_replace('&nbsp;', '', $other_answer) : $other_answer;
+                                    $other_answer = $other_answer != null ? trim($other_answer) : $other_answer;
+                                    if($other_answer == $userAns){
                                         $check = true;
                                     }
                                 }
@@ -1571,15 +1590,15 @@ class ObjectiveController extends Controller
     {
         $userId = auth('sanctum')->id();
         $Submission = tbl_Submission::find($id);
-
+        $score = 0;
         if($Submission){
             $SubmittedAnswer = unserialize($Submission->Submitted_Answers);
-        
+            //return $SubmittedAnswer;
+
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $Submission->classwork_id)
             ->Select('tbl_questions.id', 'tbl_questions.type','tbl_questions.answer','tbl_questions.points' ,'tbl_questions.sensitivity')
             ->get();
             $test = array();
-            $score = 0;
             $counter2 = 0;
             foreach($SubmittedAnswer as $cl){
 
@@ -1591,16 +1610,15 @@ class ObjectiveController extends Controller
 
                             if($cl['type'] == 'Identification'){
 
-                                
-
+                            
 
                                 $answer_list = tbl_choice::where('question_id', $ques['id'])->get();
                                 if(count($answer_list) == 0){
 
-                                    $temp1ans = str_replace(array('<p>', '</p>'), array('', ''),  $questionAns);
-                                    $temp1ans = str_replace('&nbsp;', '', $temp1ans);
+                                    $temp1ans = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                                    $temp1ans = $temp1ans != null ? str_replace('&nbsp;', '', $temp1ans) : $temp1ans;
                                     //$temp1ans = str_replace(' ', '', $temp1ans);
-                                    $temp1ans = trim($temp1ans);
+                                    $temp1ans = $temp1ans != null ? trim($temp1ans) : $temp1ans;
 
                                     $temp1UserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
                                     $temp1UserAns = str_replace('&nbsp;', '', $temp1UserAns);
@@ -1619,16 +1637,16 @@ class ObjectiveController extends Controller
                                     foreach($answer_list as $answer){
                                         $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
 
-                                        $tempOtherAns = str_replace(array('<p>', '</p>'), array('', ''),  $other_answer);
-                                        $tempUserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
-                                        
-                                        $tempUserAns = str_replace('&nbsp;', '', $tempUserAns);
-                                        $tempOtherAns = str_replace('&nbsp;', '', $tempOtherAns);
+                                        $tempOtherAns = $other_answer != null  ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                        $tempUserAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+        
+                                        $tempUserAns = $tempUserAns != null ? str_replace('&nbsp;', '', $tempUserAns) : $tempUserAns;
+                                        $tempOtherAns = $tempOtherAns != null ? str_replace('&nbsp;', '', $tempOtherAns) : $tempOtherAns;
 
                                        /*  $tempUserAns = str_replace(' ', '', $tempUserAns);
                                         $tempOtherAns = str_replace(' ', '', $tempOtherAns); */
-                                        $tempUserAns = trim($tempUserAns);
-                                        $tempOtherAns = trim($tempOtherAns);
+                                        $tempUserAns = $tempUserAns != null ? trim($tempUserAns) : $tempUserAns;
+                                        $tempOtherAns = $tempOtherAns != null ? trim($tempOtherAns) : $tempUserAns;
                                         //$test[] = $tempOtherAns;
                                         
                                         if($tempOtherAns == $tempUserAns){
@@ -1647,7 +1665,7 @@ class ObjectiveController extends Controller
                                 }
 
                             }
-                            else if($cl['type'] == 'Multiple Choice'){
+                            elseif($cl['type'] == 'Multiple Choice'){
                                 if($ques->isNew){
                                     $answerID = intval($userAns);
                                     $question_ans = intval($questionAns);
@@ -1671,17 +1689,24 @@ class ObjectiveController extends Controller
                                 }
                             }
                         }
-                        else if($cl['type'] == 'Essay'){
-                            $score += $cl['score'];
-                            /* if($cl['check'] == true){
-                                $score += $ques['points'];
-                            } */
+                        elseif($cl['type'] == 'Essay'){
+                            //$score += $cl['score'];
+                            if(array_key_exists("score",$cl)){
+                                $score += $cl['score'];
+                            }
+                            else{
+                                $cl['score'] = 0;
+                                $cl['check'] = true;
+                                $score +=0;
+                            }
                         }
                     }
                 }
-              $counter2++;
+ 
             }
 
+            //return $SubmittedAnswer;
+            //$Submission->Submitted_Answers = serialize($SubmittedAnswer);
             $Submission->points = $score;
             $Submission->save();
             //return $test;

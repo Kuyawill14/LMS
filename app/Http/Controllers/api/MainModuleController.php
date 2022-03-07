@@ -160,9 +160,7 @@ public function countSubmoduleOnMainModule($id ) {
         $mainModule = tbl_main_modules::find($id);
         if($mainModule){
             // return $request->publishSettings;
-            $mainModule->isPublished = $request->publishSettings['isPublished'];
-        
-          
+                $mainModule->isPublished = $request->publishSettings['isPublished'];
                 $mainModule->date_to =$request->publishSettings['date_to'];
                 $mainModule->date_from =$request->publishSettings['date_from'];
         

@@ -31,21 +31,6 @@ export default {
         --scroll-bar-bg-color: #f6f6f6;
     }
 
-    /* pre {
-        color: var(--code-color);
-        font-size: var(--code-font-size);
-        line-height: var(--code-line-height);
-        background-color: var(--code-bg-color);
-    }
-
-    .code-block {
-        max-height: 100px;
-        overflow: auto;
-        padding: 8px 7px 5px 15px;
-        margin: 0px 0px 0px 0px;
-        border-radius: 7px;
-    } */
-
     ::-webkit-scrollbar-corner { background: rgba(0,0,0,0.5); }
 
     * {

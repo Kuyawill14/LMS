@@ -995,7 +995,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   beforeMount: function beforeMount() {//window.addEventListener("offline", this.isOffline);
 
     /*  window.addEventListener('online',  function(){
-      });
+     });
       */
   },
   beforeDestroy: function beforeDestroy() {
