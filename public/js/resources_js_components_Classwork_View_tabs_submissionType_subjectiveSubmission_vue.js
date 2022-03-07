@@ -728,8 +728,9 @@ var multipleAlertStudent = function multipleAlertStudent() {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _this8.ShowLoading(); //this.$emit('reloadSubmission', this.Class);
+                _this8.ShowLoading();
 
+                _this8.$emit('reloadSubmission', _this8.Class);
                 /* this.Over_total = 0;
                 this.Submitted_count = 0;
                 this.ShowLoading();
@@ -745,7 +746,7 @@ var multipleAlertStudent = function multipleAlertStudent() {
                 //} */
 
 
-              case 1:
+              case 2:
               case "end":
                 return _context5.stop();
             }
@@ -1226,33 +1227,46 @@ var render = function() {
                                             "v-list",
                                             { staticClass: "pa-2" },
                                             [
-                                              _c(
-                                                "v-list-item",
-                                                {
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.resetdialog = !_vm.resetdialog
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c(
-                                                    "v-list-item-title",
+                                              _vm.selectedStatus !=
+                                              "No Submission"
+                                                ? _c(
+                                                    "v-list-item",
+                                                    {
+                                                      on: {
+                                                        click: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.resetdialog = !_vm.resetdialog
+                                                        }
+                                                      }
+                                                    },
                                                     [
                                                       _c(
-                                                        "v-icon",
-                                                        { attrs: { left: "" } },
-                                                        [_vm._v("mdi-restart")]
-                                                      ),
-                                                      _vm._v(
-                                                        " Reset Submission"
+                                                        "v-list-item-title",
+                                                        [
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                left: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-restart"
+                                                              )
+                                                            ]
+                                                          ),
+                                                          _vm._v(
+                                                            " Reset Submission"
+                                                          )
+                                                        ],
+                                                        1
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              ),
+                                                : _vm._e(),
                                               _vm._v(" "),
                                               _c(
                                                 "v-list-item",
@@ -1941,7 +1955,8 @@ var render = function() {
                         attrs: {
                           scrollable: "",
                           ListData: _vm.ListData,
-                          ClassList: _vm.ClassList
+                          ClassList: _vm.ClassList,
+                          class_id: _vm.Class
                         },
                         on: {
                           toggleDialog: function($event) {
@@ -1980,6 +1995,7 @@ var render = function() {
                     ? _c("multipleAlertStudent", {
                         attrs: {
                           scrollable: "",
+                          class_id: _vm.Class,
                           ListData: _vm.ListData,
                           ClassList: _vm.ClassList,
                           classworkDetails: _vm.classworkDetails

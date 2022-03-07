@@ -28,6 +28,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   methods: {
     openFbMessage: function openFbMessage() {
@@ -177,62 +200,143 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticStyle: { position: "absolute", bottom: "5px", right: "5px" } },
-    [
-      _c(
-        "v-btn",
-        {
-          staticStyle: { "text-transform": "unset !important" },
-          attrs: {
-            id: "help-btn",
-            "active-class": "act-btn",
-            depressed: "",
-            rounded: "",
-            text: ""
+  return _c("div", [
+    !_vm.$vuetify.breakpoint.xs && !_vm.$vuetify.breakpoint.sm
+      ? _c(
+          "div",
+          {
+            staticStyle: { position: "absolute", bottom: "5px", right: "5px" }
           },
-          on: {
-            click: function($event) {
-              return _vm.openFbPage()
-            }
-          }
-        },
-        [
-          _c("v-icon", { attrs: { left: "" } }, [_vm._v("mdi-facebook")]),
-          _vm._v("    @ISUE-Orange \r\n    ")
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          staticStyle: { "text-transform": "unset !important" },
-          attrs: {
-            id: "help-btn",
-            "active-class": "act-btn",
-            depressed: "",
-            rounded: "",
-            text: ""
-          },
-          on: {
-            click: function($event) {
-              return _vm.openFbMessage()
-            }
-          }
-        },
-        [
-          _c("v-icon", { attrs: { left: "" } }, [
-            _vm._v("mdi-account-question")
-          ]),
-          _vm._v("  Help \r\n    ")
-        ],
-        1
-      )
-    ],
-    1
-  )
+          [
+            _c(
+              "v-btn",
+              {
+                staticStyle: { "text-transform": "unset !important" },
+                attrs: {
+                  id: "help-btn",
+                  "active-class": "act-btn",
+                  depressed: "",
+                  rounded: "",
+                  text: ""
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.openFbPage()
+                  }
+                }
+              },
+              [
+                _c("v-icon", { attrs: { left: "" } }, [_vm._v("mdi-facebook")]),
+                _vm._v("    @ISUE-Orange \r\n        ")
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-btn",
+              {
+                staticStyle: { "text-transform": "unset !important" },
+                attrs: {
+                  id: "help-btn",
+                  "active-class": "act-btn",
+                  depressed: "",
+                  rounded: "",
+                  text: ""
+                },
+                on: {
+                  click: function($event) {
+                    return _vm.openFbMessage()
+                  }
+                }
+              },
+              [
+                _c("v-icon", { attrs: { left: "" } }, [
+                  _vm._v("mdi-account-question")
+                ]),
+                _vm._v("  Help \r\n        ")
+              ],
+              1
+            )
+          ],
+          1
+        )
+      : _c(
+          "div",
+          [
+            _c(
+              "v-app-bar",
+              {
+                attrs: {
+                  color: "white",
+                  outlined: "",
+                  elevation: "0",
+                  app: "",
+                  dense: "",
+                  bottom: "",
+                  flat: ""
+                }
+              },
+              [
+                _c("v-spacer"),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticStyle: { "text-transform": "unset !important" },
+                    attrs: {
+                      id: "help-btn",
+                      "active-class": "act-btn",
+                      depressed: "",
+                      rounded: "",
+                      text: ""
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.openFbPage()
+                      }
+                    }
+                  },
+                  [
+                    _c("v-icon", { attrs: { left: "" } }, [
+                      _vm._v("mdi-facebook")
+                    ]),
+                    _vm._v("    @ISUE-Orange \r\n                ")
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-btn",
+                  {
+                    staticStyle: { "text-transform": "unset !important" },
+                    attrs: {
+                      id: "help-btn",
+                      "active-class": "act-btn",
+                      depressed: "",
+                      rounded: "",
+                      text: ""
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.openFbMessage()
+                      }
+                    }
+                  },
+                  [
+                    _c("v-icon", { attrs: { left: "" } }, [
+                      _vm._v("mdi-account-question")
+                    ]),
+                    _vm._v("  Help \r\n                ")
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -364,13 +468,24 @@ var render = function() {
                     { attrs: { align: "center", justify: "center" } },
                     [
                       _c("v-col", { attrs: { cols: "12" } }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass: "text-h2 white--text font-weight-bold"
-                          },
-                          [_vm._v("ISUE ORANGE")]
-                        ),
+                        !_vm.$vuetify.breakpoint.xs &&
+                        !_vm.$vuetify.breakpoint.sm
+                          ? _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "text-h2 white--text font-weight-bold"
+                              },
+                              [_vm._v("ISUE ORANGE")]
+                            )
+                          : _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "text-h3 white--text font-weight-bold"
+                              },
+                              [_vm._v("ISUE ORANGE")]
+                            ),
                         _vm._v(" "),
                         _c("div", { staticClass: "white--text" }, [
                           _c("b", { staticClass: "text-h5" }, [_vm._v("O")]),

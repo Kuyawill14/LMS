@@ -15,7 +15,7 @@
                     <v-row :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm  ? 'fill-height' : ''" align="center" justify="center">
                         <loginRegisterImageConatiner></loginRegisterImageConatiner>
 
-                        <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3' :'ma-0 pa-0'" cols="12" md="5">
+                        <v-col :class="$vuetify.breakpoint.xs ? 'ma-0 pa-3 PB-0' :'ma-0 pa-0'" cols="12" md="5">
                             <vue-element-loading :active="isLoggin" spinner="bar-fade-scale" color="#EF6C00" />
                             <v-row align="center" justify="center">
                                 <v-col class="text-left" cols="12" md="12" lg="12" sm="7">
@@ -39,7 +39,7 @@
                                                         :dense="$vuetify.breakpoint.mdAndUp" type="email"
                                                         color="primary" required />
                                                 </v-col>
-                                                <v-col class="ma-0 pa-0 mt-2" cols="12" md="8">
+                                                <v-col class="ma-0 pa-0 mt-2 mb-0" cols="12" md="8">
                                                     <v-text-field class="mb-0 pb-0" :dense="$vuetify.breakpoint.mdAndUp"
                                                         outlined v-model="form.password"
                                                         :append-icon="show ?'mdi-eye':'mdi-eye-off'"
@@ -53,10 +53,17 @@
                                                 </v-col>
 
 
-                                                <v-col class="ma-0 pa-0 text-right" cols="12" md="8">
-                                                    <a href="#"
+                                                <v-col class="ma-0 pa-0  d-flex" cols="12" md="8">
+                                                    <span>
+                                                        <v-checkbox class="ma-0 pa-0" hide-spin-buttons v-model="form.remember" label="Remember me"></v-checkbox>
+                                                    </span>
+                                                <v-spacer></v-spacer>
+                                                    <span class="mt-0">
+                                                         <a href="#"
+                                                         style="text-decoration:none"
                                                         @click.prevent="isForgotPassword = !isForgotPassword, IsloadingComponent = !IsloadingComponent"
-                                                        class="float-right">Forgot Password?</a>
+                                                        >Forgot Password?</a>
+                                                    </span>
                                                 </v-col>
                                                 <v-col
                                                     :class="$vuetify.breakpoint.mdAndUp ? 'ma-0 pa-0 text-left' : 'ml-0 pl-0 pr-0 mr-0 mt-1'"
@@ -145,6 +152,7 @@
                 form: new Form({
                     email: "",
                     password: "",
+                    remember: false
                 }),
                 loginEmailRules: [
                     v => !!v || "Required",
@@ -193,7 +201,6 @@
             },
 
             login() {
-
                 this.isLoggin = true;
                 axios.get('/sanctum/csrf-cookie').then(response => {
                     this.form.post('/api/login')
@@ -207,23 +214,65 @@
                                 if ($('#fb-root')) {
                                     $('#fb-root').css('display', 'none');
                                 }
-                                // this.toastSuccess(res.data.message);
+                                this.StartFireBasePushNotification();
                             } else {
                                 this.isLoggin = false;
                                 this.toastError(res.data.message);
                             }
+                            
 
-                             this.isLoggin = false;
+                             //this.isLoggin = false;
                         })
                         .catch(err => {
                              this.isLoggin = false;
                             this.toastError("Incorrect Email or Password. Please try again");
-
                         })
 
                 });
 
             },
+            async StartFireBasePushNotification(){
+                let firebaseConfig = {
+                    apiKey: process.env.MIX_apiKey,
+                    authDomain: process.env.MIX_authDomain,
+                    projectId: process.env.MIX_projectId,
+                    storageBucket: process.env.MIX_storageBucket,
+                    messagingSenderId: process.env.MIX_messagingSenderId,
+                    appId: process.env.MIX_appId,
+                };
+                
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }else {
+                    firebase.app(); 
+                }
+                const messaging = firebase.messaging();
+                messaging
+                    .requestPermission()
+                    .then(()=> {
+                        return messaging.getToken()
+                    })
+                    .then((response)=> {
+                        axios.post('/api/store_token',{token: response})
+                        .then((res)=>{
+                        })    
+                    }).catch(function (error) {
+
+                    });
+                    messaging.onMessage(function({data:{body,title}}){
+                        new Notification(title, {body});
+                    });
+            },
+
+          /*   classNotification(){
+                  window.OneSignal = window.OneSignal || [];
+                    OneSignal.push(function() {
+                    OneSignal.init({
+                        appId: "2b9acbc0-fd01-474c-bdc8-754c01abcd18",
+                    });
+                });
+            }
+             */
 
         },
         created() {
@@ -233,8 +282,6 @@
             var chatbox = document.getElementById('fb-customer-chat');
             chatbox.setAttribute("page_id", "102514265611526");
             chatbox.setAttribute("attribution", "biz_inbox");
-
-
 
             window.fbAsyncInit = function () {
                 FB.init({

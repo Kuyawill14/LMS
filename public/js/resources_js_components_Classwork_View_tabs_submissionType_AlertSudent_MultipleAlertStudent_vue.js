@@ -118,12 +118,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['ListData', 'ClassList', 'classworkDetails'],
+  props: ['ListData', 'ClassList', 'classworkDetails', 'class_id'],
   data: function data() {
     return {
       student: [],
-      Class: this.$route.params.id,
+      Class: this.class_id,
       selectAll: false,
       SelectedAll_submission_id: [],
       iReseting: false,
@@ -385,33 +387,6 @@ var render = function() {
                 { staticClass: "mb-0 pb-0" },
                 [
                   _c(
-                    "v-list-item-icon",
-                    { staticClass: "pt-4", attrs: { color: "secondary" } },
-                    [
-                      _c("v-select", {
-                        staticClass: "mb-0 pb-0",
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          "hide-details": "",
-                          label: "Class",
-                          items: _vm.ClassList,
-                          "item-text": "class_name",
-                          "item-value": "class_id"
-                        },
-                        model: {
-                          value: _vm.Class,
-                          callback: function($$v) {
-                            _vm.Class = $$v
-                          },
-                          expression: "Class"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
                     "v-list-item-content",
                     [
                       _c(
@@ -519,22 +494,15 @@ var render = function() {
                               ]
                             ),
                             _vm._v(" "),
-                            item.status == "Submitted"
-                              ? _c(
-                                  "v-list-item-subtitle",
-                                  [
-                                    _c(
-                                      "v-icon",
-                                      {
-                                        attrs: { small: "", color: "success" }
-                                      },
-                                      [_vm._v("mdi-check")]
-                                    ),
-                                    _vm._v(" Submitted")
-                                  ],
-                                  1
+                            _c(
+                              "v-list-item-subtitle",
+                              { staticClass: "error--text" },
+                              [
+                                _vm._v(
+                                  " \n                           No Submission\n                    "
                                 )
-                              : _vm._e()
+                              ]
+                            )
                           ],
                           1
                         )

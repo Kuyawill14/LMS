@@ -331,7 +331,6 @@ import axios from 'axios';
                     else{
                          this.$store.dispatch("ClearNotification");
                     }
-                    
                 }            
             },
             async MarkAsRead(){
@@ -351,48 +350,14 @@ import axios from 'axios';
                         this.$store.dispatch("LessNotificationCount");
                     }
                      this.$store.dispatch("ClearNotification");
-
                 })
             },
-            async StartFireBasePushNotification(){
-                let firebaseConfig = {
-                    apiKey: process.env.MIX_apiKey,
-                    authDomain: process.env.MIX_authDomain,
-                    projectId: process.env.MIX_projectId,
-                    storageBucket: process.env.MIX_storageBucket,
-                    messagingSenderId: process.env.MIX_messagingSenderId,
-                    appId: process.env.MIX_appId,
-                };
-                
-                if (!firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }else {
-                    firebase.app(); 
-                }
-                const messaging = firebase.messaging();
-                messaging
-                    .requestPermission()
-                    .then(()=> {
-                        return messaging.getToken()
-                    })
-                    .then((response)=> {
-                        axios.post('/api/store_token',{token: response})
-                        .then((res)=>{
-                        })    
-                    }).catch(function (error) {
-
-                    });
-                
-                    messaging.onMessage(function({data:{body,title}}){
-                        new Notification(title, {body});
-                    });
-            }
-          
         },
         mounted() {
-            this.StartFireBasePushNotification();
             this.connect();
-            
+        },
+        beforeDestroy(){
+            window.Echo.leave('notification');
         }
     }
 

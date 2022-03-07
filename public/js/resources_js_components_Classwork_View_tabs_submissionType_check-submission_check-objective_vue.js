@@ -15,13 +15,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-timezone */ "./node_modules/moment-timezone/index.js");
 /* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -752,6 +790,7 @@ var resetConfirmation = function resetConfirmation() {
 };
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ["classworkDetails", "ViewDetails", "SubmittedLength", "currentIndex", "CheckDataSection"],
   components: {
@@ -799,7 +838,7 @@ var resetConfirmation = function resetConfirmation() {
       selected_type: 'All Type'
     };
   },
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
+  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['get_CurrentUser', 'getAll_questions']),
   methods: {
     format_date_log: function format_date_log(value) {
       if (value) {
@@ -814,7 +853,7 @@ var resetConfirmation = function resetConfirmation() {
     fetchQuestions: function fetchQuestions() {
       var _this = this;
 
-      this.ViewDetails.points = 0;
+      //this.ViewDetails.points = 0;
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function (res) {
         var Submitted_length = _this.ViewDetails.Submitted_Answers.length;
         var Question_length = _this.getAll_questions.Question.length;
@@ -922,8 +961,7 @@ var resetConfirmation = function resetConfirmation() {
                       Question_answer = Question_answer.replace('&nbsp;', '').trim();
                       student_ans = student_ans.replace('<p>', '').trim();
                       student_ans = student_ans.replace('</p>', '').trim();
-                      student_ans = student_ans.replace('&nbsp;', '').trim();
-                      console.log(Question_answer + '--' + student_ans);
+                      student_ans = student_ans.replace('&nbsp;', '').trim(); //console.log(student_ans+" - "+Question_answer);
 
                       if (student_ans.replace(/\s+/g, '').trim() == Question_answer.replace(/\s+/g, '').trim()) {
                         _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
@@ -1071,7 +1109,7 @@ var resetConfirmation = function resetConfirmation() {
     ReMatchQuestions: function ReMatchQuestions() {
       var _this2 = this;
 
-      this.ViewDetails.points = 0;
+      //this.ViewDetails.points = 0;
       var Submitted_length = this.ViewDetails.Submitted_Answers.length;
       var Question_length = this.getAll_questions.Question.length;
       var diff = Question_length - Submitted_length;
@@ -1364,7 +1402,7 @@ var resetConfirmation = function resetConfirmation() {
                   _this4.UpdateDetails.old_essay_points = _this4.EssayOldPoints[index];
                 }
 
-                axios.put('/api/teacher/update-score/' + _this4.ViewDetails.id, _this4.UpdateDetails).then(function (res) {
+                axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/update-score/' + _this4.ViewDetails.id, _this4.UpdateDetails).then(function (res) {
                   if (res.status == 200) {
                     if (type == 'Essay') {
                       if (_this4.EssayOldPoints[index] == 0) {
@@ -1410,7 +1448,7 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                axios.put('/api/teacher/re_update-score/' + _this5.ViewDetails.id, {
+                axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/re_update-score/' + _this5.ViewDetails.id, {
                   points: _this5.ViewDetails.points
                 }).then(function (res) {});
 
@@ -1430,17 +1468,18 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                //////console.log(this.ListData[this.resetIndex].points)
                 _this6.isReseting = true;
 
                 if (_this6.ViewDetails.status != null && _this6.ViewDetails.status != '') {
-                  axios.put('/api/teacher/reset-obj/' + _this6.ViewDetails.id).then(function (res) {
+                  axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/teacher/reset-obj/' + _this6.ViewDetails.id).then(function (res) {
                     if (res.status == 200) {
                       _this6.dialog = !_this6.dialog;
                       _this6.isReseting = false;
                       _this6.student_activity_logs = [];
 
                       _this6.$emit('RestSubmission');
+
+                      _this6.$store.dispatch('setCurrectClassworkSubmission', 1);
                     }
                   });
                 }
@@ -1469,7 +1508,7 @@ var resetConfirmation = function resetConfirmation() {
                 data.to_user = details.user_id;
                 data.type = 'Private';
                 data.comment = _this7.comment;
-                axios.post('/api/post/classwork/comment/insert', data).then(function (res) {
+                axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/post/classwork/comment/insert', data).then(function (res) {
                   if (res.status == 200) {
                     _this7.ViewDetails.comments.push({
                       content: res.data.comment,
@@ -1501,7 +1540,7 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                axios["delete"]('/api/post/classwork/comment/delete/' + id).then(function (res) {
+                axios__WEBPACK_IMPORTED_MODULE_2___default().delete('/api/post/classwork/comment/delete/' + id).then(function (res) {
                   if (res.data.success == true) {
                     _this8.ViewDetails.comments.splice(index, 1);
                   }
@@ -1523,7 +1562,7 @@ var resetConfirmation = function resetConfirmation() {
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                axios.put('/api/post/comment/update/' + id, {
+                axios__WEBPACK_IMPORTED_MODULE_2___default().put('/api/post/comment/update/' + id, {
                   comment: content
                 }).then(function (res) {
                   _this9.isUpdatingComment = false;
@@ -1555,7 +1594,7 @@ var resetConfirmation = function resetConfirmation() {
                 data.classwork_id = _this10.classworkDetails.id;
                 data.course_id = _this10.classworkDetails.course_id;
                 data.firstName = _this10.ViewDetails.firstName;
-                axios.post('/api/teacher/alert-student', data).then(function (res) {
+                axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/teacher/alert-student', data).then(function (res) {
                   if (res.data.success == true) {
                     _this10.toastSuccess(res.data.message);
 
@@ -1584,15 +1623,15 @@ var resetConfirmation = function resetConfirmation() {
                 _this11.Check = [];
                 _this11.isLoaded = false;
 
-                _this11.$emit("nextStudent");
+                _this11.$emit("nextStudent"); //this.RegetSubmittedAnswer();
+
 
                 setTimeout(function () {
-                  return _this11.ReMatchQuestions();
-                }, 300);
+                  return _this11.RegetSubmittedAnswer();
+                }, 200); //setTimeout(() => (this.ReMatchQuestions()) , 300);
+                //this.fetchStudentActivity();
 
-                _this11.fetchStudentActivity();
-
-              case 7:
+              case 6:
               case "end":
                 return _context9.stop();
             }
@@ -1613,15 +1652,15 @@ var resetConfirmation = function resetConfirmation() {
                 _this12.Check = [];
                 _this12.isLoaded = false;
 
-                _this12.$emit("prevStudent");
+                _this12.$emit("prevStudent"); //this.RegetSubmittedAnswer();
+
 
                 setTimeout(function () {
-                  return _this12.ReMatchQuestions();
-                }, 300);
+                  return _this12.RegetSubmittedAnswer();
+                }, 200); //setTimeout(() => (this.getSubmittedAnswer(), this.ReMatchQuestions()), 300);
+                //this.fetchStudentActivity();
 
-                _this12.fetchStudentActivity();
-
-              case 7:
+              case 6:
               case "end":
                 return _context10.stop();
             }
@@ -1633,7 +1672,7 @@ var resetConfirmation = function resetConfirmation() {
       var _this13 = this;
 
       this.loading_activity = true;
-      axios.get('/api/objective-logs/get_logs', {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/objective-logs/get_logs', {
         params: {
           classwork_id: this.classworkDetails.id,
           student_id: this.ViewDetails.user_id
@@ -1651,18 +1690,77 @@ var resetConfirmation = function resetConfirmation() {
       var _this14 = this;
 
       if (sub_id != null) {
-        axios.get('/api/question/StudentScore/' + sub_id).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
           _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
         });
       }
+    },
+    getSubmittedAnswer: function getSubmittedAnswer() {
+      var _this15 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+          while (1) {
+            switch (_context11.prev = _context11.next) {
+              case 0:
+                _context11.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/submission/submitted_answer/' + _this15.ViewDetails.id).then(function (res) {
+                  _this15.ViewDetails.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                  _this15.ViewDetails.rubrics_score = res.data.submitted_answer.rubrics_score;
+                  _this15.ViewDetails.comments = res.data.comment;
+
+                  _this15.fetchQuestions();
+                });
+
+              case 2:
+              case "end":
+                return _context11.stop();
+            }
+          }
+        }, _callee11);
+      }))();
+    },
+    RegetSubmittedAnswer: function RegetSubmittedAnswer() {
+      var _this16 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee12() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee12$(_context12) {
+          while (1) {
+            switch (_context12.prev = _context12.next) {
+              case 0:
+                _this16.ViewDetails.Submitted_Answers = [];
+                _this16.ViewDetails.rubrics_score = [];
+                _this16.ViewDetails.comments = [];
+
+                if (_this16.ViewDetails.status != null && _this16.ViewDetails.status != '') {
+                  axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/submission/submitted_answer/' + _this16.ViewDetails.id).then(function (res) {
+                    _this16.ViewDetails.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                    _this16.ViewDetails.rubrics_score = res.data.submitted_answer.rubrics_score;
+                    _this16.ViewDetails.comments = res.data.comment;
+
+                    _this16.ReMatchQuestions();
+
+                    _this16.fetchStudentActivity();
+                  });
+                } else {
+                  _this16.isLoaded = true;
+                }
+
+              case 4:
+              case "end":
+                return _context12.stop();
+            }
+          }
+        }, _callee12);
+      }))();
     }
   },
   beforeDestroy: function beforeDestroy() {
     this.$emit('closeDialog');
   },
   mounted: function mounted() {
-    if (this.ViewDetails.Submitted_Answers != null && this.ViewDetails.Submitted_Answers != '') {
-      this.fetchQuestions();
+    if (this.ViewDetails.status != null && this.ViewDetails.status != '') {
+      this.getSubmittedAnswer();
     } else {
       this.isLoaded = true;
       this.$emit('isMounted');
@@ -2123,26 +2221,63 @@ var render = function() {
                                         { staticClass: "d-flex mb-2 " },
                                         [
                                           _c(
-                                            "v-btn",
+                                            "v-tooltip",
                                             {
-                                              attrs: {
-                                                disabled:
-                                                  _vm.SubmittedLength == 1 ||
-                                                  _vm.currentIndex == 0,
-                                                icon: ""
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.PrevStudent()
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u([
+                                                {
+                                                  key: "activator",
+                                                  fn: function(ref) {
+                                                    var on = ref.on
+                                                    var attrs = ref.attrs
+                                                    return [
+                                                      _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                disabled:
+                                                                  _vm.SubmittedLength ==
+                                                                    1 ||
+                                                                  _vm.currentIndex ==
+                                                                    0,
+                                                                icon: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.PrevStudent()
+                                                                }
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c("v-icon", [
+                                                            _vm._v(
+                                                              "mdi-chevron-left"
+                                                            )
+                                                          ])
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
                                                 }
-                                              }
+                                              ])
                                             },
                                             [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-chevron-left")
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Previous Student")
                                               ])
-                                            ],
-                                            1
+                                            ]
                                           ),
                                           _vm._v(" "),
                                           _c("v-spacer"),
@@ -2184,26 +2319,62 @@ var render = function() {
                                           _c("v-spacer"),
                                           _vm._v(" "),
                                           _c(
-                                            "v-btn",
+                                            "v-tooltip",
                                             {
-                                              attrs: {
-                                                disabled:
-                                                  _vm.currentIndex ==
-                                                  _vm.SubmittedLength - 1,
-                                                icon: ""
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  return _vm.NextStudent()
+                                              attrs: { top: "" },
+                                              scopedSlots: _vm._u([
+                                                {
+                                                  key: "activator",
+                                                  fn: function(ref) {
+                                                    var on = ref.on
+                                                    var attrs = ref.attrs
+                                                    return [
+                                                      _c(
+                                                        "v-btn",
+                                                        _vm._g(
+                                                          _vm._b(
+                                                            {
+                                                              attrs: {
+                                                                disabled:
+                                                                  _vm.currentIndex ==
+                                                                  _vm.SubmittedLength -
+                                                                    1,
+                                                                icon: ""
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.NextStudent()
+                                                                }
+                                                              }
+                                                            },
+                                                            "v-btn",
+                                                            attrs,
+                                                            false
+                                                          ),
+                                                          on
+                                                        ),
+                                                        [
+                                                          _c("v-icon", [
+                                                            _vm._v(
+                                                              "mdi-chevron-right"
+                                                            )
+                                                          ])
+                                                        ],
+                                                        1
+                                                      )
+                                                    ]
+                                                  }
                                                 }
-                                              }
+                                              ])
                                             },
                                             [
-                                              _c("v-icon", [
-                                                _vm._v("mdi-chevron-right")
+                                              _vm._v(" "),
+                                              _c("span", [
+                                                _vm._v("Next Student")
                                               ])
-                                            ],
-                                            1
+                                            ]
                                           )
                                         ],
                                         1
@@ -2448,361 +2619,328 @@ var render = function() {
                                     1
                                   ),
                                   _vm._v(" "),
-                                  _c("v-spacer"),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    [
-                                      _c(
-                                        "v-tooltip",
-                                        {
-                                          attrs: { top: "" },
-                                          scopedSlots: _vm._u([
-                                            {
-                                              key: "activator",
-                                              fn: function(ref) {
-                                                var on = ref.on
-                                                var attrs = ref.attrs
-                                                return [
-                                                  _c(
-                                                    "v-btn",
-                                                    _vm._g(
-                                                      _vm._b(
-                                                        {
-                                                          attrs: {
-                                                            icon: "",
-                                                            small: ""
-                                                          }
-                                                        },
-                                                        "v-btn",
-                                                        attrs,
-                                                        false
-                                                      ),
-                                                      on
-                                                    ),
-                                                    [
-                                                      _c("v-icon", [
-                                                        _vm._v("mdi-refresh")
-                                                      ])
-                                                    ],
-                                                    1
-                                                  )
-                                                ]
-                                              }
-                                            }
-                                          ])
-                                        },
-                                        [
-                                          _vm._v(" "),
-                                          _c("span", [
-                                            _vm._v("Refresh Comment")
-                                          ])
-                                        ]
-                                      )
-                                    ],
-                                    1
-                                  )
+                                  _c("v-spacer")
                                 ],
                                 1
                               ),
                               _vm._v(" "),
                               _c("v-divider"),
                               _vm._v(" "),
-                              _c(
-                                "v-list",
-                                {
-                                  staticClass: "mb-0 pb-0",
-                                  staticStyle: {
-                                    "overflow-y": "scroll",
-                                    "scrollbar-width": "thin"
-                                  },
-                                  attrs: { "max-height": "350" }
-                                },
-                                _vm._l(_vm.ViewDetails.comments, function(
-                                  item,
-                                  i
-                                ) {
-                                  return _c(
-                                    "v-list-item",
-                                    { key: i, staticClass: "mb-0 pb-0" },
-                                    [
-                                      _c(
-                                        "v-list-item-avatar",
-                                        { attrs: { color: "secondary" } },
+                              _vm.isLoaded
+                                ? _c(
+                                    "v-list",
+                                    {
+                                      staticClass: "mb-0 pb-0",
+                                      staticStyle: {
+                                        "overflow-y": "scroll",
+                                        "scrollbar-width": "thin"
+                                      },
+                                      attrs: { "max-height": "350" }
+                                    },
+                                    _vm._l(_vm.ViewDetails.comments, function(
+                                      item,
+                                      i
+                                    ) {
+                                      return _c(
+                                        "v-list-item",
+                                        { key: i, staticClass: "mb-0 pb-0" },
                                         [
-                                          _c("v-img", {
-                                            attrs: {
-                                              src:
-                                                item.profile_pic == null ||
-                                                item.profile_pic == ""
-                                                  ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
-                                                    item.name
-                                                  : item.profile_pic
-                                            }
-                                          })
-                                        ],
-                                        1
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "v-list-item-content",
-                                        [
-                                          _vm.isUpdatingComment &&
-                                          _vm.isUpdatingComment_id == item.id
-                                            ? _c(
-                                                "div",
-                                                [
-                                                  _c("v-list-item-title", {
-                                                    staticClass: "mb-2",
-                                                    domProps: {
-                                                      innerHTML: _vm._s(
+                                          _c(
+                                            "v-list-item-avatar",
+                                            { attrs: { color: "secondary" } },
+                                            [
+                                              _c("v-img", {
+                                                attrs: {
+                                                  src:
+                                                    item.profile_pic == null ||
+                                                    item.profile_pic == ""
+                                                      ? "https://ui-avatars.com/api/?background=random&color=fff&name=" +
                                                         item.name
-                                                      )
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("editor", {
-                                                    staticClass:
-                                                      "CommentEditor",
-                                                    attrs: {
-                                                      options: _vm.options,
-                                                      placeholder: "Comment",
-                                                      theme: "bubble"
-                                                    },
-                                                    model: {
-                                                      value: item.content,
-                                                      callback: function($$v) {
-                                                        _vm.$set(
-                                                          item,
-                                                          "content",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression: "item.content"
-                                                    }
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c(
+                                                      : item.profile_pic
+                                                }
+                                              })
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item-content",
+                                            [
+                                              _vm.isUpdatingComment &&
+                                              _vm.isUpdatingComment_id ==
+                                                item.id
+                                                ? _c(
                                                     "div",
-                                                    {
-                                                      staticClass:
-                                                        "d-flex justify-end mt-2"
-                                                    },
                                                     [
-                                                      _c(
-                                                        "v-btn",
-                                                        {
-                                                          staticClass: "mr-2",
-                                                          attrs: {
-                                                            small: "",
-                                                            dark: "",
-                                                            color: "success"
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              return _vm.UpdateComment(
-                                                                item.content,
-                                                                item.id
-                                                              )
-                                                            }
-                                                          }
+                                                      _c("v-list-item-title", {
+                                                        staticClass: "mb-2",
+                                                        domProps: {
+                                                          innerHTML: _vm._s(
+                                                            item.name
+                                                          )
+                                                        }
+                                                      }),
+                                                      _vm._v(" "),
+                                                      _c("editor", {
+                                                        staticClass:
+                                                          "CommentEditor",
+                                                        attrs: {
+                                                          options: _vm.options,
+                                                          placeholder:
+                                                            "Comment",
+                                                          theme: "bubble"
                                                         },
-                                                        [_vm._v("update")]
-                                                      ),
+                                                        model: {
+                                                          value: item.content,
+                                                          callback: function(
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              item,
+                                                              "content",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "item.content"
+                                                        }
+                                                      }),
                                                       _vm._v(" "),
                                                       _c(
-                                                        "v-btn",
+                                                        "div",
                                                         {
-                                                          attrs: {
-                                                            small: "",
-                                                            dark: "",
-                                                            color: "red"
-                                                          },
-                                                          on: {
-                                                            click: function(
-                                                              $event
-                                                            ) {
-                                                              ;(_vm.isUpdatingComment = false),
-                                                                (_vm.isUpdatingComment_id = null),
-                                                                (item.content =
-                                                                  _vm.isUpdatingComment_old_data)
-                                                            }
-                                                          }
+                                                          staticClass:
+                                                            "d-flex justify-end mt-2"
                                                         },
-                                                        [_vm._v("Cancel")]
+                                                        [
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              staticClass:
+                                                                "mr-2",
+                                                              attrs: {
+                                                                small: "",
+                                                                dark: "",
+                                                                color: "success"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  return _vm.UpdateComment(
+                                                                    item.content,
+                                                                    item.id
+                                                                  )
+                                                                }
+                                                              }
+                                                            },
+                                                            [_vm._v("update")]
+                                                          ),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "v-btn",
+                                                            {
+                                                              attrs: {
+                                                                small: "",
+                                                                dark: "",
+                                                                color: "red"
+                                                              },
+                                                              on: {
+                                                                click: function(
+                                                                  $event
+                                                                ) {
+                                                                  ;(_vm.isUpdatingComment = false),
+                                                                    (_vm.isUpdatingComment_id = null),
+                                                                    (item.content =
+                                                                      _vm.isUpdatingComment_old_data)
+                                                                }
+                                                              }
+                                                            },
+                                                            [_vm._v("Cancel")]
+                                                          )
+                                                        ],
+                                                        1
                                                       )
                                                     ],
                                                     1
                                                   )
-                                                ],
-                                                1
-                                              )
-                                            : _c(
-                                                "v-alert",
-                                                {
-                                                  staticClass:
-                                                    "rounded-xl mt-0 mb-0 pb-0",
-                                                  attrs: { color: "#F5F5F5" }
-                                                },
-                                                [
-                                                  _c("v-list-item-title", [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "d-flex justify-space-between"
-                                                      },
-                                                      [
+                                                : _c(
+                                                    "v-alert",
+                                                    {
+                                                      staticClass:
+                                                        "rounded-xl mt-0 mb-0 pb-0",
+                                                      attrs: {
+                                                        color: "#F5F5F5"
+                                                      }
+                                                    },
+                                                    [
+                                                      _c("v-list-item-title", [
                                                         _c(
                                                           "div",
                                                           {
-                                                            class:
-                                                              item.u_id ==
-                                                              _vm
-                                                                .get_CurrentUser
-                                                                .id
-                                                                ? "mb-0 pb-0 pt-2"
-                                                                : "pt-2 pb-2",
-                                                            staticStyle: {
-                                                              "max-width": "90%"
-                                                            }
+                                                            staticClass:
+                                                              "d-flex justify-space-between"
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              _vm._s(item.name)
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c(
-                                                          "div",
-                                                          [
                                                             _c(
-                                                              "v-menu",
+                                                              "div",
                                                               {
-                                                                attrs: {
-                                                                  "offset-x": ""
-                                                                },
-                                                                scopedSlots: _vm._u(
-                                                                  [
-                                                                    {
-                                                                      key:
-                                                                        "activator",
-                                                                      fn: function(
-                                                                        ref
-                                                                      ) {
-                                                                        var on =
-                                                                          ref.on
-                                                                        var attrs =
-                                                                          ref.attrs
-                                                                        return [
-                                                                          _c(
-                                                                            "v-btn",
-                                                                            _vm._g(
-                                                                              _vm._b(
-                                                                                {
-                                                                                  attrs: {
-                                                                                    icon:
-                                                                                      ""
-                                                                                  }
-                                                                                },
-                                                                                "v-btn",
-                                                                                attrs,
-                                                                                false
-                                                                              ),
-                                                                              on
-                                                                            ),
-                                                                            [
-                                                                              _c(
-                                                                                "v-icon",
-                                                                                {
-                                                                                  attrs: {
-                                                                                    dark:
-                                                                                      "",
-                                                                                    small:
-                                                                                      ""
-                                                                                  }
-                                                                                },
-                                                                                [
-                                                                                  _vm._v(
-                                                                                    "mdi-dots-vertical"
-                                                                                  )
-                                                                                ]
-                                                                              )
-                                                                            ],
-                                                                            1
-                                                                          )
-                                                                        ]
-                                                                      }
-                                                                    }
-                                                                  ],
-                                                                  null,
-                                                                  true
-                                                                )
+                                                                class:
+                                                                  item.u_id ==
+                                                                  _vm
+                                                                    .get_CurrentUser
+                                                                    .id
+                                                                    ? "mb-0 pb-0 pt-2"
+                                                                    : "pt-2 pb-2",
+                                                                staticStyle: {
+                                                                  "max-width":
+                                                                    "90%"
+                                                                }
                                                               },
                                                               [
-                                                                _vm._v(" "),
+                                                                _vm._v(
+                                                                  _vm._s(
+                                                                    item.name
+                                                                  )
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "div",
+                                                              [
                                                                 _c(
-                                                                  "v-list",
+                                                                  "v-menu",
                                                                   {
                                                                     attrs: {
-                                                                      dense: "",
-                                                                      nav: ""
-                                                                    }
+                                                                      "offset-x":
+                                                                        ""
+                                                                    },
+                                                                    scopedSlots: _vm._u(
+                                                                      [
+                                                                        {
+                                                                          key:
+                                                                            "activator",
+                                                                          fn: function(
+                                                                            ref
+                                                                          ) {
+                                                                            var on =
+                                                                              ref.on
+                                                                            var attrs =
+                                                                              ref.attrs
+                                                                            return [
+                                                                              _c(
+                                                                                "v-btn",
+                                                                                _vm._g(
+                                                                                  _vm._b(
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        icon:
+                                                                                          ""
+                                                                                      }
+                                                                                    },
+                                                                                    "v-btn",
+                                                                                    attrs,
+                                                                                    false
+                                                                                  ),
+                                                                                  on
+                                                                                ),
+                                                                                [
+                                                                                  _c(
+                                                                                    "v-icon",
+                                                                                    {
+                                                                                      attrs: {
+                                                                                        dark:
+                                                                                          "",
+                                                                                        small:
+                                                                                          ""
+                                                                                      }
+                                                                                    },
+                                                                                    [
+                                                                                      _vm._v(
+                                                                                        "mdi-dots-vertical"
+                                                                                      )
+                                                                                    ]
+                                                                                  )
+                                                                                ],
+                                                                                1
+                                                                              )
+                                                                            ]
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      null,
+                                                                      true
+                                                                    )
                                                                   },
                                                                   [
-                                                                    _c(
-                                                                      "v-list-item",
-                                                                      {
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            ;(_vm.isUpdatingComment = true),
-                                                                              (_vm.isUpdatingComment_id =
-                                                                                item.id),
-                                                                              (_vm.isUpdatingComment_old_data =
-                                                                                item.content)
-                                                                          }
-                                                                        }
-                                                                      },
-                                                                      [
-                                                                        _c(
-                                                                          "v-list-item-title",
-                                                                          [
-                                                                            _vm._v(
-                                                                              "Edit"
-                                                                            )
-                                                                          ]
-                                                                        )
-                                                                      ],
-                                                                      1
-                                                                    ),
                                                                     _vm._v(" "),
                                                                     _c(
-                                                                      "v-list-item",
+                                                                      "v-list",
                                                                       {
-                                                                        on: {
-                                                                          click: function(
-                                                                            $event
-                                                                          ) {
-                                                                            return _vm.DeleteComment(
-                                                                              item.id,
-                                                                              i
-                                                                            )
-                                                                          }
+                                                                        attrs: {
+                                                                          dense:
+                                                                            "",
+                                                                          nav:
+                                                                            ""
                                                                         }
                                                                       },
                                                                       [
                                                                         _c(
-                                                                          "v-list-item-title",
+                                                                          "v-list-item",
+                                                                          {
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                ;(_vm.isUpdatingComment = true),
+                                                                                  (_vm.isUpdatingComment_id =
+                                                                                    item.id),
+                                                                                  (_vm.isUpdatingComment_old_data =
+                                                                                    item.content)
+                                                                              }
+                                                                            }
+                                                                          },
                                                                           [
-                                                                            _vm._v(
-                                                                              "Remove"
+                                                                            _c(
+                                                                              "v-list-item-title",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Edit"
+                                                                                )
+                                                                              ]
                                                                             )
-                                                                          ]
+                                                                          ],
+                                                                          1
+                                                                        ),
+                                                                        _vm._v(
+                                                                          " "
+                                                                        ),
+                                                                        _c(
+                                                                          "v-list-item",
+                                                                          {
+                                                                            on: {
+                                                                              click: function(
+                                                                                $event
+                                                                              ) {
+                                                                                return _vm.DeleteComment(
+                                                                                  item.id,
+                                                                                  i
+                                                                                )
+                                                                              }
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _c(
+                                                                              "v-list-item-title",
+                                                                              [
+                                                                                _vm._v(
+                                                                                  "Remove"
+                                                                                )
+                                                                              ]
+                                                                            )
+                                                                          ],
+                                                                          1
                                                                         )
                                                                       ],
                                                                       1
@@ -2813,55 +2951,53 @@ var render = function() {
                                                               ],
                                                               1
                                                             )
-                                                          ],
-                                                          1
+                                                          ]
                                                         )
-                                                      ]
-                                                    )
-                                                  ]),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "v-list-item-subtitle",
-                                                    { staticClass: "mb-3" },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(
-                                                          _vm.format_date(
-                                                            item.comment_date
+                                                      ]),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "v-list-item-subtitle",
+                                                        { staticClass: "mb-3" },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.format_date(
+                                                                item.comment_date
+                                                              )
+                                                            ) +
+                                                              "\n                                            "
                                                           )
-                                                        ) +
-                                                          "\n                                            "
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        { staticClass: "ml-2" },
+                                                        [
+                                                          _c("span", {
+                                                            staticClass:
+                                                              "commentContent",
+                                                            domProps: {
+                                                              innerHTML: _vm._s(
+                                                                item.content
+                                                              )
+                                                            }
+                                                          })
+                                                        ]
                                                       )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _c(
-                                                    "div",
-                                                    { staticClass: "ml-2" },
-                                                    [
-                                                      _c("span", {
-                                                        staticClass:
-                                                          "commentContent",
-                                                        domProps: {
-                                                          innerHTML: _vm._s(
-                                                            item.content
-                                                          )
-                                                        }
-                                                      })
-                                                    ]
+                                                    ],
+                                                    1
                                                   )
-                                                ],
-                                                1
-                                              )
+                                            ],
+                                            1
+                                          )
                                         ],
                                         1
                                       )
-                                    ],
+                                    }),
                                     1
                                   )
-                                }),
-                                1
-                              ),
+                                : _vm._e(),
                               _vm._v(" "),
                               _c("v-divider"),
                               _vm._v(" "),
@@ -2970,8 +3106,9 @@ var render = function() {
                     "v-col",
                     { attrs: { cols: "12", md: "8", lg: "8" } },
                     [
-                      _vm.ViewDetails.Submitted_Answers == null ||
-                      (_vm.ViewDetails.Submitted_Answers == "" && _vm.isLoaded)
+                      (_vm.ViewDetails.Submitted_Answers == null ||
+                        _vm.ViewDetails.Submitted_Answers == "") &&
+                      _vm.isLoaded
                         ? _c(
                             "v-card",
                             {
@@ -3345,52 +3482,215 @@ var render = function() {
                                             "div",
                                             [
                                               _c(
-                                                "v-btn",
+                                                "v-tooltip",
                                                 {
-                                                  staticClass: "mr-1",
-                                                  attrs: {
-                                                    disabled:
-                                                      _vm.questionIndex == 0,
-                                                    color: "primary",
-                                                    outlined: "",
-                                                    rounded: ""
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.questionIndex--
-                                                    }
-                                                  }
+                                                  attrs: { top: "" },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          var attrs = ref.attrs
+                                                          return [
+                                                            _c(
+                                                              "v-btn",
+                                                              _vm._g(
+                                                                _vm._b(
+                                                                  {
+                                                                    class:
+                                                                      _vm
+                                                                        .$vuetify
+                                                                        .breakpoint
+                                                                        .xs ||
+                                                                      _vm
+                                                                        .$vuetify
+                                                                        .breakpoint
+                                                                        .sm
+                                                                        ? "mr-3"
+                                                                        : "mr-1",
+                                                                    attrs: {
+                                                                      icon:
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .xs ||
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .sm,
+                                                                      disabled:
+                                                                        _vm.questionIndex ==
+                                                                        0,
+                                                                      color:
+                                                                        "primary",
+                                                                      outlined:
+                                                                        "",
+                                                                      rounded:
+                                                                        ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        _vm.questionIndex--
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  "v-btn",
+                                                                  attrs,
+                                                                  false
+                                                                ),
+                                                                on
+                                                              ),
+                                                              [
+                                                                _vm.$vuetify
+                                                                  .breakpoint
+                                                                  .xs ||
+                                                                _vm.$vuetify
+                                                                  .breakpoint.sm
+                                                                  ? _c(
+                                                                      "v-icon",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-chevron-left"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  : _c("span", [
+                                                                      _vm._v(
+                                                                        "Previous"
+                                                                      )
+                                                                    ])
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        }
+                                                      }
+                                                    ],
+                                                    null,
+                                                    false,
+                                                    990967946
+                                                  )
                                                 },
                                                 [
-                                                  _vm._v(
-                                                    "\n                                            Previous\n                                        "
-                                                  )
+                                                  _vm._v(" "),
+                                                  _c("span", [
+                                                    _vm._v("Previous Question")
+                                                  ])
                                                 ]
                                               ),
                                               _vm._v(" "),
                                               _c(
-                                                "v-btn",
+                                                "v-tooltip",
                                                 {
-                                                  staticClass: "pl-9 pr-9",
-                                                  attrs: {
-                                                    disabled:
-                                                      _vm.questionIndex ==
-                                                      _vm.getAll_questions
-                                                        .Question.length -
-                                                        1,
-                                                    color: "primary",
-                                                    rounded: ""
-                                                  },
-                                                  on: {
-                                                    click: function($event) {
-                                                      _vm.questionIndex++
-                                                    }
-                                                  }
+                                                  attrs: { top: "" },
+                                                  scopedSlots: _vm._u(
+                                                    [
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          var attrs = ref.attrs
+                                                          return [
+                                                            _c(
+                                                              "v-btn",
+                                                              _vm._g(
+                                                                _vm._b(
+                                                                  {
+                                                                    class:
+                                                                      _vm
+                                                                        .$vuetify
+                                                                        .breakpoint
+                                                                        .xs ||
+                                                                      _vm
+                                                                        .$vuetify
+                                                                        .breakpoint
+                                                                        .sm
+                                                                        ? ""
+                                                                        : "pl-9 pr-9",
+                                                                    attrs: {
+                                                                      outlined:
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .xs ||
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .sm,
+                                                                      icon:
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .xs ||
+                                                                        _vm
+                                                                          .$vuetify
+                                                                          .breakpoint
+                                                                          .sm,
+                                                                      disabled:
+                                                                        _vm.questionIndex ==
+                                                                        _vm
+                                                                          .getAll_questions
+                                                                          .Question
+                                                                          .length -
+                                                                          1,
+                                                                      color:
+                                                                        "primary",
+                                                                      rounded:
+                                                                        ""
+                                                                    },
+                                                                    on: {
+                                                                      click: function(
+                                                                        $event
+                                                                      ) {
+                                                                        _vm.questionIndex++
+                                                                      }
+                                                                    }
+                                                                  },
+                                                                  "v-btn",
+                                                                  attrs,
+                                                                  false
+                                                                ),
+                                                                on
+                                                              ),
+                                                              [
+                                                                _vm.$vuetify
+                                                                  .breakpoint
+                                                                  .xs ||
+                                                                _vm.$vuetify
+                                                                  .breakpoint.sm
+                                                                  ? _c(
+                                                                      "v-icon",
+                                                                      [
+                                                                        _vm._v(
+                                                                          "mdi-chevron-right"
+                                                                        )
+                                                                      ]
+                                                                    )
+                                                                  : _c("span", [
+                                                                      _vm._v(
+                                                                        "Next"
+                                                                      )
+                                                                    ])
+                                                              ],
+                                                              1
+                                                            )
+                                                          ]
+                                                        }
+                                                      }
+                                                    ],
+                                                    null,
+                                                    false,
+                                                    4162038309
+                                                  )
                                                 },
                                                 [
-                                                  _vm._v(
-                                                    "\n                                            Next\n                                        "
-                                                  )
+                                                  _vm._v(" "),
+                                                  _c("span", [
+                                                    _vm._v("Next Question")
+                                                  ])
                                                 ]
                                               )
                                             ],
@@ -4698,40 +4998,47 @@ var render = function() {
                                                                                                       },
                                                                                                       [
                                                                                                         _c(
-                                                                                                          "v-checkbox",
+                                                                                                          "v-btn",
                                                                                                           {
-                                                                                                            staticClass:
-                                                                                                              "ma-0 pa-0 mt-2",
                                                                                                             attrs: {
-                                                                                                              "hide-details":
-                                                                                                                "",
-                                                                                                              color:
-                                                                                                                "success"
-                                                                                                            },
-                                                                                                            model: {
-                                                                                                              value:
-                                                                                                                _vm
-                                                                                                                  .Check[
-                                                                                                                  index
-                                                                                                                ][
-                                                                                                                  i
-                                                                                                                ],
-                                                                                                              callback: function(
-                                                                                                                $$v
-                                                                                                              ) {
-                                                                                                                _vm.$set(
-                                                                                                                  _vm
+                                                                                                              icon:
+                                                                                                                ""
+                                                                                                            }
+                                                                                                          },
+                                                                                                          [
+                                                                                                            _c(
+                                                                                                              "v-icon",
+                                                                                                              {
+                                                                                                                attrs: {
+                                                                                                                  color: _vm
                                                                                                                     .Check[
                                                                                                                     index
-                                                                                                                  ],
-                                                                                                                  i,
-                                                                                                                  $$v
-                                                                                                                )
+                                                                                                                  ][
+                                                                                                                    i
+                                                                                                                  ]
+                                                                                                                    ? "success"
+                                                                                                                    : "red"
+                                                                                                                }
                                                                                                               },
-                                                                                                              expression:
-                                                                                                                "Check[index][i]"
-                                                                                                            }
-                                                                                                          }
+                                                                                                              [
+                                                                                                                _vm._v(
+                                                                                                                  "\n                                                                                " +
+                                                                                                                    _vm._s(
+                                                                                                                      _vm
+                                                                                                                        .Check[
+                                                                                                                        index
+                                                                                                                      ][
+                                                                                                                        i
+                                                                                                                      ]
+                                                                                                                        ? "mdi-checkbox-marked"
+                                                                                                                        : "mdi-close-box-outline"
+                                                                                                                    ) +
+                                                                                                                    "\n                                                                                "
+                                                                                                                )
+                                                                                                              ]
+                                                                                                            )
+                                                                                                          ],
+                                                                                                          1
                                                                                                         )
                                                                                                       ],
                                                                                                       1

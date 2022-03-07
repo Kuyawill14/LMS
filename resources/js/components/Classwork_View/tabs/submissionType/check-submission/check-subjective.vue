@@ -125,7 +125,7 @@
                                                 @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
                                         </v-col>
                                         <v-col cols="12">
-                                            <v-row>
+                                            <v-row v-if="isLoaded" >
                                                 <v-col cols="12" v-if="CheckData.Submitted_Answers != null && CheckData.Submitted_Answers != ''" >                    
                                                     <v-list nav outlined>
                                                         <v-list-item class="rounded"  link v-for="(item, index) in CheckData.Submitted_Answers" :key="index">
@@ -194,7 +194,7 @@
                                     </div>
                                     
                                     <v-divider></v-divider>
-                                    <v-list max-height="350" style="overflow-y:scroll;scrollbar-width: thin;" class="mb-0 pb-0">
+                                    <v-list v-if="isLoaded" max-height="350" style="overflow-y:scroll;scrollbar-width: thin;" class="mb-0 pb-0">
                             
                                         <v-list-item class="mb-0 pb-0" v-for="(item, i) in CheckData.comments" :key="i">
                                         <v-list-item-avatar>
@@ -268,7 +268,7 @@
                                 </v-card>
                             </v-container>
                         </v-col>
-                            <v-col  cols="12" md="8" lg="8" class="pt-1">
+                            <v-col v-if="isLoaded" cols="12" md="8" lg="8" class="pt-1">
                                 <v-container class="pt-1" v-if="(CheckData.Submitted_Answers == null || CheckData.Submitted_Answers == '') && ($vuetify.breakpoint.mdAndUp || SelectedNav == 1)" fluid ma-0 pa-0>
                                 <v-card style="height: 40rem" class="pa-2">
                                     <v-row   justify="center" align-content="center" >
@@ -327,21 +327,17 @@
                                             style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
                                         </div> 
 
-                                            <div v-if="!isOpening && OpenFileType == 'media'" >
+                                        <div v-if="!isOpening && OpenFileType == 'media'" >
                                                 
-                                            <div class="pl-5 pr-5 pb-4 text-center d-flex">
-                                                <!-- <v-btn x-large icon><v-icon large>mdi-chevron-left</v-icon></v-btn> -->
+                                            <!-- <div class="pl-5 pr-5 pb-4 text-center d-flex">
                                                 <v-spacer></v-spacer>
-                                                
-
+                                    
                                                  <v-tooltip top>
                                                     <template v-slot:activator="{ on, attrs }">
                                                         <v-btn v-bind="attrs" v-on="on"  x-large @click="rotateRight" icon><v-icon large>mdi-crop-rotate</v-icon></v-btn>
                                                     </template>
                                                     <span>Rotate Image</span>
                                                 </v-tooltip>
-                                                 <v-spacer></v-spacer>
-                                                <!-- <v-btn x-large   icon><v-icon large>mdi-chevron-right</v-icon></v-btn> -->
                                             </div>
                                             <div >
                                                  <v-img
@@ -362,10 +358,14 @@
                                                 </v-row>
                                                 </template>
                                             </v-img>
-                                            </div>
-                                           
+                                            </div> -->
 
-                                           
+                                             <!-- directive -->
+                                                <!-- component -->
+                                            <div  style="height:85vh" class="images" v-viewer="{movable: true,inline: true, 
+                                            navbar: false, title: false}">
+                                                <img style="max-width:100%;max-height:70vh" v-for="src in images" :src="src" :key="src">
+                                            </div>
                                         </div>   
 
                                     </div>
@@ -412,12 +412,13 @@ import moment from 'moment-timezone';
 import {mapGetters} from "vuex";
 const resetConfirmation = () => import('../../dialogs/resetConfirmation')
 const pdfviewer = () => import('./pdfviewer');
+ 
 
   export default {
     props:['CheckData','classworkDetails','SubmittedLength', 'currentIndex','CheckDataSection'],
     components:{
         resetConfirmation,
-        pdfviewer
+        pdfviewer,
     },
     data () {
       return {
@@ -453,6 +454,7 @@ const pdfviewer = () => import('./pdfviewer');
                 ],
             }
         },
+        images: [],
          pointsRules:[
             v => !!v || 'Points is required',
             v => ( v && v >= 0 ) || "Points should be above or equal to 0",
@@ -461,6 +463,7 @@ const pdfviewer = () => import('./pdfviewer');
         info: true,
         rotation: 0,
         scale: 1,
+        isLoaded: false,
 
       }
     },
@@ -606,6 +609,10 @@ const pdfviewer = () => import('./pdfviewer');
                   }
               })
           },
+        show () {
+            const viewer = this.$el.querySelector('.images').$viewer
+            viewer.show()
+        },
           OpenFile(extension, link){
               this.SelectedNav = 1;
               this.isOpening = true;
@@ -613,6 +620,8 @@ const pdfviewer = () => import('./pdfviewer');
                   this.OpenFileType = 'media';
                   this.OpenFileExtension = extension;
                   this.path = link.replace('.cdn', '');
+                  this.images[0] = this.path;
+                  //this.show();
                  setTimeout(() => (this.isOpening = false), 500);
               }
               else if(extension == 'link'){
@@ -724,21 +733,24 @@ const pdfviewer = () => import('./pdfviewer');
             axios.put('/api/teacher/reset-sbj/'+this.CheckData.id, {files : this.CheckData.Submitted_Answers})
             .then(()=>{
                 this.$emit('SubmissionReset', this.CheckData.id);
+                this.$store.dispatch('setCurrectClassworkSubmission',1)
                 this.dialog = false;
             })
         },
          async NextStudent(){
+             this.isLoaded = false;
              this.isReloadRubrics = true;
             this.path = null;
             this.$emit("nextStudent");
 
-           setTimeout(() => (this.reRunRubrics()),300);
+           setTimeout(() => (this.RegetSubmittedAnswer()),300);
           },
           async PrevStudent(){
+              this.isLoaded = false;
             this.isReloadRubrics = true;
             this.path = null;
             this.$emit("prevStudent");
-            setTimeout(() => (this.reRunRubrics()),300);
+            setTimeout(() => (this.RegetSubmittedAnswer()),300);
           },
           rotateRight() {
                 this.rotation += 90
@@ -748,15 +760,37 @@ const pdfviewer = () => import('./pdfviewer');
             },
         rotateLeft() {
             this.rotation += 90
-        }
-       
-    },
-    beforeDestroy(){
-        this.$emit('closeDialog');
-    },
-    created(){
-        if(this.CheckData.Submitted_Answers != null && this.CheckData.Submitted_Answers != ''){
+        },
+        async getSubmittedAnswer(){
+            await axios.get('/api/submission/submitted_answer/'+this.CheckData.id)
+            .then((res)=>{
+                this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
+                this.CheckData.comments = res.data.comment;
+                this.isLoaded = true;
+                this.checkRubrics();
+            })
+        },
+        async RegetSubmittedAnswer(){
+            this.CheckData.Submitted_Answers = [];
+            this.CheckData.rubrics_score = [];
+            this.CheckData.comments = [];
             
+            if(this.CheckData.status != null && this.CheckData.status != ''){
+                axios.get('/api/submission/submitted_answer/'+this.CheckData.id)
+                .then((res)=>{
+                    this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                    this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
+                    this.CheckData.comments = res.data.comment;
+                    this.reRunRubrics();
+                     this.isLoaded = true;
+                })
+            }else{
+                this.reRunRubrics();
+                this.isLoaded = true;
+            }
+        },
+        async getFileExtension(){
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
@@ -792,7 +826,17 @@ const pdfviewer = () => import('./pdfviewer');
                 this.isOpening = false
               }
         }
-        this.checkRubrics();
+       
+    },
+    beforeDestroy(){
+        this.$emit('closeDialog');
+    },
+    created(){
+        if(this.CheckData.status != null && this.CheckData.status != ''){
+            this.getSubmittedAnswer();
+            this.getFileExtension();
+        }
+        
         this.$emit('isMounted');
         //setTimeout(() => (this.info = false), 5000);
     }
@@ -866,3 +910,4 @@ height: 20rem !important;
         display: none !important;
     }
 </style>
+

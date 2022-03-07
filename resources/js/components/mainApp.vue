@@ -61,8 +61,6 @@
                     localStorage.setItem(btoa('user_role'), btoa(res.data.role));
                     //this.$store.dispatch('setUserRole', res.data.role)
                     this.UserDetails = res.data;
-                
-                  
                 }).catch((error) => {
                 
                 });
@@ -77,8 +75,7 @@
 
 
             },
-             isOffline(event) {
-        
+            isOffline(event) {
                 this.setAsOffline();
                 location.reload();
             },

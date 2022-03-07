@@ -17,25 +17,18 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
+
+
 messaging.setBackgroundMessageHandler(function({data:{title,body,icon}}) {
     return self.registration.showNotification(title,{body,icon});
-});
-
-
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-/* const messaging = firebase.messaging();
-messaging.setBackgroundMessageHandler(function (payload) {
-    console.log("Message received.", payload);
-
-    const title = "Hello world is awesome";
+   /*  const title = "Hello world is awesome";
     const options = {
         body: "Your notificaiton message .",
         icon: "/firebase-logo.png",
     };
-
     return self.registration.showNotification(
         title,
         options,
-    );
-}); */
+    ); */
+});
+

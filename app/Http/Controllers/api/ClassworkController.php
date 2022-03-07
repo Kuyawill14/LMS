@@ -100,6 +100,7 @@ class ClassworkController extends Controller
         $CheckClass = tbl_userclass::where('tbl_userclasses.course_id',$id)
         ->where('tbl_userclasses.user_id',  $userId)
         ->first();
+
         if(!$CheckClass ){
             return response()->json([
                 "message" => "Access Denied!",
@@ -130,9 +131,10 @@ class ClassworkController extends Controller
             ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->where('tbl_class_classworks.availability', '!=',2)
             ->orderBy('created_at', 'DESC')
-            ->get(); */
+            ->get();
+ */
 
-            $classworkAll = tbl_classClassworks::withTrashed()
+            /* $classworkAll = tbl_classClassworks::withTrashed()
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish')
@@ -143,14 +145,37 @@ class ClassworkController extends Controller
             ->where('tbl_class_classworks.grading_criteria', $item->id)
             ->where('tbl_class_classworks.availability', '!=',2)
             ->orderBy('created_at', 'DESC')
+            ->get(); */
+           
+
+            $classworkAll = tbl_classClassworks::withTrashed()
+            ->where('tbl_userclasses.course_id','=', $id)
+            ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
+            ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish',
+            'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date')
+            ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
+            ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
+            ->leftJoin("tbl_submissions", function($join) use ($userId){
+                $join->on("tbl_submissions.classwork_id", "=", "tbl_class_classworks.classwork_id");
+                $join->on('tbl_submissions.user_id','=',DB::raw("'".$userId."'"));
+            })
+            ->where('tbl_userclasses.user_id','=', $userId)
+            ->where('tbl_class_classworks.from_date', '<=', date('Y-m-d H:i:s'))
+            ->where('tbl_class_classworks.grading_criteria', $item->id)
+            ->where('tbl_class_classworks.availability', '!=',2)
+            ->orderBy('created_at', 'DESC')
             ->get();
+
+
+
+
 
             foreach($classworkAll as $clwk){
                 if($clwk->type == "Objective Type"){
                     $clwk->total_questions = tbl_Questions::where('classwork_id','=', $clwk->classwork_id)->count();
                 }
 
-                $checkSubmission = tbl_Submission::where('tbl_submissions.classwork_id', $clwk['classwork_id'])
+                /* $checkSubmission = tbl_Submission::where('tbl_submissions.classwork_id', $clwk['classwork_id'])
                 ->where('tbl_submissions.user_id', $userId)->first();
                 if($checkSubmission){
                     $clwk['status'] =  $checkSubmission->status;
@@ -162,10 +187,7 @@ class ClassworkController extends Controller
                     $clwk['score'] =  null;
                     $clwk['graded'] =  null;
                     $clwk['Sub_date'] = null;
-                }
-
-              
-
+                } */
             }
             
             $totalClasswork += count($classworkAll);
@@ -418,7 +440,7 @@ class ClassworkController extends Controller
             $UpdatePublishDetails->save();
 
            
-            if($request->availability == 'Set date & time'){
+           /*  if($request->availability == 'Set date & time'){
                 $checkJobs = DB::table('jobs')->get();
                 if($checkJobs){
                     $count = 0;
@@ -441,7 +463,7 @@ class ClassworkController extends Controller
                     }
                 }
             }
-            StopLoop:
+            StopLoop: */
             return 'Publish details Updated!';
 
         } 
@@ -480,18 +502,18 @@ class ClassworkController extends Controller
                 ]);
             }
 
-
-            $tmpPoint = 0;
             if($classworkDetails->type == "Objective Type"){
+                $tmpPoint = 0;
                 $totoalPoints = tbl_Questions::where('tbl_questions.classwork_id', $id)
                 ->select('tbl_questions.points')->get();
                 foreach($totoalPoints as $item){
                     $tmpPoint += $item['points'];
                 }
+                $classworkDetails->points = $tmpPoint;
+                $classworkDetails->save();
             }
 
-            $classworkDetails->points = $tmpPoint;
-            $classworkDetails->save();
+           
             $submitted_count = tbl_Submission::where('tbl_submissions.classwork_id', $id)->count();
             $classworkDetails->submitted_count =  $submitted_count;
             if(!$classworkDetails){

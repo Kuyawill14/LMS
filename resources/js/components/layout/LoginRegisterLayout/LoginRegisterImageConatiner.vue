@@ -37,12 +37,13 @@
             <v-form class="text-center">
                 <v-row align="center" justify="center">
                     <v-col cols="12">
-                        <div class="text-h2 white--text font-weight-bold">ISUE ORANGE</div>
+                        <div v-if="!$vuetify.breakpoint.xs && !$vuetify.breakpoint.sm" class="text-h2 white--text font-weight-bold">ISUE ORANGE</div>
+                        <div v-else class="text-h3 white--text font-weight-bold">ISUE ORANGE</div>
 
                         <div class="white--text"><b class="text-h5">O</b>nline <b
-                                class="text-h5">R</b>esources <b class="text-h5">A</b>pp for a
+                            class="text-h5">R</b>esources <b class="text-h5">A</b>pp for a
                             <b class="text-h5">N</b>ew <b class="text-h5">G</b>uild of <b
-                                class="text-h5">E</b>ducation</div>
+                            class="text-h5">E</b>ducation</div>
 
                     </v-col>
                 </v-row>

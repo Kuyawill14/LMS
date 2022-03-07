@@ -286,8 +286,9 @@
                                                     <editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
-                                                    @blur="isNewChanges == true ? SaveAllQuestion() : ''" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
-                                                     @change="item.question != '' || item.question != null ? isNewChanges = true : isNewChanges = false"
+                                                    @blur="isNewChanges == true ? SaveAllQuestion() : ''" 
+                                                    @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
+                                                    @change="item.question != '' || item.question != null ? isNewChanges = true : isNewChanges = false"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 
                                                     v-model="item.question"
@@ -336,11 +337,11 @@
 
                                                           <div style="width:100%" class="mb-3">
                                                                 <editor
-                                                                 @focus="Ans.Choice == '<p>Option '+(i+1)+'</p>' ? '' : Ans.Choice"
+                                                            
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
-                                                                placeholder="Enter Answer"
+                                                                placeholder="Enter Option"
                                                                 ref="myTextEditor"
                                                                 v-model="Ans.Choice"
                                                                 :options="editorOption"/>
@@ -399,7 +400,7 @@
                                                         @change="isNewChanges = true"
                                                         @blur="isNewChanges == true ? SaveAllQuestion() : ''"
                                                         class="editor"
-                                                        @focus="item.answer = item.answer == '<p>Option 1</p>' ? '' : item.answer"
+                                                        @focus="item.answer = item.answer == '<p>Answer 1</p>' ? '' : item.answer"
                                                         placeholder="Enter Answer"
                                                         ref="myTextEditor"
                                                         v-model="item.answer"
@@ -1365,14 +1366,30 @@ export default {
                     });
 
                 for (let i = 0; i < res.data.question_id.length; i++) {
-                    this.getAll_questions.Question.push({
-                        id: res.data.question_id[i],
-                        question: this.DuplicateQuestion[i].question,
-                        answer:  this.DuplicateQuestion[i].answer,
-                        points: this.DuplicateQuestion[i].points,
-                        type: this.DuplicateQuestion[i].type,
-                        sensitivity: this.DuplicateQuestion[i].sensitivity,
-                    })
+
+                    console.log(res.data.question_answer_id[i]);
+                    if(this.DuplicateQuestion[i].isNew){
+                         this.getAll_questions.Question.push({
+                            id: res.data.question_id[i],
+                            question: this.DuplicateQuestion[i].question,
+                            answer:  res.data.question_answer_id[i],
+                            points: this.DuplicateQuestion[i].points,
+                            type: this.DuplicateQuestion[i].type,
+                            sensitivity: this.DuplicateQuestion[i].sensitivity,
+                            isNew: this.DuplicateQuestion[i].isNew,
+                        })
+                    }else{
+                        this.getAll_questions.Question.push({
+                            id: res.data.question_id[i],
+                            question: this.DuplicateQuestion[i].question,
+                            answer:  this.DuplicateQuestion[i].answer,
+                            points: this.DuplicateQuestion[i].points,
+                            type: this.DuplicateQuestion[i].type,
+                            sensitivity: this.DuplicateQuestion[i].sensitivity,
+                            isNew: this.DuplicateQuestion[i].isNew,
+                        })
+                    }
+                   
                  
                     this.selectedData.push({
                         id: res.data.question_id[i],

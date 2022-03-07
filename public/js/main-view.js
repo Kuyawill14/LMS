@@ -633,58 +633,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }, _callee3);
       }))();
-    },
-    StartFireBasePushNotification: function StartFireBasePushNotification() {
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        var firebaseConfig, messaging;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                firebaseConfig = {
-                  apiKey: "AIzaSyDWhE_gfbOrfbU88UwTZNDKYg0_ND0QQsQ",
-                  authDomain: "isue-orange-pushnotification.firebaseapp.com",
-                  projectId: "isue-orange-pushnotification",
-                  storageBucket: "isue-orange-pushnotification.appspot.com",
-                  messagingSenderId: "914599704994",
-                  appId: "1:914599704994:web:5e7e272dd3fb83013f5afb"
-                };
-
-                if (!firebase.apps.length) {
-                  firebase.initializeApp(firebaseConfig);
-                } else {
-                  firebase.app();
-                }
-
-                messaging = firebase.messaging();
-                messaging.requestPermission().then(function () {
-                  return messaging.getToken();
-                }).then(function (response) {
-                  axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/store_token', {
-                    token: response
-                  }).then(function (res) {});
-                })["catch"](function (error) {});
-                messaging.onMessage(function (_ref) {
-                  var _ref$data = _ref.data,
-                      body = _ref$data.body,
-                      title = _ref$data.title;
-                  new Notification(title, {
-                    body: body
-                  });
-                });
-
-              case 5:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
     }
   }),
   mounted: function mounted() {
-    this.StartFireBasePushNotification();
     this.connect();
+  },
+  beforeDestroy: function beforeDestroy() {
+    window.Echo.leave('notification');
   }
 });
 
@@ -907,8 +862,13 @@ var notifications = function notifications() {
     this.navBarType = this.$route.matched[1].name;
 
     if ($('#fb-root').is(":visible")) {
-      $('#fb-root').css('display', 'none'); // $('#help-btn').css('background', '#ffffff7d' );
-      // $('#fb-customer-chat > span > iframe').css('display', 'none');
+      $('#fb-root').css('display', 'none');
+    }
+
+    if (Notification.permission === "granted") {
+      this.isAlloweNotification = true;
+    } else {
+      this.isAlloweNotification = false;
     }
   },
   created: function created() {
@@ -1107,7 +1067,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n    /* width */\n[data-v-79f6cf96]::-webkit-scrollbar {\n  width: 5px;\n}\n\n/* Track */\n[data-v-79f6cf96]::-webkit-scrollbar-track {\n  background: #f1f1f1;\n}\n \n/* Handle */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb {\n  background: #888; \n   border-radius: 3px\n}\n\n/* Handle on hover */\n[data-v-79f6cf96]::-webkit-scrollbar-thumb:hover {\n  background: #555;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

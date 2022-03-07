@@ -120,11 +120,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['ListData', 'ClassList'],
+  props: ['ListData', 'ClassList', 'class_id'],
   data: function data() {
     return {
       student: [],
-      Class: this.$route.params.id,
+      Class: null,
       selectAll: false,
       SelectedAll_submission_id: [],
       iReseting: false,
@@ -145,7 +145,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           
       }) */
       this.ListData.forEach(function (item) {
-        if (item.status == 'Submitted') {
+        if (item.status == 'Submitted' || item.status == 'Taking') {
           _this.studentCount++;
           item.Sumissionstatus = false;
 
@@ -173,8 +173,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             });
           }else{ */
 
+        /*   this.ListData.forEach(item => {
+            if(item.status == 'Submitted' && item.class_id == this.Class){
+              this.resetCount++;
+              item.Sumissionstatus =  true;
+              this.SelectedAll_submission_id.push({id: item.id, status : item.Sumissionstatus}); 
+            }
+        });  */
+
         this.ListData.forEach(function (item) {
-          if (item.status == 'Submitted' && item.class_id == _this2.Class) {
+          if ((item.status == 'Submitted' || item.status == 'Taking') && item.class_id == _this2.Class) {
             _this2.resetCount++;
             item.Sumissionstatus = true;
 
@@ -256,7 +264,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
-    this.Class = this.ClassList[0].class_id;
+    this.Class = this.class_id;
     this.getSubmittedStudents();
   }
 });
@@ -394,33 +402,6 @@ var render = function() {
                 { staticClass: "mb-0 pb-0" },
                 [
                   _c(
-                    "v-list-item-icon",
-                    { staticClass: "pt-4", attrs: { color: "secondary" } },
-                    [
-                      _c("v-select", {
-                        staticClass: "mb-0 pb-0",
-                        attrs: {
-                          outlined: "",
-                          dense: "",
-                          "hide-details": "",
-                          label: "Class",
-                          items: _vm.ClassList,
-                          "item-text": "class_name",
-                          "item-value": "class_id"
-                        },
-                        model: {
-                          value: _vm.Class,
-                          callback: function($$v) {
-                            _vm.Class = $$v
-                          },
-                          expression: "Class"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
                     "v-list-item-content",
                     [
                       _c(
@@ -540,6 +521,21 @@ var render = function() {
                                       [_vm._v("mdi-check")]
                                     ),
                                     _vm._v(" Submitted")
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            item.status == "Taking"
+                              ? _c(
+                                  "v-list-item-subtitle",
+                                  [
+                                    _c(
+                                      "v-icon",
+                                      { attrs: { small: "", color: "blue" } },
+                                      [_vm._v("mdi-pencil")]
+                                    ),
+                                    _vm._v(" Taking")
                                   ],
                                   1
                                 )

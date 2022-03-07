@@ -365,6 +365,9 @@ Route::middleware('auth:sanctum')->prefix('/submission')->group(function () {
     Route::get('/check-sbj/{id}', [SubmissionController::class, 'checkSubjectiveSubmission']);
     Route::put('/file-remove/{id}', [SubmissionController::class, 'RemoveUploadedFile']);
     Route::put('/update-score/{id}', [SubmissionController::class, 'updateSbjSubmissionScore']);
+
+    Route::get('/submitted_answer/{id}', [SubmissionController::class, 'getUserSubmittedAnswers']);
+    
 });
 
 

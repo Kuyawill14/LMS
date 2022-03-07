@@ -732,15 +732,17 @@ class ObjectiveController extends Controller
         $counter = 0;
         $question_id = array();
         $answer_id = array();
+        $correct_answer_id = array();
         $totalPoints = 0;
         foreach($request->question as $mainItem){
             $newQuestion  = new tbl_Questions;
             $newQuestion->classwork_id = $id;
             $newQuestion->question = $mainItem['question'];
-            $newQuestion->answer =  $mainItem['answer'];
+            //$newQuestion->answer =  $mainItem['answer'];
             $newQuestion->points = $mainItem['points'];
             $newQuestion->type =  $mainItem['type'];
             $newQuestion->sensitivity = $mainItem['sensitivity'];
+            $newQuestion->isNew = $mainItem['isNew'];
             $newQuestion->save();
             $question_id[] =   $newQuestion->id;
      
@@ -753,6 +755,16 @@ class ObjectiveController extends Controller
                     $NewChoice->Choice = $choices_Item['Choice'];
                     $NewChoice->save();
                     $choices_id[] = $NewChoice->id;
+
+                    
+                    if($mainItem['isNew']){
+                        if($mainItem['answer'] == $choices_Item['id']){
+                            $newQuestion->answer = $NewChoice->id;
+                            $newQuestion->save();
+                        }
+                    }
+
+                   
                     
                 }
                 $answer_id[] = ['options_id' =>  $choices_id, 'SubQuestion_id' =>[], 'SubAnswer_id'=>[], 'Destructors_id'=>[]];
@@ -763,11 +775,16 @@ class ObjectiveController extends Controller
                 $sub_answer_id = array();
                 $destructors = array();
                 foreach($request->answer[$counter]['SubAnswer'] as $sub_question){
+
+
+                   
+
                     $QuestionChoice  = new tbl_choice;
                     $QuestionChoice->question_id = $newQuestion->id;
                     $QuestionChoice->isDestructor = false;
                     $QuestionChoice->Choice = $sub_question['Choice'];
                     $QuestionChoice->save();
+
                     $sub_answer_id[] = $QuestionChoice->id;
 
                     $SubQuestion = new tbl_SubQuestion;
@@ -791,8 +808,15 @@ class ObjectiveController extends Controller
                 $answer_id[] = ['options_id' =>[], 'SubQuestion_id' => $sub_question_id, 'SubAnswer_id'=> $sub_answer_id,'Destructors_id'=>$destructors];
             }
 
+
+            if($mainItem['isNew']){
+                $correct_answer_id[] = intval($newQuestion->answer);
+            }
+            
             $totalPoints += $mainItem['points'];
             $counter++;
+
+            
             
         }
 
@@ -800,8 +824,16 @@ class ObjectiveController extends Controller
         $tmp_points = ($NewPoints->points + $totalPoints);
         $NewPoints->points = $tmp_points;
         $NewPoints->save();
+
+    /*     if($mainItem['isNew']){
+            
+        }else{
+            return ["answer_id"=> $answer_id , "question_id"=>$question_id, "question_answer_id"=> $correct_answer_id];   
+        } */
+
+        return ["answer_id"=> $answer_id , "question_id"=>$question_id, "question_answer_id"=> $correct_answer_id];   
     
-        return ["answer_id"=> $answer_id , "question_id"=>$question_id];      
+          
     }
         
     
@@ -1567,11 +1599,13 @@ class ObjectiveController extends Controller
 
                                     $temp1ans = str_replace(array('<p>', '</p>'), array('', ''),  $questionAns);
                                     $temp1ans = str_replace('&nbsp;', '', $temp1ans);
-                                    $temp1ans = str_replace(' ', '', $temp1ans);
+                                    //$temp1ans = str_replace(' ', '', $temp1ans);
+                                    $temp1ans = trim($temp1ans);
 
                                     $temp1UserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
                                     $temp1UserAns = str_replace('&nbsp;', '', $temp1UserAns);
-                                    $temp1UserAns = str_replace(' ', '', $temp1UserAns);
+                                    //$temp1UserAns = str_replace(' ', '', $temp1UserAns);
+                                    $temp1UserAns = trim($temp1UserAns);
 
                                     if($temp1ans == $temp1UserAns){
                                         $score += $ques['points'];
@@ -1590,9 +1624,12 @@ class ObjectiveController extends Controller
                                         
                                         $tempUserAns = str_replace('&nbsp;', '', $tempUserAns);
                                         $tempOtherAns = str_replace('&nbsp;', '', $tempOtherAns);
-                                        $tempUserAns = str_replace(' ', '', $tempUserAns);
-                                        $tempOtherAns = str_replace(' ', '', $tempOtherAns);
-                                        $test[] = $tempUserAns;
+
+                                       /*  $tempUserAns = str_replace(' ', '', $tempUserAns);
+                                        $tempOtherAns = str_replace(' ', '', $tempOtherAns); */
+                                        $tempUserAns = trim($tempUserAns);
+                                        $tempOtherAns = trim($tempOtherAns);
+                                        //$test[] = $tempOtherAns;
                                         
                                         if($tempOtherAns == $tempUserAns){
                                             $check = true;
@@ -1647,7 +1684,7 @@ class ObjectiveController extends Controller
 
             $Submission->points = $score;
             $Submission->save();
-            //return $counter2;
+            //return $test;
             return $Submission->points;
 
         }

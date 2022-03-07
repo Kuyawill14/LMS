@@ -9,7 +9,7 @@
 
               <v-list-item class="mb-0 pb-0">
                 
-                <v-list-item-icon class="pt-4" color="secondary">
+              <!--   <v-list-item-icon class="pt-4" color="secondary">
                      <v-select
                     outlined
                     dense
@@ -21,7 +21,7 @@
                     item-text="class_name"
                     item-value="class_id">
                     </v-select>
-                </v-list-item-icon>
+                </v-list-item-icon> -->
               
                  <v-list-item-content>
                      <v-list-item-subtitle>
@@ -99,11 +99,11 @@
 </template>
 <script>
 export default {
-    props:['ListData', 'ClassList'],
+    props:['ListData', 'ClassList','class_id'],
     data(){
         return{
             student:[],
-            Class: this.$route.params.id,
+            Class: this.class_id,
             selectAll: null,
             SelectedAll_submission_id:[],
             iReseting: false,

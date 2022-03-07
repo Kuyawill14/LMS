@@ -59,18 +59,37 @@ class SubmissionController extends Controller
             ->get();
         } */
 
+     /*    $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
+        ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
+        'tbl_class_classworks.availability', 'tbl_class_classworks.to_date')
+        ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
+        ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
+        ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+        ->where('users.role','Student')
+        ->orderBy('tbl_user_details.lastName', 'ASC')
+        ->get(); */
+
         $SubmissionList = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)->withTrashed()
             ->select('tbl_class_classworks.classwork_id', 'tbl_class_classworks.class_id', 'tbl_userclasses.user_id','tbl_user_details.profile_pic','tbl_user_details.firstName', 'tbl_user_details.lastName',
-            'tbl_class_classworks.availability', 'tbl_class_classworks.to_date')
+            'tbl_class_classworks.availability', 'tbl_class_classworks.to_date', 
+            'tbl_submissions.id', 'tbl_submissions.status', 'tbl_submissions.points','tbl_submissions.graded','tbl_submissions.timeSpent',
+            'tbl_submissions.updated_at', 'tbl_submissions.submitted_at', 'tbl_submissions.created_at as Submitted_Answers', 
+            'tbl_submissions.created_at as rubrics_score', 'tbl_submissions.created_at as comments')
             ->leftJoin('tbl_userclasses', 'tbl_userclasses.class_id','=','tbl_class_classworks.class_id')
             ->leftJoin('users', 'users.id','=','tbl_userclasses.user_id')
             ->leftjoin('tbl_user_details','tbl_user_details.user_id','=','users.id')
+            ->leftJoin("tbl_submissions", function($join) use ($userId){
+                $join->on("tbl_submissions.classwork_id", "=", "tbl_class_classworks.classwork_id");
+                $join->on('tbl_submissions.user_id','=',"tbl_userclasses.user_id");
+            })
             ->where('users.role','Student')
+            //->where('tbl_submissions.status','Submitted')
+            ->where('tbl_class_classworks.class_id', $class_id)
             ->orderBy('tbl_user_details.lastName', 'ASC')
             ->get();
         
 
-        if(count($SubmissionList) != 0){
+        /* if(count($SubmissionList) != 0){
             foreach($SubmissionList as $Sub){
                 $Submission = tbl_Submission::where('classwork_id',$Sub->classwork_id)
                 ->where('user_id', $Sub->user_id)->first();
@@ -85,7 +104,6 @@ class SubmissionController extends Controller
                     $Sub->rubrics_score = null;
                 }
                 else{
-
                     $Sub->id = $Submission->id;
                     $Sub->status = $Submission->status;
                     $Sub->points = $Submission->points;
@@ -131,8 +149,31 @@ class SubmissionController extends Controller
                 ->get();
                 $Sub->comments =  $PrivateComment;
             }
-        } 
+        }  */
         return $SubmissionList;
+    }
+
+
+    public function getUserSubmittedAnswers($id){
+        $userId = auth('sanctum')->id();
+        $Submitted_Answer = tbl_Submission::where('tbl_submissions.id', $id)->
+        select('tbl_submissions.classwork_id', 'tbl_submissions.Submitted_Answers', 
+        'tbl_submissions.rubrics_score','tbl_submissions.user_id')->first();
+        $Submitted_Answer->Submitted_Answers = unserialize($Submitted_Answer->Submitted_Answers);
+        $Submitted_Answer->rubrics_score = unserialize($Submitted_Answer->rubrics_score);
+
+
+        $PrivateComment = tbl_comment::where("tbl_comments.classwork_id",  $Submitted_Answer->classwork_id)
+        ->select("tbl_comments.id","tbl_comments.content",DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),
+        "tbl_user_details.profile_pic","tbl_user_details.user_id as u_id","tbl_comments.updated_at as comment_date")
+        ->leftJoin("tbl_user_details", "tbl_user_details.user_id","=","tbl_comments.user_id")
+        ->where('tbl_comments.from_user', $Submitted_Answer->user_id)
+        ->where('tbl_comments.to_user',  $userId)
+        ->where('tbl_comments.type', 'Private')
+        ->orderBy("tbl_comments.created_at", "ASC")
+        ->get();
+
+        return ["submitted_answer"=> $Submitted_Answer , "comment"=>$PrivateComment];   
     }
 
     /**
