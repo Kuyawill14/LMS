@@ -306,7 +306,7 @@
                                                 <v-row>
                                                     <v-col cols="12" lg="12" md="12" >
                                                         <v-container fluid  class="d-flex flex-row ma-0 pa-0">
-                                                                  {{item.answer}}
+                                                                 
                                                         <v-radio-group v-if="item.isNew" :key="Ans.id"  v-model="item.answer">
                                                             <v-radio
                                                             :style="$vuetify.breakpoint.mdAndUp ? 'transform: scale(1.3)' : 'transform: scale(1.35)' "
@@ -333,11 +333,8 @@
                                                                 </v-radio>
                                                         </v-radio-group>
 
-
-
                                                           <div style="width:100%" class="mb-3">
                                                                 <editor
-                                                            
                                                                 :disabled="quill_disabled"
                                                                 @change="isNewChanges = true"
                                                                 class="editor"
@@ -1056,7 +1053,7 @@ export default {
                 this.isNewChanges = true;
                 this.getAll_questions.Answer[Mainindex].options.push({
                     id : res.data.answer_id,
-                    Choice : '<p>'+'Option '+(this.getAll_questions.Answer[Mainindex].options.length+1)+'</p>',
+                    Choice : '',
                     question_id : id,
                 })
 

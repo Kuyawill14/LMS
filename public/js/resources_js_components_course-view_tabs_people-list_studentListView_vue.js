@@ -355,7 +355,7 @@ var render = function() {
           !_vm.isGetting
             ? _c(
                 "v-container",
-                { staticClass: "mt-0", attrs: { fluid: "" } },
+                { staticClass: "mt-0 pl-0 ml-0", attrs: { fluid: "" } },
                 [
                   _c(
                     "v-row",

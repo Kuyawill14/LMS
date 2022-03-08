@@ -256,20 +256,23 @@ class ManageUserController extends Controller
     public function updateUser(Request $request, $id)
     {
 
-        $request->validate([
+       /*  $request->validate([
             'firstName' => ['required'],
             'lastName' => ['required'],
             'email' => ['required', 'email']
         ]);
+         */
 
 
        $user = User::find($id);
        if($user){
 
-            if($user->email != $request->email){
-                $request->validate([
-                    'email' => ['required', 'email', 'unique:users'],
-                ]);
+            if($user->role == 'Teacher'){
+                if($user->email != $request->email){
+                    $request->validate([
+                        'email' => ['required', 'email', 'unique:users'],
+                    ]);
+                }
             }
 
            $UpdateDetails = tbl_userDetails::where('tbl_user_details.user_id',$id)->first();

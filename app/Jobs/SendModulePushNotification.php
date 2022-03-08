@@ -50,6 +50,7 @@ class SendModulePushNotification implements ShouldQueue
         $newNotification->message = $this->mesage;
         $newNotification->notification_type = $this->type;
         $newNotification->save();
+        
         broadcast(new NewNotification($newNotification))->toOthers();
 
         $student_in_course = tbl_userclass::where('tbl_userclasses.course_id', $this->course_id)

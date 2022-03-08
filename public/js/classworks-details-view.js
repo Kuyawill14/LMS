@@ -977,9 +977,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1368,7 +1365,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
                   _this5.getAll_questions.Answer[Mainindex].options.push({
                     id: res.data.answer_id,
-                    Choice: '<p>' + 'Option ' + (_this5.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    Choice: '',
                     question_id: id
                   });
 
@@ -37114,13 +37111,6 @@ var render = function() {
                                                                                     }
                                                                                   },
                                                                                   [
-                                                                                    _vm._v(
-                                                                                      "\r\n                                                                  " +
-                                                                                        _vm._s(
-                                                                                          item.answer
-                                                                                        ) +
-                                                                                        "\r\n                                                        "
-                                                                                    ),
                                                                                     item.isNew
                                                                                       ? _c(
                                                                                           "v-radio-group",

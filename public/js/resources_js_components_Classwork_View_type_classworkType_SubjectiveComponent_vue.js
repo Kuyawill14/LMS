@@ -1238,7 +1238,7 @@ var render = function() {
           !_vm.$vuetify.breakpoint.mdAndUp
             ? _c(
                 "v-app-bar",
-                { attrs: { elevation: "5", app: "", color: "primary" } },
+                { attrs: { flat: "", app: "", color: "primary" } },
                 [
                   !_vm.$vuetify.breakpoint.mdAndUp
                     ? _c(
@@ -3501,7 +3501,7 @@ var render = function() {
                 [
                   _c("span", [_vm._v("Details")]),
                   _vm._v(" "),
-                  _c("v-icon", [_vm._v("mdi-book-information-variant")])
+                  _c("v-icon", [_vm._v("mdi-text-box-outline")])
                 ],
                 1
               ),
@@ -3518,7 +3518,26 @@ var render = function() {
                 [
                   _c("span", [_vm._v("Submission")]),
                   _vm._v(" "),
-                  _c("v-icon", [_vm._v("mdi-playlist-edit")])
+                  _c(
+                    "v-icon",
+                    {
+                      attrs: {
+                        color:
+                          _vm.classworkDetails.status == "Submitted"
+                            ? "green"
+                            : ""
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.classworkDetails.status != "Submitted"
+                            ? "mdi-file-edit"
+                            : "mdi-file-check"
+                        )
+                      )
+                    ]
+                  )
                 ],
                 1
               ),

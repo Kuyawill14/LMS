@@ -209,8 +209,6 @@ class ObjectiveController extends Controller
                             }
                         }
                         
-
-
                         $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
                             ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                             ->where('tbl_choices.isDestructor', true)
@@ -233,13 +231,21 @@ class ObjectiveController extends Controller
 
                     $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
                     ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.sensitivity',
-                    'tbl_questions.answer','tbl_questions.points')
+                    'tbl_questions.answer','tbl_questions.points','tbl_questions.isNew')
                     ->orderBy('created_at','DESC')
                     ->get();
                     $temQuest = $Questions;
 
             
                     foreach($temQuest as $cl){
+
+                        $tempanswer;
+                        if($cl->isNew && $cl->type == 'Multiple Choice'){
+                            $tempanswer = intval($cl->answer);
+                        }else{
+                            $tempanswer = $cl->answer;
+                        }
+                        $cl->answer = $tempanswer;
                     
                         $tempData1;
                         $tempData1;
@@ -287,7 +293,7 @@ class ObjectiveController extends Controller
                 }
                 else{
                     $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity')
+                    ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew')
                     ->orderBy('created_at','DESC')
                     ->get();
                     $temQuest = $Questions;            
@@ -362,7 +368,7 @@ class ObjectiveController extends Controller
         }
         else{
             $Questions = tbl_Questions::where('tbl_questions.classwork_id', $id)
-            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity')
+            ->Select('tbl_questions.id', 'tbl_questions.question', 'tbl_questions.type','tbl_questions.points','tbl_questions.sensitivity','tbl_questions.isNew')
             ->orderBy('created_at','DESC')
             ->get();
             $temQuest = $Questions;
@@ -412,6 +418,16 @@ class ObjectiveController extends Controller
                         $tempAns =  $tempData1;
                         $temQues = $tempSubQuestion;  
                     } 
+
+                    $destruc = tbl_choice::where('tbl_choices.question_id',$cl->id)
+                    ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
+                    ->where('tbl_choices.isDestructor', true)
+                    ->get();
+
+                    foreach($destruc as $des){
+                        array_push($tempAns, $des);
+                    }
+
                     $tmp =  ["SubQuestion"=>$temQues , "SubAnswer"=>$tempAns];
                     $FinalAnswer[] = $tmp;    
                 }     
@@ -762,9 +778,10 @@ class ObjectiveController extends Controller
                             $newQuestion->answer = $NewChoice->id;
                             $newQuestion->save();
                         }
+                    }else{
+                        $newQuestion->answer = $mainItem['answer'];
+                        $newQuestion->save();
                     }
-
-                   
                     
                 }
                 $answer_id[] = ['options_id' =>  $choices_id, 'SubQuestion_id' =>[], 'SubAnswer_id'=>[], 'Destructors_id'=>[]];
@@ -811,6 +828,8 @@ class ObjectiveController extends Controller
 
             if($mainItem['isNew']){
                 $correct_answer_id[] = intval($newQuestion->answer);
+            }else{
+                $correct_answer_id[] = $newQuestion->answer;
             }
             
             $totalPoints += $mainItem['points'];

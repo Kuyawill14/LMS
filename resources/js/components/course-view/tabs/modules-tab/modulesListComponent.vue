@@ -478,7 +478,7 @@
 
             availabilitySelection(selection) {
 
-
+                
                 if (selection == this.radioAvailability[0] || selection == this.radioAvailability[1]) {
                     if (selection == this.radioAvailability[0]) {
                         this.publishSettings.date_from = null;

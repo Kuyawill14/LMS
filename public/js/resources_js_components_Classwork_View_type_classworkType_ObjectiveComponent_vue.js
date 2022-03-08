@@ -413,6 +413,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -897,7 +901,7 @@ var render = function() {
           !_vm.$vuetify.breakpoint.mdAndUp
             ? _c(
                 "v-app-bar",
-                { attrs: { elevation: "5", app: "", color: "primary" } },
+                { attrs: { flat: "", app: "", color: "primary" } },
                 [
                   !_vm.$vuetify.breakpoint.mdAndUp
                     ? _c(
@@ -2131,6 +2135,49 @@ var render = function() {
                                                 "div",
                                                 [
                                                   _vm.classworkDetails
+                                                    .showAnswerType == null
+                                                    ? _c(
+                                                        "v-btn",
+                                                        {
+                                                          attrs: {
+                                                            block: !_vm.$vuetify
+                                                              .breakpoint
+                                                              .mdAndUp,
+                                                            rounded: "",
+                                                            color: "primary"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "View\n                                    Submission"
+                                                          ),
+                                                          _c(
+                                                            "v-icon",
+                                                            {
+                                                              attrs: {
+                                                                right: "",
+                                                                dark: ""
+                                                              }
+                                                            },
+                                                            [
+                                                              _vm._v(
+                                                                "mdi-book-arrow-right-outline"
+                                                              )
+                                                            ]
+                                                          )
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e(),
+                                                  _vm._v(" "),
+                                                  _vm.classworkDetails
                                                     .showAnswerType == 0
                                                     ? _c(
                                                         "v-btn",
@@ -2647,9 +2694,9 @@ var render = function() {
                   }
                 },
                 [
-                  _c("span", [_vm._v("Details")]),
+                  _c("span", [_vm._v("Classwork Details")]),
                   _vm._v(" "),
-                  _c("v-icon", [_vm._v("mdi-book-information-variant")])
+                  _c("v-icon", [_vm._v("mdi-text-box-outline")])
                 ],
                 1
               ),

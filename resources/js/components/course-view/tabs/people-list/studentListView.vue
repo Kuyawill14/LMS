@@ -18,7 +18,7 @@
 
             
 
-            <v-container fluid v-if="!isGetting" class="mt-0">
+            <v-container fluid v-if="!isGetting" class="mt-0 pl-0 ml-0">
             
 
              <v-row>

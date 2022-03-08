@@ -263,6 +263,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -315,12 +328,13 @@ __webpack_require__.r(__webpack_exports__);
             if (_this.QuestionAndAnswer.Question[_i].id == _this.classworkDetails.Submitted_Answers[j].Question_id) {
               if (_this.QuestionAndAnswer.Question[_i].type == 'Multiple Choice' || _this.QuestionAndAnswer.Question[_i].type == 'Identification' || _this.QuestionAndAnswer.Question[_i].type == 'True or False') {
                 var student_ans;
-
-                if (_this.QuestionAndAnswer.Question[_i].answer == _this.classworkDetails.Submitted_Answers[j].Answer) {
-                  _this.Check[_i] = true;
-                } else {
-                  _this.Check[_i] = false;
+                /* if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
+                    this.Check[i] = true;
                 }
+                else{
+                    this.Check[i] = false;
+                }
+                */
 
                 if (_this.QuestionAndAnswer.Question[_i].type == 'Identification') {
                   student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
@@ -329,6 +343,20 @@ __webpack_require__.r(__webpack_exports__);
 
                   _this.QuestionAndAnswer.Answer[_i].forEach(function (item) {
                     var Question_answer = _this.QuestionAndAnswer.Question[_i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                    if (Question_answer != null) {
+                      Question_answer = Question_answer.replace('<p>', '').trim();
+                      Question_answer = Question_answer.replace('</p>', '').trim();
+                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                      Question_answer = Question_answer.trim();
+                    }
+
+                    if (student_ans != null) {
+                      student_ans = student_ans.replace('<p>', '').trim();
+                      student_ans = student_ans.replace('</p>', '').trim();
+                      student_ans = student_ans.replace('&nbsp;', '').trim();
+                      student_ans = student_ans.trim();
+                    }
 
                     if (student_ans == Question_answer) {
                       _this.Check[_i] = true;
@@ -346,6 +374,7 @@ __webpack_require__.r(__webpack_exports__);
                       _this.Check[_i] = false;
                     }
                   } else {
+                    console.log(_this.classworkDetails.Submitted_Answers[j].Answer);
                     student_ans = _this.QuestionAndAnswer.Question[_i].sensitivity ? _this.classworkDetails.Submitted_Answers[j].Answer : _this.classworkDetails.Submitted_Answers[j].Answer != null && _this.classworkDetails.Submitted_Answers[j].Answer != '' ? _this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : _this.classworkDetails.Submitted_Answers[j].Answer;
                     _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
 
@@ -370,8 +399,14 @@ __webpack_require__.r(__webpack_exports__);
                   }
                 }
               } else if (_this.QuestionAndAnswer.Question[_i].type == 'Essay') {
+                var hasKey = ('score' in _this.classworkDetails.Submitted_Answers[j]);
+
+                if (!hasKey) {
+                  _this.classworkDetails.Submitted_Answers[j].score = 0;
+                  _this.classworkDetails.Submitted_Answers[j].check = false;
+                }
+
                 _this.SubmittedAnswer[_i] = _this.classworkDetails.Submitted_Answers[j];
-                _this.Check[_i] = _this.classworkDetails.Submitted_Answers[j].check;
               } else if (_this.QuestionAndAnswer.Question[_i].type == 'Matching type') {
                 var Ans = new Array();
                 var match_check = new Array();
@@ -713,7 +748,7 @@ var render = function() {
             [
               _c(
                 "v-row",
-                { staticClass: "mb-2" },
+                { staticClass: "mb-4" },
                 [
                   _c(
                     "v-col",
@@ -724,19 +759,27 @@ var render = function() {
                         [
                           _c(
                             "v-col",
-                            { staticClass: "text-left", attrs: { cols: "6" } },
+                            {
+                              staticClass: "text-left pl-0",
+                              attrs: { cols: "6" }
+                            },
                             [
                               _c(
                                 "v-btn",
                                 {
-                                  attrs: { icon: "" },
+                                  attrs: { text: "", rounded: "" },
                                   on: {
                                     click: function($event) {
                                       return _vm.$emit("closeViewing")
                                     }
                                   }
                                 },
-                                [_c("v-icon", [_vm._v("mdi-close")])],
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("mdi-close")
+                                  ]),
+                                  _vm._v(" Close\n                          ")
+                                ],
                                 1
                               )
                             ],
@@ -865,50 +908,101 @@ var render = function() {
                                   },
                                   [
                                     _vm.classworkDetails.showAnswer == true &&
-                                    item.type != "Matching type"
-                                      ? _c("v-checkbox", {
-                                          staticClass: "mt-0 pt-0",
-                                          attrs: {
-                                            readonly: "",
-                                            color: "success"
-                                          },
-                                          model: {
-                                            value: _vm.Check[index],
-                                            callback: function($$v) {
-                                              _vm.$set(_vm.Check, index, $$v)
-                                            },
-                                            expression: "Check[index]"
-                                          }
-                                        })
+                                    item.type != "Matching type" &&
+                                      item.type != "Essay"
+                                      ? _c(
+                                          "div",
+                                          [
+                                            _c("v-checkbox", {
+                                              staticClass: "mt-0 pt-0",
+                                              attrs: {
+                                                readonly: "",
+                                                color: "success"
+                                              },
+                                              model: {
+                                                value: _vm.Check[index],
+                                                callback: function($$v) {
+                                                  _vm.$set(
+                                                    _vm.Check,
+                                                    index,
+                                                    $$v
+                                                  )
+                                                },
+                                                expression: "Check[index]"
+                                              }
+                                            })
+                                          ],
+                                          1
+                                        )
                                       : _vm._e(),
                                     _vm._v(" "),
-                                    _c(
-                                      "h3",
-                                      { staticClass: "font-weight-bold" },
-                                      [_vm._v(_vm._s(index + 1) + ".")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("span", {
-                                      staticClass:
-                                        "post-content ml-1 mb-0 pb-0",
-                                      domProps: {
-                                        innerHTML: _vm._s(item.question)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c(
-                                      "small",
-                                      { staticClass: "primary--text ml-1" },
-                                      [
-                                        _vm._v(
-                                          "(" +
-                                            _vm._s(item.points + " points") +
-                                            ")"
+                                    _vm.classworkDetails.showAnswer == true &&
+                                    item.type == "Essay"
+                                      ? _c(
+                                          "div",
+                                          [
+                                            _c(
+                                              "v-chip",
+                                              {
+                                                staticClass:
+                                                  "mr-2 mb-2 mt-0 pt-0",
+                                                attrs: {
+                                                  outlined: "",
+                                                  color: "blue"
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  { staticClass: "body-2" },
+                                                  [
+                                                    _vm._v(
+                                                      "Score: " +
+                                                        _vm._s(
+                                                          _vm.SubmittedAnswer[
+                                                            index
+                                                          ].score
+                                                        ) +
+                                                        " /" +
+                                                        _vm._s(item.points)
+                                                    )
+                                                  ]
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
                                         )
-                                      ]
-                                    )
-                                  ],
-                                  1
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c("div", { staticClass: "d-flex mt-1" }, [
+                                      _c(
+                                        "h3",
+                                        { staticClass: "font-weight-bold" },
+                                        [_vm._v(_vm._s(index + 1) + ".")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", {
+                                        staticClass:
+                                          "post-content ml-1 mb-0 pb-0",
+                                        domProps: {
+                                          innerHTML: _vm._s(item.question)
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "small",
+                                        { staticClass: "primary--text ml-1" },
+                                        [
+                                          _vm._v(
+                                            "(" +
+                                              _vm._s(item.points + " points") +
+                                              ")"
+                                          )
+                                        ]
+                                      )
+                                    ])
+                                  ]
                                 )
                               ]
                             ),
@@ -1074,7 +1168,7 @@ var render = function() {
                                     _c(
                                       "v-container",
                                       {
-                                        staticClass: "pl-7 mt-0 pt-0",
+                                        staticClass: "pl-3 mt-0 pt-0",
                                         attrs: {
                                           ntainer: "",
                                           "ma-0": "",
@@ -1091,13 +1185,44 @@ var render = function() {
                                           [_vm._v("Correct Answer(s)")]
                                         ),
                                         _vm._v(" "),
+                                        _vm._l(
+                                          _vm.QuestionAndAnswer.Answer[index],
+                                          function(Ans, i) {
+                                            return _c(
+                                              "div",
+                                              {
+                                                key: i,
+                                                staticClass:
+                                                  " ma-0 pa-0 d-flex pl-3 success--text"
+                                              },
+                                              [
+                                                _c(
+                                                  "span",
+                                                  { staticClass: "pr-2" },
+                                                  [_vm._v("• ")]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("span", {
+                                                  staticClass:
+                                                    "post-content pa-0 ma-0",
+                                                  domProps: {
+                                                    innerHTML: _vm._s(
+                                                      Ans.Choice
+                                                    )
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          }
+                                        ),
+                                        _vm._v(" "),
                                         _c(
                                           "div",
                                           {
                                             staticClass:
                                               "subtitle-2 font-weight-bold"
                                           },
-                                          [_vm._v("Answer")]
+                                          [_vm._v("Your Answer")]
                                         ),
                                         _vm._v(" "),
                                         _c(
@@ -1129,7 +1254,8 @@ var render = function() {
                                               : _vm._e()
                                           ]
                                         )
-                                      ]
+                                      ],
+                                      2
                                     )
                                   ],
                                   1
@@ -1588,7 +1714,7 @@ var render = function() {
                                     _c(
                                       "v-container",
                                       {
-                                        staticClass: "ml-7 mt-0 pt-0",
+                                        staticClass: "pl-3 mt-1 pt-0",
                                         attrs: { "ma-0": "", "pa-0": "" }
                                       },
                                       [

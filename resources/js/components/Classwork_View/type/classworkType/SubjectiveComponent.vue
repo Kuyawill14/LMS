@@ -3,7 +3,7 @@
 
 
 <div transition="slide-y-reverse-transition">
-    <v-app-bar elevation="5" 
+    <v-app-bar flat
     
      v-if="!$vuetify.breakpoint.mdAndUp"
         app  color="primary"  >
@@ -485,11 +485,11 @@
         color="primary" >
         <v-btn @click="selected = 0">
             <span>Details</span>
-            <v-icon>mdi-book-information-variant</v-icon>
+            <v-icon>mdi-text-box-outline</v-icon>
         </v-btn>
          <v-btn @click="selected = 1">
             <span>Submission</span>
-            <v-icon>mdi-playlist-edit</v-icon>
+            <v-icon :color="classworkDetails.status == 'Submitted' ? 'green' : ''">{{classworkDetails.status != 'Submitted' ? 'mdi-file-edit' : 'mdi-file-check'}}</v-icon>
         </v-btn>
         <v-btn @click="selected = 2">
             <span>Comment</span>
