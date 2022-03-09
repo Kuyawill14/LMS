@@ -1415,36 +1415,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   }); //this.SaveAllQuestion();
 
                 });
-                /* this.isNewChanges = true; */
-
-                /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
-                    
-                    this.getAll_questions.Answer[mainIndex].SubQuestion = [{
-                            id: null,
-                            answer_id: null,
-                            sub_question: ''
-                        }
-                    ]
-                    this.getAll_questions.Answer[mainIndex].SubAnswer = [{
-                            id : null, 
-                            Choice : '',
-                            question_id : id
-                        }
-                    ]
-                }
-                else{ */
-
-                /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                    id: null,
-                    answer_id: null,
-                    sub_question: ''
-                })
-                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                    id : null, 
-                    Choice : '',
-                    question_id : id
-                }) */
-                //}
 
               case 1:
               case "end":
@@ -1787,8 +1757,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   });
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    console.log(res.data.question_answer_id[i]);
-
                     if (_this15.DuplicateQuestion[i].isNew) {
                       _this15.getAll_questions.Question.push({
                         id: res.data.question_id[i],

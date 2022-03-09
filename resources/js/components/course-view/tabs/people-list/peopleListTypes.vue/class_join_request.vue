@@ -176,15 +176,25 @@ export default {
             await axios.put('/api/teacher/multiple_accept_student_join_request', {request_id : data})
             .then((res)=>{
                 if(res.status == 200 && res.data.status == 1){  
-                        for (let i = 0; i < this.selectedStudent.length; i++) {
+                        /* for (let i = 0; i < this.selectedStudent.length; i++) {
                             if(this.selectedStudent[i].isSelected == true){
-                                 this.JoinRequestList.splice(i, 1);
-                                 this.selectedStudent.splice(i, 1);
+                                
+                                 this.selectedCount--;
+                                 this.isSelectedAll = false;
+                                 
+                            }                        
+                        } */
+                        let count = 0;
+                        this.selectedStudent.forEach(item => {
+                            if(item.isSelected == true){
+                                 this.JoinRequestList.splice(count, 1);
+                                 this.selectedStudent.splice(count, 1);
                                  this.selectedCount--;
                                  this.isSelectedAll = false;
                                  this.$store.dispatch('UpdateJoinCount');
-                            }                        
-                        }
+                            }
+                            count++;
+                        });
                     this.$store.dispatch('fetchAllStudents',this.$route.params.id)
                 }
                 this.isLoading = false;
@@ -219,15 +229,25 @@ export default {
             });
             await axios.put('/api/teacher/multiple_reject_student_join_request',{request_id : data})
             .then(()=>{
-                for (let i = 0; i < this.selectedStudent.length; i++) {
+              /*   for (let i = 0; i < this.selectedStudent.length; i++) {
                     if(this.selectedStudent[i].isSelected == true){
                         this.JoinRequestList.splice(i, 1);
                         this.selectedStudent.splice(i, 1);
-                        this.selectedCount--;
-                        this.isSelectedAll = false;
+                        
                         this.$store.dispatch('UpdateJoinCount');
                     }                        
-                }
+                } */
+                let count = 0;
+                this.selectedStudent.forEach(item => {
+                    if(item.isSelected == true){
+                            this.JoinRequestList.splice(count, 1);
+                            this.selectedStudent.splice(count, 1);
+                            this.selectedCount--;
+                            this.isSelectedAll = false;
+                            this.$store.dispatch('UpdateJoinCount');
+                    }
+                    count++;
+                });
                 this.confirmDialog = false;
             })
             .catch((err)=>{

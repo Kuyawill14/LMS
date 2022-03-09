@@ -35,7 +35,7 @@
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title>{{item.firstName}} {{item.lastName}}</v-list-item-title>
+                                <v-list-item-title>{{item.firstName}} {{item.lastName}} </v-list-item-title>
                             </v-list-item-content>
                            
                         </v-list-item>
@@ -59,7 +59,7 @@
                                 </v-img>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title>{{item.firstName}} {{item.lastName}}</v-list-item-title>
+                                <v-list-item-title>{{item.firstName}} {{item.lastName}}<span class="primary--text" v-if="get_CurrentUser.student_id == item.student_id">(Me)</span> </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
@@ -70,6 +70,7 @@
     </div>
 </template>
 <script>
+  import {mapGetters} from "vuex";
 //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
     export default {
       
@@ -90,6 +91,7 @@
 
         },
         computed: {
+            ...mapGetters(["get_CurrentUser"]),
             getAllStudents() {
                 if (this.search) {
                     return this.students.filter((item) => {

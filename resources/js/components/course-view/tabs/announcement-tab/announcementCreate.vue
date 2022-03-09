@@ -100,10 +100,12 @@
                 hide-details
  
                  :items="classNames"
+                 @change="CheckClass_id(tmp_class_id)"
+                 return-object=""
                 item-text="class_name"
-                item-value="class_id"
-                label="All Class"
-                v-model="class_id"
+                item-value="id"
+                label="Classes"
+                v-model="tmp_class_id"
                 dense
                 solo
                 ></v-select>
@@ -129,7 +131,9 @@ export default {
             isloading: false,
             value: '',
             content: '',
-            class_id: this.$route.params.id,
+            class_id: null,
+            tmp_class_id: this.$route.params.id,
+            isCourse_id: true,
             announcement: {
                 content: "",
                 file: "",
@@ -165,7 +169,29 @@ export default {
             val() {
                 this.value = "This's new value";
             },
+            CheckClass_id(data){
+              /*   this.classNames.forEach(item => {
+                    if(item.id == data.tmp_class_id){
+                        if(item.isCourse_id){
+                            this.class_id = item.class_id;
+                            this.isCourse_id = false;
+                        }else{
+                            this.class_id = item.class_id;
+                            this.isCourse_id = true;
+                        } 
+                        
+                        return;
+                    }
+                }); */
 
+                if(data.isCourse_id){
+                    this.class_id = this.$route.params.id;
+                    this.isCourse_id = true;
+                }else{
+                    this.class_id = data.class_id;
+                    this.isCourse_id = false;
+                }
+            },
             onChange(html, text) {
                 ////console.log(html);
             },
@@ -173,8 +199,15 @@ export default {
                 if (this.announcement.content != '') {
                     this.isloading = true;
                     this.announcement.file = "sample"
-                    this.announcement.course_id = this.$route.params.id == this.class_id ? this.$route.params.id : null;
-                    this.announcement.class_id = this.$route.params.id != this.class_id ? this.class_id  : null;;
+                    if(this.isCourse_id == true){
+                        this.announcement.course_id = this.$route.params.id;
+                        this.announcement.class_id = null;
+                    }else{
+                        this.announcement.course_id = null;
+                        this.announcement.class_id = this.class_id;
+                    }
+                    /* this.announcement.course_id = this.$route.params.id == this.class_id ? this.$route.params.id : null;
+                    this.announcement.class_id = this.$route.params.id != this.class_id ? this.class_id  : null; */
                     this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
                     this.$store.dispatch('createClassPost', this.announcement)
                     .then(res=>{

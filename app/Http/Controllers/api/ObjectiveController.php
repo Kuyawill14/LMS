@@ -108,6 +108,7 @@ class ObjectiveController extends Controller
                     ->select('tbl_choices.id','tbl_choices.question_id','tbl_choices.Choice')
                     ->where('tbl_choices.isDestructor', false)
                     ->first();
+                    
                     if(auth('sanctum')->user()->role == 'Student'){
                         $item->answer_id = null;
                     }

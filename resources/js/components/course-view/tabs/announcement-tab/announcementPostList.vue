@@ -5,18 +5,20 @@
                  <div :class="$vuetify.breakpoint.mdAndUp  ? 'd-inline-flex' : ''">
                     <v-select
                         :items="classNames"
+                        @change="CheckClass_id(tmp_class_id)"
                         item-text="class_name"
-                        item-value="class_id"
+                        item-value="id"
                         label="Class"
-                        v-model="class_id"
-                        solo
-                        ></v-select> 
+                        v-model="tmp_class_id"
+                        return-object=""
+                        solo>
+                        </v-select> 
                 </div>
             </v-col>
         </v-row>
        
      
-        <v-card v-show="post.class_id == class_id || class_id == $route.params.id" class="mb-10" v-for="(post, index) in getclass_post" :key="post.id">
+        <v-card v-show="(post.class_id == class_id || post.course_id == $route.params.id ) || class_id == $route.params.id" class="mb-10" v-for="(post, index) in getclass_post" :key="post.id">
            <!--Post Poser -->
               <vue-element-loading color="primary" :active="isdeleting && isdeleting_id == post.post_id" spinner="bar-fade-scale" />
             <v-row class="pl-4 pr-5 pt-2 mb-3 " >
@@ -127,6 +129,8 @@ import axios from 'axios';
             CommentList:[],
             showLess:true,
             class_id: this.$route.params.id,
+            tmp_class_id: this.$route.params.id,
+            isCourse_id: true,
             isLoadingMore: false,
             isdeleting: false,
             isdeleting_id: null,
@@ -172,10 +176,16 @@ import axios from 'axios';
     
         methods: {
             ...mapActions(['deleteClassPost']),
-           /*  test() {
-                $('.img-fluid').click(function () {
-                })
-            }, */
+            CheckClass_id(data){
+                if(data.isCourse_id){
+                    this.class_id = this.$route.params.id;
+                    this.isCourse_id = true;
+                }else{
+                    this.class_id = data.class_id;
+                    this.isCourse_id = false;
+                }
+
+            },
             format_date(value){
                 if (value) {
                 return moment(String(value)).tz('Asia/Manila').format("ddd, MMMM DD, YYYY h:mm a")

@@ -111,11 +111,17 @@
                         this.$store.dispatch('fetchClassesNames', this.$route.params.id)
                         .then(()=>{
                             this.classNames = this.getClassesNames;
-                            this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                            this.classNames.forEach(item => {
+                                item.isCourse_id = false;
+                            });
+                            this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id, isCourse_id: true})
                         })
                     }else{
                         this.classNames = this.getClassesNames;
-                        this.classNames.push({ class_id: this.$route.params.id, class_name: 'All Class', id: this.$route.params.id});
+                         this.classNames.forEach(item => {
+                            item.isCourse_id = false;
+                        });
+                        this.classNames.push({ class_id: this.$route.params.id , class_name: 'All Class', id: this.$route.params.id, isCourse_id: true});
                     }
                 
                 /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
@@ -139,11 +145,14 @@
         },
         mounted() {
             this.connect();
-            this.fetchClassnames();
+            
         
                $('head > title').text('Announcement');
     
            
+        },
+        beforeMount(){
+            this.fetchClassnames();
         },
         beforeDestroy(){
             //this.classNames.destroy();

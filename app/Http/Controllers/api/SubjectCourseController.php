@@ -102,7 +102,7 @@ class SubjectCourseController extends Controller
             ->where('tbl_userclasses.user_id',  $userId)
             ->first();
             
-            $ShowCourseDetails->v_classroom_link = $class->meeting_link;
+            $ShowCourseDetails->class_v_link = $class->meeting_link;
             return $ShowCourseDetails;
         }
         else{

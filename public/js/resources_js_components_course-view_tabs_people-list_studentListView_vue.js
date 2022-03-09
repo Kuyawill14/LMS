@@ -13,12 +13,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -90,7 +97,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
+ //const removeConfirmDialog = () => import('../dialog/removeConfirmDialog')
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {//removeConfirmDialog
   },
@@ -106,7 +114,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       RemoveDetails: {}
     };
   },
-  computed: {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["get_CurrentUser"])), {}, {
     getAllStudents: function getAllStudents() {
       var _this = this;
 
@@ -120,7 +128,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return this.students;
       }
     }
-  },
+  }),
   methods: {
     RemoveConfirm: function RemoveConfirm(fname, lname, class_name, class_id, user_id) {
       this.RemoveDetails.name = fname + ' ' + lname;
@@ -419,7 +427,8 @@ var render = function() {
                                           _vm._v(
                                             _vm._s(item.firstName) +
                                               " " +
-                                              _vm._s(item.lastName)
+                                              _vm._s(item.lastName) +
+                                              " "
                                           )
                                         ])
                                       ],
@@ -503,7 +512,17 @@ var render = function() {
                                             _vm._s(item.firstName) +
                                               " " +
                                               _vm._s(item.lastName)
-                                          )
+                                          ),
+                                          _vm.get_CurrentUser.student_id ==
+                                          item.student_id
+                                            ? _c(
+                                                "span",
+                                                {
+                                                  staticClass: "primary--text"
+                                                },
+                                                [_vm._v("(Me)")]
+                                              )
+                                            : _vm._e()
                                         ])
                                       ],
                                       1

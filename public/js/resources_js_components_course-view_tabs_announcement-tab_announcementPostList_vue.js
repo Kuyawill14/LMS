@@ -136,6 +136,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 var announcementList = function announcementList() {
@@ -165,6 +167,8 @@ var commentList = function commentList() {
       CommentList: [],
       showLess: true,
       class_id: this.$route.params.id,
+      tmp_class_id: this.$route.params.id,
+      isCourse_id: true,
       isLoadingMore: false,
       isdeleting: false,
       isdeleting_id: null,
@@ -202,10 +206,15 @@ var commentList = function commentList() {
     }
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapActions)(['deleteClassPost'])), {}, {
-    /*  test() {
-         $('.img-fluid').click(function () {
-         })
-     }, */
+    CheckClass_id: function CheckClass_id(data) {
+      if (data.isCourse_id) {
+        this.class_id = this.$route.params.id;
+        this.isCourse_id = true;
+      } else {
+        this.class_id = data.class_id;
+        this.isCourse_id = false;
+      }
+    },
     format_date: function format_date(value) {
       if (value) {
         return moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(String(value)).tz('Asia/Manila').format("ddd, MMMM DD, YYYY h:mm a");
@@ -22736,16 +22745,22 @@ var render = function() {
                         attrs: {
                           items: _vm.classNames,
                           "item-text": "class_name",
-                          "item-value": "class_id",
+                          "item-value": "id",
                           label: "Class",
+                          "return-object": "",
                           solo: ""
                         },
+                        on: {
+                          change: function($event) {
+                            return _vm.CheckClass_id(_vm.tmp_class_id)
+                          }
+                        },
                         model: {
-                          value: _vm.class_id,
+                          value: _vm.tmp_class_id,
                           callback: function($$v) {
-                            _vm.class_id = $$v
+                            _vm.tmp_class_id = $$v
                           },
-                          expression: "class_id"
+                          expression: "tmp_class_id"
                         }
                       })
                     ],
@@ -22768,9 +22783,10 @@ var render = function() {
                 rawName: "v-show",
                 value:
                   post.class_id == _vm.class_id ||
+                  post.course_id == _vm.$route.params.id ||
                   _vm.class_id == _vm.$route.params.id,
                 expression:
-                  "post.class_id == class_id || class_id == $route.params.id"
+                  "(post.class_id == class_id || post.course_id == $route.params.id ) || class_id == $route.params.id"
               }
             ],
             key: post.id,

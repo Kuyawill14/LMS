@@ -898,6 +898,11 @@ export default {
                                     isEditing: false
                                 })  
                         });
+
+
+
+
+
                         this.isloading = false;
                         this.Qlength = tmp.length;
                 }
@@ -1087,38 +1092,7 @@ export default {
                     duration: 4000,
                 });
                 //this.SaveAllQuestion();
-            })
-
-
-             /* this.isNewChanges = true; */
-            /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
-                
-                this.getAll_questions.Answer[mainIndex].SubQuestion = [{
-                        id: null,
-                        answer_id: null,
-                        sub_question: ''
-                    }
-                ]
-                this.getAll_questions.Answer[mainIndex].SubAnswer = [{
-                        id : null, 
-                        Choice : '',
-                        question_id : id
-                    }
-                ]
-            }
-            else{ */
-                /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                    id: null,
-                    answer_id: null,
-                    sub_question: ''
-                })
-                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                    id : null, 
-                    Choice : '',
-                    question_id : id
-                }) */
-            //}
-            
+            })       
         },
         async RemoveOption(id,Mainindex , AnsIndex, type){
             if(id == null || id == ''){
@@ -1365,7 +1339,6 @@ export default {
 
                 for (let i = 0; i < res.data.question_id.length; i++) {
 
-                    console.log(res.data.question_answer_id[i]);
                     if(this.DuplicateQuestion[i].isNew){
                          this.getAll_questions.Question.push({
                             id: res.data.question_id[i],

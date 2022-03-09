@@ -233,18 +233,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   request_id: data
                 }).then(function (res) {
                   if (res.status == 200 && res.data.status == 1) {
-                    for (var i = 0; i < _this3.selectedStudent.length; i++) {
-                      if (_this3.selectedStudent[i].isSelected == true) {
-                        _this3.JoinRequestList.splice(i, 1);
+                    /* for (let i = 0; i < this.selectedStudent.length; i++) {
+                        if(this.selectedStudent[i].isSelected == true){
+                            
+                             this.selectedCount--;
+                             this.isSelectedAll = false;
+                             
+                        }                        
+                    } */
+                    var count = 0;
 
-                        _this3.selectedStudent.splice(i, 1);
+                    _this3.selectedStudent.forEach(function (item) {
+                      if (item.isSelected == true) {
+                        _this3.JoinRequestList.splice(count, 1);
+
+                        _this3.selectedStudent.splice(count, 1);
 
                         _this3.selectedCount--;
                         _this3.isSelectedAll = false;
 
                         _this3.$store.dispatch('UpdateJoinCount');
                       }
-                    }
+
+                      count++;
+                    });
 
                     _this3.$store.dispatch('fetchAllStudents', _this3.$route.params.id);
                   }
@@ -310,18 +322,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.put('/api/teacher/multiple_reject_student_join_request', {
                   request_id: data
                 }).then(function () {
-                  for (var i = 0; i < _this5.selectedStudent.length; i++) {
-                    if (_this5.selectedStudent[i].isSelected == true) {
-                      _this5.JoinRequestList.splice(i, 1);
+                  /*   for (let i = 0; i < this.selectedStudent.length; i++) {
+                        if(this.selectedStudent[i].isSelected == true){
+                            this.JoinRequestList.splice(i, 1);
+                            this.selectedStudent.splice(i, 1);
+                            
+                            this.$store.dispatch('UpdateJoinCount');
+                        }                        
+                    } */
+                  var count = 0;
 
-                      _this5.selectedStudent.splice(i, 1);
+                  _this5.selectedStudent.forEach(function (item) {
+                    if (item.isSelected == true) {
+                      _this5.JoinRequestList.splice(count, 1);
+
+                      _this5.selectedStudent.splice(count, 1);
 
                       _this5.selectedCount--;
                       _this5.isSelectedAll = false;
 
                       _this5.$store.dispatch('UpdateJoinCount');
                     }
-                  }
+
+                    count++;
+                  });
 
                   _this5.confirmDialog = false;
                 })["catch"](function (err) {

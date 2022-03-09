@@ -43,9 +43,10 @@ class AnnouncementController extends Controller
             foreach($classes as $item){
                 $list[] = $item->id;
             }
+
             $allClassPost = tbl_classpost::where("tbl_classposts.course_id", $id)
             ->orWhereIn("tbl_classposts.class_id", $list)
-            ->select("tbl_classposts.id as post_id","tbl_classposts.user_id as u_id", "tbl_classposts.class_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at",
+            ->select("tbl_classposts.id as post_id","tbl_classposts.user_id as u_id", "tbl_classposts.class_id","tbl_classposts.course_id", "tbl_class_announcements.id as announcement_id","tbl_class_announcements.content","tbl_class_announcements.file","tbl_class_announcements.created_at","tbl_class_announcements.updated_at",
              DB::raw("CONCAT(tbl_user_details.firstName,' ',tbl_user_details.lastName) as name"),"tbl_user_details.profile_pic")
             ->leftJoin("tbl_classworks", "tbl_classposts.classwork_id", "=", "tbl_classworks.id")
             ->leftJoin("tbl_class_announcements", "tbl_classposts.announcement_id", "=", "tbl_class_announcements.id")
