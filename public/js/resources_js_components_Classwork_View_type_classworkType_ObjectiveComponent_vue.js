@@ -417,6 +417,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var viewSubmission = function viewSubmission() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_submissionView_viewSubmission_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./submissionView/viewSubmission */ "./resources/js/components/Classwork_View/type/classworkType/submissionView/viewSubmission.vue"));
 };
@@ -2298,314 +2327,433 @@ var render = function() {
                                           _c(
                                             "v-row",
                                             [
-                                              _vm.format_date1(
-                                                _vm.classworkDetails.currentDate
-                                              ) >=
-                                              _vm.format_date1(
-                                                _vm.classworkDetails.from_date
-                                              )
-                                                ? _c(
-                                                    "v-col",
-                                                    { attrs: { cols: "12" } },
-                                                    [
-                                                      (_vm.classworkDetails
-                                                        .status == null ||
-                                                        _vm.classworkDetails
-                                                          .status == "") &&
+                                              _c(
+                                                "v-col",
+                                                { attrs: { cols: "12" } },
+                                                [
+                                                  _vm.format_date1(
+                                                    _vm.classworkDetails
+                                                      .currentDate
+                                                  ) >=
+                                                    _vm.format_date1(
                                                       _vm.classworkDetails
-                                                        .status !=
-                                                        "Submitted" &&
+                                                        .from_date
+                                                    ) &&
+                                                  _vm.format_date1(
+                                                    _vm.classworkDetails
+                                                      .currentDate
+                                                  ) <=
+                                                    _vm.format_date1(
                                                       _vm.classworkDetails
-                                                        .publish == null
-                                                        ? _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                block: !_vm
-                                                                  .$vuetify
-                                                                  .breakpoint
-                                                                  .mdAndUp,
-                                                                rounded: "",
-                                                                loading:
-                                                                  _vm.isOpenQuiz,
-                                                                color:
-                                                                  "primary",
-                                                                dark:
-                                                                  _vm.totalQuestion !=
-                                                                  0,
-                                                                disabled:
-                                                                  _vm.totalQuestion ==
-                                                                  0
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  _vm
-                                                                    .classworkDetails
-                                                                    .status !=
-                                                                  "Submitted"
-                                                                    ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
-                                                                    : ""
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                        Take Quiz"
-                                                              ),
-                                                              _c(
-                                                                "v-icon",
+                                                        .to_date
+                                                    )
+                                                    ? _c(
+                                                        "div",
+                                                        [
+                                                          (_vm.classworkDetails
+                                                            .status == null ||
+                                                            _vm.classworkDetails
+                                                              .status == "") &&
+                                                          _vm.classworkDetails
+                                                            .status !=
+                                                            "Submitted" &&
+                                                          _vm.classworkDetails
+                                                            .publish == null
+                                                            ? _c(
+                                                                "v-btn",
                                                                 {
                                                                   attrs: {
-                                                                    right: "",
-                                                                    dark: ""
+                                                                    block: !_vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp,
+                                                                    rounded: "",
+                                                                    loading:
+                                                                      _vm.isOpenQuiz,
+                                                                    color:
+                                                                      "primary",
+                                                                    dark:
+                                                                      _vm.totalQuestion !=
+                                                                      0,
+                                                                    disabled:
+                                                                      _vm.totalQuestion ==
+                                                                      0
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm
+                                                                        .classworkDetails
+                                                                        .status !=
+                                                                      "Submitted"
+                                                                        ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
+                                                                        : ""
+                                                                    }
                                                                   }
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "mdi-book-arrow-right-outline"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      _vm.classworkDetails
-                                                        .status == "Taking" &&
-                                                      _vm.classworkDetails
-                                                        .publish == null
-                                                        ? _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                block: !_vm
-                                                                  .$vuetify
-                                                                  .breakpoint
-                                                                  .mdAndUp,
-                                                                rounded: "",
-                                                                loading:
-                                                                  _vm.isOpenQuiz,
-                                                                color:
-                                                                  "primary",
-                                                                dark: ""
-                                                              },
-                                                              on: {
-                                                                click: function(
-                                                                  $event
-                                                                ) {
-                                                                  return _vm.continueQuiz(
-                                                                    _vm
-                                                                      .classworkDetails
-                                                                      .id
-                                                                  )
-                                                                }
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                        Continue"
-                                                              ),
-                                                              _c(
-                                                                "v-icon",
-                                                                {
-                                                                  attrs: {
-                                                                    right: "",
-                                                                    dark: ""
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "mdi-book-arrow-right-outline"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e(),
-                                                      _vm._v(" "),
-                                                      _vm.classworkDetails
-                                                        .status ==
-                                                        "Submitted" &&
-                                                      _vm.classworkDetails
-                                                        .reviewAnswer == 1
-                                                        ? _c(
-                                                            "div",
-                                                            [
-                                                              _vm
-                                                                .classworkDetails
-                                                                .showAnswerType ==
-                                                              0
-                                                                ? _c(
-                                                                    "v-btn",
+                                                                    "\n                                            Take Quiz"
+                                                                  ),
+                                                                  _c(
+                                                                    "v-icon",
                                                                     {
                                                                       attrs: {
-                                                                        block: !_vm
-                                                                          .$vuetify
-                                                                          .breakpoint
-                                                                          .mdAndUp,
-                                                                        rounded:
+                                                                        right:
                                                                           "",
-                                                                        color:
-                                                                          "primary"
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          _vm.isViewingSubmission = !_vm.isViewingSubmission
-                                                                        }
+                                                                        dark: ""
                                                                       }
                                                                     },
                                                                     [
                                                                       _vm._v(
-                                                                        "View\n                                            Submission"
-                                                                      ),
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        {
-                                                                          attrs: {
-                                                                            right:
-                                                                              "",
-                                                                            dark:
-                                                                              ""
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            "mdi-book-arrow-right-outline"
-                                                                          )
-                                                                        ]
+                                                                        "mdi-book-arrow-right-outline"
                                                                       )
-                                                                    ],
-                                                                    1
+                                                                    ]
                                                                   )
-                                                                : _vm._e(),
-                                                              _vm._v(" "),
+                                                                ],
+                                                                1
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          _vm.classworkDetails
+                                                            .status ==
+                                                            "Taking" &&
+                                                          _vm.classworkDetails
+                                                            .publish == null
+                                                            ? _c(
+                                                                "v-btn",
+                                                                {
+                                                                  attrs: {
+                                                                    block: !_vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp,
+                                                                    rounded: "",
+                                                                    loading:
+                                                                      _vm.isOpenQuiz,
+                                                                    color:
+                                                                      "primary",
+                                                                    dark: ""
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return _vm.continueQuiz(
+                                                                        _vm
+                                                                          .classworkDetails
+                                                                          .id
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\n                                            Continue"
+                                                                  ),
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        right:
+                                                                          "",
+                                                                        dark: ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "mdi-book-arrow-right-outline"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            : _vm._e()
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _c("div", [
+                                                        _vm.format_date1(
+                                                          _vm.classworkDetails
+                                                            .currentDate
+                                                        ) >
+                                                          _vm.format_date1(
+                                                            _vm.classworkDetails
+                                                              .to_date
+                                                          ) &&
+                                                        _vm.classworkDetails
+                                                          .response_late == 1
+                                                          ? _c(
+                                                              "div",
+                                                              [
+                                                                (_vm
+                                                                  .classworkDetails
+                                                                  .status ==
+                                                                  null ||
+                                                                  _vm
+                                                                    .classworkDetails
+                                                                    .status ==
+                                                                    "") &&
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .status !=
+                                                                  "Submitted" &&
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .publish ==
+                                                                  null
+                                                                  ? _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          block: !_vm
+                                                                            .$vuetify
+                                                                            .breakpoint
+                                                                            .mdAndUp,
+                                                                          rounded:
+                                                                            "",
+                                                                          loading:
+                                                                            _vm.isOpenQuiz,
+                                                                          color:
+                                                                            "primary",
+                                                                          dark:
+                                                                            _vm.totalQuestion !=
+                                                                            0,
+                                                                          disabled:
+                                                                            _vm.totalQuestion ==
+                                                                            0
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            _vm
+                                                                              .classworkDetails
+                                                                              .status !=
+                                                                            "Submitted"
+                                                                              ? (_vm.confirmStartDialog = !_vm.confirmStartDialog)
+                                                                              : ""
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                Take Quiz"
+                                                                        ),
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              right:
+                                                                                "",
+                                                                              dark:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-book-arrow-right-outline"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  : _vm._e(),
+                                                                _vm._v(" "),
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .status ==
+                                                                  "Taking" &&
+                                                                _vm
+                                                                  .classworkDetails
+                                                                  .publish ==
+                                                                  null
+                                                                  ? _c(
+                                                                      "v-btn",
+                                                                      {
+                                                                        attrs: {
+                                                                          block: !_vm
+                                                                            .$vuetify
+                                                                            .breakpoint
+                                                                            .mdAndUp,
+                                                                          rounded:
+                                                                            "",
+                                                                          loading:
+                                                                            _vm.isOpenQuiz,
+                                                                          color:
+                                                                            "primary",
+                                                                          dark:
+                                                                            ""
+                                                                        },
+                                                                        on: {
+                                                                          click: function(
+                                                                            $event
+                                                                          ) {
+                                                                            return _vm.continueQuiz(
+                                                                              _vm
+                                                                                .classworkDetails
+                                                                                .id
+                                                                            )
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                      [
+                                                                        _vm._v(
+                                                                          "\n                                                Continue"
+                                                                        ),
+                                                                        _c(
+                                                                          "v-icon",
+                                                                          {
+                                                                            attrs: {
+                                                                              right:
+                                                                                "",
+                                                                              dark:
+                                                                                ""
+                                                                            }
+                                                                          },
+                                                                          [
+                                                                            _vm._v(
+                                                                              "mdi-book-arrow-right-outline"
+                                                                            )
+                                                                          ]
+                                                                        )
+                                                                      ],
+                                                                      1
+                                                                    )
+                                                                  : _vm._e()
+                                                              ],
+                                                              1
+                                                            )
+                                                          : _vm._e()
+                                                      ]),
+                                                  _vm._v(" "),
+                                                  _vm.classworkDetails.status ==
+                                                    "Submitted" &&
+                                                  _vm.classworkDetails
+                                                    .reviewAnswer == 1
+                                                    ? _c(
+                                                        "div",
+                                                        [
+                                                          _vm.classworkDetails
+                                                            .showAnswerType == 0
+                                                            ? _c(
+                                                                "v-btn",
+                                                                {
+                                                                  attrs: {
+                                                                    block: !_vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp,
+                                                                    rounded: "",
+                                                                    color:
+                                                                      "primary"
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "View\n                                            Submission"
+                                                                  ),
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        right:
+                                                                          "",
+                                                                        dark: ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "mdi-book-arrow-right-outline"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ],
+                                                                1
+                                                              )
+                                                            : _vm._e(),
+                                                          _vm._v(" "),
+                                                          _vm.classworkDetails
+                                                            .showAnswerType ==
+                                                            1 &&
+                                                          _vm.format_date1(
+                                                            _vm.classworkDetails
+                                                              .currentDate
+                                                          ) >=
+                                                            _vm.format_date1(
                                                               _vm
                                                                 .classworkDetails
-                                                                .showAnswerType ==
-                                                                1 &&
+                                                                .showDateFrom
+                                                            ) &&
+                                                            _vm.format_date1(
+                                                              _vm
+                                                                .classworkDetails
+                                                                .currentDate
+                                                            ) <=
                                                               _vm.format_date1(
                                                                 _vm
                                                                   .classworkDetails
-                                                                  .currentDate
-                                                              ) >=
-                                                                _vm.format_date1(
-                                                                  _vm
-                                                                    .classworkDetails
-                                                                    .showDateFrom
-                                                                ) &&
-                                                                _vm.format_date1(
-                                                                  _vm
-                                                                    .classworkDetails
-                                                                    .currentDate
-                                                                ) <=
-                                                                  _vm.format_date1(
-                                                                    _vm
-                                                                      .classworkDetails
-                                                                      .showDateTo
-                                                                  )
-                                                                ? _c(
-                                                                    "v-btn",
-                                                                    {
-                                                                      attrs: {
-                                                                        block: !_vm
-                                                                          .$vuetify
-                                                                          .breakpoint
-                                                                          .mdAndUp,
-                                                                        rounded:
-                                                                          "",
-                                                                        color:
-                                                                          "primary"
-                                                                      },
-                                                                      on: {
-                                                                        click: function(
-                                                                          $event
-                                                                        ) {
-                                                                          _vm.isViewingSubmission = !_vm.isViewingSubmission
-                                                                        }
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        "\n                                            View Submission"
-                                                                      ),
-                                                                      _c(
-                                                                        "v-icon",
-                                                                        {
-                                                                          attrs: {
-                                                                            right:
-                                                                              "",
-                                                                            dark:
-                                                                              ""
-                                                                          }
-                                                                        },
-                                                                        [
-                                                                          _vm._v(
-                                                                            "mdi-book-arrow-right-outline"
-                                                                          )
-                                                                        ]
-                                                                      )
-                                                                    ],
-                                                                    1
-                                                                  )
-                                                                : _vm._e()
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e()
-                                                    ],
-                                                    1
-                                                  )
-                                                : _c(
-                                                    "v-col",
-                                                    { attrs: { cols: "12" } },
-                                                    [
-                                                      _vm.classworkDetails
-                                                        .publish == null
-                                                        ? _c(
-                                                            "v-btn",
-                                                            {
-                                                              attrs: {
-                                                                block: !_vm
-                                                                  .$vuetify
-                                                                  .breakpoint
-                                                                  .mdAndUp,
-                                                                rounded: "",
-                                                                color:
-                                                                  "primary",
-                                                                disabled: ""
-                                                              }
-                                                            },
-                                                            [
-                                                              _vm._v(
-                                                                "\n                                        Not Yet Available"
-                                                              ),
-                                                              _c(
-                                                                "v-icon",
+                                                                  .showDateTo
+                                                              )
+                                                            ? _c(
+                                                                "v-btn",
                                                                 {
                                                                   attrs: {
-                                                                    right: "",
-                                                                    dark: ""
+                                                                    block: !_vm
+                                                                      .$vuetify
+                                                                      .breakpoint
+                                                                      .mdAndUp,
+                                                                    rounded: "",
+                                                                    color:
+                                                                      "primary"
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      _vm.isViewingSubmission = !_vm.isViewingSubmission
+                                                                    }
                                                                   }
                                                                 },
                                                                 [
                                                                   _vm._v(
-                                                                    "mdi-book-arrow-right-outline"
+                                                                    "\n                                            View Submission"
+                                                                  ),
+                                                                  _c(
+                                                                    "v-icon",
+                                                                    {
+                                                                      attrs: {
+                                                                        right:
+                                                                          "",
+                                                                        dark: ""
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "mdi-book-arrow-right-outline"
+                                                                      )
+                                                                    ]
                                                                   )
-                                                                ]
+                                                                ],
+                                                                1
                                                               )
-                                                            ],
-                                                            1
-                                                          )
-                                                        : _vm._e()
-                                                    ],
-                                                    1
-                                                  )
+                                                            : _vm._e()
+                                                        ],
+                                                        1
+                                                      )
+                                                    : _vm._e()
+                                                ]
+                                              )
                                             ],
                                             1
                                           )

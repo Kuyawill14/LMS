@@ -130,7 +130,8 @@
                             <v-col v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)"
                                 cols="12" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                                 <v-alert class="ma-0 pa-0" outlined
-                                    :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
+                                     :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' && item.submitted_at > item.to_date  ? 'red' : 
+                                    item.status == 'Submitted' && item.submitted_at <= item.to_date ? 'success' : 'grey'">
                                     <v-list-item class="pt-1 pb-1" link>
                                         <v-list-item-avatar @click="ViewSubmision(item, i)">
                                             <v-avatar color="brown" size="40">
@@ -146,8 +147,10 @@
                                             <v-list-item-subtitle>
                                                 <v-icon left small color="success" v-if="item.status == 'Submitted'">
                                                     mdi-check</v-icon>
-                                                <span class="success--text"
-                                                    v-if="item.status == 'Submitted'">Submitted</span>
+                                                <span class="success--text"  v-if="item.status == 'Submitted' && item.graded == 0 && item.submitted_at <= item.to_date">Submitted</span>
+                                            <span class="red--text"  v-if="item.status == 'Submitted' && item.graded == 0 && item.submitted_at > item.to_date">Submitted Late</span>
+
+
                                                 <span class="blue--text" v-else-if="item.status == 'Taking'"></span>
                                                 <span class="red--text" v-else>No Submission</span>
                                             </v-list-item-subtitle>

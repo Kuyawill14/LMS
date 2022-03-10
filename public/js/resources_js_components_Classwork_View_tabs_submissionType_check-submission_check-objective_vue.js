@@ -1748,9 +1748,11 @@ var resetConfirmation = function resetConfirmation() {
       var _this14 = this;
 
       if (sub_id != null) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
-          _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
-        });
+        if (this.ViewDetails.status == 'Submitted') {
+          axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
+            _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
+          });
+        }
       }
     },
     getSubmittedAnswer: function getSubmittedAnswer() {

@@ -478,19 +478,20 @@ class TeacherController extends Controller
        
         $ResetSubmission = tbl_Submission::find($id);
         if($ResetSubmission){
-            $removeComment = tbl_comment::where('classwork_id', $ResetSubmission->classwork_id)->delete();
-            foreach($request["files"] as $item){
-                if($item["fileExte"] != "link"){
-                    $path =  str_replace(\Config::get('app.do_url').'/', "", $item['link']);
-                    Storage::disk('DO_spaces')->delete($path);
+            if($request["files"]){
+                foreach($request["files"] as $item){
+                    if($item["fileExte"] != "link"){
+                        $path =  str_replace(\Config::get('app.do_url').'/', "", $item['link']);
+                        Storage::disk('DO_spaces')->delete($path);
+                    }
                 }
             }
+           
             $ResetSubmission->forceDelete();
             return "Reset Success";
         }
         return "Submission Not found";
        
-
     }
 
      /**

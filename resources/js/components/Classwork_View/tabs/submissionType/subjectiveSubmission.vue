@@ -174,7 +174,10 @@
                 <v-row v-else>
                     <v-col  v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)" link  cols="12" md="6" lg="4" xl="3"  v-for="(item,i) in studentSubmissionList" :key="i">
 
-                        <v-alert class="ma-0 pa-0"  outlined :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
+                        <v-alert class="ma-0 pa-0"  outlined
+                        
+                         :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' && item.submitted_at > item.to_date  ? 'red' : 
+                         item.status == 'Submitted' && item.submitted_at <= item.to_date ? 'success' : 'grey'">
                             <v-list-item   class="pt-1 pb-1"  link  >
                                     <v-list-item-avatar @click="ViewSubmission(item, i)">
                                         <v-avatar color="brown" size="40">
@@ -188,9 +191,10 @@
                                              {{item.firstName +' '+item.lastName}}
                                         </v-list-item-title>
                                          <v-list-item-subtitle class="success--text" ><v-icon v-if="item.graded == 1" small color="success">mdi-check</v-icon> 
-                                            <span class="success--text"  v-if="item.status == 'Submitted' && item.graded == 0">Submitted</span>
-                                              <span class="success--text" v-else-if="item.status == 'Submitted' && item.graded == 1">Graded</span>
-                                              <span class="red--text"  v-else>No Submission</span>
+                                            <span class="success--text"  v-if="item.status == 'Submitted' && item.graded == 0 && item.submitted_at <= item.to_date">Submitted</span>
+                                            <span class="red--text"  v-if="item.status == 'Submitted' && item.graded == 0 && item.submitted_at > item.to_date">Submitted Late</span>
+                                            <span class="success--text" v-else-if="item.status == 'Submitted' && item.graded == 1">Graded</span>
+                                            <span class="red--text"  v-else>No Submission</span>
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
                                     <v-list-item-action v-if="item.status != null && item.status != 'Submitting'" style="max-width:150px !important">
@@ -305,7 +309,7 @@ export default {
             ],
             isSavingScore: false,
             score: null,
-            StatusType: ['Submitted', 'Graded', 'No Submission'],
+            StatusType: ['Submitted', 'Graded','Late Submission' ,'No Submission'],
             selectedStatus:'Submitted',
             SortType: ['Name', 'Highest Score', 'Lowest Score'],
             selectedShowNumber: 24,
@@ -356,6 +360,50 @@ export default {
                         }
                         else{
                             return Filterddata.sort();
+                        }
+                    }
+                }
+                else if(this.selectedStatus == 'Late Submission'){
+                    let Filterddata = this.ListData;
+                     Filterddata =  Filterddata.filter((item) => {
+                         if(this.Class == this.$route.params.id){
+                             return (item.status == "Submitted" && item.graded == 0 && item.submitted_at > item.to_date)
+                         }
+                         else{
+                              return (item.status == "Submitted" && item.graded == 0 && item.class_id == this.Class && item.submitted_at > item.to_date)
+                         }
+                    })
+                     this.Submitted_count = Filterddata.length;
+                    if(this.selectedSort == "Name"){
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = Filterddata.sort();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return Filterddata.sort();
+                        }
+                    }
+                    else if(this.selectedSort == "Lowest Score"){
+                        let data = Filterddata.sort((a, b) => {
+                            return a.points - b.points; 
+                        })
+                        if(this.selectedShowNumber != 'all'){
+                            return data.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data;
+                        }
+                    }
+                    else if(this.selectedSort == "Highest Score"){
+                        let data = Filterddata.sort((a, b) => {
+                            return a.points - b.points; 
+                        })
+                        if(this.selectedShowNumber != 'all'){
+                            let data2 = data.reverse();
+                            return data2.splice(0, this.selectedShowNumber)
+                        }
+                        else{
+                            return data.reverse();
                         }
                     }
                 }

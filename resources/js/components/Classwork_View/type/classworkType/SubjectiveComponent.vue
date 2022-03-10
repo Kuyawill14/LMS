@@ -151,7 +151,7 @@
                     <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
                         <div v-if="classworkDetails.publish == null">
-                            <v-btn v-if="classworkDetails.status == 'Submitted' && !classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                            <v-btn v-if="classworkDetails.status == 'Submitted' && !classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
                             <v-chip v-if="classworkDetails.graded && $vuetify.breakpoint.mdAndUp"
                               class="ma-2" color="green" outlined>
                             Graded: {{classworkDetails.score}} /{{classworkDetails.points}}
@@ -219,7 +219,7 @@
                                                       </v-progress-linear>
                                                 </v-list-item-subtitle>
                                             </v-list-item-content>
-                                            <v-list-item-action v-if="!classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)">
+                                            <v-list-item-action v-if="!classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)">
                                                  <v-tooltip v-if="(classworkDetails.status == 'Submitting' || isResubmit) && classworkDetails.publish == null" top>
                                                   <template v-slot:activator="{ on, attrs }">
                                                       
@@ -239,7 +239,97 @@
                      
                           </v-col>
                         
-                           <v-col v-if="!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(DateToday) <= format_date1(classworkDetails.to_date): true)" class="ma-0 pa-0 mb-4 " cols="12" >
+                           <v-col  class="ma-0 pa-0 mb-4 " cols="12" >
+                             <div v-if="classworkDetails.availability == 0">
+                                <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                    :loading="isUploadSaving"
+                                      block
+                                      class="pl-12 pr-12 pb-3 pt-3"
+                                      color="primary"
+                                      dark
+                                      :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
+                                      outlined
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    >
+                                    {{attrs.expanded}}
+                                      {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
+                                    </v-btn>
+                                  </template>
+                                  <v-list nav dense>
+                                    <v-list-item link  @click="UploadFile()">
+                                          <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                    </v-list-item>
+                                      <v-list-item link @click="AttachLink = !AttachLink" >
+                                            <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                    </v-list-item>
+                                  </v-list>
+                                </v-menu>
+                             </div>
+                             <div v-if="classworkDetails.availability == 1">
+                               <div v-if="!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)">
+                                  <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                      :loading="isUploadSaving"
+                                        block
+                                        class="pl-12 pr-12 pb-3 pt-3"
+                                        color="primary"
+                                        dark
+                                        :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
+                                        outlined
+                                        v-bind="attrs"
+                                        v-on="on"
+                                      >
+                                      {{attrs.expanded}}
+                                        {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
+                                      </v-btn>
+                                    </template>
+                                    <v-list nav dense>
+                                      <v-list-item link  @click="UploadFile()">
+                                            <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                      </v-list-item>
+                                        <v-list-item link @click="AttachLink = !AttachLink" >
+                                              <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                      </v-list-item>
+                                    </v-list>
+                                  </v-menu>
+                              </div>
+
+                              <div v-if="classworkDetails.response_late == 1 && (format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.from_date))">
+                                     <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
+                                      <template v-slot:activator="{ on, attrs }">
+                                        <v-btn
+                                        :loading="isUploadSaving"
+                                          block
+                                          class="pl-12 pr-12 pb-3 pt-3"
+                                          color="primary"
+                                          dark
+                                          :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
+                                          outlined
+                                          v-bind="attrs"
+                                          v-on="on"
+                                        >
+                                        {{attrs.expanded}}
+                                          {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
+                                        </v-btn>
+                                      </template>
+                                      <v-list nav dense>
+                                        <v-list-item link  @click="UploadFile()">
+                                              <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
+                                        </v-list-item>
+                                          <v-list-item link @click="AttachLink = !AttachLink" >
+                                                <v-icon left>mdi-link-variant</v-icon>Attach Link
+                                        </v-list-item>
+                                      </v-list>
+                                </v-menu>
+                              </div>
+                             </div>
+                          </v-col>
+
+                          <!--  <v-col v-if="!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)" class="ma-0 pa-0 mb-4 " cols="12" >
                             <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
@@ -248,7 +338,7 @@
                                     class="pl-12 pr-12 pb-3 pt-3"
                                     color="primary"
                                     dark
-                                    :disabled="classworkDetails.availability == 1 && (format_date1(DateToday) < format_date1(classworkDetails.from_date))"
+                                    :disabled="classworkDetails.availability == 1 && (format_date1(classworkDetails.currentDate) < format_date1(classworkDetails.from_date))"
                                     outlined
                                     v-bind="attrs"
                                     v-on="on"
@@ -266,7 +356,9 @@
                                   </v-list-item>
                                 </v-list>
                               </v-menu>
-                          </v-col>
+                          </v-col> -->
+
+                          
 
                            <v-col v-if="classworkDetails.availability == 0" class="ma-0 pa-0 mb-1 " cols="12" >
                               <v-btn
@@ -284,7 +376,7 @@
                            <v-col v-else class="ma-0 pa-0 mb-1 " cols="12" >
 
                              <v-row>
-                                <v-col cols="12" v-if="format_date1(DateToday) >= format_date1(classworkDetails.from_date)">
+                                <v-col cols="12" v-if="format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date)">
                                     <v-btn
                                     :disabled="classworkDetails.Submitted_Answers.length == 0"
                                     block
@@ -635,6 +727,12 @@ export default {
                 return moment(String(value)).tz("Asia/Manila").format('YYYY-MM-DD HH:mm:ss');
             }
         },
+         format_date(value) {
+            if (value) {
+                /* return moment(String(value)).format('dddd, h:mm a') */
+                return moment(String(value)).tz("Asia/Manila").format('MMMM DD, YYYY, h:mm a');
+            }
+        },
          comment_date(value) {
         if (value) {
             return moment(String(value)).tz("Asia/Manila").format('MMMM, DD YYYY, h:mm a');
@@ -708,12 +806,7 @@ export default {
            }
 
         },
-         format_date(value) {
-            if (value) {
-                /* return moment(String(value)).format('dddd, h:mm a') */
-                return moment(String(value)).tz("Asia/Manila").format('dddd, h:mm a');
-            }
-        },
+        
         DownLoadFile(file, extension){
             let link ;
           if(extension == 'docx'){

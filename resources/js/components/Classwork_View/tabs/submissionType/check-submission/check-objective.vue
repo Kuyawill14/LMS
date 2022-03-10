@@ -1680,11 +1680,13 @@ import axios from 'axios';
             },
              CheckScore(sub_id){
                  if(sub_id != null){
-                     axios.get('/api/question/StudentScore/'+sub_id)
-                    .then(res=>{
-                        this.ViewDetails.points = res.data;
-                        //this.ReSaveScore(res.data);
-                    })
+                    if(this.ViewDetails.status == 'Submitted'){
+                        axios.get('/api/question/StudentScore/'+sub_id)
+                        .then(res=>{
+                            this.ViewDetails.points = res.data;
+                            //this.ReSaveScore(res.data);
+                        })  
+                    }
                  }
                 
             },

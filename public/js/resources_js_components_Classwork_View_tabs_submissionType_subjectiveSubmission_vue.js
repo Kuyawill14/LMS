@@ -293,6 +293,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -346,7 +350,7 @@ var multipleAlertStudent = function multipleAlertStudent() {
       }],
       isSavingScore: false,
       score: null,
-      StatusType: ['Submitted', 'Graded', 'No Submission'],
+      StatusType: ['Submitted', 'Graded', 'Late Submission', 'No Submission'],
       selectedStatus: 'Submitted',
       SortType: ['Name', 'Highest Score', 'Lowest Score'],
       selectedShowNumber: 24,
@@ -402,13 +406,13 @@ var multipleAlertStudent = function multipleAlertStudent() {
               return Filterddata.sort();
             }
           }
-        } else if (this.selectedStatus == "Submitted") {
+        } else if (this.selectedStatus == 'Late Submission') {
           var _Filterddata = this.ListData;
           _Filterddata = _Filterddata.filter(function (item) {
             if (_this2.Class == _this2.$route.params.id) {
-              return item.status == "Submitted" && item.graded == 0;
+              return item.status == "Submitted" && item.graded == 0 && item.submitted_at > item.to_date;
             } else {
-              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this2.Class;
+              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this2.Class && item.submitted_at > item.to_date;
             }
           });
           this.Submitted_count = _Filterddata.length;
@@ -444,13 +448,13 @@ var multipleAlertStudent = function multipleAlertStudent() {
               return _data3.reverse();
             }
           }
-        } else if (this.selectedStatus == "Graded") {
+        } else if (this.selectedStatus == "Submitted") {
           var _Filterddata2 = this.ListData;
           _Filterddata2 = _Filterddata2.filter(function (item) {
             if (_this2.Class == _this2.$route.params.id) {
-              return item.graded == 1;
+              return item.status == "Submitted" && item.graded == 0;
             } else {
-              return item.graded == 1 && item.class_id == _this2.Class;
+              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this2.Class;
             }
           });
           this.Submitted_count = _Filterddata2.length;
@@ -486,13 +490,13 @@ var multipleAlertStudent = function multipleAlertStudent() {
               return _data7.reverse();
             }
           }
-        } else if (this.selectedStatus == "No Submission") {
+        } else if (this.selectedStatus == "Graded") {
           var _Filterddata3 = this.ListData;
           _Filterddata3 = _Filterddata3.filter(function (item) {
             if (_this2.Class == _this2.$route.params.id) {
-              return item.status != 'Submitted';
+              return item.graded == 1;
             } else {
-              return item.status != 'Submitted' && item.class_id == _this2.Class;
+              return item.graded == 1 && item.class_id == _this2.Class;
             }
           });
           this.Submitted_count = _Filterddata3.length;
@@ -526,6 +530,48 @@ var multipleAlertStudent = function multipleAlertStudent() {
               return _data12.splice(0, this.selectedShowNumber);
             } else {
               return _data11.reverse();
+            }
+          }
+        } else if (this.selectedStatus == "No Submission") {
+          var _Filterddata4 = this.ListData;
+          _Filterddata4 = _Filterddata4.filter(function (item) {
+            if (_this2.Class == _this2.$route.params.id) {
+              return item.status != 'Submitted';
+            } else {
+              return item.status != 'Submitted' && item.class_id == _this2.Class;
+            }
+          });
+          this.Submitted_count = _Filterddata4.length;
+
+          if (this.selectedSort == "Name") {
+            if (this.selectedShowNumber != 'all') {
+              var _data13 = _Filterddata4.sort();
+
+              return _data13.splice(0, this.selectedShowNumber);
+            } else {
+              return _Filterddata4.sort();
+            }
+          } else if (this.selectedSort == "Lowest Score") {
+            var _data14 = _Filterddata4.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            if (this.selectedShowNumber != 'all') {
+              return _data14.splice(0, this.selectedShowNumber);
+            } else {
+              return _data14;
+            }
+          } else if (this.selectedSort == "Highest Score") {
+            var _data15 = _Filterddata4.sort(function (a, b) {
+              return a.points - b.points;
+            });
+
+            if (this.selectedShowNumber != 'all') {
+              var _data16 = _data15.reverse();
+
+              return _data16.splice(0, this.selectedShowNumber);
+            } else {
+              return _data15.reverse();
             }
           }
         }
@@ -1562,7 +1608,15 @@ var render = function() {
                                               color:
                                                 item.status == "Taking"
                                                   ? "blue"
-                                                  : item.status == "Submitted"
+                                                  : item.status ==
+                                                      "Submitted" &&
+                                                    item.submitted_at >
+                                                      item.to_date
+                                                  ? "red"
+                                                  : item.status ==
+                                                      "Submitted" &&
+                                                    item.submitted_at <=
+                                                      item.to_date
                                                   ? "success"
                                                   : "grey"
                                             }
@@ -1671,7 +1725,9 @@ var render = function() {
                                                         _vm._v(" "),
                                                         item.status ==
                                                           "Submitted" &&
-                                                        item.graded == 0
+                                                        item.graded == 0 &&
+                                                        item.submitted_at <=
+                                                          item.to_date
                                                           ? _c(
                                                               "span",
                                                               {
@@ -1681,6 +1737,25 @@ var render = function() {
                                                               [
                                                                 _vm._v(
                                                                   "Submitted"
+                                                                )
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
+                                                        _vm._v(" "),
+                                                        item.status ==
+                                                          "Submitted" &&
+                                                        item.graded == 0 &&
+                                                        item.submitted_at >
+                                                          item.to_date
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "red--text"
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Submitted Late"
                                                                 )
                                                               ]
                                                             )
