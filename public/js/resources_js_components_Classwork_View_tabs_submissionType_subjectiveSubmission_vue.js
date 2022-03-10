@@ -297,6 +297,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 var checksubjective = function checksubjective() {
@@ -1606,18 +1609,26 @@ var render = function() {
                                             attrs: {
                                               outlined: "",
                                               color:
-                                                item.status == "Taking"
-                                                  ? "blue"
-                                                  : item.status ==
-                                                      "Submitted" &&
-                                                    item.submitted_at >
-                                                      item.to_date
-                                                  ? "red"
-                                                  : item.status ==
-                                                      "Submitted" &&
-                                                    item.submitted_at <=
-                                                      item.to_date
-                                                  ? "success"
+                                                item.availability == 1
+                                                  ? item.status == "Taking"
+                                                    ? "blue"
+                                                    : item.status ==
+                                                        "Submitted" &&
+                                                      item.submitted_at >
+                                                        item.to_date
+                                                    ? "red"
+                                                    : item.status ==
+                                                        "Submitted" &&
+                                                      item.submitted_at <=
+                                                        item.to_date
+                                                    ? "success"
+                                                    : "grey"
+                                                  : item.availability != 1
+                                                  ? item.status == "Taking"
+                                                    ? "blue"
+                                                    : item.status == "Submitted"
+                                                    ? "success"
+                                                    : "grey"
                                                   : "grey"
                                             }
                                           },
@@ -1723,6 +1734,8 @@ var render = function() {
                                                             )
                                                           : _vm._e(),
                                                         _vm._v(" "),
+                                                        item.availability ==
+                                                          1 &&
                                                         item.status ==
                                                           "Submitted" &&
                                                         item.graded == 0 &&
@@ -1740,13 +1753,13 @@ var render = function() {
                                                                 )
                                                               ]
                                                             )
-                                                          : _vm._e(),
-                                                        _vm._v(" "),
-                                                        item.status ==
-                                                          "Submitted" &&
-                                                        item.graded == 0 &&
-                                                        item.submitted_at >
-                                                          item.to_date
+                                                          : item.availability ==
+                                                              1 &&
+                                                            item.status ==
+                                                              "Submitted" &&
+                                                            item.graded == 0 &&
+                                                            item.submitted_at >
+                                                              item.to_date
                                                           ? _c(
                                                               "span",
                                                               {
@@ -1759,17 +1772,29 @@ var render = function() {
                                                                 )
                                                               ]
                                                             )
-                                                          : item.status ==
+                                                          : item.availability ==
+                                                              0 &&
+                                                            item.status ==
                                                               "Submitted" &&
-                                                            item.graded == 1
+                                                            item.graded == 0
                                                           ? _c(
                                                               "span",
                                                               {
                                                                 staticClass:
                                                                   "success--text"
                                                               },
-                                                              [_vm._v("Graded")]
+                                                              [
+                                                                _vm._v(
+                                                                  "Submitted"
+                                                                )
+                                                              ]
                                                             )
+                                                          : item.status ==
+                                                            "Taking"
+                                                          ? _c("span", {
+                                                              staticClass:
+                                                                "blue--text"
+                                                            })
                                                           : _c(
                                                               "span",
                                                               {

@@ -247,6 +247,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var resetConfirmation = function resetConfirmation() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_tabs_dialogs_resetConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/resetConfirmation */ "./resources/js/components/Classwork_View/tabs/dialogs/resetConfirmation.vue"));
 };
@@ -1325,18 +1328,31 @@ var render = function() {
                                                   attrs: {
                                                     outlined: "",
                                                     color:
-                                                      item.status == "Taking"
-                                                        ? "blue"
-                                                        : item.status ==
-                                                            "Submitted" &&
-                                                          item.submitted_at >
-                                                            item.to_date
-                                                        ? "red"
-                                                        : item.status ==
-                                                            "Submitted" &&
-                                                          item.submitted_at <=
-                                                            item.to_date
-                                                        ? "success"
+                                                      _vm.classworkDetails
+                                                        .availability == 1
+                                                        ? item.status ==
+                                                          "Taking"
+                                                          ? "blue"
+                                                          : item.status ==
+                                                              "Submitted" &&
+                                                            item.submitted_at >
+                                                              item.to_date
+                                                          ? "red"
+                                                          : item.status ==
+                                                              "Submitted" &&
+                                                            item.submitted_at <=
+                                                              item.to_date
+                                                          ? "success"
+                                                          : "grey"
+                                                        : _vm.classworkDetails
+                                                            .availability != 1
+                                                        ? item.status ==
+                                                          "Taking"
+                                                          ? "blue"
+                                                          : item.status ==
+                                                            "Submitted"
+                                                          ? "success"
+                                                          : "grey"
                                                         : "grey"
                                                   }
                                                 },
@@ -1450,6 +1466,8 @@ var render = function() {
                                                                   )
                                                                 : _vm._e(),
                                                               _vm._v(" "),
+                                                              item.availability ==
+                                                                1 &&
                                                               item.status ==
                                                                 "Submitted" &&
                                                               item.graded ==
@@ -1468,14 +1486,14 @@ var render = function() {
                                                                       )
                                                                     ]
                                                                   )
-                                                                : _vm._e(),
-                                                              _vm._v(" "),
-                                                              item.status ==
-                                                                "Submitted" &&
-                                                              item.graded ==
-                                                                0 &&
-                                                              item.submitted_at >
-                                                                item.to_date
+                                                                : item.availability ==
+                                                                    1 &&
+                                                                  item.status ==
+                                                                    "Submitted" &&
+                                                                  item.graded ==
+                                                                    0 &&
+                                                                  item.submitted_at >
+                                                                    item.to_date
                                                                 ? _c(
                                                                     "span",
                                                                     {
@@ -1485,6 +1503,24 @@ var render = function() {
                                                                     [
                                                                       _vm._v(
                                                                         "Submitted Late"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                : item.availability ==
+                                                                    0 &&
+                                                                  item.status ==
+                                                                    "Submitted" &&
+                                                                  item.graded ==
+                                                                    0
+                                                                ? _c(
+                                                                    "span",
+                                                                    {
+                                                                      staticClass:
+                                                                        "success--text"
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Submitted"
                                                                       )
                                                                     ]
                                                                   )
