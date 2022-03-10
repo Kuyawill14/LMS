@@ -181,10 +181,10 @@ import axios from 'axios';
                 let newVm = this;
                 
                 this.fetchNotificationCount();
-                window.Echo.private("notification")
+               /*  window.Echo.private("notification")
                 .listen('NewNotification', e => {
                      newVm.fetchNotificationCount();              
-                }); 
+                });  */
             },
              NotificationHide(id) {
                     this.$store.dispatch("HideNotification", id)
@@ -357,7 +357,7 @@ import axios from 'axios';
             this.connect();
         },
         beforeDestroy(){
-            window.Echo.leave('notification');
+            //window.Echo.leave('notification');
         }
     }
 

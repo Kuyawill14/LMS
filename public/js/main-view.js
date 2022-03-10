@@ -384,12 +384,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 newVm = _this;
 
                 _this.fetchNotificationCount();
+                /*  window.Echo.private("notification")
+                 .listen('NewNotification', e => {
+                      newVm.fetchNotificationCount();              
+                 });  */
 
-                window.Echo["private"]("notification").listen('NewNotification', function (e) {
-                  newVm.fetchNotificationCount();
-                });
 
-              case 3:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -638,8 +639,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.connect();
   },
-  beforeDestroy: function beforeDestroy() {
-    window.Echo.leave('notification');
+  beforeDestroy: function beforeDestroy() {//window.Echo.leave('notification');
   }
 });
 
