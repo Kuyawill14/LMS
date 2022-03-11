@@ -11,12 +11,12 @@
         </v-container>
 
            <div  v-if="!isLoading" class="pl-1 pr-1">
-               <v-row class="mb-2">
+               <v-row class="mb-4">
                    <v-col cols="12">
                        <v-row>
-                           <v-col cols="6" class="text-left">
-                              <v-btn @click="$emit('closeViewing')" icon>
-                                  <v-icon>mdi-close</v-icon>
+                           <v-col cols="6" class="text-left pl-0">
+                              <v-btn @click="$emit('closeViewing')" text rounded>
+                                  <v-icon left>mdi-close</v-icon> Close
                               </v-btn>
                            </v-col>
                            <v-col cols="6"  class="text-right">
@@ -54,17 +54,21 @@
                     <div v-if="question_index == index" class="ma-0 pa-0">
                     <v-container ma-0 pa-0>
                         <div :style="$vuetify.breakpoint.xs ? 'line-height:1.1': ''" class="subtitle-1 d-flex"> 
-                            <v-checkbox
-                            readonly
-                            v-if="classworkDetails.showAnswer == true && item.type != 'Matching type'"
-                            class="mt-0 pt-0"
-                            color="success"
-                            v-model="Check[index]"
-                            ></v-checkbox>
+                            <div v-if="classworkDetails.showAnswer == true && (item.type != 'Matching type' && item.type != 'Essay')">
+                                <v-checkbox readonly class="mt-0 pt-0" color="success" v-model="Check[index]"></v-checkbox>
+                               
+                            </div>
+                            <div v-if="classworkDetails.showAnswer == true && item.type == 'Essay'">
+                                <v-chip outlined color="blue" class="mr-2 mb-2 mt-0 pt-0">
+                                    <div class="body-2">Score: {{SubmittedAnswer[index].score}} /{{item.points}}</div>
+                                </v-chip>
+                            </div>
+                            <div class="d-flex mt-1">
+                                 <h3 class="font-weight-bold">{{index+1}}.</h3>
+                                <span v-html="item.question" class="post-content ml-1 mb-0 pb-0"></span>
+                                <small class="primary--text ml-1">({{item.points+' points'}})</small>
+                            </div>
                             
-                            <h3 class="font-weight-bold">{{index+1}}.</h3>
-                            <span v-html="item.question" class="post-content ml-1 mb-0 pb-0"></span>
-                            <small class="primary--text ml-1">({{item.points+' points'}})</small>
                         </div>
                     </v-container> 
                
@@ -106,14 +110,23 @@
                  </v-container>
 
                   <v-container ma-0 pa-0 v-if="item.type == 'Identification'">
-                      <v-container ntainer ma-0 pa-0 class="pl-7 mt-0 pt-0">
+                      <v-container ntainer ma-0 pa-0 class="pl-3 mt-0 pt-0">
                           <div class="subtitle-2 font-weight-bold">Correct Answer(s)</div>
+                            <div v-for="(Ans, i) in QuestionAndAnswer.Answer[index]"
+                                :key="i"
+                                class=" ma-0 pa-0 d-flex pl-3 success--text">
+                                <span class="pr-2">&bull; </span>
+                                <span v-html="Ans.Choice"
+                                    class="post-content pa-0 ma-0"></span>
+                            </div>
 
-                        <div class="subtitle-2 font-weight-bold">Answer</div>
+                        <div class="subtitle-2 font-weight-bold">Your Answer</div>
                         <div class="subtitle-1 d-flex item ml-4 mt-0 pt-0">
                             <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
                             <span v-if="SubmittedAnswer[index].Answer == null"  class="post-content"> N/A</span>
                         </div>
+
+                       
                     </v-container>
                  </v-container>
 
@@ -232,7 +245,7 @@
                  </v-container>
 
                  <v-container ma-0 pa-0 v-if="item.type == 'Essay'">
-                      <v-container ma-0 pa-0 class="ml-7 mt-0 pt-0">
+                      <v-container ma-0 pa-0 class="pl-3 mt-1 pt-0">
                         <div class="subtitle-2 font-weight-bold">Answer</div>
                         <div class="subtitle-1 d-flex item ml-4 mt-0 pt-0">
                             <span v-html="SubmittedAnswer[index].Answer" class="post-content"></span>
@@ -306,17 +319,14 @@ import moment from 'moment/src/moment';
                                 if(this.QuestionAndAnswer.Question[i].type == 'Multiple Choice' || this.QuestionAndAnswer.Question[i].type == 'Identification' || this.QuestionAndAnswer.Question[i].type == 'True or False'){
                                     let student_ans;
                                     
-                                    
-                                  
-
-
-
-                                    if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
+                                
+                                    /* if(this.QuestionAndAnswer.Question[i].answer == this.classworkDetails.Submitted_Answers[j].Answer){
                                         this.Check[i] = true;
                                     }
                                     else{
                                         this.Check[i] = false;
                                     }
+ */
                                      if(this.QuestionAndAnswer.Question[i].type == 'Identification'){
                                         student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
                                         this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
@@ -326,6 +336,18 @@ import moment from 'moment/src/moment';
                                         this.Check[i] = false;
                                         this.QuestionAndAnswer.Answer[i].forEach(item => {
                                             let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                                              if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
+                                                 if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
                                             if(student_ans == Question_answer){
                                                 this.Check[i] = true;
                                             }
@@ -345,11 +367,14 @@ import moment from 'moment/src/moment';
                                             }
                                              
                                         }else{
-                                             student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
+                                            console.log(this.classworkDetails.Submitted_Answers[j].Answer );
+                                            student_ans = this.QuestionAndAnswer.Question[i].sensitivity ? this.classworkDetails.Submitted_Answers[j].Answer : 
                                             this.classworkDetails.Submitted_Answers[j].Answer != null && this.classworkDetails.Submitted_Answers[j].Answer != '' ? this.classworkDetails.Submitted_Answers[j].Answer.toLowerCase() : this.classworkDetails.Submitted_Answers[j].Answer;
                                             this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
+
                                             let Question_answer = this.QuestionAndAnswer.Question[i].sensitivity ? this.QuestionAndAnswer.Question[i].answer : 
                                             this.QuestionAndAnswer.Question[i].answer != null && this.QuestionAndAnswer.Question[i].answer != ''  ? this.QuestionAndAnswer.Question[i].answer.toLowerCase() : this.QuestionAndAnswer.Question[i].answer;
+
                                             if(Question_answer == student_ans){
                                                 this.Check[i] = true;
                                             }
@@ -373,8 +398,13 @@ import moment from 'moment/src/moment';
                                     }
                                 }
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Essay'){
+                                    const hasKey = 'score' in this.classworkDetails.Submitted_Answers[j];
+                                    if(!hasKey) {
+                                        this.classworkDetails.Submitted_Answers[j].score = 0;
+                                        this.classworkDetails.Submitted_Answers[j].check = false;
+                                    }
+                                   
                                     this.SubmittedAnswer[i] =  this.classworkDetails.Submitted_Answers[j];
-                                    this.Check[i] = this.classworkDetails.Submitted_Answers[j].check;
                                 }
                                 else if(this.QuestionAndAnswer.Question[i].type == 'Matching type'){
                                     let Ans = new Array();

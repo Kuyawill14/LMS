@@ -104,7 +104,7 @@
                                         <v-row>
                                             <v-col cols="12" class="mb-0 pb-0">
                                                 <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1':'line-height:1.5'" class="d-flex justify-space-between">
-                                                    <span v-html="item.question" class="post-content"></span>
+                                                    <span v-html="item.question" class="post-content font-weight-medium"></span>
                                                     <span >{{item.points}} point</span>
                                                 </div>
                                             </v-col>
@@ -271,7 +271,6 @@
                                                             <v-list-item class="ma-0 pa-0" >
                                                                 <v-list-item-content  class="ma-0 pa-0">
                                                                         <quill-editor
-                                                                        v-model="TempAnswers[index].answer" 
                                                                         class="Essayeditor"
                                                                         ref="myTextEditor"
                                                                         :options="editorOption"/>

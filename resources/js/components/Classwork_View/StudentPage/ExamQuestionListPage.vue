@@ -245,6 +245,9 @@
                                 </v-col>
                                 <v-col cols="12"
                                     :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
+                                    
+                                    <vue-element-loading :active="isSavingAnswer" duration="0.7" 
+                                    spinner="line-scale" color="#EF6C00" size="50" />
                                     <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question"
                                         :key="index">
                                         <div v-show="index === questionIndex">
@@ -486,6 +489,7 @@
                                         </div>
                                     </v-container>
                                 </v-col>
+                                
                             </v-row>
 
                         </v-card>
@@ -669,13 +673,11 @@
                 this.PickAnswers.ans = "";
                 this.PickAnswers_id.quesId = "";
                 if (this.questionIndex != this.Qlength - 1) {
-                    this.questionIndex++;
+                    setTimeout(() => (this.isSavingAnswer = false, this.questionIndex++), 500);
                 }
-                setTimeout(() => (this.isSavingAnswer = false), 700);
-
             },
             async updateAnswer() {
-                axios.put('/api/question/store-answer/' + this.submission_id, {
+               await axios.put('/api/question/store-answer/' + this.submission_id, {
                     type: "multiple",
                     data: this.FinalAnswers
                 })

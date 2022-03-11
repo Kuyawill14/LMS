@@ -173,21 +173,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 var editProfile = function editProfile() {
   return __webpack_require__.e(/*! import() | user_profile */ "user_profile").then(__webpack_require__.bind(__webpack_require__, /*! ./editprofile */ "./resources/js/components/profile/editprofile.vue"));
 };
@@ -202,7 +187,8 @@ var coursesProgress = function coursesProgress() {
 
 var myCalendar = function myCalendar() {
   return __webpack_require__.e(/*! import() | my_calendar */ "my_calendar").then(__webpack_require__.bind(__webpack_require__, /*! ./myCalendar */ "./resources/js/components/profile/myCalendar.vue"));
-};
+}; //import imageCompressor from 'vue-image-compressor';
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role', 'UserDetails'],
@@ -210,7 +196,8 @@ var myCalendar = function myCalendar() {
     editProfile: editProfile,
     changePassword: changePassword,
     coursesProgress: coursesProgress,
-    myCalendar: myCalendar
+    myCalendar: myCalendar ///imageCompressor 
+
   },
   data: function data() {
     return {
@@ -273,6 +260,11 @@ var myCalendar = function myCalendar() {
     TestUpload: function TestUpload() {
       this.$refs.fileInput.click();
     },
+
+    /*  getFiles(obj){
+         console.log(obj);
+         this.UserDetails.profile_pic = URL.createObjectURL(obj.compressed.file);
+     }, */
     onFileChange: function onFileChange(element) {
       this.imageFile = element.target.files[0];
 
@@ -482,9 +474,9 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n                " +
+                      "\n            " +
                         _vm._s(item.text.toUpperCase()) +
-                        "\n            "
+                        "\n        "
                     )
                   ]
                 )
@@ -507,9 +499,7 @@ var render = function() {
                 },
                 [
                   _c("v-icon", { staticStyle: { "font-size": "10rem" } }, [
-                    _vm._v(
-                      "\n                    mdi-account\n                "
-                    )
+                    _vm._v("\n                mdi-account\n            ")
                   ]),
                   _vm._v(" "),
                   _c(
@@ -791,7 +781,7 @@ var render = function() {
                                         " " +
                                         _vm.UserDetails.lastName
                                     ) +
-                                      "\n                             " +
+                                      "\n                         " +
                                       _vm._s(
                                         _vm.UserDetails.suffix != "" &&
                                           _vm.UserDetails.suffix != null
@@ -884,9 +874,9 @@ var render = function() {
                                           )
                                         : _vm._e(),
                                       _vm._v(
-                                        "\n                                     " +
+                                        "\n                                 " +
                                           _vm._s(item.text) +
-                                          "\n                                     "
+                                          "\n                                 "
                                       ),
                                       !_vm.$vuetify.breakpoint.mdAndUp
                                         ? _c(

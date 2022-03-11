@@ -3,7 +3,7 @@
     <div>
 
         <div transition="slide-y-reverse-transition">
-            <v-app-bar elevation="5" v-if="!$vuetify.breakpoint.mdAndUp" app color="primary">
+            <v-app-bar flat v-if="!$vuetify.breakpoint.mdAndUp" app color="primary">
                 <v-btn dark rounded icon text v-if="!$vuetify.breakpoint.mdAndUp"
                     @click="$router.push({name: 'classwork'})">
                     <v-icon>mdi-arrow-left-thick</v-icon>
@@ -256,10 +256,17 @@
                                
                                 <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
                                      <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                        v-if="classworkDetails.showAnswerType == null"
+                                        @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
+                                        Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                    </v-btn>
+
+                                      <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                         v-if="classworkDetails.showAnswerType == 0"
                                         @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
                                         Submission<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                     </v-btn>
+
 
                                     <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                         v-if="classworkDetails.showAnswerType == 1 && (format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.showDateFrom) && 
@@ -277,26 +284,55 @@
                                 :class="$vuetify.breakpoint.mdAndUp ? 'pl-10 pr-5 pb-5 text-right' : 'pb-5'">
 
                                 <v-row>
-                                    <v-col cols="12"
-                                        v-if="format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date)">
-                                        <v-btn :block="!$vuetify.breakpoint.mdAndUp "
-                                            v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
-                                            rounded :loading="isOpenQuiz" color="primary" :dark="totalQuestion != 0"
-                                            :disabled="totalQuestion == 0"
-                                            @click="classworkDetails.status != 'Submitted' ? confirmStartDialog = !confirmStartDialog: ''">
-                                            Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                        </v-btn>
+                                    <v-col cols="12">
+                                        
+                                        <div  v-if="format_date1(classworkDetails.currentDate) >= format_date1(classworkDetails.from_date) && format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date)">
+                                             <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                                v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
+                                                rounded :loading="isOpenQuiz" color="primary" :dark="totalQuestion != 0"
+                                                :disabled="totalQuestion == 0"
+                                                @click="classworkDetails.status != 'Submitted' ? confirmStartDialog = !confirmStartDialog: ''">
+                                                Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                            </v-btn>
 
-                                        <v-btn :block="!$vuetify.breakpoint.mdAndUp "
-                                            v-if="classworkDetails.status == 'Taking' && classworkDetails.publish == null"
-                                            rounded :loading="isOpenQuiz" color="primary" dark
-                                            @click="continueQuiz(classworkDetails.id)">
-                                            Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
-                                        </v-btn>
+                                             <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                                v-if="classworkDetails.status == 'Taking' && classworkDetails.publish == null"
+                                                rounded :loading="isOpenQuiz" color="primary" dark
+                                                @click="continueQuiz(classworkDetails.id)">
+                                                Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                            </v-btn>
+                                        </div>
+                                        <div v-else>
+                                            <div v-if="format_date1(classworkDetails.currentDate) > format_date1(classworkDetails.to_date) && classworkDetails.response_late == 1">
+                                                <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                                    v-if="((classworkDetails.status == null || classworkDetails.status == '') && classworkDetails.status != 'Submitted') && classworkDetails.publish == null"
+                                                    rounded :loading="isOpenQuiz" color="primary" :dark="totalQuestion != 0"
+                                                    :disabled="totalQuestion == 0"
+                                                    @click="classworkDetails.status != 'Submitted' ? confirmStartDialog = !confirmStartDialog: ''">
+                                                    Take Quiz<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                                </v-btn>
+                                                    <v-btn :block="!$vuetify.breakpoint.mdAndUp "
+                                                    v-if="classworkDetails.status == 'Taking' && classworkDetails.publish == null"
+                                                    rounded :loading="isOpenQuiz" color="primary" dark
+                                                    @click="continueQuiz(classworkDetails.id)">
+                                                    Continue<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                                </v-btn>
+                                            </div>
+                                            <!-- <div v-else>
+                                                    <v-btn v-if="classworkDetails.publish == null"
+                                                    :block="!$vuetify.breakpoint.mdAndUp " rounded color="primary" disabled>
+                                                    Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
+                                                </v-btn>
+                                            </div> -->
+
+                                        </div>
+                                       
+
+                                       
 
                                     
 
-                                          <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
+                                        <div v-if="classworkDetails.status == 'Submitted' && classworkDetails.reviewAnswer == 1">
                                             <v-btn :block="!$vuetify.breakpoint.mdAndUp "
                                                 v-if="classworkDetails.showAnswerType == 0"
                                                 @click="isViewingSubmission = !isViewingSubmission" rounded color="primary">View
@@ -311,16 +347,13 @@
                                             </v-btn>
                                         </div>
 
-                                     
-
-                                        
                                     </v-col>
-                                    <v-col v-else cols="12">
+                                  <!--   <v-col cols="12">
                                         <v-btn v-if="classworkDetails.publish == null"
                                             :block="!$vuetify.breakpoint.mdAndUp " rounded color="primary" disabled>
                                             Not Yet Available<v-icon right dark>mdi-book-arrow-right-outline</v-icon>
                                         </v-btn>
-                                    </v-col>
+                                    </v-col> -->
                                 </v-row>
                             </v-col>
                         </v-row>
@@ -343,8 +376,8 @@
 
         <v-bottom-navigation app grow v-if="!$vuetify.breakpoint.mdAndUp " :value="selected" color="primary">
             <v-btn class="mb-12" @click="selected = 0">
-                <span>Details</span>
-                <v-icon>mdi-book-information-variant</v-icon>
+                <span>Classwork Details</span>
+                <v-icon>mdi-text-box-outline</v-icon>
             </v-btn>
 
             <v-btn

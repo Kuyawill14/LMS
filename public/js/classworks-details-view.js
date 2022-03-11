@@ -977,8 +977,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1367,7 +1365,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
 
                   _this5.getAll_questions.Answer[Mainindex].options.push({
                     id: res.data.answer_id,
-                    Choice: '<p>' + 'Option ' + (_this5.getAll_questions.Answer[Mainindex].options.length + 1) + '</p>',
+                    Choice: '',
                     question_id: id
                   });
 
@@ -1417,36 +1415,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   }); //this.SaveAllQuestion();
 
                 });
-                /* this.isNewChanges = true; */
-
-                /* if(this.getAll_questions.Answer[mainIndex].SubQuestion == null){
-                    
-                    this.getAll_questions.Answer[mainIndex].SubQuestion = [{
-                            id: null,
-                            answer_id: null,
-                            sub_question: ''
-                        }
-                    ]
-                    this.getAll_questions.Answer[mainIndex].SubAnswer = [{
-                            id : null, 
-                            Choice : '',
-                            question_id : id
-                        }
-                    ]
-                }
-                else{ */
-
-                /* this.getAll_questions.Answer[mainIndex].SubQuestion.push({
-                    id: null,
-                    answer_id: null,
-                    sub_question: ''
-                })
-                this.getAll_questions.Answer[mainIndex].SubAnswer.push({
-                    id : null, 
-                    Choice : '',
-                    question_id : id
-                }) */
-                //}
 
               case 1:
               case "end":
@@ -1789,8 +1757,6 @@ var studentViewForTeacher = function studentViewForTeacher() {
                   });
 
                   for (var i = 0; i < res.data.question_id.length; i++) {
-                    console.log(res.data.question_answer_id[i]);
-
                     if (_this15.DuplicateQuestion[i].isNew) {
                       _this15.getAll_questions.Question.push({
                         id: res.data.question_id[i],
@@ -1995,6 +1961,11 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39815,6 +39786,47 @@ var render = function() {
                                                   outlined: "",
                                                   min: "0",
                                                   label: "Points",
+                                                  type: "number"
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.isNewChanges = true
+                                                  }
+                                                },
+                                                model: {
+                                                  value: _vm.Details.points,
+                                                  callback: function($$v) {
+                                                    _vm.$set(
+                                                      _vm.Details,
+                                                      "points",
+                                                      $$v
+                                                    )
+                                                  },
+                                                  expression: "Details.points"
+                                                }
+                                              })
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.Details.type == "Objective Type"
+                                    ? _c(
+                                        "v-col",
+                                        {
+                                          staticClass: "mb-0  pt-0 mt-0",
+                                          attrs: { cols: "12" }
+                                        },
+                                        [
+                                          _vm.Details.type == "Objective Type"
+                                            ? _c("v-text-field", {
+                                                attrs: {
+                                                  readonly: "",
+                                                  rules: _vm.pointsrules,
+                                                  outlined: "",
+                                                  min: "0",
+                                                  label: "Total Points",
                                                   type: "number"
                                                 },
                                                 on: {

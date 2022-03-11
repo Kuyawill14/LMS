@@ -522,7 +522,7 @@
 
             availabilitySelection(selection) {
 
-
+                
                 if (selection == this.radioAvailability[0] || selection == this.radioAvailability[1]) {
                     if (selection == this.radioAvailability[0]) {
                         this.publishSettings.date_from = null;
@@ -806,8 +806,12 @@
                 this.to_date_jq_getter = false;
                 clearInterval(this.to_date_jq_getter);
             },
+<<<<<<< HEAD
             async SendNotificationToCourse(data, isPublished) {
 
+=======
+           async SendNotificationToCourse(data, isPublished){
+>>>>>>> 546620a6bf81ce3ac39cdc1fad3544fee0554be8
                 let notifDetails = {};
                 notifDetails.course_id = this.$route.params.id;
                 notifDetails.module_name = data.module_name;
@@ -816,6 +820,7 @@
                 notifDetails.date_to = data.date_to;
                 notifDetails.availability = this.publishAvailabity;
                 notifDetails.isPublished = isPublished == 'published' ? true : false;
+                
                 notifDetails.type = 'module';
                 axios.post('/api/notification/new', notifDetails)
                     .then(res => {

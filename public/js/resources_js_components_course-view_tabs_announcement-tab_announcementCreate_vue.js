@@ -140,6 +140,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['UserDetails', 'classNames'],
   data: function data() {
@@ -153,7 +155,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       isloading: false,
       value: '',
       content: '',
-      class_id: this.$route.params.id,
+      class_id: null,
+      tmp_class_id: this.$route.params.id,
+      isCourse_id: true,
       announcement: {
         content: "",
         file: "",
@@ -190,6 +194,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     val: function val() {
       this.value = "This's new value";
     },
+    CheckClass_id: function CheckClass_id(data) {
+      /*   this.classNames.forEach(item => {
+            if(item.id == data.tmp_class_id){
+                if(item.isCourse_id){
+                    this.class_id = item.class_id;
+                    this.isCourse_id = false;
+                }else{
+                    this.class_id = item.class_id;
+                    this.isCourse_id = true;
+                } 
+                
+                return;
+            }
+        }); */
+      if (data.isCourse_id) {
+        this.class_id = this.$route.params.id;
+        this.isCourse_id = true;
+      } else {
+        this.class_id = data.class_id;
+        this.isCourse_id = false;
+      }
+    },
     onChange: function onChange(html, text) {////console.log(html);
     },
     createPost: function createPost() {
@@ -198,9 +224,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (this.announcement.content != '') {
         this.isloading = true;
         this.announcement.file = "sample";
-        this.announcement.course_id = this.$route.params.id == this.class_id ? this.$route.params.id : null;
-        this.announcement.class_id = this.$route.params.id != this.class_id ? this.class_id : null;
-        ;
+
+        if (this.isCourse_id == true) {
+          this.announcement.course_id = this.$route.params.id;
+          this.announcement.class_id = null;
+        } else {
+          this.announcement.course_id = null;
+          this.announcement.class_id = this.class_id;
+        }
+        /* this.announcement.course_id = this.$route.params.id == this.class_id ? this.$route.params.id : null;
+        this.announcement.class_id = this.$route.params.id != this.class_id ? this.class_id  : null; */
+
+
         this.announcement.content = this.announcement.content.replaceAll('p>', 'div>');
         this.$store.dispatch('createClassPost', this.announcement).then(function (res) {
           if (res.status == 200) {
@@ -552,18 +587,24 @@ var render = function() {
                         attrs: {
                           "hide-details": "",
                           items: _vm.classNames,
+                          "return-object": "",
                           "item-text": "class_name",
-                          "item-value": "class_id",
-                          label: "All Class",
+                          "item-value": "id",
+                          label: "Classes",
                           dense: "",
                           solo: ""
                         },
+                        on: {
+                          change: function($event) {
+                            return _vm.CheckClass_id(_vm.tmp_class_id)
+                          }
+                        },
                         model: {
-                          value: _vm.class_id,
+                          value: _vm.tmp_class_id,
                           callback: function($$v) {
-                            _vm.class_id = $$v
+                            _vm.tmp_class_id = $$v
                           },
-                          expression: "class_id"
+                          expression: "tmp_class_id"
                         }
                       })
                     : _vm._e(),

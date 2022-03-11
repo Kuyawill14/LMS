@@ -127,11 +127,16 @@
                                 </v-col>
 
                                 <v-col v-if="Details.type == 'Subjective Type'" class="mb-0  pt-0 mt-0" cols="12">
+                                    <v-text-field @change="isNewChanges = true" :rules="pointsrules" v-if="Details.type == 'Subjective Type'"
+                                        outlined min="0"  v-model="Details.points" label="Points" type="number">
+                                    </v-text-field>
+                                </v-col>
 
-                                <v-text-field @change="isNewChanges = true" :rules="pointsrules" v-if="Details.type == 'Subjective Type'"
-                                    outlined min="0"  v-model="Details.points" label="Points" type="number">
-                                </v-text-field>
-                            </v-col>
+                                <v-col v-if="Details.type == 'Objective Type'" class="mb-0  pt-0 mt-0" cols="12">
+                                    <v-text-field readonly @change="isNewChanges = true" :rules="pointsrules" v-if="Details.type == 'Objective Type'"
+                                        outlined min="0"  v-model="Details.points" label="Total Points" type="number">
+                                    </v-text-field>
+                                </v-col>
                                 
                                 <v-col v-if="Details.type == 'Subjective Type'" class="mb-0  pt-0 mt-0" cols="12">
 

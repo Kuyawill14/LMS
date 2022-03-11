@@ -59,10 +59,10 @@
 
                 <v-row v-if="$vuetify.breakpoint.mdAndUp || selected == 2">
                     <v-col cols="12" :class="$vuetify.breakpoint.mdAndUp ? 'pt-2 mt-2' :'pt-3 mt-3'">
-                         <v-card @click="calendarDialog = true" elevation="2">
+                         <v-card @click="$vuetify.breakpoint.mdAndUp ? calendarDialog = true : ''" elevation="2">
                                 <v-dialog transition="dialog-bottom-transition" max-width="1000"  v-model="calendarDialog" id="calendar_modal">
-                                    <v-card class="pa-3">
-                                        <myCalendar :role="role"></myCalendar>
+                                    <v-card  class="pa-3">
+                                        <myCalendar  :role="role"></myCalendar>
                                          <br> 
                                     </v-card>
                                 </v-dialog>
@@ -81,7 +81,7 @@
                 <v-icon>mdi-chart-box-outline</v-icon>
             </v-btn>
             <v-btn @click="selected = 1">
-                <span style="font-size:10px">My Tasks</span>
+                <span style="font-size:10px">My Task</span>
                 <v-icon>mdi-clipboard-edit-outline</v-icon>
             </v-btn>
             <v-btn @click="selected = 2">

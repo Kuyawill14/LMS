@@ -92,8 +92,16 @@
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 
                     <br v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
-                    <div v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
-                        Google Meet: <a link :href="getcourseInfo.v_classroom_link"
+                    <div v-if="role == 'Student'">
+                         <div v-if="getcourseInfo.class_v_link != null && getcourseInfo.class_v_link != ''">
+                            Section Google Meet: <a link :href="getcourseInfo.class_v_link"
+                            target="_blank">{{getcourseInfo.class_v_link}}</a>
+                        </div>
+                    </div>
+                   
+                    <v-divider v-if="role == 'Student'"></v-divider>
+                     <div v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
+                        Course Google Meet: <a link :href="getcourseInfo.v_classroom_link"
                         target="_blank">{{getcourseInfo.v_classroom_link}}</a>
                     </div>
                     

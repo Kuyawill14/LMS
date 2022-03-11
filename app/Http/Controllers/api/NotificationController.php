@@ -124,6 +124,7 @@ class NotificationController extends Controller
                 $dateToday = date('Y-m-d H:i:s');
                 $seconds;
                 if($request->availability == 2){
+                    
                     $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $dateToday);
                     $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $request->date_from);
                     $diff_in_minutes = $to->diffInMinutes($from);

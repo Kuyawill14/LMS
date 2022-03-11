@@ -286,7 +286,8 @@
                                                     <editor
                                                     :disabled="quill_disabled"
                                                     class="editor"
-                                                    @blur="isNewChanges == true ? SaveAllQuestion() : ''" @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
+                                                    @blur="isNewChanges == true ? SaveAllQuestion() : ''" 
+                                                    @focus="onEditorFocus($event),item.question = item.question == '<p>New Question '+(mainIndex+1)+'</p>' ? '' : item.question"  @ready="onEditorReady($event)" 
                                                      @change="isNewChanges = true"
                                                     ref="myTextEditor"
                                                     :placeholder="item.type != 'Matching type' ? 'Enter Question' : 'Enter Instuction'" 

@@ -318,7 +318,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworkDetails'],
@@ -1210,7 +1209,7 @@ var render = function() {
                                                         [
                                                           _c("span", {
                                                             staticClass:
-                                                              "post-content",
+                                                              "post-content font-weight-medium",
                                                             domProps: {
                                                               innerHTML: _vm._s(
                                                                 item.question
@@ -2061,28 +2060,6 @@ var render = function() {
                                                                               attrs: {
                                                                                 options:
                                                                                   _vm.editorOption
-                                                                              },
-                                                                              model: {
-                                                                                value:
-                                                                                  _vm
-                                                                                    .TempAnswers[
-                                                                                    index
-                                                                                  ]
-                                                                                    .answer,
-                                                                                callback: function(
-                                                                                  $$v
-                                                                                ) {
-                                                                                  _vm.$set(
-                                                                                    _vm
-                                                                                      .TempAnswers[
-                                                                                      index
-                                                                                    ],
-                                                                                    "answer",
-                                                                                    $$v
-                                                                                  )
-                                                                                },
-                                                                                expression:
-                                                                                  "TempAnswers[index].answer"
                                                                               }
                                                                             }
                                                                           )

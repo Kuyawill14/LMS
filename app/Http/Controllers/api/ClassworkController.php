@@ -152,7 +152,7 @@ class ClassworkController extends Controller
             ->where('tbl_userclasses.course_id','=', $id)
             ->select('tbl_class_classworks.*', 'tbl_classworks.type', 'tbl_classworks.title', 'tbl_classworks.points'
             ,'tbl_classworks.instruction','tbl_classworks.duration','tbl_class_classworks.deleted_at as publish',
-            'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date')
+            'tbl_submissions.status','tbl_submissions.points as score','tbl_submissions.graded','tbl_submissions.updated_at as Sub_date','tbl_submissions.submitted_at')
             ->leftJoin('tbl_classworks', 'tbl_classworks.id', '=', 'tbl_class_classworks.classwork_id')
             ->leftJoin('tbl_userclasses', 'tbl_class_classworks.class_id', '=', 'tbl_userclasses.class_id')
             ->leftJoin("tbl_submissions", function($join) use ($userId){
@@ -573,11 +573,6 @@ class ClassworkController extends Controller
             ->first();
 
             
-
-           
-
-
-
 
            /*  $classworkDetails = tbl_classwork::where('tbl_classworks.id','=', $id)
             ->select('tbl_classworks.*', 'tbl_class_classworks.id as class_classwork_id','tbl_class_classworks.deleted_at as publish',

@@ -941,13 +941,23 @@ var resetConfirmation = function resetConfirmation() {
 
                   if (_this.getAll_questions.Answer[i].options.length == 0) {
                     var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
-                    Question_answer = Question_answer.replace('<p>', '').trim();
-                    Question_answer = Question_answer.replace('</p>', '').trim();
-                    student_ans = student_ans.replace('<p>', '').trim();
-                    student_ans = student_ans.replace('</p>', '').trim();
 
-                    if (Question_answer.replace(/\s+/g, '').trim() == student_ans.replace(/\s+/g, '').trim()) {
-                      _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    if (Question_answer != null) {
+                      Question_answer = Question_answer.replace('<p>', '').trim();
+                      Question_answer = Question_answer.replace('</p>', '').trim();
+                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                      Question_answer = Question_answer.trim();
+                    }
+
+                    if (student_ans != null) {
+                      student_ans = student_ans.replace('<p>', '').trim();
+                      student_ans = student_ans.replace('</p>', '').trim();
+                      student_ans = student_ans.replace('&nbsp;', '').trim();
+                      student_ans = student_ans.trim();
+                    }
+
+                    if (Question_answer == student_ans) {
+                      _this.Check[i] = true;
                     } else {
                       _this.Check[i] = false;
                     }
@@ -956,15 +966,23 @@ var resetConfirmation = function resetConfirmation() {
 
                     _this.getAll_questions.Answer[i].options.forEach(function (item) {
                       var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-                      Question_answer = Question_answer.replace('<p>', '').trim();
-                      Question_answer = Question_answer.replace('</p>', '').trim();
-                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                      student_ans = student_ans.replace('<p>', '').trim();
-                      student_ans = student_ans.replace('</p>', '').trim();
-                      student_ans = student_ans.replace('&nbsp;', '').trim(); //console.log(student_ans+" - "+Question_answer);
 
-                      if (student_ans.replace(/\s+/g, '').trim() == Question_answer.replace(/\s+/g, '').trim()) {
-                        _this.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                      if (Question_answer != null) {
+                        Question_answer = Question_answer.replace('<p>', '').trim();
+                        Question_answer = Question_answer.replace('</p>', '').trim();
+                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                        Question_answer = Question_answer.trim();
+                      }
+
+                      if (student_ans != null) {
+                        student_ans = student_ans.replace('<p>', '').trim();
+                        student_ans = student_ans.replace('</p>', '').trim();
+                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                        student_ans = student_ans.trim();
+                      }
+
+                      if (student_ans == Question_answer) {
+                        _this.Check[i] = true;
                       }
                     });
                   }
@@ -1001,11 +1019,20 @@ var resetConfirmation = function resetConfirmation() {
                   }
                 }
               } else if (_this.getAll_questions.Question[i].type == 'Essay') {
-                _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
                 _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check;
-                var score = parseInt(_this.ViewDetails.Submitted_Answers[_j].score);
-                _this.EssayOldPoints[i] = score;
-                _this.ViewDetails.points += score;
+                var score;
+                var hasKey = ('score' in _this.ViewDetails.Submitted_Answers[_j]);
+
+                if (hasKey) {
+                  score = parseInt(_this.ViewDetails.Submitted_Answers[_j].score);
+                } else {
+                  _this.ViewDetails.Submitted_Answers[_j].score = "";
+                  _this.ViewDetails.Submitted_Answers[_j].check = false;
+                  score = 0;
+                }
+
+                _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
+                _this.EssayOldPoints[i] = score; //this.ViewDetails.points += score;
               } else if (_this.getAll_questions.Question[i].type == 'Matching type') {
                 var Ans = new Array();
                 var match_check = new Array();
@@ -1196,12 +1223,22 @@ var resetConfirmation = function resetConfirmation() {
 
                 if (_this2.getAll_questions.Answer[i].options.length == 0) {
                   var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
-                  Question_answer = Question_answer.replace('<p>', '').trim();
-                  Question_answer = Question_answer.replace('</p>', '').trim();
-                  student_ans = student_ans.replace('<p>', '').trim();
-                  student_ans = student_ans.replace('</p>', '').trim();
 
-                  if (Question_answer.replace(/^\s+|\s+$/gm, '') == student_ans.replace(/^\s+|\s+$/gm, '')) {
+                  if (Question_answer != null) {
+                    Question_answer = Question_answer.replace('<p>', '').trim();
+                    Question_answer = Question_answer.replace('</p>', '').trim();
+                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                    Question_answer = Question_answer.trim();
+                  }
+
+                  if (student_ans != null) {
+                    student_ans = student_ans.replace('<p>', '').trim();
+                    student_ans = student_ans.replace('</p>', '').trim();
+                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                    student_ans = student_ans.trim();
+                  }
+
+                  if (Question_answer == student_ans) {
                     _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                   } else {
                     _this2.Check[i] = false;
@@ -1211,15 +1248,23 @@ var resetConfirmation = function resetConfirmation() {
 
                   _this2.getAll_questions.Answer[i].options.forEach(function (item) {
                     var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
-                    Question_answer = Question_answer.replace('<p>', '').trim();
-                    Question_answer = Question_answer.replace('</p>', '').trim();
-                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                    student_ans = student_ans.replace('<p>', '').trim();
-                    student_ans = student_ans.replace('</p>', '').trim();
-                    student_ans = student_ans.replace('&nbsp;', '').trim();
 
-                    if (student_ans.replace(/^\s+|\s+$/gm, '') == Question_answer.replace(/^\s+|\s+$/gm, '')) {
-                      _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                    if (Question_answer != null) {
+                      Question_answer = Question_answer.replace('<p>', '').trim();
+                      Question_answer = Question_answer.replace('</p>', '').trim();
+                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                      Question_answer = Question_answer.trim();
+                    }
+
+                    if (student_ans != null) {
+                      student_ans = student_ans.replace('<p>', '').trim();
+                      student_ans = student_ans.replace('</p>', '').trim();
+                      student_ans = student_ans.replace('&nbsp;', '').trim();
+                      student_ans = student_ans.trim();
+                    }
+
+                    if (student_ans == Question_answer) {
+                      _this2.Check[i] = true;
                     }
                   });
                 }
@@ -1256,11 +1301,22 @@ var resetConfirmation = function resetConfirmation() {
                 }
               }
             } else if (_this2.getAll_questions.Question[i].type == 'Essay') {
+              //this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+              _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check; //let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+
+              var score;
+              var hasKey = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
+
+              if (hasKey) {
+                score = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
+              } else {
+                _this2.ViewDetails.Submitted_Answers[_j2].score = "";
+                _this2.ViewDetails.Submitted_Answers[_j2].check = false;
+                score = 0;
+              }
+
               _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
-              _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check;
-              var score = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
-              _this2.EssayOldPoints[i] = score;
-              _this2.ViewDetails.points += score;
+              _this2.EssayOldPoints[i] = score; //this.ViewDetails.points += score;
             } else if (_this2.getAll_questions.Question[i].type == 'Matching type') {
               var Ans = new Array();
               var match_check = new Array();
@@ -1394,7 +1450,7 @@ var resetConfirmation = function resetConfirmation() {
                 _this4.UpdateDetails.check = type == 'Essay' ? true : data;
                 _this4.UpdateDetails.points = points;
                 _this4.UpdateDetails.question_id = id;
-                _this4.UpdateDetails.answer = type == 'Identification' ? _this4.getAll_questions.Answer[index].options[0].Choice : answer;
+                _this4.UpdateDetails.answer = type == 'Identification' ? _this4.getAll_questions.Answer[index].options[Math.floor(Math.random() * _this4.getAll_questions.Answer[index].options.length)].Choice : answer;
                 _this4.UpdateDetails.user_id = _this4.ViewDetails.user_id;
 
                 if (type == 'Essay') {
@@ -1414,7 +1470,7 @@ var resetConfirmation = function resetConfirmation() {
                       }
                     } else if (type == 'Identification') {
                       if (data == true) {
-                        _this4.SubmittedAnswer[index].Answer = _this4.getAll_questions.Answer[index].options[0].Choice;
+                        _this4.SubmittedAnswer[index].Answer = _this4.getAll_questions.Answer[index].options[Math.floor(Math.random() * _this4.getAll_questions.Answer[index].options.length)].Choice;
                         _this4.ViewDetails.points = _this4.ViewDetails.points + points;
                       } else {
                         _this4.SubmittedAnswer[index].Answer = "Wrong answer";
@@ -1429,6 +1485,8 @@ var resetConfirmation = function resetConfirmation() {
                         _this4.ViewDetails.points = _this4.ViewDetails.points - points;
                       }
                     }
+
+                    _this4.toastSuccess('Score successfully updated!');
                   }
                 });
 
@@ -1690,9 +1748,11 @@ var resetConfirmation = function resetConfirmation() {
       var _this14 = this;
 
       if (sub_id != null) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
-          _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
-        });
+        if (this.ViewDetails.status == 'Submitted') {
+          axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/question/StudentScore/' + sub_id).then(function (res) {
+            _this14.ViewDetails.points = res.data; //this.ReSaveScore(res.data);
+          });
+        }
       }
     },
     getSubmittedAnswer: function getSubmittedAnswer() {

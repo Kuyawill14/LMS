@@ -181,21 +181,33 @@ class ManageUserController extends Controller
     {
 
         // return $request->email;
-        // $validated = $request->validate([
-        //     'firstName' => ['required'],
-        //     'middleName' => ['required'],
-        //     'lastName' => ['required'],
-        //     'email' => ['required', 'email', 'unique:users'],
-        //     'password' => ['required', 'min:6', 'confirmed']
-        // ]);
 
+        if($usertype == 'Student'){
+            $validated = $request->validate([
+                'firstName' => ['required'],
+                'middleName' => ['required'],
+                'lastName' => ['required'],
+                'password' => ['required', 'min:6', 'confirmed']
+            ]);
+        }else{
+            $validated = $request->validate([
+                'firstName' => ['required'],
+                'middleName' => ['required'],
+                'lastName' => ['required'],
+                'email' => ['required', 'email', 'unique:users'],
+                'password' => ['required', 'min:6', 'confirmed']
+            ]);
+        }
+       
         $email = $usertype == 'Student' ? null : $request->email;
-        $isVerfied = $usertype == 'Student' ? null : date('Y-m-d H:i:s');
+        //$isVerfied = $usertype == 'Student' ? null : date('Y-m-d H:i:s');
+
+        DB::beginTransaction();
         $New = User::create([
             'email' =>  $email,
             'password' => Hash::make($request->password),
             'role' =>  $usertype,
-            'email_verified_at' =>  $isVerfied,
+            'email_verified_at' =>  date('Y-m-d H:i:s'),
         ]);
 
         if(!$New){
@@ -204,7 +216,6 @@ class ManageUserController extends Controller
                 "success" => false
             ]);
         }
-
 
         $details = new tbl_userDetails;
         $details->user_id = $New->id;
@@ -224,7 +235,7 @@ class ManageUserController extends Controller
             }
         }
 
-        
+        DB::commit();
        
 
         return response()->json([
@@ -245,10 +256,29 @@ class ManageUserController extends Controller
     public function updateUser(Request $request, $id)
     {
 
+       /*  $request->validate([
+            'firstName' => ['required'],
+            'lastName' => ['required'],
+            'email' => ['required', 'email']
+        ]);
+         */
+
+
        $user = User::find($id);
        if($user){
+
+            if($user->role == 'Teacher'){
+                if($user->email != $request->email){
+                    $request->validate([
+                        'email' => ['required', 'email', 'unique:users'],
+                    ]);
+                }
+            }
+
            $UpdateDetails = tbl_userDetails::where('tbl_user_details.user_id',$id)->first();
            if($UpdateDetails){
+
+
                $UpdateDetails->firstName = $request->firstName;
                $UpdateDetails->middleName = $request->middleName;
                $UpdateDetails->lastName = $request->lastName;

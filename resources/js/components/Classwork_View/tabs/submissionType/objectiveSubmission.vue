@@ -130,7 +130,9 @@
                             <v-col v-show="!isFiltered && (Class == $route.params.id || Class == item.class_id)"
                                 cols="12" md="6" lg="4" xl="3" v-for="(item,i) in studentSubmissionList" :key="i">
                                 <v-alert class="ma-0 pa-0" outlined
-                                    :color="item.status == 'Taking' ? 'blue': item.status == 'Submitted' ? 'success' : 'grey'">
+                                     :color="item.availability == 1 ? item.status == 'Taking' ? 'blue' : item.status == 'Submitted' &&  item.submitted_at > item.to_date ? 'red' : 
+                                    item.status == 'Submitted' && item.submitted_at <= item.to_date ? 'success' : 'grey' : 
+                                    item.availability != 1 ? item.status == 'Taking' ? 'blue' : item.status == 'Submitted' ? 'success' : 'grey' : 'grey'">
                                     <v-list-item class="pt-1 pb-1" link>
                                         <v-list-item-avatar @click="ViewSubmision(item, i)">
                                             <v-avatar color="brown" size="40">
@@ -146,10 +148,11 @@
                                             <v-list-item-subtitle>
                                                 <v-icon left small color="success" v-if="item.status == 'Submitted'">
                                                     mdi-check</v-icon>
-                                                <span class="success--text"
-                                                    v-if="item.status == 'Submitted'">Submitted</span>
+                                                <span class="success--text"  v-if="item.availability == 1 && item.status == 'Submitted' && (item.submitted_at != null ? item.submitted_at <= item.to_date : true)">Submitted</span>
+                                                <span class="red--text"  v-else-if="item.availability == 1 && item.status == 'Submitted' && (item.submitted_at != null ? item.submitted_at > item.to_date : false)">Submitted Late</span>
+                                                <span class="success--text"  v-else-if="item.availability == 0 && item.status == 'Submitted'">Submitted</span>
                                                 <span class="blue--text" v-else-if="item.status == 'Taking'"></span>
-                                                <span class="red--text" v-else>No Submission</span>
+                                                <span class="red--text" v-else-if="item.status == '' || item.status == null">No Submission</span>
                                             </v-list-item-subtitle>
                                         </v-list-item-content>
                                         <v-list-item-action style="max-width:150px !important">
@@ -278,7 +281,7 @@
                 Details: [],
                 Reload: true,
                 Class: this.ClassList[0].class_id,
-                StatusType: ['Submitted', 'Taking', 'No Submission'],
+                StatusType: ['Submitted', 'Taking','Late Submission','No Submission'],
                 selectedStatus: 'Submitted',
                 SortType: ['Name', 'Highest Score', 'Lowest Score'],
                 selectedShowNumber: 24,
@@ -329,6 +332,55 @@
                             }
                             else{
                                 return Filterddata.sort();
+                            }
+                        }
+                    }
+                    else if(this.selectedStatus == 'Late Submission'){
+                        let Filterddata = this.ListData;
+                        Filterddata =  Filterddata.filter((item) => {
+                            if(item.availability != 0){
+                                if(this.Class == this.$route.params.id){
+                                    return (item.status == "Submitted"  && item.submitted_at > item.to_date)
+                                }
+                                else{
+                                    return (item.status == "Submitted"  && item.class_id == this.Class && item.submitted_at > item.to_date)
+                                }
+                            }
+                         
+                        })
+
+
+                        this.Submitted_count = Filterddata.length;
+                        if(this.selectedSort == "Name"){
+                            if(this.selectedShowNumber != 'all'){
+                                let data2 = Filterddata.sort();
+                                return data2.splice(0, this.selectedShowNumber)
+                            }
+                            else{
+                                return Filterddata.sort();
+                            }
+                        }
+                        else if(this.selectedSort == "Lowest Score"){
+                            let data = Filterddata.sort((a, b) => {
+                                return a.points - b.points; 
+                            })
+                            if(this.selectedShowNumber != 'all'){
+                                return data.splice(0, this.selectedShowNumber)
+                            }
+                            else{
+                                return data;
+                            }
+                        }
+                        else if(this.selectedSort == "Highest Score"){
+                            let data = Filterddata.sort((a, b) => {
+                                return a.points - b.points; 
+                            })
+                            if(this.selectedShowNumber != 'all'){
+                                let data2 = data.reverse();
+                                return data2.splice(0, this.selectedShowNumber)
+                            }
+                            else{
+                                return data.reverse();
                             }
                         }
                     }

@@ -131,18 +131,27 @@ var announcementPostList = function announcementPostList() {
           this.$store.dispatch('fetchClassesNames', this.$route.params.id).then(function () {
             _this2.classNames = _this2.getClassesNames;
 
+            _this2.classNames.forEach(function (item) {
+              item.isCourse_id = false;
+            });
+
             _this2.classNames.push({
               class_id: _this2.$route.params.id,
               class_name: 'All Class',
-              id: _this2.$route.params.id
+              id: _this2.$route.params.id,
+              isCourse_id: true
             });
           });
         } else {
           this.classNames = this.getClassesNames;
+          this.classNames.forEach(function (item) {
+            item.isCourse_id = false;
+          });
           this.classNames.push({
             class_id: this.$route.params.id,
             class_name: 'All Class',
-            id: this.$route.params.id
+            id: this.$route.params.id,
+            isCourse_id: true
           });
         }
         /*   axios.get('/api/class/class_list/' + this.$route.params.id).then(res => {
@@ -165,8 +174,10 @@ var announcementPostList = function announcementPostList() {
   }),
   mounted: function mounted() {
     this.connect();
-    this.fetchClassnames();
     $('head > title').text('Announcement');
+  },
+  beforeMount: function beforeMount() {
+    this.fetchClassnames();
   },
   beforeDestroy: function beforeDestroy() {
     //this.classNames.destroy();
