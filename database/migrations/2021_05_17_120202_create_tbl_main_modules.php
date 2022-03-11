@@ -22,6 +22,7 @@ class CreateTblMainModules extends Migration
             $table->string('description');
             $table->integer('position')->nullable();
             $table->integer('isPublished')->nullable();
+            $table->integer('allow_download')->nullable();
             $table->date('date_from')->nullable();
             $table->date('date_to')->nullable();
             $table->timestamps();

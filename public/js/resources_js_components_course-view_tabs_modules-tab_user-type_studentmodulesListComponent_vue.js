@@ -242,7 +242,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
 
                 _this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
 
-                _this.passToMainComponent(_this.getSub_module(itemModule_id), itemSubModule_id);
+                _this.passToMainComponent(_this.getSub_module(itemModule_id, 0, studentSubModuleProgress), itemSubModule_id);
 
                 _this.isSelectedModule = true;
               } else {
@@ -253,7 +253,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
 
               _this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type, studentSubModuleProgress);
 
-              _this.passToMainComponent(_this.getSub_module(itemModule_id), itemSubModule_id);
+              _this.passToMainComponent(_this.getSub_module(itemModule_id), itemSubModule_id, studentSubModuleProgress);
 
               _this.isSelectedModule = true;
             }
@@ -267,12 +267,20 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
     format_date: function format_date(value) {
       return (0,moment_src_moment__WEBPACK_IMPORTED_MODULE_1__.default)(String(value)).format('MMMM D, YYYY');
     },
-    passToMainComponent: function passToMainComponent(sub_module, id) {
+    passToMainComponent: function passToMainComponent(sub_module, id, student_progress) {
       var _sub_module = sub_module.find(function (item) {
         return item.id === id;
       });
 
-      this.$emit('subModule', _sub_module);
+      var _student_progress = [];
+
+      if (student_progress) {
+        _student_progress = student_progress.find(function (item) {
+          return item.sub_module_id === _sub_module.id;
+        });
+      }
+
+      this.$emit('subModule', _sub_module, _student_progress);
     },
     student_sub_module_progress: function student_sub_module_progress(id) {
       var data;
@@ -330,6 +338,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
             // this.$store.dispatch('studentmodule_progress', this.$route.params.id);
             // this.$store.dispatch('fetchClassList')
             check = true;
+            this.$emit('completed_module', sub_module);
           }
         }
       }
@@ -349,6 +358,29 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
 
       return 0;
     },
+    convertHHMMSS: function convertHHMMSS(sec) {
+      var d = Number(sec);
+      var h = Math.floor(d / 3600);
+      var m = Math.floor(d % 3600 / 60);
+      var s = Math.floor(d % 3600 % 60);
+
+      if (h < 10) {
+        h = "0" + h;
+      }
+
+      if (m < 10) {
+        m = "0" + m;
+      }
+
+      if (s < 10) {
+        s = "0" + s;
+      }
+
+      var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+      var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+      var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+      return h + ':' + m + ':' + s;
+    },
     convertTime: function convertTime(sub_module_id, dataTime) {
       if (dataTime == -1) {
         var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
@@ -357,9 +389,9 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
           time = 0;
         }
 
-        return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+        return this.convertHHMMSS(time);
       } else {
-        return new Date(parseInt(dataTime) * 1000).toISOString().substr(11, 8);
+        return this.convertHHMMSS(dataTime);
       }
     },
     setTimeSpent: function setTimeSpent(mainModule_id, subModule_id) {

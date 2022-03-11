@@ -226,7 +226,8 @@
                                         this.addSubStudentProgress(itemModule_id, itemSubModule_id,
                                             itemSubModule_type,
                                             studentSubModuleProgress);
-                                        this.passToMainComponent(this.getSub_module(itemModule_id),
+                                        this.passToMainComponent(this.getSub_module(itemModule_id, 0,
+                                                studentSubModuleProgress),
                                             itemSubModule_id);
 
                                         this.isSelectedModule = true;
@@ -243,7 +244,8 @@
                                     this.setTimeSpent(itemModule_id, itemSubModule_id, studentSubModuleProgress);
                                     this.addSubStudentProgress(itemModule_id, itemSubModule_id, itemSubModule_type,
                                         studentSubModuleProgress);
-                                    this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id);
+                                    this.passToMainComponent(this.getSub_module(itemModule_id), itemSubModule_id,
+                                        studentSubModuleProgress);
 
                                     this.isSelectedModule = true;
                                 }
@@ -271,9 +273,16 @@
             },
 
 
-            passToMainComponent(sub_module, id) {
+            passToMainComponent(sub_module, id, student_progress) {
                 var _sub_module = sub_module.find(item => item.id === id);
-                this.$emit('subModule', _sub_module);
+                var _student_progress = [];
+                if (student_progress) {
+                    _student_progress = student_progress.find(item => item.sub_module_id === _sub_module.id);
+
+                }
+
+
+                this.$emit('subModule', _sub_module, _student_progress);
             },
             student_sub_module_progress(id) {
                 var data;
@@ -343,6 +352,7 @@
                             // this.$store.dispatch('studentmodule_progress', this.$route.params.id);
                             // this.$store.dispatch('fetchClassList')
                             check = true;
+                            this.$emit('completed_module', sub_module);
 
                         }
                     }
@@ -367,15 +377,40 @@
 
 
             },
+
+            convertHHMMSS(sec) {
+                
+
+                var d = Number(sec);
+                var h = Math.floor(d / 3600);
+                var m = Math.floor(d % 3600 / 60);
+                var s = Math.floor(d % 3600 % 60);
+
+
+                if (h < 10) {
+                    h = "0" + h;
+                }
+                if (m < 10) {
+                    m = "0" + m;
+                }
+                if (s < 10) {
+                    s = "0" + s;
+                }
+                var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+                var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+                var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+                return h + ':' + m + ':' + s;
+
+            },
             convertTime(sub_module_id, dataTime) {
                 if (dataTime == -1) {
                     var time = this.getTimeSpent(this.studentSubModuleProgress, sub_module_id);
                     if (time === undefined) {
                         time = 0;
                     }
-                    return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+                    return this.convertHHMMSS(time);
                 } else {
-                    return new Date(parseInt(dataTime) * 1000).toISOString().substr(11, 8);
+                     return this.convertHHMMSS(dataTime);
                 }
 
 
@@ -485,11 +520,11 @@
 
             this.fetchStudentModuleProgress();
 
-          
+
 
             this.$store.dispatch('studentmodule_progress', this.$route.params.id);
-           this.$store.dispatch('fetchMainModule', this.$route.params.id).then(()=>{
-            this.loading = false;
+            this.$store.dispatch('fetchMainModule', this.$route.params.id).then(() => {
+                this.loading = false;
             });
             // setTimeout(() => {
             //     this.firstLoad = false;
@@ -520,26 +555,26 @@
 
             $(window).blur(function () {
 
-              
-
-                    let activeElement = document.activeElement;
-                    let iframeElement = document.querySelector('iframe');
 
 
-                    if (activeElement === iframeElement) {
-                        console.log(document.activeElement.tagName);
-                        //  document.activeElement.blur();
-                        document.activeElement.blur();
-                        //     this.isBlur = setInterval(() => {
-                        //    document.activeElement.blur();     
-                        //     }, 1000);
+                let activeElement = document.activeElement;
+                let iframeElement = document.querySelector('iframe');
 
 
-                    } else {
-                        console.log(document.activeElement.tagName);
-                        self.triggerWarning()
-                    }
-             
+                if (activeElement === iframeElement) {
+                    console.log(document.activeElement.tagName);
+                    //  document.activeElement.blur();
+                    document.activeElement.blur();
+                    //     this.isBlur = setInterval(() => {
+                    //    document.activeElement.blur();     
+                    //     }, 1000);
+
+
+                } else {
+                    console.log(document.activeElement.tagName);
+                    self.triggerWarning()
+                }
+
 
 
 

@@ -6,113 +6,131 @@
                 <span class="headline">Add File</span>
             </v-card-title>
             <v-card-text>
-                <v-container>
-                    <v-row>
-                        <v-col cols="12" class="py-0 my-0">
-                            <v-text-field label="Title" required outlined="" v-model="subModuleForm.sub_module_name">
-                            </v-text-field>
-                        </v-col>
+                <v-form ref="form">
+                    <v-container>
+                        <v-row>
+                            <v-col cols="12" class="py-0 my-0">
+                                <v-text-field label="Title" required outlined="" v-model="subModuleForm.sub_module_name"
+                                    :rules="rules.title">
+                                </v-text-field>
+                            </v-col>
 
-                        <v-col cols="12" class="py-0 my-0">
+                            <v-col cols="12" class="py-0 my-0">
 
 
-                            <v-textarea outlined v-model="subModuleForm.description" label="Description" auto-grow>
-                            </v-textarea>
-                        </v-col>
-                        <v-col cols="12" class="py-0 my-0">
-                            <v-text-field label="Required time spent for Completion (minutes)" outlined type="number"
-                                required v-model="subModuleForm.required_time">
-                            </v-text-field>
-                        </v-col>
+                                <v-textarea outlined v-model="subModuleForm.description" :rules="rules.description"
+                                    label="Description" auto-grow>
+                                </v-textarea>
+                            </v-col>
 
-                        <v-col cols="12" class="py-0 my-0" v-if="oldFileInput == false">
 
-                            <v-file-input show-size outlined label="Attach File" @change="onFileChange" ref="inputFile"
-                                prepend-inner-icon="mdi-file" prepend-icon="">
+                            <v-col cols="12  py-0 my-0">
+                                Required time spent for Completion
+                            </v-col>
 
-                            </v-file-input>
-                            <div style="margin-top: -20px;position: relative;z-index: 90999;">
-                                <v-tooltip right="">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <span v-bind="attrs" v-on="on">
-                                            <v-icon color="info">mdi-information-outline</v-icon>
-                                            Supported files
+                            <v-col cols="6  py-0 my-0">
+                                <v-text-field outlined label="Hours" type="number" required
+                                    v-model="subModuleForm.required_time_hours" :rules="rules.hours">
+                                </v-text-field>
+                            </v-col>
+
+                            <v-col cols="6  py-0 my-0">
+                                <v-text-field outlined label="Minutes" type="number" required
+                                    v-model="subModuleForm.required_time_minutes" min="0" max="60"
+                                    :rules="rules.minutes">
+                                </v-text-field>
+                            </v-col>
+
+                            <v-col cols="12" class="py-0 my-0" v-if="oldFileInput == false">
+
+                                <v-file-input show-size outlined label="Attach File" @change="onFileChange"
+                                    ref="inputFile" type="link" prepend-inner-icon="mdi-file" prepend-icon="">
+
+                                </v-file-input>
+                                <div style="margin-top: -20px;position: relative;z-index: 90999;">
+                                    <v-tooltip right="">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span v-bind="attrs" v-on="on">
+                                                <v-icon color="info">mdi-information-outline</v-icon>
+                                                Supported files
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Supported files:
+                                            <ul>
+                                                <li>.pdf</li>
+                                                <li>.doc .docx</li>
+                                                <li>.pptx .ppt</li>
+                                                <li>File must be less than 10 mb</li>
+                                            </ul>
                                         </span>
-                                    </template>
-                                    <span>
-                                        Supported files:
-                                        <ul>
-                                            <li>.pdf</li>
-                                            <li>.doc .docx</li>
-                                            <li>.pptx .ppt</li>
-                                            <li>File must be less than 10 mb</li>
-                                        </ul>
-                                    </span>
-                                </v-tooltip>
-                            </div>
+                                    </v-tooltip>
+                                </div>
 
 
-                        </v-col>
+                            </v-col>
 
 
-                        <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
-                        <v-col cols="12 py-0 my-0" v-if="oldFileInput == true ">
+                            <vue-element-loading :active="isDeleting" spinner="bar-fade-scale" />
+                            <v-col cols="12 py-0 my-0" v-if="oldFileInput == true ">
 
-                            <v-row align="center" justify="center"
-                                style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;">
-                                <v-col class="grow text-left py-0 pr-0 col-1">
-                                    <v-icon>mdi-file</v-icon>
-                                </v-col>
+                                <v-row align="center" justify="center"
+                                    style="height: 55px; border: 1px solid; border-radius: 4px; width: 100%; margin: auto;">
+                                    <v-col class="grow text-left py-0 pr-0 col-1">
+                                        <v-icon>mdi-file</v-icon>
+                                    </v-col>
 
-                                <v-col class="grow text-left py-0  pl-0">
-                                    <div class="text-decoration-underline':''"> {{ oldFIle.file_name}}</div>
-                                </v-col>
-                                <v-col class="shrink d-flex py-0 shrink d-flex">
-                                    <div class="black--text mt-1 mr-2"></div>
+                                    <v-col class="grow text-left py-0  pl-0">
+                                        <div class="text-decoration-underline':''"> {{ oldFIle.file_name}}</div>
+                                    </v-col>
+                                    <v-col class="shrink d-flex py-0 shrink d-flex">
+                                        <div class="black--text mt-1 mr-2"></div>
 
-                                    <div class="py-0">
+                                        <div class="py-0">
 
-                                        <v-btn rounded small icon text @click="removeFile(submodule.id)">
-                                            <v-icon>mdi-close</v-icon>
-                                        </v-btn>
+                                            <v-btn rounded small icon text @click="removeFile(submodule.id)">
+                                                <v-icon>mdi-close</v-icon>
+                                            </v-btn>
 
 
-                                    </div>
+                                        </div>
 
-                                </v-col>
+                                    </v-col>
 
-                            </v-row>
-                            <div style="margin-top: 10px;position: relative;z-index: 90999;">
-                                <v-tooltip right="">
-                                    <template v-slot:activator="{ on, attrs }">
-                                        <span v-bind="attrs" v-on="on">
-                                            <v-icon color="info">mdi-information-outline</v-icon>
-                                            Supported files
+                                </v-row>
+                                <div style="margin-top: 10px;position: relative;z-index: 90999;">
+                                    <v-tooltip right="">
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <span v-bind="attrs" v-on="on">
+                                                <v-icon color="info">mdi-information-outline</v-icon>
+                                                Supported files
+                                            </span>
+                                        </template>
+                                        <span>
+                                            Supported files:
+                                            <ul>
+                                                <li>.pdf</li>
+                                                <li>.doc .docx</li>
+                                                <li>.pptx .ppt</li>
+                                                <li>File must be less than 10 mb</li>
+                                            </ul>
                                         </span>
-                                    </template>
-                                    <span>
-                                        Supported files:
-                                        <ul>
-                                            <li>.pdf</li>
-                                            <li>.doc .docx</li>
-                                            <li>.pptx .ppt</li>
-                                            <li>File must be less than 10 mb</li>
-                                        </ul>
-                                    </span>
-                                </v-tooltip>
-                            </div>
-                        </v-col>
+                                    </v-tooltip>
+                                </div>
+                            </v-col>
 
 
-                        <v-col cols="12 py-0 my-0">
+                            <v-col cols="12 py-0 my-0">
 
-                            <v-progress-linear rounded :value="uploadPercentage" v-if="uploadPercentage !=0"
-                                height="14px">
-                                <span style="color:#fff">{{uploadPercentage+ '%'}} </span>
-                            </v-progress-linear>
-                        </v-col>
-                    </v-row>
-                </v-container>
+                                <v-progress-linear rounded :value="uploadPercentage" v-if="uploadPercentage !=0"
+                                    height="14px">
+                                    <span style="color:#fff">{{uploadPercentage+ '%'}} </span>
+                                </v-progress-linear>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-form>
+
             </v-card-text>
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -156,13 +174,51 @@
                 isInvalidFileType: false,
                 isFileSize: null,
                 main_module_id: null,
-                type: ''
+                type: '',
+                rules: {
+                    title: [
+                        v => !!v || 'Title is required',
+                        v => (v && v.length <= 255) || 'Title characters cannot be greater than 255'
+                    ],
+                    description: [
+                        v => !!v || 'Description is required',
+                        v => (v && v.length <= 255) || 'Description characters cannot be greater than 1024'
+                    ],
+                    minutes: [
+                        v => !!v || 'Minutes is required',
+                        v => (v && v <= 60) || 'minutes cannot be greater than 60',
+                        v => (v && v >= 0) || 'minutes cannot be less than 0',
+                    ],
+                    hours: [
+                        v => !!v || 'hours is required',
+                        v => (v && v <= 99999) || 'minutes cannot be greater than 99999',
+                        v => (v && v >= 0) || 'minutes cannot be less than 0',
+                    ],
+                    urlRules: [
+                        v => !!v || 'URL is required',
+                        v => (v && v.length <= 256) ||
+                        'URL must be less than 256 characters', /* eslint-disable-next-line no-useless-escape*/
+                        v => /https?:[0-9]*\/\/[\w!?/\+\-_~=;\.,*&@#$%\(\)\'\[\]]+/.test(v) || 'URL must be valid',
+                    ],
+                }
 
 
             }
         },
         computed: mapGetters(["getmain_module", "getSub_module", "getAll_sub_module"]),
         methods: {
+
+
+            minuteshandler() {
+
+                if (minutes > 60) {
+                    this.linkForm.required_time_minutes = 60;
+                }
+
+                if (minutes < 0) {
+                    this.linkForm.required_time_minutes = 0;
+                }
+            },
             getFileExt(filename) {
 
                 var split = filename.split('.');
@@ -233,63 +289,74 @@
                 //console.log(this.file);
                 //console.log('this.isInvalidFileType', this.isInvalidFileType);
 
+                if (this.$refs.form.validate()) {
 
-                if (this.type_action == 'edit_file') {
-                    if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this
-                        .subModuleForm.required_time == '') {
-                        this.toastError('Please Complete all the fields');
+                    
+                    this.subModuleForm.required_time = parseFloat((this.subModuleForm.required_time_hours * 60)) + parseFloat(this
+                        .subModuleForm.required_time_minutes);
 
 
-                    } else if (this.file != null) {
-                        var good = true;
-                        if (this.isInvalidFileSize) {
-                            this.toastError('File must be less than 10mb');
-                            good = false;
-                        }
-                        if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
-                            this.toastError('something went wrong, refresh the page and try again');
-
-                            good = false;
-                        }
-
-                        if (good) {
-                            this.addUpdate();
-                        }
-
-                    } else {
-                        if (this.isRemove) {
+                    if (this.type_action == 'edit_file') {
+                        if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this
+                            .subModuleForm.required_time_hours == '' || this
+                            .subModuleForm.required_time_minutes == '') {
                             this.toastError('Please Complete all the fields');
+
+
+                        } else if (this.file != null) {
+                            var good = true;
+                            if (this.isInvalidFileSize) {
+                                this.toastError('File must be less than 10mb');
+                                good = false;
+                            }
+                            if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
+                                this.toastError('something went wrong, refresh the page and try again');
+
+                                good = false;
+                            }
+
+                            if (good) {
+                                this.addUpdate();
+                            }
+
                         } else {
-                            this.addUpdate();
+                            if (this.isRemove) {
+                                this.toastError('Please Complete all the fields');
+                            } else {
+                                this.addUpdate();
+                            }
+
+                        }
+                    } else {
+
+
+                        if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this
+                            .subModuleForm.required_time_hours == '' || this
+                            .subModuleForm.required_time_minutes == '' || this.file == null) {
+                            this.toastError('Please Complete all the fields');
+
+
+                        } else if (this.file != null) {
+                            var good = true;
+                            if (this.isInvalidFileSize) {
+                                this.toastError('File must be less than 10mb');
+                                good = false;
+                            }
+                            if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
+                                this.toastError('something went wrong, refresh the page and try again');
+
+                                good = false;
+                            }
+
+                            if (good) {
+                                this.addUpdate();
+                            }
                         }
 
                     }
-                } else {
-
-
-                    if (this.subModuleForm.sub_module_name == '' || this.subModuleForm.description == '' || this
-                        .subModuleForm.required_time == '' || this.file == null) {
-                        this.toastError('Please Complete all the fields');
-
-
-                    } else if (this.file != null) {
-                        var good = true;
-                        if (this.isInvalidFileSize) {
-                            this.toastError('File must be less than 10mb');
-                            good = false;
-                        }
-                        if (this.isInvalidFileType == null || this.isInvalidFileType == true) {
-                            this.toastError('something went wrong, refresh the page and try again');
-
-                            good = false;
-                        }
-
-                        if (good) {
-                            this.addUpdate();
-                        }
-                    }
-
                 }
+
+
 
 
 
@@ -354,15 +421,15 @@
 
                     this.$emit('CloseLecture');
                     // this.toastSuccess();
-               
-                        this.sending = false;
-                   
 
-                }).catch((err)=>{
+                    this.sending = false;
+
+
+                }).catch((err) => {
                     this.toastError('There is something went wrong on the file')
                     this.isSaving = false;
                     this.sending = false;
-                           if (this.$refs.inputFile != null) {
+                    if (this.$refs.inputFile != null) {
                         this.$refs.inputFile.reset();
                     }
                     this.uploadPercentage = 0;
@@ -390,11 +457,16 @@
                     this.oldFileInput = true;
                 }
 
+                this.subModuleForm.required_time_hours = Math.trunc(this.subModuleForm.required_time / 60);
+               this.subModuleForm.required_time_minutes = (this.subModuleForm.required_time % 60).toString();
+
             } else {
                 this.subModuleForm = {
                     sub_module_name: '',
                     description: '',
-                    required_time: ''
+                    required_time: '',
+                    required_time_minutes: '',
+                    required_time_hours: '',
                 };
             }
 

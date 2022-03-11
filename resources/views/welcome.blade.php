@@ -74,9 +74,9 @@
               window.location = window.location.href.replace("www.","");
           }
 
-          setInterval(() => {
-            console.clear();
-          }, 10000);
+          // setInterval(() => {
+          //   console.clear();
+          // }, 10000);
           </script> 
 
       

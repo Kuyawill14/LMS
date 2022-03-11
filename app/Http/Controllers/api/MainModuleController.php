@@ -89,8 +89,6 @@ class MainModuleController extends Controller
 
         foreach ($allSubModules as  $submodule) {
             $submodule->required_time = $submodule->required_time/ 60;
-
-
             $submodule->file_attachment = $this->removeCDN($submodule->file_attachment);
           
         }
@@ -161,7 +159,7 @@ public function countSubmoduleOnMainModule($id ) {
         if($mainModule){
             // return $request->publishSettings;
             $mainModule->isPublished = $request->publishSettings['isPublished'];
-        
+            $mainModule->allow_download = $request->download_settings;
           
                 $mainModule->date_to =$request->publishSettings['date_to'];
                 $mainModule->date_from =$request->publishSettings['date_from'];

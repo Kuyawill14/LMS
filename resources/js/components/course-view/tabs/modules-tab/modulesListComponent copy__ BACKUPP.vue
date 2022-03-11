@@ -277,13 +277,6 @@
                 <v-card-text>
 
                     <v-col ma-0 pa-0 class="text-left pb-0 mb-0" cols="12">
-                        <!--  <v-container ma-0 pa-0 class="d-flex">
-                                <v-checkbox
-                                class="pa-0 ma-0"
-                                v-model="EnableDue"
-                                label="Always Available"
-                                ></v-checkbox>
-                                </v-container> -->
 
                         <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="availability">
                             <v-radio v-for="(n, index) in radioAvailability" :key="index"
@@ -319,6 +312,9 @@
                                 </template>
                             </v-datetime-picker>
                         </v-col>
+
+
+                    
 
 
                     </v-row>
