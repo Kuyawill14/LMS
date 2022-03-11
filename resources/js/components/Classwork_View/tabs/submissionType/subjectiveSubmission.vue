@@ -193,11 +193,11 @@
                                              {{item.firstName +' '+item.lastName}}
                                         </v-list-item-title>
                                          <v-list-item-subtitle class="success--text" ><v-icon v-if="item.graded == 1" small color="success">mdi-check</v-icon> 
-                                            <span class="success--text"  v-if="item.availability == 1 && item.status == 'Submitted' && item.graded == 0 && item.submitted_at <= item.to_date">Submitted</span>
-                                                <span class="red--text"  v-else-if="item.availability == 1 && item.status == 'Submitted' && item.graded == 0 && item.submitted_at > item.to_date">Submitted Late</span>
+                                                <span class="success--text"  v-if="item.availability == 1 && item.status == 'Submitted' && item.graded == 0 && (item.submitted_at != null ? item.submitted_at <= item.to_date : false)">Submitted</span>
+                                                <span class="red--text"  v-else-if="item.availability == 1 && item.status == 'Submitted' && item.graded == 0 && (item.submitted_at != null ? item.submitted_at > item.to_date : false)">Submitted Late</span>
                                                 <span class="success--text"  v-else-if="item.availability == 0 && item.status == 'Submitted' && item.graded == 0">Submitted</span>
-                                                <span class="blue--text" v-else-if="item.status == 'Taking'"></span>
-                                                <span class="red--text" v-else>No Submission</span>
+                                                <span class="success--text" v-else-if="item.graded">Graded</span>
+                                               <span class="red--text" v-else-if="item.status == '' || item.status == null">No Submission</span>
                                          </v-list-item-subtitle>
                                     </v-list-item-content>
                                     <v-list-item-action v-if="item.status != null && item.status != 'Submitting'" style="max-width:150px !important">
@@ -369,11 +369,13 @@ export default {
                 else if(this.selectedStatus == 'Late Submission'){
                     let Filterddata = this.ListData;
                      Filterddata =  Filterddata.filter((item) => {
-                         if(this.Class == this.$route.params.id){
-                             return (item.status == "Submitted" && item.graded == 0 && item.submitted_at > item.to_date)
-                         }
-                         else{
-                              return (item.status == "Submitted" && item.graded == 0 && item.class_id == this.Class && item.submitted_at > item.to_date)
+                         if(item.availability != 0){
+                            if(this.Class == this.$route.params.id){
+                                return (item.status == "Submitted"  && item.submitted_at > item.to_date)
+                            }
+                            else{
+                                return (item.status == "Submitted" && item.class_id == this.Class && item.submitted_at > item.to_date)
+                            }
                          }
                     })
                      this.Submitted_count = Filterddata.length;

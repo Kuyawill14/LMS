@@ -7,7 +7,7 @@
                       mdi-alert
                   </v-icon> -->
                   <v-avatar tile size="120">
-                       <v-img src="https://c.tenor.com/jFesPO4xs8kAAAAM/cat-watching-you.gif"></v-img>
+                       <v-img src="https://orangestr.sgp1.cdn.digitaloceanspaces.com/warning/reanimateVersion_cat.gif"></v-img>
                   </v-avatar>
               </v-col>
                <v-col cols="12" class="text-center mt-0 pt-0">

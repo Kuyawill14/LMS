@@ -84,6 +84,7 @@ class SubmissionController extends Controller
             })
             ->where('users.role','Student')
             //->where('tbl_submissions.status','Submitted')
+            ->whereNull('tbl_userclasses.deleted_at')
             ->where('tbl_class_classworks.class_id', $class_id)
             ->orderBy('tbl_user_details.lastName', 'ASC')
             ->get();

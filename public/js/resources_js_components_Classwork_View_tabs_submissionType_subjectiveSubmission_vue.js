@@ -412,10 +412,12 @@ var multipleAlertStudent = function multipleAlertStudent() {
         } else if (this.selectedStatus == 'Late Submission') {
           var _Filterddata = this.ListData;
           _Filterddata = _Filterddata.filter(function (item) {
-            if (_this2.Class == _this2.$route.params.id) {
-              return item.status == "Submitted" && item.graded == 0 && item.submitted_at > item.to_date;
-            } else {
-              return item.status == "Submitted" && item.graded == 0 && item.class_id == _this2.Class && item.submitted_at > item.to_date;
+            if (item.availability != 0) {
+              if (_this2.Class == _this2.$route.params.id) {
+                return item.status == "Submitted" && item.submitted_at > item.to_date;
+              } else {
+                return item.status == "Submitted" && item.class_id == _this2.Class && item.submitted_at > item.to_date;
+              }
             }
           });
           this.Submitted_count = _Filterddata.length;
@@ -1739,8 +1741,11 @@ var render = function() {
                                                         item.status ==
                                                           "Submitted" &&
                                                         item.graded == 0 &&
-                                                        item.submitted_at <=
-                                                          item.to_date
+                                                        (item.submitted_at !=
+                                                        null
+                                                          ? item.submitted_at <=
+                                                            item.to_date
+                                                          : false)
                                                           ? _c(
                                                               "span",
                                                               {
@@ -1758,8 +1763,11 @@ var render = function() {
                                                             item.status ==
                                                               "Submitted" &&
                                                             item.graded == 0 &&
-                                                            item.submitted_at >
-                                                              item.to_date
+                                                            (item.submitted_at !=
+                                                            null
+                                                              ? item.submitted_at >
+                                                                item.to_date
+                                                              : false)
                                                           ? _c(
                                                               "span",
                                                               {
@@ -1789,13 +1797,18 @@ var render = function() {
                                                                 )
                                                               ]
                                                             )
-                                                          : item.status ==
-                                                            "Taking"
-                                                          ? _c("span", {
-                                                              staticClass:
-                                                                "blue--text"
-                                                            })
-                                                          : _c(
+                                                          : item.graded
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "success--text"
+                                                              },
+                                                              [_vm._v("Graded")]
+                                                            )
+                                                          : item.status == "" ||
+                                                            item.status == null
+                                                          ? _c(
                                                               "span",
                                                               {
                                                                 staticClass:
@@ -1807,6 +1820,7 @@ var render = function() {
                                                                 )
                                                               ]
                                                             )
+                                                          : _vm._e()
                                                       ],
                                                       1
                                                     )

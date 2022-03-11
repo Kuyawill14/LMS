@@ -27563,7 +27563,7 @@ var render = function() {
                       _c("v-img", {
                         attrs: {
                           src:
-                            "https://c.tenor.com/jFesPO4xs8kAAAAM/cat-watching-you.gif"
+                            "https://orangestr.sgp1.cdn.digitaloceanspaces.com/warning/reanimateVersion_cat.gif"
                         }
                       })
                     ],
