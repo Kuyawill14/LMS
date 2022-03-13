@@ -345,7 +345,7 @@
 
                     </v-row>
 
-                    <v-col v-if="availability != 'Unpublish'">
+                    <!-- <v-col v-if="availability != 'Unpublish'">
                         Download Settings
                         <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="download_availability">
                             <v-radio v-for="(n, index) in radioDownloadAvailability" :key="index"
@@ -353,7 +353,7 @@
                                 :label="radioDownloadAvailability[index]" :value="radioDownloadAvailability[index]">
                             </v-radio>
                         </v-radio-group>
-                    </v-col>
+                    </v-col> -->
                     <v-row>
 
                         <v-col>
@@ -806,12 +806,8 @@
                 this.to_date_jq_getter = false;
                 clearInterval(this.to_date_jq_getter);
             },
-<<<<<<< HEAD
             async SendNotificationToCourse(data, isPublished) {
 
-=======
-           async SendNotificationToCourse(data, isPublished){
->>>>>>> 546620a6bf81ce3ac39cdc1fad3544fee0554be8
                 let notifDetails = {};
                 notifDetails.course_id = this.$route.params.id;
                 notifDetails.module_name = data.module_name;

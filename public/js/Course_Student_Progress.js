@@ -314,7 +314,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     convertTime: function convertTime(time) {
-      return new Date(parseInt(time) * 1000).toISOString().substr(11, 8);
+      var d = Number(time);
+      var h = Math.floor(d / 3600);
+      var m = Math.floor(d % 3600 / 60);
+      var s = Math.floor(d % 3600 % 60);
+
+      if (h < 10) {
+        h = "0" + h;
+      }
+
+      if (m < 10) {
+        m = "0" + m;
+      }
+
+      if (s < 10) {
+        s = "0" + s;
+      }
+
+      var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+      var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+      var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+      return h + ':' + m + ':' + s;
     },
     checkTimeSpent: function checkTimeSpent(time_spent, required_time) {
       var color = time_spent >= required_time ? "green" : "red";

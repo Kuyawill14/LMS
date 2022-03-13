@@ -158,13 +158,9 @@ public function countSubmoduleOnMainModule($id ) {
         $mainModule = tbl_main_modules::find($id);
         if($mainModule){
             // return $request->publishSettings;
-<<<<<<< HEAD
             $mainModule->isPublished = $request->publishSettings['isPublished'];
-            $mainModule->allow_download = $request->download_settings;
+            // $mainModule->allow_download = $request->download_settings;
           
-=======
-                $mainModule->isPublished = $request->publishSettings['isPublished'];
->>>>>>> 546620a6bf81ce3ac39cdc1fad3544fee0554be8
                 $mainModule->date_to =$request->publishSettings['date_to'];
                 $mainModule->date_from =$request->publishSettings['date_from'];
         

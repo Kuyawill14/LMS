@@ -253,7 +253,7 @@
                 console.log(sub_module.required_time);
                 console.log(student_progress.time_spent);
 
-                 this.isDownloadable =student_progress.time_spent >=  sub_module.required_time? true : false,
+                 this.isDownloadable = student_progress.time_spent >=  sub_module.required_time? true : false,
                
                 this.isSelectedModule = true;
                 this.subModuleData = sub_module;

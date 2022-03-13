@@ -59,8 +59,11 @@ class SubjectCourseController extends Controller
             ->count();
             $item->class_count = $countClass;
 
-            $StudentCount = tbl_userclass::where("tbl_userclasses.course_id", $item->id)
+            $StudentCount = tbl_userclass::where("tbl_classes.course_id", $item->id)
             ->where("tbl_userclasses.user_id","!=" ,$userId )
+            ->whereNull('tbl_userclasses.deleted_at')
+            ->whereNull('tbl_classes.deleted_at')
+            ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
             ->count();
 
             $item->student_count =  $StudentCount;

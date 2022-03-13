@@ -44,7 +44,7 @@
                             <v-col cols="12" class="py-0 my-0" v-if="oldFileInput == false">
 
                                 <v-file-input show-size outlined label="Attach File" @change="onFileChange"
-                                    ref="inputFile" type="link" prepend-inner-icon="mdi-file" prepend-icon="">
+                                    ref="inputFile"  prepend-inner-icon="mdi-file" prepend-icon="">
 
                                 </v-file-input>
                                 <div style="margin-top: -20px;position: relative;z-index: 90999;">
@@ -457,7 +457,7 @@
                     this.oldFileInput = true;
                 }
 
-                this.subModuleForm.required_time_hours = Math.trunc(this.subModuleForm.required_time / 60);
+                this.subModuleForm.required_time_hours = (Math.trunc(this.subModuleForm.required_time / 60)).toString();
                this.subModuleForm.required_time_minutes = (this.subModuleForm.required_time % 60).toString();
 
             } else {

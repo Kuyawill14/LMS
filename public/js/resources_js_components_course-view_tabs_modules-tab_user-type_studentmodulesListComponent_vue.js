@@ -411,7 +411,7 @@ Vue.use((v_idle__WEBPACK_IMPORTED_MODULE_2___default()));
         }, 1000);
         this.updateTime = setInterval(function () {
           _this3.updateStudentTimeProgress(mainModule_id, subModule_id, _this3.timespent);
-        }, 20000);
+        }, 30000);
       }
     },
     updateStudentTimeProgress: function updateStudentTimeProgress(main_module_id, subModule_id, time_spent) {
@@ -642,7 +642,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var _failed_timer = 30;
-      this.failed_timer = 5;
+      this.failed_timer = 30;
       this.isTimerClickedFailed = false;
       var tmp_timer_failed = setInterval(function () {
         _this2.failed_timer = _this2.failed_timer - 1;
@@ -651,7 +651,7 @@ __webpack_require__.r(__webpack_exports__);
           _this2.isTimerClickedFailed = true;
           _this2.isTimerDone = false;
 
-          _this2.checkTimerDone(_failed_timer * _this2.counter);
+          _this2.checkTimerDone(_failed_timer);
 
           clearInterval(tmp_timer_failed);
           _this2.counter++;
@@ -9739,7 +9739,7 @@ var render = function() {
                       _c("v-img", {
                         attrs: {
                           src:
-                            "https://c.tenor.com/jFesPO4xs8kAAAAM/cat-watching-you.gif"
+                            "https://orangestr.sgp1.cdn.digitaloceanspaces.com/warning/reanimateVersion_cat.gif"
                         }
                       })
                     ],

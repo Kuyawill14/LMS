@@ -197,7 +197,7 @@
                 this.linkForm = this.submodule;
                 console.log(this.linkForm, ' from omounted');
 
-                this.linkForm.required_time_hours = Math.trunc(this.linkForm.required_time / 60);
+                this.linkForm.required_time_hours = (Math.trunc(this.linkForm.required_time / 60)).toString();
                 this.linkForm.required_time_minutes = (this.linkForm.required_time % 60).toString();
                 // this.linkForm['required_time'] = this.submodule['required_time'] / 60;
 

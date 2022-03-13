@@ -7,7 +7,7 @@
                       mdi-alert
                   </v-icon> -->
                     <v-avatar tile size="120">
-                        <v-img src="https://c.tenor.com/jFesPO4xs8kAAAAM/cat-watching-you.gif"></v-img>
+                        <v-img src="https://orangestr.sgp1.cdn.digitaloceanspaces.com/warning/reanimateVersion_cat.gif"></v-img>
                     </v-avatar>
                 </v-col>
                 <v-col cols="12" class="text-center mt-0 pt-0">
@@ -84,7 +84,7 @@
             checkTimerFailed() {
 
                 var _failed_timer = 30;
-                this.failed_timer = 5;
+                this.failed_timer = 30;
                 this.isTimerClickedFailed = false;
                 var tmp_timer_failed = setInterval(() => {
 
@@ -93,7 +93,7 @@
 
                         this.isTimerClickedFailed = true;
                         this.isTimerDone = false;
-                        this.checkTimerDone(_failed_timer * this.counter);
+                        this.checkTimerDone(_failed_timer);
                         clearInterval(tmp_timer_failed);
                         this.counter++;
                     }

@@ -74,15 +74,9 @@
               window.location = window.location.href.replace("www.","");
           }
 
-<<<<<<< HEAD
           // setInterval(() => {
           //   console.clear();
           // }, 10000);
-=======
-         /*  setInterval(() => {
-            console.clear();
-          }, 10000); */
->>>>>>> 546620a6bf81ce3ac39cdc1fad3544fee0554be8
           </script> 
        <!--    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
           <script>
