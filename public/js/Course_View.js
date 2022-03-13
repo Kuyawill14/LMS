@@ -148,10 +148,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
 var selectBackgroundDialog = function selectBackgroundDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_SelectBackgroundDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./SelectBackgroundDialog */ "./resources/js/components/course-view/SelectBackgroundDialog.vue"));
 };
@@ -204,6 +200,15 @@ var teachercoursedashboardComponent = function teachercoursedashboardComponent()
     }
   },
   methods: _objectSpread(_objectSpread({
+    link: function link(s) {
+      var prefix = 'https://';
+
+      if (s.substr(0, prefix.length) !== prefix) {
+        s = prefix + s;
+      }
+
+      return s;
+    },
     hideCard: function hideCard() {
       if (this.$route.name == 'selectedCourse') {
         this.showDefault = true;
@@ -641,6 +646,46 @@ var render = function() {
                       _vm.getcourseInfo.v_classroom_link != ""
                         ? _c("br")
                         : _vm._e(),
+                      _vm._v(
+                        "\n           " +
+                          _vm._s(
+                            _vm.role == "Student" ? "Virtual Meeting Links" : ""
+                          ) +
+                          "\n\n                "
+                      ),
+                      _vm.role == "Student" ? _c("v-divider") : _vm._e(),
+                      _vm._v(" "),
+                      _vm.getcourseInfo.v_classroom_link != null &&
+                      _vm.getcourseInfo.v_classroom_link != ""
+                        ? _c("div", [
+                            _vm._v(
+                              "\n                 " +
+                                _vm._s(
+                                  _vm.role == "Student"
+                                    ? "Course"
+                                    : "Virtual Meeting Link:"
+                                ) +
+                                " "
+                            ),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  link: "",
+                                  href: _vm.link(
+                                    _vm.getcourseInfo.v_classroom_link
+                                  ),
+                                  target: "_blank"
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(_vm.getcourseInfo.v_classroom_link)
+                                )
+                              ]
+                            )
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       _vm.role == "Student"
                         ? _c("div", [
@@ -648,14 +693,18 @@ var render = function() {
                             _vm.getcourseInfo.class_v_link != ""
                               ? _c("div", [
                                   _vm._v(
-                                    "\n                        Section Google Meet: "
+                                    "\n                         " +
+                                      _vm._s(_vm.getcourseInfo.class_name) +
+                                      ": "
                                   ),
                                   _c(
                                     "a",
                                     {
                                       attrs: {
                                         link: "",
-                                        href: _vm.getcourseInfo.class_v_link,
+                                        href: _vm.link(
+                                          _vm.getcourseInfo.class_v_link
+                                        ),
                                         target: "_blank"
                                       }
                                     },
@@ -667,32 +716,6 @@ var render = function() {
                                   )
                                 ])
                               : _vm._e()
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.role == "Student" ? _c("v-divider") : _vm._e(),
-                      _vm._v(" "),
-                      _vm.getcourseInfo.v_classroom_link != null &&
-                      _vm.getcourseInfo.v_classroom_link != ""
-                        ? _c("div", [
-                            _vm._v(
-                              "\n                    Course Google Meet: "
-                            ),
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  link: "",
-                                  href: _vm.getcourseInfo.v_classroom_link,
-                                  target: "_blank"
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  _vm._s(_vm.getcourseInfo.v_classroom_link)
-                                )
-                              ]
-                            )
                           ])
                         : _vm._e()
                     ],
@@ -720,12 +743,10 @@ var render = function() {
                         [
                           _c("v-icon", { attrs: { left: "", dark: "" } }, [
                             _vm._v(
-                              "\n                        mdi-cloud-download\n                    "
+                              "\n                    mdi-cloud-download\n                "
                             )
                           ]),
-                          _vm._v(
-                            "\n                    Course Guide\n                "
-                          )
+                          _vm._v("\n                Course Guide\n            ")
                         ],
                         1
                       )

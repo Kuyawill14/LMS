@@ -100,12 +100,14 @@ class SubjectCourseController extends Controller
             ->first();
 
             $class = tbl_userclass::where('tbl_userclasses.course_id',$id)
-            ->select('tbl_classes.meeting_link')
+            ->select('tbl_classes.meeting_link','tbl_classes.class_name')
+            // ->select('tbl_classes.class_name')
             ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id',  $userId)
             ->first();
             
             $ShowCourseDetails->class_v_link = $class->meeting_link;
+            $ShowCourseDetails->class_name =  $class->class_name;
             return $ShowCourseDetails;
         }
         else{
