@@ -104,8 +104,6 @@
                         Course Google Meet: <a link :href="getcourseInfo.v_classroom_link"
                         target="_blank">{{getcourseInfo.v_classroom_link}}</a>
                     </div>
-                    
-
                 </v-card-subtitle>
         
                     <v-btn v-if="getcourseInfo.course_guide != null" depressed color="primary" small style="position: absolute; z-index: 999; bottom: 15px;right: 14px;" target="_blank"  :href="path+getcourseInfo.course_guide ">

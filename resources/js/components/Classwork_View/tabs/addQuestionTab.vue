@@ -881,62 +881,47 @@ export default {
                     })
             }
         },
-        async GetQuestion(){
-            
-            
+        async GetQuestion(){  
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
-            .then((res)=>{
-                
+            .then((res)=>{    
                 if(res.status == 200){
-                        this.selectedData = [];
-                        let tmp = this.getAll_questions.Question;
-                        tmp.forEach(item => {
+                    this.selectedData = [];
+                    let tmp = this.getAll_questions.Question;
+                    tmp.forEach(item => {
+                            this.selectedData.push({
+                                id: item.id,
+                                selected: false,
+                                isEditing: false
+                            })  
+                    });
 
-                                this.selectedData.push({
-                                    id: item.id,
-                                    selected: false,
-                                    isEditing: false
-                                })  
-                        });
-
-
-
-
-
-                        this.isloading = false;
-                        this.Qlength = tmp.length;
-                }
-                
+                    this.isloading = false;
+                    this.Qlength = tmp.length;
+                }     
             }) 
-
         },
-
         async ReloadQuestion(){
-        
             this.$store.dispatch('fetchQuestions', this.$route.query.clwk)
             .then((res)=>{
                 if(res.status == 200){
-                        this.selectedData = [];
-                        let tmp = this.getAll_questions.Question;
-                        tmp.forEach(item => {
+                    this.selectedData = [];
+                    let tmp = this.getAll_questions.Question;
+                    tmp.forEach(item => {
 
-                                this.selectedData.push({
-                                    id: item.id,
-                                    selected: false,
-                                    isEditing: false
-                                })  
-                        });
-                        this.isloading = false;
-                        this.Qlength = tmp.length;
-                }
-                
+                            this.selectedData.push({
+                                id: item.id,
+                                selected: false,
+                                isEditing: false
+                            })  
+                    });
+                    this.isloading = false;
+                    this.Qlength = tmp.length;
+                }       
             }) 
-
         },
-       async AddNewQuestion(){
-                       
+       async AddNewQuestion(){              
            this.isAddingNewQuestion = true;
-           axios.post('/api/question/add_new_question', {
+           await axios.post('/api/question/add_new_question', {
                classwork_id: this.$route.query.clwk,
                 new_number : (this.getAll_questions.Question.length+1),
                 })
@@ -1027,7 +1012,7 @@ export default {
                 })
             } */
 
-             axios.post('/api/question/addOption', {
+             await axios.post('/api/question/addOption', {
                 type: "Multiple Choice",
                 question_id: id
             }).then((res)=>{
@@ -1045,13 +1030,10 @@ export default {
                 });
             })
 
-            
-           
         },
 
         async AddNewOption(id, Mainindex, type){
-
-            axios.post('/api/question/addOption', {
+            await axios.post('/api/question/addOption', {
                 type: type,
                 question_id: id
             }).then((res)=>{
@@ -1071,7 +1053,7 @@ export default {
             
         },
         async AddNewMatch(id, mainIndex, type){
-            axios.post('/api/question/addOption', {
+            await axios.post('/api/question/addOption', {
                 type: type,
                 question_id: id
             }).then((res)=>{
@@ -1099,7 +1081,7 @@ export default {
                  this.getAll_questions.Answer[Mainindex].options.splice(AnsIndex,  1);
             }
             else{
-                 axios.put('/api/question/remove_question_option/'+id, {type: type})
+                 await axios.put('/api/question/remove_question_option/'+id, {type: type})
                 .then((res)=>{
                     this.getAll_questions.Answer[Mainindex].options.splice(AnsIndex,  1);
                 })
@@ -1111,7 +1093,7 @@ export default {
                 this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                 this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
             }else{
-                axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
+                await axios.put('/api/question/remove_question_match/'+main_id, {sub_question_id: sub_quesId, answer_id:answer_id })
                 .then((res)=>{
                     this.getAll_questions.Answer[main_index].SubQuestion.splice(match_index,  1);
                     this.getAll_questions.Answer[main_index].SubAnswer.splice(match_index,  1);
@@ -1120,14 +1102,14 @@ export default {
               
         },
         async UpdateQuestion(id, Mainindex){
-            axios.put('/api/question/update_question_details/'+id, {
+            await axios.put('/api/question/update_question_details/'+id, {
                 question: this.getAll_questions.Question[Mainindex],
                 answer: this.getAll_questions.Answer[Mainindex],
             })
             .then((res)=>{
             })
         },
-        CheckType(id, type, mainIndex){
+        async CheckType(id, type, mainIndex){
                 this.isNewChanges = true;
                 if(type == 'Multiple Choice'){
                     if(this.getAll_questions.Answer[mainIndex].options.length == 0){
@@ -1170,7 +1152,7 @@ export default {
                             }) */
                         //}
 
-                         axios.post('/api/question/addOption', {
+                         await axios.post('/api/question/addOption', {
                                 type: type,
                                 question_id: id
                             }).then((res)=>{
@@ -1197,7 +1179,7 @@ export default {
             this.isAddingNewQuestion = true;
             this.showSnackbar = true
             this.isSavingAllQuestion = true;
-            axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
+            await axios.put('/api/question/save_all_question/'+this.$route.query.clwk, this.getAll_questions)
             .then((res)=>{
                 if(res.data.success == true){
                     this.isSavingAllQuestion = false;
@@ -1239,7 +1221,7 @@ export default {
             });
             this.selectedDataCount = 0;
         },
-        DeleteSelected(){
+        async DeleteSelected(){
             this.isAddingNewQuestion = true;
             let question_id_list = [];
             let question_index = 0;
@@ -1252,7 +1234,7 @@ export default {
                 question_index++;
             });
 
-            axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
+            await axios.put('/api/question/delete_selected_question/'+this.$route.query.clwk, {question: question_id_list})
             .then((res)=>{
                 if(res.data.success == true){
                     this.Deletedialog = !this.Deletedialog;
@@ -1287,7 +1269,7 @@ export default {
             this.DeleteSingledialog = true;
         },
         async deleteSingleQuestion(){
-            axios.delete('/api/question/remove/'+this.DeleteDetails.id)
+            await axios.delete('/api/question/remove/'+this.DeleteDetails.id)
             .then(res=>{
                 this.getAll_questions.Question.splice(this.DeleteIndex, 1);
                 this.getAll_questions.Answer.splice(this.DeleteIndex, 1);
@@ -1325,7 +1307,7 @@ export default {
 
         },
         async DuplicateQuestionAction(){
-            axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
+            await axios.put('/api/question/store_duplicate_question/'+this.$route.query.clwk, {
                 question: this.DuplicateQuestion,
                 answer: this.DuplicateAnswers
             })
@@ -1432,8 +1414,8 @@ export default {
             e.returnValue = ''
         }   
     },
-    AddDestructor(mainIndex, id){
-        axios.post('/api/question/add_new_destructor', {question_id: id})
+    async AddDestructor(mainIndex, id){
+        await axios.post('/api/question/add_new_destructor', {question_id: id})
         .then((res)=>{
             if(res.data.success == true){
                  this.getAll_questions.Answer[mainIndex].Destructors.push({
@@ -1451,14 +1433,14 @@ export default {
             }
         })
     }, 
-    removeDestructor(id, index, mainIndex){
-        axios.delete('/api/question/remove_destructor/'+id)
+    async removeDestructor(id, index, mainIndex){
+        await axios.delete('/api/question/remove_destructor/'+id)
         .then(()=>{
              this.getAll_questions.Answer[mainIndex].Destructors.splice(index, 1);
         })
     },
-    UpdateDestructor(id,index, mainIndex, data){
-        axios.put('/api/question/update_destructor/'+id, {Choice: data})
+    async UpdateDestructor(id,index, mainIndex, data){
+        await axios.put('/api/question/update_destructor/'+id, {Choice: data})
         .then((res)=>{
           
         })

@@ -57,7 +57,7 @@
             </v-row>
         </v-container> -->
     <v-container v-if="!get_isDataLoaded" fluid>
-         <v-row class="mb-5">
+         <v-row class="mb-5" v-if="$vuetify.breakpoint.mdAndUp">
              <v-col cols="12" md="9" lg="9" class="text-left mb-0 pb-0">
                   <v-skeleton-loader  type="heading"></v-skeleton-loader>
             </v-col>

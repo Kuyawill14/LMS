@@ -361,14 +361,10 @@ class ClassworkController extends Controller
                 $shareClasswork->save();
                 $sharedClassworks[$count] = $shareClasswork;
             }
-
-            
             $count++;
         }
 
-
         return $sharedClassworks;
-  
     }
 
 
@@ -980,30 +976,52 @@ class ClassworkController extends Controller
                 $newQuestion = new tbl_Questions;
                 $newQuestion->classwork_id = $DuplicateClasswork->id;
                 $newQuestion->question = $item['question'];
-                $newQuestion->answer = $item['answer'];
                 $newQuestion->type = $item['type'];
                 $newQuestion->points = $item['points'];
                 $newQuestion->sensitivity = $item['sensitivity'];
+                $newQuestion->isNew = $item['isNew'];
                 $newQuestion->required = $item['required'];
                 $newQuestion->save();
 
                 $QuestionChoiceList = tbl_choice::where('tbl_choices.question_id', $item['id'])->get();
                 foreach($QuestionChoiceList as $ques_choice){
-                    $newChoice = new tbl_choice;
-                    $newChoice->question_id = $newQuestion->id;
-                    $newChoice->Choice = $ques_choice['Choice'];
-                    $newChoice->isDestructor = $ques_choice['isDestructor'];
-                    $newChoice->save();
 
-                    $checkSubQuestion = tbl_SubQuestion::where('answer_id', $ques_choice['id'])
-                    ->where('mainQuestion_id', $item['id'])
-                    ->first();
-                    if($checkSubQuestion){
-                        $newSubques = new tbl_SubQuestion;
-                        $newSubques->mainQuestion_id = $newQuestion->id;
-                        $newSubques->answer_id = $ques_choice['id'];
-                        $newSubques->sub_question = $checkSubQuestion->sub_question;
-                        $newSubques->save();
+                    if($item['type'] != 'Matching type'){
+                        $newChoice = new tbl_choice;
+                        $newChoice->question_id = $newQuestion->id;
+                        $newChoice->Choice = $ques_choice['Choice'];
+                        $newChoice->isDestructor = $ques_choice['isDestructor'];
+                        $newChoice->save();
+
+                        if($item['isNew']){
+                            if($item['answer'] == $ques_choice['id']){
+                                $newQuestion->answer = $newChoice->id;
+                                $newQuestion->save();
+                            }
+                        }else{
+                            $newQuestion->answer = $item['answer'];
+                            $newQuestion->save();
+                        }
+
+                    }else{
+
+                        $newChoice = new tbl_choice;
+                        $newChoice->question_id = $newQuestion->id;
+                        $newChoice->Choice = $ques_choice['Choice'];
+                        $newChoice->isDestructor = $ques_choice['isDestructor'];
+                        $newChoice->save();
+
+                        $checkSubQuestion = tbl_SubQuestion::where('answer_id', $ques_choice['id'])
+                        ->where('mainQuestion_id', $item['id'])
+                        ->first();
+                        if($checkSubQuestion){
+                            $newSubques = new tbl_SubQuestion;
+                            $newSubques->mainQuestion_id = $newQuestion->id;
+                            $newSubques->answer_id = $newChoice->id;
+                            $newSubques->sub_question = $checkSubQuestion->sub_question;
+                            $newSubques->save();
+                        }
+
                     }
 
                 }
@@ -1011,8 +1029,6 @@ class ClassworkController extends Controller
         }
 
         DB::commit();
-        return $DuplicateClasswork;
-
         return response()->json([
             "message" => "Classwork Successfully Duplicated!",
             "success" => true,

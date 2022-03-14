@@ -1848,7 +1848,7 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { icon: "" },
+                              attrs: { color: "primary", icon: "" },
                               on: { click: _vm.addComment }
                             },
                             [_c("v-icon", [_vm._v("mdi-send")])],

@@ -84,7 +84,7 @@ class CommentController extends Controller
         $NewComment->save();
 
         //if(auth("sanctum")->user()->role == "Student"){
-            if($NewComment){
+            /* if($NewComment){
                 $user = tbl_userDetails::where('user_id', $userId)
                 ->select('firstName', 'lastName')
                 ->first();
@@ -127,9 +127,9 @@ class CommentController extends Controller
 
 
 
-                    //if($courseAndClassId->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$newNotification->message $courseAndClassId->device_key));
+                    if($courseAndClassId->device_key)Notification::send(null,new SendPushNotification('ISUE-ORANGE',$newNotification->message $courseAndClassId->device_key));
                 }
-            }
+            } */
         //}
        
         return $NewComment;

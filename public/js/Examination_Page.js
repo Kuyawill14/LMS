@@ -991,11 +991,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -1059,7 +1054,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       windowHeight: window.innerHeight - 100,
       isLeavingPage: false,
       CurrentTime: null,
-      testDate: null,
       isReloadTime: false,
       unAnsweredQuestion: 0
     };
@@ -1104,9 +1098,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter;
       }
 
-      clearInterval(this.timeCount);
       this.tempCounter = 0;
-      this.CountTime();
     },
     setAnswer: function setAnswer(index, Choices) {},
     SetWarning: function SetWarning() {
@@ -1153,7 +1145,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee);
       }))();
     },
-    // Go to previous question
     prev: function prev() {
       if (this.TimerCount[this.questionIndex] != null || '') {
         this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
@@ -1161,68 +1152,97 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.TimerCount[this.questionIndex] = this.tempCounter;
       }
 
-      clearInterval(this.timeCount);
       this.tempCounter = 0;
-      this.CountTime();
       this.questionIndex--;
     },
     SubmitAnswer: function SubmitAnswer(data) {
       var _this5 = this;
 
-      if (data.istime == false) {
-        this.isExamStart = false;
-        this.isLoading = true;
-        this.isSubmitting = !this.isSubmitting;
-        this.dialog = !this.dialog;
-        this.isStart = !this.isStart;
-        this.warningDialog = false;
-        axios.post('/api/question/check/' + this.$route.query.clwk, {
-          item: this.FinalAnswers,
-          AnsLength: this.questionIndex,
-          timerCount: this.TimerCount,
-          timeSpent: data.time
-        }).then(function (res) {
-          //this.isLoading = !this.isLoading;
-          // this.isSubmitting = !this.isSubmitting;
-          // this.$router.push({
-          //     name: 'clwk',
-          //     params: {
-          //         id: this.$route.params.id
-          //     },
-          //     query: {
-          //         clwk: this.$route.query.clwk
-          //     }
-          // });
-          self.opener.location.reload();
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(data.istime == false)) {
+                  _context2.next = 9;
+                  break;
+                }
 
-          _this5.saveActivityLog("Student submitted the exam").then(function () {
-            setTimeout(function () {
-              _this5.isLoading = false;
-              window.close();
-            }, 300);
-          });
-        });
-      }
+                _this5.isExamStart = false;
+                _this5.isLoading = true;
+                _this5.isSubmitting = !_this5.isSubmitting;
+                _this5.dialog = !_this5.dialog;
+                _this5.isStart = !_this5.isStart;
+                _this5.warningDialog = false;
+                _context2.next = 9;
+                return axios.post('/api/question/check/' + _this5.$route.query.clwk, {
+                  item: _this5.FinalAnswers,
+                  AnsLength: _this5.questionIndex,
+                  timerCount: _this5.TimerCount,
+                  timeSpent: data.time
+                }).then(function (res) {
+                  //this.isLoading = !this.isLoading;
+                  // this.isSubmitting = !this.isSubmitting;
+                  //self.opener.location.reload();
+                  _this5.saveActivityLog("Student submitted the exam").then(function () {
+                    setTimeout(function () {
+                      _this5.isLoading = false;
+                      window.close();
+                    }, 300);
+                  });
+
+                  _this5.$router.push({
+                    name: 'clwk',
+                    params: {
+                      id: _this5.$route.params.id
+                    },
+                    query: {
+                      clwk: _this5.$route.query.clwk
+                    }
+                  });
+                });
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     },
     TimesUpSubmit: function TimesUpSubmit(data) {
       var _this6 = this;
 
-      this.isExamStart = false; //this.isLoading = !this.isLoading;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this6.isExamStart = false; //this.isLoading = !this.isLoading;
 
-      this.isSubmitting = !this.isSubmitting;
-      this.isStart = !this.isStart;
-      this.warningDialog = false;
-      axios.post('/api/question/check/' + this.$route.query.clwk, {
-        item: this.FinalAnswers,
-        AnsLength: this.questionIndex,
-        timerCount: this.TimerCount,
-        timeSpent: data.time
-      }).then(function (res) {
-        _this6.TimesUpDialog = !_this6.TimesUpDialog;
-        setTimeout(function () {//this.isLoading = !this.isLoading;
-          //this.isSubmitting = !this.isSubmitting;
-        }, 2000); //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
-      });
+                _this6.isSubmitting = !_this6.isSubmitting;
+                _this6.isStart = !_this6.isStart;
+                _this6.warningDialog = false;
+                _context3.next = 6;
+                return axios.post('/api/question/check/' + _this6.$route.query.clwk, {
+                  item: _this6.FinalAnswers,
+                  AnsLength: _this6.questionIndex,
+                  timerCount: _this6.TimerCount,
+                  timeSpent: data.time
+                }).then(function (res) {
+                  _this6.TimesUpDialog = !_this6.TimesUpDialog;
+                  setTimeout(function () {//this.isLoading = !this.isLoading;
+                    //this.isSubmitting = !this.isSubmitting;
+                  }, 2000); //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
+                });
+
+              case 6:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
     },
     fetchQuestions: function fetchQuestions() {
       var _this7 = this;
@@ -1433,91 +1453,123 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ReloadStatus: function ReloadStatus() {
       var _this8 = this;
 
-      axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
-        if (res.data.success == true) {
-          if (res.data.status != 'Submitted') {
-            _this8.CurrentTime = res.data.currentTime;
-            _this8.StartTime = res.data.startTime;
-          }
-        }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return axios.get('/api/student/checking/' + _this8.$route.query.clwk).then(function (res) {
+                  if (res.data.success == true) {
+                    if (res.data.status != 'Submitted') {
+                      //this.CurrentTime = Date().getTime();
+                      _this8.CurrentTime = res.data.currentTime;
+                      _this8.StartTime = res.data.startTime;
+                    }
+                  }
 
-        _this8.isReloadTime = false;
-      })["catch"](function (e) {
-        _this8.toastError('Something went wrong while loading Questions!');
+                  _this8.isReloadTime = false;
+                })["catch"](function (e) {
+                  _this8.CurrentTime = Date.now();
+                  _this8.isReloadTime = false; //this.ReloadStatus();
 
-        _this8.$router.push({
-          name: 'clwk',
-          params: {
-            id: _this8.$route.params.id
-          },
-          query: {
-            clwk: _this8.$route.query.clwk
+                  /*   this.toastError('Something went wrong while loading Questions!');
+                    this.$router.push({
+                        name: 'clwk',
+                        params: {
+                            id: this.$route.params.id
+                        },
+                        query: {
+                            clwk: this.$route.query.clwk
+                        }
+                    }) */
+                });
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
           }
-        });
-      });
+        }, _callee4);
+      }))();
     },
     CheckStatus: function CheckStatus() {
       var _this9 = this;
 
-      axios.get('/api/student/checking/' + this.$route.query.clwk).then(function (res) {
-        if (res.data.success == true) {
-          if (res.data.status != 'Submitted') {
-            _this9.isExamStart = true;
-            _this9.Submitted_Answers = res.data.Submitted_Answers;
-            _this9.CurrentTime = res.data.currentTime;
-            _this9.testDate = res.data.testDate;
-            _this9.StartTime = res.data.startTime;
-            _this9.submission_id = res.data.submission_id;
-            _this9.preventNav = !_this9.preventNav;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return axios.get('/api/student/checking/' + _this9.$route.query.clwk).then(function (res) {
+                  if (res.data.success == true) {
+                    if (res.data.status != 'Submitted') {
+                      _this9.isExamStart = true;
+                      _this9.Submitted_Answers = res.data.Submitted_Answers;
+                      _this9.CurrentTime = res.data.currentTime;
+                      _this9.StartTime = res.data.startTime;
+                      _this9.submission_id = res.data.submission_id;
+                      _this9.preventNav = !_this9.preventNav;
 
-            _this9.StartQuiz();
-          } else {
-            _this9.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
-            //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+                      _this9.StartQuiz();
+                    } else {
+                      _this9.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                      //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
 
-            _this9.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
-              theme: "toasted-primary",
-              position: "top-center",
-              icon: "warning",
-              duration: 7000
-            });
+                      //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                      //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
+                      _this9.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+                        theme: "toasted-primary",
+                        position: "top-center",
+                        icon: "warning",
+                        duration: 7000
+                      });
 
-            _this9.$router.push({
-              name: 'clwk',
-              params: {
-                id: _this9.$route.params.id
-              },
-              query: {
-                clwk: _this9.$route.query.clwk
-              }
-            });
-          }
-        } else {
-          _this9.toastError('Something went wrong while loading Questions!');
+                      _this9.$router.push({
+                        name: 'clwk',
+                        params: {
+                          id: _this9.$route.params.id
+                        },
+                        query: {
+                          clwk: _this9.$route.query.clwk
+                        }
+                      });
+                    }
+                  } else {
+                    _this9.toastError('Something went wrong while loading Questions!');
 
-          _this9.$router.push({
-            name: 'clwk',
-            params: {
-              id: _this9.$route.params.id
-            },
-            query: {
-              clwk: _this9.$route.query.clwk
+                    _this9.$router.push({
+                      name: 'clwk',
+                      params: {
+                        id: _this9.$route.params.id
+                      },
+                      query: {
+                        clwk: _this9.$route.query.clwk
+                      }
+                    });
+                  }
+                })["catch"](function (e) {
+                  _this9.toastError('Something went wrong while loading Questions!');
+
+                  _this9.$router.push({
+                    name: 'clwk',
+                    params: {
+                      id: _this9.$route.params.id
+                    },
+                    query: {
+                      clwk: _this9.$route.query.clwk
+                    }
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context5.stop();
             }
-          });
-        }
-      })["catch"](function (e) {
-        _this9.toastError('Something went wrong while loading Questions!');
-
-        _this9.$router.push({
-          name: 'clwk',
-          params: {
-            id: _this9.$route.params.id
-          },
-          query: {
-            clwk: _this9.$route.query.clwk
           }
-        });
-      });
+        }, _callee5);
+      }))();
     },
     SelectMatch: function SelectMatch(id, main_index, second_index) {
       var Answer = this.FinalAnswers[main_index].Answer[second_index].Ans_letter;
@@ -1547,30 +1599,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this10.classworkDetails = _this10.get_classwork_show_details.Details;
 
         _this10.fetchQuestions();
-      }); //this.CountTime();
+      });
     },
     saveActivityLog: function saveActivityLog(description) {
       var _this11 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context2.next = 2;
+                _context6.next = 2;
                 return axios.post('/api/objective-logs/logs', {
                   classwork_id: _this11.$route.query.clwk,
                   description: description
-                }).then(function (res) {
-                  console.log(res.data);
-                });
+                }).then(function (res) {});
 
               case 2:
               case "end":
-                return _context2.stop();
+                return _context6.stop();
             }
           }
-        }, _callee2);
+        }, _callee6);
       }))();
     },
     triggerWarning: function triggerWarning() {
@@ -1579,13 +1629,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.saveActivityLog('Switched tabs or applications / lost focus on the page.');
 
         if (this.leaveStrike == 5) {
-          this.isExamStart = false;
-          self.opener.location.reload();
+          this.isExamStart = false; //self.opener.location.reload();
+
           this.toastError('You are lossing focus to examination page many times!, Logs saved');
           this.saveActivityLog("Student got ".concat(this.leaveStrike, " warnings, Student have been forced to leave the exam")).then(function () {
             setTimeout(function () {
               window.close();
             }, 300);
+          });
+          this.$router.push({
+            name: 'clwk',
+            params: {
+              id: this.$route.params.id
+            },
+            query: {
+              clwk: this.$route.query.clwk
+            }
           });
         }
 
@@ -1606,10 +1665,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (document.body.requestFullscreen) {
         document.body.requestFullscreen();
       } else if (document.body.webkitRequestFullscreen) {
-        /* Safari */
         document.body.webkitRequestFullscreen();
       } else if (document.body.msRequestFullscreen) {
-        /* IE11 */
         document.body.msRequestFullscreen();
       }
     },
@@ -1651,23 +1708,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this12 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
-              _this12.toggleFullScreen();
-
-              _this12.openFullscreen(document.body);
-
+              //this.toggleFullScreen();
+              //this.openFullscreen(document.body);
               _this12.CheckStatus();
 
-            case 3:
+            case 1:
             case "end":
-              return _context3.stop();
+              return _context7.stop();
           }
         }
-      }, _callee3);
+      }, _callee7);
     }))();
   },
   beforeDestroy: function beforeDestroy() {
@@ -24639,7 +24694,7 @@ var render = function() {
           _c("vue-element-loading", {
             attrs: {
               active: _vm.isLoading,
-              text: "Loading Questions",
+              text: !_vm.isSubmitting ? "Loading Questions" : "Submitting..",
               duration: "0.7",
               textStyle: { fontSize: "18px" },
               spinner: "line-scale",
@@ -27173,7 +27228,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                        Submit\n\n                    "
+                                "\n                        Submit\n                    "
                               )
                             ]
                           )

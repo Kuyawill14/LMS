@@ -32,7 +32,7 @@
     </v-row>
 </v-container> -->
 
-            <vue-element-loading :active="isLoading" text="Loading Questions" duration="0.7"
+            <vue-element-loading :active="isLoading" :text="!isSubmitting ? 'Loading Questions' : 'Submitting..'" duration="0.7"
                 :textStyle="{fontSize: '18px'}" spinner="line-scale" color="#EF6C00" size="50" is-full-screen />
 
             <!--  <vue-element-loading :active="isSubmitting" 
@@ -246,8 +246,7 @@
                                 <v-col cols="12"
                                     :class="$vuetify.breakpoint.mdAndUp ? 'pa-9 pt-0 mt-0' : 'pa-4 pt-0 mt-0'">
                                     
-                                    <vue-element-loading :active="isSavingAnswer" duration="0.7" 
-                                    spinner="line-scale" color="#EF6C00" size="50" />
+                                    <vue-element-loading :active="isSavingAnswer" duration="0.7" spinner="line-scale" color="#EF6C00" size="50" />
                                     <v-container ma-0 pa-0 v-for="(item, index) in getAll_questions.Question"
                                         :key="index">
                                         <div v-show="index === questionIndex">
@@ -262,9 +261,6 @@
 
                                             <v-row>
                                                 <v-col class="mt-0 pt-1 pl-3 mb-0 pb-0" cols="12" md="11" lg="11">
-
-                                                    <!--  <v-skeleton-loader v-if="isSavingAnswer" type="heading"></v-skeleton-loader> -->
-
                                                     <div :style="!$vuetify.breakpoint.mdAndUp ? 'line-height:1.1;user-select: none': 'user-select: none'"
                                                         class="font-weight-medium">
                                                         <span v-html="item.question" class="post-content"></span>
@@ -521,7 +517,6 @@
                     <v-btn text :loading="isSavingAnswer" v-if="questionIndex == Qlength-1" rounded color="success"
                         @click="SubmitPromp">
                         Submit
-
                     </v-btn>
 
                 </v-app-bar>
@@ -607,7 +602,6 @@
                 windowHeight: window.innerHeight - 100,
                 isLeavingPage: false,
                 CurrentTime: null,
-                testDate: null,
                 isReloadTime: false,
                 unAnsweredQuestion: 0,
 
@@ -653,9 +647,7 @@
                 } else {
                     this.FinalAnswers[this.questionIndex].timeConsume = this.tempCounter
                 }
-                clearInterval(this.timeCount);
                 this.tempCounter = 0;
-                this.CountTime();
             },
             setAnswer(index, Choices) {
 
@@ -681,23 +673,18 @@
                     type: "multiple",
                     data: this.FinalAnswers
                 })
-                //this.isSavingAnswer = false;
-                //setTimeout(() => (this.isSavingAnswer = false), 500);
             },
-            // Go to previous question
-            prev: function () {
+            prev() {
                 if (this.TimerCount[this.questionIndex] != null || '') {
                     this.TimerCount[this.questionIndex] = this.TimerCount[this.questionIndex] + this.tempCounter;
                 } else {
                     this.TimerCount[this.questionIndex] = this.tempCounter;
                 }
-                clearInterval(this.timeCount);
                 this.tempCounter = 0;
-                this.CountTime();
                 this.questionIndex--;
 
             },
-            SubmitAnswer(data) {
+            async SubmitAnswer(data) {
                 if (data.istime == false) {
                     this.isExamStart = false;
                     this.isLoading = true;
@@ -705,7 +692,7 @@
                     this.dialog = !this.dialog;
                     this.isStart = !this.isStart;
                     this.warningDialog = false;
-                    axios.post('/api/question/check/' + this.$route.query.clwk, {
+                    await axios.post('/api/question/check/' + this.$route.query.clwk, {
                             item: this.FinalAnswers,
                             AnsLength: this.questionIndex,
                             timerCount: this.TimerCount,
@@ -715,18 +702,7 @@
                             //this.isLoading = !this.isLoading;
                             // this.isSubmitting = !this.isSubmitting;
 
-
-
-                            // this.$router.push({
-                            //     name: 'clwk',
-                            //     params: {
-                            //         id: this.$route.params.id
-                            //     },
-                            //     query: {
-                            //         clwk: this.$route.query.clwk
-                            //     }
-                            // });
-                            self.opener.location.reload();
+                            //self.opener.location.reload();
                             this.saveActivityLog(
                                     `Student submitted the exam`)
                                 .then(() => {
@@ -736,20 +712,19 @@
                                     }, 300)
                                 });
 
-
-
+                            this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
                         })
                 }
 
             },
-            TimesUpSubmit(data) {
+            async TimesUpSubmit(data) {
 
                 this.isExamStart = false;
                 //this.isLoading = !this.isLoading;
                 this.isSubmitting = !this.isSubmitting;
                 this.isStart = !this.isStart;
                 this.warningDialog = false;
-                axios.post('/api/question/check/' + this.$route.query.clwk, {
+                await axios.post('/api/question/check/' + this.$route.query.clwk, {
                         item: this.FinalAnswers,
                         AnsLength: this.questionIndex,
                         timerCount: this.TimerCount,
@@ -835,6 +810,7 @@
                             data: this.FinalAnswers
                         })
                     } else if (this.Qlength != AnswersList.length) {
+
                         for (let index = 0; index < this.getAll_questions.Question.length; index++) {
                             if (this.getAll_questions.Question[index].type == 'Identification' || this
                                 .getAll_questions.Question[index].type == 'Multiple Choice' || this
@@ -867,7 +843,6 @@
                                     Choices_id.push({
                                         choice_id: item.id
                                     })
-
                                     Quest_Pattern.SubAnswer.push({
                                         id: item.id
                                     })
@@ -972,11 +947,12 @@
                 if (!this.isStart) return;
                 event.returnValue = "";
             },
-            ReloadStatus() {
-                axios.get('/api/student/checking/' + this.$route.query.clwk)
+            async ReloadStatus() {
+                await axios.get('/api/student/checking/' + this.$route.query.clwk)
                     .then(res => {
                         if (res.data.success == true) {
                             if (res.data.status != 'Submitted') {
+                                //this.CurrentTime = Date().getTime();
                                 this.CurrentTime = res.data.currentTime;
                                 this.StartTime = res.data.startTime;
                             }
@@ -984,7 +960,11 @@
                         this.isReloadTime = false;
                     })
                     .catch(e => {
-                        this.toastError('Something went wrong while loading Questions!');
+                        this.CurrentTime = Date.now();
+                        this.isReloadTime = false;
+                        
+                        //this.ReloadStatus();
+                      /*   this.toastError('Something went wrong while loading Questions!');
                         this.$router.push({
                             name: 'clwk',
                             params: {
@@ -993,18 +973,17 @@
                             query: {
                                 clwk: this.$route.query.clwk
                             }
-                        })
+                        }) */
                     })
             },
-            CheckStatus() {
-                axios.get('/api/student/checking/' + this.$route.query.clwk)
+            async CheckStatus() {
+                await axios.get('/api/student/checking/' + this.$route.query.clwk)
                     .then(res => {
                         if (res.data.success == true) {
                             if (res.data.status != 'Submitted') {
                                 this.isExamStart = true
                                 this.Submitted_Answers = res.data.Submitted_Answers;
                                 this.CurrentTime = res.data.currentTime;
-                                this.testDate = res.data.testDate;
                                 this.StartTime = res.data.startTime;
                                 this.submission_id = res.data.submission_id;
                                 this.preventNav = !this.preventNav;
@@ -1106,21 +1085,19 @@
                     course_id: this.$route.params.id
                 }
                 this.$store.dispatch('fetchClassworkShowDetails', data)
-                    .then(() => {
-                        this.duration = this.get_classwork_show_details.Details.duration;
-                        this.classworkDetails = this.get_classwork_show_details.Details;
-                        this.fetchQuestions();
-                    })
-                //this.CountTime();
+                .then(() => {
+                    this.duration = this.get_classwork_show_details.Details.duration;
+                    this.classworkDetails = this.get_classwork_show_details.Details;
+                    this.fetchQuestions();
+                })
             },
-
             async saveActivityLog(description) {
                 await axios.post('/api/objective-logs/logs', {
                     classwork_id: this.$route.query.clwk,
                     description: description,
 
                 }).then((res) => {
-                    console.log(res.data);
+
                 })
             },
             triggerWarning() {
@@ -1131,7 +1108,8 @@
 
                     if (this.leaveStrike == 5) {
                         this.isExamStart = false;
-                        self.opener.location.reload();
+                        //self.opener.location.reload();
+                        
                         this.toastError('You are lossing focus to examination page many times!, Logs saved');
 
                         this.saveActivityLog(
@@ -1141,6 +1119,7 @@
                                     window.close();
                                 }, 300)
                             });
+                            this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}});
 
                     }
                     if (!this.preventWarning) {
@@ -1162,10 +1141,10 @@
                 if (document.body.requestFullscreen) {
                     document.body.requestFullscreen();
                 } else if (document.body.webkitRequestFullscreen) {
-                    /* Safari */
+                    
                     document.body.webkitRequestFullscreen();
                 } else if (document.body.msRequestFullscreen) {
-                    /* IE11 */
+                   
                     document.body.msRequestFullscreen();
                 }
             },
@@ -1210,13 +1189,12 @@
             next();
         },
         async mounted() {
-            this.toggleFullScreen();
-            this.openFullscreen(document.body);
+            //this.toggleFullScreen();
+            //this.openFullscreen(document.body);
             this.CheckStatus();
 
 
         },
-
         beforeDestroy() {
             window.removeEventListener('onbeforeunload', this.preventNav)
         },

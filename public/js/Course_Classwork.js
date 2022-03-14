@@ -378,36 +378,42 @@ var render = function() {
             "v-container",
             { attrs: { fluid: "" } },
             [
-              _c(
-                "v-row",
-                { staticClass: "mb-5" },
-                [
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-left mb-0 pb-0",
-                      attrs: { cols: "12", md: "9", lg: "9" }
-                    },
-                    [_c("v-skeleton-loader", { attrs: { type: "heading" } })],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    {
-                      staticClass: "text-right mb-0 pb-0",
-                      attrs: { cols: "12", md: "3", lg: "3" }
-                    },
+              _vm.$vuetify.breakpoint.mdAndUp
+                ? _c(
+                    "v-row",
+                    { staticClass: "mb-5" },
                     [
-                      _c("v-skeleton-loader", {
-                        attrs: { "min-width": "400", type: "button" }
-                      })
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-left mb-0 pb-0",
+                          attrs: { cols: "12", md: "9", lg: "9" }
+                        },
+                        [
+                          _c("v-skeleton-loader", {
+                            attrs: { type: "heading" }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-col",
+                        {
+                          staticClass: "text-right mb-0 pb-0",
+                          attrs: { cols: "12", md: "3", lg: "3" }
+                        },
+                        [
+                          _c("v-skeleton-loader", {
+                            attrs: { "min-width": "400", type: "button" }
+                          })
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ],
-                1
-              ),
+                : _vm._e(),
               _vm._v(" "),
               _vm._l(_vm.role == "Teacher" ? 2 : 3, function(i) {
                 return _c(
