@@ -187,6 +187,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -224,7 +228,8 @@ var modulesListComponent = function modulesListComponent() {
       isSelectedModule: false,
       isExpand: false,
       isChangeSize: false,
-      screenWidth: window.innerWidth
+      screenWidth: window.innerWidth,
+      isDownloadable: false
     };
   },
   methods: {
@@ -249,12 +254,14 @@ var modulesListComponent = function modulesListComponent() {
         return split[split.length - 1];
       }
     },
-    getsubModuleData: function getsubModuleData(value) {
-      this.isSelectedModule = true;
-      this.subModuleData = value;
-      this.ext = this.getFileExt(value.file_attachment);
+    getsubModuleData: function getsubModuleData(sub_module, student_progress) {
+      console.log(sub_module.required_time);
+      console.log(student_progress.time_spent);
+      this.isDownloadable = student_progress.time_spent >= sub_module.required_time ? true : false, this.isSelectedModule = true;
+      this.subModuleData = sub_module;
+      this.ext = this.getFileExt(sub_module.file_attachment);
       this.type = this.subModuleData.type;
-      this.documentUrl(value.file_attachment);
+      this.documentUrl(sub_module.file_attachment);
       this.pdfdialog = true;
     },
     documentUrl: function documentUrl(file) {
@@ -273,7 +280,11 @@ var modulesListComponent = function modulesListComponent() {
   mounted: function mounted() {
     var _this = this;
 
-    this.$forceUpdate(); ////console.log(this.role);
+    this.$forceUpdate();
+    var submodule_dataa = this.subModuleData;
+    console.log({
+      submodule_dataa: submodule_dataa
+    }); ////console.log(this.role);
 
     if (this.subModuleData) {
       this.loading = true;
@@ -946,7 +957,7 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _vm.type != "Link"
+                                      _vm.type != "Link" && _vm.isDownloadable
                                         ? _c(
                                             "a",
                                             {

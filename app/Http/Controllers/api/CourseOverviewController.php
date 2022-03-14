@@ -45,10 +45,19 @@ class CourseOverviewController extends Controller
                     
             $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id = users.id) AS course_count';
             $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = '.$userId.' AND course_id = tbl_teacher_courses.course_id) AS total_classes';
-            $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = '.$userId.' AND course_id = tbl_teacher_courses.course_id) AS total_classworks';
+            $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = '.$userId.' 
+            AND course_id = tbl_teacher_courses.course_id
+            AND ISNULL(tbl_classworks.deleted_at)
+            ) AS total_classworks';
             $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
             LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = '.$userId.' AND course_id = tbl_teacher_courses.course_id ) AS sub_modules_count';
-            $student_count = '(SELECT COUNT(*) FROM tbl_userclasses  left join users on users.id = tbl_userclasses.user_id  WHERE users.role = "Student" AND course_id = tbl_teacher_courses.course_id ) AS total_students'; 
+            $student_count = '(SELECT COUNT(*) FROM tbl_userclasses 
+            LEFT JOIN users on users.id = tbl_userclasses.user_id 
+             LEFT JOIN tbl_classes ON tbl_classes.id = tbl_userclasses.class_id
+              WHERE users.role = "Student" 
+              AND tbl_classes.course_id = tbl_teacher_courses.course_id   
+              AND  ISNULL(tbl_classes.deleted_at)
+              AND ISNULL(tbl_userclasses.deleted_at)  )as total_students'; 
 
            
      
@@ -69,6 +78,7 @@ class CourseOverviewController extends Controller
 
                     $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $course_id)
                     ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+                    ->whereNull("tbl_userclasses.deleted_at")
                     ->where('users.role','Student')
                     ->count();
                     

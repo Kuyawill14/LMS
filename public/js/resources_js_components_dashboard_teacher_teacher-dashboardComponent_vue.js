@@ -129,15 +129,22 @@ var progressChart = function progressChart() {
     classCount: function classCount() {
       var _this = this;
 
-      axios.get('/api/class/count').then(function (res) {
-        _this.class_count = res.data.classCount;
-        _this.student_count = res.data.studentCount;
-      });
+      this.allCourse.forEach(function (element) {
+        _this.student_count += element.student_count;
+        _this.class_count += element.class_count;
+      }); // axios.get('/api/class/count')
+      //     .then(res => {
+      //         this.class_count = res.data.classCount;
+      //         this.student_count = res.data.studentCount;
+      //     })
     }
   }),
   mounted: function mounted() {
-    this.fetchCourseList();
-    this.classCount();
+    var _this2 = this;
+
+    this.fetchCourseList().then(function () {
+      _this2.classCount();
+    });
   }
 });
 

@@ -118,6 +118,7 @@ class SubModuleController extends Controller
                 if( $itemType) {
                     
                     if($request->file != 'null') {
+         
                         $file_extension = $request->file->extension();
                         $file_mime_type = $request->file->getClientMimeType();
                         $original_file_name = $request->file->getClientOriginalName();
@@ -126,6 +127,9 @@ class SubModuleController extends Controller
                         // $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
 
                         // // $file = $request->file->storeAs('public/upload/courses/' .$request->main_module_id,$filename );
+                       
+                        $request->sub_module_name = preg_replace('/[^\da-z ]/i', '', $request->sub_module_name);
+
                         $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
                         
                         
@@ -168,6 +172,8 @@ class SubModuleController extends Controller
                         // $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
 
                         // // $file = $request->file->storeAs('public/upload/courses/' .$request->main_module_id,$filename );
+                        $request->sub_module_name = preg_replace('/[^\da-z ]/i', '', $request->sub_module_name);
+
                         $filename =  $request->sub_module_name . '_' . $currentTime . '.' .  $file_extension ;
                         
                         

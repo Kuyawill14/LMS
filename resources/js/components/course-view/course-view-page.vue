@@ -1,6 +1,6 @@
 <template>
     <div>
-     
+
         <v-card v-if="showCard">
 
             <!-- <v-img :src="'../../images/' + getcourseInfo.course_picture " class="white--text align-end"
@@ -46,24 +46,13 @@
             </v-img> -->
 
 
-            <v-img
-            eager
-                :src="!isChanging ? CheckBackgroundPath(getcourseInfo.course_picture) : filePreview" class="white--text align-end"
-                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px"
-                aspect-ratio="2"
-            
-            >
+            <v-img eager :src="!isChanging ? CheckBackgroundPath(getcourseInfo.course_picture) : filePreview"
+                class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px"
+                aspect-ratio="2">
                 <template v-slot:placeholder>
-                <v-row
-                    class="fill-height ma-0"
-                    align="center"
-                    justify="center"
-                >
-                    <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                    ></v-progress-circular>
-                </v-row>
+                    <v-row class="fill-height ma-0" align="center" justify="center">
+                        <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    </v-row>
                 </template>
 
                 <v-app-bar v-if="role == 'Teacher'" flat color="rgba(0, 0, 0, 0)">
@@ -87,45 +76,51 @@
                     </v-menu>
                 </v-app-bar>
 
-                <v-card-title class="text-lg-h5" v-text="getcourseInfo.length !=0 ? getcourseInfo.course_code + ' - ' + getcourseInfo.course_name : 'Course Code - Course Name'">
+                <v-card-title class="text-lg-h5"
+                    v-text="getcourseInfo.length !=0 ? getcourseInfo.course_code + ' - ' + getcourseInfo.course_name : 'Course Code - Course Name'">
                 </v-card-title>
                 <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
 
                     <br v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
+               {{role == 'Student' ? 'Virtual Meeting Links' : ''}}
+
+                    <v-divider v-if="role == 'Student'"></v-divider>
+                    <div v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
+                     {{role == 'Student' ? 'Course' : 'Virtual Meeting Link:'}} <a link :href="link(getcourseInfo.v_classroom_link)"
+                            target="_blank">{{getcourseInfo.v_classroom_link}}</a>
+                    </div>
+
                     <div v-if="role == 'Student'">
-                         <div v-if="getcourseInfo.class_v_link != null && getcourseInfo.class_v_link != ''">
-                            Section Google Meet: <a link :href="getcourseInfo.class_v_link"
-                            target="_blank">{{getcourseInfo.class_v_link}}</a>
+                        <div v-if="getcourseInfo.class_v_link != null && getcourseInfo.class_v_link != ''">
+                             {{getcourseInfo.class_name}}: <a link :href="link(getcourseInfo.class_v_link)"
+                                target="_blank">{{getcourseInfo.class_v_link}}</a>
                         </div>
                     </div>
-                   
-                    <v-divider v-if="role == 'Student'"></v-divider>
-                     <div v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
-                        Course Google Meet: <a link :href="getcourseInfo.v_classroom_link"
-                        target="_blank">{{getcourseInfo.v_classroom_link}}</a>
-                    </div>
                 </v-card-subtitle>
-        
-                    <v-btn v-if="getcourseInfo.course_guide != null" depressed color="primary" small style="position: absolute; z-index: 999; bottom: 15px;right: 14px;" target="_blank"  :href="path+getcourseInfo.course_guide ">
-                        <v-icon left dark>
-                            mdi-cloud-download
-                        </v-icon>
-                        Course Guide
-                    </v-btn>
-                  
+
+                <v-btn v-if="getcourseInfo.course_guide != null" depressed color="primary" small
+                    style="position: absolute; z-index: 999; bottom: 15px;right: 14px;" target="_blank"
+                    :href="path+getcourseInfo.course_guide ">
+                    <v-icon left dark>
+                        mdi-cloud-download
+                    </v-icon>
+                    Course Guide
+                </v-btn>
+
             </v-img>
 
         </v-card>
-    <!--     <div v-if="this.$route.name == 'selectedCourse' && role == 'Teacher'" >
+        <!--     <div v-if="this.$route.name == 'selectedCourse' && role == 'Teacher'" >
             <teachercoursedashboardComponent v-if="role == 'Teacher'" :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></teachercoursedashboardComponent>
         </div> -->
-        <router-view  :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></router-view>
+        <router-view :role="role" :getcourseInfo="getcourseInfo" :UserDetails="UserDetails"></router-view>
 
-         <v-dialog scrollable v-model="dialog" persistent max-width="800" >
+        <v-dialog scrollable v-model="dialog" persistent max-width="800">
             <selectBackgroundDialog v-on:SaveSelected="UpdateImage" v-on:CloseDialog="dialog = !dialog" v-if="dialog">
             </selectBackgroundDialog>
         </v-dialog>
-        <v-file-input class="d-none" @change="onfileChange" :rules="rules" ref="UploadBackground" accept="image/png, image/jpeg, image/bmp"></v-file-input>
+        <v-file-input class="d-none" @change="onfileChange" :rules="rules" ref="UploadBackground"
+            accept="image/png, image/jpeg, image/bmp"></v-file-input>
     </div>
 </template>
 <script>
@@ -152,9 +147,9 @@
                 routeName: '',
                 showCard: true,
                 dialog: false,
-                path: window.origin + '/storage/' ,
+                path: window.origin + '/storage/',
                 rules: [
-                value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+                    value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
                 ],
                 previewUploaded: false,
                 filePreview: null,
@@ -183,20 +178,27 @@
             }
         },
         methods: {
+            link(s) {
+                var prefix = 'https://';
+                if (s.substr(0, prefix.length) !== prefix) {
+                    s = prefix + s;
+                }
+                return s;
+
+            },
             hideCard() {
-    
-                if(this.$route.name == 'selectedCourse'){
+
+                if (this.$route.name == 'selectedCourse') {
                     this.showDefault = true;
                     this.routeName = this.$route.matched[1].name;
                     if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName ==
-                    'courseSetup') {
-                    this.showCard = false;
+                        'courseSetup') {
+                        this.showCard = false;
                     } else {
                         this.showCard = true;
-                    } 
-                }
-                else{
-                     this.showDefault = false;
+                    }
+                } else {
+                    this.showDefault = false;
                     this.routeName = this.$route.matched[2].name;
                     if (this.routeName == 'student-modules' || this.routeName == 'modules-preview' || this.routeName ==
                         'courseSetup') {
@@ -205,7 +207,7 @@
                         this.showCard = true;
                     }
                 }
-               
+
 
             },
             ...mapActions(['fetchScourse']),
@@ -233,13 +235,13 @@
                 fd.append('course_id', this.getcourseInfo.id);
                 fd.append('file_name', data);
                 axios.post('/api/teacher/change_class_picture', fd)
-                .then(()=>{
-                    
-                })
-                
+                    .then(() => {
+
+                    })
+
             },
-            onfileChange(file){
-                if(file){
+            onfileChange(file) {
+                if (file) {
                     this.file = file;
                     this.isChanging = true;
                     this.filePreview = URL.createObjectURL(file);
@@ -248,27 +250,26 @@
                     this.SaveImageAsBackground(file, type);
                 }
             },
-            SaveImageAsBackground(file){
-    
+            SaveImageAsBackground(file) {
+
                 let fd = new FormData;
                 fd.append('type', "uploaded");
                 fd.append('course_id', this.getcourseInfo.id);
                 fd.append('file_name', this.file.name);
                 fd.append('file', this.file);
                 axios.post('/api/teacher/change_class_picture', fd)
-                .then(()=>{})
+                    .then(() => {})
             },
-            CheckBackgroundPath(path){
-               if(path != null){
-                if(path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')){
-                    let str = path.replace('.cdn', '');
-                    return str;
+            CheckBackgroundPath(path) {
+                if (path != null) {
+                    if (path.includes('https://orangestr.sgp1.cdn.digitaloceanspaces.com')) {
+                        let str = path.replace('.cdn', '');
+                        return str;
+                    } else {
+                        return '../../images/' + path;
+                    }
                 }
-                else{
-                    return '../../images/' + path;
-                }
-               }
-              
+
             }
 
         },
@@ -277,11 +278,11 @@
             this.hideCard();
             this.isloading = true;
             this.course_id = this.$route.params.id;
-            if(this.$route.name != 'selectedCourse'){
+            if (this.$route.name != 'selectedCourse') {
                 this.routeName = this.$route.matched[2].name;
             }
             this.$store.dispatch('fetchScourse', this.course_id);
-            
+
             setInterval(() => this.isloading = false, 1000);
 
         },

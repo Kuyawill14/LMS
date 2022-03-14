@@ -106,18 +106,24 @@
         methods: {
             ...mapActions(['fetchCourseList']),
             classCount() {
+                this.allCourse.forEach(element => {
+                    this.student_count +=element.student_count;
+                    this.class_count +=element.class_count;
+                });
 
-                axios.get('/api/class/count')
-                    .then(res => {
-                        this.class_count = res.data.classCount;
-                        this.student_count = res.data.studentCount;
-                    })
+                // axios.get('/api/class/count')
+                //     .then(res => {
+                //         this.class_count = res.data.classCount;
+                //         this.student_count = res.data.studentCount;
+                //     })
 
             },
         },
         mounted() {
-            this.fetchCourseList();
-            this.classCount();
+            this.fetchCourseList().then(()=>{
+                 this.classCount();
+            });
+           
         },
     };
 

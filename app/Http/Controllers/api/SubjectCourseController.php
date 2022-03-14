@@ -59,8 +59,11 @@ class SubjectCourseController extends Controller
             ->count();
             $item->class_count = $countClass;
 
-            $StudentCount = tbl_userclass::where("tbl_userclasses.course_id", $item->id)
+            $StudentCount = tbl_userclass::where("tbl_classes.course_id", $item->id)
             ->where("tbl_userclasses.user_id","!=" ,$userId )
+            ->whereNull('tbl_userclasses.deleted_at')
+            ->whereNull('tbl_classes.deleted_at')
+            ->leftJoin('tbl_classes', 'tbl_classes.id', '=', 'tbl_userclasses.class_id')
             ->count();
 
             $item->student_count =  $StudentCount;
@@ -97,12 +100,14 @@ class SubjectCourseController extends Controller
             ->first();
 
             $class = tbl_userclass::where('tbl_userclasses.course_id',$id)
-            ->select('tbl_classes.meeting_link')
+            ->select('tbl_classes.meeting_link','tbl_classes.class_name')
+            // ->select('tbl_classes.class_name')
             ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_userclasses.class_id')
             ->where('tbl_userclasses.user_id',  $userId)
             ->first();
             
             $ShowCourseDetails->class_v_link = $class->meeting_link;
+            $ShowCourseDetails->class_name =  $class->class_name;
             return $ShowCourseDetails;
         }
         else{

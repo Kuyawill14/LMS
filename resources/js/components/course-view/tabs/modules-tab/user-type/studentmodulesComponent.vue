@@ -1,10 +1,11 @@
 <template>
     <div>
         <v-row>
-            <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12" :style="listDialaog && isChangeSize ? 'display: none': 'display:block'" class="pa-0">
+            <v-col :lg="isExpand == true ? 12 : 9" sm="12" md="12" cols="12"
+                :style="listDialaog && isChangeSize ? 'display: none': 'display:block'" class="pa-0">
                 <v-row v-if="subModuleData != null">
 
-                    <v-col >
+                    <v-col>
                         <v-container fluid class="pa-0" @mouseover="contentHover=true"
                             @mouseleave="contentHover = false">
                             <v-btn bottom color="secondary" dark right class="exitFullscreen"
@@ -107,7 +108,7 @@
                                         v-html="subModuleData.description == 'undefined' ? '' : subModuleData.description">
                                     </div>
 
-                                    <a v-if="type != 'Link'" :href="subModuleData.file_attachment"
+                                    <a v-if="type != 'Link' && isDownloadable" :href="subModuleData.file_attachment"
                                         target="_blank">Download</a>
 
                                 </v-card-text>
@@ -137,10 +138,13 @@
             </v-col>
 
             <v-col lg="3" cols="12" sm="12" md="12" class="pa-0 border"
-                :style="isExpand == false && isChangeSize == false || listDialaog ? 'display:block' : 'display:none'" style="height:100vh;">
+                :style="isExpand == false && isChangeSize == false || listDialaog ? 'display:block' : 'display:none'"
+                style="height:100vh;">
 
-                    <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
-                        :expand="removeX" v-on:selected_item="listDialaog = !listDialaog" />
+                <modulesListComponent v-on:subModule="getsubModuleData" :role="role" v-on:listClose="expandContent"
+                    :expand="removeX" v-on:selected_item="listDialaog = !listDialaog" />
+
+
 
             </v-col>
 
@@ -151,7 +155,7 @@
                 </keep-alive>
             </v-dialog> -->
 
-            
+
         </v-row>
 
         <v-btn bottom color="primary" dark fab fixed right v-if="isExpand || isChangeSize"
@@ -208,7 +212,8 @@
                 isSelectedModule: false,
                 isExpand: false,
                 isChangeSize: false,
-                screenWidth: window.innerWidth
+                screenWidth: window.innerWidth,
+                isDownloadable: false,
             }
         },
         methods: {
@@ -243,20 +248,26 @@
 
 
             },
-            getsubModuleData(value) {
+            getsubModuleData(sub_module, student_progress) {
+
+                console.log(sub_module.required_time);
+                console.log(student_progress.time_spent);
+
+                 this.isDownloadable = student_progress.time_spent >=  sub_module.required_time? true : false,
+               
                 this.isSelectedModule = true;
-                this.subModuleData = value;
-                this.ext = this.getFileExt(value.file_attachment);
+                this.subModuleData = sub_module;
+                this.ext = this.getFileExt(sub_module.file_attachment);
 
                 this.type = this.subModuleData.type;
-                this.documentUrl(value.file_attachment)
+                this.documentUrl(sub_module.file_attachment)
                 this.pdfdialog = true;
-
-
-
-
-
             },
+
+
+         
+
+        
             documentUrl(file) {
                 var origin_url = window.location.origin;
                 var base_src = 'https://drive.google.com/viewerng/viewer?url=' + origin_url;
@@ -271,7 +282,12 @@
             },
         },
         mounted() {
+
             this.$forceUpdate();
+            let submodule_dataa = this.subModuleData;
+            console.log({
+                submodule_dataa
+            });
 
             ////console.log(this.role);
             if (this.subModuleData) {

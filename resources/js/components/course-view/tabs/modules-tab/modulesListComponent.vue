@@ -91,9 +91,9 @@
 
                                         </v-list-item-action>
                                     </v-list-item>
-    
+
                                     <v-tooltip top color="black">
-                                  
+
                                         <template v-slot:activator="{ on, attrs }">
                                             <div v-bind="attrs" v-on="on" style="width:min-content;"
                                                 class="module-switch">
@@ -130,62 +130,84 @@
                             </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
+                            <v-menu transition="slide-y-transition" bottom     v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i">
+                                <template v-slot:activator="{ on, attrs }" >
 
+                                    <v-list-item v-bind="attrs" v-on="on"
+                                    
+                                        link class="pl-10">
+                                        <v-list-item-avatar>
+                                            <v-icon
+                                                :class="itemSubModule.type== 'Document' ? 'orange lighten-2' : 'blue lighten-2'"
+                                                dark>
+                                                {{itemSubModule.type =='Document' ? 'mdi-file-document' : 'mdi-file-link'}}
+                                            </v-icon>
+                                        </v-list-item-avatar>
 
-                            <v-list-item v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i"
-                                link class="pl-10">
-                                <v-list-item-avatar>
-                                    <v-icon
-                                        :class="itemSubModule.type== 'Document' ? 'orange lighten-2' : 'blue lighten-2'"
-                                        dark>
-                                        {{itemSubModule.type =='Document' ? 'mdi-file-document' : 'mdi-file-link'}}
-                                    </v-icon>
-                                </v-list-item-avatar>
+                                        <v-list-item-content>
+                                            <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
 
-                                <v-list-item-content>
-                                    <v-list-item-title> {{itemSubModule.sub_module_name}}</v-list-item-title>
+                                            <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
+                                            <v-list-item-subtitle> Created: {{format_date(itemSubModule.created_at)}}
+                                            </v-list-item-subtitle>
 
-                                    <v-list-item-subtitle> {{itemSubModule.type}}</v-list-item-subtitle>
-                                    <v-list-item-subtitle> Created: {{format_date(itemSubModule.created_at)}}
-                                    </v-list-item-subtitle>
+                                        </v-list-item-content>
 
-                                </v-list-item-content>
+                                        <v-list-item-action>
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <div v-bind="attrs" v-on="on">
+                                                        <v-menu transition="slide-y-transition" bottom>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn icon v-bind="attrs" v-on="on">
+                                                                    <v-icon color="grey lighten-1">mdi-dots-vertical
+                                                                    </v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <v-list>
+                                                                <v-list-item link
+                                                                    @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type,itemModule.isPublished)">
+                                                                    <v-list-item-title>Edit</v-list-item-title>
 
-                                <v-list-item-action>
-                                    <v-tooltip top>
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <div v-bind="attrs" v-on="on">
-                                                <v-menu transition="slide-y-transition" bottom>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn icon v-bind="attrs" v-on="on">
-                                                            <v-icon color="grey lighten-1">mdi-dots-vertical</v-icon>
-                                                        </v-btn>
-                                                    </template>
-                                                    <v-list>
-                                                        <v-list-item link
-                                                            @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type,itemModule.isPublished)">
-                                                            <v-list-item-title>Edit</v-list-item-title>
+                                                                </v-list-item>
+                                                                <v-list-item link
+                                                                    @click="deleteItemModuleBtn(itemSubModule.id,itemModule.isPublished,itemModule.student_progress_count)">
+                                                                    <v-list-item-title>Delete</v-list-item-title>
 
-                                                        </v-list-item>
-                                                        <v-list-item link
-                                                            @click="deleteItemModuleBtn(itemSubModule.id,itemModule.isPublished,itemModule.student_progress_count)">
-                                                            <v-list-item-title>Delete</v-list-item-title>
-
-                                                        </v-list-item>
-                                                        <!-- <v-list-item link>
+                                                                </v-list-item>
+                                                                <!-- <v-list-item link>
                                                 <v-list-item-title>Archive</v-list-item-title>
                                             </v-list-item> -->
-                                                    </v-list>
-                                                </v-menu>
-                                            </div>
-                                        </template>
-                                        <span>Menu</span>
-                                    </v-tooltip>
+                                                            </v-list>
+                                                        </v-menu>
+                                                    </div>
+                                                </template>
+                                                <span>Menu</span>
+                                            </v-tooltip>
 
 
 
-                                </v-list-item-action>
-                            </v-list-item>
+                                        </v-list-item-action>
+                                    </v-list-item>
+                                </template>
+                                <v-list>
+                                    <v-list-item link
+                                        @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type,itemModule.isPublished)">
+                                        <v-list-item-title>Edit</v-list-item-title>
+
+                                    </v-list-item>
+                                    <v-list-item link
+                                        @click="deleteItemModuleBtn(itemSubModule.id,itemModule.isPublished,itemModule.student_progress_count)">
+                                        <v-list-item-title>Delete</v-list-item-title>
+
+                                    </v-list-item>
+                                    <!-- <v-list-item link>
+                                                <v-list-item-title>Archive</v-list-item-title>
+                                            </v-list-item> -->
+                                </v-list>
+                            </v-menu>
+
+
 
                             <v-divider v-if="getSub_module(itemModule.id).length != 0"></v-divider>
 
@@ -323,6 +345,21 @@
 
                     </v-row>
 
+                    <!-- <v-col v-if="availability != 'Unpublish'">
+                        Download Settings
+                        <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="download_availability">
+                            <v-radio v-for="(n, index) in radioDownloadAvailability" :key="index"
+                                @change="download_settingsSelection(radioDownloadAvailability[index])"
+                                :label="radioDownloadAvailability[index]" :value="radioDownloadAvailability[index]">
+                            </v-radio>
+                        </v-radio-group>
+                    </v-col> -->
+                    <v-row>
+
+                        <v-col>
+
+                        </v-col>
+                    </v-row>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -374,6 +411,7 @@
         },
         data() {
             return {
+
                 publishTo: moment(Date.now()).format('YYYY-MM-DD'),
                 publishFrom: moment(Date.now()).format('YYYY-MM-DD'),
                 date: moment(Date.now()).format('YYYY-MM-DD'),
@@ -402,8 +440,13 @@
                     min: null,
                 },
                 radioAvailability: ['Always available', 'Set date (From - To)', 'Unpublish'],
+                radioDownloadAvailability: ['Do not allow download', 'Always allow download',
+                    'Allow download when required time is meet'
+
+                ],
 
                 availability: null,
+                download_availability: null,
                 tip: true,
                 tipCheckBox: false,
                 pass_submodule: null,
@@ -435,7 +478,8 @@
                     date_from: null,
                     date_to: null,
                 },
-                publishAvailabity: null
+                publishAvailabity: null,
+                download_settings: null,
 
             }
         },
@@ -484,20 +528,39 @@
                         this.publishSettings.date_from = null;
                         this.publishSettings.date_to = null;
                         this.publishAvailabity = 1;
-                    }else{
+                    } else {
                         this.publishAvailabity = 2;
                         this.publishSettings.date_from = moment(this.publishFrom).format('YYYY-MM-DD HH:mm:ss');;
                         this.publishSettings.date_to = moment(this.publishTo).format('YYYY-MM-DD HH:mm:ss');
                     }
-                    
+
+
+
                     return 1;
                 } else {
                     this.publishSettings.date_from = null;
                     this.publishSettings.date_to = null;
                     this.publishAvailabity = 0;
+                    this.download_settings = null;
+
                     return 0;
                 }
 
+
+
+            },
+            download_settingsSelection(selection) {
+
+                if (selection == this.radioDownloadAvailability[0]) {
+                    this.download_settings = 0;
+
+                } else if (selection == this.radioDownloadAvailability[1]) {
+
+                    this.download_settings = 1;
+
+                } else if (selection == this.radioDownloadAvailability[2]) {
+                    this.download_settings = 2;
+                }
 
 
             },
@@ -516,7 +579,6 @@
 
                 this.publishSettings.module_name = main_module.module_name;
                 this.publishSettings.module_id = main_module.id;
-
                 if (main_module.isPublished == 1) {
                     /* this.publishFrom = main_module.date_from;
                     this.publishTo = main_module.date_to; */
@@ -540,6 +602,14 @@
 
                 }
 
+                if (main_module.allow_download == 0) {
+                    this.download_availability = this.radioDownloadAvailability[0];
+                } else if (main_module.allow_download == 1) {
+                    this.download_availability = this.radioDownloadAvailability[1];
+                } else if (main_module.allow_download == 2) {
+                    this.download_availability = this.radioDownloadAvailability[2];
+                }
+
                 // this.availability = main_module.isPublished;
 
 
@@ -557,7 +627,8 @@
                 this.publishSettings.isPublished = this.availabilitySelection(this.availability);
                 this.isPublishing = true;
                 axios.post(`/api/main_module/publish/${ this.publishSettings.module_id}`, {
-                        publishSettings: this.publishSettings
+                        publishSettings: this.publishSettings,
+                        download_settings: this.download_settings
                     })
                     .then((res) => {
                         this.SendNotificationToCourse(this.publishSettings, res.data);
@@ -569,6 +640,8 @@
                         this.getmain_module[foundIndex].isPublished = this.publishSettings.isPublished;
                         this.getmain_module[foundIndex].date_from = this.publishSettings.date_from;
                         this.getmain_module[foundIndex].date_to = this.publishSettings.date_to;
+                        this.getmain_module[foundIndex].allow_download = this.download_settings;
+
 
 
 
@@ -733,7 +806,8 @@
                 this.to_date_jq_getter = false;
                 clearInterval(this.to_date_jq_getter);
             },
-           async SendNotificationToCourse(data, isPublished){
+            async SendNotificationToCourse(data, isPublished) {
+
                 let notifDetails = {};
                 notifDetails.course_id = this.$route.params.id;
                 notifDetails.module_name = data.module_name;
@@ -745,9 +819,9 @@
                 
                 notifDetails.type = 'module';
                 axios.post('/api/notification/new', notifDetails)
-                .then(res=>{
-                
-                })
+                    .then(res => {
+
+                    })
             }
 
 
