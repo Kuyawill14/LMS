@@ -1453,9 +1453,9 @@ import axios from 'axios';
                                     });
 
 
-                                    this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
+                                    /* this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
                                         this.getAll_questions.Answer[i].SubAnswer.push(destruc);
-                                    });
+                                    }); */
                                     
                                     this.ViewDetails.Submitted_Answers[j].question_pattern.SubAnswer.forEach(sub_ans => {
                                         this.getAll_questions.Answer[i].SubAnswer.forEach(subAnswer => {
