@@ -977,6 +977,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var deleteDialog = function deleteDialog() {
@@ -1011,6 +1029,8 @@ var studentViewForTeacher = function studentViewForTeacher() {
   data: function data() {
     return {
       Question_type: ['Multiple Choice', 'Identification', 'True or False', 'Matching type', 'Essay'],
+      Question_type_all: ['All', 'Multiple Choice', 'Identification', 'True or False', 'Matching type', 'Essay'],
+      selected_sort: 'All',
       isloading: true,
       isLeaving: false,
       valid: false,
@@ -1229,7 +1249,7 @@ var studentViewForTeacher = function studentViewForTeacher() {
                     _this3.getAll_questions.Question.push({
                       id: res.data.question_id,
                       question: '<p>' + 'New Question ' + (_this3.getAll_questions.Question.length + 1) + '</p>',
-                      answer: 'N/A Answer',
+                      answer: res.data.choices_id[0],
                       points: 1,
                       type: 'Multiple Choice',
                       isNew: true,
@@ -36648,7 +36668,9 @@ var render = function() {
                                           { staticClass: "ml-2 mt-3" },
                                           [
                                             _c("h4", [
-                                              _vm._v(_vm._s(mainIndex + 1))
+                                              _vm._v(
+                                                "#" + _vm._s(mainIndex + 1)
+                                              )
                                             ])
                                           ]
                                         ),

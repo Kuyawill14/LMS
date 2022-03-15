@@ -604,7 +604,6 @@
                 CurrentTime: null,
                 isReloadTime: false,
                 unAnsweredQuestion: 0,
-                saveIndex: 3,
 
             }
         },
@@ -627,6 +626,7 @@
 
                     }
                 });
+
                 this.isRemoving = true;
                 this.dialog = true;;
             },
@@ -669,33 +669,7 @@
                 }
             },
             async updateAnswer() {
-                let num = this.getAll_questions.Question.length;
-                if(num > 4){
-                    let SaveCount = parseInt((num/4))*4;
-                    let TmpfinalSave = (num - SaveCount)-1;
-                    let finalSave = ((SaveCount + TmpfinalSave)-1);
-                    console.log(finalSave+'-');
-                    if(this.saveIndex == this.questionIndex){
-                        await axios.put('/api/question/store-answer/' + this.submission_id, {
-                            type: "multiple",
-                            data: this.FinalAnswers
-                        })
-                        this.saveIndex += 4;
-                    }else if(finalSave == this.questionIndex){
-                          await axios.put('/api/question/store-answer/' + this.submission_id, {
-                            type: "multiple",
-                            data: this.FinalAnswers
-                        })
-                    }
-                }else{
-                    await axios.put('/api/question/store-answer/' + this.submission_id, {
-                        type: "multiple",
-                        data: this.FinalAnswers
-                    })
-                }
-            },
-            async LeaveSaveAnswer(){
-                await axios.put('/api/question/store-answer/' + this.submission_id, {
+               await axios.put('/api/question/store-answer/' + this.submission_id, {
                     type: "multiple",
                     data: this.FinalAnswers
                 })
@@ -1212,23 +1186,16 @@
                 }
             }
             this.isLeavingPage = true;
-
-            if(!this.isSubmitting){
-                this.LeaveSaveAnswer();
-            }
-            
             next();
         },
         async mounted() {
             //this.toggleFullScreen();
             //this.openFullscreen(document.body);
             this.CheckStatus();
+
+
         },
         beforeDestroy() {
-
-            if(!this.isSubmitting){
-                this.LeaveSaveAnswer();
-            }
             window.removeEventListener('onbeforeunload', this.preventNav)
         },
 

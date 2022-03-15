@@ -671,6 +671,10 @@ class ObjectiveController extends Controller
         $choices_id = [];
         $choices_id[0] = $QuestionChoice->id;
 
+
+        $newQuestion->answer = $QuestionChoice->id;;
+        $newQuestion->save();
+
         /* for ($i=0; $i < 4; $i++) { 
             $QuestionChoice  = new tbl_choice;
             $QuestionChoice->question_id = $newQuestion->id;
@@ -1212,65 +1216,9 @@ class ObjectiveController extends Controller
             $userId = auth('sanctum')->id();
             $StoreAnwers = tbl_Submission::find($id);
             if($StoreAnwers){
-                $checkClasswork = tbl_classwork::find($StoreAnwers->classwork_id);
-                if($checkClasswork->isNew == null){
-                    $StoreAnwers->Submitted_Answers = serialize($request->data);
-                    $StoreAnwers->save();
-                }
-                else{
-                    
-                    //return $request->data;
-                    foreach($request->data as $item){
-                        if($item['type'] == 'Multiple Choice' || $item['type'] == 'Identification' || $item['type'] == 'True or False' || $item['type'] == 'Essay' ){
-
-                            $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $checkClasswork->id)
-                            ->where('question_id', $item['Question_id'])
-                            ->where('user_id', $userId)
-                            ->first();
-
-                            if($checkSubmitted){
-                                $checkSubmitted->answer = $item['Answer'];
-                                $checkSubmitted->save();
-                            }
-                            else{
-                                $SubmittedAnswer  = new tbl_Submitted_Answer;
-                                $SubmittedAnswer->question_id = $item['Question_id'];
-                                $SubmittedAnswer->user_id = $userId;
-                                $SubmittedAnswer->classwork_id = $checkClasswork->id;
-                                $SubmittedAnswer->type = $item['type'];
-                                $SubmittedAnswer->answer = $item['Answer'];
-                                $SubmittedAnswer->save();
-                            }
-
-                        }
-                        else{
-                          
-                                $checkSubmitted = tbl_Submitted_Answer::where('classwork_id', $checkClasswork->id)
-                                ->where('question_id', $item['Question_id'])
-                                ->where('user_id', $userId)
-                                ->first();
-
-                                if($checkSubmitted){
-                                    $checkSubmitted->answer = serialize($item['Answer']);
-                                    $checkSubmitted->Choices_id = serialize($item['Choices_id']);
-                                    $checkSubmitted->save();
-                                }
-                                else{
-                                    $SubmittedAnswer  = new tbl_Submitted_Answer;
-                                    $SubmittedAnswer->question_id = $item['Question_id'];
-                                    $SubmittedAnswer->user_id = $userId;
-                                    $SubmittedAnswer->classwork_id = $checkClasswork->id;
-                                    $SubmittedAnswer->type = $item['type'];
-                                    $SubmittedAnswer->answer = serialize($item['Answer']);
-                                    $SubmittedAnswer->Choices_id = serialize($item['Choices_id']) ;
-                                    $SubmittedAnswer->save();
-                                }
-                             
-                        }
-                        
-                    }
-                }
-               
+                //$checkClasswork = tbl_classwork::find($StoreAnwers->classwork_id);
+                $StoreAnwers->Submitted_Answers = serialize($request->data);
+                $StoreAnwers->save();
             }
        
        

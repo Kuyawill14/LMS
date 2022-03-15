@@ -362,7 +362,9 @@ var render = function() {
                     domProps: { innerHTML: _vm._s(_vm.question.question) }
                   }),
                   _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(_vm.question.points) + " point")])
+                  _c("span", { staticClass: "primary--text" }, [
+                    _vm._v("(" + _vm._s(_vm.question.points) + " point)")
+                  ])
                 ]
               )
             ]),

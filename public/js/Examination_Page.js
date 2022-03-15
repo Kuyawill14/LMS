@@ -1055,7 +1055,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       isLeavingPage: false,
       CurrentTime: null,
       isReloadTime: false,
-      unAnsweredQuestion: 0
+      unAnsweredQuestion: 0,
+      saveIndex: 3
     };
   },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_6__.mapGetters)(["getAll_questions", "get_classwork_show_details"]),
@@ -1127,22 +1128,90 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var num, SaveCount, TmpfinalSave, finalSave;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                num = _this4.getAll_questions.Question.length;
+
+                if (!(num > 4)) {
+                  _context.next = 17;
+                  break;
+                }
+
+                SaveCount = parseInt(num / 4) * 4;
+                TmpfinalSave = num - SaveCount - 1;
+                finalSave = SaveCount + TmpfinalSave - 1;
+                console.log(finalSave + '-');
+
+                if (!(_this4.saveIndex == _this4.questionIndex)) {
+                  _context.next = 12;
+                  break;
+                }
+
+                _context.next = 9;
                 return axios.put('/api/question/store-answer/' + _this4.submission_id, {
                   type: "multiple",
                   data: _this4.FinalAnswers
                 });
 
-              case 2:
+              case 9:
+                _this4.saveIndex += 4;
+                _context.next = 15;
+                break;
+
+              case 12:
+                if (!(finalSave == _this4.questionIndex)) {
+                  _context.next = 15;
+                  break;
+                }
+
+                _context.next = 15;
+                return axios.put('/api/question/store-answer/' + _this4.submission_id, {
+                  type: "multiple",
+                  data: _this4.FinalAnswers
+                });
+
+              case 15:
+                _context.next = 19;
+                break;
+
+              case 17:
+                _context.next = 19;
+                return axios.put('/api/question/store-answer/' + _this4.submission_id, {
+                  type: "multiple",
+                  data: _this4.FinalAnswers
+                });
+
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }))();
+    },
+    LeaveSaveAnswer: function LeaveSaveAnswer() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.put('/api/question/store-answer/' + _this5.submission_id, {
+                  type: "multiple",
+                  data: _this5.FinalAnswers
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }))();
     },
     prev: function prev() {
@@ -1156,61 +1225,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.questionIndex--;
     },
     SubmitAnswer: function SubmitAnswer(data) {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!(data.istime == false)) {
-                  _context2.next = 9;
-                  break;
-                }
-
-                _this5.isExamStart = false;
-                _this5.isLoading = true;
-                _this5.isSubmitting = !_this5.isSubmitting;
-                _this5.dialog = !_this5.dialog;
-                _this5.isStart = !_this5.isStart;
-                _this5.warningDialog = false;
-                _context2.next = 9;
-                return axios.post('/api/question/check/' + _this5.$route.query.clwk, {
-                  item: _this5.FinalAnswers,
-                  AnsLength: _this5.questionIndex,
-                  timerCount: _this5.TimerCount,
-                  timeSpent: data.time
-                }).then(function (res) {
-                  //this.isLoading = !this.isLoading;
-                  // this.isSubmitting = !this.isSubmitting;
-                  //self.opener.location.reload();
-                  _this5.saveActivityLog("Student submitted the exam").then(function () {
-                    setTimeout(function () {
-                      _this5.isLoading = false;
-                      window.close();
-                    }, 300);
-                  });
-
-                  _this5.$router.push({
-                    name: 'clwk',
-                    params: {
-                      id: _this5.$route.params.id
-                    },
-                    query: {
-                      clwk: _this5.$route.query.clwk
-                    }
-                  });
-                });
-
-              case 9:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
-      }))();
-    },
-    TimesUpSubmit: function TimesUpSubmit(data) {
       var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
@@ -1218,25 +1232,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _this6.isExamStart = false; //this.isLoading = !this.isLoading;
+                if (!(data.istime == false)) {
+                  _context3.next = 9;
+                  break;
+                }
 
+                _this6.isExamStart = false;
+                _this6.isLoading = true;
                 _this6.isSubmitting = !_this6.isSubmitting;
+                _this6.dialog = !_this6.dialog;
                 _this6.isStart = !_this6.isStart;
                 _this6.warningDialog = false;
-                _context3.next = 6;
+                _context3.next = 9;
                 return axios.post('/api/question/check/' + _this6.$route.query.clwk, {
                   item: _this6.FinalAnswers,
                   AnsLength: _this6.questionIndex,
                   timerCount: _this6.TimerCount,
                   timeSpent: data.time
                 }).then(function (res) {
-                  _this6.TimesUpDialog = !_this6.TimesUpDialog;
-                  setTimeout(function () {//this.isLoading = !this.isLoading;
-                    //this.isSubmitting = !this.isSubmitting;
-                  }, 2000); //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
+                  //this.isLoading = !this.isLoading;
+                  // this.isSubmitting = !this.isSubmitting;
+                  //self.opener.location.reload();
+                  _this6.saveActivityLog("Student submitted the exam").then(function () {
+                    setTimeout(function () {
+                      _this6.isLoading = false;
+                      window.close();
+                    }, 300);
+                  });
+
+                  _this6.$router.push({
+                    name: 'clwk',
+                    params: {
+                      id: _this6.$route.params.id
+                    },
+                    query: {
+                      clwk: _this6.$route.query.clwk
+                    }
+                  });
                 });
 
-              case 6:
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -1244,34 +1279,68 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, _callee3);
       }))();
     },
-    fetchQuestions: function fetchQuestions() {
+    TimesUpSubmit: function TimesUpSubmit(data) {
       var _this7 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this7.isExamStart = false; //this.isLoading = !this.isLoading;
+
+                _this7.isSubmitting = !_this7.isSubmitting;
+                _this7.isStart = !_this7.isStart;
+                _this7.warningDialog = false;
+                _context4.next = 6;
+                return axios.post('/api/question/check/' + _this7.$route.query.clwk, {
+                  item: _this7.FinalAnswers,
+                  AnsLength: _this7.questionIndex,
+                  timerCount: _this7.TimerCount,
+                  timeSpent: data.time
+                }).then(function (res) {
+                  _this7.TimesUpDialog = !_this7.TimesUpDialog;
+                  setTimeout(function () {//this.isLoading = !this.isLoading;
+                    //this.isSubmitting = !this.isSubmitting;
+                  }, 2000); //this.$router.push({name: 'clwk',params: {id: this.$route.params.id},query: {clwk: this.$route.query.clwk}}) 
+                });
+
+              case 6:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    fetchQuestions: function fetchQuestions() {
+      var _this8 = this;
+
       this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then(function () {
-        _this7.Qlength = _this7.getAll_questions.Question.length;
-        var AnswersList = _this7.Submitted_Answers;
+        _this8.Qlength = _this8.getAll_questions.Question.length;
+        var AnswersList = _this8.Submitted_Answers;
 
         if (AnswersList == null || AnswersList.length == 0) {
-          for (var index = 0; index < _this7.getAll_questions.Question.length; index++) {
-            if (_this7.getAll_questions.Question[index].type == 'Identification' || _this7.getAll_questions.Question[index].type == 'Multiple Choice' || _this7.getAll_questions.Question[index].type == 'True or False') {
-              _this7.FinalAnswers.push({
+          for (var index = 0; index < _this8.getAll_questions.Question.length; index++) {
+            if (_this8.getAll_questions.Question[index].type == 'Identification' || _this8.getAll_questions.Question[index].type == 'Multiple Choice' || _this8.getAll_questions.Question[index].type == 'True or False') {
+              _this8.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this7.getAll_questions.Question[index].id,
+                Question_id: _this8.getAll_questions.Question[index].id,
                 answer_id: null,
-                type: _this7.getAll_questions.Question[index].type,
+                type: _this8.getAll_questions.Question[index].type,
                 timeConsume: null
               });
-            } else if (_this7.getAll_questions.Question[index].type == 'Essay') {
-              _this7.FinalAnswers.push({
+            } else if (_this8.getAll_questions.Question[index].type == 'Essay') {
+              _this8.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this7.getAll_questions.Question[index].id,
+                Question_id: _this8.getAll_questions.Question[index].id,
                 answer_id: null,
-                type: _this7.getAll_questions.Question[index].type,
+                type: _this8.getAll_questions.Question[index].type,
                 check: false,
                 score: 0,
                 timeConsume: null
               });
-            } else if (_this7.getAll_questions.Question[index].type == 'Matching type') {
+            } else if (_this8.getAll_questions.Question[index].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
@@ -1279,7 +1348,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 Quest_Pattern.SubQuestion = [];
                 Quest_Pattern.SubAnswer = [];
 
-                _this7.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
+                _this8.getAll_questions.Answer[index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
                   });
@@ -1288,7 +1357,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   });
                 });
 
-                _this7.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
+                _this8.getAll_questions.Answer[index].SubQuestion.forEach(function (item) {
                   Ans.push({
                     Ans_letter: '',
                     Ans_id: null,
@@ -1300,43 +1369,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   });
                 });
 
-                _this7.FinalAnswers.push({
+                _this8.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
                   question_pattern: Quest_Pattern,
-                  Question_id: _this7.getAll_questions.Question[index].id,
-                  type: _this7.getAll_questions.Question[index].type,
+                  Question_id: _this8.getAll_questions.Question[index].id,
+                  type: _this8.getAll_questions.Question[index].type,
                   timeConsume: null
                 });
               })();
             }
           }
 
-          axios.put('/api/question/store-answer/' + _this7.submission_id, {
+          axios.put('/api/question/store-answer/' + _this8.submission_id, {
             type: "multiple",
-            data: _this7.FinalAnswers
+            data: _this8.FinalAnswers
           });
-        } else if (_this7.Qlength != AnswersList.length) {
-          for (var _index = 0; _index < _this7.getAll_questions.Question.length; _index++) {
-            if (_this7.getAll_questions.Question[_index].type == 'Identification' || _this7.getAll_questions.Question[_index].type == 'Multiple Choice' || _this7.getAll_questions.Question[_index].type == 'True or False') {
-              _this7.FinalAnswers.push({
+        } else if (_this8.Qlength != AnswersList.length) {
+          for (var _index = 0; _index < _this8.getAll_questions.Question.length; _index++) {
+            if (_this8.getAll_questions.Question[_index].type == 'Identification' || _this8.getAll_questions.Question[_index].type == 'Multiple Choice' || _this8.getAll_questions.Question[_index].type == 'True or False') {
+              _this8.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this7.getAll_questions.Question[_index].id,
+                Question_id: _this8.getAll_questions.Question[_index].id,
                 answer_id: null,
-                type: _this7.getAll_questions.Question[_index].type,
+                type: _this8.getAll_questions.Question[_index].type,
                 timeConsume: null
               });
-            } else if (_this7.getAll_questions.Question[_index].type == 'Essay') {
-              _this7.FinalAnswers.push({
+            } else if (_this8.getAll_questions.Question[_index].type == 'Essay') {
+              _this8.FinalAnswers.push({
                 Answer: '',
-                Question_id: _this7.getAll_questions.Question[_index].id,
+                Question_id: _this8.getAll_questions.Question[_index].id,
                 answer_id: null,
-                type: _this7.getAll_questions.Question[_index].type,
+                type: _this8.getAll_questions.Question[_index].type,
                 check: false,
                 score: 0,
                 timeConsume: null
               });
-            } else if (_this7.getAll_questions.Question[_index].type == 'Matching type') {
+            } else if (_this8.getAll_questions.Question[_index].type == 'Matching type') {
               (function () {
                 var Ans = new Array();
                 var Choices_id = new Array();
@@ -1344,7 +1413,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 Quest_Pattern.SubQuestion = [];
                 Quest_Pattern.SubAnswer = [];
 
-                _this7.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
+                _this8.getAll_questions.Answer[_index].SubAnswer.forEach(function (item) {
                   Choices_id.push({
                     choice_id: item.id
                   });
@@ -1353,7 +1422,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   });
                 });
 
-                _this7.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
+                _this8.getAll_questions.Answer[_index].SubQuestion.forEach(function (item) {
                   Ans.push({
                     Ans_letter: '',
                     Ans_id: null,
@@ -1365,42 +1434,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   });
                 });
 
-                _this7.FinalAnswers.push({
+                _this8.FinalAnswers.push({
                   Answer: Ans,
                   Choices_id: Choices_id,
                   question_pattern: Quest_Pattern,
-                  Question_id: _this7.getAll_questions.Question[_index].id,
-                  type: _this7.getAll_questions.Question[_index].type,
+                  Question_id: _this8.getAll_questions.Question[_index].id,
+                  type: _this8.getAll_questions.Question[_index].type,
                   timeConsume: null
                 });
               })();
             }
           }
 
-          axios.put('/api/question/store-answer/' + _this7.submission_id, {
+          axios.put('/api/question/store-answer/' + _this8.submission_id, {
             type: "multiple",
-            data: _this7.FinalAnswers
+            data: _this8.FinalAnswers
           });
-        } else if (_this7.Qlength == AnswersList.length) {
-          for (var x = 0; x < _this7.getAll_questions.Question.length; x++) {
+        } else if (_this8.Qlength == AnswersList.length) {
+          for (var x = 0; x < _this8.getAll_questions.Question.length; x++) {
             var _loop = function _loop(j) {
-              if (_this7.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
-                if (_this7.getAll_questions.Question[x].type == 'Identification' || _this7.getAll_questions.Question[x].type == 'Multiple Choice' || _this7.getAll_questions.Question[x].type == 'True or False' || _this7.getAll_questions.Question[x].type == 'Essay') {
-                  _this7.FinalAnswers.push({
+              if (_this8.getAll_questions.Question[x].id == AnswersList[j].Question_id) {
+                if (_this8.getAll_questions.Question[x].type == 'Identification' || _this8.getAll_questions.Question[x].type == 'Multiple Choice' || _this8.getAll_questions.Question[x].type == 'True or False' || _this8.getAll_questions.Question[x].type == 'Essay') {
+                  _this8.FinalAnswers.push({
                     Answer: AnswersList[j].Answer,
                     Question_id: AnswersList[j].Question_id,
                     answer_id: null,
                     type: AnswersList[j].type,
                     timeConsume: AnswersList[j].timeConsume
                   });
-                } else if (_this7.getAll_questions.Question[x].type == 'Matching type') {
+                } else if (_this8.getAll_questions.Question[x].type == 'Matching type') {
                   var Ans = new Array();
                   var Choices_id = new Array();
                   var Quest_Pattern = {};
                   Quest_Pattern.SubQuestion = [];
                   Quest_Pattern.SubAnswer = [];
 
-                  _this7.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
+                  _this8.getAll_questions.Answer[x].SubAnswer.forEach(function (item) {
                     Choices_id.push({
                       choice_id: item.id
                     });
@@ -1411,7 +1480,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
                   var counter = 0;
 
-                  _this7.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
+                  _this8.getAll_questions.Answer[x].SubQuestion.forEach(function (item) {
                     Ans.push({
                       Ans_letter: AnswersList[j].Answer[counter].Ans_letter,
                       Ans_id: AnswersList[j].Answer[counter].Ans_id,
@@ -1424,7 +1493,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     counter++;
                   });
 
-                  _this7.FinalAnswers.push({
+                  _this8.FinalAnswers.push({
                     Answer: Ans,
                     Choices_id: Choices_id,
                     question_pattern: Quest_Pattern,
@@ -1442,8 +1511,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }
 
-        _this7.isLoading = false;
-        _this7.questionIsLoaded = true;
+        _this8.isLoading = false;
+        _this8.questionIsLoaded = true;
       });
     },
     preventNav: function preventNav(event) {
@@ -1451,27 +1520,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       event.returnValue = "";
     },
     ReloadStatus: function ReloadStatus() {
-      var _this8 = this;
+      var _this9 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
-                return axios.get('/api/student/checking/' + _this8.$route.query.clwk).then(function (res) {
+                _context5.next = 2;
+                return axios.get('/api/student/checking/' + _this9.$route.query.clwk).then(function (res) {
                   if (res.data.success == true) {
                     if (res.data.status != 'Submitted') {
                       //this.CurrentTime = Date().getTime();
-                      _this8.CurrentTime = res.data.currentTime;
-                      _this8.StartTime = res.data.startTime;
+                      _this9.CurrentTime = res.data.currentTime;
+                      _this9.StartTime = res.data.startTime;
                     }
                   }
 
-                  _this8.isReloadTime = false;
+                  _this9.isReloadTime = false;
                 })["catch"](function (e) {
-                  _this8.CurrentTime = Date.now();
-                  _this8.isReloadTime = false; //this.ReloadStatus();
+                  _this9.CurrentTime = Date.now();
+                  _this9.isReloadTime = false; //this.ReloadStatus();
 
                   /*   this.toastError('Something went wrong while loading Questions!');
                     this.$router.push({
@@ -1487,88 +1556,88 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               case 2:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     CheckStatus: function CheckStatus() {
-      var _this9 = this;
+      var _this10 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
-                return axios.get('/api/student/checking/' + _this9.$route.query.clwk).then(function (res) {
+                _context6.next = 2;
+                return axios.get('/api/student/checking/' + _this10.$route.query.clwk).then(function (res) {
                   if (res.data.success == true) {
                     if (res.data.status != 'Submitted') {
-                      _this9.isExamStart = true;
-                      _this9.Submitted_Answers = res.data.Submitted_Answers;
-                      _this9.CurrentTime = res.data.currentTime;
-                      _this9.StartTime = res.data.startTime;
-                      _this9.submission_id = res.data.submission_id;
-                      _this9.preventNav = !_this9.preventNav;
+                      _this10.isExamStart = true;
+                      _this10.Submitted_Answers = res.data.Submitted_Answers;
+                      _this10.CurrentTime = res.data.currentTime;
+                      _this10.StartTime = res.data.startTime;
+                      _this10.submission_id = res.data.submission_id;
+                      _this10.preventNav = !_this10.preventNav;
 
-                      _this9.StartQuiz();
+                      _this10.StartQuiz();
                     } else {
-                      _this9.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
+                      _this10.isLoading = false; //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                       //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
 
                       //this.$router.push({name: 'result-page', params:{id: this.$route.query.clwk}})
                       //this.toastError('You already Submitted to this Quiz!, Please Contact your Instructor for retake');
-                      _this9.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
+                      _this10.$toasted.error('You already Submitted to this Quiz, Please Contact your Instructor for quiz retake!', {
                         theme: "toasted-primary",
                         position: "top-center",
                         icon: "warning",
                         duration: 7000
                       });
 
-                      _this9.$router.push({
+                      _this10.$router.push({
                         name: 'clwk',
                         params: {
-                          id: _this9.$route.params.id
+                          id: _this10.$route.params.id
                         },
                         query: {
-                          clwk: _this9.$route.query.clwk
+                          clwk: _this10.$route.query.clwk
                         }
                       });
                     }
                   } else {
-                    _this9.toastError('Something went wrong while loading Questions!');
+                    _this10.toastError('Something went wrong while loading Questions!');
 
-                    _this9.$router.push({
+                    _this10.$router.push({
                       name: 'clwk',
                       params: {
-                        id: _this9.$route.params.id
+                        id: _this10.$route.params.id
                       },
                       query: {
-                        clwk: _this9.$route.query.clwk
+                        clwk: _this10.$route.query.clwk
                       }
                     });
                   }
                 })["catch"](function (e) {
-                  _this9.toastError('Something went wrong while loading Questions!');
+                  _this10.toastError('Something went wrong while loading Questions!');
 
-                  _this9.$router.push({
+                  _this10.$router.push({
                     name: 'clwk',
                     params: {
-                      id: _this9.$route.params.id
+                      id: _this10.$route.params.id
                     },
                     query: {
-                      clwk: _this9.$route.query.clwk
+                      clwk: _this10.$route.query.clwk
                     }
                   });
                 });
 
               case 2:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6);
       }))();
     },
     SelectMatch: function SelectMatch(id, main_index, second_index) {
@@ -1585,7 +1654,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     },
     StartQuiz: function StartQuiz() {
-      var _this10 = this;
+      var _this11 = this;
 
       this.isStart = true;
       var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
@@ -1595,32 +1664,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         course_id: this.$route.params.id
       };
       this.$store.dispatch('fetchClassworkShowDetails', data).then(function () {
-        _this10.duration = _this10.get_classwork_show_details.Details.duration;
-        _this10.classworkDetails = _this10.get_classwork_show_details.Details;
+        _this11.duration = _this11.get_classwork_show_details.Details.duration;
+        _this11.classworkDetails = _this11.get_classwork_show_details.Details;
 
-        _this10.fetchQuestions();
+        _this11.fetchQuestions();
       });
     },
     saveActivityLog: function saveActivityLog(description) {
-      var _this11 = this;
+      var _this12 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return axios.post('/api/objective-logs/logs', {
-                  classwork_id: _this11.$route.query.clwk,
+                  classwork_id: _this12.$route.query.clwk,
                   description: description
                 }).then(function (res) {});
 
               case 2:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }))();
     },
     triggerWarning: function triggerWarning() {
@@ -1703,29 +1772,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     this.isLeavingPage = true;
+
+    if (!this.isSubmitting) {
+      this.LeaveSaveAnswer();
+    }
+
     next();
   },
   mounted: function mounted() {
-    var _this12 = this;
+    var _this13 = this;
 
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
         while (1) {
-          switch (_context7.prev = _context7.next) {
+          switch (_context8.prev = _context8.next) {
             case 0:
               //this.toggleFullScreen();
               //this.openFullscreen(document.body);
-              _this12.CheckStatus();
+              _this13.CheckStatus();
 
             case 1:
             case "end":
-              return _context7.stop();
+              return _context8.stop();
           }
         }
-      }, _callee7);
+      }, _callee8);
     }))();
   },
   beforeDestroy: function beforeDestroy() {
+    if (!this.isSubmitting) {
+      this.LeaveSaveAnswer();
+    }
+
     window.removeEventListener('onbeforeunload', this.preventNav);
   }
 });

@@ -224,7 +224,25 @@
 
 
 <v-container v-if="!isloading && Qlength != 0" pa-0 ma-0 class="pa-0 ma-0" fluid>
+
+
         <v-row align="center" justify="center">
+        <!-- <v-col cols="12" md="8" lg="9" xl="9">
+            <v-card color="pa-3 d-flex justify-space-between">
+                <div class="font-weight-bold">
+                        Total Question: {{Qlength}}
+                </div>
+                <div >
+                    <v-select
+                    v-model="selected_sort"
+                    hide-details
+                    :items="Question_type_all"
+                    label="Question Type"
+                    outlined
+                    ></v-select>
+                </div>
+            </v-card>
+        </v-col> -->
 
         
           <v-col cols="12" md="8" lg="9" xl="9" :class="mainIndex < 1 ? 'mb-0' : 'mb-0 pt-1'" v-for="(item, mainIndex) in getAll_questions.Question" :key="item.id">
@@ -235,7 +253,7 @@
        <!--   justify-end  -->
                     <v-row>
                         <v-col cols="12" class="mb-0 pb-0 pt-0  mt-0 d-flex justify-space-between ">
-                            <span class="ml-2 mt-3"><h4>{{mainIndex+1}}</h4> </span>
+                            <span class="ml-2 mt-3"><h4>#{{mainIndex+1}}</h4> </span>
                             <v-checkbox v-if="!isHaveSubmission" v-model="selectedData[mainIndex].selected" @click="CheckSelectedCount(selectedData[mainIndex].selected)" hide-details></v-checkbox>
                         </v-col>
                          <v-col cols="12" class="mb-0 pb-0 pt-0 pr-6 mt-3 text-right ">
@@ -772,6 +790,8 @@ export default {
     data(){
         return{
             Question_type:['Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
+            Question_type_all:['All','Multiple Choice', 'Identification', 'True or False', 'Matching type','Essay'],
+            selected_sort: 'All',
             isloading: true,
             isLeaving: false,
             valid: false,
@@ -931,7 +951,7 @@ export default {
                    this.getAll_questions.Question.push({
                    id: res.data.question_id,
                    question: '<p>'+'New Question '+ (this.getAll_questions.Question.length+1)+'</p>',
-                   answer: 'N/A Answer',
+                   answer: res.data.choices_id[0],
                    points: 1,
                    type: 'Multiple Choice',
                    isNew: true,

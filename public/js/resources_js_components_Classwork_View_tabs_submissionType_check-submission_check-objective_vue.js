@@ -1365,10 +1365,10 @@ var resetConfirmation = function resetConfirmation() {
                   });
                 });
               });
+              /* this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
+                  this.getAll_questions.Answer[i].SubAnswer.push(destruc);
+              }); */
 
-              _this2.getAll_questions.Answer[i].Destructors.forEach(function (destruc) {
-                _this2.getAll_questions.Answer[i].SubAnswer.push(destruc);
-              });
 
               _this2.ViewDetails.Submitted_Answers[_j2].question_pattern.SubAnswer.forEach(function (sub_ans) {
                 _this2.getAll_questions.Answer[i].SubAnswer.forEach(function (subAnswer) {
