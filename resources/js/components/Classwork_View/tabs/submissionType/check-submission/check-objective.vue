@@ -857,7 +857,7 @@ import axios from 'axios';
                                     Answer: null,
                                     Question_id: this.getAll_questions.Question[j].id,
                                     timeConsume: null,
-                                    type: this.getAll_questions.Question[j].type
+                                    type: this.getAll_questions.Question[j].type,
                                 })
                             } else if (this.getAll_questions.Question[j].type == 'Essay') {
                                 this.ViewDetails.Submitted_Answers.push({
@@ -909,88 +909,85 @@ import axios from 'axios';
                                     .getAll_questions.Question[i].type == 'True or False') {
                                     
                                     let student_ans;
-                                    /* if(this.getAll_questions.Question[i].type == 'Identification'){
-                                        if(this.getAll_questions.Question[i].sensitivity){
-                                            student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                                        }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
-                                            this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
-                                        }else{
-                                            this.ViewDetails.Submitted_Answers[j].Answer;
-                                        }
-                                        
-                                    } */
-
-                                   
-                                    
-                                        
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
 
                                     if (this.getAll_questions.Question[i].type == 'Identification') {
-
-                                         student_ans = this.getAll_questions.Question[i].sensitivity ? this
-                                        .ViewDetails.Submitted_Answers[j].Answer :
-                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
-                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
-                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
-                                        .Answer;
                                         
-
-                                        if (this.getAll_questions.Answer[i].options.length == 0) {
-                                            let Question_answer = this.getAll_questions.Question[i]
-                                                .sensitivity ? this.getAll_questions.Question[i].answer :
-                                                this.getAll_questions.Question[i].answer != null && this
-                                                .getAll_questions.Question[i].answer != '' ? this
-                                                .getAll_questions.Question[i].answer.toLowerCase() : this
-                                                .getAll_questions.Question[i].answer;
-
-
-                                                if(Question_answer != null){
-                                                    Question_answer = Question_answer.replace('<p>', '').trim();
-                                                    Question_answer = Question_answer.replace('</p>', '').trim();
-                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                    Question_answer = Question_answer.trim();
-                                                }
-                                               
-                                                if(student_ans != null){
-                                                    student_ans = student_ans.replace('<p>', '').trim();
-                                                    student_ans = student_ans.replace('</p>', '').trim();
-                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                    student_ans = student_ans.trim();
-                                                }
-                                               
-                                            if (Question_answer == student_ans) {
+                                        const hasKey = 'check' in this.ViewDetails.Submitted_Answers[j];
+                                        if(hasKey){
+                                            
+                                            if(this.ViewDetails.Submitted_Answers[j].check == true){
                                                 this.Check[i] = true;
-                                            } else {
+                                            }else{
                                                 this.Check[i] = false;
                                             }
-                                        } 
-                                        else {
+                                        }else{
+
+                                            student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                            .ViewDetails.Submitted_Answers[j].Answer :
+                                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                            .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                                j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                            .Answer;
                                             
-                                            this.Check[i] = false;
-                                            this.getAll_questions.Answer[i].options.forEach(item => {
+
+                                            if (this.getAll_questions.Answer[i].options.length == 0) {
                                                 let Question_answer = this.getAll_questions.Question[i]
-                                                    .sensitivity ? item.Choice :
-                                                    item.Choice != null && item.Choice != '' ? item
-                                                    .Choice.toLowerCase() : item.Choice;
+                                                    .sensitivity ? this.getAll_questions.Question[i].answer :
+                                                    this.getAll_questions.Question[i].answer != null && this
+                                                    .getAll_questions.Question[i].answer != '' ? this
+                                                    .getAll_questions.Question[i].answer.toLowerCase() : this
+                                                    .getAll_questions.Question[i].answer;
 
-                                                if(Question_answer != null){
-                                                    Question_answer = Question_answer.replace('<p>', '').trim();
-                                                    Question_answer = Question_answer.replace('</p>', '').trim();
-                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                    Question_answer = Question_answer.trim();
-                                                }
+
+                                                    if(Question_answer != null){
+                                                        Question_answer = Question_answer.replace('<p>', '').trim();
+                                                        Question_answer = Question_answer.replace('</p>', '').trim();
+                                                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                        Question_answer = Question_answer.trim();
+                                                    }
                                                 
-                                                 if(student_ans != null){
-                                                    student_ans = student_ans.replace('<p>', '').trim();
-                                                    student_ans = student_ans.replace('</p>', '').trim();
-                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                    student_ans = student_ans.trim();
-                                                }
-                                                if (student_ans == Question_answer) {
+                                                    if(student_ans != null){
+                                                        student_ans = student_ans.replace('<p>', '').trim();
+                                                        student_ans = student_ans.replace('</p>', '').trim();
+                                                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                        student_ans = student_ans.trim();
+                                                    }
+                                                
+                                                if (Question_answer == student_ans) {
                                                     this.Check[i] = true;
+                                                } else {
+                                                    this.Check[i] = false;
                                                 }
+                                            } 
+                                            else {
+                                                
+                                                this.Check[i] = false;
+                                                this.getAll_questions.Answer[i].options.forEach(item => {
+                                                    let Question_answer = this.getAll_questions.Question[i]
+                                                        .sensitivity ? item.Choice :
+                                                        item.Choice != null && item.Choice != '' ? item
+                                                        .Choice.toLowerCase() : item.Choice;
 
-                                            });
+                                                    if(Question_answer != null){
+                                                        Question_answer = Question_answer.replace('<p>', '').trim();
+                                                        Question_answer = Question_answer.replace('</p>', '').trim();
+                                                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                        Question_answer = Question_answer.trim();
+                                                    }
+                                                    
+                                                    if(student_ans != null){
+                                                        student_ans = student_ans.replace('<p>', '').trim();
+                                                        student_ans = student_ans.replace('</p>', '').trim();
+                                                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                        student_ans = student_ans.trim();
+                                                    }
+                                                    if (student_ans == Question_answer) {
+                                                        this.Check[i] = true;
+                                                    }
+
+                                                });
+                                            }
                                         }
 
                                     }
@@ -1238,91 +1235,84 @@ import axios from 'axios';
                                     .getAll_questions.Question[i].type == 'True or False') {
                                     
                                     let student_ans;
-                                    /* if(this.getAll_questions.Question[i].type == 'Identification'){
-                                        if(this.getAll_questions.Question[i].sensitivity){
-                                            student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                                        }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
-                                            this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
-                                        }else{
-                                            this.ViewDetails.Submitted_Answers[j].Answer;
-                                        }
-                                        
-                                    } */
-
-                                   
-                                    
-                                        
                                     this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
 
                                     if (this.getAll_questions.Question[i].type == 'Identification') {
 
-                                         student_ans = this.getAll_questions.Question[i].sensitivity ? this
-                                        .ViewDetails.Submitted_Answers[j].Answer :
-                                        this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
-                                        .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
-                                            j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
-                                        .Answer;
-                                        
-
-                                        if (this.getAll_questions.Answer[i].options.length == 0) {
-                                            let Question_answer = this.getAll_questions.Question[i]
-                                                .sensitivity ? this.getAll_questions.Question[i].answer :
-                                                this.getAll_questions.Question[i].answer != null && this
-                                                .getAll_questions.Question[i].answer != '' ? this
-                                                .getAll_questions.Question[i].answer.toLowerCase() : this
-                                                .getAll_questions.Question[i].answer;
-
-
-                                                if(Question_answer != null){
-                                                    Question_answer = Question_answer.replace('<p>', '').trim();
-                                                    Question_answer = Question_answer.replace('</p>', '').trim();
-                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                    Question_answer = Question_answer.trim();
-                                                }
-
-                                                 if(student_ans != null){
-                                                    student_ans = student_ans.replace('<p>', '').trim();
-                                                    student_ans = student_ans.replace('</p>', '').trim();
-                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                    student_ans = student_ans.trim();
-                                                }
-
-                                            if (Question_answer == student_ans) {
+                                        const hasKey = 'check' in this.ViewDetails.Submitted_Answers[j];
+                                        if(hasKey){
+                                            
+                                            if(this.ViewDetails.Submitted_Answers[j].check == true){
                                                 this.Check[i] = true;
-                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
-                                            } else {
+                                            }else{
                                                 this.Check[i] = false;
                                             }
-                                        } 
-                                        else {
+                                        }else{
+                                            student_ans = this.getAll_questions.Question[i].sensitivity ? this
+                                            .ViewDetails.Submitted_Answers[j].Answer :
+                                            this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails
+                                            .Submitted_Answers[j].Answer != '' ? this.ViewDetails.Submitted_Answers[
+                                                j].Answer.toLowerCase() : this.ViewDetails.Submitted_Answers[j]
+                                            .Answer;
                                             
-                                             
-                                            this.Check[i] = false;
-                                            this.getAll_questions.Answer[i].options.forEach(item => {
+
+                                            if (this.getAll_questions.Answer[i].options.length == 0) {
                                                 let Question_answer = this.getAll_questions.Question[i]
-                                                    .sensitivity ? item.Choice :
-                                                    item.Choice != null && item.Choice != '' ? item
-                                                    .Choice.toLowerCase() : item.Choice;
+                                                    .sensitivity ? this.getAll_questions.Question[i].answer :
+                                                    this.getAll_questions.Question[i].answer != null && this
+                                                    .getAll_questions.Question[i].answer != '' ? this
+                                                    .getAll_questions.Question[i].answer.toLowerCase() : this
+                                                    .getAll_questions.Question[i].answer;
 
-                                               if(Question_answer != null){
-                                                    Question_answer = Question_answer.replace('<p>', '').trim();
-                                                    Question_answer = Question_answer.replace('</p>', '').trim();
-                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                    Question_answer = Question_answer.trim();
-                                                }
 
-                                                 if(student_ans != null){
-                                                    student_ans = student_ans.replace('<p>', '').trim();
-                                                    student_ans = student_ans.replace('</p>', '').trim();
-                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
-                                                    student_ans = student_ans.trim();
-                                                }
-
-                                                if (student_ans == Question_answer) {
+                                                    if(Question_answer != null){
+                                                        Question_answer = Question_answer.replace('<p>', '').trim();
+                                                        Question_answer = Question_answer.replace('</p>', '').trim();
+                                                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                        Question_answer = Question_answer.trim();
+                                                    }
+                                                
+                                                    if(student_ans != null){
+                                                        student_ans = student_ans.replace('<p>', '').trim();
+                                                        student_ans = student_ans.replace('</p>', '').trim();
+                                                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                        student_ans = student_ans.trim();
+                                                    }
+                                                
+                                                if (Question_answer == student_ans) {
                                                     this.Check[i] = true;
+                                                } else {
+                                                    this.Check[i] = false;
                                                 }
+                                            } 
+                                            else {
+                                                
+                                                this.Check[i] = false;
+                                                this.getAll_questions.Answer[i].options.forEach(item => {
+                                                    let Question_answer = this.getAll_questions.Question[i]
+                                                        .sensitivity ? item.Choice :
+                                                        item.Choice != null && item.Choice != '' ? item
+                                                        .Choice.toLowerCase() : item.Choice;
 
-                                            });
+                                                    if(Question_answer != null){
+                                                        Question_answer = Question_answer.replace('<p>', '').trim();
+                                                        Question_answer = Question_answer.replace('</p>', '').trim();
+                                                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                        Question_answer = Question_answer.trim();
+                                                    }
+                                                    
+                                                    if(student_ans != null){
+                                                        student_ans = student_ans.replace('<p>', '').trim();
+                                                        student_ans = student_ans.replace('</p>', '').trim();
+                                                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                        student_ans = student_ans.trim();
+                                                    }
+                                                    if (student_ans == Question_answer) {
+                                                        this.Check[i] = true;
+                                                    }
+
+                                                });
+                                            }
                                         }
 
                                     }
@@ -1535,20 +1525,21 @@ import axios from 'axios';
                                 }
                             } else if(type == 'Identification'){
                                  if (data == true) {
-                                    
-                                    this.SubmittedAnswer[index].Answer = this.getAll_questions.Answer[index].options[Math.floor(Math.random() * this.getAll_questions.Answer[index].options.length)].Choice;
                                     this.ViewDetails.points = this.ViewDetails.points + points;
+                                    this.SubmittedAnswer[index].check = true;
+
                                 } else {
                                     this.SubmittedAnswer[index].Answer = "Wrong answer";
                                     this.ViewDetails.points = this.ViewDetails.points - points;
+                                    this.SubmittedAnswer[index].check = false;
                                 }
                             }
                             else {
                                 if (data == true) {
-                                    this.SubmittedAnswer[index].Answer = answer;
+                                    this.SubmittedAnswer[index].check = true;
                                     this.ViewDetails.points = this.ViewDetails.points + points;
                                 } else {
-                                    this.SubmittedAnswer[index].Answer = "Wrong answer";
+                                    this.SubmittedAnswer[index].check = false;
                                     this.ViewDetails.points = this.ViewDetails.points - points;
                                 }
                             }

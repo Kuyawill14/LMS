@@ -285,6 +285,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 var deleteDialog = function deleteDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_deleteDiaglog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/deleteDiaglog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/deleteDiaglog.vue"));
 };
@@ -301,6 +304,10 @@ var duplicateClassworkDialog = function duplicateClassworkDialog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_duplicateClassworkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/duplicateClassworkDialog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/duplicateClassworkDialog.vue"));
 };
 
+var newCLassworkCreatedDialog = function newCLassworkCreatedDialog() {
+  return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_classwork-tab_dialogs_newCLassworkCreatedDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../dialogs/newCLassworkCreatedDialog */ "./resources/js/components/course-view/tabs/classwork-tab/dialogs/newCLassworkCreatedDialog.vue"));
+};
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['classworks', 'ClassworkLength', 'role'],
@@ -308,7 +315,8 @@ var duplicateClassworkDialog = function duplicateClassworkDialog() {
     deleteDialog: deleteDialog,
     newClassworkModal: newClassworkModal,
     archiveClassworkDialog: archiveClassworkDialog,
-    duplicateClassworkDialog: duplicateClassworkDialog
+    duplicateClassworkDialog: duplicateClassworkDialog,
+    newCLassworkCreatedDialog: newCLassworkCreatedDialog
   },
   data: function data() {
     return {
@@ -336,7 +344,8 @@ var duplicateClassworkDialog = function duplicateClassworkDialog() {
       right: true,
       bottom: true,
       transition: 'slide-y-reverse-transition',
-      duplicateId: null
+      duplicateId: null,
+      isNewClasswork_created: true
     };
   },
   watch: {

@@ -780,7 +780,7 @@
                                     Question_id: this.getAll_questions.Question[index].id,
                                     answer_id: null,
                                     type: this.getAll_questions.Question[index].type,
-                                    timeConsume: null
+                                    timeConsume: null,
                                 });
                             } else if (this.getAll_questions.Question[index].type == 'Essay') {
                                 this.FinalAnswers.push({
@@ -914,7 +914,7 @@
                                             Question_id: AnswersList[j].Question_id,
                                             answer_id: null,
                                             type: AnswersList[j].type,
-                                            timeConsume: AnswersList[j].timeConsume
+                                            timeConsume: AnswersList[j].timeConsume,
                                         });
                                     } else if (this.getAll_questions.Question[x].type == 'Matching type') {
                                         let Ans = new Array();

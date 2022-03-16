@@ -923,49 +923,22 @@ var resetConfirmation = function resetConfirmation() {
             if (_this.getAll_questions.Question[i].id == _this.ViewDetails.Submitted_Answers[_j].Question_id) {
               if (_this.getAll_questions.Question[i].type == 'Multiple Choice' || _this.getAll_questions.Question[i].type == 'Identification' || _this.getAll_questions.Question[i].type == 'True or False') {
                 var student_ans;
-                /* if(this.getAll_questions.Question[i].type == 'Identification'){
-                    if(this.getAll_questions.Question[i].sensitivity){
-                        student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                    }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
-                        this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
-                    }else{
-                        this.ViewDetails.Submitted_Answers[j].Answer;
-                    }
-                    
-                } */
-
                 _this.SubmittedAnswer[i] = _this.ViewDetails.Submitted_Answers[_j];
 
                 if (_this.getAll_questions.Question[i].type == 'Identification') {
-                  student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
+                  var hasKey = ('check' in _this.ViewDetails.Submitted_Answers[_j]);
 
-                  if (_this.getAll_questions.Answer[i].options.length == 0) {
-                    var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
-
-                    if (Question_answer != null) {
-                      Question_answer = Question_answer.replace('<p>', '').trim();
-                      Question_answer = Question_answer.replace('</p>', '').trim();
-                      Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                      Question_answer = Question_answer.trim();
-                    }
-
-                    if (student_ans != null) {
-                      student_ans = student_ans.replace('<p>', '').trim();
-                      student_ans = student_ans.replace('</p>', '').trim();
-                      student_ans = student_ans.replace('&nbsp;', '').trim();
-                      student_ans = student_ans.trim();
-                    }
-
-                    if (Question_answer == student_ans) {
+                  if (hasKey) {
+                    if (_this.ViewDetails.Submitted_Answers[_j].check == true) {
                       _this.Check[i] = true;
                     } else {
                       _this.Check[i] = false;
                     }
                   } else {
-                    _this.Check[i] = false;
+                    student_ans = _this.getAll_questions.Question[i].sensitivity ? _this.ViewDetails.Submitted_Answers[_j].Answer : _this.ViewDetails.Submitted_Answers[_j].Answer != null && _this.ViewDetails.Submitted_Answers[_j].Answer != '' ? _this.ViewDetails.Submitted_Answers[_j].Answer.toLowerCase() : _this.ViewDetails.Submitted_Answers[_j].Answer;
 
-                    _this.getAll_questions.Answer[i].options.forEach(function (item) {
-                      var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                    if (_this.getAll_questions.Answer[i].options.length == 0) {
+                      var Question_answer = _this.getAll_questions.Question[i].sensitivity ? _this.getAll_questions.Question[i].answer : _this.getAll_questions.Question[i].answer != null && _this.getAll_questions.Question[i].answer != '' ? _this.getAll_questions.Question[i].answer.toLowerCase() : _this.getAll_questions.Question[i].answer;
 
                       if (Question_answer != null) {
                         Question_answer = Question_answer.replace('<p>', '').trim();
@@ -981,10 +954,36 @@ var resetConfirmation = function resetConfirmation() {
                         student_ans = student_ans.trim();
                       }
 
-                      if (student_ans == Question_answer) {
+                      if (Question_answer == student_ans) {
                         _this.Check[i] = true;
+                      } else {
+                        _this.Check[i] = false;
                       }
-                    });
+                    } else {
+                      _this.Check[i] = false;
+
+                      _this.getAll_questions.Answer[i].options.forEach(function (item) {
+                        var Question_answer = _this.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                        if (Question_answer != null) {
+                          Question_answer = Question_answer.replace('<p>', '').trim();
+                          Question_answer = Question_answer.replace('</p>', '').trim();
+                          Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                          Question_answer = Question_answer.trim();
+                        }
+
+                        if (student_ans != null) {
+                          student_ans = student_ans.replace('<p>', '').trim();
+                          student_ans = student_ans.replace('</p>', '').trim();
+                          student_ans = student_ans.replace('&nbsp;', '').trim();
+                          student_ans = student_ans.trim();
+                        }
+
+                        if (student_ans == Question_answer) {
+                          _this.Check[i] = true;
+                        }
+                      });
+                    }
                   }
                 } else if (_this.getAll_questions.Question[i].type == 'Multiple Choice') {
                   if (_this.getAll_questions.Question[i].isNew) {
@@ -1021,9 +1020,10 @@ var resetConfirmation = function resetConfirmation() {
               } else if (_this.getAll_questions.Question[i].type == 'Essay') {
                 _this.Check[i] = _this.ViewDetails.Submitted_Answers[_j].check;
                 var score;
-                var hasKey = ('score' in _this.ViewDetails.Submitted_Answers[_j]);
 
-                if (hasKey) {
+                var _hasKey = ('score' in _this.ViewDetails.Submitted_Answers[_j]);
+
+                if (_hasKey) {
                   score = parseInt(_this.ViewDetails.Submitted_Answers[_j].score);
                 } else {
                   _this.ViewDetails.Submitted_Answers[_j].score = "";
@@ -1205,49 +1205,22 @@ var resetConfirmation = function resetConfirmation() {
           if (_this2.getAll_questions.Question[i].id == _this2.ViewDetails.Submitted_Answers[_j2].Question_id) {
             if (_this2.getAll_questions.Question[i].type == 'Multiple Choice' || _this2.getAll_questions.Question[i].type == 'Identification' || _this2.getAll_questions.Question[i].type == 'True or False') {
               var student_ans;
-              /* if(this.getAll_questions.Question[i].type == 'Identification'){
-                  if(this.getAll_questions.Question[i].sensitivity){
-                      student_ans = this.ViewDetails.Submitted_Answers[j].Answer;
-                  }else if(this.ViewDetails.Submitted_Answers[j].Answer != null && this.ViewDetails.Submitted_Answers[j].Answer != ''){
-                      this.ViewDetails.Submitted_Answers[j].Answer.toLowerCase();
-                  }else{
-                      this.ViewDetails.Submitted_Answers[j].Answer;
-                  }
-                  
-              } */
-
               _this2.SubmittedAnswer[i] = _this2.ViewDetails.Submitted_Answers[_j2];
 
               if (_this2.getAll_questions.Question[i].type == 'Identification') {
-                student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
+                var hasKey = ('check' in _this2.ViewDetails.Submitted_Answers[_j2]);
 
-                if (_this2.getAll_questions.Answer[i].options.length == 0) {
-                  var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
-
-                  if (Question_answer != null) {
-                    Question_answer = Question_answer.replace('<p>', '').trim();
-                    Question_answer = Question_answer.replace('</p>', '').trim();
-                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                    Question_answer = Question_answer.trim();
-                  }
-
-                  if (student_ans != null) {
-                    student_ans = student_ans.replace('<p>', '').trim();
-                    student_ans = student_ans.replace('</p>', '').trim();
-                    student_ans = student_ans.replace('&nbsp;', '').trim();
-                    student_ans = student_ans.trim();
-                  }
-
-                  if (Question_answer == student_ans) {
-                    _this2.Check[i] = true; //this.ViewDetails.points += this.getAll_questions.Question[i].points;
+                if (hasKey) {
+                  if (_this2.ViewDetails.Submitted_Answers[_j2].check == true) {
+                    _this2.Check[i] = true;
                   } else {
                     _this2.Check[i] = false;
                   }
                 } else {
-                  _this2.Check[i] = false;
+                  student_ans = _this2.getAll_questions.Question[i].sensitivity ? _this2.ViewDetails.Submitted_Answers[_j2].Answer : _this2.ViewDetails.Submitted_Answers[_j2].Answer != null && _this2.ViewDetails.Submitted_Answers[_j2].Answer != '' ? _this2.ViewDetails.Submitted_Answers[_j2].Answer.toLowerCase() : _this2.ViewDetails.Submitted_Answers[_j2].Answer;
 
-                  _this2.getAll_questions.Answer[i].options.forEach(function (item) {
-                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+                  if (_this2.getAll_questions.Answer[i].options.length == 0) {
+                    var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? _this2.getAll_questions.Question[i].answer : _this2.getAll_questions.Question[i].answer != null && _this2.getAll_questions.Question[i].answer != '' ? _this2.getAll_questions.Question[i].answer.toLowerCase() : _this2.getAll_questions.Question[i].answer;
 
                     if (Question_answer != null) {
                       Question_answer = Question_answer.replace('<p>', '').trim();
@@ -1263,10 +1236,36 @@ var resetConfirmation = function resetConfirmation() {
                       student_ans = student_ans.trim();
                     }
 
-                    if (student_ans == Question_answer) {
+                    if (Question_answer == student_ans) {
                       _this2.Check[i] = true;
+                    } else {
+                      _this2.Check[i] = false;
                     }
-                  });
+                  } else {
+                    _this2.Check[i] = false;
+
+                    _this2.getAll_questions.Answer[i].options.forEach(function (item) {
+                      var Question_answer = _this2.getAll_questions.Question[i].sensitivity ? item.Choice : item.Choice != null && item.Choice != '' ? item.Choice.toLowerCase() : item.Choice;
+
+                      if (Question_answer != null) {
+                        Question_answer = Question_answer.replace('<p>', '').trim();
+                        Question_answer = Question_answer.replace('</p>', '').trim();
+                        Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                        Question_answer = Question_answer.trim();
+                      }
+
+                      if (student_ans != null) {
+                        student_ans = student_ans.replace('<p>', '').trim();
+                        student_ans = student_ans.replace('</p>', '').trim();
+                        student_ans = student_ans.replace('&nbsp;', '').trim();
+                        student_ans = student_ans.trim();
+                      }
+
+                      if (student_ans == Question_answer) {
+                        _this2.Check[i] = true;
+                      }
+                    });
+                  }
                 }
               } else if (_this2.getAll_questions.Question[i].type == 'Multiple Choice') {
                 if (_this2.getAll_questions.Question[i].isNew) {
@@ -1305,9 +1304,10 @@ var resetConfirmation = function resetConfirmation() {
               _this2.Check[i] = _this2.ViewDetails.Submitted_Answers[_j2].check; //let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
 
               var score;
-              var hasKey = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
 
-              if (hasKey) {
+              var _hasKey2 = ('score' in _this2.ViewDetails.Submitted_Answers[_j2]);
+
+              if (_hasKey2) {
                 score = parseInt(_this2.ViewDetails.Submitted_Answers[_j2].score);
               } else {
                 _this2.ViewDetails.Submitted_Answers[_j2].score = "";
@@ -1470,18 +1470,19 @@ var resetConfirmation = function resetConfirmation() {
                       }
                     } else if (type == 'Identification') {
                       if (data == true) {
-                        _this4.SubmittedAnswer[index].Answer = _this4.getAll_questions.Answer[index].options[Math.floor(Math.random() * _this4.getAll_questions.Answer[index].options.length)].Choice;
                         _this4.ViewDetails.points = _this4.ViewDetails.points + points;
+                        _this4.SubmittedAnswer[index].check = true;
                       } else {
                         _this4.SubmittedAnswer[index].Answer = "Wrong answer";
                         _this4.ViewDetails.points = _this4.ViewDetails.points - points;
+                        _this4.SubmittedAnswer[index].check = false;
                       }
                     } else {
                       if (data == true) {
-                        _this4.SubmittedAnswer[index].Answer = answer;
+                        _this4.SubmittedAnswer[index].check = true;
                         _this4.ViewDetails.points = _this4.ViewDetails.points + points;
                       } else {
-                        _this4.SubmittedAnswer[index].Answer = "Wrong answer";
+                        _this4.SubmittedAnswer[index].check = false;
                         _this4.ViewDetails.points = _this4.ViewDetails.points - points;
                       }
                     }

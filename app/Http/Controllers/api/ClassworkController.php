@@ -729,8 +729,11 @@ class ClassworkController extends Controller
     public function destroy($id)
     {
         $userId = auth('sanctum')->id();
+        
         $DelCLasswork = tbl_classwork::find($id);
+
         if($DelCLasswork){
+            DB::beginTransaction();
             if($DelCLasswork->type == "Objective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
                 ->leftJoin('tbl_questions', 'tbl_questions.classwork_id','=','tbl_class_classworks.classwork_id')
@@ -746,17 +749,24 @@ class ClassworkController extends Controller
                     $DeleteQuestion = tbl_Questions::where('id', $item['id'])->delete();
                 }
 
+                $Del_rubrics = tbl_subjective_rubrics::where('classwork_id', $id)
+                ->forceDelete();
+
             }
             elseif($DelCLasswork->type == "Subjective Type"){
                 $DelClass_Classwork = tbl_classClassworks::where('tbl_class_classworks.classwork_id', $id)
                 ->forceDelete();
+
+                $Del_rubrics = tbl_subjective_rubrics::where('classwork_id', $id)
+                ->forceDelete();
                 //Storage::delete('public/'.$DelCLasswork->attachment);
-
-
 
             }
             $DelCLasswork->forceDelete();
+            DB::commit();
             return "Successfully Remove";
+        }else{
+            return "Classwork not found!";
         }
     }
 
@@ -968,6 +978,17 @@ class ClassworkController extends Controller
         $DuplicateClasswork->save();
 
 
+        $fetchCriteria = tbl_subjective_rubrics::where('classwork_id', $checkClasswork->id)->get();
+
+        foreach($fetchCriteria as $criteria){
+            $duplicateCriteria = new tbl_subjective_rubrics;
+            $duplicateCriteria->classwork_id = $DuplicateClasswork->id;
+            $duplicateCriteria->points = $criteria['points'];
+            $duplicateCriteria->criteria_name = $criteria['criteria_name'];
+            $duplicateCriteria->description = $criteria['description'];
+            $duplicateCriteria->save();
+        }
+        
         if($checkClasswork->type == 'Objective Type'){
             $QuestionList =  tbl_Questions::where('tbl_questions.classwork_id', $checkClasswork->id)->get();
 
@@ -1025,6 +1046,16 @@ class ClassworkController extends Controller
                     }
 
                 }
+            }
+
+            $fetchCriteria = tbl_subjective_rubrics::where('classwork_id', $checkClasswork->id)->get();
+            foreach($fetchCriteria as $criteria){
+                $duplicateCriteria = new tbl_subjective_rubrics;
+                $duplicateCriteria->classwork_id = $DuplicateClasswork->id;
+                $duplicateCriteria->points = $criteria['points'];
+                $duplicateCriteria->criteria_name = $criteria['criteria_name'];
+                $duplicateCriteria->description = $criteria['description'];
+                $duplicateCriteria->save();
             }
         }
 

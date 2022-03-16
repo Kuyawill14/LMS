@@ -316,6 +316,24 @@ class StudentController extends Controller
 
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function UpdateSubmittedAnswer(Request $request, $id){
+        $Classwork = tbl_Submission::find($id);
+        if($Classwork){
+            $Classwork->Submitted_Answers = serialize($request->answers);
+            $Classwork->save();
+            return 'Submission Updated';
+        }
+
+        return 'Classwork not found!';
+    }
+
 
     /**
      * Display the specified resource.

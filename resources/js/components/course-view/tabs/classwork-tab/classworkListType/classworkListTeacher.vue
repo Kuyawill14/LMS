@@ -20,7 +20,7 @@
     </v-btn>
 
     <v-dialog v-model="dialog"  persistent max-width="650">
-            <newClassworkModal v-on:CloseDialog="dialog = !dialog" v-if="dialog"></newClassworkModal>
+            <newClassworkModal  v-on:CloseDialog="dialog = !dialog" v-if="dialog"></newClassworkModal>
     </v-dialog>
 
 
@@ -259,6 +259,9 @@
       </v-btn>
      
     </v-speed-dial> -->
+   <!--  <v-dialog max-width="600" v-model="isNewClasswork_created">
+        <newCLassworkCreatedDialog></newCLassworkCreatedDialog>
+    </v-dialog> -->
 </div>
 </template>
 
@@ -267,6 +270,7 @@
     const archiveClassworkDialog = () => import('../dialogs/archiveClassworkDialog');
     const newClassworkModal = () => import('../newClassworkModal')
     const duplicateClassworkDialog = () => import('../dialogs/duplicateClassworkDialog')
+     const newCLassworkCreatedDialog = () => import('../dialogs/newCLassworkCreatedDialog')
     import moment from 'moment-timezone';
 
     export default {
@@ -275,7 +279,8 @@
             deleteDialog,
             newClassworkModal,
             archiveClassworkDialog,
-            duplicateClassworkDialog
+            duplicateClassworkDialog,
+            newCLassworkCreatedDialog
         },
         data() {
             return {
@@ -303,7 +308,8 @@
                 right: true,
                 bottom: true,
                 transition: 'slide-y-reverse-transition',
-                duplicateId: null
+                duplicateId: null,
+                isNewClasswork_created: true,
             }
         },
          watch: {

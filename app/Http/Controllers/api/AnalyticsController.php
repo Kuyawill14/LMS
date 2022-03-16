@@ -46,25 +46,43 @@ class AnalyticsController extends Controller
         }
         else{
             $analytics = tbl_Questions::where("tbl_questions.classwork_id","=",$id)
-            ->select("tbl_questions.id","tbl_questions.question", "tbl_questions.answer","tbl_questions.type","tbl_questions.sensitivity")
+            ->select("tbl_questions.id","tbl_questions.question", "tbl_questions.answer","tbl_questions.type","tbl_questions.sensitivity","tbl_questions.isNew")
             ->orderBy("tbl_questions.created_at","ASC")
             ->where("tbl_questions.type","!=",'Matching type')
             ->get();
 
             foreach($analytics as $item){
-                $submission = tbl_Submission::where('classwork_id', $id)->get();
+                $submission = tbl_Submission::where('tbl_submissions.classwork_id', $id)->where('tbl_submissions.status','Submitted')->get();
                 $checkCount = 0;
                 $wrongCount = 0;
                 foreach($submission as $sub){
                     if($sub->Submitted_Answers != null && $sub->Submitted_Answers != ''){
                         $answers = unserialize($sub->Submitted_Answers);
 
-
                             foreach($answers as $sub_answers){
                                 if($item->id == $sub_answers['Question_id']){
                                     
-                                    
-                                    if($item->type != 'Identification'){
+                                    $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
+                                    $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
+
+                                    if($item->type == 'Multiple Choice'){
+                                        if($item->isNew){
+                                            $answerID = intval($userAns);
+                                            $question_ans = intval($questionAns);
+                                            if($answerID == $question_ans){
+                                                $checkCount++; 
+                                            }else{
+                                                $wrongCount++;
+                                            }
+                                        }else{
+                                            if($questionAns == $userAns){
+                                                $checkCount++; 
+                                            }else{
+                                                $wrongCount++;
+                                            }
+                                        }
+                                    }
+                                    elseif($item->type == 'True or False'){
                                         $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
                                         $questionAns = $item->sensitivity ? $item->answer : strtolower($item->answer);
                                         if($userAns == $questionAns){
@@ -74,31 +92,62 @@ class AnalyticsController extends Controller
                                             $wrongCount++;
                                         }
                                     }
-                                    else{
-                                        $AnswerList = tbl_choice::where('question_id', $item->id)->get();
-                                        //return  $AnswerList;
-                                        $check = false;
-                                        foreach($AnswerList as $ans_list){
-                                          
-                                            $userAns = $item->sensitivity ? $sub_answers['Answer'] : strtolower($sub_answers['Answer']);
-                                         
-                                            $questionAns = $item->sensitivity ? $ans_list->Choice : strtolower($ans_list->Choice);
-                                            if($userAns == $questionAns){
+                                    elseif($item->type == 'Identification'){
+                                        if(array_key_exists("check",$sub_answers)){
+                                            if($sub_answers['check'] == true){
                                                 $checkCount++;
-                                                $check = true;
-                                                goto breakLoop;
+                                            }else{
+                                                $wrongCount++;
+                                            }
+                                        }else{
+                                            $answer_list = tbl_choice::where('question_id', $item->id)->get();
+                                            if(count($answer_list) == 0){
+                                                $check = false;
+                                                $temp1ans = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                                                $temp1ans = $temp1ans != null ? str_replace('&nbsp;', '', $temp1ans) : $temp1ans;
+                                                $temp1ans = $temp1ans != null ? trim($temp1ans) : $temp1ans;
+
+                                                $temp1UserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
+                                                $temp1UserAns = str_replace('&nbsp;', '', $temp1UserAns);
+                                                $temp1UserAns = trim($temp1UserAns);
+
+                                                if($temp1ans == $temp1UserAns){
+                                                    $checkCount++;
+                                                }else{
+                                                    $wrongCount++;
+                                                }
+                                            }else{
+                                                $check = false;
+                                                $count = 0;
+                                            
+                                                foreach($answer_list as $answer){
+                                                    $other_answer =  $item['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
+
+                                                    $tempOtherAns = $other_answer != null  ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                                    $tempUserAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+                    
+                                                    $tempUserAns = $tempUserAns != null ? str_replace('&nbsp;', '', $tempUserAns) : $tempUserAns;
+                                                    $tempOtherAns = $tempOtherAns != null ? str_replace('&nbsp;', '', $tempOtherAns) : $tempOtherAns;
+
+                                                    $tempUserAns = $tempUserAns != null ? trim($tempUserAns) : $tempUserAns;
+                                                    $tempOtherAns = $tempOtherAns != null ? trim($tempOtherAns) : $tempUserAns;
+                                                    
+                                                    if($tempOtherAns == $tempUserAns){
+                                                        $checkCount++;
+                                                        $check = true;
+                                                        goto breakLoop;
+                                                    }
+                                                }
+
+                                                breakLoop:
+                                                if($check = false){
+                                                    $wrongCount++;
+                                                } 
+                                                    
                                             }
                                         }
-
-                                        breakLoop:
-                                        if($check = false){
-                                            $wrongCount++;
-                                        }
-                                        
                                     }
-                                    
-
-                                   
+                                                      
                                 }
                             }  
                        

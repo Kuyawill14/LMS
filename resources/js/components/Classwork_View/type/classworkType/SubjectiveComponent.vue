@@ -202,7 +202,7 @@
                                                 {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
                                            </v-list-item-avatar>
-                                            <v-list-item-content @click="OpenFile(item.link)">
+                                            <v-list-item-content @click="OpenFile(item.link, item.fileExte, index)">
                                                 <v-list-item-title>
                                                     {{item.name}}
                                                 </v-list-item-title>
@@ -259,6 +259,9 @@
                                     </v-btn>
                                   </template>
                                   <v-list nav dense>
+                                     <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer" >
+                                            <v-icon left>mdi-format-text</v-icon>Typed Answer
+                                    </v-list-item>
                                     <v-list-item link  @click="UploadFile()">
                                           <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                     </v-list-item>
@@ -571,6 +574,13 @@
       
     </v-row>
 
+
+    <v-dialog v-model="IsTypeAnswer" persistent max-width="700">
+         <typeAnswerDialog :Type="isTypeAnswerTpye" :answerData="editTextData" 
+         v-on:SaveAnswer="AddTypeAnswer" v-on:CloseDialog="IsTypeAnswer = false, editTextData = '',
+         isTypeAnswerTpye = 'add'" v-on:UpdateAnswer="UpdateTypeAnswer"></typeAnswerDialog>
+      </v-dialog>
+
     <v-bottom-navigation app grow
       v-if="!$vuetify.breakpoint.mdAndUp "
         :value="selected"
@@ -592,8 +602,8 @@
 </template>
 
 <script>
-const attachlinkDiaglog = () => import('./attachLinkDialog')
-
+const attachlinkDiaglog = () => import('./dialog/attachLinkDialog')
+import typeAnswerDialog from './dialog/typedAnswerDialog'
 import moment from 'moment-timezone';
 
 import {mapGetters, mapActions } from "vuex";
@@ -601,7 +611,7 @@ export default {
     props:['classworkDetails'],
     components:{
       attachlinkDiaglog,
-  
+      typeAnswerDialog
     },
     data(){
         return{
@@ -609,6 +619,8 @@ export default {
             isUpdatingComment_id: null,
             isUpdatingComment_old_data: null,
             AttachLink: false,
+            IsTypeAnswer: false,
+            isTypeAnswerTpye: 'add',
             FileList:[],
             file: [],
             fileSize:null,
@@ -659,6 +671,8 @@ export default {
             },
             
         },
+        editTextData: '',
+        editTextDataIndex: null
         }
     },
      computed: {
@@ -696,6 +710,9 @@ export default {
         else if(ext == 'docx' || ext == 'doc'){
           return 'mdi-file-word';
         }
+        else if(ext == 'type_answer'){
+          return 'mdi-format-text';
+        }
         else if(ext == 'link' ){
           return 'mdi-file-link';
         }
@@ -715,6 +732,9 @@ export default {
         }
         else if(ext == 'link' ){
           return 'green';
+        }
+        else if(ext == 'type_answer'){
+          return 'success';
         }
         else{
            return 'primary';
@@ -757,8 +777,15 @@ export default {
 
         return url.protocol === "http:" || url.protocol === "https:";
       },
-      OpenFile(file){
-        window.open(file,'_blank');
+      OpenFile(file, ext, index){
+        if(ext == 'type_answer'){
+          this.editTextDataIndex = index;
+          this.editTextData = file;
+          this.isTypeAnswerTpye = 'edit'
+          this.IsTypeAnswer = true;
+        }else{
+           window.open(file,'_blank');
+        }
       },
       scrapeDocID() {
               let path = this.linkFile;
@@ -791,20 +818,45 @@ export default {
                     this.classworkDetails.status = "Submitting";
               })
           },
+
+        AddTypeAnswer(data){
+            
+            this.classworkDetails.Submitted_Answers.push({ name: 'Answer', fileSize: '', fileExte: 'type_answer', link: data});
+            let index = this.classworkDetails.Submitted_Answers.length-1;
+            let sub_id = this.tempId == null ? 'empty' : this.tempId;
+            let fd = new FormData;
+            fd.append('Submission_id', sub_id);
+            fd.append('id', this.classworkDetails.id);
+            fd.append('class_classwork_id', this.classworkDetails.class_classwork_id);
+            fd.append('type', this.classworkDetails.type);
+            fd.append('fileName', this.classworkDetails.Submitted_Answers[index].name);
+            fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
+            fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
+            fd.append('file', this.classworkDetails.Submitted_Answers[index].link);
+            axios.post('/api/student/linkAndstatus', fd)
+            .then(res=>{
+                  this.tempId = res.data;
+                  this.IsTypeAnswer = false;
+            })
+        },
+        UpdateTypeAnswer(data){
+          this.classworkDetails.Submitted_Answers[this.editTextDataIndex].link = data;
+          axios.put('/api/student/update_answer/'+this.classworkDetails.Sub_id, {answers: this.classworkDetails.Submitted_Answers})
+            .then(res=>{
+                  this.IsTypeAnswer = false;
+                  this.isTypeAnswerTpye = 'add'
+            })
+        },
         UploadFile(){
-          ////console.log('test123');
-          //this.$refs.UploadAttachFile.click();
           this.$refs.UploadAttachFile.$refs.input.click()
         },
          UploadMoreFile(){
-           //console.log('test');
            if(this.file.length <= 4){
                this.$refs.AttAchMoreFile.click();
            }
            else{
 
            }
-
         },
         
         DownLoadFile(file, extension){
@@ -818,21 +870,9 @@ export default {
           window.open(link,'_blank');
         },
         onChange(file) {
-        
-            /* //console.log(this.FileList.length);
-            if(this.FileList.length > 1){
-              let count = 0;
-               this.FileList.forEach(item => {
-                  if(this.FileList[this.FileList.length-1].name == item.name){
-                    count++;
-                  }
-              });
-              this.FileList[this.FileList.length-1].name = count != 0 ? this.FileList[this.FileList.length-1].name+'('+count+')' : this.FileList[this.FileList.length-1].name;
-            } */
             let fileData = this.FileList[this.FileList.length-1];
             this.CheckeFileExtention = fileData;
 
-            /* b */
             let Checker = false;
             this.acceptedFileType.forEach(item => {
                 if(this.Checkextension == item){
@@ -872,8 +912,7 @@ export default {
                   let finalSize = parseInt(sizeFile);
                   this.fileSize =finalSize+'kb';
               }
-             
-               
+
                 this.isUpIndex = this.classworkDetails.Submitted_Answers.length;
                 this.classworkDetails.Submitted_Answers.push({ name: this.tempFile.name, fileSize: this.fileSize, fileExte: this.extension, link: '', file: this.tempFile});
                 this.fileIndex = this.file.length;
@@ -897,16 +936,6 @@ export default {
               let data = '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="'+this.link+'"></iframe><div><br></div>'
               ////console.log(data);
             },
-           /*  async checkStatus(type){
-              axios.get('/api/submission/check-sbj/'+this.classworkDetails.id)
-              .then(res=>{
-                  this.myClasssworkStatus = res.data;
-                  this.tempId = res.data.Sub_id;
-                  if(type != 'submit'){
-                     this.isloading = !this.isloading;
-                  }
-              })
-          }, */
            checkStatus(type){
             let data = {};
             data.id = this.$route.query.clwk;
@@ -920,9 +949,6 @@ export default {
                 
                 }
             })
-
-           
-
         },
           UpdateSubmission(index){
 

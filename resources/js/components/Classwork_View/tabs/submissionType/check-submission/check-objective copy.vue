@@ -66,10 +66,17 @@
                                     <v-col cols="12" class="mb-0 pb-0 mt-0 pt-0">
                                         <div class="d-flex mb-2 ">
 
-                                            <v-btn :disabled="SubmittedLength == 1 || currentIndex == 0" icon
-                                                @click="PrevStudent()">
-                                                <v-icon>mdi-chevron-left</v-icon>
-                                            </v-btn>
+                                            
+
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on" :disabled="SubmittedLength == 1 || currentIndex == 0" icon
+                                                        @click="PrevStudent()">
+                                                        <v-icon>mdi-chevron-left</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Previous Student</span>
+                                            </v-tooltip>
                                             <v-spacer></v-spacer>
                                             <div class="text-center">
                                                 <div class="font-weight-medium">
@@ -82,12 +89,15 @@
                                             </div>
 
                                             <v-spacer></v-spacer>
-
-                                            <v-btn :disabled="currentIndex == SubmittedLength-1" icon
-                                                @click="NextStudent()">
-                                                <v-icon>mdi-chevron-right</v-icon>
-                                            </v-btn>
-
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                     <v-btn v-bind="attrs" v-on="on" :disabled="currentIndex == SubmittedLength-1" icon
+                                                        @click="NextStudent()">
+                                                        <v-icon>mdi-chevron-right</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Next Student</span>
+                                            </v-tooltip>
                                         </div>
                                         <v-divider></v-divider>
                                     </v-col>
@@ -141,7 +151,7 @@
                                     
                                     <span><v-icon left>mdi-comment</v-icon>Private Comments</span>
                                     <v-spacer></v-spacer>
-                                    <span>
+                                   <!--  <span>
                                         <v-tooltip top>
                                         <template v-slot:activator="{ on, attrs }">
                                              <v-btn icon v-bind="attrs" v-on="on"  small>
@@ -150,7 +160,7 @@
                                         </template>
                                         <span>Refresh Comment</span>
                                         </v-tooltip>
-                                    </span>
+                                    </span> -->
                                 </div>
                                 <v-divider></v-divider>
                                 <v-list v-if="isLoaded" max-height="350" style="overflow-y:scroll;scrollbar-width: thin;"
@@ -244,7 +254,7 @@
 
 
                         <v-card outlined elevation="2" class=" pa-4 "
-                            v-if="ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '' && isLoaded">
+                            v-if="(ViewDetails.Submitted_Answers == null || ViewDetails.Submitted_Answers == '') && isLoaded">
                             <v-row class="mt-12 pt-12" justify="center" align-content="center">
                                 <v-col cols="12" sm="8" md="4" class="text-center pb-12 mb-12">
                                     <v-icon style="font-size:7rem">
@@ -258,6 +268,7 @@
                                 </v-col>
                             </v-row>
                         </v-card>
+
                         <v-card v-if="ViewDetails.status != null">
                             <v-tabs background-color="" center-active centered v-model="tab">
                                 <v-tab>Answers</v-tab>
@@ -266,7 +277,6 @@
                             </v-tabs>
                         </v-card>
                         <v-tabs-items v-model="tab" class="mt-2">
-
                             <v-tab-item>
                                 <v-card elevation="2" outlined class="pa-5 "
                                     v-if="ViewDetails.Submitted_Answers != null && ViewDetails.Submitted_Answers != '' && isLoaded">
@@ -314,15 +324,40 @@
                                         </div>
                                         <v-spacer></v-spacer>
                                         <div>
-                                            <v-btn :disabled="questionIndex == 0" @click="questionIndex--"
-                                                color="primary" class="mr-1" outlined rounded>
-                                                Previous
-                                            </v-btn>
-                                            <v-btn class="pl-9 pr-9"
-                                                :disabled="questionIndex == getAll_questions.Question.length-1"
-                                                @click="questionIndex++" color="primary" rounded>
-                                                Next
-                                            </v-btn>
+                                           
+
+                                             <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on"
+                                                     :icon="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm" :disabled="questionIndex == 0" @click="questionIndex--"
+                                                        color="primary" 
+                                                        :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? 'mr-3': 'mr-1'" outlined rounded>
+                                                        <v-icon v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm">mdi-chevron-left</v-icon>
+                                                        <span v-else>Previous</span>
+                                                    </v-btn>
+
+                                                </template>
+                                                <span>Previous Question</span>
+                                            </v-tooltip>
+
+
+                                          
+
+                                            <v-tooltip top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                      <v-btn v-bind="attrs" v-on="on"
+                                                      :class="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm ? '' : 'pl-9 pr-9'"
+                                                        :outlined="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+                                                        :icon="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm"
+                                                            :disabled="questionIndex == getAll_questions.Question.length-1"
+                                                            @click="questionIndex++" color="primary" rounded>
+                                                            <v-icon v-if="$vuetify.breakpoint.xs || $vuetify.breakpoint.sm">mdi-chevron-right</v-icon>
+                                                            <span v-else>Next</span>
+                                                        </v-btn>
+
+                                                </template>
+                                                <span>Next Question</span>
+                                            </v-tooltip>
                                         </div>
 
                                     </div>
@@ -543,10 +578,17 @@
                                                                         <v-row>
                                                                             <v-col class="d-flex flex-row pa-0" cols="12" v-for="(item, i) in SubmittedAnswer[index].SubQuestion" :key="item.id">
                                                                                 <div class="mt-0 pt-0 mb-0 pb-0 pa-0">
-                                                                                    <v-checkbox hide-details
+                                                                                  <!--   <v-checkbox hide-details
                                                                                     class="ma-0 pa-0 mt-2" color="success"
                                                                                     v-model="Check[index][i]">
-                                                                                </v-checkbox>
+                                                                                </v-checkbox> -->
+
+                                                                                 <v-btn
+                                                                                     icon>
+                                                                                    <v-icon :color="Check[index][i]  ? 'success' : 'red'" >
+                                                                                    {{Check[index][i] ? 'mdi-checkbox-marked':'mdi-close-box-outline'}}
+                                                                                    </v-icon>
+                                                                                </v-btn>
                                                                                 </div> 
                                                                     
                                                                                 
@@ -666,7 +708,6 @@
 
                             <v-tab-item>
                                 <v-card elevation="5" v-if="isLoaded">
-                                 
                                     <v-simple-table :loading="loading_activity">
                                         <template v-slot:default>
                                             <thead>
@@ -684,15 +725,10 @@
                                                     <td>{{ format_date_log(item.created_at) }}</td>
                                                     <td>{{ item.description }}</td>
                                                 </tr>
-
-
                                                 <tr v-if="student_activity_logs.length == 0">
                                                     <td class="text-cemter" colspan="2">No data available</td>
                                                 
                                                 </tr>
-
-
-
                                             </tbody>
                                         </template>
                                     </v-simple-table>
@@ -797,7 +833,7 @@ import axios from 'axios';
                 }
             },
             fetchQuestions() {
-                this.ViewDetails.points = 0;
+                //this.ViewDetails.points = 0;
                 this.$store.dispatch('fetchQuestions', this.$route.query.clwk).then((res) => {
 
                     let Submitted_length = this.ViewDetails.Submitted_Answers.length;
@@ -907,14 +943,23 @@ import axios from 'axios';
                                                 .getAll_questions.Question[i].answer.toLowerCase() : this
                                                 .getAll_questions.Question[i].answer;
 
-                                                Question_answer = Question_answer.replace('<p>', '').trim();
-                                                Question_answer = Question_answer.replace('</p>', '').trim();
-                                                student_ans = student_ans.replace('<p>', '').trim();
-                                                student_ans = student_ans.replace('</p>', '').trim();
 
-                                            if (Question_answer.replace(/\s+/g,'').trim() == student_ans.replace(/\s+/g,'').trim()) {
+                                                if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
+                                               
+                                                if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
+                                               
+                                            if (Question_answer == student_ans) {
                                                 this.Check[i] = true;
-                                                //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
                                                 this.Check[i] = false;
                                             }
@@ -928,19 +973,21 @@ import axios from 'axios';
                                                     item.Choice != null && item.Choice != '' ? item
                                                     .Choice.toLowerCase() : item.Choice;
 
-                                                Question_answer = Question_answer.replace('<p>', '').trim();
-                                                Question_answer = Question_answer.replace('</p>', '').trim();
-                                                Question_answer = Question_answer.replace('&nbsp;', '').trim();
-                                                student_ans = student_ans.replace('<p>', '').trim();
-                                                student_ans = student_ans.replace('</p>', '').trim();
-                                                student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
                                                 
-
-                                                console.log(Question_answer+ '--'+student_ans);
-
-                                                if (student_ans.replace(/\s+/g,'').trim() == Question_answer.replace(/\s+/g,'').trim()) {
+                                                 if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
+                                                if (student_ans == Question_answer) {
                                                     this.Check[i] = true;
-                                                   //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
@@ -1000,12 +1047,21 @@ import axios from 'axios';
                                         }
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
-                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+                                   
                                     this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-                                    let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
-
+                                    let score;
+                                    const hasKey = 'score' in this.ViewDetails.Submitted_Answers[j];
+                                    if(hasKey) {
+                                        score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                    }
+                                    else {
+                                        this.ViewDetails.Submitted_Answers[j].score = "";
+                                        this.ViewDetails.Submitted_Answers[j].check = false;
+                                        score = 0;
+                                    }
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.EssayOldPoints[i] = score;
-                                    this.ViewDetails.points += score;
+                                    //this.ViewDetails.points += score;
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     
                                     let Ans = new Array();
@@ -1110,7 +1166,7 @@ import axios from 'axios';
 
             },
             ReMatchQuestions() {
-                this.ViewDetails.points = 0;
+                //this.ViewDetails.points = 0;
                 let Submitted_length = this.ViewDetails.Submitted_Answers.length;
                 let Question_length = this.getAll_questions.Question.length;
                 let diff = Question_length - Submitted_length;
@@ -1217,13 +1273,21 @@ import axios from 'axios';
                                                 .getAll_questions.Question[i].answer;
 
 
-                                                 Question_answer = Question_answer.replace('<p>', '').trim();
-                                                Question_answer = Question_answer.replace('</p>', '').trim();
-                                                student_ans = student_ans.replace('<p>', '').trim();
-                                                student_ans = student_ans.replace('</p>', '').trim();
+                                                if(Question_answer != null){
+                                                    Question_answer = Question_answer.replace('<p>', '').trim();
+                                                    Question_answer = Question_answer.replace('</p>', '').trim();
+                                                    Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
 
+                                                 if(student_ans != null){
+                                                    student_ans = student_ans.replace('<p>', '').trim();
+                                                    student_ans = student_ans.replace('</p>', '').trim();
+                                                    student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
 
-                                            if (Question_answer.replace(/^\s+|\s+$/gm,'') == student_ans.replace(/^\s+|\s+$/gm,'')) {
+                                            if (Question_answer == student_ans) {
                                                 this.Check[i] = true;
                                                 //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                             } else {
@@ -1232,6 +1296,7 @@ import axios from 'axios';
                                         } 
                                         else {
                                             
+                                             
                                             this.Check[i] = false;
                                             this.getAll_questions.Answer[i].options.forEach(item => {
                                                 let Question_answer = this.getAll_questions.Question[i]
@@ -1239,17 +1304,22 @@ import axios from 'axios';
                                                     item.Choice != null && item.Choice != '' ? item
                                                     .Choice.toLowerCase() : item.Choice;
 
+                                               if(Question_answer != null){
                                                     Question_answer = Question_answer.replace('<p>', '').trim();
                                                     Question_answer = Question_answer.replace('</p>', '').trim();
                                                     Question_answer = Question_answer.replace('&nbsp;', '').trim();
+                                                    Question_answer = Question_answer.trim();
+                                                }
+
+                                                 if(student_ans != null){
                                                     student_ans = student_ans.replace('<p>', '').trim();
                                                     student_ans = student_ans.replace('</p>', '').trim();
                                                     student_ans = student_ans.replace('&nbsp;', '').trim();
+                                                    student_ans = student_ans.trim();
+                                                }
 
-
-                                                if (student_ans.replace(/^\s+|\s+$/gm,'') == Question_answer.replace(/^\s+|\s+$/gm,'')) {
+                                                if (student_ans == Question_answer) {
                                                     this.Check[i] = true;
-                                                   //this.ViewDetails.points += this.getAll_questions.Question[i].points;
                                                 }
 
                                             });
@@ -1309,12 +1379,22 @@ import axios from 'axios';
                                         }
                                     }
                                 } else if (this.getAll_questions.Question[i].type == 'Essay') {
-                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
+                                    //this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.Check[i] = this.ViewDetails.Submitted_Answers[j].check;
-                                    let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
-
+                                    //let score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                    let score;
+                                    const hasKey = 'score' in this.ViewDetails.Submitted_Answers[j];
+                                    if(hasKey) {
+                                        score = parseInt(this.ViewDetails.Submitted_Answers[j].score);
+                                    }
+                                    else {
+                                        this.ViewDetails.Submitted_Answers[j].score = "";
+                                        this.ViewDetails.Submitted_Answers[j].check = false;
+                                        score = 0;
+                                    }
+                                    this.SubmittedAnswer[i] = this.ViewDetails.Submitted_Answers[j];
                                     this.EssayOldPoints[i] = score;
-                                    this.ViewDetails.points += score;
+                                    //this.ViewDetails.points += score;
                                 } else if (this.getAll_questions.Question[i].type == 'Matching type') {
                                     
                                     let Ans = new Array();
@@ -1373,9 +1453,9 @@ import axios from 'axios';
                                     });
 
 
-                                    this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
+                                    /* this.getAll_questions.Answer[i].Destructors.forEach(destruc => {
                                         this.getAll_questions.Answer[i].SubAnswer.push(destruc);
-                                    });
+                                    }); */
                                     
                                     this.ViewDetails.Submitted_Answers[j].question_pattern.SubAnswer.forEach(sub_ans => {
                                         this.getAll_questions.Answer[i].SubAnswer.forEach(subAnswer => {
@@ -1435,14 +1515,12 @@ import axios from 'axios';
                 this.UpdateDetails.check = type == 'Essay' ? true : data;
                 this.UpdateDetails.points =  points;
                 this.UpdateDetails.question_id = id;
-                this.UpdateDetails.answer =  type == 'Identification' ? this.getAll_questions.Answer[index].options[0].Choice : answer;
+                this.UpdateDetails.answer =  type == 'Identification' ? this.getAll_questions.Answer[index].options[Math.floor(Math.random() * this.getAll_questions.Answer[index].options.length)].Choice : answer;
                 this.UpdateDetails.user_id = this.ViewDetails.user_id;
                 if(type == 'Essay'){
                     this.UpdateDetails.essay_points = this.SubmittedAnswer[index].score;
                     this.UpdateDetails.old_essay_points = this.EssayOldPoints[index];
                 }
-                
-                
                 axios.put('/api/teacher/update-score/' + this.ViewDetails.id, this.UpdateDetails)
                     .then(res => {
                         if (res.status == 200) {
@@ -1457,7 +1535,8 @@ import axios from 'axios';
                                 }
                             } else if(type == 'Identification'){
                                  if (data == true) {
-                                    this.SubmittedAnswer[index].Answer = this.getAll_questions.Answer[index].options[0].Choice;
+                                    
+                                    this.SubmittedAnswer[index].Answer = this.getAll_questions.Answer[index].options[Math.floor(Math.random() * this.getAll_questions.Answer[index].options.length)].Choice;
                                     this.ViewDetails.points = this.ViewDetails.points + points;
                                 } else {
                                     this.SubmittedAnswer[index].Answer = "Wrong answer";
@@ -1473,7 +1552,7 @@ import axios from 'axios';
                                     this.ViewDetails.points = this.ViewDetails.points - points;
                                 }
                             }
-
+                            this.toastSuccess('Score successfully updated!');
                         }
                     })
             },
@@ -1484,7 +1563,6 @@ import axios from 'axios';
                     })
             },
             async ResetSubmission() {
-                //////console.log(this.ListData[this.resetIndex].points)
                 this.isReseting = true;
                 if (this.ViewDetails.status != null && this.ViewDetails.status != '') {
                     axios.put('/api/teacher/reset-obj/' + this.ViewDetails.id)
@@ -1494,6 +1572,7 @@ import axios from 'axios';
                                 this.isReseting = false;
                                 this.student_activity_logs = [];
                                 this.$emit('RestSubmission')
+                                this.$store.dispatch('setCurrectClassworkSubmission',1)
                             }
 
                         })
@@ -1562,13 +1641,16 @@ import axios from 'axios';
                     })
             },
             async NextStudent() {
+                
                 this.questionIndex = 0;
                 this.SubmittedAnswer = [];
                 this.Check = [];
                 this.isLoaded = false;
                 this.$emit("nextStudent");
-                setTimeout(() => (this.ReMatchQuestions()), 300);
-                this.fetchStudentActivity();
+                //this.RegetSubmittedAnswer();
+                setTimeout(() => (this.RegetSubmittedAnswer()) , 200);
+                //setTimeout(() => (this.ReMatchQuestions()) , 300);
+                //this.fetchStudentActivity();
             },
             async PrevStudent() {
                 this.questionIndex = 0;
@@ -1576,8 +1658,10 @@ import axios from 'axios';
                 this.Check = [];
                 this.isLoaded = false;
                 this.$emit("prevStudent");
-                setTimeout(() => (this.ReMatchQuestions()), 300);
-                this.fetchStudentActivity();
+                //this.RegetSubmittedAnswer();
+                setTimeout(() => (this.RegetSubmittedAnswer()) , 200);
+                //setTimeout(() => (this.getSubmittedAnswer(), this.ReMatchQuestions()), 300);
+                //this.fetchStudentActivity();
             },
             fetchStudentActivity() {
                 this.loading_activity = true;
@@ -1596,11 +1680,13 @@ import axios from 'axios';
             },
              CheckScore(sub_id){
                  if(sub_id != null){
-                     axios.get('/api/question/StudentScore/'+sub_id)
-                    .then(res=>{
-                        this.ViewDetails.points = res.data;
-                        //this.ReSaveScore(res.data);
-                    })
+                    if(this.ViewDetails.status == 'Submitted'){
+                        axios.get('/api/question/StudentScore/'+sub_id)
+                        .then(res=>{
+                            this.ViewDetails.points = res.data;
+                            //this.ReSaveScore(res.data);
+                        })  
+                    }
                  }
                 
             },
@@ -1610,7 +1696,26 @@ import axios from 'axios';
                     this.ViewDetails.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
                     this.ViewDetails.rubrics_score = res.data.submitted_answer.rubrics_score;
                     this.ViewDetails.comments = res.data.comment;
+                    this.fetchQuestions();
                 })
+            },
+            async RegetSubmittedAnswer(){
+                this.ViewDetails.Submitted_Answers = [];
+                this.ViewDetails.rubrics_score = [];
+                this.ViewDetails.comments = [];
+                
+                if(this.ViewDetails.status != null && this.ViewDetails.status != ''){
+                     axios.get('/api/submission/submitted_answer/'+this.ViewDetails.id)
+                    .then((res)=>{
+                        this.ViewDetails.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
+                        this.ViewDetails.rubrics_score = res.data.submitted_answer.rubrics_score;
+                        this.ViewDetails.comments = res.data.comment;
+                        this.ReMatchQuestions()
+                        this.fetchStudentActivity();
+                    })
+                }else{
+                    this.isLoaded = true;
+                }
             }
         },
         beforeDestroy() {
@@ -1621,9 +1726,7 @@ import axios from 'axios';
             
             if (this.ViewDetails.status != null && this.ViewDetails.status != '') {
                 this.getSubmittedAnswer();
-                
-
-                this.fetchQuestions();
+               
             } else {
                 this.isLoaded = true;
                 this.$emit('isMounted');

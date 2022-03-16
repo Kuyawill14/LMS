@@ -1474,7 +1474,8 @@ class ObjectiveController extends Controller
         ->get();
 
         $score = 0;
-        foreach($request->item as $cl){
+        $submittedAnswer = $request->item;
+        foreach($submittedAnswer as $cl){
                 foreach($Questions as $ques){
                 if($ques['id'] == $cl['Question_id']){
 
@@ -1483,9 +1484,7 @@ class ObjectiveController extends Controller
                         $userAns = $ques['sensitivity'] ? $cl['Answer'] : strtolower($cl['Answer']);
                         $questionAns = $ques['sensitivity'] ? $ques['answer'] : strtolower($ques['answer']);
 
-                      
-
-
+                    
                         if($cl['type'] == 'Identification'){
                             $questionAns =  $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
                             $questionAns = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
@@ -1498,8 +1497,6 @@ class ObjectiveController extends Controller
                             $userAns = $userAns != null ? trim($userAns) : $userAns;
 
                             if(trim($questionAns, " ") == trim($userAns, " ")){
-
-                                
                                 $score += $ques['points'];
                             }
                             else{
@@ -1526,6 +1523,7 @@ class ObjectiveController extends Controller
                                 $answerID = intval($userAns);
                                 $question_ans = intval($questionAns);
                                 $score = $answerID == $question_ans ? ($score + $ques['points']) : $score;  
+
                             }else{
                                 $score = $questionAns == $userAns ? ($score + $ques['points']) : $score;  
                             }
@@ -1548,6 +1546,7 @@ class ObjectiveController extends Controller
                 }
             }
         }
+    
 
         $UpdateStatus = tbl_Submission::where("tbl_submissions.user_id",$userId)
         ->where('tbl_submissions.classwork_id', $id)
@@ -1556,7 +1555,7 @@ class ObjectiveController extends Controller
             $UpdateStatus->status = 'Submitted';
             $UpdateStatus->points = $score;
             $UpdateStatus->timeSpent = $request->timeSpent;
-            $UpdateStatus->Submitted_Answers = serialize($request->item);
+            $UpdateStatus->Submitted_Answers = serialize($submittedAnswer);
             $UpdateStatus->submitted_at = date('Y-m-d H:i:s');
             $UpdateStatus->update();
         }   
@@ -1657,60 +1656,61 @@ class ObjectiveController extends Controller
 
                             if($cl['type'] == 'Identification'){
 
-                            
-
-                                $answer_list = tbl_choice::where('question_id', $ques['id'])->get();
-                                if(count($answer_list) == 0){
-
-                                    $temp1ans = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
-                                    $temp1ans = $temp1ans != null ? str_replace('&nbsp;', '', $temp1ans) : $temp1ans;
-                                    //$temp1ans = str_replace(' ', '', $temp1ans);
-                                    $temp1ans = $temp1ans != null ? trim($temp1ans) : $temp1ans;
-
-                                    $temp1UserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
-                                    $temp1UserAns = str_replace('&nbsp;', '', $temp1UserAns);
-                                    //$temp1UserAns = str_replace(' ', '', $temp1UserAns);
-                                    $temp1UserAns = trim($temp1UserAns);
-
-                                    if($temp1ans == $temp1UserAns){
+                                if(array_key_exists("check",$cl)){
+                                    if($cl['check'] == true){
                                         $score += $ques['points'];
                                     }
-
-
                                 }else{
-                                    $check = false;
-                                    $count = 0;
-                                   
-                                    foreach($answer_list as $answer){
-                                        $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
+                                    $answer_list = tbl_choice::where('question_id', $ques['id'])->get();
+                                    if(count($answer_list) == 0){
 
-                                        $tempOtherAns = $other_answer != null  ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
-                                        $tempUserAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
-        
-                                        $tempUserAns = $tempUserAns != null ? str_replace('&nbsp;', '', $tempUserAns) : $tempUserAns;
-                                        $tempOtherAns = $tempOtherAns != null ? str_replace('&nbsp;', '', $tempOtherAns) : $tempOtherAns;
+                                        $temp1ans = $questionAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $questionAns) : $questionAns;
+                                        $temp1ans = $temp1ans != null ? str_replace('&nbsp;', '', $temp1ans) : $temp1ans;
+                                        //$temp1ans = str_replace(' ', '', $temp1ans);
+                                        $temp1ans = $temp1ans != null ? trim($temp1ans) : $temp1ans;
 
-                                       /*  $tempUserAns = str_replace(' ', '', $tempUserAns);
-                                        $tempOtherAns = str_replace(' ', '', $tempOtherAns); */
-                                        $tempUserAns = $tempUserAns != null ? trim($tempUserAns) : $tempUserAns;
-                                        $tempOtherAns = $tempOtherAns != null ? trim($tempOtherAns) : $tempUserAns;
-                                        //$test[] = $tempOtherAns;
-                                        
-                                        if($tempOtherAns == $tempUserAns){
-                                            $check = true;
-                                        
+                                        $temp1UserAns = str_replace(array('<p>', '</p>'), array('', ''),  $userAns);
+                                        $temp1UserAns = str_replace('&nbsp;', '', $temp1UserAns);
+                                        //$temp1UserAns = str_replace(' ', '', $temp1UserAns);
+                                        $temp1UserAns = trim($temp1UserAns);
+
+                                        if($temp1ans == $temp1UserAns){
+                                            $score += $ques['points'];
                                         }
-                                        //$count++;
-                                    }
 
-                                
-                                    if($check == true){
-                                        $score += $ques['points'];
+                                    }else{
                                         $check = false;
+                                        $count = 0;
+                                    
+                                        foreach($answer_list as $answer){
+                                            $other_answer =  $ques['sensitivity'] ? $answer->Choice : strtolower($answer->Choice);
+
+                                            $tempOtherAns = $other_answer != null  ? str_replace(array('<p>', '</p>'), array('', ''),  $other_answer) : $other_answer;
+                                            $tempUserAns = $userAns != null ? str_replace(array('<p>', '</p>'), array('', ''),  $userAns) : $userAns;
+            
+                                            $tempUserAns = $tempUserAns != null ? str_replace('&nbsp;', '', $tempUserAns) : $tempUserAns;
+                                            $tempOtherAns = $tempOtherAns != null ? str_replace('&nbsp;', '', $tempOtherAns) : $tempOtherAns;
+
+                                        /*  $tempUserAns = str_replace(' ', '', $tempUserAns);
+                                            $tempOtherAns = str_replace(' ', '', $tempOtherAns); */
+                                            $tempUserAns = $tempUserAns != null ? trim($tempUserAns) : $tempUserAns;
+                                            $tempOtherAns = $tempOtherAns != null ? trim($tempOtherAns) : $tempUserAns;
+                                            //$test[] = $tempOtherAns;
+                                            
+                                            if($tempOtherAns == $tempUserAns){
+                                                $check = true;
+                                            
+                                            }
+                                            //$count++;
+                                        }
+
+                                        if($check == true){
+                                            $score += $ques['points'];
+                                            $check = false;
+                                        }
                                     }
-
                                 }
-
+                               
                             }
                             elseif($cl['type'] == 'Multiple Choice'){
                                 if($ques->isNew){

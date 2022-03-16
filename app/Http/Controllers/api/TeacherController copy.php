@@ -351,8 +351,7 @@ class TeacherController extends Controller
                                 
                             }
                             else{
-                                $item['check'] = false;
-                                //$item['Answer'] = "Wrong answer";
+                                $item['Answer'] = "Wrong answer";
                             }
                         
                             array_push($TempAnswers, $item);
@@ -374,6 +373,11 @@ class TeacherController extends Controller
                         $updateObj->points = ($updateObj->points + $request->essay_points);
                     }
                 }
+               /*  else if($item['type'] == 'Identification'){
+                    $item['Answer'] = null;
+                    
+                    
+                } */
                 else{
                     $updateObj->points = ($updateObj->points + $request->points);
                 }
@@ -387,8 +391,7 @@ class TeacherController extends Controller
                             $item['score'] = $request->essay_points;
                         }
                         else{
-                            $item['check'] = true;
-                            //$item['Answer'] =  $request->answer;
+                            $item['Answer'] =  $request->answer;
                         }
                         array_push($TempAnswers, $item);
                     }
