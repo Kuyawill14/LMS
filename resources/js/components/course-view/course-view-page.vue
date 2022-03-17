@@ -79,7 +79,7 @@
                 <v-card-title class="text-lg-h5"
                     v-text="getcourseInfo.length !=0 ? getcourseInfo.course_code + ' - ' + getcourseInfo.course_name : 'Course Code - Course Name'">
                 </v-card-title>
-                <v-card-subtitle class="white--text">Instructor: {{getcourseInfo.name}}
+                <v-card-subtitle class="white--text">Faculty Name: {{getcourseInfo.name}}
 
                     <br v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
                {{role == 'Student' ? 'Virtual Meeting Links' : ''}}

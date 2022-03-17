@@ -635,7 +635,7 @@ var render = function() {
                     { staticClass: "white--text" },
                     [
                       _vm._v(
-                        "Instructor: " +
+                        "Faculty Name: " +
                           _vm._s(_vm.getcourseInfo.name) +
                           "\n\n                "
                       ),

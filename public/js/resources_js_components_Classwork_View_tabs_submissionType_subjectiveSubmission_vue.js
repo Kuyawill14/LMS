@@ -300,6 +300,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 var checksubjective = function checksubjective() {
@@ -763,6 +764,14 @@ var multipleAlertStudent = function multipleAlertStudent() {
         }, _callee4);
       }))();
     },
+    MarkAsResubmitting: function MarkAsResubmitting(id) {
+      this.studentSubmissionList.forEach(function (item) {
+        if (id == item.user_id) {
+          item.graded = 0;
+          item.status = "Submitting";
+        }
+      });
+    },
     ShowLoading: function ShowLoading() {
       var _this7 = this;
 
@@ -1082,6 +1091,7 @@ var render = function() {
                             _vm.isStarting = false
                           },
                           UpdateSubmission: _vm.MarkAsGraded,
+                          markAsResubmit: _vm.MarkAsResubmitting,
                           closeDialog: function($event) {
                             return _vm.isNotViewing()
                           },

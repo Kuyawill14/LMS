@@ -151,7 +151,11 @@
                     <v-col  cols="12" class="pt-0 mt-0 pl-1 pr-1 pb-0 mb-0 d-flex justify-space-between">
                         <div class="font-weight-medium text-body-2 mt-3">Your Work</div>
                         <div v-if="classworkDetails.publish == null">
-                            <v-btn v-if="classworkDetails.status == 'Submitted' && !classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)" @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? 'Cancel': 'Resubmit'}}</v-btn>
+                          <div>
+                            <v-btn v-if="classworkDetails.status == 'Submitted' && !classworkDetails.graded &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)" 
+                            @click="clickResubmit()" rounded text class="blue--text">{{isResubmit ? '': 'Resubmit'}}</v-btn>
+                          </div>
+                            
                             <v-chip v-if="classworkDetails.graded && $vuetify.breakpoint.mdAndUp"
                               class="ma-2" color="green" outlined>
                             Graded: {{classworkDetails.score}} /{{classworkDetails.points}}
@@ -197,12 +201,12 @@
                                   <v-col v-for="(item, index) in classworkDetails.Submitted_Answers" :key="index" class="ma-0 pa-0" cols="12">
                                       <v-list dense nav outlined>
                                          <v-list-item link :disabled="isUpIndex == index && isUploadSaving" >
-                                           <v-list-item-avatar>
+                                           <v-list-item-avatar @click="OpenFile(item.name,item.link, item.fileExte, index)">
                                               <v-icon  :color="CheckFileIconColor(item.fileExte)">
                                                 {{CheckFileIcon(item.fileExte)}}
                                               </v-icon>
                                            </v-list-item-avatar>
-                                            <v-list-item-content @click="OpenFile(item.link, item.fileExte, index)">
+                                            <v-list-item-content @click="OpenFile(item.name,item.link, item.fileExte, index)">
                                                 <v-list-item-title>
                                                     {{item.name}}
                                                 </v-list-item-title>
@@ -236,7 +240,6 @@
                                       </v-list>
                                   </v-col>
                                 </v-row>
-                     
                           </v-col>
                         
                            <v-col  class="ma-0 pa-0 mb-4 " cols="12" >
@@ -259,7 +262,7 @@
                                     </v-btn>
                                   </template>
                                   <v-list nav dense>
-                                     <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer" >
+                                     <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
                                             <v-icon left>mdi-format-text</v-icon>Typed Answer
                                     </v-list-item>
                                     <v-list-item link  @click="UploadFile()">
@@ -291,6 +294,9 @@
                                       </v-btn>
                                     </template>
                                     <v-list nav dense>
+                                      <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
+                                          <v-icon left>mdi-format-text</v-icon>Typed Answer
+                                    </v-list-item>
                                       <v-list-item link  @click="UploadFile()">
                                             <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                       </v-list-item>
@@ -320,6 +326,9 @@
                                         </v-btn>
                                       </template>
                                       <v-list nav dense>
+                                      <v-list-item link @click="IsTypeAnswer = !IsTypeAnswer, editTextData.title = '',editTextData.text = '',isTypeAnswerType = 'add'" >
+                                            <v-icon left>mdi-format-text</v-icon>Typed Answer
+                                      </v-list-item>
                                         <v-list-item link  @click="UploadFile()">
                                               <v-icon left>mdi-cloud-upload-outline</v-icon> Upload File
                                         </v-list-item>
@@ -575,10 +584,46 @@
     </v-row>
 
 
-    <v-dialog v-model="IsTypeAnswer" persistent max-width="700">
-         <typeAnswerDialog :Type="isTypeAnswerTpye" :answerData="editTextData" 
-         v-on:SaveAnswer="AddTypeAnswer" v-on:CloseDialog="IsTypeAnswer = false, editTextData = '',
-         isTypeAnswerTpye = 'add'" v-on:UpdateAnswer="UpdateTypeAnswer"></typeAnswerDialog>
+    <v-dialog scrollable v-model="IsTypeAnswer" :persistent="isTypeAnswerType != 'view'" max-width="700">
+         <!-- <typeAnswerDialog :Type="isTypeAnswerType" :answerData="editTextData" 
+         v-on:SaveAnswer="AddTypeAnswer" v-on:CloseDialog="IsTypeAnswer = false, editTextData.tile = '',editTextData.text = '',
+         isTypeAnswerType = null" v-on:UpdateAnswer="UpdateTypeAnswer"></typeAnswerDialog> -->
+     
+        <v-card v-if="isTypeAnswerType != 'view'" class="pa-1">
+            <v-text-field v-model="editTextData.title" class="mb-2 mt-1" label="Title" hide-details  outlined>
+            </v-text-field>
+              <div >
+                 
+            <editor
+            class="editor"
+            style="min-height:400px !important;max-height:700px !important;"
+            theme="snow"
+            v-model="editTextData.text"
+            placeholder="Typed answer"
+            ref="myTextEditor"
+            :options="editorOption"/>
+              </div>
+                   
+              <div class="d-flex pt-1 mb-1">
+                <v-btn @click="isTypeAnswerType = '', IsTypeAnswer = false, editTextData.title = '',editTextData.text = ''" text color="secondary">  Cancel</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn  @click="isTypeAnswerType == 'add' ? AddTypeAnswer() : UpdateTypeAnswer()" color="primary"> 
+                  {{isTypeAnswerType == 'add' ? 'Save' : 'Update'}}
+                </v-btn>  
+            </div>
+        </v-card>
+
+         <v-card v-else >
+               <!--  <v-card-title class="mb-0 pb-0"><span class="text-h4">{{editTextData.title}}</span></v-card-title>
+                 <v-divider></v-divider> -->
+                 <div class="pa-5" style="max-height: 650px;overflow-y:scroll">
+                     <span style="font-size:15px" v-html="editTextData.text"></span>
+                 </div>
+       
+<!--             <v-card-actions>
+                <v-btn block @click="isTypeAnswerType = '', IsTypeAnswer = false, editTextData.title = '',editTextData.text = ''"  color="secondary">  Close</v-btn>
+            </v-card-actions> -->
+        </v-card>
       </v-dialog>
 
     <v-bottom-navigation app grow
@@ -620,7 +665,7 @@ export default {
             isUpdatingComment_old_data: null,
             AttachLink: false,
             IsTypeAnswer: false,
-            isTypeAnswerTpye: 'add',
+            isTypeAnswerType: 'add',
             FileList:[],
             file: [],
             fileSize:null,
@@ -671,7 +716,30 @@ export default {
             },
             
         },
-        editTextData: '',
+        editorOption: {
+              placeholder: 'type here ...',
+              theme:'snow',
+              blur: true,
+              editorData:null,
+              modules: {
+                    toolbar: {
+                          container:[
+                              ['bold', 'italic', 'underline'],
+                              [{ 'color': [] }],
+                              [{ 'list': 'bullet' }]
+                              
+                          ],
+                      },
+                  syntax: {
+                      highlight: text => hljs.highlightAuto(text).value
+                  },
+                  
+              }
+          },
+        editTextData: {
+          title: '',
+          text: ''
+        },
         editTextDataIndex: null
         }
     },
@@ -777,11 +845,18 @@ export default {
 
         return url.protocol === "http:" || url.protocol === "https:";
       },
-      OpenFile(file, ext, index){
+      OpenFile(name,file, ext, index){
         if(ext == 'type_answer'){
+
+          if(this.classworkDetails.status == 'Submitted'){
+            this.isTypeAnswerType = 'view'
+          }else{
+            this.isTypeAnswerType = 'edit'
+          }
+
           this.editTextDataIndex = index;
-          this.editTextData = file;
-          this.isTypeAnswerTpye = 'edit'
+          this.editTextData.title = name;
+          this.editTextData.text = file;
           this.IsTypeAnswer = true;
         }else{
            window.open(file,'_blank');
@@ -795,7 +870,7 @@ export default {
               this.AddLinkInSubmittedAnswer();
 
           },
-          AddLinkInSubmittedAnswer(){
+          async AddLinkInSubmittedAnswer(){
               
               let index = this.classworkDetails.Submitted_Answers.length-1;
               let sub_id = this.tempId == null ? 'empty' : this.tempId;
@@ -808,7 +883,7 @@ export default {
               fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
               fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
               fd.append('file', this.classworkDetails.Submitted_Answers[index].link);
-              axios.post('/api/student/linkAndstatus', fd)
+              await axios.post('/api/student/linkAndstatus', fd)
               .then(res=>{
                     
                     this.AttachLink = false;
@@ -819,9 +894,9 @@ export default {
               })
           },
 
-        AddTypeAnswer(data){
+        async AddTypeAnswer(){
             
-            this.classworkDetails.Submitted_Answers.push({ name: 'Answer', fileSize: '', fileExte: 'type_answer', link: data});
+            this.classworkDetails.Submitted_Answers.push({ name: this.editTextData.title, fileSize: '', fileExte: 'type_answer', link: this.editTextData.text});
             let index = this.classworkDetails.Submitted_Answers.length-1;
             let sub_id = this.tempId == null ? 'empty' : this.tempId;
             let fd = new FormData;
@@ -833,18 +908,20 @@ export default {
             fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
             fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
             fd.append('file', this.classworkDetails.Submitted_Answers[index].link);
-            axios.post('/api/student/linkAndstatus', fd)
+            await axios.post('/api/student/linkAndstatus', fd)
             .then(res=>{
                   this.tempId = res.data;
                   this.IsTypeAnswer = false;
+                  this.isTypeAnswerType = '';
             })
         },
-        UpdateTypeAnswer(data){
-          this.classworkDetails.Submitted_Answers[this.editTextDataIndex].link = data;
-          axios.put('/api/student/update_answer/'+this.classworkDetails.Sub_id, {answers: this.classworkDetails.Submitted_Answers})
+        async UpdateTypeAnswer(){
+          this.classworkDetails.Submitted_Answers[this.editTextDataIndex].link = this.editTextData.text;
+          this.classworkDetails.Submitted_Answers[this.editTextDataIndex].name = this.editTextData.title;
+          await axios.put('/api/student/update_answer/'+this.classworkDetails.Sub_id, {answers: this.classworkDetails.Submitted_Answers})
             .then(res=>{
                   this.IsTypeAnswer = false;
-                  this.isTypeAnswerTpye = 'add'
+                  this.isTypeAnswerType = ''
             })
         },
         UploadFile(){
@@ -919,10 +996,10 @@ export default {
                 this.isUploadSaving = true;
                 this.UpdateSubmission(this.classworkDetails.Submitted_Answers.length-1);
             },
-            removeFile(index) {
+            async removeFile(index) {
               this.isDeleting_id = index;
               this.isDeleting = true;
-               axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
+               await axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
                   this.uploadPercentage = 0;
                    this.file.splice(index, 1); 
                    this.tempId = null;
@@ -950,7 +1027,7 @@ export default {
                 }
             })
         },
-          UpdateSubmission(index){
+          async UpdateSubmission(index){
 
               let sub_id = this.tempId == null ? 'empty' : this.tempId;
               let fd = new FormData;
@@ -962,7 +1039,7 @@ export default {
               fd.append('fileSize', this.classworkDetails.Submitted_Answers[index].fileSize);
               fd.append('fileExte', this.classworkDetails.Submitted_Answers[index].fileExte);
               fd.append('file', this.classworkDetails.Submitted_Answers[index].file);
-               axios.post('/api/student/update-status', fd,{
+               await axios.post('/api/student/update-status', fd,{
                  onUploadProgress: (progressEvent)=>{
                    const total = progressEvent.total;
                    const totalLength = progressEvent.lengthComputable ? total : null;
@@ -984,11 +1061,11 @@ export default {
                  this.classworkDetails.status = "Submitting";
               })
           },
-          DeleteUpload(index){
+          async DeleteUpload(index){
               this.isDeleting_id = index;
               this.isDeleting = true;
               let type = 'submit';
-              axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
+              await axios.put('/api/submission/file-remove/'+this.tempId,{Fileindex: index}).then(res=>{
                   this.classworkDetails.Submitted_Answers.splice(index, 1);
                   if(this.FileList.length != 0){
                     this.FileList.splice(index, 1);
@@ -1007,7 +1084,7 @@ export default {
           async SubmitClasswork(){
             this.IsSaving = true;
             let type = 'submit';
-            axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
+            await axios.put('/api/student/submit-classwork/'+this.tempId).then(res=>{
               if(res.status == 200){
                 //this.checkStatus(type);
                 this.classworkDetails.status = 'Submitted';
@@ -1024,7 +1101,7 @@ export default {
               data.type = 'Private';
               data.course_id = this.$route.params.id;
               data.comment = this.comment;
-              axios.post('/api/post/classwork/comment/insert', data)
+              await axios.post('/api/post/classwork/comment/insert', data)
               .then((res)=>{
                 ////console.log(res.data);
                   if(res.status == 200 ){
@@ -1043,7 +1120,7 @@ export default {
                this.isCommenting = false;
           },
           async DeleteComment(id, index){
-              axios.delete('/api/post/classwork/comment/delete/'+id)
+              await axios.delete('/api/post/classwork/comment/delete/'+id)
               .then(res=>{
                   if(res.data.success == true){
                       this.classworkDetails.comments.splice(index, 1);
@@ -1052,7 +1129,7 @@ export default {
               })
           },
           async UpdateComment(content, id){
-              axios.put('/api/post/comment/update/'+id,  {comment: content})
+              await axios.put('/api/post/comment/update/'+id,  {comment: content})
               .then(res=>{
                  this.isUpdatingComment = false;
                  this.isUpdatingComment_id = null;
@@ -1060,14 +1137,15 @@ export default {
               })
           },
          async MarkAsSubmitting(id){
-           axios.put('/api/student/markAsSubmitting/'+id)
+          await axios.put('/api/student/markAsSubmitting/'+id)
            .then(()=>{
-
+             this.classworkDetails.status = 'Submitting';
            })
          },
          clickResubmit(){
            if(!this.isResubmit){
              this.MarkAsSubmitting(this.classworkDetails.Sub_id)
+             
              this.isResubmit = !this.isResubmit;
            }
            else{
@@ -1221,4 +1299,6 @@ export default {
     div>.ql-tooltip-arrow{
         display: none !important;
     }
+
+    
 </style>

@@ -477,7 +477,7 @@ class TeacherController extends Controller
         if($ResetSubmission){
             if($request["files"]){
                 foreach($request["files"] as $item){
-                    if($item["fileExte"] != "link"){
+                    if($item["fileExte"] != "link" && $item["fileExte"] != "type_answer"){
                         $path =  str_replace(\Config::get('app.do_url').'/', "", $item['link']);
                         Storage::disk('DO_spaces')->delete($path);
                     }

@@ -346,6 +346,8 @@ class StudentController extends Controller
         $Classwork = tbl_Submission::find($id);
         if( $Classwork){
             $Classwork->status = 'Submitting';
+            $Classwork->graded = false;
+            $Classwork->points = 0;
             $Classwork->save();
         }
             

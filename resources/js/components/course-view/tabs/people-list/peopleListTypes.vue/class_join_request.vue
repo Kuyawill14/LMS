@@ -178,10 +178,8 @@ export default {
                 if(res.status == 200 && res.data.status == 1){  
                         /* for (let i = 0; i < this.selectedStudent.length; i++) {
                             if(this.selectedStudent[i].isSelected == true){
-                                
                                  this.selectedCount--;
                                  this.isSelectedAll = false;
-                                 
                             }                        
                         } */
                         let count = 0;

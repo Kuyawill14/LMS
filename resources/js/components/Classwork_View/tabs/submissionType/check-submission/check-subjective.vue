@@ -11,6 +11,27 @@
             :ViewDetails="CheckData"
             v-if="dialog"></resetConfirmation>
         </v-dialog>
+
+         <v-dialog v-model="AllowResubmitDialog" persistent max-width="400">
+            <v-card class="pa-2">
+                <v-card-title class="text-h5 mb-3">
+                Allow Resubmit
+                </v-card-title>
+                <v-card-text class="font-weight-bold">
+                    <div class="subtitle-1 " style="line-height:1.1">
+                        Clicking confirm will allow <span class="font-weight-bold">{{CheckData.firstName+' '+CheckData.lastName}}</span> to make new submission for this classwork?</div>
+                    </v-card-text>
+                <v-card-actions >
+                <v-spacer></v-spacer>
+                <v-btn text @click="AllowResubmitDialog = false">
+                    Cancel
+                </v-btn>
+                <v-btn color="primary"  text @click="MarkAsSubmitting(CheckData.id)">
+                    Confirm
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
        <!--  <v-toolbar dense shaped class="fixed-bar" floating color="primary" app >
             <v-btn dark icon @click="$emit('closeDialog')" >
                 <v-icon>mdi-close</v-icon>
@@ -25,6 +46,7 @@
                                    <v-list-item-avatar size="52" color="primary">
                                        <v-icon color="white" size="30"> 
                                            mdi-book-open-variant
+                                           
                                        </v-icon>
                                    </v-list-item-avatar>
                                    <v-list-item-content>
@@ -33,6 +55,8 @@
                                        </v-list-item-title>
                                        <v-list-item-subtitle class="font-weight-medium">
                                            Due: {{ CheckData.availability == 1 ? format_date(CheckData.to_date) : 'No due date'}}
+
+                                       
                                        </v-list-item-subtitle>
                                      
                                    </v-list-item-content>
@@ -76,7 +100,6 @@
                                                                     <div>
                                                                         <small class="mt-3">Switch Student</small>
                                                                     </div>
-                                                                
                                                                 </div>
                                                             <v-spacer></v-spacer>
 
@@ -102,7 +125,7 @@
                                                     
                                                         <v-list-item-content>
                                                             <v-list-item-title class="font-weight-medium">{{CheckData.firstName +' '+CheckData.lastName}}</v-list-item-title>
-                                                            <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.updated_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
+                                                            <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 0" :class="CheckData.status == 'Submitted' ? 'success--text' : ''" > {{CheckData.status == 'Submitted' ? 'Submitted: '+format_date(CheckData.submitted_at) : CheckData.status == 'Submitting' ? 'Submitting...' : ''}}</v-list-item-subtitle>
                                                              <v-list-item-subtitle v-if="CheckData.Submitted_Answers != null && CheckData.graded == 1" class="success--text" ><v-icon  small color="success">mdi-check</v-icon> Graded </v-list-item-subtitle>
                                                         </v-list-item-content>
                                                        <!--  @keyup="validate" -->
@@ -119,10 +142,35 @@
                                                         </v-list-item-action>
                                                     </v-list-item>
                                             </v-list>
+                                            <v-divider></v-divider>
                                         </v-col>
-                                        <v-col v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"  cols="12" class="ma-0 pa-0 pb-4 pt-3">
-                                            <v-btn rounded text block v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
-                                                @click="dialog = !dialog" color="primary" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
+                                        <v-col   cols="12" class="ma-0 pa-0 pb-4 pt-3 d-flex">
+
+                                            
+                                            
+
+                                            <v-tooltip color="green" max-width="350" bottom>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on" rounded dark small  v-if="CheckData.status == 'Submitted'"
+                                                        @click="AllowResubmitDialog = true" color="green" ><v-icon left>mdi-file-document-edit-outline</v-icon> Allow Resubmit
+                                                    </v-btn>
+                                                </template>
+                                                <span>Allow Resubmit<br>
+                                                    Student will be mark as submitting and will able to add and change attachment to his/her submission.
+                                                </span>
+                                            </v-tooltip>
+
+                                            <v-spacer></v-spacer>
+                                            <v-tooltip color="red"  max-width="350" bottom>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on" rounded dark small  v-if="CheckData.status != null && CheckData.status != '' && CheckData.status != 'Submitting'"
+                                                    @click="dialog = !dialog" color="red" ><v-icon left>mdi-restart</v-icon> Reset Submission</v-btn>
+                                                </template>
+                                                <span>Reset Submission<br>
+                                                    Note: You can't undo this once you've reset the student submission
+                                                    all submitted answer of this student will be remove.
+                                                </span>
+                                            </v-tooltip>
                                         </v-col>
                                         <v-col cols="12">
                                             <v-row v-if="isLoaded" >
@@ -139,7 +187,7 @@
                                                                     {{item.name}}
                                                                 </v-list-item-title>
                                                             </v-list-item-content>
-                                                            <v-list-item-action>
+                                                            <v-list-item-action v-if="item.fileExte != 'type_answer'">
                                                                     <v-tooltip top>
                                                                         <template v-slot:activator="{ on, attrs }">
                                                                             <v-btn  v-bind="attrs" v-on="on" 
@@ -259,9 +307,17 @@
                                                     v-model="comment"  theme="bubble" ></editor>
                                         </v-list-item-content>
                                         <v-list-item-action>
-                                            <v-btn :loading="isCommenting" @click="addComment(CheckData)" icon>
-                                            <v-icon  color="primary">mdi-send</v-icon>
-                                            </v-btn>
+                                         
+
+                                             <v-tooltip  max-width="350" top>
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn v-bind="attrs" v-on="on" :loading="isCommenting" @click="addComment(CheckData)" icon>
+                                                        <v-icon  color="primary">mdi-send</v-icon>
+                                                    </v-btn>
+                                                </template>
+                                                <span>Add Comment
+                                                </span>
+                                            </v-tooltip>
                                         </v-list-item-action>
                                         </v-list-item>
                                     </v-list>
@@ -326,42 +382,14 @@
                                             sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                                             style="position: absolute; top: 0px; left: 0px; width: 100% !important; height: 100% !important;"></iframe>
                                         </div> 
+                                        
+                                        <div class="pa-2" style="max-width:100%;max-height:80vh;overflow-y:scroll" v-if="!isOpening && OpenFileType == 'type_answer'">
+                                            <span v-html="path"></span>
+                                        </div>
 
                                         <div v-if="!isOpening && OpenFileType == 'media'" >
                                                 
-                                            <!-- <div class="pl-5 pr-5 pb-4 text-center d-flex">
-                                                <v-spacer></v-spacer>
-                                    
-                                                 <v-tooltip top>
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-btn v-bind="attrs" v-on="on"  x-large @click="rotateRight" icon><v-icon large>mdi-crop-rotate</v-icon></v-btn>
-                                                    </template>
-                                                    <span>Rotate Image</span>
-                                                </v-tooltip>
-                                            </div>
-                                            <div >
-                                                 <v-img
-                                                :style="`transform: rotate(${rotation}deg) scale(${scale});`"
-                                                :src="path"
-                                                max-width="100%"
-                                                max-height="70vh"
-                                                contain>
-                                                <template v-slot:placeholder>
-                                                <v-row
-                                                    class="fill-height ma-0"
-                                                    align="center"
-                                                    justify="center">
-                                                    <v-progress-circular
-                                                    indeterminate
-                                                    color="grey lighten-5"
-                                                    ></v-progress-circular>
-                                                </v-row>
-                                                </template>
-                                            </v-img>
-                                            </div> -->
-
-                                             <!-- directive -->
-                                                <!-- component -->
+                
                                             <div  style="height:85vh" class="images" v-viewer="{movable: true,inline: true, 
                                             navbar: false, title: false}">
                                                 <img style="max-width:100%;max-height:70vh" v-for="src in images" :src="src" :key="src">
@@ -376,7 +404,7 @@
                   </v-row>
                 </v-col>
             </v-row>
-   
+  
         <div  class="pt-10">
               <v-bottom-navigation
        
@@ -426,6 +454,7 @@ const pdfviewer = () => import('./pdfviewer');
         isUpdatingComment_id: null,
         isUpdatingComment_old_data: null,
         dialog: false,
+        AllowResubmitDialog: false,
         notifications: false,
         sound: true,
         widgets: false,
@@ -484,6 +513,9 @@ const pdfviewer = () => import('./pdfviewer');
                 else if(ext == 'docx' || ext == 'doc'){
                 return 'mdi-file-word';
                 }
+                else if(ext == 'type_answer'){
+                    return 'mdi-format-text';
+                }
                 else if(ext == 'link' ){
                 return 'mdi-file-link';
                 }
@@ -503,6 +535,9 @@ const pdfviewer = () => import('./pdfviewer');
             }
             else if(ext == 'link' ){
             return 'green';
+            }
+            else if(ext == 'type_answer'){
+            return 'success';
             }
             else{
             return 'primary';
@@ -569,7 +604,7 @@ const pdfviewer = () => import('./pdfviewer');
             studentDetails.classwork_id = this.CheckData.classwork_id;
             studentDetails.class_id = this.CheckData.class_id;
             if(this.score <= this.classworkDetails.points && this.score >= 0){
-                axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, 
+                await axios.put('/api/submission/update-score/'+this.CheckData.id,{score: this.score, 
                 data: this.CheckData.rubrics_score,
                 details: studentDetails,
                 })
@@ -582,6 +617,7 @@ const pdfviewer = () => import('./pdfviewer');
                         
 
                         if(this.currentIndex != this.SubmittedLength-1){
+                            //this.validate();
                             this.NextStudent();
                         }
                     }
@@ -593,7 +629,15 @@ const pdfviewer = () => import('./pdfviewer');
             }
             
         },
-          async alertStudent(){
+        async MarkAsSubmitting(id){
+          await axios.put('/api/student/markAsSubmitting/'+id)
+           .then(()=>{
+               this.AllowResubmitDialog = false;
+               this.$emit('markAsResubmit', this.CheckData.user_id);
+             //this.classworkDetails.status = 'Submitting';
+           })
+         },
+        async alertStudent(){
               let data = {};
               this.isAlerting = true;
               data.user_id = this.CheckData.user_id;
@@ -649,6 +693,11 @@ const pdfviewer = () => import('./pdfviewer');
                     }
                   setTimeout(() => (this.isOpening = false), 500);
               }
+              else if(extension == 'type_answer'){
+                  this.OpenFileType = 'type_answer';
+                  this.path = link;
+                  setTimeout(() => (this.isOpening = false), 500);
+              }
               else{
                   this.OpenFileExtension = extension;
                   this.OpenFileType = 'document'
@@ -690,7 +739,7 @@ const pdfviewer = () => import('./pdfviewer');
               })
           },
            async UpdateComment(content, id){
-              axios.put('/api/post/comment/update/'+id,  {comment: content})
+              await axios.put('/api/post/comment/update/'+id,  {comment: content})
               .then(res=>{
                  this.isUpdatingComment = false;
                  this.isUpdatingComment_id = null;
@@ -730,7 +779,7 @@ const pdfviewer = () => import('./pdfviewer');
              }
         },
         async ResetSubmission(){
-            axios.put('/api/teacher/reset-sbj/'+this.CheckData.id, {files : this.CheckData.Submitted_Answers})
+            await axios.put('/api/teacher/reset-sbj/'+this.CheckData.id, {files : this.CheckData.Submitted_Answers})
             .then(()=>{
                 this.$emit('SubmissionReset', this.CheckData.id);
                 this.$store.dispatch('setCurrectClassworkSubmission',1)
@@ -769,6 +818,7 @@ const pdfviewer = () => import('./pdfviewer');
                 this.CheckData.comments = res.data.comment;
                 this.isLoaded = true;
                 this.checkRubrics();
+                this.getFileExtension();
             })
         },
         async RegetSubmittedAnswer(){
@@ -777,13 +827,14 @@ const pdfviewer = () => import('./pdfviewer');
             this.CheckData.comments = [];
             
             if(this.CheckData.status != null && this.CheckData.status != ''){
-                axios.get('/api/submission/submitted_answer/'+this.CheckData.id)
+                await axios.get('/api/submission/submitted_answer/'+this.CheckData.id)
                 .then((res)=>{
                     this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
                     this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
                     this.CheckData.comments = res.data.comment;
                     this.reRunRubrics();
-                     this.isLoaded = true;
+                    this.isLoaded = true;
+                    this.getFileExtension();
                 })
             }else{
                 this.reRunRubrics();
@@ -791,8 +842,12 @@ const pdfviewer = () => import('./pdfviewer');
             }
         },
         async getFileExtension(){
+            
+
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
+
+             console.log(extension);
              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
                  this.OpenFileExtension = extension;
                 this.OpenFileType = 'media';
@@ -818,6 +873,12 @@ const pdfviewer = () => import('./pdfviewer');
                     this.path = path;
                   }
                   this.isOpening = false
+              }else if(extension == 'type_answer'){
+                 
+                  this.OpenFileExtension = extension;
+                  this.OpenFileType = 'type_answer';
+                  this.path = path;
+                setTimeout(() => (this.isOpening = false), 500);
               }
               else {
                 this.OpenFileExtension = extension;
@@ -834,7 +895,7 @@ const pdfviewer = () => import('./pdfviewer');
     created(){
         if(this.CheckData.status != null && this.CheckData.status != ''){
             this.getSubmittedAnswer();
-            this.getFileExtension();
+            
         }
         
         this.$emit('isMounted');

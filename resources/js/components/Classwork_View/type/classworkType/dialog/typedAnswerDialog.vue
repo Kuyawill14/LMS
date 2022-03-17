@@ -1,11 +1,14 @@
 <template>
     <div>
-        <v-card class="pa-1">
-            
+        <v-card v-if="Type != 'view'" class="pa-1">
+            <v-text-field v-model="Answer.title" class="mb-2 mt-1" label="Title" hide-details  outlined>
+
+            </v-text-field>
+
             <editor
             class="editor"
             theme="snow"
-            v-model="Answer"
+            v-model="Answer.text"
             placeholder="Typed answer"
             ref="myTextEditor"
             :options="editorOption"/>
@@ -15,6 +18,19 @@
                 <v-spacer></v-spacer>
                 <v-btn :loading="isAdding" @click="SaveAnswer()" color="primary"> Save</v-btn>  
             </div>
+        </v-card>
+
+         <v-card v-else >
+                <v-card-title class="mb-0 pb-0"><span class="text-h4">{{Answer.title}}</span></v-card-title>
+                 <v-divider></v-divider>
+                 <v-card-text style="max-height: 600px;overflow-y:scroll">
+                     <span  v-html="Answer.text"></span>
+                 </v-card-text>
+            
+            <v-divider></v-divider>
+            <v-card-actions>
+                <v-btn block @click="$emit('CloseDialog')"  color="secondary">  Close</v-btn>
+            </v-card-actions>
         </v-card>
        
     </div>
@@ -28,7 +44,6 @@ export default {
             editorOption: {
                 placeholder: 'type here ...',
                 theme:'snow',
-
                 blur: true,
                 editorData:null,
                 modules: {
@@ -49,16 +64,21 @@ export default {
                     
                 }
             },
-            Answer: '',
+            Answer:{
+                title: '',
+                text: ''
+            },
             isAdding: false
         }
     },
     watch: {
       'Type': function(arMsg) {
-         if(arMsg == 'edit'){
-            this.Answer = this.answerData
+         if(arMsg == 'edit' || arMsg == 'view'){
+            this.Answer.title = this.answerData.title;
+            this.Answer.text = this.answerData.text;
          }else{
-            this.Answer = '' 
+            this.Answer.title = '';
+            this.Answer.text = '' 
          }
       }
    },
@@ -69,21 +89,19 @@ export default {
                 this.$emit('SaveAnswer', this.Answer);
                 setTimeout(() => {
                     this.isAdding = false;
-                    this.Answer = '';
                 }, 600);
             }else if(this.Type == 'edit'){
                 this.isAdding = true;
                 this.$emit('UpdateAnswer', this.Answer);
                  setTimeout(() => {
                     this.isAdding = false;
-                    this.Answer = '';
                 }, 600);
             }  
         },
     },
 
     mounted(){
-          if(this.Type == 'edit'){
+          if(this.Type == 'edit' || this.Type == 'view'){
             this.Answer = this.answerData;
         }
     }
