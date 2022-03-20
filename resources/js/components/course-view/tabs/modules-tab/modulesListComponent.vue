@@ -11,7 +11,7 @@
                 <li> You can now change your module's download settings on the publish settings. Click the <b>publish settings</b> to change the module's download settings.
                     <br>
                     <a target="_blank" href="https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png" >
-                <img style="height:200px; width: 80%" src="https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"/>
+                <img style="height:150px; width: 100%" src="https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"/>
     </a>
                 </li>
             </ul>

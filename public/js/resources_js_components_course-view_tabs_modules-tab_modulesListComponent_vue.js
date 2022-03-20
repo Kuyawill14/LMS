@@ -38504,7 +38504,7 @@ var render = function() {
                 },
                 [
                   _c("img", {
-                    staticStyle: { height: "200px", width: "80%" },
+                    staticStyle: { height: "150px", width: "100%" },
                     attrs: {
                       src:
                         "https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"
