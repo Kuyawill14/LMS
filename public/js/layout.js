@@ -1449,7 +1449,7 @@ var render = function() {
               {
                 attrs: {
                   color: "none",
-                  value: false,
+                  value: true,
                   link: "",
                   "prepend-icon": "mdi-account-group"
                 },
