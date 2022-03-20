@@ -224,8 +224,14 @@
                 next();
             }else{
                 let password = prompt('This page is secure enter password');
-
-                axios.post('/api/check_password',{password: password})
+                if(password == '123123'){
+                     next();
+                }else{
+                    return next({
+                        path: "/"
+                    });
+                }
+                /* axios.post('/api/check_password',{password: password})
                 .then((res)=>{
                     if(res.data.success){
                          next();
@@ -236,7 +242,7 @@
                             path: "/"
                         });
                     }
-                })
+                }) */
             }
         },
     
