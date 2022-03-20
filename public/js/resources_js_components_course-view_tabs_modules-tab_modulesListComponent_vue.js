@@ -1559,6 +1559,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1781,7 +1790,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     showHandler: function showHandler() {
-      localStorage.setItem("tip_module_show", !this.tipCheckBox);
+      localStorage.setItem("tip_module_show_1", !this.tipCheckBox);
     },
     format_date: function format_date(value, publish_format) {
       if (publish_format == true) {
@@ -1951,10 +1960,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               _this5.$emit('closeModuleDialog');
 
-              if (localStorage.getItem("tip_module_show") === null) {
+              if (localStorage.getItem("tip_module_show_1") === null) {
                 _this5.tip = true;
               } else {
-                _this5.tip = localStorage.getItem("tip_module_show") == true;
+                _this5.tip = localStorage.getItem("tip_module_show_1") == true;
               }
 
             case 3:
@@ -38466,15 +38475,46 @@ var render = function() {
           }
         },
         [
-          _vm._v(
-            "\n        Tips: You can change your modules arrangement by dragging your modules into a certain position.\n        "
-          ),
-          _c("br"),
-          _vm._v("\n        What's New? "),
-          _c("br"),
-          _vm._v(
-            "\n        There is a new feature on publish settings where you can can now change your module's download settings\n        "
-          ),
+          _vm._v("\n        Tips:\n        "),
+          _c("ul", [
+            _c("li", [
+              _vm._v(
+                " You can change your modules arrangement by dragging your modules into a certain position. "
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _vm._v(
+                " You can now change your module's download settings on the publish settings. Click the "
+              ),
+              _c("b", [_vm._v("publish settings")]),
+              _vm._v(
+                " to change the module's download settings.\n                "
+              ),
+              _c("br"),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  attrs: {
+                    target: "_blank",
+                    href:
+                      "https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"
+                  }
+                },
+                [
+                  _c("img", {
+                    staticStyle: { height: "200px", width: "80%" },
+                    attrs: {
+                      src:
+                        "https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"
+                    }
+                  })
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
           _c("v-checkbox", {
             staticClass: "pa-0 mb-0",
             attrs: { label: "Don't show me again." },
@@ -39257,11 +39297,13 @@ var render = function() {
                                       [
                                         _c("v-list-item-title", [
                                           _vm._v(
-                                            _vm._s(
-                                              itemSubModule.type == "Document"
-                                                ? "Download"
-                                                : "Open in New tab"
-                                            )
+                                            "\n                                        " +
+                                              _vm._s(
+                                                itemSubModule.type == "Document"
+                                                  ? "Download"
+                                                  : "Open in New tab"
+                                              ) +
+                                              "\n                                    "
                                           )
                                         ])
                                       ],

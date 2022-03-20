@@ -5,15 +5,23 @@
 
 
         <v-alert v-model="tip" border="bottom" close-text="Close Alert" type="info" dismissible>
-            Tips: You can change your modules arrangement by dragging your modules into a certain position.
-            <br>
-            What's New? <br>
-            There is a new feature on publish settings where you can can now change your module's download settings
+            Tips:
+            <ul>
+                <li> You can change your modules arrangement by dragging your modules into a certain position. </li>
+                <li> You can now change your module's download settings on the publish settings. Click the <b>publish settings</b> to change the module's download settings.
+                    <br>
+                    <a target="_blank" href="https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png" >
+                <img style="height:200px; width: 80%" src="https://orangestr.sgp1.cdn.digitaloceanspaces.com/Assets/Assets/download.png"/>
+    </a>
+                </li>
+            </ul>
+
+
             <v-checkbox class="pa-0 mb-0" v-model="tipCheckBox" @change="showHandler()" label="Don't show me again.">
             </v-checkbox>
 
         </v-alert>
-        
+
         <v-expansion-panels focusable>
             <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
                 @end="isDragging = false" v-bind="dragOptions">
@@ -194,9 +202,10 @@
                                 </template>
                                 <v-list>
 
-                                    <v-list-item link
-                                        @click="downloadItemBtn(itemSubModule)">
-                                        <v-list-item-title>{{itemSubModule.type == 'Document' ? 'Download' : 'Open in New tab'}}</v-list-item-title>
+                                    <v-list-item link @click="downloadItemBtn(itemSubModule)">
+                                        <v-list-item-title>
+                                            {{itemSubModule.type == 'Document' ? 'Download' : 'Open in New tab'}}
+                                        </v-list-item-title>
 
                                     </v-list-item>
                                     <v-list-item link
@@ -671,7 +680,7 @@
             },
             showHandler() {
 
-                localStorage.setItem("tip_module_show", !this.tipCheckBox);
+                localStorage.setItem("tip_module_show_1", !this.tipCheckBox);
 
             },
             format_date(value, publish_format) {
@@ -854,10 +863,10 @@
             this.getdata();
             this.$emit('closeModuleDialog');
 
-            if (localStorage.getItem("tip_module_show") === null) {
+            if (localStorage.getItem("tip_module_show_1") === null) {
                 this.tip = true;
             } else {
-                this.tip = localStorage.getItem("tip_module_show") == true;
+                this.tip = localStorage.getItem("tip_module_show_1") == true;
             }
 
         },
