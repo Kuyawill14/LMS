@@ -635,5 +635,15 @@ class TeacherController extends Controller
         }
     }
 
+    public function AllowResubmit($id){
+        $Submission = tbl_Submission::find($id);
+        if( $Submission){
+            $Submission->status = 'Submitting';
+            $Submission->allow_resubmit = true;
+            $Submission->graded = false;
+            $Submission->points = 0;
+            $Submission->save();
+        }
+    }
     
 }

@@ -62,7 +62,7 @@
                                    </v-list-item-content>
                                      <v-list-item-action>
                                             <v-list-item-action-text>
-                                                <v-btn  @click="$emit('closeDialog')" small dark color="red" rounded >
+                                                <v-btn  @click="CheckBeforeClose()" small dark color="red" rounded >
                                                     <v-icon small>mdi-close</v-icon> Close
                                                 </v-btn>  
                                             </v-list-item-action-text>
@@ -88,9 +88,15 @@
                                              <v-row class="mb-0 pb-0">
                                                     <v-col cols="12" class="mb-0 pb-0">
                                                         <div class="d-flex mb-2 ">
-                                                            <v-btn :disabled="SubmittedLength == 1 || currentIndex == 0" icon @click="PrevStudent()">
-                                                                <v-icon>mdi-chevron-left</v-icon>
-                                                            </v-btn>
+                                                    
+                                                             <v-tooltip top>
+                                                                <template v-slot:activator="{ on, attrs }">
+                                                                    <v-btn v-bind="attrs" v-on="on" :disabled="SubmittedLength == 1 || currentIndex == 0" icon @click="PrevStudent()">
+                                                                        <v-icon>mdi-chevron-left</v-icon>
+                                                                    </v-btn>
+                                                                </template>
+                                                                <span>Previous Student</span>
+                                                            </v-tooltip>
                                                             <v-spacer></v-spacer>
                                                                <div class="text-center">
                                                                     <div class="font-weight-medium">
@@ -103,9 +109,16 @@
                                                                 </div>
                                                             <v-spacer></v-spacer>
 
-                                                            <v-btn :disabled="currentIndex == SubmittedLength-1" icon @click="NextStudent()">
-                                                                <v-icon>mdi-chevron-right</v-icon>
-                                                            </v-btn>
+                                                           
+
+                                                             <v-tooltip top>
+                                                            <template v-slot:activator="{ on, attrs }">
+                                                                <v-btn v-bind="attrs" v-on="on" :disabled="currentIndex == SubmittedLength-1" icon @click="NextStudent()">
+                                                                    <v-icon>mdi-chevron-right</v-icon>
+                                                                </v-btn>
+                                                            </template>
+                                                            <span>Next Student</span>
+                                                        </v-tooltip>
                                                         </div>
                                                         <v-divider></v-divider>
                                                     </v-col>
@@ -131,7 +144,8 @@
                                                        <!--  @keyup="validate" -->
                                                         <v-list-item-action style="max-width:250px !important"  class="mt-4">
                                                             <v-form style="width:160px !important" @submit.prevent="validate()" ref="pointsform" v-model="valid" lazy-validation>
-                                                                <v-text-field rounded 
+                                                                <v-text-field rounded
+                                                                @keyup="isPointChange = true"
                                                                 @focus="CheckData.points = CheckData.graded == 1 ? CheckData.points  : CheckData.points == null"
                                                                 :hide-details="valid"
                                                                 :loading="isSavingScore" 
@@ -430,6 +444,42 @@
             </v-bottom-navigation>
         </div>
            
+
+                <v-dialog v-model="nextConfirmDialog" persistent max-width="350">
+                    <v-card>
+                        <v-card-title class="text-h5">
+                        Save Score
+                        </v-card-title>
+                        <v-card-text>You have change's the score of the student, do you want to go to next studet and save the score?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                        <v-btn  color="secondary" dark @click="CheckData.points = checkDataOldPoints, isPointChange = false,  nextConfirmDialog = false, NextStudent()">
+                            No
+                        </v-btn>
+                        <v-btn color="green darken-1" dark  @click="validate()">
+                            Yes
+                        </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                 <v-dialog v-model="CloseConfirmDialog" persistent max-width="350">
+                    <v-card>
+                        <v-card-title class="text-h5">
+                        Save Score
+                        </v-card-title>
+                        <v-card-text>You have change's the score of the student, do you want save before close?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                        <v-btn  color="secondary" dark @click="CheckData.points = checkDataOldPoints, $emit('closeDialog'), isPointChange = false,  CloseConfirmDialog = false">
+                            No
+                        </v-btn>
+                        <v-btn color="green darken-1" dark  @click="validate()">
+                            Yes
+                        </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             
       </div>
 
@@ -493,6 +543,10 @@ const pdfviewer = () => import('./pdfviewer');
         rotation: 0,
         scale: 1,
         isLoaded: false,
+        isPointChange: false,
+        nextConfirmDialog: false,
+        CloseConfirmDialog: false,
+        checkDataOldPoints: null
 
       }
     },
@@ -500,6 +554,14 @@ const pdfviewer = () => import('./pdfviewer');
         ...mapGetters(['get_CurrentUser']),
     },
     methods:{
+        CheckBeforeClose(){
+            if(this.isPointChange){
+                this.CloseConfirmDialog = true;
+            }else{
+                this.$emit('closeDialog');
+                this.CheckData.points = this.checkDataOldPoints;
+            }
+        },
           CheckFileIcon(ext){
                 if(ext == 'jpg' ||  ext == 'jpeg' || ext == 'gif' ||  ext == 'svg' || ext == 'png' ||  ext == 'bmp'){
                 return 'mdi-image';
@@ -614,12 +676,20 @@ const pdfviewer = () => import('./pdfviewer');
                         this.isSavingScore = !this.isSavingScore;
                         this.CheckData.id = res.data.submission_id;
                         this.$emit('UpdateSubmission', this.CheckData.user_id);
+                        this.isPointChange = false;
                         
-
-                        if(this.currentIndex != this.SubmittedLength-1){
-                            //this.validate();
-                            this.NextStudent();
+                        if(this.CloseConfirmDialog){
+                            this.$emit('closeDialog');
+                            this.CloseConfirmDialog = false;
+                        }else{
+                             if(this.currentIndex != this.SubmittedLength-1){
+                                //this.validate();
+                                this.nextConfirmDialog = false;
+                                this.NextStudent();
+                            }
                         }
+
+                       
                     }
                 })
             }
@@ -630,11 +700,10 @@ const pdfviewer = () => import('./pdfviewer');
             
         },
         async MarkAsSubmitting(id){
-          await axios.put('/api/student/markAsSubmitting/'+id)
+          await axios.put('/api/teacher/allow_resubmit/'+id)
            .then(()=>{
                this.AllowResubmitDialog = false;
                this.$emit('markAsResubmit', this.CheckData.user_id);
-             //this.classworkDetails.status = 'Submitting';
            })
          },
         async alertStudent(){
@@ -787,12 +856,20 @@ const pdfviewer = () => import('./pdfviewer');
             })
         },
          async NextStudent(){
-             this.isLoaded = false;
-             this.isReloadRubrics = true;
-            this.path = null;
-            this.$emit("nextStudent");
 
-           setTimeout(() => (this.RegetSubmittedAnswer()),300);
+             if(!this.isPointChange){
+                this.isLoaded = false;
+                this.isReloadRubrics = true;
+                this.path = null;
+                this.$emit("nextStudent");
+                setTimeout(() => (this.RegetSubmittedAnswer()),300);
+             }else{
+                 this.nextConfirmDialog = true;
+                 //this.validate();
+             }
+            
+
+           
           },
           async PrevStudent(){
               this.isLoaded = false;
@@ -816,6 +893,7 @@ const pdfviewer = () => import('./pdfviewer');
                 this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
                 this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
                 this.CheckData.comments = res.data.comment;
+                this.checkDataOldPoints = this.CheckData.points;
                 this.isLoaded = true;
                 this.checkRubrics();
                 this.getFileExtension();
@@ -832,6 +910,7 @@ const pdfviewer = () => import('./pdfviewer');
                     this.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
                     this.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
                     this.CheckData.comments = res.data.comment;
+                    this.checkDataOldPoints = this.CheckData.points;
                     this.reRunRubrics();
                     this.isLoaded = true;
                     this.getFileExtension();
@@ -846,8 +925,6 @@ const pdfviewer = () => import('./pdfviewer');
 
             let path = this.CheckData.Submitted_Answers[0].link;
             let extension = this.CheckData.Submitted_Answers[0].fileExte;
-
-             console.log(extension);
              if(extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp'){
                  this.OpenFileExtension = extension;
                 this.OpenFileType = 'media';

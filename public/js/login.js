@@ -147,7 +147,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 var forgotPassword = function forgotPassword() {
   return __webpack_require__.e(/*! import() | forgot_password */ "forgot_password").then(__webpack_require__.bind(__webpack_require__, /*! ./forgot-password */ "./resources/js/components/login/forgot-password.vue"));
 };
@@ -359,6 +358,7 @@ Vue.use((vue_fb_customer_chat__WEBPACK_IMPORTED_MODULE_1___default()), {
   },
   mounted: function mounted() {
     $('#fb-root').css('display', 'block');
+    window.localStorage.removeItem('isConfirmedPassword');
   }
 });
 

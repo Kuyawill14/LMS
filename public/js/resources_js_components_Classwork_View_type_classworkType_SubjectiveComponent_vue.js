@@ -675,8 +675,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 var attachlinkDiaglog = function attachlinkDiaglog() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_Classwork_View_type_classworkType_dialog_attachLinkDialog_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./dialog/attachLinkDialog */ "./resources/js/components/Classwork_View/type/classworkType/dialog/attachLinkDialog.vue"));
 };
@@ -2799,11 +2797,7 @@ var render = function() {
                                                                       ),
                                                                       [
                                                                         _vm._v(
-                                                                          "\r\n                                    " +
-                                                                            _vm._s(
-                                                                              attrs.expanded
-                                                                            ) +
-                                                                            "\r\n                                      " +
+                                                                          "\r\n                                      " +
                                                                             _vm._s(
                                                                               _vm.isUploadSaving
                                                                                 ? "Uploading.."
@@ -2834,7 +2828,7 @@ var render = function() {
                                                             ],
                                                             null,
                                                             false,
-                                                            3526746852
+                                                            2279035836
                                                           )
                                                         },
                                                         [
@@ -2972,20 +2966,22 @@ var render = function() {
                                           _vm._v(" "),
                                           _vm.classworkDetails.availability == 1
                                             ? _c("div", [
-                                                !_vm.classworkDetails.graded &&
-                                                _vm.classworkDetails.publish ==
-                                                  null &&
-                                                (_vm.classworkDetails
-                                                  .availability == 1
-                                                  ? _vm.format_date1(
-                                                      _vm.classworkDetails
-                                                        .currentDate
-                                                    ) <=
-                                                    _vm.format_date1(
-                                                      _vm.classworkDetails
-                                                        .to_date
-                                                    )
-                                                  : true)
+                                                (!_vm.classworkDetails.graded &&
+                                                  _vm.classworkDetails
+                                                    .publish == null &&
+                                                  (_vm.classworkDetails
+                                                    .availability == 1
+                                                    ? _vm.format_date1(
+                                                        _vm.classworkDetails
+                                                          .currentDate
+                                                      ) <=
+                                                      _vm.format_date1(
+                                                        _vm.classworkDetails
+                                                          .to_date
+                                                      )
+                                                    : true)) ||
+                                                _vm.classworkDetails
+                                                  .allow_resubmit == 1
                                                   ? _c(
                                                       "div",
                                                       [

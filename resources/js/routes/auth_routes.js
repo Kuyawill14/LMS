@@ -17,6 +17,23 @@ const routes = [
         },
     },
 
+    
+    {
+        path: '/admin-login',
+        component: () =>
+        import ("../components/login/AdminLoginPage"),
+        name: "admin_login",
+       /*  beforeEnter: (to, form, next) => {
+            if (!store.state.CurrentUser.IsAuthenticated) {
+                next()
+            } else {
+                return next({
+                    path: "/"
+                });
+            }
+        }, */
+    },
+
     {
         path: "/register",
         component: () =>

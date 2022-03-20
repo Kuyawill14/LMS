@@ -257,7 +257,7 @@
                                       v-bind="attrs"
                                       v-on="on"
                                     >
-                                    {{attrs.expanded}}
+                                  <!--   {{attrs.expanded}} -->
                                       {{isUploadSaving ? 'Uploading..' : 'Add'}} <v-icon right>mdi-plus</v-icon>
                                     </v-btn>
                                   </template>
@@ -275,7 +275,7 @@
                                 </v-menu>
                              </div>
                              <div v-if="classworkDetails.availability == 1">
-                               <div v-if="!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)">
+                               <div v-if="(!classworkDetails.graded && classworkDetails.publish == null &&  (classworkDetails.availability == 1 ? format_date1(classworkDetails.currentDate) <= format_date1(classworkDetails.to_date): true)) || classworkDetails.allow_resubmit == 1">
                                   <v-menu max-width="250" v-if="isResubmit || (classworkDetails.status == 'Submitting' || classworkDetails.status == null)" transition="scale-transition" offset-y>
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
@@ -577,8 +577,6 @@
                     </v-col>
                 </v-row>
           </v-card>
-               
-           
         </v-col>
       
     </v-row>

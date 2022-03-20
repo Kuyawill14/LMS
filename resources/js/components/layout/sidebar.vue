@@ -94,7 +94,7 @@
                     v-if="navBarType != 'selectedCourse'  && (role == 'Student' || role == 'Teacher')"> </mainNavbar>
                 <courseNavbar :role="role"
                     v-if="navBarType == 'selectedCourse'&& (role == 'Student' || role == 'Teacher') "> </courseNavbar>
-                <adminNavbar :role="role" v-if="role == 'Admin'"> </adminNavbar>
+                <adminNavbar :role="role" v-if="role == 'Administrator'"> </adminNavbar>
                 <programChairNavbar :role="role" v-if="role == 'ProgramChair'"></programChairNavbar>
                 <campusDirectorNavbar :role="role" v-if="role == 'CampusDirector'"></campusDirectorNavbar>
             </v-navigation-drawer>
@@ -175,17 +175,44 @@
                 })
             },
             logout() {
-                this.$store.dispatch('clearClassesNames');
-                this.isLogout = true;
-                axios.post('/api/logout')
-                    .then(() => {
-                        this.clear_current_user();
-                        this.$router.push({
-                            path: "/login"
+
+                 this.$store.dispatch('clearClassesNames');
+                    this.isLogout = true;
+                    axios.post('/api/logout')
+                        .then(() => {
+                            this.clear_current_user();
+                            this.$router.push({
+                                name: "login"
+                            })
                         })
-                    })
-                    .catch((e) => {
-                    })
+                        .catch((e) => {
+                        })
+               /*  if(this.role == 'Administrator'){
+                    this.isLogout = true;
+                    axios.post('/api/logout')
+                        .then(() => {
+                            this.clear_current_user();
+                            this.$router.push({
+                                name: "admin_login"
+                            })
+                        })
+                        .catch((e) => {
+                        })
+                }else{
+                    this.$store.dispatch('clearClassesNames');
+                    this.isLogout = true;
+                    axios.post('/api/logout')
+                        .then(() => {
+                            this.clear_current_user();
+                            this.$router.push({
+                                name: "login"
+                            })
+                        })
+                        .catch((e) => {
+                        })
+                } */
+
+               
             },
         },
         mounted() {

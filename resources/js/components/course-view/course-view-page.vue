@@ -81,6 +81,7 @@
                 </v-card-title>
                 <v-card-subtitle class="white--text">Faculty Name: {{getcourseInfo.name}}
 
+
                     <br v-if="getcourseInfo.v_classroom_link != null && getcourseInfo.v_classroom_link != ''">
                {{role == 'Student' ? 'Virtual Meeting Links' : ''}}
 

@@ -228,6 +228,7 @@ Route::middleware('auth:sanctum')->prefix('/teacher')->group(function () {
     Route::delete('/reject_student_join_request/{id}', [TeacherController::class, 'rejectJoinRequest']);
     Route::put('/multiple_reject_student_join_request', [TeacherController::class, 'MultiplerejectJoinRequest']);
     
+    Route::put('/allow_resubmit/{id}', [TeacherController::class, 'AllowResubmit']);
     
 });
 
@@ -509,6 +510,10 @@ Route::prefix('/course/overview')->group(function() {
 //Route::get('/GetDetails', [AuthController::class, 'GetDetails']);
 Route::post('/login', [AuthController::class, 'UserLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::post('/check_password', [AuthController::class, 'CheckAdmin']);
+Route::post('/admin_Login', [AuthController::class, 'AdminLogin']);
+
 //Route::post('/register', [AuthController::class, 'UserRegister']);
 
 Route::prefix('/register')->group(function() {

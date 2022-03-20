@@ -465,6 +465,56 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -524,11 +574,23 @@ var pdfviewer = function pdfviewer() {
       info: true,
       rotation: 0,
       scale: 1,
-      isLoaded: false
+      isLoaded: false,
+      isPointChange: false,
+      nextConfirmDialog: false,
+      CloseConfirmDialog: false,
+      checkDataOldPoints: null
     };
   },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['get_CurrentUser'])),
   methods: {
+    CheckBeforeClose: function CheckBeforeClose() {
+      if (this.isPointChange) {
+        this.CloseConfirmDialog = true;
+      } else {
+        this.$emit('closeDialog');
+        this.CheckData.points = this.checkDataOldPoints;
+      }
+    },
     CheckFileIcon: function CheckFileIcon(ext) {
       if (ext == 'jpg' || ext == 'jpeg' || ext == 'gif' || ext == 'svg' || ext == 'png' || ext == 'bmp') {
         return 'mdi-image';
@@ -646,9 +708,19 @@ var pdfviewer = function pdfviewer() {
 
                     _this2.$emit('UpdateSubmission', _this2.CheckData.user_id);
 
-                    if (_this2.currentIndex != _this2.SubmittedLength - 1) {
-                      //this.validate();
-                      _this2.NextStudent();
+                    _this2.isPointChange = false;
+
+                    if (_this2.CloseConfirmDialog) {
+                      _this2.$emit('closeDialog');
+
+                      _this2.CloseConfirmDialog = false;
+                    } else {
+                      if (_this2.currentIndex != _this2.SubmittedLength - 1) {
+                        //this.validate();
+                        _this2.nextConfirmDialog = false;
+
+                        _this2.NextStudent();
+                      }
                     }
                   }
                 });
@@ -679,11 +751,10 @@ var pdfviewer = function pdfviewer() {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return axios.put('/api/student/markAsSubmitting/' + id).then(function () {
+                return axios.put('/api/teacher/allow_resubmit/' + id).then(function () {
                   _this3.AllowResubmitDialog = false;
 
-                  _this3.$emit('markAsResubmit', _this3.CheckData.user_id); //this.classworkDetails.status = 'Submitting';
-
+                  _this3.$emit('markAsResubmit', _this3.CheckData.user_id);
                 });
 
               case 2:
@@ -946,17 +1017,21 @@ var pdfviewer = function pdfviewer() {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this12.isLoaded = false;
-                _this12.isReloadRubrics = true;
-                _this12.path = null;
+                if (!_this12.isPointChange) {
+                  _this12.isLoaded = false;
+                  _this12.isReloadRubrics = true;
+                  _this12.path = null;
 
-                _this12.$emit("nextStudent");
+                  _this12.$emit("nextStudent");
 
-                setTimeout(function () {
-                  return _this12.RegetSubmittedAnswer();
-                }, 300);
+                  setTimeout(function () {
+                    return _this12.RegetSubmittedAnswer();
+                  }, 300);
+                } else {
+                  _this12.nextConfirmDialog = true; //this.validate();
+                }
 
-              case 5:
+              case 1:
               case "end":
                 return _context8.stop();
             }
@@ -1010,6 +1085,7 @@ var pdfviewer = function pdfviewer() {
                   _this14.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
                   _this14.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
                   _this14.CheckData.comments = res.data.comment;
+                  _this14.checkDataOldPoints = _this14.CheckData.points;
                   _this14.isLoaded = true;
 
                   _this14.checkRubrics();
@@ -1047,6 +1123,7 @@ var pdfviewer = function pdfviewer() {
                   _this15.CheckData.Submitted_Answers = res.data.submitted_answer.Submitted_Answers;
                   _this15.CheckData.rubrics_score = res.data.submitted_answer.rubrics_score;
                   _this15.CheckData.comments = res.data.comment;
+                  _this15.checkDataOldPoints = _this15.CheckData.points;
 
                   _this15.reRunRubrics();
 
@@ -1083,7 +1160,6 @@ var pdfviewer = function pdfviewer() {
               case 0:
                 path = _this16.CheckData.Submitted_Answers[0].link;
                 extension = _this16.CheckData.Submitted_Answers[0].fileExte;
-                console.log(extension);
 
                 if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'bmp') {
                   _this16.OpenFileExtension = extension;
@@ -1123,7 +1199,7 @@ var pdfviewer = function pdfviewer() {
                   _this16.isOpening = false;
                 }
 
-              case 4:
+              case 3:
               case "end":
                 return _context12.stop();
             }
@@ -1637,7 +1713,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          return _vm.$emit("closeDialog")
+                                          return _vm.CheckBeforeClose()
                                         }
                                       }
                                     },
@@ -1757,31 +1833,66 @@ var render = function() {
                                                 { staticClass: "d-flex mb-2 " },
                                                 [
                                                   _c(
-                                                    "v-btn",
+                                                    "v-tooltip",
                                                     {
-                                                      attrs: {
-                                                        disabled:
-                                                          _vm.SubmittedLength ==
-                                                            1 ||
-                                                          _vm.currentIndex == 0,
-                                                        icon: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.PrevStudent()
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u([
+                                                        {
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _c(
+                                                                "v-btn",
+                                                                _vm._g(
+                                                                  _vm._b(
+                                                                    {
+                                                                      attrs: {
+                                                                        disabled:
+                                                                          _vm.SubmittedLength ==
+                                                                            1 ||
+                                                                          _vm.currentIndex ==
+                                                                            0,
+                                                                        icon: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.PrevStudent()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    "v-btn",
+                                                                    attrs,
+                                                                    false
+                                                                  ),
+                                                                  on
+                                                                ),
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "mdi-chevron-left"
+                                                                    )
+                                                                  ])
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          }
                                                         }
-                                                      }
+                                                      ])
                                                     },
                                                     [
-                                                      _c("v-icon", [
+                                                      _vm._v(" "),
+                                                      _c("span", [
                                                         _vm._v(
-                                                          "mdi-chevron-left"
+                                                          "Previous Student"
                                                         )
                                                       ])
-                                                    ],
-                                                    1
+                                                    ]
                                                   ),
                                                   _vm._v(" "),
                                                   _c("v-spacer"),
@@ -1831,31 +1942,63 @@ var render = function() {
                                                   _c("v-spacer"),
                                                   _vm._v(" "),
                                                   _c(
-                                                    "v-btn",
+                                                    "v-tooltip",
                                                     {
-                                                      attrs: {
-                                                        disabled:
-                                                          _vm.currentIndex ==
-                                                          _vm.SubmittedLength -
-                                                            1,
-                                                        icon: ""
-                                                      },
-                                                      on: {
-                                                        click: function(
-                                                          $event
-                                                        ) {
-                                                          return _vm.NextStudent()
+                                                      attrs: { top: "" },
+                                                      scopedSlots: _vm._u([
+                                                        {
+                                                          key: "activator",
+                                                          fn: function(ref) {
+                                                            var on = ref.on
+                                                            var attrs =
+                                                              ref.attrs
+                                                            return [
+                                                              _c(
+                                                                "v-btn",
+                                                                _vm._g(
+                                                                  _vm._b(
+                                                                    {
+                                                                      attrs: {
+                                                                        disabled:
+                                                                          _vm.currentIndex ==
+                                                                          _vm.SubmittedLength -
+                                                                            1,
+                                                                        icon: ""
+                                                                      },
+                                                                      on: {
+                                                                        click: function(
+                                                                          $event
+                                                                        ) {
+                                                                          return _vm.NextStudent()
+                                                                        }
+                                                                      }
+                                                                    },
+                                                                    "v-btn",
+                                                                    attrs,
+                                                                    false
+                                                                  ),
+                                                                  on
+                                                                ),
+                                                                [
+                                                                  _c("v-icon", [
+                                                                    _vm._v(
+                                                                      "mdi-chevron-right"
+                                                                    )
+                                                                  ])
+                                                                ],
+                                                                1
+                                                              )
+                                                            ]
+                                                          }
                                                         }
-                                                      }
+                                                      ])
                                                     },
                                                     [
-                                                      _c("v-icon", [
-                                                        _vm._v(
-                                                          "mdi-chevron-right"
-                                                        )
+                                                      _vm._v(" "),
+                                                      _c("span", [
+                                                        _vm._v("Next Student")
                                                       ])
-                                                    ],
-                                                    1
+                                                    ]
                                                   )
                                                 ],
                                                 1
@@ -2108,6 +2251,11 @@ var render = function() {
                                                           min: "0"
                                                         },
                                                         on: {
+                                                          keyup: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.isPointChange = true
+                                                          },
                                                           focus: function(
                                                             $event
                                                           ) {
@@ -3682,6 +3830,144 @@ var render = function() {
                 1
               )
             : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "350" },
+          model: {
+            value: _vm.nextConfirmDialog,
+            callback: function($$v) {
+              _vm.nextConfirmDialog = $$v
+            },
+            expression: "nextConfirmDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "text-h5" }, [
+                _vm._v("\n                  Save Score\n                  ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "You have change's the score of the student, do you want to go to next studet and save the score?"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "secondary", dark: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.CheckData.points = _vm.checkDataOldPoints),
+                            (_vm.isPointChange = false),
+                            (_vm.nextConfirmDialog = false),
+                            _vm.NextStudent()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      No\n                  ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", dark: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.validate()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      Yes\n                  ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "350" },
+          model: {
+            value: _vm.CloseConfirmDialog,
+            callback: function($$v) {
+              _vm.CloseConfirmDialog = $$v
+            },
+            expression: "CloseConfirmDialog"
+          }
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "text-h5" }, [
+                _vm._v("\n                  Save Score\n                  ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "You have change's the score of the student, do you want save before close?"
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "secondary", dark: "" },
+                      on: {
+                        click: function($event) {
+                          ;(_vm.CheckData.points = _vm.checkDataOldPoints),
+                            _vm.$emit("closeDialog"),
+                            (_vm.isPointChange = false),
+                            (_vm.CloseConfirmDialog = false)
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      No\n                  ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", dark: "" },
+                      on: {
+                        click: function($event) {
+                          return _vm.validate()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                      Yes\n                  ")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
         1
       )

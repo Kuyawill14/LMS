@@ -366,6 +366,7 @@ class StudentController extends Controller
         $SubmitSubj = tbl_Submission::find($id);
         if($SubmitSubj){
             $SubmitSubj->status = "Submitted";
+            $SubmitSubj->allow_resubmit = false;
             $SubmitSubj->submitted_at = date('Y-m-d H:i:s');
             $SubmitSubj->save();
 

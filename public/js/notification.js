@@ -8443,7 +8443,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.get_UserRole == "Admin" ? _c("adminNotification") : _vm._e(),
+      _vm.get_UserRole == "Administrator" ? _c("adminNotification") : _vm._e(),
       _vm._v(" "),
       _vm.get_UserRole == "Teacher" || _vm.get_UserRole == "Student"
         ? _c("teacherstudentNotification", {

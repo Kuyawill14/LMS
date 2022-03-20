@@ -2230,7 +2230,7 @@ router.beforeEach(function (to, from, next) {
   nprogress__WEBPACK_IMPORTED_MODULE_0___default().start();
   var protectedRoutes = ['studentGradebook', 'gradebook', 'mystudentProgress', 'studentProgress', 'gradingCriteria', 'settings', 'about', 'Student-list', 'modules-preview', 'student-modules', 'classwork', 'announcement', 'courseSetup', 'modules', 'classses', 'clwk', 'add-question', 'submission-list', 'question-analytics', 'publish-to'];
 
-  if (to.name != 'login' && to.name != 'register' && to.name != 'resetPassword' && to.name != 'verifyEmail') {
+  if (to.name != 'login' && to.name != 'register' && to.name != 'resetPassword' && to.name != 'verifyEmail' && to.name != 'admin_login') {
     _store_store__WEBPACK_IMPORTED_MODULE_2__.default.dispatch('IsAuthenticated').then(function (res) {
       if (_store_store__WEBPACK_IMPORTED_MODULE_2__.default.state.CurrentUser.IsAuthenticated == true) {
         if (protectedRoutes.includes(to.name)) {
@@ -2335,7 +2335,7 @@ var routes = [{
   },
   name: "manageProgramChair",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2347,7 +2347,7 @@ var routes = [{
   },
   name: "manageteachers",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2359,7 +2359,7 @@ var routes = [{
   },
   name: "managestudents",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2371,7 +2371,7 @@ var routes = [{
   },
   name: "manageCampusDirector",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2383,7 +2383,7 @@ var routes = [{
   },
   name: "manageSecurityGuard",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2395,7 +2395,7 @@ var routes = [{
   },
   name: "schoolyear_semester",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2407,7 +2407,7 @@ var routes = [{
   },
   name: "manage_departments",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
@@ -2419,11 +2419,23 @@ var routes = [{
     return __webpack_require__.e(/*! import() */ "resources_js_components_vaccine_vaccineComponents-upload_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/vaccine/vaccineComponents-upload */ "./resources/js/components/vaccine/vaccineComponents-upload.vue"));
   },
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/',
       replace: true
     });
   }
+}, {
+  path: '/admin/login',
+  name: "admin-login",
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_login_AdminLoginPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/login/AdminLoginPage */ "./resources/js/components/login/AdminLoginPage.vue"));
+  }
+  /*   beforeEnter: (to, from, next) => {
+        if (store.state.CurrentUser.UserRole == 'Administrator') next()
+        else next({ path: '/', replace: true })
+    }
+  */
+
 }];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (routes);
 
@@ -2479,6 +2491,22 @@ var routes = [{
       });
     }
   }
+}, {
+  path: '/admin-login',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_login_AdminLoginPage_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../components/login/AdminLoginPage */ "./resources/js/components/login/AdminLoginPage.vue"));
+  },
+  name: "admin_login"
+  /*  beforeEnter: (to, form, next) => {
+       if (!store.state.CurrentUser.IsAuthenticated) {
+           next()
+       } else {
+           return next({
+               path: "/"
+           });
+       }
+   }, */
+
 }, {
   path: "/register",
   component: function component() {
@@ -3205,7 +3233,7 @@ var routes = [{
     },
     name: "monitorTeacher_id",
     beforeEnter: function beforeEnter(to, from, next) {
-      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+      if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
         path: '/page-access-denied',
         replace: true
       });
@@ -3218,7 +3246,7 @@ var routes = [{
   },
   name: "program_chair-announcement",
   beforeEnter: function beforeEnter(to, from, next) {
-    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Admin') next();else next({
+    if (_store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'ProgramChair' || _store_store__WEBPACK_IMPORTED_MODULE_0__.default.state.CurrentUser.UserRole == 'Administrator') next();else next({
       path: '/page-access-denied',
       replace: true
     });
