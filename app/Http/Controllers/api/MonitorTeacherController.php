@@ -37,58 +37,182 @@ class MonitorTeacherController extends Controller
     public function getAllTeacherSummarryData(Request $request) {
 
 
-    $school_year_id = $request->school_year_id;
-    $semester_id = $request->semester_id;
-    $department_id  =  $request->department_id;
-    $department_id_query = $department_id != null ? ['tbl_user_departments.department_id' =>  $department_id] : [] ;
+    // $school_year_id = $request->school_year_id;
+    // $semester_id = $request->semester_id;
+    // $department_id  =  $request->department_id;
+    // $department_id_query = $department_id != null ? ['tbl_user_departments.department_id' =>  $department_id] : [] ;
 
 
 
-    $inFilter = $this->filterAllSummarry($school_year_id, $semester_id) ;
+    // $inFilter = $this->filterAllSummarry($school_year_id, $semester_id) ;
 
 
-    $filetr_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
+    // $filetr_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
     
-    $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses 
-    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_teacher_courses.course_id 
-    WHERE user_id = users.id AND tbl_teacher_courses.course_id = tbl_subject_courses.id AND tbl_teacher_courses.deleted_at IS NULL
-     '. $inFilter .') AS course_count';
+    // $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses 
+    // LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_teacher_courses.course_id 
+    // WHERE user_id = users.id AND tbl_teacher_courses.course_id = tbl_subject_courses.id AND tbl_teacher_courses.deleted_at IS NULL
+    //  '. $inFilter .') AS course_count';
    
-    $class_count = '(SELECT COUNT(*) FROM tbl_userclasses
-    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_userclasses.course_id
-    WHERE user_id = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id  AND tbl_userclasses.deleted_at IS NULL
-     '. $inFilter.') AS class_count';
+    // $class_count = '(SELECT COUNT(*) FROM tbl_userclasses
+    // LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_userclasses.course_id
+    // WHERE user_id = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id  AND tbl_userclasses.deleted_at IS NULL
+    //  '. $inFilter.') AS class_count';
    
-    $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks
-    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_classworks.course_id
-    WHERE user_id = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id
-     '. $inFilter.' ) AS classwork_count';
+    // $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks
+    // LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_classworks.course_id
+    // WHERE user_id = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id
+    //  '. $inFilter.' ) AS classwork_count';
 
 
-    $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
-    LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_main_modules.course_id
-    LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id
-    WHERE tbl_main_modules.created_by = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id
-     '. $inFilter.'
-    ) AS sub_modules_count';
+    // $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
+    // LEFT JOIN tbl_subject_courses on tbl_subject_courses.id = tbl_main_modules.course_id
+    // LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id
+    // WHERE tbl_main_modules.created_by = users.id  AND tbl_teacher_courses.course_id = tbl_subject_courses.id
+    //  '. $inFilter.'
+    // ) AS sub_modules_count';
  
  
-    $teachers = DB::table('users')
-    ->select('users.id as user_id','users.role','tbl_user_details.firstName','tbl_user_details.middleName','tbl_user_details.lastName','users.email')
-    ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
-    ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.user_id','=','users.id')
-    ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_teacher_courses.course_id')
-    ->leftjoin('tbl_user_departments', 'tbl_user_departments.user_id','=','users.id')
-    ->where($department_id_query)
-    ->selectRaw( $course_count)
-    ->selectRaw( $class_count)
-    ->selectRaw( $classwork_count)
-    ->selectRaw( $sub_module_count)
-    ->where('role','Teacher')
-    ->whereNull("tbl_teacher_courses.deleted_at")
-    ->groupBy('users.id')
-    ->get();
-        return $teachers;
+    // $teachers = DB::table('users')
+    // ->select('users.id as user_id','users.role','tbl_user_details.firstName','tbl_user_details.middleName','tbl_user_details.lastName','users.email')
+    // ->leftjoin('tbl_user_details', 'tbl_user_details.user_id','=','users.id')
+    // ->leftjoin('tbl_teacher_courses', 'tbl_teacher_courses.user_id','=','users.id')
+    // ->leftjoin('tbl_subject_courses', 'tbl_subject_courses.id','=','tbl_teacher_courses.course_id')
+    // ->leftjoin('tbl_user_departments', 'tbl_user_departments.user_id','=','users.id')
+    // ->where($department_id_query)
+    // ->selectRaw( $course_count)
+    // ->selectRaw( $class_count)
+    // ->selectRaw( $classwork_count)
+    // ->selectRaw( $sub_module_count)
+    // ->where('role','Teacher')
+    // ->whereNull("tbl_teacher_courses.deleted_at")
+    // ->groupBy('users.id')
+    // ->get();
+    //     return $teachers;
+
+        $department_id  =  $request->department_id;
+        $department_id_query = $department_id != null ? ['tbl_user_departments.department_id' =>  $department_id] : [] ;
+
+        // $userId = $request->teacher_id;
+        $school_year_id = $request->school_year_id;
+        $semester_id = $request->semester_id;
+        $filter_query = $this->filterSchoolyearSemester($school_year_id, $semester_id);
+        
+     
+
+
+
+                    
+         
+
+        //select all users
+        //check if the user's role is a teacher
+        //left join tbl_user_departments
+        //check if the uses's department from payload
+        //get
+
+
+            $allTeacherbyDeapartments = user::select(
+                'firstName',
+                'middleName',
+                'lastName',
+                'users.id as user_id'
+                )
+                ->leftJoin('tbl_user_departments', 'tbl_user_departments.user_id', '=', 'users.id')
+                ->leftJoin('tbl_user_details','tbl_user_details.user_id', '=', 'users.id')
+                ->where('users.role','Teacher')
+                ->where('tbl_user_departments.department_id', $department_id)
+                ->get();
+
+
+            foreach($allTeacherbyDeapartments as $teacher) {
+                $userId = $teacher['user_id'];
+
+                $course_count = '(SELECT COUNT(*) FROM tbl_teacher_courses WHERE user_id =  '.$userId.' and  course_id = tbl_teacher_courses.course_id ) AS course_count';
+                $class_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE user_id = '.$userId.' and  course_id = tbl_teacher_courses.course_id) AS total_classes';
+                $classwork_count = '(SELECT COUNT(*) FROM tbl_classworks WHERE user_id = '.$userId.' and  course_id = tbl_teacher_courses.course_id) AS total_classworks';
+                $sub_module_count = '(SELECT COUNT(*) FROM tbl_main_modules 
+                LEFT JOIN tbl_sub_modules ON  tbl_main_modules.id = tbl_sub_modules.main_module_id WHERE tbl_main_modules.created_by = '.$userId.' and  course_id = tbl_teacher_courses.course_id) AS sub_modules_count';
+              /*   $student_count = '(SELECT COUNT(*) FROM tbl_userclasses WHERE  course_id = tbl_teacher_courses.course_id ) AS total_students'; */
+    
+    
+
+
+
+
+                $teacher_course_list =   tbl_subject_course::select('tbl_subject_courses.id as course_id')
+                ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
+                ->where('tbl_teacher_courses.user_id',$userId)
+                ->where($filter_query)
+                ->get();
+    
+
+
+    
+                $allCourses = [];
+    
+    
+                foreach( $teacher_course_list as $course) {
+                    $tmp = tbl_subject_course::select('tbl_subject_courses.course_name',
+                    'tbl_subject_courses.course_code',
+                    'tbl_subject_courses.id as course_id',
+                    'tbl_subject_courses.school_year_id',
+                    'tbl_subject_courses.semester_id'
+                    )
+                    ->selectRaw($class_count)
+                    ->selectRaw($classwork_count)
+                    ->selectRaw($sub_module_count)
+        
+                    ->leftJoin('tbl_teacher_courses','tbl_teacher_courses.course_id','=','tbl_subject_courses.id')
+                    ->where('tbl_teacher_courses.user_id',$userId)
+                    ->where($filter_query)
+                    ->where('tbl_teacher_courses.id',$course->course_id)
+                    ->get();
+                    $allCourses[] = $tmp[0];
+                }
+    
+                $counter = 0;
+                $overview = [
+                    'total_courses' => 0,
+                    'total_students' => 0,
+                    'total_classes'  => 0,
+                    'total_classwork'=> 0,
+                    'total_modules'  => 0,
+                ];
+                foreach($allCourses as $item){
+                    $counter ++;
+                    $StudentCount = tbl_userclass::where('tbl_userclasses.course_id', $item->course_id)
+                    ->leftJoin('users','users.id','=','tbl_userclasses.user_id')
+                    ->where('users.role','Student')
+                    ->count();
+                        
+                    $item->total_students = $StudentCount;
+                   
+    
+               
+                    $overview['total_students'] +=   $item->total_students;
+    
+                    $overview['total_courses'] =    $counter ;
+                    $overview['total_classes'] +=  $item->total_classes;
+                    $overview['total_classwork'] +=  $item->total_classworks;
+                    $overview['total_modules'] +=  $item->sub_modules_count;
+                }
+
+
+                $teacher['overview'] = $overview;
+
+    
+    
+           
+    
+    
+    
+            }
+
+           return $allTeacherbyDeapartments;
+
+            return ['overview' => $overview, 'courses' => $allCourses , ];    
+
     }
 
 

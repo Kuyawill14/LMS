@@ -169,6 +169,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (res) {
         if (res.status == 200) {
           _this4.teacherSummary = res.data;
+          _this4.teacherSummary['overview'] = res.data.overview;
           console.log(res.data);
         } else {
           _this4.toastError('Oops! Something went wrong, please reload the page');
@@ -442,19 +443,10 @@ var render = function() {
                                                 [
                                                   _vm._v(
                                                     " " +
-                                                      _vm._s(item.course_count)
-                                                  )
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "td",
-                                                { staticClass: "text-center" },
-                                                [
-                                                  _vm._v(
-                                                    " " +
-                                                      _vm._s(item.class_count) +
-                                                      " "
+                                                      _vm._s(
+                                                        item.overview
+                                                          .total_courses
+                                                      )
                                                   )
                                                 ]
                                               ),
@@ -466,7 +458,8 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.sub_modules_count
+                                                        item.overview
+                                                          .total_classes
                                                       ) +
                                                       " "
                                                   )
@@ -480,7 +473,23 @@ var render = function() {
                                                   _vm._v(
                                                     " " +
                                                       _vm._s(
-                                                        item.classwork_count
+                                                        item.overview
+                                                          .total_modules
+                                                      ) +
+                                                      " "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "td",
+                                                { staticClass: "text-center" },
+                                                [
+                                                  _vm._v(
+                                                    " " +
+                                                      _vm._s(
+                                                        item.overview
+                                                          .total_classwork
                                                       ) +
                                                       " "
                                                   )
@@ -543,7 +552,7 @@ var render = function() {
                               ],
                               null,
                               false,
-                              108272918
+                              953689320
                             )
                           })
                         : _vm._e()

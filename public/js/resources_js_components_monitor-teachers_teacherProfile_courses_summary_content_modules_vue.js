@@ -107,14 +107,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['course_details'],
   data: function data() {
     return {
-      docpath: window.location.origin + '/storage/',
+      docpath: '',
       moduleName: '',
       isEdit: false,
       itemType: '',
@@ -8775,7 +8774,7 @@ var render = function() {
                             _vm._v(
                               "\n                        " +
                                 _vm._s(itemModule.module_name) +
-                                "\n\n                    "
+                                "\n                    "
                             )
                           ],
                           1

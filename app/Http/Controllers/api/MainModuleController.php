@@ -159,7 +159,7 @@ public function countSubmoduleOnMainModule($id ) {
         if($mainModule){
             // return $request->publishSettings;
             $mainModule->isPublished = $request->publishSettings['isPublished'];
-            // $mainModule->allow_download = $request->download_settings;
+            $mainModule->allow_download = $request->download_settings;
           
                 $mainModule->date_to =$request->publishSettings['date_to'];
                 $mainModule->date_from =$request->publishSettings['date_from'];

@@ -44,7 +44,6 @@
                                 mdi-folder
                             </v-icon>
                             {{itemModule.module_name}}
-
                         </span>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content class="pa-0">
@@ -88,7 +87,7 @@
         props: ['course_details'],
         data() {
             return {
-                docpath: window.location.origin + '/storage/',
+                docpath: '',
                 moduleName: '',
                 isEdit: false,
                 itemType: '',

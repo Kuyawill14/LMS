@@ -1551,6 +1551,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1846,14 +1854,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.itemType = 'add_link';
     },
     editItemBtn: function editItemBtn(itemModule, sub_module_id, type, isPublished) {
-      if (isPublished == 1) {
-        this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
-      } else {
-        this.pass_submodule = itemModule;
-        this.itemDialog = !this.itemDialog;
-        this.sub_module_id = sub_module_id;
-        this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
-      }
+      // if (isPublished == 1) {
+      //     this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
+      // } else {
+      //     this.pass_submodule = itemModule;
+      //     this.itemDialog = !this.itemDialog;
+      //     this.sub_module_id = sub_module_id;
+      //     this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+      // }
+      this.pass_submodule = itemModule;
+      this.itemDialog = !this.itemDialog;
+      this.sub_module_id = sub_module_id;
+      this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+    },
+    downloadItemBtn: function downloadItemBtn(itemModule) {
+      window.open(itemModule.type == 'Document' ? itemModule.file_attachment : itemModule.link);
     },
     classworkBtn: function classworkBtn() {
       $('#itemTypeModal').modal('hide');
@@ -38452,7 +38467,13 @@ var render = function() {
         },
         [
           _vm._v(
-            "\n        Tips: You can change your modules arrangement by dragging your modules into a certain position.\n\n        "
+            "\n        Tips: You can change your modules arrangement by dragging your modules into a certain position.\n        "
+          ),
+          _c("br"),
+          _vm._v("\n        What's New? "),
+          _c("br"),
+          _vm._v(
+            "\n        There is a new feature on publish settings where you can can now change your module's download settings\n        "
           ),
           _c("v-checkbox", {
             staticClass: "pa-0 mb-0",
@@ -39227,6 +39248,32 @@ var render = function() {
                                         attrs: { link: "" },
                                         on: {
                                           click: function($event) {
+                                            return _vm.downloadItemBtn(
+                                              itemSubModule
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("v-list-item-title", [
+                                          _vm._v(
+                                            _vm._s(
+                                              itemSubModule.type == "Document"
+                                                ? "Download"
+                                                : "Open in New tab"
+                                            )
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-list-item",
+                                      {
+                                        attrs: { link: "" },
+                                        on: {
+                                          click: function($event) {
                                             return _vm.editItemBtn(
                                               itemSubModule,
                                               itemSubModule.id,
@@ -39849,6 +39896,52 @@ var render = function() {
                                 1
                               )
                             ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.availability != "Unpublish"
+                    ? _c(
+                        "v-col",
+                        [
+                          _vm._v(
+                            "\n                    Download Settings\n                    "
+                          ),
+                          _c(
+                            "v-radio-group",
+                            {
+                              staticClass: "ml-2 mt-0 pt-0 mb-0 pb-0",
+                              attrs: { "hide-details": "" },
+                              model: {
+                                value: _vm.download_availability,
+                                callback: function($$v) {
+                                  _vm.download_availability = $$v
+                                },
+                                expression: "download_availability"
+                              }
+                            },
+                            _vm._l(_vm.radioDownloadAvailability, function(
+                              n,
+                              index
+                            ) {
+                              return _c("v-radio", {
+                                key: index,
+                                attrs: {
+                                  label: _vm.radioDownloadAvailability[index],
+                                  value: _vm.radioDownloadAvailability[index]
+                                },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.download_settingsSelection(
+                                      _vm.radioDownloadAvailability[index]
+                                    )
+                                  }
+                                }
+                              })
+                            }),
                             1
                           )
                         ],

@@ -191,6 +191,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var pdfviewer = function pdfviewer() {
   return __webpack_require__.e(/*! import() */ "resources_js_components_course-view_tabs_modules-tab_user-type_pdfview_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pdfview */ "./resources/js/components/course-view/tabs/modules-tab/user-type/pdfview.vue"));
 };
@@ -229,10 +251,15 @@ var modulesListComponent = function modulesListComponent() {
       isExpand: false,
       isChangeSize: false,
       screenWidth: window.innerWidth,
-      isDownloadable: false
+      isDownloadable: false,
+      main_module_selected: null,
+      allow_download: null
     };
   },
   methods: {
+    downloadModule: function downloadModule(submodule) {
+      window.open(submodule.type == 'Document' ? submodule.file_attachment : submodule.link);
+    },
     scrapeDocID: function scrapeDocID(link) {
       var d = link.replace(/.*\/d\//, '').replace(/\/.*/, '');
       var path = "https://drive.google.com/file/d/" + d + "/preview";
@@ -241,6 +268,7 @@ var modulesListComponent = function modulesListComponent() {
     getMainModulebyId: function getMainModulebyId(id) {
       for (var i = 0; this.getmain_module.length; i++) {
         if (this.getmain_module[i].id == id) {
+          this.main_module_selected = this.getmain_module[i];
           return this.getmain_module[i];
         }
       }
@@ -255,14 +283,25 @@ var modulesListComponent = function modulesListComponent() {
       }
     },
     getsubModuleData: function getsubModuleData(sub_module, student_progress) {
-      console.log(sub_module.required_time);
-      console.log(student_progress.time_spent);
-      this.isDownloadable = student_progress.time_spent >= sub_module.required_time ? true : false, this.isSelectedModule = true;
+      this.isSelectedModule = true;
       this.subModuleData = sub_module;
       this.ext = this.getFileExt(sub_module.file_attachment);
       this.type = this.subModuleData.type;
       this.documentUrl(sub_module.file_attachment);
       this.pdfdialog = true;
+      console.log('sub module', this.subModuleData);
+      this.getMainModulebyId(sub_module.main_module_id);
+      console.log(this.main_module_selected, 'main module selected'); //download settings
+
+      this.allow_download = this.main_module_selected.allow_download;
+
+      if (this.allow_download == 0 || this.allow_download == null) {
+        this.isDownloadable = false;
+      } else if (this.allow_download == 1) {
+        this.isDownloadable = true;
+      } else if (this.allow_download == 2) {
+        this.isDownloadable = student_progress.time_spent >= sub_module.required_time ? true : false;
+      }
     },
     documentUrl: function documentUrl(file) {
       var origin_url = window.location.origin;
@@ -894,6 +933,123 @@ var render = function() {
                                   )
                                 ]
                               ),
+                              _vm._v(" "),
+                              _vm.role != "Teacher"
+                                ? _c(
+                                    "v-tooltip",
+                                    {
+                                      attrs: {
+                                        top: "",
+                                        disabled: _vm.isDownloadable
+                                      },
+                                      scopedSlots: _vm._u(
+                                        [
+                                          {
+                                            key: "activator",
+                                            fn: function(ref) {
+                                              var on = ref.on
+                                              var attrs = ref.attrs
+                                              return [
+                                                _c(
+                                                  "span",
+                                                  _vm._g({}, on),
+                                                  [
+                                                    _vm.role != "Teacher"
+                                                      ? _c(
+                                                          "v-btn",
+                                                          _vm._g(
+                                                            _vm._b(
+                                                              {
+                                                                staticClass:
+                                                                  "ml-1 mt-1",
+                                                                staticStyle: {
+                                                                  float: "right"
+                                                                },
+                                                                attrs: {
+                                                                  target:
+                                                                    "_blank",
+                                                                  disabled: !_vm.isDownloadable,
+                                                                  color:
+                                                                    "primary"
+                                                                },
+                                                                on: {
+                                                                  click: function(
+                                                                    $event
+                                                                  ) {
+                                                                    return _vm.downloadModule(
+                                                                      _vm.subModuleData
+                                                                    )
+                                                                  }
+                                                                }
+                                                              },
+                                                              "v-btn",
+                                                              attrs,
+                                                              false
+                                                            ),
+                                                            on
+                                                          ),
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                        Download\n                                    "
+                                                            )
+                                                          ]
+                                                        )
+                                                      : _vm._e()
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            }
+                                          }
+                                        ],
+                                        null,
+                                        false,
+                                        2624044704
+                                      )
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("span", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.allow_download == 0 ||
+                                              _vm.allow_download == null
+                                              ? "Unable to download this module. Ask your teacher for permission"
+                                              : _vm.allow_download == 2
+                                              ? "Your Time spent does not meet the required time"
+                                              : ""
+                                          )
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _vm.role == "Teacher"
+                                ? _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "ml-1 mt-1",
+                                      staticStyle: { float: "right" },
+                                      attrs: {
+                                        target: "_blank",
+                                        color: "primary"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.downloadModule(
+                                            _vm.subModuleData
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                            Download\n                        "
+                                      )
+                                    ]
+                                  )
+                                : _vm._e(),
                               _vm._v(" "),
                               _c(
                                 "v-tab-item",

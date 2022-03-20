@@ -6,11 +6,14 @@
 
         <v-alert v-model="tip" border="bottom" close-text="Close Alert" type="info" dismissible>
             Tips: You can change your modules arrangement by dragging your modules into a certain position.
-
+            <br>
+            What's New? <br>
+            There is a new feature on publish settings where you can can now change your module's download settings
             <v-checkbox class="pa-0 mb-0" v-model="tipCheckBox" @change="showHandler()" label="Don't show me again.">
             </v-checkbox>
 
         </v-alert>
+        
         <v-expansion-panels focusable>
             <draggable v-model="mainModule" style="width: 100%" @change="onEnd" @start="isDragging = true"
                 @end="isDragging = false" v-bind="dragOptions">
@@ -130,12 +133,11 @@
                             </span>
                         </v-expansion-panel-header>
                         <v-expansion-panel-content>
-                            <v-menu transition="slide-y-transition" bottom     v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i">
-                                <template v-slot:activator="{ on, attrs }" >
+                            <v-menu transition="slide-y-transition" bottom
+                                v-for="(itemSubModule, i) in getSub_module(itemModule.id)" :key="'Submodule'+i">
+                                <template v-slot:activator="{ on, attrs }">
 
-                                    <v-list-item v-bind="attrs" v-on="on"
-                                    
-                                        link class="pl-10">
+                                    <v-list-item v-bind="attrs" v-on="on" link class="pl-10">
                                         <v-list-item-avatar>
                                             <v-icon
                                                 :class="itemSubModule.type== 'Document' ? 'orange lighten-2' : 'blue lighten-2'"
@@ -191,6 +193,12 @@
                                     </v-list-item>
                                 </template>
                                 <v-list>
+
+                                    <v-list-item link
+                                        @click="downloadItemBtn(itemSubModule)">
+                                        <v-list-item-title>{{itemSubModule.type == 'Document' ? 'Download' : 'Open in New tab'}}</v-list-item-title>
+
+                                    </v-list-item>
                                     <v-list-item link
                                         @click="editItemBtn(itemSubModule,itemSubModule.id, itemSubModule.type,itemModule.isPublished)">
                                         <v-list-item-title>Edit</v-list-item-title>
@@ -345,7 +353,7 @@
 
                     </v-row>
 
-                    <!-- <v-col v-if="availability != 'Unpublish'">
+                    <v-col v-if="availability != 'Unpublish'">
                         Download Settings
                         <v-radio-group hide-details class="ml-2 mt-0 pt-0 mb-0 pb-0" v-model="download_availability">
                             <v-radio v-for="(n, index) in radioDownloadAvailability" :key="index"
@@ -353,7 +361,7 @@
                                 :label="radioDownloadAvailability[index]" :value="radioDownloadAvailability[index]">
                             </v-radio>
                         </v-radio-group>
-                    </v-col> -->
+                    </v-col>
                     <v-row>
 
                         <v-col>
@@ -522,7 +530,7 @@
 
             availabilitySelection(selection) {
 
-                
+
                 if (selection == this.radioAvailability[0] || selection == this.radioAvailability[1]) {
                     if (selection == this.radioAvailability[0]) {
                         this.publishSettings.date_from = null;
@@ -743,6 +751,7 @@
 
                 }
 
+
             },
             addFileBtn(module_id) {
                 this.itemDialog = !this.itemDialog;
@@ -755,17 +764,31 @@
                 this.itemType = 'add_link';
             },
             editItemBtn(itemModule, sub_module_id, type, isPublished) {
-                if (isPublished == 1) {
-                    this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
-                } else {
-                    this.pass_submodule = itemModule;
-                    this.itemDialog = !this.itemDialog;
+                // if (isPublished == 1) {
+                //     this.toastInfo("Unable to edit this item. Please unpublished the module to proceed");
+                // } else {
+                //     this.pass_submodule = itemModule;
+                //     this.itemDialog = !this.itemDialog;
 
-                    this.sub_module_id = sub_module_id;
+                //     this.sub_module_id = sub_module_id;
 
-                    this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
-                }
+                //     this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
+                // }
+
+                this.pass_submodule = itemModule;
+                this.itemDialog = !this.itemDialog;
+
+                this.sub_module_id = sub_module_id;
+
+                this.itemType = type == 'Link' ? 'edit_link' : 'edit_file';
             },
+            downloadItemBtn(itemModule) {
+
+
+                window.open(itemModule.type == 'Document' ? itemModule.file_attachment : itemModule.link);
+            },
+
+
             classworkBtn() {
                 $('#itemTypeModal').modal('hide');
                 $('#Classworkmodal').modal('show');
@@ -816,7 +839,7 @@
                 notifDetails.date_to = data.date_to;
                 notifDetails.availability = this.publishAvailabity;
                 notifDetails.isPublished = isPublished == 'published' ? true : false;
-                
+
                 notifDetails.type = 'module';
                 axios.post('/api/notification/new', notifDetails)
                     .then(res => {
