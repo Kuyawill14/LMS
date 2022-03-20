@@ -71,15 +71,24 @@ class ClassworkController extends Controller
 
                 $publishIn = tbl_classClassworks::withTrashed()
                 ->where('tbl_class_classworks.classwork_id', $item->id)
-                ->select('tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
+                ->select('tbl_classes.id as class_id','tbl_class_classworks.id','tbl_classes.class_name','tbl_class_classworks.from_date', 'tbl_class_classworks.to_date','tbl_class_classworks.availability')
                 ->leftJoin('tbl_classes', 'tbl_classes.id','=','tbl_class_classworks.class_id')
                 ->get();
                 //return $publishIn;
                 $item->publish_in = $publishIn;
                 $totalSubmission = 0;
                 foreach($publishIn as $pub){
-                    $submissionCount = tbl_Submission::where('tbl_submissions.class_classwork_id', $pub->id)
-                    ->where('tbl_submissions.status', 'Submitted')->count();
+
+                    $submissionCount = tbl_userclass::where('tbl_userclasses.class_id', $pub->class_id)
+                    ->leftjoin('users', 'users.id','=', 'tbl_userclasses.user_id')
+                    ->leftJoin("tbl_submissions", function($join) use ($pub){
+                        $join->on("tbl_submissions.user_id", "=", "users.id");
+                        $join->on('tbl_submissions.class_classwork_id','=',DB::raw("'".$pub->id."'"));
+                    })
+                    ->where('tbl_submissions.status', 'Submitted')->count(); 
+                   /*  $submissionCount = tbl_Submission::where('tbl_submissions.class_classwork_id', $pub->id)
+                    ->where('tbl_submissions.status', 'Submitted')->whereNull('tbl_submissions.deleted_at')->count(); */
+
                     $pub->submission =  $submissionCount;
                     $totalSubmission += $submissionCount;
                 }
